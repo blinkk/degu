@@ -2,22 +2,22 @@
 
 import '../styles/index.sass';
 
-import { Vector2 } from '../../lib/vector2';
+// Examples.
+import RafSample from '../raf';
 
+const samples = {
+  'rafSample': RafSample
+};
 
 class Main {
   constructor() {
-    console.log('main project');
-    this.canvasEl = document.getElementById('canvas');
-
-    this.runVector2();
-  }
-
-
-  runVector2() {
-    console.log('vector2', this.canvasEl);
-    let test = new Vector2();
-    console.log(test.hello());
+    // Do a look up of the 'int-sample' data attribute and then
+    // attempt to run an instance of a class with that data attribute name.
+    let element = document.querySelector('[init-sample]');
+    let className = element.getAttribute('init-sample');
+    if (samples[className]) {
+      new samples[className]();
+    }
   }
 
 }

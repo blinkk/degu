@@ -5,8 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Raf Samples</title>
 </head>
-<body>
+<body init-sample="rafSample">
   <h1>Raf Sample Page</h1>
-  <canvas id="canvas"></canvas>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+  <div>
+    Current Frame Rate: <input id="frameRate" type="number" /><button id="update">Update</button>
+  </div>
+  <div>
+    Frame: <span id="frame"></div>
+  </div>
 </body>
 </html>
