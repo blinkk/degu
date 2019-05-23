@@ -1,4 +1,7 @@
 
+
+import '../styles/index.sass';
+
 import { Vector2 } from '../../lib/vector2';
 
 

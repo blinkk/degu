@@ -4,6 +4,7 @@ import { mathf } from './mathf';
 /**
  * A very simple easing implementation.  Typically used with raf.
  *
+ * ```
  * let easer = new Easer(200, 100, Ease);
  * easer.onEnd(()=> {
  *   console.log('this gets called on completion');
@@ -19,6 +20,7 @@ import { mathf } from './mathf';
  *
  * easer.start(); // Start easer
  * raf.start(); // Start raf.
+ * ```
  *
  *
  */

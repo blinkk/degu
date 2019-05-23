@@ -3,6 +3,7 @@
  * frame rate will throttle the animation.
  *
  * Example usage;
+ * ```
  * var raf = new Raf((frame, lastUpdateTime, stop)=> {
  *   console.log('this runs on request animation frame');
  * });
@@ -14,7 +15,7 @@
  * // Set the FPS
  * raf.setFps(30);
  * raf.start();
- *
+ * ```
  *
  * @class
  */

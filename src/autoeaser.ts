@@ -8,8 +8,7 @@ import { Raf } from './raf';
  *
  * Usage:
  *
- * @import {EASE} from 'ease';
- *
+ * ```
  * let autoEaser = new AutoEaser(200, 100, ease.easOutBounce,
  * (value, complete) => {
  *  // Value is something between 0-1 representing the current ease value.
@@ -21,6 +20,7 @@ import { Raf } from './raf';
  *
  *
  * );
+ * ```
  *
  *
  */

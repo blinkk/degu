@@ -51,6 +51,7 @@
     "build": "tsc",
     "build-watch": "tsc --watch",
     "doc": "typedoc",
+    "doc-server": "simplehttpserver ./docs",
     "jest-clear": "./node_modules/.bin/jest --clearCache",
     "dev": "concurrently \"tsc -w\" \"npm run start\" \"./node_modules/.bin/jest --watch\"",
     "test": "jest"

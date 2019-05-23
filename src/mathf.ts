@@ -1,4 +1,4 @@
-interface box {
+export interface box {
   height: number,
   width: number,
   x: number,
@@ -13,8 +13,10 @@ export class mathf {
   /**
    * Takes a number like a float and fixes it's digits.
    * Example:
-   *   fixDigits(20.12345, 2) ==> 20.12
-   *   fixDigits(20.12345, 3) ==> 20.123
+   * ```ts
+   *   mathf.fixDigits(20.12345, 2) ==> 20.12
+   *   mathf.fixDigits(20.12345, 3) ==> 20.123
+   * ```
    * @param {number} value The number to convert
    * @param {number} digits The number of digits to output.
    */
@@ -118,10 +120,12 @@ export class mathf {
    * the angle distance is 10, the difference between the two.
    *
    * Other examples:
-   *   angleDistanceDegree(10, 10) ==> 0
-   *   angleDistanceDegree(30, 10) ==> -20
-   *   angleDistanceDegree(10, 50) ==> 40
-   *   angleDistanceDegree(10, 340) ==> -30
+   * ```ts
+   *   mathf.angleDistanceDegree(10, 10) ==> 0
+   *   mathf.angleDistanceDegree(30, 10) ==> -20
+   *   mathf.angleDistanceDegree(10, 50) ==> 40
+   *   mathf.angleDistanceDegree(10, 340) ==> -30
+   * ```
    *
    * angles should be in radians.
    * angle0 - angle in radians
@@ -232,12 +236,14 @@ export class mathf {
     *
     * Imagine the below:
     *
+    * ```
     * ------------------8 (parent)----------------
     * |                                           |
     * |             |----5(child)-----|           |
     * |                                           |
     * |---offset--|                               |
     * --------------------------------------------
+    * ```
     *
     *  You have a parent of width 8 and child of with 5 and you want to
     *  center the child.

@@ -9,6 +9,7 @@ Yano is a general utility library for interactive websites.
 
 ```
 npm install --global typescript
+npm install --global simplehttpserver # Optional, to preview docs
 npm install --global typedoc
 ```
 
@@ -24,7 +25,8 @@ npm run dev
 ```
 
 The dev command will basically do typescript watch (tsc -w)
-and also run the examples project (basically npm start).
+and also run the examples project (basically npm start) and run jest (unit testing).
+
 
 
 ## Test
@@ -59,6 +61,7 @@ npm publish
 Docs use typedoc.  See https://typedoc.org/
 ```
 npm run doc
+npm run doc-server # To view docs in on local server.
 ```
 
 # Project Structure
