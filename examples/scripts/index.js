@@ -1,5 +1,3 @@
-
-
 import '../styles/index.sass';
 
 // Examples.
@@ -11,13 +9,21 @@ const samples = {
 
 class Main {
   constructor() {
+    this.createClassInstanceFromAttribute_();
+  }
+
+  createClassInstanceFromAttribute_() {
     // Do a look up of the 'int-sample' data attribute and then
     // attempt to run an instance of a class with that data attribute name.
     let element = document.querySelector('[init-sample]');
+    if (!element) {
+      return;
+    }
     let className = element.getAttribute('init-sample');
     if (samples[className]) {
       new samples[className]();
     }
+
   }
 
 }
