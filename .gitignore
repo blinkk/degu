@@ -1,0 +1,11 @@
+node_modules
+lib
+
+# misc
+.DS_Store
+
+npm-debug.log
+yarn-error.log
+yarn.lock
+.yarnclean
+.vscode
