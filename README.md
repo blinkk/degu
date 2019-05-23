@@ -46,7 +46,12 @@ npm run start
 ```
 npm run build
 npm run build -- --watch
+```
 
+
+## Publish
+```
+npm publish
 ```
 
 
