@@ -1,13 +1,13 @@
 {
-  "name": "yano",
-  "version": "0.0.1",
+  "name": "yano-js",
+  "version": "0.0.2",
   "description": "Micro library and util functions",
   "directories": {
     "lib": "lib"
   },
   "repository": {
       "type": "git",
-      "url": "https://github.com/uxder/yano.git"
+      "url": "https://github.com/uxder/yano-js.git"
   },
   "files": [
     "lib"
