@@ -6,8 +6,8 @@
     "lib": "lib"
   },
   "repository": {
-      "type": "git",
-      "url": "https://github.com/uxder/yano-js.git"
+    "type": "git",
+    "url": "https://github.com/uxder/yano-js.git"
   },
   "files": [
     "lib"
