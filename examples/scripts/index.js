@@ -2,9 +2,11 @@ import '../styles/index.sass';
 
 // Examples.
 import RafSample from '../raf';
+import EaserSample from '../easer';
 
 const samples = {
-  'rafSample': RafSample
+  'rafSample': RafSample,
+  'easerSample': EaserSample
 };
 
 class Main {

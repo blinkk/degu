@@ -63,10 +63,10 @@ export class Raf {
         this.lastUpdateTime = 0;
 
         /**
-         * The frame rate.
+         * The frame rate. Defaults to 0 in which case RAF is not throttled.
          * @type {number}
          */
-        this.fps = 60;
+        this.fps = 0;
 
         /**
          * Whether raf is looping.
@@ -113,7 +113,7 @@ export class Raf {
         if (this.lastUpdateTime) {
             let current = Date.now();
             let elapsed = current - this.lastUpdateTime;
-            let fps = 1000 / this.fps;
+            let fps = this.fps == 0 ? 0 : 1000 / this.fps;
             if (elapsed > fps) {
                 this.rafLoop(this.frame, this.lastUpdateTime, elapsed, () => {
                     this.stop();
