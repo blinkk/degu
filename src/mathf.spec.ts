@@ -9,6 +9,14 @@ test("absZero", t => {
     t.is(mathf.absZero(-10), -10);
 });
 
+test("clampAsPercent", t => {
+    t.is(mathf.clampAsPercent(-0), 0);
+    t.is(mathf.clampAsPercent(-10), 0);
+    t.is(mathf.clampAsPercent(0.1), 0.1);
+    t.is(mathf.clampAsPercent(0.89), 0.89);
+    t.is(mathf.clampAsPercent(1), 1);
+    t.is(mathf.clampAsPercent(1000), 1);
+});
 
 test("fixDigits", t => {
     t.is(mathf.fixDigits(20.12345, 0), 20);
@@ -98,6 +106,45 @@ test("resizeDimentionalBoxToHeight", t => {
         mathf.resizeDimentionalBoxToHeight({ width: 10, height: 16 }, 800),
         { width: 500, height: 800 });
 });
+
+
+
+test("getValueInRangeByProgress", t => {
+    // Simple test.
+    t.is(
+        mathf.getValueInRangeByProgress(-10, 0, 10)
+        , 0);
+    t.is(
+        mathf.getValueInRangeByProgress(0, 0, 10)
+        , 0);
+    t.is(
+        mathf.getValueInRangeByProgress(0.2, 0, 10)
+        , 2);
+    t.is(
+        mathf.getValueInRangeByProgress(0.5, 0, 10)
+        , 5);
+    t.is(
+        mathf.getValueInRangeByProgress(1, 0, 10)
+        , 10);
+    t.is(
+        mathf.getValueInRangeByProgress(10, 0, 10)
+        , 10);
+
+    // Shift
+    t.is(
+        mathf.getValueInRangeByProgress(0, 2, 12)
+        , 2);
+    t.is(
+        mathf.getValueInRangeByProgress(0.2, 2, 12)
+        , 4);
+    t.is(
+        mathf.getValueInRangeByProgress(0.5, 2, 12)
+        , 7);
+    t.is(
+        mathf.getValueInRangeByProgress(1, 2, 12)
+        , 12);
+});
+
 
 
 test("calculateScalarToBackgroundCover", t => {

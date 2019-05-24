@@ -353,6 +353,32 @@ export class mathf {
     }
   }
 
+  /**
+   * Clamps a value within 0-1.
+   * @param percent
+   * @return percent A value within 0-1.
+   */
+  static clampAsPercent(percent: number) {
+    return mathf.clamp(0, 1, mathf.absZero(percent));
+  }
+
+
+  /**
+   * Used to get a value within a range by progress.
+   * For instance, let's say you have a range of 325-1450.
+   * You want 0% = 325 and 100% = 1450.
+   * You can pass a percent (such as 20% or 0.2) and this will return the value
+   * within that range.
+   * @param {number} percent The percent to calculate.  Should be between 0 and 1.
+   * @param {number} min The low end of the range.
+   * @param {number} max The high end of the range.
+   * @return {number} The value within the range.
+   */
+  static getValueInRangeByProgress(percent: number, min: number, max: number): number {
+    return ((max - min) * mathf.clampAsPercent(percent)) + min;
+  }
+
+
 
   /**
    * Given two boxes of different aspect ratios,
