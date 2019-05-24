@@ -11,7 +11,7 @@ export interface dimentionalBox {
   width: number
 }
 
-export interface backgroundCoverScalar {
+export interface scaleBox {
   width: number,
   height: number,
   xOffset: number,
@@ -519,7 +519,7 @@ export class mathf {
    * @param {dimentionalBox} childBox
    */
   static calculateScalarToBackgroundCover(
-    parentBox: dimentionalBox, childBox: dimentionalBox): backgroundCoverScalar {
+    parentBox: dimentionalBox, childBox: dimentionalBox): scaleBox {
     let parentRatio = mathf.aspectRatio(parentBox);
     let childRatio = mathf.aspectRatio(childBox);
 

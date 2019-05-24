@@ -1,4 +1,3 @@
-declare function require(x: string): any;
 import { mathf } from './mathf';
 import { detector } from './detector';
 

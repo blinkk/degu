@@ -22,6 +22,10 @@ The dev command will basically do typescript watch (tsc -w)
 and also run the examples project (basically npm start) and run av (unit testing).
 
 
+# Development Guidelines
+
+- Use [typedoc](https://typedoc.org/guides/doccomments/)
+
 
 ## Test
 Test use wonderful [ava](https://github.com/avajs/ava).

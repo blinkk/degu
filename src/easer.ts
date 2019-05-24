@@ -24,7 +24,8 @@ interface easerConfig {
 /**
  * A very simple easing implementation.  Typically used with raf.
  *
- * ```
+ * ```ts
+ * import { raf, easer} from 'yano-js';
  * let easer = new Easer({
  *   duration: 200,
  *   delay: 100,

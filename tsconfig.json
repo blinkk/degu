@@ -64,16 +64,18 @@
     "src": [
       "./src/**/*.ts"
     ],
-    "exclude": "./src/**/*.spec.ts",
-    "mode": "modules",
+    "exclude": "./src/*.spec.ts",
+    "mode": "file",
     "includeDeclarations": true,
     "tsconfig": "tsconfig.json",
     "out": "./docs",
     "excludePrivate": true,
     "excludeProtected": true,
     "excludeExternals": true,
+    "hideGenerator": true,
     "readme": "README.md",
     "name": "Yano",
+    "theme": "minimal",
     "ignoreCompilerErrors": true,
     "plugin": "none",
     "listInvalidSymbolLinks": true

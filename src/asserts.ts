@@ -2,12 +2,12 @@
 /**
  * An object with method to check for assertions.
  */
-export var asserts = {
+export class asserts {
 
     /**
      * Test whether a given value is defined.
      */
-    isDef: function (value: any) {
+    static isDef(value: any) {
         return value !== undefined;
     }
 }
