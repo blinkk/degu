@@ -30,6 +30,9 @@ and also run the examples project (basically npm start) and run jest (unit testi
 
 
 ## Test
+Test use wonderful [ava](https://github.com/avajs/ava).
+For typescript use for ava check out [this](https://github.com/avajs/ava/blob/master/docs/recipes/typescript.md)
+
 ```
 npm run test
 npm run test -- --watch
