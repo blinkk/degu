@@ -133,28 +133,28 @@ test("aspectRatio", t => {
 });
 
 
-test("resizeDimentionalBoxToWidth", t => {
+test("resizedimensionalBoxToWidth", t => {
     t.deepEqual(
-        mathf.resizeDimentionalBoxToWidth({ width: 500, height: 500 }, 250),
+        mathf.resizedimensionalBoxToWidth({ width: 500, height: 500 }, 250),
         { width: 250, height: 250 });
     t.deepEqual(
-        mathf.resizeDimentionalBoxToWidth({ width: 250, height: 500 }, 800),
+        mathf.resizedimensionalBoxToWidth({ width: 250, height: 500 }, 800),
         { width: 800, height: 1600 });
     t.deepEqual(
-        mathf.resizeDimentionalBoxToWidth({ width: 10, height: 12 }, 800),
+        mathf.resizedimensionalBoxToWidth({ width: 10, height: 12 }, 800),
         { width: 800, height: 960 });
 });
 
 
-test("resizeDimentionalBoxToHeight", t => {
+test("resizedimensionalBoxToHeight", t => {
     t.deepEqual(
-        mathf.resizeDimentionalBoxToHeight({ width: 500, height: 500 }, 250),
+        mathf.resizedimensionalBoxToHeight({ width: 500, height: 500 }, 250),
         { width: 250, height: 250 });
     t.deepEqual(
-        mathf.resizeDimentionalBoxToHeight({ width: 250, height: 500 }, 800),
+        mathf.resizedimensionalBoxToHeight({ width: 250, height: 500 }, 800),
         { width: 400, height: 800 });
     t.deepEqual(
-        mathf.resizeDimentionalBoxToHeight({ width: 10, height: 16 }, 800),
+        mathf.resizedimensionalBoxToHeight({ width: 10, height: 16 }, 800),
         { width: 500, height: 800 });
 });
 

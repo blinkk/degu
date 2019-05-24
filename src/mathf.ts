@@ -6,7 +6,7 @@ export interface box {
   y: number
 }
 
-export interface dimentionalBox {
+export interface dimensionalBox {
   height: number,
   width: number
 }
@@ -382,21 +382,21 @@ export class mathf {
 
   /**
    * Given a width and height, returns the aspect ratio.
-   * @param {box} dimentionalBox An object containing the width and height.
+   * @param {box} dimensionalBox An object containing the width and height.
    */
-  static aspectRatio(box: dimentionalBox): number {
+  static aspectRatio(box: dimensionalBox): number {
     return box.width / box.height;
   }
 
 
   /**
-   * Resizes a given dimentional box (width and height) to a given width while
+   * Resizes a given dimensional box (width and height) to a given width while
    * maintaining the aspect ratio.  Useful for scaling up or down a box.
    * @param {number} box
    * @param {number} width
-   * @return {dimentionalBox}
+   * @return {dimensionalBox}
    */
-  static resizeDimentionalBoxToWidth(box: dimentionalBox, width: number): dimentionalBox {
+  static resizedimensionalBoxToWidth(box: dimensionalBox, width: number): dimensionalBox {
     return {
       width: width,
       height: mathf.scaleY2(box.width, box.height, width)
@@ -404,13 +404,13 @@ export class mathf {
   }
 
   /**
-   * Resizes a given dimentional box (width and height) to a given height while
+   * Resizes a given dimensional box (width and height) to a given height while
    * maintaining the aspect ratio.  Useful for scaling up or down a box.
    * @param {number} box
    * @param {number} height
-   * @return {dimentionalBox}
+   * @return {dimensionalBox}
    */
-  static resizeDimentionalBoxToHeight(box: dimentionalBox, height: number): dimentionalBox {
+  static resizedimensionalBoxToHeight(box: dimensionalBox, height: number): dimensionalBox {
     return {
       width: mathf.scaleY1(box.width, box.height, height),
       height: height
@@ -432,17 +432,17 @@ export class mathf {
    * Note this is an alias of lerp since it's the same thing.
    * For instance, let's say you have a range of 325-1450.
    * You want 0% = 325 and 100% = 1450.
-   * You can pass a percent (such as 20% or 0.2) and this will return the value
+   * You can pass a progress (such as 20% or 0.2) and this will return the value
    * within that range.
    *
-   * @param {number} percent The percent to calculate.  Should be between 0 and 1.
+   * @param {number} progress The percent to calculate.  Should be between 0 and 1.
    * @param {number} min The low end of the range.
    * @param {number} max The high end of the range.
    * @return {number} The value within the range.
    */
-  static getValueInRangeByProgress(percent: number, min: number, max: number): number {
+  static getValueInRangeByProgress(progress: number, min: number, max: number): number {
     // Alternative way to calculate lerp.
-    return mathf.lerp(min, max, percent);
+    return mathf.lerp(min, max, progress);
   }
 
   /**
@@ -513,13 +513,13 @@ export class mathf {
    * Note on xOffset and yOffset, this algo assumes that the child will scale
    * from the top left corner of the box and is positioned to the top left.
    *
-   * @param {dimentionalBox} parentBox The parent element dimensions
-   * @param {dimentionalBox} childBox The child elment dimensions
+   * @param {dimensionalBox} parentBox The parent element dimensions
+   * @param {dimensionalBox} childBox The child elment dimensions
    * @return {backgroundCoverBox} backgroundCoverBox The dimensions required to
    *     transform the child element to background cover.
    */
   static calculateBackgroundCover(
-    parentBox: dimentionalBox, childBox: dimentionalBox): backgroundCoverBox {
+    parentBox: dimensionalBox, childBox: dimensionalBox): backgroundCoverBox {
     let parentRatio = mathf.aspectRatio(parentBox);
     let childRatio = mathf.aspectRatio(childBox);
 
