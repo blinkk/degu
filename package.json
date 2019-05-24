@@ -3,7 +3,9 @@
   "version": "0.0.10",
   "description": "Micro library and util functions",
   "author": "Scott Murphy <stmhawaii@gmail.com>",
-  "main": "lib/index.js",
+  "main": "lib/main.js",
+  "module": "lib/index.es.js",
+  "types": "lib/main.d.ts",
   "directories": {
     "lib": "lib"
   },
@@ -49,9 +51,13 @@
     "mini-css-extract-plugin": "0.5.0",
     "node-sass": "4.11.0",
     "npm-run-all": "4.1.5",
+    "rollup": "^1.12.3",
+    "rollup-plugin-typescript2": "^0.21.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
     "ts-node": "^8.1.0",
+    "tslint": "^5.16.0",
+    "tslint-eslint-rules": "^5.4.0",
     "typescript": "3.4.1",
     "webpack": "4.29.6",
     "webpack-cli": "3.3.0",
@@ -61,12 +67,16 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
     "prepare": "npm run build",
-    "build": "tsc",
-    "build-watch": "tsc --watch",
+    "_build": "tsc",
+    "_build-watch": "tsc --watch",
+    "build": "rollup -c",
+    "build-watch": "rollup -cw",
     "doc": "typedoc",
     "publish-doc": "surge --domain yano-js.surge.sh --project $PWD/docs/",
     "doc-server": "simplehttpserver ./docs",
-    "dev": "concurrently \"tsc -w\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
-    "test": "tsc && ava --watch"
+    "dev": "concurrently \"rollup -c\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
+    "test": "tsc && ava --watch",
+    "lint": "tslint -c tslint.json \"src/**/*.ts\"",
+    "lint:fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
   }
 }

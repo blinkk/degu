@@ -13,18 +13,26 @@ npm install --global surge # Optional, for publishing docs and examples
 npm install
 ```
 
-# Development
+# Development and Common Commands
 ```
 npm run dev
-```
 
-The dev command will basically do typescript watch (tsc -w)
-and also run the examples project (basically npm start) and run av (unit testing).
+    The dev command will basically build the project with rollup,
+    and also run the examples project (basically npm start) and run ava
+    (unit testing).
+
+npm run test
+    Run ava unit testing
+
+npm run lint
+    Lint project.
+```
 
 
 # Development Guidelines
 
 - Use [typedoc](https://typedoc.org/guides/doccomments/)
+- Linting - tslint is used.  See tslinkt.json
 
 
 ## Test
