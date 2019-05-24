@@ -1,14 +1,12 @@
-node_modules
-lib
-docs/*
-
-# misc
 .DS_Store
-
+.nyc_output
+.vscode
+.yarnclean
+coverage
+dev-notes.txt
+docs/*
+lib
+node_modules
 npm-debug.log
 yarn-error.log
 yarn.lock
-.yarnclean
-.vscode
-
-dev-notes.txt
