@@ -45,6 +45,7 @@ export class mathf {
    *   mathf.fixDigits(20.12345, 2) ==> 20.12
    *   mathf.fixDigits(20.12345, 3) ==> 20.123
    * ```
+   * @tested
    * @param {number} value The number to convert
    * @param {number} digits The number of digits to output.
    */
@@ -54,6 +55,12 @@ export class mathf {
 
   /**
    * Takes a number and forces it to a float.
+   * ```ts
+   *   mathf.in(20.3333)  --> 20
+   *   mathf.in(20.32)    --> 20
+   *   mathf.in(20)       --> 20
+   * ```
+   * @tested
    * @param {number} value The number to convert
    * @param {number} digits The number of digits to output.
    */
@@ -108,6 +115,11 @@ export class mathf {
 
   /**
    * Clamps a number to a given range.
+   * ```ts
+   * mathf.clamp(0, 10, 100)  --> 10
+   * mathf.clamp(0, 10, -10)  --> 0
+   * ```
+   * @tested
    * @param {number} min The mininum value.
    * @param {number} max The maximum value:
    * @param {number} num The number to limit.
@@ -118,28 +130,43 @@ export class mathf {
   }
 
   /**
-   * Given a progress (percent), allows you to create a child progress
-   * based on the parent progress.
+   * Given a progress (a value that ranges from 0 to 1), this method allows you
+   * to create a child progress based on the parent progress.
    *
    * Imaging the following progress.
    * ```
    * Parent progress
    * 0 -----0.2------0.4-------0.6-------0.8------1
+   *
    * Child progress
    *        0.2----------------0.6
    *
    * mathf.childProgress(parentProgress, 0.2, 0.6)
    * ```
-   * So let's say, you wanted your child progress to being at 0.2 and end at 0.6.
+   * If you have a parent progress runnning from 0 to 1 and  you wanted your child
+   * progress to start at 0.2 and end at 0.6.
+   *
    * Given the parent progress,  this method would return:
    * ```
    * Parent progress        Output
+   * 0            --------->   0
+   * |
    * 0.2          --------->   0
    * 0.3          --------->   0.25
    * 0.4          --------->   0.5
    * 0.5          --------->   0.75
-   * 0.6          --------->  1
+   * 0.6          --------->   1
+   * 0.7          --------->   1
+   * |
+   * 1            --------->   1
    * ```
+   *
+   * @tested
+   * @param {number} number The parent progress as a value between 0 and 1.
+   * @param {number} start The starting value of the child progress.  Value
+   *     between 0 and 1.
+   * @param {number} end The end value of the child progress.  Value
+   *     between 0 and 1.
    */
   static childProgress(progress: number, start: number, end: number): number {
     let range = end - start;
@@ -156,6 +183,7 @@ export class mathf {
    * mathf.round(0.49999, 2)  --> 0.5
    * mathf.round(0.41199, 3)  --> 0.412
    * ```
+   * @tested
    * @param {number} value
    * @param {number} precision
    * @return {number} A rounded number.
@@ -205,12 +233,12 @@ export class mathf {
 
 
   /**
-   * Determine the angular distance between two angles in radians.
+   * Determine the angular distance between two angles in degree.
    *
    * In a 360 circle, if you had one degre at 90 and another at 80,
    * the angle distance is 10, the difference between the two.
    *
-   * Other examples:
+   * Examples
    * ```ts
    *   mathf.angleDistanceDegree(10, 10) ==> 0
    *   mathf.angleDistanceDegree(30, 10) ==> -20
@@ -218,12 +246,13 @@ export class mathf {
    *   mathf.angleDistanceDegree(10, 340) ==> -30
    * ```
    *
-   * angles should be in radians.
-   * angle0 - angle in radians
-   * angle1 - angle in radians
-   * max - in radians.  Typically this would be 2 radian (360).
-    * @return {number} distance in radians
-    */
+   * @tested
+   * @param {number} angle0 The first angle in degrees.
+   * @param {number} angle1 The second angle in degrees.
+   * @param {number?} max The max value at which point the numerical system
+   *     repeats.  In a circle this would be 360.  This value defaults to 360.
+   * @return {number} Distance in degrees.
+   */
   static angleDistanceDegree(angle0: number, angle1: number, max?: number) {
     let angle0Rad = mathf.degreeToRadian(angle0);
     let angle1Rad = mathf.degreeToRadian(angle1);
@@ -237,8 +266,15 @@ export class mathf {
 
   /**
    * Determine the angular distance between two angles in radians.
-   * @see angleDistanceDegree for more information.
-   * @return {number} distance in radians
+   * [[mathf.angleDistanceDegree]] for more information and equivelant degree
+   * samples.
+   * @tested
+   * @param {number} angle0 The first angle in radians
+   * @param {number} angle1 The second angle in degrees.
+   * @param {number?} max The max value at which point the numerical system
+   *     repeats.  In a circle this would be 2 radian.  This value defaults to
+   *     2 radian.
+   * @return {number} Distance in radians
    */
   static angleDistanceRadian(angle0: number, angle1: number, max?: number) {
     if (!max) {
@@ -345,10 +381,19 @@ export class mathf {
     *
     *  You can also use this method to calculate vertical alignment as well.
     *
-    * Example - example of center positioning something to the center of the
-    * window size:
-    * this.x = mathf.calculateCenterOffset(window.innerWidth, this.width);
-    * this.y = mathf.calculateCenterOffset(window.innerHeight, this.height);
+    * Example:
+    * Here is an example of calculating the x, y offsets to center an object
+    * to the screen.
+    * ```ts
+    *  let x = mathf.calculateCenterOffset(
+    *     screen.width, object.width);
+    *  let y = mathf.calculateCenterOffset(
+    *     screen.height, object.width);
+    * ```
+    * @tested
+    * @param {number} parent The parent value
+    * @param {number} child The child value
+    * @return {number} The offset value.
     */
   static calculateCenterOffset(parent: number, child: number): number {
     const halfParent = parent / 2;
@@ -450,6 +495,7 @@ export class mathf {
    * You can pass a progress (such as 20% or 0.2) and this will return the value
    * within that range.
    *
+   * @tested
    * @param {number} progress The percent to calculate.  Should be between 0 and 1.
    * @param {number} min The low end of the range.
    * @param {number} max The high end of the range.
@@ -493,11 +539,13 @@ export class mathf {
    * mathf.lerp(0, 2, 0.5) ----> 1
    * mathf.lerp(25, 79, 0.2) ----> 35.8
    * ```
+   * @tested
    * @param {number} value1 The low-end of the range to lerp.
    * @param {number} value2 The high-end of the range to lerp.
    * @param {number} amount A value between 0-1.  1 would essentially mean no lerp.
+   * @return {number} The interporalated value.
    */
-  static lerp(value1: number, value2: number, amount: number) {
+  static lerp(value1: number, value2: number, amount: number): number {
     amount = amount < 0 ? 0 : amount;
     amount = amount > 1 ? 1 : amount;
     return value1 + (value2 - value1) * amount;
