@@ -120,7 +120,6 @@ export class Easer {
     }
 
 
-
     /**
      * Adds a complete callback.
      */

@@ -266,4 +266,14 @@ export class mathf {
     return offset;
   }
 
+
+
+  /**
+   * Given a width and height, returns the aspect ratio.
+   * @param {box} box An object containing the width and height.
+   */
+  static aspectRatio(box: box): number {
+    return box.width / box.height;
+  }
+
 }

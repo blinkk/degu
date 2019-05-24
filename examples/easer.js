@@ -28,6 +28,7 @@ export default class EaserSample {
 
             ball.style.transform = `translateX(${progression * 80}vw)`;
         });
+
         easer.onComplete((progression, complete) => {
             console.log('complete', progression);
         });
