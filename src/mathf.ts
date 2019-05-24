@@ -1,4 +1,3 @@
-import { maxHeaderSize } from "http";
 
 export interface box {
   height: number,
@@ -83,6 +82,7 @@ export class mathf {
   static getRandomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
 
   /**
    * Returns a random integrater between min and max but ensures it is not a
