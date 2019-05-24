@@ -5,6 +5,11 @@ export interface box {
   y: number
 }
 
+export interface dimentionalBox {
+  height: number,
+  width: number
+}
+
 /**
  * Yano Math utility functions.
  */
@@ -266,14 +271,70 @@ export class mathf {
     return offset;
   }
 
+  /**
+   * Given a known set of sizes, scales and returns a y1.
+   *
+   * `````ts
+   *  x1     y1 (return)
+   * ---- = ----
+   *  x2     y2
+   *
+   * ````
+   */
+  static scaleY1(x1: number, x2: number, y2: number) {
+    return x1 * y2 / x2;
+  }
+
+  /**
+   * Given a known set of sizes, scales and returns a y2.
+   *
+   * `````ts
+   *  x1     y1
+   * ---- = ----
+   *  x2     y2 (return)
+   *
+   * ````
+   */
+  static scaleY2(x1: number, x2: number, y1: number) {
+    return x2 * y1 / x1;
+  }
 
 
   /**
    * Given a width and height, returns the aspect ratio.
-   * @param {box} box An object containing the width and height.
+   * @param {box} dimentionalBox An object containing the width and height.
    */
-  static aspectRatio(box: box): number {
+  static aspectRatio(box: dimentionalBox): number {
     return box.width / box.height;
+  }
+
+
+  /**
+   * Resizes a given dimentional box (width and height) to a given width while
+   * maintaining the aspect ratio.
+   * @param {number} box
+   * @param {number} width
+   * @return {dimentionalBox}
+   */
+  static resizeDimentionalBoxToWidth(box: dimentionalBox, width: number): dimentionalBox {
+    return {
+      width: width,
+      height: mathf.scaleY2(box.width, box.height, width)
+    }
+  }
+
+  /**
+   * Resizes a given dimentional box (width and height) to a given height while
+   * maintaining the aspect ratio.
+   * @param {number} box
+   * @param {number} height
+   * @return {dimentionalBox}
+   */
+  static resizeDimentionalBoxToHeight(box: dimentionalBox, height: number): dimentionalBox {
+    return {
+      width: mathf.scaleY1(box.width, box.height, height),
+      height: height
+    }
   }
 
 }
