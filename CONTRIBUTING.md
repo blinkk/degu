@@ -17,7 +17,7 @@ npm install
 ```
 npm run dev
 
-    The dev command will basically build the project with rollup,
+    The dev command will basically build the project with tsc,
     and also run the examples project (basically npm start) and run ava
     (unit testing).
 
