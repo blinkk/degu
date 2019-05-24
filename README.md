@@ -21,4 +21,11 @@ let angle = mathf.angleDistanceDegree(10, 340);
 ```
 
 
+Import specific files
+```
+import { mathf } from 'yano-js/mathf'
+import { dom } from 'yano-js/dom'
+```
+
+
 
