@@ -1,5 +1,5 @@
-import { mathf } from './mathf';
-import { detector } from './detector';
+import { mathf } from '../mathf/mathf';
+import { detector } from '../detector/detector';
 
 /**
  * Class that helps with mouse tracking.

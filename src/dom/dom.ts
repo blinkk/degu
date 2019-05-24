@@ -1,4 +1,4 @@
-import { mathf } from './mathf';
+import { mathf } from '../mathf/mathf';
 
 /**
  * Yano DOM utility functions.

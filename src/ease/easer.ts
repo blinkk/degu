@@ -1,5 +1,5 @@
 
-import { mathf } from './mathf';
+import { mathf } from '../mathf/mathf';
 import { EASE } from './ease';
 
 interface easerConfig {

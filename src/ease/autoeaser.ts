@@ -1,6 +1,6 @@
 
 import { Easer } from './easer';
-import { Raf } from './raf';
+import { Raf } from '../raf/raf';
 
 /**
  * A class the implemented auto-easing with RAF just one time.
@@ -38,7 +38,7 @@ export class AutoEaser {
      * @constructor
      */
     constructor(duration: number, delay: number, ease: Function,
-                onUpdate: Function, onComplete: Function) {
+        onUpdate: Function, onComplete: Function) {
 
         // Setup Easer.
         this.easer = new Easer({
