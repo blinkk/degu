@@ -67,7 +67,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
     "prepare": "npm run build",
-    "build": "tsc",
+    "build": "rm -rf lib && mkdir lib && tsc",
     "build-watch": "tsc --watch",
     "doc": "typedoc",
     "publish-doc": "surge --domain yano-js.surge.sh --project $PWD/docs/",
