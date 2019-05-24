@@ -1,3 +1,5 @@
+import { maxHeaderSize } from "http";
+
 export interface box {
   height: number,
   width: number,
@@ -107,6 +109,66 @@ export class mathf {
    */
   static clamp(min: number, max: number, num: number): number {
     return Math.min(Math.max(num, min), max);
+  }
+
+  /**
+   * Given a progress (percent), allows you to create a child progress
+   * based on the parent progress.
+   *
+   * Imaging the following progress.
+   * ```
+   * Parent progress
+   * 0 -----0.2------0.4-------0.6-------0.8------1
+   * Child progress
+   *        0.2----------------0.6
+   *
+   * mathf.childProgress(parentProgress, 0.2, 0.6)
+   * ```
+   * So let's say, you wanted your child progress to being at 0.2 and end at 0.6.
+   * Given the parent progress,  this method would return:
+   * ```
+   * Parent progress        Output
+   * 0.2          --------->   0
+   * 0.3          --------->   0.25
+   * 0.4          --------->   0.5
+   * 0.5          --------->   0.75
+   * 0.6          --------->  1
+   * ```
+   */
+  static childProgress(progress: number, start: number, end: number): number {
+    let range = end - start;
+    let childProgress = mathf.clamp(0, 1, progress - start);
+    childProgress = childProgress / range;
+    return mathf.clampAsPercent(childProgress);
+  }
+
+
+  /**
+   * Rounds to the nearest precision.
+   * ```
+   * mathf.round(0.49999, 1)  --> 0.5
+   * mathf.round(0.49999, 2)  --> 0.5
+   * mathf.round(0.41199, 3)  --> 0.412
+   * ```
+   * @param {number} value
+   * @param {number} precision
+   * @return {number} A rounded number.
+   * @see https://www.jacklmoore.com/notes/rounding-in-javascript/
+   */
+  static round(value: number, precision: number) {
+    precision = precision == null ? 0 : precision;
+    precision = mathf.clamp(-200, 200, precision);
+
+    if (!precision) {
+      return value;
+    }
+
+    if (precision) {
+      let preformat: string = value + 'e' + precision;
+      return Number(Math.round(<any>preformat) + 'e-' + precision);
+    }
+
+    return value;
   }
 
 
