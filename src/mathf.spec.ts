@@ -235,13 +235,13 @@ test("getProgressInRangeByValue", t => {
         , 1);
 });
 
-test("calculateScalarToBackgroundCover", t => {
+test("calculateBackgroundCover", t => {
 
     // Simple scale up
     let parentBox = { width: 500, height: 500 };
     let childBox = { width: 50, height: 50 }
     t.deepEqual(
-        mathf.calculateScalarToBackgroundCover(parentBox, childBox),
+        mathf.calculateBackgroundCover(parentBox, childBox),
         {
             width: 500,
             height: 500,
@@ -255,7 +255,7 @@ test("calculateScalarToBackgroundCover", t => {
     parentBox = { width: 50, height: 50 };
     childBox = { width: 500, height: 500 };
     t.deepEqual(
-        mathf.calculateScalarToBackgroundCover(parentBox, childBox),
+        mathf.calculateBackgroundCover(parentBox, childBox),
         {
             width: 50,
             height: 50,
@@ -272,7 +272,7 @@ test("calculateScalarToBackgroundCover", t => {
     parentBox = { width: 1000, height: 500 };
     childBox = { width: 50, height: 50 }
     t.deepEqual(
-        mathf.calculateScalarToBackgroundCover(parentBox, childBox),
+        mathf.calculateBackgroundCover(parentBox, childBox),
         {
             width: 1000,
             height: 1000,
@@ -291,7 +291,7 @@ test("calculateScalarToBackgroundCover", t => {
     parentBox = { width: 10, height: 50 };
     childBox = { width: 500, height: 500 }
     t.deepEqual(
-        mathf.calculateScalarToBackgroundCover(parentBox, childBox),
+        mathf.calculateBackgroundCover(parentBox, childBox),
         {
             width: 50,
             height: 50,

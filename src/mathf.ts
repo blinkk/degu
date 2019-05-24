@@ -11,7 +11,7 @@ export interface dimentionalBox {
   width: number
 }
 
-export interface scaleBox {
+export interface backgroundCoverBox {
   width: number,
   height: number,
   xOffset: number,
@@ -503,23 +503,23 @@ export class mathf {
    * This case, c would have to scale up to cover the
    * parent.  It would return something like:
    *
-   * ```
-   * width: What the child width should be
-   * height: What the child height should be
-   * xOffset: The Amount to offset x by in order to center.
-   * yOffset: The Amount to offset y by in order to center.
-   * scalar: The amount to scale
-   * ```
+   * - width: What the child width should be
+   * - height: What the child height should be
+   * - xOffset: The Amount to offset x by in order to center.
+   * - yOffset: The Amount to offset y by in order to center.
+   * - scalar: The amount to scale
    *
    *
    * Note on xOffset and yOffset, this algo assumes that the child will scale
    * from the top left corner of the box and is positioned to the top left.
    *
-   * @param {dimentionalBox} parentBox
-   * @param {dimentionalBox} childBox
+   * @param {dimentionalBox} parentBox The parent element dimensions
+   * @param {dimentionalBox} childBox The child elment dimensions
+   * @return {backgroundCoverBox} backgroundCoverBox The dimensions required to
+   *     transform the child element to background cover.
    */
-  static calculateScalarToBackgroundCover(
-    parentBox: dimentionalBox, childBox: dimentionalBox): scaleBox {
+  static calculateBackgroundCover(
+    parentBox: dimentionalBox, childBox: dimentionalBox): backgroundCoverBox {
     let parentRatio = mathf.aspectRatio(parentBox);
     let childRatio = mathf.aspectRatio(childBox);
 
