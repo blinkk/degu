@@ -21,7 +21,8 @@
       "ts"
     ],
     "require": [
-      "ts-node/register"
+      "ts-node/register",
+      "./_ava/_setup-browser-env.js"
     ],
     "files": [
       "src/*.spec.ts"
@@ -36,6 +37,7 @@
     "ava": "^1.4.1",
     "babel-loader": "8.0.5",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
+    "browser-env": "^3.2.6",
     "clean-webpack-plugin": "2.0.1",
     "concurrently": "4.1.0",
     "copy-webpack-plugin": "5.0.2",
