@@ -429,9 +429,11 @@ export class mathf {
 
   /**
    * Used to get a value within a range by progress.
-   * Note this is an alias of lerp since it's the same thing.
+   * Note this is an alias of [[mathf.lerp]] since it's the same thing.
+   *
    * For instance, let's say you have a range of 325-1450.
    * You want 0% = 325 and 100% = 1450.
+   *
    * You can pass a progress (such as 20% or 0.2) and this will return the value
    * within that range.
    *
@@ -442,6 +444,7 @@ export class mathf {
    */
   static getValueInRangeByProgress(progress: number, min: number, max: number): number {
     // Alternative way to calculate lerp.
+    //  return ((max - min) * percent) + min
     return mathf.lerp(min, max, progress);
   }
 
@@ -471,7 +474,11 @@ export class mathf {
   /**
    * Linear interpolate from start to end given amount.
    * ```ts
-   *
+   * mathf.lerp(0, 1, 0)   ---> 0
+   * mathf.lerp(0, 1, 0.2) ---> 0.2
+   * mathf.lerp(0, 1, 0.5) ---> 0.5
+   * mathf.lerp(0, 2, 0.5) ----> 1
+   * mathf.lerp(25, 79, 0.2) ----> 35.8
    * ```
    * @param {number} value1 The low-end of the range to lerp.
    * @param {number} value2 The high-end of the range to lerp.

@@ -66,6 +66,7 @@ test("lerp", t => {
     t.is(mathf.lerp(-25, 50, 0), -25);
     t.is(mathf.lerp(100, 10, 0), 100);
     t.is(mathf.lerp(0, 100, 0.5), 50);
+    t.is(mathf.lerp(25, 79, 0.2), 35.8);
 });
 
 
