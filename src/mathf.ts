@@ -109,6 +109,8 @@ export class mathf {
     return Math.min(Math.max(num, min), max);
   }
 
+
+
   /**
    * Calculate the angle between two points.
    * @param  {number} x1 The x position of the first point.
@@ -365,17 +367,21 @@ export class mathf {
 
   /**
    * Used to get a value within a range by progress.
+   * Note this is an alias of lerp since it's the same thing.
    * For instance, let's say you have a range of 325-1450.
    * You want 0% = 325 and 100% = 1450.
    * You can pass a percent (such as 20% or 0.2) and this will return the value
    * within that range.
+   *
    * @param {number} percent The percent to calculate.  Should be between 0 and 1.
    * @param {number} min The low end of the range.
    * @param {number} max The high end of the range.
    * @return {number} The value within the range.
    */
   static getValueInRangeByProgress(percent: number, min: number, max: number): number {
-    return ((max - min) * mathf.clampAsPercent(percent)) + min;
+    // Alternative way to calculate lerp.
+    // return ((max - min) * mathf.clampAsPercent(percent)) + min;
+    return mathf.lerp(min, max, percent);
   }
 
   /**
@@ -393,6 +399,28 @@ export class mathf {
   }
 
 
+
+  /**
+   * An alias to getProgressInRangeByValue.
+   */
+  static normalize(val: number, min: number, max: number): number {
+    return mathf.getProgressInRangeByValue(val, min, max);
+  }
+
+  /**
+   * Linear interpolate from start to end given amount.
+   * ```ts
+   *
+   * ```
+   * @param {number} value1 The low-end of the range to lerp.
+   * @param {number} value2 The high-end of the range to lerp.
+   * @param {number} amount A value between 0-1.  1 would essentially mean no lerp.
+   */
+  static lerp(value1: number, value2: number, amount: number) {
+    amount = amount < 0 ? 0 : amount;
+    amount = amount > 1 ? 1 : amount;
+    return value1 + (value2 - value1) * amount;
+  }
 
 
   /**

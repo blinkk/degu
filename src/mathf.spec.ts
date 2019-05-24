@@ -18,6 +18,26 @@ test("clampAsPercent", t => {
     t.is(mathf.clampAsPercent(1000), 1);
 });
 
+test("clamp", t => {
+    t.is(mathf.clamp(0, 10, 100), 10);
+    t.is(mathf.clamp(0, 10, -100), 0);
+    t.is(mathf.clamp(-10, 10, -100), -10);
+    t.is(mathf.clamp(-10, 10, 100), 10);
+});
+
+test("lerp", t => {
+    // Check basic lineaer interopolate.
+    t.is(mathf.lerp(0, 1, 0), 0);
+    t.is(mathf.lerp(0, 1, 0.2), 0.2);
+    t.is(mathf.lerp(0, 1, 0.5), 0.5);
+    t.is(mathf.lerp(0, 2, 0.5), 1);
+
+    t.is(mathf.lerp(-25, 50, 0), -25);
+    t.is(mathf.lerp(100, 10, 0), 100);
+    t.is(mathf.lerp(0, 100, 0.5), 50);
+});
+
+
 test("fixDigits", t => {
     t.is(mathf.fixDigits(20.12345, 0), 20);
     t.is(mathf.fixDigits(20.12345, 1), 20.1);
