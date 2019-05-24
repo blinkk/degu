@@ -3,6 +3,7 @@ import { asserts } from './asserts';
 import { AutoEaser } from './autoeaser';
 import { colors } from './colors';
 import { ConvexHull } from './convexhull';
+import { dom } from './dom';
 import { mathf } from './mathf';
 import { MouseTracker } from './mousetracker';
 import { Parallaxer } from './parallaxer';
@@ -15,6 +16,7 @@ export {
     AutoEaser,
     colors,
     ConvexHull,
+    dom,
     mathf,
     MouseTracker,
     Parallaxer,
