@@ -10,3 +10,5 @@ yarn-error.log
 yarn.lock
 .yarnclean
 .vscode
+
+dev-notes.txt
