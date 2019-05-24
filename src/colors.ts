@@ -18,9 +18,9 @@ export class colors {
         return String(nybHexString.substr((n >> 4) & 0x0F, 1)) + nybHexString.substr(n & 0x0F, 1);
     }
 
-    static hexToRgb(hex: string) {
+    static hexToRgb(hexValue: string) {
         let rgx = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        let hex = hex.replace(rgx, function(m: any, r: any, g: any, b: any) { return r + r + g + g + b + b; });
+        let hex = hexValue.replace(rgx, function (m: any, r: any, g: any, b: any) { return r + r + g + g + b + b; });
         let rgb: any = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         let r = parseInt(rgb[1], 16);
         let g = parseInt(rgb[2], 16);
@@ -33,7 +33,7 @@ export class colors {
         let h = parseInt(hsl[1]) / 360;
         let s = parseInt(hsl[2]) / 100;
         let l = parseInt(hsl[3]) / 100;
-        let hue2rgb = function(p: any, q: any, t: any) {
+        let hue2rgb = function (p: any, q: any, t: any) {
             if (t < 0) t += 1;
             if (t > 1) t -= 1;
             if (t < 1 / 6) return p + (q - p) * 6 * t;
