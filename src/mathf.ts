@@ -124,7 +124,7 @@ export class mathf {
   }
 
   /**
-   * Calculate the angle between two points.
+   * Calculate the angle between two points given cartesian coordinates system.
    * @param  {number} x1 The x position of the first point.
    * @param  {number} y1 The y position of the first point.
    * @param  {number} x2 The x position of the second point.
@@ -380,7 +380,6 @@ export class mathf {
    */
   static getValueInRangeByProgress(percent: number, min: number, max: number): number {
     // Alternative way to calculate lerp.
-    // return ((max - min) * mathf.clampAsPercent(percent)) + min;
     return mathf.lerp(min, max, percent);
   }
 
@@ -442,11 +441,13 @@ export class mathf {
    * This case, c would have to scale up to cover the
    * parent.  It would return something like:
    *
+   * ```
    * width: What the child width should be
    * height: What the child height should be
    * xOffset: The Amount to offset x by in order to center.
    * yOffset: The Amount to offset y by in order to center.
    * scalar: The amount to scale
+   * ```
    *
    *
    * Note on xOffset and yOffset, this algo assumes that the child will scale
