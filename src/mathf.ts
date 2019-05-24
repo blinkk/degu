@@ -10,10 +10,26 @@ export interface dimentionalBox {
   width: number
 }
 
+export interface backgroundCoverScalar {
+  width: number,
+  height: number,
+  xOffset: number,
+  yOffset: number,
+  scalar: number
+}
+
 /**
  * Yano Math utility functions.
  */
 export class mathf {
+
+  /**
+   * Tests whether if a given number if -0, in which case it will return
+   * 0.  Any other number will just pass through.
+   */
+  static absZero(value: number) {
+    return value == -0 ? 0 : value;
+  }
 
   /**
    * Takes a number like a float and fixes it's digits.
@@ -311,7 +327,7 @@ export class mathf {
 
   /**
    * Resizes a given dimentional box (width and height) to a given width while
-   * maintaining the aspect ratio.
+   * maintaining the aspect ratio.  Useful for scaling up or down a box.
    * @param {number} box
    * @param {number} width
    * @return {dimentionalBox}
@@ -325,7 +341,7 @@ export class mathf {
 
   /**
    * Resizes a given dimentional box (width and height) to a given height while
-   * maintaining the aspect ratio.
+   * maintaining the aspect ratio.  Useful for scaling up or down a box.
    * @param {number} box
    * @param {number} height
    * @return {dimentionalBox}
@@ -335,6 +351,77 @@ export class mathf {
       width: mathf.scaleY1(box.width, box.height, height),
       height: height
     }
+  }
+
+
+  /**
+   * Given two boxes of different aspect ratios,
+   * calculates the values in order to make the child cover the parent.
+   * This acts similar to background: cover of css.
+   *
+   * Imagine the following:
+   * ```
+   * -------p--------
+   * |               |
+   * |   -----       |
+   * |   | C  |      |
+   * |   -----       |
+   * |               |
+   * -----------------
+   * ```
+   *
+   * This case, c would have to scale up to cover the
+   * parent.  It would return something like:
+   *
+   * width: What the child width should be
+   * height: What the child height should be
+   * xOffset: The Amount to offset x by in order to center.
+   * yOffset: The Amount to offset y by in order to center.
+   * scalar: The amount to scale
+   *
+   *
+   * Note on xOffset and yOffset, this algo assumes that the child will scale
+   * from the top left corner of the box and is positioned to the top left.
+   *
+   * @param {dimentionalBox} parentBox
+   * @param {dimentionalBox} childBox
+   */
+  static calculateScalarToBackgroundCover(
+    parentBox: dimentionalBox, childBox: dimentionalBox): backgroundCoverScalar {
+    let parentRatio = mathf.aspectRatio(parentBox);
+    let childRatio = mathf.aspectRatio(childBox);
+
+    let finalWidth;
+    let finalHeight;
+    let scale;
+
+    if (childRatio >= parentRatio) {
+      finalHeight = parentBox.height;
+      scale = parentBox.height / childBox.height;
+      finalWidth = childBox.width * scale;
+    } else {
+      finalWidth = parentBox.width;
+      scale = parentBox.width / childBox.width;
+      finalHeight = childBox.height * scale;
+    }
+
+    let finalScale = Math.max(
+      (finalWidth / childBox.width),
+      (finalHeight / childBox.height));
+    // Position to vertical bottom.
+    let offsetHeight = mathf.absZero(
+      -Math.round((parentBox.height - finalHeight)));
+    // Position to horizontal center.
+    let offsetWidth = mathf.absZero(
+      -Math.round((parentBox.width - finalWidth) / 2));
+
+    return {
+      width: Math.round(finalWidth),
+      height: Math.round(finalHeight),
+      xOffset: offsetWidth,
+      yOffset: offsetHeight,
+      scalar: finalScale,
+    };
   }
 
 }
