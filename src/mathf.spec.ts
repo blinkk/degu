@@ -146,6 +146,43 @@ test("getValueInRangeByProgress", t => {
 });
 
 
+test("getProgressInRangeByValue", t => {
+    // Simple test.
+    t.is(
+        mathf.getProgressInRangeByValue(0, 0, 10)
+        , 0);
+    // Out of range
+    t.is(
+        mathf.getProgressInRangeByValue(-10, 0, 10)
+        , 0);
+    t.is(
+        mathf.getProgressInRangeByValue(2, 0, 10)
+        , 0.2);
+    t.is(
+        mathf.getProgressInRangeByValue(5, 0, 10)
+        , 0.5);
+    t.is(
+        mathf.getProgressInRangeByValue(10, 0, 10)
+        , 1);
+    // Out of range
+    t.is(
+        mathf.getProgressInRangeByValue(100, 0, 10)
+        , 1);
+
+    // Shift
+    t.is(
+        mathf.getProgressInRangeByValue(2, 2, 12)
+        , 0);
+    t.is(
+        mathf.getProgressInRangeByValue(4, 2, 12)
+        , 0.2);
+    t.is(
+        mathf.getProgressInRangeByValue(7, 2, 12)
+        , 0.5);
+    t.is(
+        mathf.getProgressInRangeByValue(12, 2, 12)
+        , 1);
+});
 
 test("calculateScalarToBackgroundCover", t => {
 

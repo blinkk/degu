@@ -378,6 +378,21 @@ export class mathf {
     return ((max - min) * mathf.clampAsPercent(percent)) + min;
   }
 
+  /**
+   * Used to get progress within a range by value.
+   * For instance, let's say you have a range of 325-1450.
+   * You want 0% = 325 and 100% = 1450.
+   * You can pass a value 420 and this will return the progress (percentage).
+   * @param {number} value The value to determine the progress.
+   * @param {number} min The low end of the range.
+   * @param {number} max The high end of the range.
+   * @return {number} The progress within the range.
+   */
+  static getProgressInRangeByValue(val: number, min: number, max: number): number {
+    return mathf.clampAsPercent((val - min) / (max - min));
+  }
+
+
 
 
   /**
