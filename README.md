@@ -2,6 +2,7 @@
 
 Yano is a general utility library for interactive websites.
 
+Docs: yano-js.surge.sh
 
 
 
@@ -11,6 +12,7 @@ Yano is a general utility library for interactive websites.
 npm install --global typescript
 npm install --global simplehttpserver # Optional, to preview docs
 npm install --global typedoc
+npm install --global surge # Optional, for publishing docs and examples
 ```
 
 
@@ -68,6 +70,15 @@ Docs use typedoc.  See https://typedoc.org/
 ```
 npm run doc
 npm run doc-server # To view docs in on local server.
+```
+
+Publishing Docs
+```
+npm run publish-doc
+
+or manually:
+surge --domain yano-js.surge.sh --project $PWD/docs/
+
 ```
 
 # Project Structure

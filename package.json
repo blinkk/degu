@@ -64,6 +64,7 @@
     "build": "tsc",
     "build-watch": "tsc --watch",
     "doc": "typedoc",
+    "publish-doc": "surge --domain yano-js.surge.sh --project $PWD/docs/",
     "doc-server": "simplehttpserver ./docs",
     "dev": "concurrently \"tsc -w\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
     "test": "tsc && ava --watch"
