@@ -5,7 +5,6 @@ import { mathf } from './mathf';
  */
 export class dom {
 
-
     /**
      * Given an element, returns the amount that the element has been scrolled
      * through in the the window.

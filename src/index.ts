@@ -23,4 +23,3 @@ export {
     Raf,
     Vector2
 };
-

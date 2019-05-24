@@ -1,7 +1,6 @@
 import { mathf } from './mathf';
 import { detector } from './detector';
 
-
 /**
  * Class that helps with mouse tracking.
  */
@@ -53,17 +52,16 @@ export class MouseTracker {
         }, false);
     }
 
-
     /**
      * Calculates the base dimensions of the rootElement.
      */
     calculateRootElementDimensions_() {
-        let docRect = document.body.getBoundingClientRect();
-        let rect = this.rootElement_.getBoundingClientRect();
+        const docRect = document.body.getBoundingClientRect();
+        const rect = this.rootElement_.getBoundingClientRect();
 
         // Calculate the center point.
-        let xCenter = rect.left + rect.width / 2;
-        let yCenter = rect.top + rect.height / 2;
+        const xCenter = rect.left + rect.width / 2;
+        const yCenter = rect.top + rect.height / 2;
 
         this.dimensions_ = {
             width: rect.width,
@@ -72,11 +70,11 @@ export class MouseTracker {
             halfHeight: rect.height / 2,
             top: rect.top,
             left: rect.left,
-            xCenter: xCenter,
-            yCenter: yCenter,
+            xCenter,
+            yCenter,
             docWidth: docRect.width,
             docHeight: docRect.height
-        }
+        };
     }
 
     /**
@@ -84,30 +82,29 @@ export class MouseTracker {
      * @type {MouseEvent}
      */
     onMouseMove_(e: any) {
-        let x = e.pageX || e.clientX;
-        let y = e.pageY || e.clientY;
+        const x = e.pageX || e.clientX;
+        const y = e.pageY || e.clientY;
 
         this.mousePosition_ = {
-            x: x,
-            y: y,
+            x,
+            y,
             deltaX: x - this.dimensions_.xCenter,
             deltaY: y - this.dimensions_.yCenter,
             percentageX: (x - this.dimensions_.xCenter) /
                 (this.dimensions_.docWidth) * 100,
             percentageY: (y - this.dimensions_.yCenter) /
-                (this.dimensions_.docHeight) * 100,
-        }
+                (this.dimensions_.docHeight) * 100
+        };
         this.moveCallBack_(this.mousePosition_);
     }
-
 
     /**
      * Handles the device orientation.
      * @type {MouseEvent}
      */
     onDeviceOrientation_(event: any) {
-        let x = mathf.clamp(-50, 50, event.gamma);
-        let y = mathf.clamp(-50, 50, event.beta);
+        const x = mathf.clamp(-50, 50, event.gamma);
+        const y = mathf.clamp(-50, 50, event.beta);
 
         this.mousePosition_ = {
             x: 0,
@@ -116,7 +113,7 @@ export class MouseTracker {
             deltaY: 0,
             percentageX: x,
             percentageY: y
-        }
+        };
         this.moveCallBack_(this.mousePosition_);
     }
 }

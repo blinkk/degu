@@ -1,9 +1,8 @@
 export class array {
 
-
     // Credit http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array;
     static shuffle(array: any) {
-        var currentIndex: number = array.length, temporaryValue: any, randomIndex: any;
+        let currentIndex: number = array.length, temporaryValue: any, randomIndex: any;
 
         // While there remain elements to shuffle...
         while (0 !== currentIndex) {

@@ -67,16 +67,14 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
     "prepare": "npm run build",
-    "_build": "tsc",
-    "_build-watch": "tsc --watch",
-    "build": "rollup -c",
-    "build-watch": "rollup -cw",
+    "build": "tsc",
+    "build-watch": "tsc --watch",
     "doc": "typedoc",
     "publish-doc": "surge --domain yano-js.surge.sh --project $PWD/docs/",
     "doc-server": "simplehttpserver ./docs",
-    "dev": "concurrently \"rollup -c\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
+    "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
     "test": "tsc && ava --watch",
     "lint": "tslint -c tslint.json \"src/**/*.ts\"",
-    "lint:fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
+    "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
   }
 }

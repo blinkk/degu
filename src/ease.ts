@@ -10,7 +10,7 @@ export class EASE {
     */
     static easeInSine(t: number) {
         return (t == 0 || t == 1) ? t : 1 - Math.cos(t * (Math.PI / 2));
-    };
+    }
 
     /**
      * Eases the value out with a Sine curve.
@@ -19,7 +19,7 @@ export class EASE {
      */
     static easeOutSine(t: number) {
         return (t == 0 || t == 1) ? t : Math.sin(t * (Math.PI / 2));
-    };
+    }
 
     /**
      * Eases the value in and out with a Sine curve.
@@ -28,7 +28,7 @@ export class EASE {
      */
     static easeInOutSine(t: number) {
         return (t == 0 || t == 1) ? t : -0.5 * (Math.cos(Math.PI * t) - 1);
-    };
+    }
 
     /**
      * Eases the value in with a quadratic curve.
@@ -37,7 +37,7 @@ export class EASE {
      */
     static easeInQuad(t: number) {
         return (t == 0 || t == 1) ? t : t * t;
-    };
+    }
 
     /**
      * Eases the value out with a quadratic curve.
@@ -46,7 +46,7 @@ export class EASE {
      */
     static easeOutQuad(t: number) {
         return (t == 0 || t == 1) ? t : t * (2 - t);
-    };
+    }
 
     /**
      * Eases the value in with a cubic curve.
@@ -56,7 +56,7 @@ export class EASE {
      */
     static easeInCubic(t: number) {
         return (t == 0 || t == 1) ? t : t * t * t;
-    };
+    }
 
     /**
      * Eases the value in and out with a quadratic curve.
@@ -71,7 +71,7 @@ export class EASE {
         } else {
             return -1 + (4 - 2 * t) * t;
         }
-    };
+    }
 
     /**
      * Eases the value out with a cubic curve.
@@ -81,7 +81,7 @@ export class EASE {
      */
     static easeOutCubic(t: number) {
         return (t == 0 || t == 1) ? t : (--t) * t * t + 1;
-    };
+    }
 
     /**
      * Eases the value in and out with a cubic curve.
@@ -96,9 +96,7 @@ export class EASE {
         } else {
             return (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
         }
-    };
-
-
+    }
 
     /**
      * Eases the value in with a quartic curve.
@@ -108,8 +106,7 @@ export class EASE {
      */
     static easeInQuart(t: number) {
         return (t == 0 || t == 1) ? t : t * t * t * t;
-    };
-
+    }
 
     /**
      * Eases the value out with a quartic curve.
@@ -119,8 +116,7 @@ export class EASE {
      */
     static easeOutQuart(t: number) {
         return (t == 0 || t == 1) ? t : 1 - (--t) * t * t * t;
-    };
-
+    }
 
     /**
      * Eases the value in and out with a quartic curve.
@@ -136,8 +132,7 @@ export class EASE {
         } else {
             return 1 - 8 * (--t) * t * t * t;
         }
-    };
-
+    }
 
     /**
      * Eases the value in with a quintic curve.
@@ -147,7 +142,7 @@ export class EASE {
      */
     static easeInQuint(t: number) {
         return (t == 0 || t == 1) ? t : t * t * t * t * t;
-    };
+    }
 
     /**
      * Eases the value out with a quintic curve.
@@ -157,7 +152,7 @@ export class EASE {
      */
     static easeOutQuint(t: number) {
         return (t == 0 || t == 1) ? t : 1 + (--t) * t * t * t * t;
-    };
+    }
 
     /**
      * Eases the value in and out with a quintic curve.
@@ -168,7 +163,7 @@ export class EASE {
     static easeInOutQuint(t: number) {
         return (t == 0 || t == 1) ? t : t < .5 ? 16 * t * t * t * t * t : 1 + 16 *
             (--t) * t * t * t * t;
-    };
+    }
 
     /**
      * Eases the value in with an exponential curve.
@@ -178,7 +173,7 @@ export class EASE {
      */
     static easeInExpo(t: number) {
         return (t == 0 || t == 1) ? t : Math.pow(2, 10 * (t - 1));
-    };
+    }
 
     /**
      * Eases the value out with an exponential curve.
@@ -188,7 +183,7 @@ export class EASE {
      */
     static easeOutExpo(t: number) {
         return (t == 0 || t == 1) ? t : (1 - Math.pow(2, -10 * t));
-    };
+    }
 
     /**
      * Eases the value in and out with an exponential curve.
@@ -204,7 +199,7 @@ export class EASE {
         } else {
             return .5 * (2 - Math.pow(2, -10 * (t * 2 - 1)));
         }
-    };
+    }
 
     /**
      * Eases the value in with a circular curve.
@@ -214,8 +209,7 @@ export class EASE {
      */
     static easeInCirc(t: number) {
         return (t == 0 || t == 1) ? t : 1 - Math.sqrt(1 - (t * t));
-    };
-
+    }
 
     /**
      * Eases the value out with a circular curve.
@@ -225,8 +219,7 @@ export class EASE {
      */
     static easeOutCirc(t: number) {
         return (t == 0 || t == 1) ? t : Math.sqrt(1 - (t - 1) * (t - 1));
-    };
-
+    }
 
     /**
      * Eases the value in and out with a circular curve.
@@ -242,8 +235,7 @@ export class EASE {
         } else {
             return .5 * (Math.sqrt(1 - 4 * (t - 1) * (t - 1)) + 1);
         }
-    };
-
+    }
 
     /**
      * Eases the value in after bounding backwards at the beginning.
@@ -253,8 +245,7 @@ export class EASE {
      */
     static easeInBack(t: number) {
         return (t == 0 || t == 1) ? t : t * t * (2.70158 * t - 1.70158);
-    };
-
+    }
 
     /**
      * Eases the value out after bounding past the end point and back.
@@ -266,8 +257,7 @@ export class EASE {
         return (t == 0 || t == 1) ?
             t :
             (t - 1) * (t - 1) * (2.70158 * (t - 1) + 1.70158) + 1;
-    };
-
+    }
 
     /**
      * Eases the value in and out with an initial and ending movement beyond the
@@ -285,8 +275,7 @@ export class EASE {
             return .5 * ((t * 2 - 2) * (t * 2 - 2) *
                 (3.5949095 * (t * 2 - 2) + 2.5949095) + 2);
         }
-    };
-
+    }
 
     /**
      * Eases the value in with an elastic springy motion.
@@ -303,8 +292,7 @@ export class EASE {
                 Math.sin((t - 1.075) * (2 * Math.PI) / .3)
             );
         }
-    };
-
+    }
 
     /**
      * Eases the value out with an elastic springy motion.
@@ -315,8 +303,7 @@ export class EASE {
     static easeOutElastic(t: number) {
         return (t == 0 || t == 1) ? t : Math.pow(2, -10 * t) *
             Math.sin((t - .075) * (2 * Math.PI) / .3) + 1;
-    };
-
+    }
 
     /**
      * Eases the value in and out with an elastic springy motion.
@@ -334,8 +321,7 @@ export class EASE {
             return .5 * Math.pow(2, -10 * (t * 2 - 1)) *
                 Math.sin((t * 2 - 1.1125) * 2 * Math.PI / .45) + 1;
         }
-    };
-
+    }
 
     /**
      * Eases the value in with a simple physics bounce.
@@ -345,8 +331,7 @@ export class EASE {
      */
     static easeInBounce(t: number) {
         return (t == 0 || t == 1) ? t : 1 - this.easeOutBounce(1 - t);
-    };
-
+    }
 
     /**
      * Eases the value out with a simple physics bounce.
@@ -366,8 +351,7 @@ export class EASE {
         } else {
             return 7.5625 * (t - 2.625 / 2.75) * (t - 2.625 / 2.75) + .984375;
         }
-    };
-
+    }
 
     /**
      * Eases the value in and out with starting and ending bounces.
@@ -383,8 +367,7 @@ export class EASE {
         } else {
             return this.easeOutBounce(t * 2 - 1) * .5 + .5;
         }
-    };
-
+    }
 
     /**
      * Returns the value without any easing. This is only useful if a script is
@@ -395,6 +378,6 @@ export class EASE {
      */
     static linear(t: number) {
         return t;
-    };
+    }
 
 }

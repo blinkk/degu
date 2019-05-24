@@ -4,11 +4,11 @@
 export class detector {
 
     static deviceOrientationSupport(): boolean {
-        return !!window['DeviceOrientationEvent'];
+        return !!window.DeviceOrientationEvent;
     }
 
     static touchSupport() {
-        return (('ontouchstart' in window) || window['DocumentTouch'] && document instanceof window['DocumentTouch']);
+        return (('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
     }
 
     /**

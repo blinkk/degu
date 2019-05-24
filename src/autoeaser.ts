@@ -38,12 +38,12 @@ export class AutoEaser {
      * @constructor
      */
     constructor(duration: number, delay: number, ease: Function,
-        onUpdate: Function, onComplete: Function) {
+                onUpdate: Function, onComplete: Function) {
 
         // Setup Easer.
         this.easer = new Easer({
-            duration: duration,
-            delay: delay,
+            duration,
+            delay,
             easeFunction: ease
         });
 
@@ -55,22 +55,20 @@ export class AutoEaser {
             onUpdate(currentValue, complete);
         });
 
-
         // Setup Raf.
         this.raf = new Raf(() => {
             this.easer.update();
         });
     }
 
-    public start() {
+    start() {
         // Start processes.
         this.easer.start();
         this.raf.start();
     }
 
-    public destroy() {
+    destroy() {
         this.raf && this.raf.stop();
     }
-
 
 }

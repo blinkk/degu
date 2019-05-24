@@ -25,8 +25,8 @@ export class Raf {
     private raf_: any;
     private frame: number | null;
     private lastUpdateTime: number;
-    private fps: number
-    private isPlaying: boolean
+    private fps: number;
+    private isPlaying: boolean;
 
     /**
      * @param {Function} rafLoop  The function to be called on each
@@ -76,28 +76,40 @@ export class Raf {
     }
 
     /**
-     * Sets the Raf loop.
-     */
-    private setRafLoop(rafLoop: Function) {
-        this.rafLoop = rafLoop;
-    }
-
-    /**
      * Sets the fps .
      */
-    public setFps(fps: number) {
+    setFps(fps: number) {
         this.fps = fps;
     }
 
     /**
      * Starts the RAF animation loop.
      */
-    public start() {
+    start() {
         if (this.isPlaying) {
             return;
         }
         this.animationLoop_();
         this.isPlaying = true;
+    }
+
+    /**
+     * Stops the RAF animation loop.
+     */
+    stop() {
+        this.isPlaying = false;
+        window.cancelAnimationFrame(this.raf_);
+    }
+
+    dispose() {
+        this.stop();
+    }
+
+    /**
+     * Sets the Raf loop.
+     */
+    private setRafLoop(rafLoop: Function) {
+        this.rafLoop = rafLoop;
     }
 
     /**
@@ -107,13 +119,12 @@ export class Raf {
         this.raf_ = window.requestAnimationFrame((frame: number) => {
             this.frame = frame;
             this.animationLoop_();
-        })
-
+        });
 
         if (this.lastUpdateTime) {
-            let current = Date.now();
-            let elapsed = current - this.lastUpdateTime;
-            let fps = this.fps == 0 ? 0 : 1000 / this.fps;
+            const current = Date.now();
+            const elapsed = current - this.lastUpdateTime;
+            const fps = this.fps == 0 ? 0 : 1000 / this.fps;
             if (elapsed > fps) {
                 this.rafLoop(this.frame, this.lastUpdateTime, elapsed, () => {
                     this.stop();
@@ -127,17 +138,5 @@ export class Raf {
             this.lastUpdateTime = Date.now();
         }
 
-    }
-
-    /**
-     * Stops the RAF animation loop.
-     */
-    public stop() {
-        this.isPlaying = false;
-        window.cancelAnimationFrame(this.raf_);
-    }
-
-    public dispose() {
-        this.stop();
     }
 }

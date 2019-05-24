@@ -1,15 +1,14 @@
-import { mathf } from "./mathf";
+import { mathf } from './mathf';
 import test from 'ava';
 
-
-test("absZero", t => {
+test('absZero', t => {
     t.is(mathf.absZero(-0), 0);
     t.is(mathf.absZero(0), 0);
     t.is(mathf.absZero(10), 10);
     t.is(mathf.absZero(-10), -10);
 });
 
-test("clampAsPercent", t => {
+test('clampAsPercent', t => {
     t.is(mathf.clampAsPercent(-0), 0);
     t.is(mathf.clampAsPercent(-10), 0);
     t.is(mathf.clampAsPercent(0.1), 0.1);
@@ -18,14 +17,14 @@ test("clampAsPercent", t => {
     t.is(mathf.clampAsPercent(1000), 1);
 });
 
-test("clamp", t => {
+test('clamp', t => {
     t.is(mathf.clamp(0, 10, 100), 10);
     t.is(mathf.clamp(0, 10, -100), 0);
     t.is(mathf.clamp(-10, 10, -100), -10);
     t.is(mathf.clamp(-10, 10, 100), 10);
 });
 
-test("round", t => {
+test('round', t => {
     t.is(mathf.round(0.49999, 1), 0.5);
     t.is(mathf.round(0.49999, 2), 0.5);
     t.is(mathf.round(0.41199, 3), 0.412);
@@ -33,7 +32,7 @@ test("round", t => {
     t.is(mathf.round(0.48, 1), 0.5);
 });
 
-test("childProgress", t => {
+test('childProgress', t => {
     t.is(mathf.childProgress(0, 0.2, 0.6), 0);
     t.is(mathf.childProgress(0.2, 0.2, 0.6), 0);
     t.is(
@@ -56,7 +55,7 @@ test("childProgress", t => {
         , 1);
 });
 
-test("lerp", t => {
+test('lerp', t => {
     // Check basic lineaer interopolate.
     t.is(mathf.lerp(0, 1, 0), 0);
     t.is(mathf.lerp(0, 1, 0.2), 0.2);
@@ -69,27 +68,25 @@ test("lerp", t => {
     t.is(mathf.lerp(25, 79, 0.2), 35.8);
 });
 
-
-test("fixDigits", t => {
+test('fixDigits', t => {
     t.is(mathf.fixDigits(20.12345, 0), 20);
     t.is(mathf.fixDigits(20.12345, 1), 20.1);
     t.is(mathf.fixDigits(20.12345, 2), 20.12);
     t.is(mathf.fixDigits(20.12345, 4), 20.1234);
 });
 
-test("int", t => {
+test('int', t => {
     t.is(mathf.int(20.311), 20);
     t.is(mathf.int(20.32), 20);
     t.is(mathf.int(20), 20);
 });
 
-
-test("calculateCenterOffset", t => {
+test('calculateCenterOffset', t => {
     t.is(mathf.calculateCenterOffset(8, 5), 1.5);
     t.is(mathf.calculateCenterOffset(10, 5), 2.5);
 });
 
-test("angleDistanceDegree", t => {
+test('angleDistanceDegree', t => {
 
     t.is(mathf.angleDistanceDegree(10, 10), 0);
     t.is(
@@ -106,7 +103,7 @@ test("angleDistanceDegree", t => {
         , -30);
 });
 
-test("scaleY1", t => {
+test('scaleY1', t => {
     t.is(
         mathf.scaleY1(5, 10, 20),
         10);
@@ -115,7 +112,7 @@ test("scaleY1", t => {
         4);
 });
 
-test("scaleY2", t => {
+test('scaleY2', t => {
     t.is(
         mathf.scaleY2(5, 10, 3),
         6);
@@ -124,8 +121,7 @@ test("scaleY2", t => {
         100);
 });
 
-
-test("aspectRatio", t => {
+test('aspectRatio', t => {
     t.is(mathf.aspectRatio({ width: 500, height: 500 }), 1);
     t.is(mathf.aspectRatio({ width: 1000, height: 500 }), 2);
     t.is(
@@ -133,8 +129,7 @@ test("aspectRatio", t => {
         mathf.fixDigits(1.48, 2));
 });
 
-
-test("resizedimensionalBoxToWidth", t => {
+test('resizedimensionalBoxToWidth', t => {
     t.deepEqual(
         mathf.resizedimensionalBoxToWidth({ width: 500, height: 500 }, 250),
         { width: 250, height: 250 });
@@ -146,8 +141,7 @@ test("resizedimensionalBoxToWidth", t => {
         { width: 800, height: 960 });
 });
 
-
-test("resizedimensionalBoxToHeight", t => {
+test('resizedimensionalBoxToHeight', t => {
     t.deepEqual(
         mathf.resizedimensionalBoxToHeight({ width: 500, height: 500 }, 250),
         { width: 250, height: 250 });
@@ -159,9 +153,7 @@ test("resizedimensionalBoxToHeight", t => {
         { width: 500, height: 800 });
 });
 
-
-
-test("getValueInRangeByProgress", t => {
+test('getValueInRangeByProgress', t => {
     // Simple test.
     t.is(
         mathf.getValueInRangeByProgress(-10, 0, 10)
@@ -197,8 +189,7 @@ test("getValueInRangeByProgress", t => {
         , 12);
 });
 
-
-test("getProgressInRangeByValue", t => {
+test('getProgressInRangeByValue', t => {
     // Simple test.
     t.is(
         mathf.getProgressInRangeByValue(0, 0, 10)
@@ -236,11 +227,11 @@ test("getProgressInRangeByValue", t => {
         , 1);
 });
 
-test("calculateBackgroundCover", t => {
+test('calculateBackgroundCover', t => {
 
     // Simple scale up
     let parentBox = { width: 500, height: 500 };
-    let childBox = { width: 50, height: 50 }
+    let childBox = { width: 50, height: 50 };
     t.deepEqual(
         mathf.calculateBackgroundCover(parentBox, childBox),
         {
@@ -248,9 +239,9 @@ test("calculateBackgroundCover", t => {
             height: 500,
             xOffset: 0,
             yOffset: 0,
-            scalar: 10,
+            scalar: 10
         }
-    )
+    );
 
     // Simple scale down
     parentBox = { width: 50, height: 50 };
@@ -262,16 +253,16 @@ test("calculateBackgroundCover", t => {
             height: 50,
             xOffset: 0,
             yOffset: 0,
-            scalar: 0.1,
+            scalar: 0.1
         }
-    )
+    );
 
     // Parent is 2x wider and child is square.
     // We would need to scale the childBox to a minimum of 1000,
     // and since it's a square it woudl be 1000x1000.
     // scalar is 20 since 1000 / 50 = 20.
     parentBox = { width: 1000, height: 500 };
-    childBox = { width: 50, height: 50 }
+    childBox = { width: 50, height: 50 };
     t.deepEqual(
         mathf.calculateBackgroundCover(parentBox, childBox),
         {
@@ -279,9 +270,9 @@ test("calculateBackgroundCover", t => {
             height: 1000,
             xOffset: 0,
             yOffset: 500,
-            scalar: 20,
+            scalar: 20
         }
-    )
+    );
 
     // Parent is 2x wider and child is square but parent is smaller.
     // In order to cover the parent, the child would need to scale down to a
@@ -290,7 +281,7 @@ test("calculateBackgroundCover", t => {
     // We if the parent width is 10 -> 50 - 10 = 40.  Then 40 / 2 = 20.  So
     // we need to shift it by 20 to center it.
     parentBox = { width: 10, height: 50 };
-    childBox = { width: 500, height: 500 }
+    childBox = { width: 500, height: 500 };
     t.deepEqual(
         mathf.calculateBackgroundCover(parentBox, childBox),
         {
@@ -298,8 +289,8 @@ test("calculateBackgroundCover", t => {
             height: 50,
             xOffset: 20,
             yOffset: 0,
-            scalar: 0.1,
+            scalar: 0.1
         }
-    )
+    );
 
 });

@@ -1,7 +1,6 @@
 
 import { MouseTracker } from './mousetracker';
 
-
 /**
  * A class that creates a parallax effect based on the mouse position.
  */
@@ -25,7 +24,7 @@ export class Parallaxer {
      * TODO(uxder) Clean this up.
      */
     constructor(rootElement: HTMLElement, rotationSensitivity: any,
-        translateSensitity: any, pivotElement?: HTMLElement) {
+                translateSensitity: any, pivotElement?: HTMLElement) {
 
         /**
          * Flag to allow animation.
@@ -55,7 +54,6 @@ export class Parallaxer {
             y: 1
         };
 
-
         /**
          * The current transform values.
          */
@@ -65,7 +63,7 @@ export class Parallaxer {
             zDeg: 0,
             xTrans: 0,
             yTrans: 0
-        }
+        };
 
         /**
          * The pivot element if defined.
@@ -85,7 +83,7 @@ export class Parallaxer {
                 this.mousePosition_ = mousePosition;
             },
             false
-        )
+        );
     }
 
     /**
@@ -125,11 +123,11 @@ export class Parallaxer {
         if (!this.mousePosition_) {
             return;
         }
-        let xDegree = (this.mousePosition_.percentageX) * this.rotationSensitivity.x;
-        let yDegree = (this.mousePosition_.percentageY) * this.rotationSensitivity.y;
+        const xDegree = (this.mousePosition_.percentageX) * this.rotationSensitivity.x;
+        const yDegree = (this.mousePosition_.percentageY) * this.rotationSensitivity.y;
 
-        let xTrans = -(this.mousePosition_.percentageX) * this.translateSensitivity.x;
-        let yTrans = -(this.mousePosition_.percentageY) * this.translateSensitivity.y;
+        const xTrans = -(this.mousePosition_.percentageX) * this.translateSensitivity.x;
+        const yTrans = -(this.mousePosition_.percentageY) * this.translateSensitivity.y;
 
         // TODO(uxder): Add complex easing.
         this.transformValues.xDeg += (xDegree - this.transformValues.xDeg) * 0.03;
@@ -137,7 +135,7 @@ export class Parallaxer {
         this.transformValues.xTrans += (xTrans - this.transformValues.xTrans) * 0.03;
         this.transformValues.yTrans += (yTrans - this.transformValues.yTrans) * 0.03;
 
-        let transformString =
+        const transformString =
             'rotateX(' + this.transformValues.yDeg + 'deg) rotateY(' +
             -this.transformValues.xDeg + 'deg) rotateZ(0deg)' +
             ' translate(' + -this.transformValues.xTrans + 'px, ' +

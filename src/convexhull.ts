@@ -11,13 +11,13 @@ export class ConvexHull {
      * @param {Array.<number>} An array of x, y.
      * @return {Array.<number>} A set of x,y points.
      */
-    calculate(points: Array<number>) {
-        points.sort(function (a, b) {
+    calculate(points: number[]) {
+        points.sort(function(a, b) {
             return a[0] == b[0] ? a[1] - b[1] : a[0] - b[0];
         });
 
-        var lower = [];
-        for (var i = 0; i < points.length; i++) {
+        let lower = [];
+        for (let i = 0; i < points.length; i++) {
             while (lower.length >= 2 &&
                 this.cross(lower[lower.length - 2],
                     lower[lower.length - 1],
@@ -27,9 +27,9 @@ export class ConvexHull {
             lower.push(points[i]);
         }
 
-        var upper: Array<number> = [];
+        let upper: number[] = [];
 
-        for (var i = points.length - 1; i >= 0; i--) {
+        for (let i = points.length - 1; i >= 0; i--) {
             while (upper.length >= 2 &&
                 this.cross(
                     upper[upper.length - 2],
@@ -43,8 +43,7 @@ export class ConvexHull {
         upper.pop();
         lower.pop();
         return lower.concat(upper);
-    };
-
+    }
 
     /**
      * Determines if a set of points cross.

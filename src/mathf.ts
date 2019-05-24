@@ -1,22 +1,22 @@
 
 export interface box {
-  height: number,
-  width: number,
-  x: number,
-  y: number
+  height: number;
+  width: number;
+  x: number;
+  y: number;
 }
 
 export interface dimensionalBox {
-  height: number,
-  width: number
+  height: number;
+  width: number;
 }
 
 export interface backgroundCoverBox {
-  width: number,
-  height: number,
-  xOffset: number,
-  yOffset: number,
-  scalar: number
+  width: number;
+  height: number;
+  xOffset: number;
+  yOffset: number;
+  scalar: number;
 }
 
 /**
@@ -96,7 +96,6 @@ export class mathf {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-
   /**
    * Returns a random integrater between min and max but ensures it is not a
    * certain value.
@@ -105,7 +104,7 @@ export class mathf {
    * @param {number} not The value it should not be.
    */
   static getUniqueRandomInt(min: number, max: number, not: number): number {
-    let random = mathf.getRandomInt(min, max);
+    const random = mathf.getRandomInt(min, max);
     if (random == not) {
       return mathf.getUniqueRandomInt(min, max, not);
     } else {
@@ -169,12 +168,11 @@ export class mathf {
    *     between 0 and 1.
    */
   static childProgress(progress: number, start: number, end: number): number {
-    let range = end - start;
+    const range = end - start;
     let childProgress = mathf.clamp(0, 1, progress - start);
     childProgress = childProgress / range;
     return mathf.clampAsPercent(childProgress);
   }
-
 
   /**
    * Rounds to the nearest precision.
@@ -198,14 +196,12 @@ export class mathf {
     }
 
     if (precision) {
-      let preformat: string = value + 'e' + precision;
+      const preformat: string = value + 'e' + precision;
       return Number(Math.round(<any>preformat) + 'e-' + precision);
     }
 
     return value;
   }
-
-
 
   /**
    * Calculate the angle between two points.
@@ -231,7 +227,6 @@ export class mathf {
     return Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
   }
 
-
   /**
    * Determine the angular distance between two angles in degree.
    *
@@ -254,15 +249,14 @@ export class mathf {
    * @return {number} Distance in degrees.
    */
   static angleDistanceDegree(angle0: number, angle1: number, max?: number) {
-    let angle0Rad = mathf.degreeToRadian(angle0);
-    let angle1Rad = mathf.degreeToRadian(angle1);
+    const angle0Rad = mathf.degreeToRadian(angle0);
+    const angle1Rad = mathf.degreeToRadian(angle1);
     if (max) {
       max = mathf.degreeToRadian(max);
     }
-    let result = mathf.angleDistanceRadian(angle0Rad, angle1Rad, max);
+    const result = mathf.angleDistanceRadian(angle0Rad, angle1Rad, max);
     return mathf.radianToDegree(result);
   }
-
 
   /**
    * Determine the angular distance between two angles in radians.
@@ -280,10 +274,9 @@ export class mathf {
     if (!max) {
       max = Math.PI * 2;
     }
-    let delta = (angle1 - angle0) % max;
+    const delta = (angle1 - angle0) % max;
     return 2 * delta % max - delta;
   }
-
 
   /**
    * Converts radians to degrees.
@@ -303,7 +296,6 @@ export class mathf {
     return radian * 180 / Math.PI;
   }
 
-
   /**
    * Checks for collision detection.
    * @param {Object} a An object with x, y, width and height.
@@ -319,7 +311,6 @@ export class mathf {
     );
   }
 
-
   /**
    * Generates a set of random x,y points.
    * @param {number} num Number of points.
@@ -330,11 +321,11 @@ export class mathf {
    * @return {Array.<Object>} An array of objects containing x, y values.
    */
   static generateRandomPoints = (num: number,
-    minX: number, maxX: number,
-    minY: number, maxY: number
+                                 minX: number, maxX: number,
+                                 minY: number, maxY: number
   ) => {
-    var points = [];
-    for (var i = 0; i < num; i++) {
+    const points = [];
+    for (let i = 0; i < num; i++) {
       points.push({
         x: mathf.getRandomInt(minX, maxX),
         y: mathf.getRandomInt(minY, maxY)
@@ -342,9 +333,6 @@ export class mathf {
     }
     return points;
   }
-
-
-
 
   /**
    * Calculates the distance of two sets of x, y coordinates.
@@ -356,7 +344,7 @@ export class mathf {
    */
   static distance(x1: number, y1: number, x2: number, y2: number): number {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  };
+  }
 
   /**
     * Calculates the offset value to center a given element within a container.
@@ -430,7 +418,6 @@ export class mathf {
     return x2 * y1 / x1;
   }
 
-
   /**
    * Given a width and height, returns the aspect ratio.
    * @param {box} dimensionalBox An object containing the width and height.
@@ -438,7 +425,6 @@ export class mathf {
   static aspectRatio(box: dimensionalBox): number {
     return box.width / box.height;
   }
-
 
   /**
    * Resizes a given dimensional box (width and height) to a given width while
@@ -449,9 +435,9 @@ export class mathf {
    */
   static resizedimensionalBoxToWidth(box: dimensionalBox, width: number): dimensionalBox {
     return {
-      width: width,
+      width,
       height: mathf.scaleY2(box.width, box.height, width)
-    }
+    };
   }
 
   /**
@@ -464,8 +450,8 @@ export class mathf {
   static resizedimensionalBoxToHeight(box: dimensionalBox, height: number): dimensionalBox {
     return {
       width: mathf.scaleY1(box.width, box.height, height),
-      height: height
-    }
+      height
+    };
   }
 
   /**
@@ -483,7 +469,6 @@ export class mathf {
   static clampAsPercent(percent: number) {
     return mathf.clamp(0, 1, mathf.absZero(percent));
   }
-
 
   /**
    * Used to get a value within a range by progress.
@@ -521,8 +506,6 @@ export class mathf {
     return mathf.clampAsPercent((val - min) / (max - min));
   }
 
-
-
   /**
    * An alias to getProgressInRangeByValue.
    */
@@ -550,7 +533,6 @@ export class mathf {
     amount = amount > 1 ? 1 : amount;
     return value1 + (value2 - value1) * amount;
   }
-
 
   /**
    * Given two boxes of different aspect ratios,
@@ -588,8 +570,8 @@ export class mathf {
    */
   static calculateBackgroundCover(
     parentBox: dimensionalBox, childBox: dimensionalBox): backgroundCoverBox {
-    let parentRatio = mathf.aspectRatio(parentBox);
-    let childRatio = mathf.aspectRatio(childBox);
+    const parentRatio = mathf.aspectRatio(parentBox);
+    const childRatio = mathf.aspectRatio(childBox);
 
     let finalWidth;
     let finalHeight;
@@ -605,14 +587,14 @@ export class mathf {
       finalHeight = childBox.height * scale;
     }
 
-    let finalScale = Math.max(
+    const finalScale = Math.max(
       (finalWidth / childBox.width),
       (finalHeight / childBox.height));
     // Position to vertical bottom.
-    let offsetHeight = mathf.absZero(
+    const offsetHeight = mathf.absZero(
       -Math.round((parentBox.height - finalHeight)));
     // Position to horizontal center.
-    let offsetWidth = mathf.absZero(
+    const offsetWidth = mathf.absZero(
       -Math.round((parentBox.width - finalWidth) / 2));
 
     return {
@@ -620,7 +602,7 @@ export class mathf {
       height: Math.round(finalHeight),
       xOffset: offsetWidth,
       yOffset: offsetHeight,
-      scalar: finalScale,
+      scalar: finalScale
     };
   }
 

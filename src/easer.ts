@@ -2,23 +2,22 @@
 import { mathf } from './mathf';
 import { EASE } from './ease';
 
-
 interface easerConfig {
     /**
      * The duration of the ease in ms.
      * @type {number}
      */
-    duration: number,
+    duration: number;
     /**
      * The delay of the ease in ms.
      * @type {number}
      */
-    delay: number
+    delay: number;
     /**
      * The easing function to use.
      * @type {Function}
      */
-    easeFunction: Function
+    easeFunction: Function;
 }
 
 /**
@@ -93,7 +92,6 @@ export class Easer {
         this.updateCallback_ = null;
     }
 
-
     reset(easerConfig?: easerConfig) {
         if (easerConfig) {
             // The duration of the ease.
@@ -109,29 +107,26 @@ export class Easer {
         this.endTime_ = 0;
     }
 
-
-
     /**
      * Starts the easing.
      */
-    public start() {
+    start() {
         this.startTime_ = new Date().getTime() + this.delay_;
         this.endTime_ = this.startTime_ + this.duration_;
         this.started_ = true;
     }
 
-
     /**
      * Adds a complete callback.
      */
-    public onComplete(callback: Function) {
+    onComplete(callback: Function) {
         this.completeCallback_ = callback;
     }
 
     /**
      * Adds a complete callback.
      */
-    public onUpdate(callback: Function) {
+    onUpdate(callback: Function) {
         this.updateCallback_ = callback;
     }
 
@@ -139,12 +134,12 @@ export class Easer {
      * Manually forces an update.
      * @param {Function?} callback to pass the ease calculations.
      */
-    public update() {
+    update() {
         if (!this.started_) {
             return;
         }
 
-        let currentTime = new Date().getTime();
+        const currentTime = new Date().getTime();
 
         // Check to see if we are more than our start time.
         if (currentTime < this.startTime_) {
@@ -152,11 +147,11 @@ export class Easer {
         }
 
         // The time passed since the ease started.
-        let timePassed = currentTime - (this.startTime_ || 0);
-        let percent = timePassed / this.duration_;
+        const timePassed = currentTime - (this.startTime_ || 0);
+        const percent = timePassed / this.duration_;
 
         // A value between 0 and 1 representing the current state of progression.
-        let progression: number = this.easeFunction_(
+        const progression: number = this.easeFunction_(
             mathf.clamp(0, 1, percent)
         );
 

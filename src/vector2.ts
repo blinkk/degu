@@ -8,8 +8,7 @@ class Vector2 {
 
   }
 
-
-  public x(): number {
+  x(): number {
     return 5;
   }
 
@@ -17,13 +16,12 @@ class Vector2 {
    * @param value Some number to output.
    * @return Comment for special return.kj
    */
-  public getX(value: number): number {
+  getX(value: number): number {
     return value;
   }
 
-
-  public hello() {
+  hello() {
     return 'hello3';
   }
 }
-export { Vector2 }
+export { Vector2 };
