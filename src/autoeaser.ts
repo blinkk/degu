@@ -32,7 +32,7 @@ export class AutoEaser {
     /**
      * @param {number} duration The duration of the ease in ms.
      * @param {number} delay The delay of the ease.
-     * @param {Ease} The easing function to calculate with.
+     * @param {Ease} ease easing function to calculate with.
      * @param {Function} onUpdate A function to be called on every update.
      * @param {Function} onComplete A function to be called when all easing ends.
      * @constructor
@@ -41,18 +41,24 @@ export class AutoEaser {
         onUpdate: Function, onComplete: Function) {
 
         // Setup Easer.
-        this.easer = new Easer(duration, delay, ease);
-        this.easer.onEnd(() => {
+        this.easer = new Easer({
+            duration: duration,
+            delay: delay,
+            easeFunction: ease
+        });
+
+        this.easer.onComplete(() => {
             onComplete && onComplete();
             this.destroy();
+        });
+        this.easer.onUpdate((currentValue: number, complete: boolean) => {
+            onUpdate(currentValue, complete);
         });
 
 
         // Setup Raf.
         this.raf = new Raf(() => {
-            this.easer.update((currentValue: number, complete: Function) => {
-                onUpdate(currentValue, complete);
-            })
+            this.easer.update();
         });
     }
 
