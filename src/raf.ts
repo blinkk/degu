@@ -21,7 +21,7 @@
  */
 export class Raf {
 
-    public rafLoop: Function;
+    private rafLoop: Function;
     private raf_: any;
     private frame: number | null;
     private lastUpdateTime: number;
