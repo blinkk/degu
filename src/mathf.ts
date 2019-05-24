@@ -25,8 +25,14 @@ export interface backgroundCoverBox {
 export class mathf {
 
   /**
-   * Tests whether if a given number if -0, in which case it will return
-   * 0.  Any other number will just pass through.
+   * Returns 0 if value is 0 or -0, otherwise, passes through the value.
+   * ```ts
+   * mathf.absZero(-0)  --> 0
+   * mathf.absZero(0)  --> 0
+   * mathf.absZero(10)  --> 10
+   * mathf.absZero(-12)  --> -12
+   * ```
+   * @tested
    */
   static absZero(value: number) {
     return value == -0 ? 0 : value;
@@ -419,6 +425,13 @@ export class mathf {
 
   /**
    * Clamps a value within 0-1.
+   * ```
+   * mathf.clampAsPercent(0.2) --> 0.2
+   * mathf.clampAsPercent(1) --> 1
+   * mathf.clampAsPercent(-2) --> 0
+   * mathf.clampAsPercent(2) -->  1
+   * ```
+   * @tested
    * @param percent
    * @return percent A value within 0-1.
    */
