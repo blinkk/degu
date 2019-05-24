@@ -37,7 +37,7 @@ export class dom {
      *
      *  window.addEventListener('scroll', () => {
      *     let progress =
-     *             mathf.getElementScrollThroughDistanceAsPercent(this.stickyParent_);
+     *             mathf.getElementScrolledPercent(this.stickyParent_);
      *     // 0 when the above the element,
      *     // increases as you scroll thorugh
      *     // 1 when the bottom of the element reaches the bottom of the screen.
@@ -59,7 +59,7 @@ export class dom {
      * @return {number} percent The amount in percentage that the user has scrolled
      *     in the element.
      */
-    getElementScrollThroughDistanceAsPercent(element: HTMLElement) {
+    static getElementScrolledPercent(element: HTMLElement): number {
         const box = element.getBoundingClientRect();
         const wh = window.innerHeight;
         // We need to calculate this so that we start the 0% when the element comes
