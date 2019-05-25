@@ -536,6 +536,9 @@ export class mathf {
    * this can be replaced with:
    * ```
    * onRafLoop() {
+   *   // Same thing. Update the position by 20% of the distance between
+   *   // position and target on each raf loop.  This has the effect of
+   *   // tweening in the position to the target.
    *   position.x = mathf.lerp(position.x, target.x, 0.2);
    * }
    * ```
@@ -574,10 +577,15 @@ export class mathf {
   /**
    * An alias of [[mathf.lerpEase]]
    * @alias
+   * @param {number} start The start of the range to lerp.
+   * @param {number} end The target of the range to lerp.
+   * @param {number} progress A value between 0-1 representing the progress of the
+   *     lerp.
+   * @param easeFunction An easing function. See [[ease]]
    */
-  static ease(value1: number, value2: number,
-    amount: number, easeFunction: Function): number {
-    return mathf.lerpEase(value1, value2, amount, easeFunction);
+  static ease(start: number, end: number,
+    progress: number, easeFunction: Function): number {
+    return mathf.lerpEase(start, end, progress, easeFunction);
   }
 
 
