@@ -321,8 +321,8 @@ export class mathf {
    * @return {Array.<Object>} An array of objects containing x, y values.
    */
   static generateRandomPoints = (num: number,
-                                 minX: number, maxX: number,
-                                 minY: number, maxY: number
+    minX: number, maxX: number,
+    minY: number, maxY: number
   ) => {
     const points = [];
     for (let i = 0; i < num; i++) {
@@ -522,6 +522,24 @@ export class mathf {
    * mathf.lerp(0, 2, 0.5) ----> 1
    * mathf.lerp(25, 79, 0.2) ----> 35.8
    * ```
+   *
+   * Lerp can be used for various things.  See [[mathf.getValueINRangeByProgress]]
+   * which is an alias of lerp.
+   *
+   * Lerp can also be used for animations.   If you were doing the old school:
+   * ```
+   * onRafLoop() {
+   *   // Update the position by 20% of the distance between position and target.
+   *   position.x += (target.x - position.x) * 0.2;
+   * }
+   * ```
+   * this can be replaced with:
+   * ```
+   * onRafLoop() {
+   *   position.x = mathf.lerp(position.x, target.x, 0.2);
+   * }
+   * ```
+   *
    * @tested
    * @param {number} value1 The low-end of the range to lerp.
    * @param {number} value2 The high-end of the range to lerp.
