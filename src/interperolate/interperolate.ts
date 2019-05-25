@@ -8,12 +8,12 @@
  *
  *
  * ```
- *
+ * @hidden
  *
  */
 export class Interperolate {
 
-    calculate(current, target, progress) {
+    calculate(current: number, target: number, progress: number) {
 
     }
 

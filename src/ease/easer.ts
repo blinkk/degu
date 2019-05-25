@@ -24,7 +24,7 @@ export interface easerConfig {
      * For most cases, don't turn this on.
      * @type {boolean}
      */
-    disableRaf: Function;
+    disableRaf: boolean;
 }
 
 /**
@@ -171,7 +171,7 @@ export class Easer {
      * @return The internal instance of raf.
      */
     getRaf(): Raf {
-        this.raf_;
+        return this.raf_;
     }
 
     /**
