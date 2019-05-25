@@ -30,6 +30,7 @@ export interface easerConfig {
 
 /**
  * A very simple time based tween implementation.
+ * TODO (uxder); Possibly refactor this to use raf-timer instead.
  *
  * ```ts
  * import { Raf, Easer} from 'yano-js';
@@ -212,7 +213,7 @@ export class Easer {
             return;
         }
 
-        const currentTime = new Date().getTime();
+        const currentTime = time.now();
 
         // Check to see if we are more than our start time.
         if (currentTime < this.startTime_) {

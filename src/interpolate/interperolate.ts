@@ -23,6 +23,7 @@ export interface interpolateConfig {
 /**
  * A class that interperolate between values. Interperolate is similar to
  * mathf.ease.
+ * @hidden
  * ```
  * import { ease, Interpolate } from 'yano-js'
  * let inter = new Interpolate({
