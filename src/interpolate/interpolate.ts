@@ -23,7 +23,8 @@ export interface interpolateConfig {
 /**
  * A class that interperolate between values. Interperolate is really a
  * compositoin around mathf.ease.
- * ```
+ *
+ * ```ts
  * import { ease, Interpolate } from 'yano-js'
  * let inter = new Interpolate({
  *   from: 0,
@@ -42,7 +43,8 @@ export interface interpolateConfig {
  * This can be useful to create low level tweens.
  * Here for example, we can manually, tween the x and y positions
  * of a ball with separate easing.
- * ```
+ *
+ * ```ts
  * import { Raf, EASE, Interpolate } from 'yano-js'
  *
  * this.progress = 0;
