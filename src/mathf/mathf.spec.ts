@@ -1,4 +1,5 @@
 import { mathf } from './mathf';
+import { EASE } from '../ease/ease';
 import test from 'ava';
 
 test('absZero', t => {
@@ -66,6 +67,47 @@ test('lerp', t => {
     t.is(mathf.lerp(100, 10, 0), 100);
     t.is(mathf.lerp(0, 100, 0.5), 50);
     t.is(mathf.lerp(25, 79, 0.2), 35.8);
+});
+
+test('lerpEase', t => {
+    // Check ease interopolate.
+    let ease = EASE.easeInExpo;
+    t.is(mathf.lerpEase(0, 1, 0, ease), 0);
+    t.is(mathf.lerpEase(0, 1, 0.1, ease), 0.001953125);
+    t.is(mathf.lerpEase(0, 1, 0.2, ease), 0.00390625);
+    t.is(mathf.lerpEase(0, 1, 0.3, ease), 0.0078125);
+    t.is(mathf.lerpEase(0, 1, 0.5, ease), 0.03125);
+    t.is(mathf.lerpEase(0, 1, 0.9, ease), 0.5000000000000001);
+    t.is(mathf.lerpEase(0, 1, 0.95, ease), 0.7071067811865474);
+    t.is(mathf.lerpEase(0, 1, 1, ease), 1);
+
+    ease = EASE.easeInOutSine;
+    t.is(mathf.lerpEase(0, 1, 0, ease), 0);
+    t.is(mathf.lerpEase(0, 1, 0.5, ease), 0.49999999999999994);
+    t.is(mathf.lerpEase(0, 1, 1, ease), 1);
+
+    ease = EASE.easeInBounce;
+    t.is(mathf.lerpEase(0, 1, 0, ease), 0);
+    t.is(mathf.lerpEase(0, 1, 0.5, ease), 0.234375);
+    t.is(mathf.lerpEase(0, 1, 1, ease), 1);
+
+    ease = EASE.easeInOutElastic;
+    t.is(mathf.lerpEase(0, 1, 0, ease), 0);
+    t.is(mathf.lerpEase(0, 1, 0.5, ease), 0.5);
+    t.is(mathf.lerpEase(0, 1, 1, ease), 1);
+
+    ease = EASE.linear;
+    t.is(mathf.lerpEase(0, 1, 0, ease), 0);
+    t.is(mathf.lerpEase(0, 1, 0.1, ease), 0.1);
+    t.is(mathf.lerpEase(0, 1, 0.2, ease), 0.2);
+    t.is(mathf.lerpEase(0, 1, 0.3, ease), 0.3);
+    t.is(mathf.lerpEase(0, 1, 0.4, ease), 0.4);
+    t.is(mathf.lerpEase(0, 1, 0.5, ease), 0.5);
+    t.is(mathf.lerpEase(0, 1, 0.6, ease), 0.6);
+    t.is(mathf.lerpEase(0, 1, 0.7, ease), 0.7);
+    t.is(mathf.lerpEase(0, 1, 0.8, ease), 0.8);
+    t.is(mathf.lerpEase(0, 1, 0.9, ease), 0.9);
+    t.is(mathf.lerpEase(0, 1, 1, ease), 1);
 });
 
 test('fixDigits', t => {

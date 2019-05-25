@@ -321,8 +321,8 @@ export class mathf {
    * @return {Array.<Object>} An array of objects containing x, y values.
    */
   static generateRandomPoints = (num: number,
-                                 minX: number, maxX: number,
-                                 minY: number, maxY: number
+    minX: number, maxX: number,
+    minY: number, maxY: number
   ) => {
     const points = [];
     for (let i = 0; i < num; i++) {
@@ -541,9 +541,10 @@ export class mathf {
    * ```
    *
    * @tested
-   * @param {number} value1 The low-end of the range to lerp.
-   * @param {number} value2 The high-end of the range to lerp.
-   * @param {number} amount A value between 0-1.  1 would essentially mean no lerp.
+   * @param {number} value1 The start of the range to lerp.
+   * @param {number} value2 The target of the range to lerp.
+   * @param {number} amount A value between 0-1 representing the progress of the
+   *     lerp.
    * @return {number} The interporalated value.
    */
   static lerp(value1: number, value2: number, amount: number): number {
@@ -551,6 +552,34 @@ export class mathf {
     amount = amount > 1 ? 1 : amount;
     return value1 + (value2 - value1) * amount;
   }
+
+
+  /**
+   * Same as lerp but will apply an easingFunction to the current
+   * progress, prior to running lerp.
+   *
+   * @tested
+   * @param {number} value1 The start of the range to lerp.
+   * @param {number} value2 The target of the range to lerp.
+   * @param {number} amount A value between 0-1 representing the progress of the
+   *     lerp.
+   * @param easeFunction An easing function. See [[ease]]
+   */
+  static lerpEase(value1: number, value2: number,
+    amount: number, easeFunction: Function): number {
+    amount = easeFunction(amount);
+    return mathf.lerp(value1, value2, amount);
+  }
+
+  /**
+   * An alias of [[mathf.lerpEase]]
+   * @alias
+   */
+  static ease(value1: number, value2: number,
+    amount: number, easeFunction: Function): number {
+    return mathf.lerpEase(value1, value2, amount, easeFunction);
+  }
+
 
   /**
    * Given two boxes of different aspect ratios,
