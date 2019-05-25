@@ -510,7 +510,7 @@ export class mathf {
   }
 
   /**
-   * An alias to [[math.f.getProgressInRangeByValue]].
+   * An alias to [[mathf.getProgressInRangeByValue]].
    */
   static normalize(val: number, min: number, max: number): number {
     return mathf.getProgressInRangeByValue(val, min, max);
@@ -526,7 +526,7 @@ export class mathf {
    * mathf.lerp(25, 79, 0.2) ----> 35.8
    * ```
    *
-   * Lerp can be used for various things.  See [[mathf.getValueINRangeByProgress]]
+   * Lerp can be used for various things.  See [[mathf.getValueInRangeByProgress]]
    * which is an alias of lerp.
    *
    * Lerp can also be used for animations.   If you were doing the old school:
@@ -621,12 +621,12 @@ export class mathf {
    * Progress can be time, scroll position, mouse position etc but it needs to
    * be normalized to a value between 0 and 1.
    *
-   * See examples of this in [[rafTimer]] where there is a demo of easing an
+   * See examples of this in [[RafTimer]] where there is a demo of easing an
    * element for a set duration.  Also see mathf-ease.html in the /examples
    * folder where there is element and progress level easing to smooth
    * interaction.
    *
-   * Also related is [[interpolate]].
+   * Also related is [[Interpolate]].
    *
    * @alias
    * @param {number} start The start of the range to lerp.
