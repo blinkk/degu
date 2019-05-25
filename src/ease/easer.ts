@@ -1,8 +1,9 @@
 
 import { mathf } from '../mathf/mathf';
 import { EASE } from './ease';
+import { Raf } from '../raf/raf';
 
-interface easerConfig {
+export interface easerConfig {
     /**
      * The duration of the ease in ms.
      * @type {number}
@@ -18,17 +19,45 @@ interface easerConfig {
      * @type {Function}
      */
     easeFunction: Function;
+    /**
+     * Whether to disable the internal Raf update cycles of easer.
+     * For most cases, don't turn this on.
+     * @type {boolean}
+     */
+    disableRaf: Function;
 }
 
 /**
  * A very simple time based tween implementation.
  *
  * ```ts
- * import { raf, easer} from 'yano-js';
+ * import { Raf, Easer} from 'yano-js';
+ *
+ * // Simple example.
  * let easer = new Easer({
  *   duration: 200,
  *   delay: 100,
  *   easeFunction: EASE.linear
+ * });
+ * easer.onUpdate((easeValue, complete)=> {
+ *   // Called on each raf cycle.
+ *   // element.style.left = 100 * easeValue + 'px';
+ * })
+ * easer.onComplete(()=> {
+ *   // Easing is done!
+ * })
+ * easer.start(); // Start easer
+ *
+ *
+ *
+ *
+ * // Example where you want to handle raf updates on your own.
+ * // Here we tell easer that we will be calling the easer.calculate method
+ * // on raf.
+ * let easer = new Easer({
+ *   duration: 200,
+ *   easeFunction: EASE.easeInOutExpo,
+ *   disableRaf: true // Note that this option is set to true.
  * });
  * easer.onComplete(()=> {
  *   console.log('this gets called on completion');
@@ -40,12 +69,19 @@ interface easerConfig {
  *   // element.style.left = 100 * easeValue + 'px';
  * })
  *
- * var raf = new raf(()=> {
- *   easer.update();
+ * // Since we told easer to not internall update on raf, we need to
+ * // call calculate and tell easer to calculate.
+ * var raf = new Raf(()=> {
+ *   easer.calculate();
  * });
  *
+ * // As an example, we throttle our raf instance to 10 FPS so easer will
+ * // only update at 10 frames per second.
+ * raf.setFps(10);
+ *
  * easer.start(); // Start easer
- * raf.start(); // Start raf.
+ * raf.start(); // Start raf so easer calculate is called.
+ *
  * ```
  *
  *
@@ -60,9 +96,11 @@ export class Easer {
     private started_: boolean;
     private completeCallback_: Function | null;
     private updateCallback_: Function | null;
+    private raf_: Raf;
+    private rafDisabled_: boolean;
 
     /**
-     * @param {easerConfig}
+     * @param {easerConfig} The easing configuration
      * @constructor
      */
     constructor(private easerConfig: easerConfig) {
@@ -90,6 +128,18 @@ export class Easer {
 
         // A single update callback.
         this.updateCallback_ = null;
+
+        // Internal instance of raf.
+        this.raf_ = new Raf(() => {
+            this.calculate();
+        })
+
+        // Whether raf is disabled.  When this option is true, easer will
+        // no longer interally call Raf and instead expects easer.calculate()
+        // to be called on each Raf.  Disabling raf within easer might be
+        // a more advanced usercase in which an application wants to
+        // have control over easer and it's calculate timings.
+        this.rafDisabled_ = easerConfig.disableRaf || false;
     }
 
     reset(easerConfig?: easerConfig) {
@@ -105,6 +155,15 @@ export class Easer {
         this.started_ = false;
         this.startTime_ = 0;
         this.endTime_ = 0;
+        this.raf_ && this.raf_.stop();
+    }
+
+    /**
+     * Returns the internal instance of raf.
+     * @return The internal instance of raf.
+     */
+    getRaf(): Raf {
+        this.raf_;
     }
 
     /**
@@ -114,6 +173,10 @@ export class Easer {
         this.startTime_ = new Date().getTime() + this.delay_;
         this.endTime_ = this.startTime_ + this.duration_;
         this.started_ = true;
+
+        if (!this.rafDisabled_) {
+            this.raf_ && this.raf_.start();
+        }
     }
 
     /**
@@ -131,10 +194,10 @@ export class Easer {
     }
 
     /**
-     * Manually forces an update.
-     * @param {Function?} callback to pass the ease calculations.
+     * Calculates the current ease.  This method should generally be
+     * called at 60FPS by Raf.
      */
-    update() {
+    calculate() {
         if (!this.started_) {
             return;
         }
@@ -167,6 +230,11 @@ export class Easer {
             this.updateCallback_ && this.updateCallback_(progression, complete);
         }
 
+    }
+
+
+    dispose() {
+        this.raf_ && this.raf_.stop();
     }
 
 }

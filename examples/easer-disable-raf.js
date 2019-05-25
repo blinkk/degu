@@ -1,9 +1,11 @@
+
+import { Raf } from '../lib/raf/raf';
 import { Easer } from '../lib/ease/easer';
 import { EASE } from '../lib/ease/ease';
 
-export default class EaserSample {
+export default class EaserDisableRafSample {
     constructor() {
-        console.log('easer');
+        console.log('easer - disable raf sample');
         const ball = document.getElementById('ball');
         this.durationElement = document.getElementById('duration');
         this.delayElement = document.getElementById('delay');
@@ -19,6 +21,7 @@ export default class EaserSample {
             duration: duration,
             delay: delay,
             easeFunction: EASE.easeInOutExpo,
+            disableRaf: true
         });
 
         easer.onUpdate((progression, complete) => {
@@ -31,6 +34,12 @@ export default class EaserSample {
             console.log('complete', progression);
         });
 
+        // Easer expects to be updated on each raf cycle.
+        this.raf = new Raf(() => {
+            easer.calculate();
+        });
+
+        this.raf.start();
 
         // Start the easer on clicking the button.
         document.getElementById('start').addEventListener('click', () => {

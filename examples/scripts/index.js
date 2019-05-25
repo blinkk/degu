@@ -3,10 +3,12 @@ import '../styles/index.sass';
 // Examples.
 import RafSample from '../raf';
 import EaserSample from '../easer';
+import EaserDisableRafSample from '../easer-disable-raf';
 
 const samples = {
   'rafSample': RafSample,
-  'easerSample': EaserSample
+  'easerSample': EaserSample,
+  'easerDisableRafSample': EaserDisableRafSample
 };
 
 class Main {
