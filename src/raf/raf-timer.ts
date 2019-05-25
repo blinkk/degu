@@ -4,11 +4,10 @@ import { mathf } from '../mathf/mathf';
 import { Raf } from './raf'
 
 /**
- * A raf based timer.
+ * A Raf based timer.  This class allows you to run RAF for only a
+ * set duration and then stop.
  *
- * Similar to Raf but only runs for a specific amount of time
- * and then stops.
- *
+ * This can be useful to do things like one time animations.
  *
  * Here is an example of running the rafTimer for 300ms
  * and lerping the x value of the box.
