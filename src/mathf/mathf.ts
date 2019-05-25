@@ -522,7 +522,7 @@ export class mathf {
    * mathf.lerp(0, 1, 0)   ---> 0
    * mathf.lerp(0, 1, 0.2) ---> 0.2
    * mathf.lerp(0, 1, 0.5) ---> 0.5
-   * mathf.lerp(0, 2, 0.5) ----> EASE
+   * mathf.lerp(0, 2, 0.5) ----> 1
    * mathf.lerp(25, 79, 0.2) ----> 35.8
    * ```
    *
@@ -621,7 +621,12 @@ export class mathf {
    * Progress can be time, scroll position, mouse position etc but it needs to
    * be normalized to a value between 0 and 1.
    *
-   * See examples of this in [[rafTimer]].
+   * See examples of this in [[rafTimer]] where there is a demo of easing an
+   * element for a set duration.  Also see mathf-ease.html in the /examples
+   * folder where there is element and progress level easing to smooth
+   * interaction.
+   *
+   * Also related is [[interpolate]].
    *
    * @alias
    * @param {number} start The start of the range to lerp.

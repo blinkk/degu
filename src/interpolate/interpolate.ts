@@ -21,9 +21,8 @@ export interface interpolateConfig {
 }
 
 /**
- * A class that interperolate between values. Interperolate is similar to
- * mathf.ease.
- * @hidden
+ * A class that interperolate between values. Interperolate is really a
+ * compositoin around mathf.ease.
  * ```
  * import { ease, Interpolate } from 'yano-js'
  * let inter = new Interpolate({
@@ -44,18 +43,18 @@ export interface interpolateConfig {
  * Here for example, we can manually, tween the x and y positions
  * of a ball with separate easing.
  * ```
- * import { Raf, ease, Interpolate } from 'yano-js'
+ * import { Raf, EASE, Interpolate } from 'yano-js'
  *
  * this.progress = 0;
  * let ballXInter = new Interpolate({
  *   from: 30,
  *   to: 100 ,
- *   easeFunction: ease.easeOutSine
+ *   easeFunction: EASE.easeOutSine
  * })
  * let ballYInter = new Interpolate({
  *   from: 30,
  *   to: 100 ,
- *   easeFunction: ease.linear
+ *   easeFunction: EASE.linear
  * })
  *
  * // See RafTimer for how this works.  Basically, here we are running raf for
@@ -70,7 +69,7 @@ export interface interpolateConfig {
  *
  * ```
  */
-export class Interperolate {
+export class Interpolate {
 
     /**
      * The current interperolated value.
@@ -82,16 +81,22 @@ export class Interperolate {
      */
     public currentProgress: number;
 
-    constructor(private interperolateConfig: interpolateConfig) {
-        this.currentValue = this.interperolateConfig.from;
+    constructor(private interpolateConfig: interpolateConfig) {
+        this.currentValue = this.interpolateConfig.from;
         this.currentProgress = 0;
 
         // Assume we start on preogress 0.
         this.calculate(0);
+
+        console.log(this.interpolateConfig);
     }
 
-    updateSettings(interperolateConfig: interpolateConfig) {
-        this.interperolateConfig = interperolateConfig;
+    /**
+     * Modify the interpolate settings.
+     * @param interpolateConfig
+     */
+    modify(interpolateConfig: interpolateConfig): Interpolate {
+        return new Interpolate(interpolateConfig);
     }
 
     calculate(progress: number) {
@@ -99,10 +104,10 @@ export class Interperolate {
         this.currentProgress = progress;
 
         this.currentValue = mathf.ease(
-            this.currentValue,
-            this.interperolateConfig.to,
+            this.interpolateConfig.from,
+            this.interpolateConfig.to,
             this.currentProgress,
-            this.interperolateConfig.easeFunction);
+            this.interpolateConfig.easeFunction);
 
         return this.currentValue;
     }
