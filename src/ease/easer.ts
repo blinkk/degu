@@ -49,11 +49,11 @@ export interface easerConfig {
  * easer.start(); // Start easer
  *
  *
- * Note that calling easer.onComplete() without a callback, will return
- * a promise.
- *
- * easer.onComplete().then(()=> { console.log('done!')});
- *
+ * // You can also listen to completion as a promise but note that it will
+ * // be called one time only when the easer completes teh first time.
+ * easer.completePromise().then(() => {
+ *    console.log('one time promise complete');
+ * });
  *
  * // Example where you want to handle raf updates on your own.
  * // Here we tell easer that we will be calling the easer.calculate method
