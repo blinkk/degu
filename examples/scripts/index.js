@@ -1,20 +1,22 @@
 import '../styles/index.sass';
 
 // Examples.
-import RafSample from '../raf';
-import RafTimerSample from '../raf-timer';
-import EaserSample from '../easer';
+import CssProgressTweenSample from '../css-progress-tween';
 import EaserDisableRafSample from '../easer-disable-raf';
+import EaserSample from '../easer';
 import InterpolateSample from '../interpolate';
 import MathfEaseSample from '../mathf-ease';
+import RafSample from '../raf';
+import RafTimerSample from '../raf-timer';
 
 const samples = {
-  'rafSample': RafSample,
-  'rafTimerSample': RafTimerSample,
-  'easerSample': EaserSample,
+  'cssProgressTweenSample': CssProgressTweenSample,
   'easerDisableRafSample': EaserDisableRafSample,
+  'easerSample': EaserSample,
   'interpolateSample': InterpolateSample,
-  'mathfEaseSample': MathfEaseSample
+  'mathfEaseSample': MathfEaseSample,
+  'rafSample': RafSample,
+  'rafTimerSample': RafTimerSample
 };
 
 class Main {

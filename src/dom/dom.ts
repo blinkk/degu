@@ -69,4 +69,15 @@ export class dom {
         return mathf.clampAsPercent(percent);
     }
 
+
+    /**
+     * Sets a css variable to an element
+     * @param element The element to set the css variable.
+     * @param name The name of the css variable.
+     * @param value The value to set.
+     */
+    static setCssVariable(element: HTMLElement, name: string, value: string | number) {
+        element.style.setProperty(name, key)
+    }
+
 }

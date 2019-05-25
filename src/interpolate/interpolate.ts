@@ -68,6 +68,7 @@ export interface interpolateConfig {
  *   ball.y = ballYInter.calculate(this.progress);
  * }).start(300);
  *
+ * See more examples in the /examples folder
  *
  * ```
  */
@@ -89,8 +90,6 @@ export class Interpolate {
 
         // Assume we start on preogress 0.
         this.calculate(0);
-
-        console.log(this.interpolateConfig);
     }
 
     /**
