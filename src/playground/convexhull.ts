@@ -13,11 +13,11 @@ export class ConvexHull {
      * @return {Array.<number>} A set of x,y points.
      */
     calculate(points: number[]) {
-        points.sort(function (a, b) {
+        points.sort(function(a, b) {
             return a[0] == b[0] ? a[1] - b[1] : a[0] - b[0];
         });
 
-        let lower = [];
+        const lower = [];
         for (let i = 0; i < points.length; i++) {
             while (lower.length >= 2 &&
                 this.cross(lower[lower.length - 2],
@@ -28,7 +28,7 @@ export class ConvexHull {
             lower.push(points[i]);
         }
 
-        let upper: number[] = [];
+        const upper: number[] = [];
 
         for (let i = points.length - 1; i >= 0; i--) {
             while (upper.length >= 2 &&

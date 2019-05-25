@@ -25,7 +25,7 @@ export class Parallaxer {
      * TODO(uxder) Clean this up.
      */
     constructor(rootElement: HTMLElement, rotationSensitivity: any,
-        translateSensitity: any, pivotElement?: HTMLElement) {
+                translateSensitity: any, pivotElement?: HTMLElement) {
 
         /**
          * Flag to allow animation.

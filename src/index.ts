@@ -5,5 +5,5 @@ import { Raf } from './raf/raf';
 export {
     dom,
     mathf,
-    Raf,
+    Raf
 };

@@ -27,8 +27,17 @@ export default class EaserSample {
             ball.style.transform = `translateX(${progression * 80}vw)`;
         });
 
+        // Listen to complete as callback.
         easer.onComplete((progression, complete) => {
             console.log('complete', progression);
+        });
+
+        // Listen to complete as Promise.
+        // This will run once when the easing completes.
+        // If you rerun the animation, this initial promise is resolved
+        // so it won't run again.
+        easer.completePromise().then(() => {
+            console.log('one time promise complete');
         });
 
 

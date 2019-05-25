@@ -49,6 +49,10 @@ export interface easerConfig {
  * easer.start(); // Start easer
  *
  *
+ * Note that calling easer.onComplete() without a callback, will return
+ * a promise.
+ *
+ * easer.onComplete().then(()=> { console.log('done!')});
  *
  *
  * // Example where you want to handle raf updates on your own.
@@ -96,6 +100,7 @@ export class Easer {
     private started_: boolean;
     private completeCallback_: Function | null;
     private updateCallback_: Function | null;
+    private completePromiseResolve_: Function | null;
     private raf_: Raf;
     private rafDisabled_: boolean;
 
@@ -129,10 +134,13 @@ export class Easer {
         // A single update callback.
         this.updateCallback_ = null;
 
+        // The resolving function for the complete promise (if used).
+        this.completePromiseResolve_ = null;
+
         // Internal instance of raf.
         this.raf_ = new Raf(() => {
             this.calculate();
-        })
+        });
 
         // Whether raf is disabled.  When this option is true, easer will
         // no longer interally call Raf and instead expects easer.calculate()
@@ -169,7 +177,7 @@ export class Easer {
     /**
      * Starts the easing.
      */
-    start() {
+    start(): void {
         this.startTime_ = new Date().getTime() + this.delay_;
         this.endTime_ = this.startTime_ + this.duration_;
         this.started_ = true;
@@ -182,14 +190,31 @@ export class Easer {
     /**
      * Adds a complete callback.
      */
-    onComplete(callback: Function) {
+    onComplete(callback: Function): void {
         this.completeCallback_ = callback;
+    }
+
+
+    /**
+     * Returns a ONE time only promise when this easer completes.
+     * One the animation completes, restarting the animation won't
+     * call the promise again since the promise is already resolved.
+     *
+     * If you want a callback that will always be called, use onComplete
+     * or call this method each time you start the animation.
+     *
+     * @return Returns a promise if not callback is specified.
+     */
+    completePromise(): Promise<void> {
+        return new Promise((resolve) => {
+            this.completePromiseResolve_ = resolve;
+        });
     }
 
     /**
      * Adds a complete callback.
      */
-    onUpdate(callback: Function) {
+    onUpdate(callback: Function): void {
         this.updateCallback_ = callback;
     }
 
@@ -197,7 +222,7 @@ export class Easer {
      * Calculates the current ease.  This method should generally be
      * called at 60FPS by Raf.
      */
-    calculate() {
+    calculate(): void {
         if (!this.started_) {
             return;
         }
@@ -223,7 +248,9 @@ export class Easer {
         if (percent > 1) {
             // Ensure the ease amount ends on 1.
             this.updateCallback_ && this.updateCallback_(1, complete);
-            this.completeCallback_ && this.completeCallback_();
+            this.completeCallback_ && this.completeCallback_(1, complete);
+            this.completePromiseResolve_ &&
+                this.completePromiseResolve_(1, complete);
             complete = true;
             this.started_ = false;
         } else {
@@ -232,8 +259,7 @@ export class Easer {
 
     }
 
-
-    dispose() {
+    dispose(): void {
         this.raf_ && this.raf_.stop();
     }
 

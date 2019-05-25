@@ -321,8 +321,8 @@ export class mathf {
    * @return {Array.<Object>} An array of objects containing x, y values.
    */
   static generateRandomPoints = (num: number,
-    minX: number, maxX: number,
-    minY: number, maxY: number
+                                 minX: number, maxX: number,
+                                 minY: number, maxY: number
   ) => {
     const points = [];
     for (let i = 0; i < num; i++) {
