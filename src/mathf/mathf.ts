@@ -457,7 +457,7 @@ export class mathf {
 
   /**
    * Clamps a value within 0-1.
-   * ```
+   * ```ts
    * mathf.clampAsPercent(0.2) --> 0.2
    * mathf.clampAsPercent(1) --> 1
    * mathf.clampAsPercent(-2) --> 0
@@ -494,10 +494,12 @@ export class mathf {
   }
 
   /**
-   * Used to get progress within a range by value.
+   * Normalizes a given range (min and max) to a progress (a value between 0 and
+   * 1)
    * For instance, let's say you have a range of 325-1450.
    * You want 0% = 325 and 100% = 1450.
    * You can pass a value 420 and this will return the progress (percentage).
+   *
    * @param {number} value The value to determine the progress.
    * @param {number} min The low end of the range.
    * @param {number} max The high end of the range.
@@ -508,7 +510,7 @@ export class mathf {
   }
 
   /**
-   * An alias to getProgressInRangeByValue.
+   * An alias to [[math.f.getProgressInRangeByValue]].
    */
   static normalize(val: number, min: number, max: number): number {
     return mathf.getProgressInRangeByValue(val, min, max);
@@ -528,14 +530,14 @@ export class mathf {
    * which is an alias of lerp.
    *
    * Lerp can also be used for animations.   If you were doing the old school:
-   * ```
+   * ```ts
    * onRafLoop() {
    *   // Update the position by 20% of the distance between position and target.
    *   position.x += (target.x - position.x) * 0.2;
    * }
    * ```
    * this can be replaced with:
-   * ```
+   * ```ts
    * onRafLoop() {
    *   // Same thing. Update the position by 20% of the distance between
    *   // position and target on each raf loop.  This has the effect of
