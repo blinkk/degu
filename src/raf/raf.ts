@@ -4,7 +4,7 @@ import { time } from '../time/time';
  * frame rate will throttle the animation.
  *
  * Example usage;
- * ```
+ * ```ts
  * var raf = new Raf((frame, lastUpdateTime, stop)=> {
  *   console.log('this runs on request animation frame');
  * });

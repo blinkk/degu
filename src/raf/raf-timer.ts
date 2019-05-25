@@ -11,7 +11,7 @@ import { Raf } from './raf'
  *
  * Here is an example of running the rafTimer for 300ms
  * and lerping the x value of the box.
- * ```
+ * ```ts
  * // Box x starting value.
  * box.x = 0;
  *
@@ -23,6 +23,8 @@ import { Raf } from './raf'
  *   // console.log('progress')
  *
  *
+ *   // Will move the box from 0 (starting) to 500
+ *   // based on the progress.
  *   box.x = mathf.lerp(box.x, 500, progress);
  *
  *   // or go fancy and add easing to the progress!
@@ -33,7 +35,7 @@ import { Raf } from './raf'
  *   // Do something on completion.
  * })
  *
- * // Set the duration of the rafTimer.
+ * // Set the duration of the rafTimer 300 and start it.
  * rafTimer.setDuration(300);
  * rafTimer.start();
  *
@@ -57,10 +59,6 @@ import { Raf } from './raf'
  *   }, { once: true});
  *
  * })
- *
- *
- *
- *
  *
  * ```
  */
