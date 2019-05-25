@@ -56,11 +56,9 @@ export default class MathfEaseSample {
                 this.progress = progress;
             }
 
-
             // Positions with just pure math lerping.
             let x = mathf.ease(0, 500, this.progress, EASE.easeOutSine);
             let y = mathf.ease(0, 500, this.progress, EASE.easeInCubic);
-
 
             this.updateBallPosition(x, y);
         });

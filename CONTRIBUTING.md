@@ -59,6 +59,13 @@ npm run publish-doc
 - Use [typedoc](https://typedoc.org/guides/doccomments/)
 - Linting - tslint is used.  See tslinkt.json
 
+When writing a class
+- create an example in /examples.  The example should focus on just using that
+  class and the rest should be vanilla JS if possible.  this is because when
+  someone is trying to learn a library, it's really hard if the examples use a
+  lot of methods and classes that are unfamiliar.  The exception would be
+  for advanced examples.
+
 
 ### Testing with Ava
 Tests use wonderful [ava](https://github.com/avajs/ava).

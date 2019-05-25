@@ -25,11 +25,11 @@ export interface interpolateConfig {
  * compositoin around mathf.ease.
  *
  * ```ts
- * import { ease, Interpolate } from 'yano-js'
+ * import { EASE, Interpolate } from 'yano-js'
  * let inter = new Interpolate({
  *   from: 0,
  *   to: 100,
- *   easeFunction: ease.linear
+ *   easeFunction: EASE.linear
  * });
  *
  * inter.calculate(0.3);  // return 30.
