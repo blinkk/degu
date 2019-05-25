@@ -108,6 +108,38 @@ test('lerpEase', t => {
     t.is(mathf.lerpEase(0, 1, 0.8, ease), 0.8);
     t.is(mathf.lerpEase(0, 1, 0.9, ease), 0.9);
     t.is(mathf.lerpEase(0, 1, 1, ease), 1);
+
+
+    // Test lerp ease without an ease function (should default to linear)
+    t.is(mathf.lerpEase(0, 1, 0), 0);
+    t.is(mathf.lerpEase(0, 1, 0.1), 0.1);
+    t.is(mathf.lerpEase(0, 1, 0.2), 0.2);
+    t.is(mathf.lerpEase(0, 1, 0.3), 0.3);
+    t.is(mathf.lerpEase(0, 1, 0.4), 0.4);
+    t.is(mathf.lerpEase(0, 1, 0.5), 0.5);
+    t.is(mathf.lerpEase(0, 1, 0.6), 0.6);
+    t.is(mathf.lerpEase(0, 1, 0.7), 0.7);
+    t.is(mathf.lerpEase(0, 1, 0.8), 0.8);
+    t.is(mathf.lerpEase(0, 1, 0.9), 0.9);
+    t.is(mathf.lerpEase(0, 1, 1), 1);
+});
+test('ease', t => {
+    let ease = EASE.easeInOutSine;
+    t.is(mathf.ease(0, 1, 0, ease), 0);
+    t.is(mathf.ease(0, 1, 0.5, ease), 0.49999999999999994);
+    t.is(mathf.ease(0, 1, 1, ease), 1);
+
+    ease = EASE.easeInBounce;
+    t.is(mathf.ease(0, 1, 0, ease), 0);
+    t.is(mathf.ease(0, 1, 0.5, ease), 0.234375);
+    t.is(mathf.ease(0, 1, 1, ease), 1);
+
+    ease = EASE.easeInOutElastic;
+    t.is(mathf.ease(0, 1, 0, ease), 0);
+    t.is(mathf.ease(0, 1, 0.5, ease), 0.5);
+    t.is(mathf.ease(0, 1, 1, ease), 1);
+
+
 });
 
 test('fixDigits', t => {

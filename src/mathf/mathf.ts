@@ -1,3 +1,4 @@
+import { EASE } from '../ease/ease';
 
 export interface box {
   height: number;
@@ -519,7 +520,7 @@ export class mathf {
    * mathf.lerp(0, 1, 0)   ---> 0
    * mathf.lerp(0, 1, 0.2) ---> 0.2
    * mathf.lerp(0, 1, 0.5) ---> 0.5
-   * mathf.lerp(0, 2, 0.5) ----> 1
+   * mathf.lerp(0, 2, 0.5) ----> EASE
    * mathf.lerp(25, 79, 0.2) ----> 35.8
    * ```
    *
@@ -566,16 +567,60 @@ export class mathf {
    * @param {number} value2 The target of the range to lerp.
    * @param {number} amount A value between 0-1 representing the progress of the
    *     lerp.
-   * @param easeFunction An easing function. See [[ease]]
+   * @param easeFunction An easing function. See [[ease]].  Defaults to linear
+   *   in which case, linear is equal to a regular lerp.
    */
   static lerpEase(value1: number, value2: number,
-    amount: number, easeFunction: Function): number {
+    amount: number, easeFunction: Function = EASE.linear): number {
     amount = easeFunction(amount);
     return mathf.lerp(value1, value2, amount);
   }
 
   /**
    * An alias of [[mathf.lerpEase]]
+   *
+   * This is a general ease function that is pretty handy for animations.
+   *
+   * This is basically a way of saying, given my start and end values, what is the
+   * value when it's at x percent (progress) with easing.
+   *
+   * Under the hood, it is simply an alias of [[mathf.lerpEase]] which is
+   * essentially a regular lerp but it passes the progress value (0-1) through
+   * an easing function first.
+   *
+   *
+   * Using mathf.ease, you can pretty easily calculate eases for numberic values.
+   *
+   * Say I wanted to animate a box.x position from 0 - 100.
+   * Without specifying a easing function, you will just get linear interpolation.
+   *
+   * ```
+   * mathf.ease(0, 100, 0) ---> 0
+   * mathf.ease(0, 100, 0.3) ---> 30
+   * mathf.ease(0, 100, 0.5) ---> 50
+   * mathf.ease(0, 100, 0.9) ---> 90
+   * mathf.ease(0, 100, 1) ---> 100
+   * ```
+   *
+   * Now lets try this with easing.  You can see the returned values between
+   * 0 and 1 are different than a linear ease.
+   * ```
+   * import { EASE, mathf} from 'yano-js'
+   * mathf.ease(0, 100, 0, EASE.easeInExpo)   ---> 0
+   * mathf.ease(0, 100, 0.3, EASE.easeInExpo) ---> 0.1953125
+   * mathf.ease(0, 100, 0.5, EASE.easeInExpo) ---> 3.125
+   * mathf.ease(0, 100, 0.9, EASE.easeInExpo) ---> 70.710678
+   * mathf.ease(0, 100, 1, EASE.easeInExpo) ---> 100
+   * ```
+   *
+   * How can I use this with animations?
+   *
+   * You can ease out positions, opacity etc based on "progress".
+   * Progress can be time, scroll position, mouse position etc but it needs to
+   * be normalized to a value between 0 and 1.
+   *
+   * See examples of this in [[rafTimer]].
+   *
    * @alias
    * @param {number} start The start of the range to lerp.
    * @param {number} end The target of the range to lerp.
@@ -584,7 +629,7 @@ export class mathf {
    * @param easeFunction An easing function. See [[ease]]
    */
   static ease(start: number, end: number,
-    progress: number, easeFunction: Function): number {
+    progress: number, easeFunction: Function = EASE.linear): number {
     return mathf.lerpEase(start, end, progress, easeFunction);
   }
 

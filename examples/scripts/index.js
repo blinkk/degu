@@ -2,11 +2,13 @@ import '../styles/index.sass';
 
 // Examples.
 import RafSample from '../raf';
+import RafTimerSample from '../raf-timer';
 import EaserSample from '../easer';
 import EaserDisableRafSample from '../easer-disable-raf';
 
 const samples = {
   'rafSample': RafSample,
+  'rafTimerSample': RafTimerSample,
   'easerSample': EaserSample,
   'easerDisableRafSample': EaserDisableRafSample
 };

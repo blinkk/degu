@@ -330,7 +330,7 @@ export class EASE {
      *
      */
     static easeInBounce(t: number) {
-        return (t == 0 || t == 1) ? t : 1 - this.easeOutBounce(1 - t);
+        return (t == 0 || t == 1) ? t : 1 - EASE.easeOutBounce(1 - t);
     }
 
     /**

@@ -1,4 +1,5 @@
 
+import { time } from '../time/time';
 import { mathf } from '../mathf/mathf';
 import { EASE } from './ease';
 import { Raf } from '../raf/raf';
@@ -43,17 +44,12 @@ export interface easerConfig {
  *   // Called on each raf cycle.
  *   // element.style.left = 100 * easeValue + 'px';
  * })
- * easer.onComplete(()=> {
- *   // Easing is done!
+ *
+ * // Start and listen to completion.
+ * easer.start().then(()=> {
+ *   console.log('easing is complete');
  * })
- * easer.start(); // Start easer
  *
- *
- * // You can also listen to completion as a promise but note that it will
- * // be called one time only when the easer completes teh first time.
- * easer.completePromise().then(() => {
- *    console.log('one time promise complete');
- * });
  *
  * // Example where you want to handle raf updates on your own.
  * // Here we tell easer that we will be calling the easer.calculate method
@@ -176,15 +172,20 @@ export class Easer {
 
     /**
      * Starts the easing.
+     * @return Returns a promise that resolved when the animation completes.
      */
-    start(): void {
-        this.startTime_ = new Date().getTime() + this.delay_;
+    start(): Promise<void> {
+        this.startTime_ = time.now() + this.delay_;
         this.endTime_ = this.startTime_ + this.duration_;
         this.started_ = true;
 
         if (!this.rafDisabled_) {
             this.raf_ && this.raf_.start();
         }
+
+        return new Promise((resolve) => {
+            this.completePromiseResolve_ = resolve;
+        });
     }
 
     /**
@@ -194,22 +195,6 @@ export class Easer {
         this.completeCallback_ = callback;
     }
 
-
-    /**
-     * Returns a ONE time only promise when this easer completes.
-     * One the animation completes, restarting the animation won't
-     * call the promise again since the promise is already resolved.
-     *
-     * If you want a callback that will always be called, use onComplete
-     * or call this method each time you start the animation.
-     *
-     * @return Returns a promise if not callback is specified.
-     */
-    completePromise(): Promise<void> {
-        return new Promise((resolve) => {
-            this.completePromiseResolve_ = resolve;
-        });
-    }
 
     /**
      * Adds a complete callback.
