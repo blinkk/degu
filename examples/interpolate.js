@@ -15,6 +15,8 @@ export default class InterpolateSample {
         //
         // Here progress is represented by the range input.
         //
+        // See mathf.ease example as well.
+        //
 
         this.ball = document.getElementById('ball');
         this.range = document.getElementById('range');
@@ -40,6 +42,7 @@ export default class InterpolateSample {
             // This creates a ease, delayed motion when scrolling.
             // Note, it's usually recommended to apply only EASE.linear
             // for progress lerping.
+            // See mathf.ease example as well.
             this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
 
             // Uncomment me to see the difference without progress lerping.

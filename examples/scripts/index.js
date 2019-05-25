@@ -6,13 +6,15 @@ import RafTimerSample from '../raf-timer';
 import EaserSample from '../easer';
 import EaserDisableRafSample from '../easer-disable-raf';
 import InterpolateSample from '../interpolate';
+import MathfEaseSample from '../mathf-ease';
 
 const samples = {
   'rafSample': RafSample,
   'rafTimerSample': RafTimerSample,
   'easerSample': EaserSample,
   'easerDisableRafSample': EaserDisableRafSample,
-  'interpolateSample': InterpolateSample
+  'interpolateSample': InterpolateSample,
+  'mathfEaseSample': MathfEaseSample
 };
 
 class Main {
