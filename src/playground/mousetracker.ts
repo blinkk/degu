@@ -1,8 +1,9 @@
 import { mathf } from '../mathf/mathf';
-import { detector } from '../detector/detector';
+import { detector } from './detector';
 
 /**
  * Class that helps with mouse tracking.
+ * @hidden
  */
 export class MouseTracker {
     /**

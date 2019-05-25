@@ -21,7 +21,7 @@ interface easerConfig {
 }
 
 /**
- * A very simple easing implementation.  Typically used with raf.
+ * A very simple time based tween implementation.
  *
  * ```ts
  * import { raf, easer} from 'yano-js';

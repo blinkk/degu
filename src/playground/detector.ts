@@ -1,5 +1,6 @@
 /**
  * A class that helps with device feature dectection.
+ * @hidden
  */
 export class detector {
 

@@ -2,6 +2,7 @@
 /**
  * Color utility functions.
  * @see http://krazydad.com/tutorials/makecolors.php
+ * @hidden
  */
 export class colors {
 

@@ -1,3 +1,4 @@
+import { time } from '../time/time';
 /**
  * A class that creates a RAF loop and calls a specific callback.  Setting the
  * frame rate will throttle the animation.
@@ -122,7 +123,7 @@ export class Raf {
         });
 
         if (this.lastUpdateTime) {
-            const current = Date.now();
+            const current = time.now();
             const elapsed = current - this.lastUpdateTime;
             const fps = this.fps == 0 ? 0 : 1000 / this.fps;
             if (elapsed > fps) {
@@ -130,12 +131,12 @@ export class Raf {
                     this.stop();
                 });
 
-                this.lastUpdateTime = Date.now();
+                this.lastUpdateTime = time.now();
             }
         }
 
         if (!this.lastUpdateTime) {
-            this.lastUpdateTime = Date.now();
+            this.lastUpdateTime = time.now();
         }
 
     }

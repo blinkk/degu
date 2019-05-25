@@ -1,6 +1,7 @@
 
 /**
  * An object with method to check for assertions.
+ * @hidden
  */
 export class asserts {
 

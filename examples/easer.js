@@ -1,7 +1,7 @@
 
-import { Raf } from '../lib/raf';
-import { Easer } from '../lib/easer';
-import { EASE } from '../lib/ease';
+import { Raf } from '../lib/raf/raf';
+import { Easer } from '../lib/ease/easer';
+import { EASE } from '../lib/ease/ease';
 
 export default class EaserSample {
     constructor() {

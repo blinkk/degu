@@ -2,6 +2,7 @@
 /**
  * A utility class to run a simple convex hull monotone chain algo.
  * @see https://goo.gl/20M7Aw
+ * @hidden
  */
 export class ConvexHull {
     constructor() { }
@@ -12,7 +13,7 @@ export class ConvexHull {
      * @return {Array.<number>} A set of x,y points.
      */
     calculate(points: number[]) {
-        points.sort(function(a, b) {
+        points.sort(function (a, b) {
             return a[0] == b[0] ? a[1] - b[1] : a[0] - b[0];
         });
 

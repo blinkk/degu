@@ -1,8 +1,9 @@
 
-import { MouseTracker } from '../trackers/mousetracker';
+import { MouseTracker } from './mousetracker';
 
 /**
  * A class that creates a parallax effect based on the mouse position.
+ * @hidden
  */
 export class Parallaxer {
 

@@ -1,5 +1,5 @@
 
-import { Raf } from '../lib/raf';
+import { Raf } from '../lib/raf/raf';
 
 class RafSample {
     constructor() {
