@@ -38,7 +38,8 @@ npm run build
 npm run build -- --watch
     Build the project.  Compiles src folders into the release /lib folder
 
-npm version patch && npm publish
+npm version patch
+npm publish
    Publish a new version to npm.
 
 npm run doc

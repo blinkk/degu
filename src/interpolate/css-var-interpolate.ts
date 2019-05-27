@@ -61,9 +61,10 @@ import { dom } from '../dom/dom';
  *  // to complete.
  *  //
  *  //
- *   // Note that it is recommended to use [[RafProgress]] to manage progress
- *   // easing but here to keep the demo simple, we are using a simplified
- *   // model.
+ *  // Note that it is recommended to use [[RafProgress]] to manage progress
+ *  // easing but here to keep the demo simple, we are using a simplified
+ *  // model. See the css-var-interpolate example in /examples folder for this
+ *  // same implemetnation using RafProgress.
  *  //
  *  const raf = new Raf(() => {
  *     let progress = +this.range.value;

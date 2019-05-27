@@ -50,9 +50,6 @@ export default class CssVarInterpolateSample {
             rafProgress.easeTo(+this.range.value, 0.25, EASE.easeInOutQuad);
         });
 
-
-
-
     }
 
 }
