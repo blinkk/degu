@@ -36,6 +36,9 @@ export default class MathfEaseSample {
         // in cases like where you are using the window scroll as a input
         // for progression.
         //
+        // Below is a demo but for a more performance way to ease progress,
+        // see [[RafProgress]].
+        //
         // Try applying around with the demo.
         //
         this.ball = document.getElementById('ball');
