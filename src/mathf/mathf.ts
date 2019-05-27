@@ -471,6 +471,19 @@ export class mathf {
     return mathf.clamp(0, 1, mathf.absZero(percent));
   }
 
+
+  /**
+   * Clamps a number to within 0-1.
+   * An alias of [[mathf.clampsAsProgress]]
+   * @tested
+   * @param progress
+   * @return progress A value within 0-1.
+   */
+  static clampAsProgress(progress: number) {
+    return mathf.clampAsPercent(progress);
+  }
+
+
   /**
    * Used to get a value within a range by progress.
    * Note this is an alias of [[mathf.lerp]] since it's the same thing.

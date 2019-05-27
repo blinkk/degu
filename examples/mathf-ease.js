@@ -44,6 +44,8 @@ export default class MathfEaseSample {
         this.progress = +this.range.value;
 
 
+        // Note we are using Raf for demo purposes.  Use [[RafProgress]] to
+        // ease progress and avoid layout thrashing.
         const raf = new Raf(() => {
 
             let progress = +this.range.value;

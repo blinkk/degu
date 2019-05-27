@@ -54,14 +54,27 @@ import { dom } from '../dom/dom';
  *  // Set the progress to the range value.
  *  this.progress = +this.range.value;
  *
- *  // Add some ease to the progress to smooth it out.
- *  this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
  *
  *  // Note that cssVarInterpolate, will cull uncessary calls to
  *  // avoid layout updates/thrashing.  If the value of progress is the
  *  // same, won't make any uncessary calls but allow the animations
  *  // to complete.
+ *  //
+ *  //
+ *   // Note that it is recommended to use [[RafProgress]] to manage progress
+ *   // easing but here to keep the demo simple, we are using a simplified
+ *   // model.
+ *  //
  *  const raf = new Raf(() => {
+ *     let progress = +this.range.value;
+ *
+ *    // Add some ease to the progress to smooth it out.
+ *    this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
+ *
+ *   // Reduce the precision of progress.  We dont need to report progress differences
+ *   // of 0.0000001.
+ *   this.progress = mathf.round(this.progress, 3);
+ *
  *    this.cssVarInterpolate.update(this.progress);
  *  }).start();
  *

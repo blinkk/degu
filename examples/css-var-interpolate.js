@@ -1,6 +1,6 @@
 
 import { mathf } from '../lib/mathf/mathf';
-import { Raf } from '../lib/raf/raf';
+import { RafProgress } from '../lib/raf/raf-progress';
 import { EASE } from '../lib/ease/ease';
 import { CssVarInterpolate } from '../lib/interpolate/css-var-interpolate';
 
@@ -34,27 +34,24 @@ export default class CssVarInterpolateSample {
             }
         );
 
-        this.progress = +this.range.value;
+
+        // Here is an example of using RafProgress to ease out the progress
+        // values.
+        const rafProgress = new RafProgress((easedProgress) => {
+            console.log('raf progress update');
+            this.cssVarInterpolate.update(easedProgress);
+        });
+
+        rafProgress.setPrecision(3);
+        rafProgress.setCurrentProgress(this.range.value);
+
+        // Update rafProgress each time the value of range changes.
+        this.range.addEventListener('input', () => {
+            rafProgress.easeTo(+this.range.value, 0.25, EASE.easeInOutQuad);
+        });
 
 
-        // Note that cssVarInterpolate, will cull uncessary calls to
-        // avoid layout updates/thrashing.  If the value of progress is the
-        // same, won't make any uncessary calls but allow the animations
-        // to complete.
-        //
-        // Note that it is recommended to use RafProgress to manage progress
-        // easing but here to keep the demo simple, we are using a simplified
-        // model.
-        const raf = new Raf(() => {
-            let progress = +this.range.value;
-            // Add a little ease to smooth things out.
-            this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
-            // Reduce the precision of progress.  We dont need to report progress differences
-            // of 0.0000001.
-            this.progress = mathf.round(this.progress, 3);
 
-            this.cssVarInterpolate.update(this.progress);
-        }).start();
 
     }
 

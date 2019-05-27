@@ -35,9 +35,8 @@ export default class InterpolateSample {
             easeFunction: EASE.easeInCubic
         });
 
-        // Note here we are using raf for demo purposes but not that this is
-        // constantly updating the ball position even when the previous values
-        // were unchanged.
+        // Note we are using Raf for demo purposes.  Use [[RafProgress]] to
+        // ease progress and avoid layout thrashing.
         const raf = new Raf(() => {
             let progress = +this.range.value;
 
