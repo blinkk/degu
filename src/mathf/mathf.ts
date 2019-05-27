@@ -204,6 +204,20 @@ export class mathf {
     return value;
   }
 
+
+  /**
+   * Converts a number to a specific number of decimasl
+   * ```
+   * mathf.toFixed(1.943, 2) --> 1.94
+   * mathf.toFixed(1.943, 1) --> 1.9
+   * ```
+   * @param value
+   * @param precision
+   */
+  static toFixed(value: number, precision: number): number {
+    return +value.toFixed(precision);
+  }
+
   /**
    * Calculate the angle between two points.
    * @param  {number} x1 The x position of the first point.

@@ -85,9 +85,10 @@ export class Raf {
 
     /**
      * Starts the RAF animation loop.
+     * @param {boolean} Whether to force a start.
      */
-    start() {
-        if (this.isPlaying) {
+    start(force: boolean = false) {
+        if (!force && this.isPlaying) {
             return;
         }
         this.animationLoop_();

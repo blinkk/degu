@@ -32,7 +32,7 @@ import { dom } from '../dom/dom';
  *  this.cssVarInterpolate = new CssVarInterpolate(
  *    this.ball,
  *    {
- *      interpoloations: [
+ *      interpolations: [
  *          {
  *            progress: [
  *              { from: 0, to: 1, start: 0, end: 500 },

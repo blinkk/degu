@@ -77,6 +77,10 @@ export class dom {
      * @param value The value to set.
      */
     static setCssVariable(element: HTMLElement, name: string, value: string) {
+        if (!element) {
+            throw new Error(
+                'You need specificy a valid element to apply a css variable');
+        }
         element.style.setProperty(name, value);
     }
 

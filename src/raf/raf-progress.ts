@@ -121,6 +121,24 @@ export class RafProgress {
     }
 
     /**
+     *  Force stops running calculations.
+     */
+    stop() {
+        this.raf.stop();
+    }
+
+
+    /**
+     * Run calculations.  Normally. you would call easeTo to set the latest
+     * current progress, you may want to call this if forced stopped and want
+     * to restart the raf loop manually.
+     */
+    run() {
+        this.raf.start();
+    }
+
+
+    /**
      * Sets the precision.  Precision is used to check how closely the current
      * progress is versus the previous progress per RAF cycle.
      * The lower the number, the less precise.
@@ -138,12 +156,12 @@ export class RafProgress {
      * Dirty check for progress and stops raf once the value has stabilized.
      */
     private rafLoop() {
-
         let previousProgress = this.currentProgress;
 
         // Reduce the precision of progress.  We dont need to report progress differences
         // of 0.0000001.
-        this.currentProgress = mathf.round(this.currentProgress, this.precision);
+        this.currentProgress =
+            mathf.toFixed(this.currentProgress, this.precision);
 
         this.currentProgress =
             mathf.ease(this.currentProgress,
@@ -165,6 +183,8 @@ export class RafProgress {
      */
     setCurrentProgress(progress: number) {
         this.currentProgress = mathf.clampAsProgress(progress);
+        // Run the raf loop once.
+        this.raf.start();
     }
 
     /**
@@ -187,7 +207,15 @@ export class RafProgress {
         this.easingFunction = easingFunction;
 
         // Start up RAF to make updates and ease to the target progress.
-        this.raf.start();
+        // Make sure we force a restart since sometimes, you can get multiple
+        // call to this in the same raf cycle and if stop is called at the end
+        // our animation won't be guaranteed to start.
+        this.raf.start(true);
+    }
+
+
+    dispose() {
+        this.raf.stop();
     }
 
 }

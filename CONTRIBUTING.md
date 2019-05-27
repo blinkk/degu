@@ -86,3 +86,27 @@ For typescript use for ava check out [this](https://github.com/avajs/ava/blob/ma
 /webpack   --> Webpack configuration to run the local example project.
 ```
 
+
+### Npm Linking
+
+See [this article](https://dev.to/erinbush/npm-linking-and-unlinking-2h) for more
+
+#### Linking
+
+```
+$ cd ~/yano-js  # To to whereever this git repo is cloned to
+$ npm link
+
+Navigate to your project
+$ npm link yano-js
+
+```
+#### Unlinking
+The order is important here.
+```
+Navigate to your project
+$ npm unlink --no-save yano-js
+
+$ cd ~/yano-js  # To to whereever this git repo is cloned to
+$ npm unlink
+```
