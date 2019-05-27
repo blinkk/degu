@@ -1,4 +1,4 @@
-import { MultiInterpolater, multiInterpolaterHelper } from './multi-interpolater';
+import { MultiInterpolate, multiInterpolateHelper } from './multi-interpolate';
 import { mathf } from '../mathf/mathf';
 import { EASE } from '../ease/ease';
 import test from 'ava';
@@ -7,19 +7,19 @@ import { time } from '../time/time';
 test('Check Invalid Ranged progresses', t => {
     // Check from and to equality.
     let error = t.throws(() => {
-        multiInterpolaterHelper.checkInvalidRangedProgresses([
+        multiInterpolateHelper.checkInvalidRangedProgresses([
             { from: 0.2, to: 0.2, start: 0, end: 0 }
         ])
     })
-    t.is(error.message, multiInterpolaterHelper.errors.FROM_TO_EQUAL);
+    t.is(error.message, multiInterpolateHelper.errors.FROM_TO_EQUAL);
 
     // Check from greater than to.
     error = t.throws(() => {
-        multiInterpolaterHelper.checkInvalidRangedProgresses([
+        multiInterpolateHelper.checkInvalidRangedProgresses([
             { from: 0.5, to: 0.2, start: 0, end: 0 }
         ])
     })
-    t.is(error.message, multiInterpolaterHelper.errors.FROM_GREATER);
+    t.is(error.message, multiInterpolateHelper.errors.FROM_GREATER);
 })
 
 test('FindBestMatchingRangedProgress', t => {
@@ -35,7 +35,7 @@ test('FindBestMatchingRangedProgress', t => {
     // Checkes what index of the progress set we should be on at x progress.
     let checkPositionAt = (progress: number, index: number) => {
         // Run the findBestMatchingrangedProgress algo.
-        let run = multiInterpolaterHelper.findBestMatchingRangedProgress(
+        let run = multiInterpolateHelper.findBestMatchingRangedProgress(
             progress, progressSet)
         // Check the retuned value to make sure it is at a provided index.
         t.deepEqual(run, progressSet[index]);
@@ -61,7 +61,7 @@ test('FindBestMatchingRangedProgress', t => {
 });
 
 test('Basic Multi Interpolation (linear)', t => {
-    let inter = new MultiInterpolater({
+    let inter = new MultiInterpolate({
         interpolations: [
             {
                 id: 'x',
@@ -90,7 +90,7 @@ test('Basic Multi Interpolation (linear)', t => {
 })
 
 test('Basic Multi Interpolation (multi progress)', t => {
-    let inter = new MultiInterpolater({
+    let inter = new MultiInterpolate({
         interpolations: [
             {
                 id: 'x',
@@ -111,7 +111,7 @@ test('Basic Multi Interpolation (multi progress)', t => {
 })
 
 test('Basic Multi Interpolation (mid progress)', t => {
-    let inter = new MultiInterpolater({
+    let inter = new MultiInterpolate({
         interpolations: [
             {
                 id: 'x',
@@ -132,7 +132,7 @@ test('Basic Multi Interpolation (mid progress)', t => {
 })
 
 test('Multi Interpolation (non linear ease)', t => {
-    let inter = new MultiInterpolater({
+    let inter = new MultiInterpolate({
         interpolations: [
             {
                 id: 'x',
@@ -154,7 +154,7 @@ test('Multi Interpolation (non linear ease)', t => {
 })
 
 test('Multi Interpolation Complex', t => {
-    let inter = new MultiInterpolater({
+    let inter = new MultiInterpolate({
         interpolations: [
             {
                 progress: [

@@ -37,14 +37,14 @@ interface interpolateSettings {
     id: string;
 }
 
-interface multiInterpolaterConfig {
+interface multiInterpolateConfig {
     /**
      * A list of interpolations that need to be applied.
      */
     interpolations: Array<interpolateSettings>;
 }
 
-export const multiInterpolaterHelper = {
+export const multiInterpolateHelper = {
 
     errors: {
         FROM_TO_EQUAL:
@@ -59,11 +59,11 @@ export const multiInterpolaterHelper = {
     checkInvalidRangedProgresses: (progresses: Array<rangedProgress>) => {
         progresses.forEach((progress) => {
             if (progress.from == progress.to) {
-                throw new Error(multiInterpolaterHelper.errors.FROM_TO_EQUAL)
+                throw new Error(multiInterpolateHelper.errors.FROM_TO_EQUAL)
             }
 
             if (progress.from > progress.to) {
-                throw new Error(multiInterpolaterHelper.errors.FROM_GREATER)
+                throw new Error(multiInterpolateHelper.errors.FROM_GREATER)
             }
         });
     },
@@ -116,7 +116,8 @@ export const multiInterpolaterHelper = {
  *
  *
  * JS
- *  let multiInterpolater = new MultiInterpolater({
+ *  import { MultiInterpolate, EASE } from 'yano-js';
+ *  let multiInterpolate = new MultiInterpolate({
  *   interpolations: [
  *     // This declaration would create the following.
  *     // When progress is:
@@ -151,55 +152,55 @@ export const multiInterpolaterHelper = {
  * });
  *
  * // What are the values at 0 progress.
- * let results = multiInterpolater.calculate(0);
+ * let results = multiInterpolate.calculate(0);
  * console.log(results['x']); // 50
  * console.log(results['y']); // 0
  * console.log(results['someOther']); // 0
  *
  * // What are the values at 0.3 progress (30%)
- * results = multiInterpolater.calculate(0.3);
+ * results = multiInterpolate.calculate(0.3);
  * console.log(results['x']); // 50
  * console.log(results['y']); // ~60
  * console.log(results['someOther']); // 30
  *
  * // What are the values at 0.7 progress (70%)
- * results = multiInterpolater.calculate(0.7);
+ * results = multiInterpolate.calculate(0.7);
  * console.log(results['x']); //~7441
  * console.log(results['y']); // ~100
  * console.log(results['someOther']); // 30
  *
- * results = multiInterpolater.calculate(1);
+ * results = multiInterpolate.calculate(1);
  * console.log(results['x']); //~7441
  * console.log(results['y']); // ~100
  * console.log(results['someOther']); // 100
  * ```
  * @hidden
  */
-export class MultiInterpolater {
+export class MultiInterpolate {
 
     private parentProgress: number;
     private currentValues: Object;
     private interpolations = Object;
-    private config: multiInterpolaterConfig;
+    private config: multiInterpolateConfig;
 
 
-    constructor(multiInterpolaterConfig: multiInterpolaterConfig) {
+    constructor(multiInterpolaterConfig: multiInterpolateConfig) {
         this.parentProgress = 0;
         this.currentValues = {};
         this.config = multiInterpolaterConfig;
-        this.setConfig(this.config);
+        this.updateConfig(this.config);
     }
 
     /**
-     * Validates, reorders and set the config.
+     * Sets and updates the config.  Validates, reorders and set the config.
      */
-    setConfig(config: multiInterpolaterConfig) {
+    updateConfig(config: multiInterpolateConfig) {
         this.config = config;
         this.config.interpolations = this.config.interpolations.map(
             (interpolateSettings: interpolateSettings) => {
 
                 // Valid progresses.
-                multiInterpolaterHelper.checkInvalidRangedProgresses(
+                multiInterpolateHelper.checkInvalidRangedProgresses(
                     interpolateSettings.progress
                 );
 
@@ -240,7 +241,7 @@ export class MultiInterpolater {
                 // Given the set of rangedProgress, find the best matching
                 // one based on the current progress.
                 const matchedRangeProgress =
-                    multiInterpolaterHelper.findBestMatchingRangedProgress(
+                    multiInterpolateHelper.findBestMatchingRangedProgress(
                         this.parentProgress,
                         config.progress
                     );
