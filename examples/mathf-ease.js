@@ -15,17 +15,20 @@ export default class MathfEaseSample {
         // Moving the range input, will change the progress from 0-1.
         //
         // It is important to note that there are two levels of easing.
-        // The first is to the x, y positions of the ball.
+        // The first level of ease is to the x, y POSITIONS of the ball.
+        // This is not easing of the animations (smoothing out interactions),
+        // but is easing calculations of the PATH that the ball should
+        // follow.
         //
         // This is calculated with:
         //    x = mathf.ease(0, 500, this.progress, EASE.easeOutSine);
         //    y = mathf.ease(0, 500, this.progress, EASE.easeInCubic);
         //
-        // However, if we just did this, then the x and y positions
-        // are linearly fixed to the progress (the range input).
         //
-        // In order to smooth out the interaction (create a slight delay),
-        // we add a second level of easing to the progress itself.
+        // In order to smooth out the interaction (create a slight delay,
+        // smoothness),we add a second level of easing to the progress itself.
+        // This is adding EASE to the timeline rather than the path so there is
+        // a distinction.
         //
         //    this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
         //

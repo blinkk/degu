@@ -363,9 +363,9 @@ export class EASE {
         if (t == 0 || t == 1) {
             return t;
         } else if (t < .5) {
-            return this.easeInBounce(t * 2) * .5;
+            return EASE.easeInBounce(t * 2) * .5;
         } else {
-            return this.easeOutBounce(t * 2 - 1) * .5 + .5;
+            return EASE.easeOutBounce(t * 2 - 1) * .5 + .5;
         }
     }
 

@@ -76,8 +76,8 @@ export class dom {
      * @param name The name of the css variable.
      * @param value The value to set.
      */
-    static setCssVariable(element: HTMLElement, name: string, value: string | number) {
-        element.style.setProperty(name, key)
+    static setCssVariable(element: HTMLElement, name: string, value: string) {
+        element.style.setProperty(name, value);
     }
 
 }

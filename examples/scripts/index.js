@@ -1,20 +1,20 @@
 import '../styles/index.sass';
 
 // Examples.
-import CssProgressTweenSample from '../css-progress-tween';
 import EaserDisableRafSample from '../easer-disable-raf';
 import EaserSample from '../easer';
 import InterpolateSample from '../interpolate';
+import MultiInterpolateSample from '../multi-interpolate';
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
 import RafTimerSample from '../raf-timer';
 
 const samples = {
-  'cssProgressTweenSample': CssProgressTweenSample,
   'easerDisableRafSample': EaserDisableRafSample,
   'easerSample': EaserSample,
   'interpolateSample': InterpolateSample,
   'mathfEaseSample': MathfEaseSample,
+  'multiInterpolateSample': MultiInterpolateSample,
   'rafSample': RafSample,
   'rafTimerSample': RafTimerSample
 };
@@ -33,6 +33,7 @@ class Main {
     }
     let className = element.getAttribute('init-sample');
     if (samples[className]) {
+      console.log('Instantiating', className);
       new samples[className]();
     }
 

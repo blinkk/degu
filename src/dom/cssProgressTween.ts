@@ -63,7 +63,7 @@ export interface cssProgressTweenConfig {
  *  let tween = new CssProgressTween({
  *   // The root element to apply variables to.
  *   rootElement: element,
- *   tweens: [
+ *   interpolations: [
  *     // When the progress is from 0-0.5,
  *     // The value of the css variable --transformY should
  *     // go from 0 to 100.

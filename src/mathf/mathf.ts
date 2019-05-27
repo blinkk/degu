@@ -622,8 +622,12 @@ export class mathf {
    * be normalized to a value between 0 and 1.
    *
    * See examples of this in [[RafTimer]] where there is a demo of easing an
-   * element for a set duration.  Also see mathf-ease.html in the /examples
-   * folder where there is element and progress level easing to smooth
+   * element for a set duration.
+   *
+   * For an exmaple where you may want to tie ease with window.scroll or another
+   * input represented by a normalized value/ progress (a number between 0 and 1)i
+   * see mathf-ease.html in the /examples folder where there is element and
+   * progress level easing to smooth
    * interaction.
    *
    * Also related is [[Interpolate]].
