@@ -85,7 +85,7 @@ import { dom } from '../dom/dom';
  * ```
  */
 export class CssVarInterpolate {
-    private progress: number;
+    private progress: number | null;
     private currentValues: Object;
     private multiInterpolate: MultiInterpolate;
 
@@ -101,7 +101,11 @@ export class CssVarInterpolate {
         private element: HTMLElement,
         private config: multiInterpolateConfig) {
 
-        this.progress = 0;
+        /**
+         * Set this to initially null so that when update is first called
+         * we are guanranteed that it will be processed.
+         */
+        this.progress = null;
         this.currentValues = {};
         this.multiInterpolate = new MultiInterpolate(config);
     }

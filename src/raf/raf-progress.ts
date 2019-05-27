@@ -179,10 +179,14 @@ export class RafProgress {
     }
 
     /**
-     * Sets the current progress.
+     * Sets the current progress.  This forces an immediate update to
+     * the passed progress.
      */
     setCurrentProgress(progress: number) {
+        console.log('setting progress', progress);
         this.currentProgress = mathf.clampAsProgress(progress);
+        this.targetProgress = this.currentProgress;
+        this.easeAmount = 1;
         // Run the raf loop once.
         this.raf.start();
     }

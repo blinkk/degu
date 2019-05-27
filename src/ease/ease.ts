@@ -1,5 +1,7 @@
 /**
- * Basis eases functions.
+ * Basis easing functions.
+ * @see https://easings.net/en for nice visualization of each.
+ *
  */
 export class EASE {
 

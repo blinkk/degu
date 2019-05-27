@@ -38,7 +38,7 @@ export default class CssVarInterpolateSample {
         // Here is an example of using RafProgress to ease out the progress
         // values.
         const rafProgress = new RafProgress((easedProgress) => {
-            console.log('raf progress update');
+            console.log('raf progress update', easedProgress);
             this.cssVarInterpolate.update(easedProgress);
         });
 
