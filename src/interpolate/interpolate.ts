@@ -71,6 +71,8 @@ export interface interpolateConfig {
  * See more examples in the /examples folder
  *
  * ```
+ *
+ * @tested
  */
 export class Interpolate {
 

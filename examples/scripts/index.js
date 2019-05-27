@@ -3,8 +3,11 @@ import '../styles/index.sass';
 // Examples.
 import EaserDisableRafSample from '../easer-disable-raf';
 import EaserSample from '../easer';
+
 import InterpolateSample from '../interpolate';
 import MultiInterpolateSample from '../multi-interpolate';
+import CssVarInterpolateSample from '../css-var-interpolate';
+
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
 import RafTimerSample from '../raf-timer';
@@ -15,6 +18,7 @@ const samples = {
   'interpolateSample': InterpolateSample,
   'mathfEaseSample': MathfEaseSample,
   'multiInterpolateSample': MultiInterpolateSample,
+  'cssVarInterpolateSample': CssVarInterpolateSample,
   'rafSample': RafSample,
   'rafTimerSample': RafTimerSample
 };

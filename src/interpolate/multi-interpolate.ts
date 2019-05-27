@@ -2,7 +2,7 @@
 import { mathf } from '../mathf/mathf';
 import { Interpolate } from './interpolate';
 
-interface rangedProgress {
+export interface rangedProgress {
     /**
      * The progress value to start from.
      */
@@ -26,7 +26,7 @@ interface rangedProgress {
     easingFunction?: Function;
 }
 
-interface interpolateSettings {
+export interface interpolateSettings {
     /**
      *  The progress config.
      */
@@ -37,7 +37,7 @@ interface interpolateSettings {
     id: string;
 }
 
-interface multiInterpolateConfig {
+export interface multiInterpolateConfig {
     /**
      * A list of interpolations that need to be applied.
      */
@@ -112,6 +112,9 @@ export const multiInterpolateHelper = {
 
 
 /**
+ * MultiInterpolate allows you to interpolate multiple values at once against
+ * a parent progress.
+ *
  * ```ts
  *
  *
@@ -174,7 +177,7 @@ export const multiInterpolateHelper = {
  * console.log(results['y']); // ~100
  * console.log(results['someOther']); // 100
  * ```
- * @hidden
+ * @tested
  */
 export class MultiInterpolate {
 
@@ -196,6 +199,12 @@ export class MultiInterpolate {
      */
     updateConfig(config: multiInterpolateConfig) {
         this.config = config;
+
+        if (!this.config.interpolations) {
+            throw new Error(
+                'Multiinterpolation config is missing interpolations');
+        }
+
         this.config.interpolations = this.config.interpolations.map(
             (interpolateSettings: interpolateSettings) => {
 
