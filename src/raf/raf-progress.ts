@@ -183,7 +183,6 @@ export class RafProgress {
      * the passed progress.
      */
     setCurrentProgress(progress: number) {
-        console.log('setting progress', progress);
         this.currentProgress = mathf.clampAsProgress(progress);
         this.targetProgress = this.currentProgress;
         this.easeAmount = 1;
