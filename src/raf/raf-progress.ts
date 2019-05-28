@@ -1,7 +1,9 @@
 import { mathf } from '../mathf/mathf';
+import { is } from '../is/is';
 import { Raf } from './raf';
 import { EASE } from '..';
 import { EventEmitter } from 'events';
+import { watch } from 'fs';
 
 interface RafProgressUpdateEvent extends Event {
     /**
@@ -304,6 +306,22 @@ export class RafProgress extends EventEmitter {
             this.currentProgress, direction);
 
         // Loop through watchers.
+        this.rangeWatchers.forEach((watcher: RafProgressRangeWatcher) => {
+            let isBetween = false;
+            if (is.array(watcher.range)) {
+                isBetween = mathf.isBetween(this.currentProgress,
+                    watcher.range[0], watcher.range[1]);
+            } else {
+                // If we are only watching for a specific value, we used the
+                // previous progress to see if we passed it.
+                isBetween = mathf.isBetween(<number>watcher.range,
+                    this.currentProgress, previousProgress);
+            }
+
+            if (isBetween) {
+                watcher.callback(this.currentProgress, direction);
+            }
+        })
 
 
 

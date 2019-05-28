@@ -12,15 +12,23 @@ export default class RafProgressSample {
 
 
         const rafProgress = new RafProgress();
-        rafProgress.watch((easedProgress) => {
-            console.log('progress event', easedProgress);
+        rafProgress.watch((easedProgress, direction) => {
+            // console.log('progress event', easedProgress);
         });
 
 
-        const rangeWatcher = () => {
-            console.log('range wathcer');
+        // Watch from 0.5 to 0.6.
+        const rangeWatcher = (currentProgress, direction) => {
+            console.log('range watcher', currentProgress, direction);
         };
-        rafProgress.watchFor(0.2, rangeWatcher);
+        rafProgress.watchFor([0.5, 0.6], rangeWatcher);
+        // rafProgress.unwatchFor(rangeWatcher);
+
+
+        const rangeWatcher2 = (currentProgress, direction) => {
+            console.log('around 20%!', currentProgress, direction);
+        };
+        rafProgress.watchFor(0.2, rangeWatcher2);
 
 
         rafProgress.setPrecision(5);

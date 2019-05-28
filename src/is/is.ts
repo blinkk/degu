@@ -1,5 +1,4 @@
 
-
 /**
  * A utility function that generally tests the state of things.
  */
