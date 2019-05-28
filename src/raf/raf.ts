@@ -45,7 +45,7 @@ export enum RAF_EVENTS {
  * raf.watch(onRaf);
  * raf.unwatch(onRaf);
  * ```
- *
+ * @noInheritDoc
  * @class
  */
 export class Raf extends EventEmitter {

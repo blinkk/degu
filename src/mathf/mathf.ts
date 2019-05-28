@@ -556,7 +556,7 @@ export class mathf {
 
   /**
    * Clamps a number to within 0-1.
-   * An alias of [[mathf.clampsAsProgress]]
+   * An alias of [[mathf.clampAsProgress]]
    * @tested
    * @param progress
    * @return progress A value within 0-1.

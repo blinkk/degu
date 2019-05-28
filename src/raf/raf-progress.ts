@@ -143,8 +143,7 @@ export enum RAF_PROGRESS_EVENTS {
  * rafProgress.unwatchFor(callback);
  *
  * ```
- *
- *
+ * @noInheritDoc
  */
 export class RafProgress extends EventEmitter {
     private raf: Raf;
