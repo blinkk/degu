@@ -387,6 +387,29 @@ export class mathf {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
   }
 
+
+  /**
+   * Gets the direction in which a number is progress.
+   * 0 means the same, no movement.
+   * 1 means moving forward.
+   * -1 means moving backwards.
+   * ```ts
+   * matfh.direction(1, 2) ---> 1
+   * matfh.direction(3, 1) ---> -1
+   * matfh.direction(1, 1) ---> 0
+   * ```
+   * @param previous
+   * @param current
+   * @tested
+   */
+  static direction(previous: number, current: number): number {
+    if (previous == current) {
+      return 0;
+    }
+
+    return previous < current ? 1 : -1;
+  }
+
   /**
     * Calculates the offset value to center a given element within a container.
     *
@@ -465,6 +488,25 @@ export class mathf {
    */
   static aspectRatio(box: dimensionalBox): number {
     return box.width / box.height;
+  }
+
+
+
+  /**
+   * Tests if a given value is between a range.
+   * @param testValue
+   * @param range1
+   * @param range2
+   * @param inclusive Whether the test should be inclusive.
+   * @return Whether the test value is between range1 and range2.
+   */
+  static isBetween(testValue: number, range1: number, range2: number,
+    inclusive = true): boolean {
+    const min = Math.min(range1, range2);
+    const max = Math.max(range1, range2);;
+
+    return inclusive ? testValue >= min && testValue <= max :
+      testValue > min && testValue < max;
   }
 
   /**

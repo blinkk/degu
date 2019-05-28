@@ -165,6 +165,12 @@ test('fixDigits', t => {
     t.is(mathf.fixDigits(20.12345, 4), 20.1234);
 });
 
+test('getDirection', t => {
+    t.is(mathf.direction(1, 2), 1);
+    t.is(mathf.direction(3, 1), -1);
+    t.is(mathf.direction(1, 1), 0);
+});
+
 test('int', t => {
     t.is(mathf.int(20.311), 20);
     t.is(mathf.int(20.32), 20);
@@ -218,6 +224,19 @@ test('aspectRatio', t => {
         mathf.fixDigits(mathf.aspectRatio({ width: 1600, height: 1080 }), 2),
         mathf.fixDigits(1.48, 2));
 });
+
+
+test('isBetween', t => {
+    t.is(mathf.isBetween(1, 0, 5), true);
+    t.is(mathf.isBetween(1, 2, 1), true);
+    t.is(mathf.isBetween(1, 2, 5), false);
+    t.is(mathf.isBetween(2, 2, 5), true);
+    // Inclusive option
+    t.is(mathf.isBetween(2, 2, 5, false), false);
+    t.is(mathf.isBetween(2.1, 2, 5, false), true);
+});
+
+
 
 test('resizedimensionalBoxToWidth', t => {
     t.deepEqual(

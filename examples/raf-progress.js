@@ -17,6 +17,12 @@ export default class RafProgressSample {
         });
 
 
+        const rangeWatcher = () => {
+            console.log('range wathcer');
+        };
+        rafProgress.watchFor(0.2, rangeWatcher);
+
+
         rafProgress.setPrecision(5);
         rafProgress.setCurrentProgress(this.range.value);
 

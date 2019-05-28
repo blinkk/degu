@@ -3,12 +3,29 @@ import { Raf } from './raf';
 import { EASE } from '..';
 import { EventEmitter } from 'events';
 
-interface ProgressUpdateEvent extends Event {
-    readonly progress: number
+interface RafProgressUpdateEvent extends Event {
+    /**
+     * The current progress.
+     */
+    readonly progress: number;
+
+    /**
+     * The direction of the progress.
+     * 0 for no movement.
+     * 1 for foward.
+     * -1 for backwards.
+     */
+    readonly direction: number
 }
 
+interface RafProgressRangeWatcher {
+    range: number | Array<number>;
+    callback: Function;
+}
+
+
 interface RafProgressEvents {
-    "progressChange": ProgressUpdateEvent
+    "progressChange": RafProgressUpdateEvent
 }
 
 export enum RAF_PROGRESS_EVENTS {
@@ -112,7 +129,18 @@ export enum RAF_PROGRESS_EVENTS {
  * Raf progress additionally allows you to register and listen specific
  * progress values and run a callback.
  *
- * rafProgress.listen()
+ * ```
+ *
+ * // Triggers when progress runs from 0.2, 0.4
+ * rafProgress.watchFor([0.2, 0.4], callback);
+ *
+ * // Triggers when 0.2 is crossed .
+ * rafProgress.watchFor(0.2, callback);
+ *
+ * // Remove watchFor
+ * rafProgress.unwatchFor(callback);
+ *
+ * ```
  *
  *
  */
@@ -123,6 +151,7 @@ export class RafProgress extends EventEmitter {
     private easeAmount: number;
     private easingFunction: Function;
     private precision: number;
+    private rangeWatchers: Array<RafProgressRangeWatcher>;
 
     /**
      * @param {Function} progressRafLoop  Optional function to be called on each
@@ -152,6 +181,11 @@ export class RafProgress extends EventEmitter {
          * one RAF cycle.  Use 1 for no ease.
          */
         this.easeAmount = 1;
+
+        /**
+         * A collection of callbacks to be run at specific progress values.
+         */
+        this.rangeWatchers = [];
 
         this.targetProgress = this.currentProgress;
         this.easingFunction = EASE.linear;
@@ -212,6 +246,29 @@ export class RafProgress extends EventEmitter {
         this.off(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE, callback);
     }
 
+    /**
+     * Sets a callback for a specific range.
+     * @param {number|Array<number>} A specific progress to watch for or
+     *     an array like [0.1, 0.4] specifying the range to be watched.
+     * @param {Function}
+     */
+    watchFor(range: number | Array<number>, callback: Function) {
+        this.rangeWatchers.push({
+            range: range,
+            callback: callback
+        })
+    }
+
+    /**
+     * Removes a given
+     * @param callback
+     */
+    unwatchFor(callback: Function) {
+        this.rangeWatchers = this.rangeWatchers.filter(
+            (watcher: RafProgressRangeWatcher) => {
+                return watcher.callback !== callback;
+            });
+    }
 
     /**
      * Once raf is starated, updates on each raf cycle if raf is running.
@@ -242,7 +299,14 @@ export class RafProgress extends EventEmitter {
         }
 
 
-        this.emit(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE, this.currentProgress);
+        let direction = mathf.direction(previousProgress, this.currentProgress);
+        this.emit(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE,
+            this.currentProgress, direction);
+
+        // Loop through watchers.
+
+
+
 
         // Stop RAF if the value of progress has stabilized.
         if (previousProgress == this.currentProgress) {

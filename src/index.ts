@@ -1,5 +1,6 @@
 import { dom } from './dom/dom';
 import { mathf } from './mathf/mathf';
+import { is } from './is/is';
 import { Raf } from './raf/raf';
 import { RafProgress } from './raf/raf-progress';
 import { RafTimer } from './raf/raf-timer';
@@ -13,6 +14,8 @@ export {
     Interpolate,
     CssVarInterpolate,
     MultiInterpolate,
+
+    is,
 
     Raf,
     RafProgress,
