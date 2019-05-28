@@ -34,6 +34,8 @@ test('round', t => {
 });
 
 test('childProgress', t => {
+    t.is(mathf.childProgress(0, 0, 0.3), 0);
+    t.is(mathf.childProgress(0.2, 0, 1), 0.2);
     t.is(mathf.childProgress(0, 0.2, 0.6), 0);
     t.is(mathf.childProgress(0.2, 0.2, 0.6), 0);
     t.is(
