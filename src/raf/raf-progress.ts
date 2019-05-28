@@ -97,6 +97,15 @@ export enum RAF_PROGRESS_EVENTS {
  *   // Do something.
  * })
  *
+ *
+ *
+ * // Or use alias watch, unwatch
+ * var onProgress = (progress)=> {
+ *   console.log('hello')
+ * }
+ * rafProgress.watch(onProgress);
+ * rafProgress.unwatch(onProgress);
+ *
  * ```
  *
  * # Progress Callbacks
@@ -109,13 +118,17 @@ export enum RAF_PROGRESS_EVENTS {
  */
 export class RafProgress extends EventEmitter {
     private raf: Raf;
-    private progressRafLoop: Function | undefined;
     private currentProgress: number;
     private targetProgress: number;
     private easeAmount: number;
     private easingFunction: Function;
     private precision: number;
 
+    /**
+     * @param {Function} progressRafLoop  Optional function to be called on each
+     *    progress update event.
+     * @constructor
+     */
     constructor(progressRafLoop?: Function) {
         super();
 
@@ -124,11 +137,6 @@ export class RafProgress extends EventEmitter {
          */
         this.currentProgress = 0;
 
-        /**
-         * The callback to be executed when progress has changed in value.
-         * @type {Function|undefined}
-         */
-        this.progressRafLoop = progressRafLoop;
 
         /**
          * The number of decimals to use when checking the equality of the
@@ -147,6 +155,10 @@ export class RafProgress extends EventEmitter {
 
         this.targetProgress = this.currentProgress;
         this.easingFunction = EASE.linear;
+
+        if (progressRafLoop) {
+            this.watch(progressRafLoop);
+        }
 
         this.raf = new Raf(() => {
             this.rafLoop();
@@ -184,6 +196,22 @@ export class RafProgress extends EventEmitter {
         this.precision = value;
     }
 
+    /**
+     * Adds a progress listener.
+     * @param {Function}
+     */
+    watch(callback: any) {
+        this.on(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE, callback);
+    }
+
+    /**
+     * Removes a progress listener.
+     * @param {Function}
+     */
+    unwatch(callback: any) {
+        this.off(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE, callback);
+    }
+
 
     /**
      * Once raf is starated, updates on each raf cycle if raf is running.
@@ -215,9 +243,6 @@ export class RafProgress extends EventEmitter {
 
 
         this.emit(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE, this.currentProgress);
-
-        // Call the callback.
-        this.progressRafLoop && this.progressRafLoop(this.currentProgress);
 
         // Stop RAF if the value of progress has stabilized.
         if (previousProgress == this.currentProgress) {

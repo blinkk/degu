@@ -1,4 +1,24 @@
 import { time } from '../time/time';
+import { EventEmitter } from 'events';
+
+
+interface RafEvent extends Event {
+    readonly frame: string;
+    readonly lastUpdateTime: string;
+    readonly elapsed: number;
+    readonly stop: Function;
+}
+
+interface RafEvents {
+    "raf": RafEvent
+}
+
+export enum RAF_EVENTS {
+    RAF = 'raf'
+}
+
+
+
 /**
  * A class that creates a RAF loop and calls a specific callback.  Setting the
  * frame rate will throttle the animation.
@@ -16,13 +36,20 @@ import { time } from '../time/time';
  * // Set the FPS
  * raf.setFps(30);
  * raf.start();
+ *
+ *
+ * // Add or remove listeners
+ * var onRaf = ()=> {
+ *   console.log('hello')
+ * }
+ * raf.watch(onRaf);
+ * raf.unwatch(onRaf);
  * ```
  *
  * @class
  */
-export class Raf {
+export class Raf extends EventEmitter {
 
-    private rafLoop: Function;
     private raf_: any;
     private frame: number | null;
     private lastUpdateTime: number;
@@ -30,18 +57,12 @@ export class Raf {
     private isPlaying: boolean;
 
     /**
-     * @param {Function} rafLoop  The function to be called on each
+     * @param {Function} rafLoop  Optional function to be called on each
      *     request animation frame.
      * @constructor
      */
-    constructor(rafLoop: Function) {
-
-        /**
-         * The callback to be executed upon each request animation frame.
-         * @type {Function}
-         * @public
-         */
-        this.rafLoop = rafLoop;
+    constructor(rafLoop: Function | null) {
+        super();
 
         /**
          * The internal reference to request animation frame.
@@ -74,7 +95,28 @@ export class Raf {
          * @type {boolean}
          */
         this.isPlaying = false;
+
+        if (rafLoop) {
+            this.watch(rafLoop);
+        }
     }
+
+    /**
+     * Adds a raf listener
+     * @param
+     */
+    watch(callback: any) {
+        this.on(RAF_EVENTS.RAF, callback);
+    }
+
+    /**
+     * Removes a progress listener.
+     * @param {Function}
+     */
+    unwatch(callback: any) {
+        this.off(RAF_EVENTS.RAF, callback);
+    }
+
 
     /**
      * Sets the fps .
@@ -107,12 +149,6 @@ export class Raf {
         this.stop();
     }
 
-    /**
-     * Sets the Raf loop.
-     */
-    private setRafLoop(rafLoop: Function) {
-        this.rafLoop = rafLoop;
-    }
 
     /**
      * The internal animation loop.
@@ -128,7 +164,8 @@ export class Raf {
             const elapsed = current - this.lastUpdateTime;
             const fps = this.fps == 0 ? 0 : 1000 / this.fps;
             if (elapsed > fps) {
-                this.rafLoop(this.frame, this.lastUpdateTime, elapsed, () => {
+
+                this.emit(RAF_EVENTS.RAF, this.frame, this.lastUpdateTime, elapsed, () => {
                     this.stop();
                 });
 

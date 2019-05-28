@@ -12,13 +12,12 @@ export default class RafProgressSample {
 
 
         const rafProgress = new RafProgress();
-        rafProgress.addListener(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE,
-            (easedProgress) => {
-                console.log('progress event', easedProgress);
-            });
+        rafProgress.watch((easedProgress) => {
+            console.log('progress event', easedProgress);
+        });
 
 
-        rafProgress.setPrecision(10);
+        rafProgress.setPrecision(5);
         rafProgress.setCurrentProgress(this.range.value);
 
         // Update rafProgress each time the value of range changes.

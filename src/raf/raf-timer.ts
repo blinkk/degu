@@ -60,6 +60,8 @@ import { Raf } from './raf'
  *
  * })
  *
+ * TODO (uxder); Update this to extend emit emitter.
+ *
  * ```
  */
 export class RafTimer {
@@ -152,7 +154,6 @@ export class RafTimer {
         } else {
             // Run the main update loop one more time as completion.
             this.rafLoop && this.rafLoop(1);
-            console.log('complete');
             // Complete
             this.reset();
             this.raf.stop();
