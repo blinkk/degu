@@ -25,12 +25,26 @@ test('clamp', t => {
     t.is(mathf.clamp(-10, 10, 100), 10);
 });
 
-test('round', t => {
-    t.is(mathf.round(0.49999, 1), 0.5);
-    t.is(mathf.round(0.49999, 2), 0.5);
-    t.is(mathf.round(0.41199, 3), 0.412);
-    t.is(mathf.round(0.4222222, 2), 0.42);
-    t.is(mathf.round(0.48, 1), 0.5);
+test('roundToPrecision', t => {
+    t.is(mathf.roundToPrecision(0.49999, 1), 0.5);
+    t.is(mathf.roundToPrecision(0.49999, 2), 0.5);
+    t.is(mathf.roundToPrecision(0.41199, 3), 0.412);
+    t.is(mathf.roundToPrecision(0.4222222, 2), 0.42);
+    t.is(mathf.roundToPrecision(0.48, 1), 0.5);
+    t.is(mathf.roundToPrecision(0.0004, 4), 0.0004);
+    t.is(mathf.roundToPrecision(0.0004, 3), 0);
+    t.is(mathf.roundToPrecision(0.5555, 3), 0.556);
+    t.is(mathf.roundToPrecision(0.5555, 2), 0.56);
+});
+
+test('floorToPrecision', t => {
+    t.is(mathf.floorToPrecision(0.5555, 3), 0.555);
+    t.is(mathf.floorToPrecision(0.5555, 2), 0.55);
+});
+
+test('ceilToPrecision', t => {
+    t.is(mathf.ceilToPrecision(0.11111, 3), 0.112);
+    t.is(mathf.ceilToPrecision(0.11111, 2), 0.12);
 });
 
 test('childProgress', t => {
@@ -39,22 +53,22 @@ test('childProgress', t => {
     t.is(mathf.childProgress(0, 0.2, 0.6), 0);
     t.is(mathf.childProgress(0.2, 0.2, 0.6), 0);
     t.is(
-        mathf.round(mathf.childProgress(0.3, 0.2, 0.6), 2)
+        mathf.roundToPrecision(mathf.childProgress(0.3, 0.2, 0.6), 2)
         , 0.25);
     t.is(
-        mathf.round(mathf.childProgress(0.3, 0.2, 0.6), 2)
+        mathf.roundToPrecision(mathf.childProgress(0.3, 0.2, 0.6), 2)
         , 0.25);
     t.is(
-        mathf.round(mathf.childProgress(0.4, 0.2, 0.6), 2)
+        mathf.roundToPrecision(mathf.childProgress(0.4, 0.2, 0.6), 2)
         , 0.5);
     t.is(
-        mathf.round(mathf.childProgress(0.5, 0.2, 0.6), 2)
+        mathf.roundToPrecision(mathf.childProgress(0.5, 0.2, 0.6), 2)
         , 0.75);
     t.is(
-        mathf.round(mathf.childProgress(0.6, 0.2, 0.6), 2)
+        mathf.roundToPrecision(mathf.childProgress(0.6, 0.2, 0.6), 2)
         , 1);
     t.is(
-        mathf.round(mathf.childProgress(0.7, 0.2, 0.6), 2)
+        mathf.roundToPrecision(mathf.childProgress(0.7, 0.2, 0.6), 2)
         , 1);
 });
 

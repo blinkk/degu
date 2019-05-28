@@ -11,6 +11,7 @@ import CssVarInterpolateSample from '../css-var-interpolate';
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
 import RafTimerSample from '../raf-timer';
+import RafProgressSample from '../raf-progress';
 
 const samples = {
   'easerDisableRafSample': EaserDisableRafSample,
@@ -20,7 +21,8 @@ const samples = {
   'multiInterpolateSample': MultiInterpolateSample,
   'cssVarInterpolateSample': CssVarInterpolateSample,
   'rafSample': RafSample,
-  'rafTimerSample': RafTimerSample
+  'rafTimerSample': RafTimerSample,
+  'rafProgressSample': RafProgressSample
 };
 
 class Main {

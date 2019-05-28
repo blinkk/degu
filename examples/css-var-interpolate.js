@@ -41,6 +41,7 @@ export default class CssVarInterpolateSample {
             this.cssVarInterpolate.update(easedProgress);
         });
 
+
         rafProgress.setPrecision(3);
         rafProgress.setCurrentProgress(this.range.value);
 

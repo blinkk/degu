@@ -1,11 +1,27 @@
 import { mathf } from '../mathf/mathf';
 import { Raf } from './raf';
 import { EASE } from '..';
+import { EventEmitter } from 'events';
+
+interface ProgressUpdateEvent extends Event {
+    readonly progress: number
+}
+
+interface RafProgressEvents {
+    "progressChange": ProgressUpdateEvent
+}
+
+export enum RAF_PROGRESS_EVENTS {
+    PROGRESS_CHANGE = 'progressChange'
+}
+
 
 /**
  * A class that runs Raf for a limited time while a given progress
  * (a value between 0-1) eases.  This class is useful because instead of
  * constanlty runnig raf, it will only run RAF when a progress value is unstable.
+ * This class also allows you to register and listen for specific progress
+ * values and run callbacks (IE: run a callback when the progress crosses 0.5).
  *
  *
  * Consider the following example to understand what RafProgress does.
@@ -34,8 +50,6 @@ import { EASE } from '..';
  *
  *   // Something with progress
  *   // Many manipulate the DOM here.
- *
- *
  *  }).start();
  * ```
  * Here you can see that on each RAF cycle, we check the value of the range and
@@ -47,7 +61,11 @@ import { EASE } from '..';
  * RAf and perhaps layout thrashing or performning unncessary calcs.
  *
  *
- * The abovce is simplied with this class.
+ * The above is simplied with this class.
+ *
+ *
+ *
+ *
  * ```ts
  *
  * this.range = document.getElementById('range');
@@ -73,19 +91,34 @@ import { EASE } from '..';
  *
  *
  *
+ *
+ * // RafProgress is also an event emitter so you can listen to the progressEvent
+ * rafProgress.addEventListener('progressChange', (easedProgress)=> {
+ *   // Do something.
+ * })
+ *
  * ```
  *
+ * # Progress Callbacks
+ * Raf progress additionally allows you to register and listen specific
+ * progress values and run a callback.
+ *
+ * rafProgress.listen()
+ *
+ *
  */
-export class RafProgress {
+export class RafProgress extends EventEmitter {
     private raf: Raf;
-    private progressRafLoop: Function;
+    private progressRafLoop: Function | undefined;
     private currentProgress: number;
     private targetProgress: number;
     private easeAmount: number;
     private easingFunction: Function;
     private precision: number;
 
-    constructor(progressRafLoop: Function) {
+    constructor(progressRafLoop?: Function) {
+        super();
+
         /**
          * The internally known current progress.
          */
@@ -93,7 +126,7 @@ export class RafProgress {
 
         /**
          * The callback to be executed when progress has changed in value.
-         * @type {Function}
+         * @type {Function|undefined}
          */
         this.progressRafLoop = progressRafLoop;
 
@@ -118,6 +151,7 @@ export class RafProgress {
         this.raf = new Raf(() => {
             this.rafLoop();
         });
+
     }
 
     /**
@@ -158,19 +192,32 @@ export class RafProgress {
     private rafLoop() {
         let previousProgress = this.currentProgress;
 
-        // Reduce the precision of progress.  We dont need to report progress differences
-        // of 0.0000001.
-        this.currentProgress =
-            mathf.toFixed(this.currentProgress, this.precision);
-
         this.currentProgress =
             mathf.ease(this.currentProgress,
                 this.targetProgress,
                 this.easeAmount,
                 this.easingFunction);
 
+        // Reduce the precision of progress.  We dont need to report progress differences
+        // of 0.0000001.
+        this.currentProgress =
+            mathf.toFixed(this.currentProgress, this.precision);
+
+        // Based on the the precision, we want to make sure we return
+        // a complete 0 or complete 1 as integers at the bounds of the progress.
+        if (this.currentProgress < 0.5) {
+            this.currentProgress =
+                mathf.floorToPrecision(this.currentProgress, this.precision - 1)
+        } else {
+            this.currentProgress =
+                mathf.ceilToPrecision(this.currentProgress, this.precision - 1)
+        }
+
+
+        this.emit(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE, this.currentProgress);
+
         // Call the callback.
-        this.progressRafLoop(this.currentProgress);
+        this.progressRafLoop && this.progressRafLoop(this.currentProgress);
 
         // Stop RAF if the value of progress has stabilized.
         if (previousProgress == this.currentProgress) {

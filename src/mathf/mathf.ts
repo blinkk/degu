@@ -175,33 +175,59 @@ export class mathf {
     return mathf.clampAsPercent(childProgress);
   }
 
+
+
   /**
-   * Rounds to the nearest precision.
+   * Rounds to a specific precision.
    * ```
-   * mathf.round(0.49999, 1)  --> 0.5
-   * mathf.round(0.49999, 2)  --> 0.5
-   * mathf.round(0.41199, 3)  --> 0.412
+   * mathf.roundToPrecision(0.49999, 1)  --> 0.5
+   * mathf.roundToPrecision(0.49999, 2)  --> 0.5
+   * mathf.roundToPrecision(0.41199, 3)  --> 0.412
+   * mathf.roundToPrecision(0.5555, 3)  --> 0.556
+   * mathf.roundToPrecision(0.5555, 2)  --> 0.56
    * ```
    * @tested
-   * @param {number} value
-   * @param {number} precision
-   * @return {number} A rounded number.
-   * @see https://www.jacklmoore.com/notes/rounding-in-javascript/
+   * @param value
+   * @param precision
    */
-  static round(value: number, precision: number) {
-    precision = precision == null ? 0 : precision;
-    precision = mathf.clamp(-200, 200, precision);
+  static roundToPrecision(value: number, precision: number): number {
+    precision = mathf.int(precision);
+    const shifter = Math.pow(10, precision);
+    return Math.round(value * shifter) / shifter;
+  }
 
-    if (!precision) {
-      return value;
-    }
 
-    if (precision) {
-      const preformat: string = value + 'e' + precision;
-      return Number(Math.round(<any>preformat) + 'e-' + precision);
-    }
+  /**
+   * Floors number to a specific precision.
+   * ```
+   * mathf.floorToPrecision(0.5555, 3)  --> 0.555
+   * mathf.floorToPrecission(0.5555, 2)  --> 0.55
+   * ```
+   * @tested
+   * @param value
+   * @param precision
+   */
+  static floorToPrecision(value: number, precision: number): number {
+    precision = mathf.int(precision);
+    const shifter = Math.pow(10, precision);
+    return Math.floor(value * shifter) / shifter;
+  }
 
-    return value;
+
+  /**
+   * Ceils number to a specific precision.
+   * ```
+   * mathf.ceilToPrecision(0.5555, 3)  --> 0.555
+   * mathf.ceilToPrecission(0.5555, 2)  --> 0.55
+   * ```
+   * @tested
+   * @param value
+   * @param precision
+   */
+  static ceilToPrecision(value: number, precision: number): number {
+    precision = mathf.int(precision);
+    const shifter = Math.pow(10, precision);
+    return Math.ceil(value * shifter) / shifter;
   }
 
 
