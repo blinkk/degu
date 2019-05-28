@@ -7,13 +7,15 @@ export default class RafProgressSample {
     constructor() {
         console.log('RafProgressSample');
 
-        this.ball = document.getElementById('ball');
+        this.body = document.getElementById('body');
         this.range = document.getElementById('range');
+        this.progressElement = document.getElementById('progress');
 
 
         const rafProgress = new RafProgress();
         rafProgress.watch((easedProgress, direction) => {
             // console.log('progress event', easedProgress);
+            this.progressElement.textContent = easedProgress;
         });
 
 
@@ -31,6 +33,22 @@ export default class RafProgressSample {
         rafProgress.watchFor(0.2, rangeWatcher2);
 
 
+
+        rafProgress.watchFor(0, () => {
+            this.addClass('blue');
+        });
+
+        rafProgress.watchFor(0.5, () => {
+            this.addClass('red');
+        });
+        rafProgress.watchFor(0.7, () => {
+            this.addClass('yellow');
+        });
+
+        rafProgress.watchFor(1, () => {
+            this.addClass('green');
+        });
+
         rafProgress.setPrecision(5);
         rafProgress.setCurrentProgress(this.range.value);
 
@@ -38,7 +56,19 @@ export default class RafProgressSample {
         this.range.addEventListener('input', () => {
             rafProgress.easeTo(+this.range.value, 0.25, EASE.easeInOutQuad);
         });
+    }
+
+    addClass(color) {
+        const previousColor = this.currentColor;
+        this.currentColor = color;
+
+        if (previousColor) {
+            this.body.classList.remove(previousColor);
+        }
+        this.body.classList.add(color);
 
     }
+
+
 
 }
