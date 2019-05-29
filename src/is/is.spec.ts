@@ -56,6 +56,13 @@ test('undefined', t => {
     t.is(is.undefined(2), false);
 });
 
+test('defined', t => {
+    t.is(is.defined(undefined), false);
+    t.is(is.defined(null), true);
+    t.is(is.defined(2), true);
+    t.is(is.defined('hello'), true);
+});
+
 test('regex', t => {
     t.is(is.regex(new RegExp(/test/i)), true);
     t.is(is.regex(/test/i), true);

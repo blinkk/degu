@@ -81,6 +81,15 @@ export class is {
         return is.type(value, 'undefined');
     }
 
+
+    /**
+     * @param value
+     * @tested
+     */
+    static defined(value: any) {
+        return !is.undefined(value);
+    }
+
     /**
      * @param value
      * @tested
