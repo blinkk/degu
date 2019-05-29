@@ -1,6 +1,8 @@
 import '../styles/index.sass';
 
 // Examples.
+import DomWatcher from '../dom-watcher';
+
 import EaserDisableRafSample from '../easer-disable-raf';
 import EaserSample from '../easer';
 
@@ -14,6 +16,7 @@ import RafTimerSample from '../raf-timer';
 import RafProgressSample from '../raf-progress';
 
 import PlaygroundSample from '../playground';
+import DomWatcherSample from '../dom-watcher';
 
 const samples = {
   'easerDisableRafSample': EaserDisableRafSample,
@@ -25,7 +28,8 @@ const samples = {
   'rafSample': RafSample,
   'rafTimerSample': RafTimerSample,
   'rafProgressSample': RafProgressSample,
-  'playgroundSample': PlaygroundSample
+  'playgroundSample': PlaygroundSample,
+  'domWatcherSample': DomWatcherSample
 };
 
 class Main {

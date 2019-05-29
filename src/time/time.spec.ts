@@ -55,7 +55,7 @@ test('waitUntil', async t => {
     let waitUntilCallbackCalled = false;
 
     // Set the interval to 1 for quick testing.
-    time.waitUntil(() => testValue == 5, 20, 1).then(() => {
+    time.waitUntil(() => testValue == 5, 0, 1).then(() => {
         waitUntilCallbackCalled = true;
     })
     t.is(waitUntilCallbackCalled, false);
@@ -67,7 +67,7 @@ test('waitUntil', async t => {
     t.is(waitUntilCallbackCalled, false);
 
     // Now wait 15ms
-    await time.wait(100);
+    await time.wait(20);
     t.is(waitUntilCallbackCalled, true);
 
 });

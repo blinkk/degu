@@ -42,12 +42,11 @@ export default class CssVarInterpolateSample {
         });
 
 
-        rafProgress.setPrecision(3);
         rafProgress.setCurrentProgress(this.range.value);
 
         // Update rafProgress each time the value of range changes.
         this.range.addEventListener('input', () => {
-            rafProgress.easeTo(+this.range.value, 0.25, EASE.easeInOutQuad);
+            rafProgress.easeTo(+this.range.value, 0.1, EASE.easeInOutQuad);
         });
 
     }

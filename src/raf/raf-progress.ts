@@ -172,7 +172,7 @@ export class RafProgress extends EventEmitter {
          * The number of decimals to use when checking the equality of the
          * previous progress versus current.
          */
-        this.precision = 5;
+        this.precision = 10;
 
         /**
          * The amount of ease to apply.  This gets calculated as per RAF,
