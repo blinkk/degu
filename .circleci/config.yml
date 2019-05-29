@@ -1,0 +1,20 @@
+# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
+version: 2.1
+
+jobs:
+  unit:
+    environment:
+      ENV_TYPE: local
+      ENV_FILE_PASSWORD: local
+    docker:
+      - image: node:8.9.1
+    working_directory: ~/hoge
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install node modules
+          command: npm i
+      - run:
+          name: Run test
+          command: npm run ava

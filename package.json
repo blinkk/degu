@@ -76,6 +76,7 @@
     "doc-server": "simplehttpserver ./docs",
     "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
     "test": "tsc && ava --watch",
+    "ava": "ava",
     "lint": "tslint -c tslint.json \"src/**/*.ts\"",
     "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
   }

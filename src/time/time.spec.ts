@@ -63,7 +63,7 @@ test('waitUntil', async t => {
     // Make it true in 10ms.
     setTimeout(() => {
         testValue = 5;
-    }, 10)
+    }, 1)
     t.is(waitUntilCallbackCalled, false);
 
     // Now wait 15ms
