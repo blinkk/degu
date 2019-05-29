@@ -98,7 +98,7 @@ export class time {
      * time.waitUntil(()=> someValue == 5).then(()=> {
      *   console.log('some value is 5!!!');
      * })
-     *
+    *
      * setTimeout(()=> {
      *   someValue = 5;
      * }, 1000);

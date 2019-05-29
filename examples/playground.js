@@ -1,14 +1,20 @@
 
+import { WebWorker } from '../lib/dom/web-worker';
 import { time } from '../lib/time/time';
 export default class Playgroundsmaple {
     constructor() {
         console.log("play ground");
 
+
+        // TIME Stuff
         // this.testTimeDebouncer();
         // this.testTimeThrottler();
-
         // this.testTimeWaitUntil();
-        this.testTimeWait();
+        // this.testTimeWait();
+
+
+        // DOM Stuff
+        this.testWebWorker();
 
     }
 
@@ -46,6 +52,25 @@ export default class Playgroundsmaple {
         console.log('hohoho');
         time.wait(500).then(() => {
             console.log('hohoho after 500ms');
+        });
+    }
+
+
+    testWebWorker() {
+        var worker = new WebWorker((params) => {
+            return params.a + params.b;
+        });
+
+        let params = {
+            a: 4,
+            b: 3
+        };
+
+        worker.run(params).then((result) => {
+            console.log('result', result);
+        });
+        worker.run({ a: 4, b: 6 }).then((result) => {
+            console.log('result2', result);
         });
     }
 }
