@@ -3,6 +3,7 @@
 Yano is a general utility library for interactive websites.
 
 [API Docs](https://yano-js.surge.sh)
+[Coverage](https://yano-js-coverage.surge.sh)
 
 # Build Status
 

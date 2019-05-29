@@ -42,6 +42,8 @@ npm version patch
 npm publish
    Publish a new version to npm.
 
+
+// Docs
 npm run doc
   Build typedocs.  Builds into the /doc folder.
 
@@ -51,6 +53,14 @@ npm run doc-server
 npm run publish-doc
   Publishes the docs to surge.io.
   Manually Run:$ surge --domain yano-js.surge.sh --project $PWD/docs/
+
+npm run coverage
+  Runs coverage report
+
+npm run publish-coverage
+
+  Publishes the docs to surge.io.
+  Manually Run:$ surge --domain yano-js-coverage.surge.sh --project $PWD/coverage/
 
 ```
 
