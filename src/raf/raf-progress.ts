@@ -26,13 +26,6 @@ interface RafProgressRangeWatcher {
 }
 
 
-interface RafProgressEvents {
-    "progressChange": RafProgressUpdateEvent
-}
-
-export enum RAF_PROGRESS_EVENTS {
-    PROGRESS_CHANGE = 'progressChange'
-}
 
 
 /**
@@ -145,7 +138,7 @@ export enum RAF_PROGRESS_EVENTS {
  * ```
  * @noInheritDoc
  */
-export class RafProgress extends EventEmitter {
+export class RafProgress {
     private raf: Raf;
     private currentProgress: number;
     private targetProgress: number;
@@ -153,6 +146,7 @@ export class RafProgress extends EventEmitter {
     private easingFunction: Function;
     private precision: number;
     private rangeWatchers: Array<RafProgressRangeWatcher>;
+    private callbacks: Array<Function>;
 
     /**
      * @param {Function} progressRafLoop  Optional function to be called on each
@@ -160,7 +154,6 @@ export class RafProgress extends EventEmitter {
      * @constructor
      */
     constructor(progressRafLoop?: Function) {
-        super();
 
         /**
          * The internally known current progress.
@@ -187,6 +180,11 @@ export class RafProgress extends EventEmitter {
          * A collection of callbacks to be run at specific progress values.
          */
         this.rangeWatchers = [];
+
+        /**
+         * A collection of callbacks to be run when progress is changed.
+         */
+        this.callbacks = [];
 
         this.targetProgress = this.currentProgress;
         this.easingFunction = EASE.linear;
@@ -236,15 +234,17 @@ export class RafProgress extends EventEmitter {
      * @param {Function}
      */
     watch(callback: any) {
-        this.on(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE, callback);
+        this.callbacks.push(callback);
     }
 
     /**
      * Removes a progress listener.
      * @param {Function}
      */
-    unwatch(callback: any) {
-        this.off(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE, callback);
+    unwatch(callbackToRemove: any) {
+        this.callbacks = this.callbacks.filter((callback) => {
+            return callback == callbackToRemove;
+        })
     }
 
     /**
@@ -301,8 +301,11 @@ export class RafProgress extends EventEmitter {
 
 
         let direction = mathf.direction(previousProgress, this.currentProgress);
-        this.emit(RAF_PROGRESS_EVENTS.PROGRESS_CHANGE,
-            this.currentProgress, direction);
+
+        // Call callbacks.
+        this.callbacks.forEach((callback) => {
+            callback(this.currentProgress, direction);
+        })
 
         // Loop through watchers.
         this.rangeWatchers.forEach((watcher: RafProgressRangeWatcher) => {
@@ -371,7 +374,9 @@ export class RafProgress extends EventEmitter {
 
 
     dispose() {
-        this.raf.stop();
+        this.raf.dispose();
+        this.callbacks = [];
+        this.rangeWatchers = [];
     }
 
 }
