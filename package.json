@@ -30,6 +30,27 @@
       "src/**/*.spec.ts"
     ]
   },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "_ava",
+      "**/*.d.ts",
+      "docs/",
+      "examples/",
+      "coverage/",
+      "lib/",
+      "webpack/",
+      "src/playground"
+    ],
+    "reporter": [
+      "html",
+      "text-summary"
+    ],
+    "all": true
+  },
   "devDependencies": {
     "@babel/core": "7.4.0",
     "@babel/plugin-proposal-class-properties": "7.4.0",
@@ -51,6 +72,7 @@
     "mini-css-extract-plugin": "0.5.0",
     "node-sass": "4.11.0",
     "npm-run-all": "4.1.5",
+    "nyc": "^14.1.1",
     "rollup": "^1.12.3",
     "rollup-plugin-typescript2": "^0.21.1",
     "sass-loader": "7.1.0",
@@ -77,6 +99,7 @@
     "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
     "test": "tsc && ava --watch",
     "ava": "ava",
+    "coverage": "nyc ava",
     "lint": "tslint -c tslint.json \"src/**/*.ts\"",
     "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
   }
