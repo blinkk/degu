@@ -9,14 +9,6 @@ interface RafEvent extends Event {
     readonly stop: Function;
 }
 
-interface RafEvents {
-    "raf": RafEvent
-}
-
-export enum RAF_EVENTS {
-    RAF = 'raf'
-}
-
 
 
 /**
@@ -48,13 +40,14 @@ export enum RAF_EVENTS {
  * @noInheritDoc
  * @class
  */
-export class Raf extends EventEmitter {
+export class Raf {
 
     private raf_: any;
     private frame: number | null;
     private lastUpdateTime: number;
     private fps: number;
     private isPlaying: boolean;
+    private callbacks: Array<Function>;
 
     /**
      * @param {Function} rafLoop  Optional function to be called on each
@@ -62,7 +55,6 @@ export class Raf extends EventEmitter {
      * @constructor
      */
     constructor(rafLoop: Function | null) {
-        super();
 
         /**
          * The internal reference to request animation frame.
@@ -96,6 +88,13 @@ export class Raf extends EventEmitter {
          */
         this.isPlaying = false;
 
+
+        /**
+         * A collection of callbacks to be called on raf.
+         * @type {Array<Function>}
+         */
+        this.callbacks = [];
+
         if (rafLoop) {
             this.watch(rafLoop);
         }
@@ -106,15 +105,17 @@ export class Raf extends EventEmitter {
      * @param
      */
     watch(callback: any) {
-        this.on(RAF_EVENTS.RAF, callback);
+        this.callbacks.push(callback);
     }
 
     /**
      * Removes a progress listener.
      * @param {Function}
      */
-    unwatch(callback: any) {
-        this.off(RAF_EVENTS.RAF, callback);
+    unwatch(callbackToRemove: any) {
+        this.callbacks = this.callbacks.filter((callback) => {
+            return callback == callbackToRemove;
+        })
     }
 
 
@@ -165,9 +166,11 @@ export class Raf extends EventEmitter {
             const fps = this.fps == 0 ? 0 : 1000 / this.fps;
             if (elapsed > fps) {
 
-                this.emit(RAF_EVENTS.RAF, this.frame, this.lastUpdateTime, elapsed, () => {
-                    this.stop();
-                });
+                this.callbacks.forEach((callback) => {
+                    callback(this.frame, this.lastUpdateTime, elapsed, () => {
+                        this.stop();
+                    });
+                })
 
                 this.lastUpdateTime = time.now();
             }
