@@ -1,27 +1,39 @@
-# Yano
+# Yano-js
 
 Yano is a general utility library for interactive websites.
 
-[API Docs](https://yano-js.surge.sh)
-[Coverage](https://yano-js-coverage.surge.sh)
+Yano-js is currently in Alpha and the API can and probably will change
+in the future.
 
-# Build Status
+- [API Docs](https://yano-js.surge.sh)
+- [Coverage Report](https://yano-js-coverage.surge.sh)
+- [Circle CI Builds](https://circleci.com/gh/uxder/yano-js)
 
-| Branch       | Status           |
-| ------------- |:-------------:|
-| Master      | ![Master](https://circleci.com/gh/uxder/yano-js.svg?style=svg)|
-[Circle CI Builds](https://circleci.com/gh/uxder/yano-js)
+## Motivation
+Yano-js is an interactive developers toolbox.  It's not the next huge
+component library with ready made solutions (modal, carousels etc) but it's
+the nails and hammers that you need to build awesome customized kickass
+websites.
 
 
-# Installation
+## Build Status
+
+![Master](https://circleci.com/gh/uxder/yano-js.svg?style=svg)
+
+
+## Installation
 ```
 npm install yano-js@latest --save-dev
 ```
 
-# Example
-Take a look at the /examples folder to get started.
+## Getting started
 
-```js
+Read the [API Docs](https://yano-js.surge.sh) and also look at the /examples
+folder to get started.
+
+
+Import the library as follows:
+```ts
 import {WebWorker} from 'yano-js';
 
 const worker = new WebWorker((params)=> {
@@ -36,10 +48,16 @@ worker.run({a: 5, b: 2}).then((result)=> {
 
 
 Import specific files
-```
+```ts
 import { mathf } from 'yano-js/mathf'
 import { dom } from 'yano-js/dom'
 ```
 
 
+## Contributing
+Please read [CONTRIBUTING.md](https://github.com/uxder/yano-js/blob/master/CONTRIBUTING.md)
+on how to develop for yano-js.
 
+
+## License
+Please read [LICENSE.md](https://github.com/uxder/yano-js/blob/master/LICENSE.md)
