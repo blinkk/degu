@@ -8,7 +8,7 @@ test('debounce', async t => {
     // Create a
     var debounce = time.debounce(() => {
         count++;
-    }, 10);
+    }, 3);
 
     // Call debounce, sequentially.
     debounce();
@@ -22,8 +22,8 @@ test('debounce', async t => {
 
 
     // Wait to check debounce has been called.
-    await time.wait(100);
-    // t.is(count, 5);
+    await time.wait(5);
+    t.is(count, 2);
 
 });
 
@@ -67,7 +67,7 @@ test('waitUntil', async t => {
     t.is(waitUntilCallbackCalled, false);
 
     // Now wait 15ms
-    await time.wait(20);
+    await time.wait(100);
     t.is(waitUntilCallbackCalled, true);
 
 });

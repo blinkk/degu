@@ -58,9 +58,12 @@ npm run coverage
   Runs coverage report
 
 npm run publish-coverage
-
   Publishes the docs to surge.io.
   Manually Run:$ surge --domain yano-js-coverage.surge.sh --project $PWD/coverage/
+
+// Quick publish
+npm run publish
+  Build docs, run test and coverage and publish all
 
 ```
 

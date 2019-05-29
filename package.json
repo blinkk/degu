@@ -47,7 +47,7 @@
     ],
     "reporter": [
       "html",
-      "text-summary"
+      "text"
     ],
     "all": true
   },
@@ -94,6 +94,7 @@
     "build": "rm -rf lib && mkdir lib && tsc",
     "build-watch": "tsc --watch",
     "doc": "typedoc",
+    "publish": "npm run doc && npm run coverage && npm run publish-doc && npm run publish-coverage",
     "publish-doc": "surge --domain yano-js.surge.sh --project $PWD/docs/",
     "publish-coverage": "surge --domain yano-js-coverage.surge.sh --project $PWD/coverage/",
     "doc-server": "simplehttpserver ./docs",
