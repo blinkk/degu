@@ -1,6 +1,7 @@
 import { dom } from './dom/dom';
 import { mathf } from './mathf/mathf';
 import { is } from './is/is';
+import { time } from './time/time';
 import { Raf } from './raf/raf';
 import { RafProgress } from './raf/raf-progress';
 import { RafTimer } from './raf/raf-timer';
@@ -16,6 +17,7 @@ export {
     MultiInterpolate,
 
     is,
+    time,
 
     Raf,
     RafProgress,

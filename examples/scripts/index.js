@@ -13,6 +13,8 @@ import RafSample from '../raf';
 import RafTimerSample from '../raf-timer';
 import RafProgressSample from '../raf-progress';
 
+import PlaygroundSample from '../playground';
+
 const samples = {
   'easerDisableRafSample': EaserDisableRafSample,
   'easerSample': EaserSample,
@@ -22,7 +24,8 @@ const samples = {
   'cssVarInterpolateSample': CssVarInterpolateSample,
   'rafSample': RafSample,
   'rafTimerSample': RafTimerSample,
-  'rafProgressSample': RafProgressSample
+  'rafProgressSample': RafProgressSample,
+  'playgroundSample': PlaygroundSample
 };
 
 class Main {
