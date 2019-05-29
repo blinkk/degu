@@ -16,3 +16,5 @@ jobs:
           command: npm run coverage
       - store_test_results:
           path: ./coverage
+      - store_artifacts:
+          path: ~/coverage
