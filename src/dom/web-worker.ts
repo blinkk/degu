@@ -7,7 +7,7 @@
  *
  * Your worker function should return some result (any type).
  *
- * Every time you call [[Worker.run]], it will create a new ONE time worker that
+ * Every time you call [[WebWorker.run]], it will create a new ONE time worker that
  * self terminates upon completion.
  *
  * Example:
@@ -30,7 +30,7 @@
  *
  * // Create self terminating one time worker.
  * worker.run({ a: 5, b: 5}).then((result)=> {
- *   console.log(result); // 5
+ *   console.log(result); // 10
  * })
  *
  *

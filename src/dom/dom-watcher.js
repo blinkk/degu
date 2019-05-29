@@ -1,6 +1,3 @@
-
-
-
 /**
  * A class that helps with DOM events.  The main usecase for this class is
  * to be able to watch the dom and then later remove a group of events
