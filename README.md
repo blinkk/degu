@@ -4,6 +4,14 @@ Yano is a general utility library for interactive websites.
 
 [API Docs](yano-js.surge.sh)
 
+# Build Status
+
+| Branch       | Status           |
+| ------------- |:-------------:|
+| Master      | ![Master](https://circleci.com/gh/uxder/yano-js.svg?style=svg)|
+
+[Circle CI Builds](https://circleci.com/gh/uxder/yano-js)
+
 
 # Installation
 ```
