@@ -14,9 +14,15 @@ npm install yano-js@latest --save-dev
 Take a look at the /examples folder to get started.
 
 ```js
-import {mathf} from 'yano-js';
+import {WebWorker} from 'yano-js';
 
-let angle = mathf.angleDistanceDegree(10, 340);
+const worker = new WebWorker((params)=> {
+    return params.a * params.b;
+})
+
+worker.run({a: 5, b: 2}).then((result)=> {
+   console.log(result); // 10
+})
 
 ```
 

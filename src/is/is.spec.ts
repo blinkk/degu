@@ -57,7 +57,7 @@ test('undefined', t => {
 });
 
 test('defined', t => {
-    t.is(is.defined(undefined), false);
+    t.is(is.defined(undefined), true);
     t.is(is.defined(null), true);
     t.is(is.defined(2), true);
     t.is(is.defined('hello'), true);
