@@ -22,7 +22,7 @@ websites.
 
 
 ## Installation
-```
+```bash
 npm install yano-js@latest --save-dev
 ```
 

@@ -80,15 +80,36 @@ import { dom } from '../dom/dom';
  *  }).start();
  *
  *
+ * ```
  *
- *
+ * Ranged Progress Interpolations
+ * You can also set the progress range.  This will tell cssVarInterpolate
+ * to internally generate a [[mathf.childProgress]] and scope the interpolations
+ * to a scoped range instead of 0-1.
+ * ```ts
+ *  this.cssVarInterpolate.setProgressRange(0.2, 0.6);
  * ```
  */
 export class CssVarInterpolate {
-    private progress: number | null;
+    private mainProgress: number | null;
     private currentValues: Object;
     private multiInterpolate: MultiInterpolate;
 
+    /**
+     * Given the mainProgress, at what progress point the interpolations
+     * should begin.  This value is used to calculate a
+     * [[mathf.childProgeress]] so that if necessary, the interpolations
+     * can be scoped to a set range.  Defaults to 0.
+     */
+    private startProgress: number;
+
+    /**
+     * Given the mainProgress, at what progress point the interpolations
+     * should end.  This value is used to calculate a
+     * [[mathf.childProgeress]] so that if necessary, the interpolations
+     * can be scoped to a set range.  Defaults to 1.
+     */
+    private endProgress: number;
 
     /**
      * @param element The element to update the css variable to.
@@ -105,9 +126,12 @@ export class CssVarInterpolate {
          * Set this to initially null so that when update is first called
          * we are guanranteed that it will be processed.
          */
-        this.progress = null;
+        this.mainProgress = null;
         this.currentValues = {};
         this.multiInterpolate = new MultiInterpolate(config);
+
+        this.startProgress = 0;
+        this.endProgress = 1;
     }
 
     /**
@@ -116,18 +140,35 @@ export class CssVarInterpolate {
     update(progress: number) {
         // Only make updates when progress value was updated to avoid layout
         // thrashing.
-        if (progress == this.progress) {
+        if (progress == this.mainProgress) {
             return;
         }
 
-        this.progress = progress;
+        // Create a child progress so that the range in which this interpolation
+        // reacts can be scoped.
+        this.mainProgress = mathf.childProgress(progress,
+            this.startProgress, this.endProgress);
 
         this.currentValues =
-            this.multiInterpolate.calculate(this.progress);
+            this.multiInterpolate.calculate(this.mainProgress);
 
         for (var key in this.currentValues) {
             dom.setCssVariable(this.element, key, this.currentValues[key]);
         }
     }
+
+
+    /**
+     * Sets the start and end values of which interpolations begin.  This allows
+     * you to set something like, given the main progress that is updated from
+     * 0-1, I only want this to interpolate from 0.2-0.6.
+     * @param start
+     * @param end
+     */
+    setProgressRange(start: number, end: number) {
+        this.startProgress = start;
+        this.endProgress = end;
+    }
+
 
 }

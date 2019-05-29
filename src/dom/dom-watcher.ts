@@ -123,7 +123,6 @@ export class DomWatch {
 
     add(config: DomWatcherConfig) {
 
-
         config.element.addEventListener(
             config.on,
             config.callback,

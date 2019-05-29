@@ -81,7 +81,6 @@ export class is {
         return is.type(value, 'undefined');
     }
 
-
     /**
      * @param value
      * @tested
