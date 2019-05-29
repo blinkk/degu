@@ -1,13 +1,10 @@
 version: 2
 
 jobs:
-  unit:
-    environment:
-      ENV_TYPE: local
-      ENV_FILE_PASSWORD: local
+  build:
     docker:
       - image: node:8.9.1
-    working_directory: ~/hoge
+    working_directory: ~/repo
     steps:
       - checkout
       - setup_remote_docker
