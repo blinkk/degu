@@ -2,10 +2,6 @@
 import { time } from './time';
 import test from 'ava';
 
-async function delay(time: number) {
-    return new Promise(resolve => setTimeout(resolve, time));
-}
-
 test('debounce', async t => {
 
     var count = 1;
@@ -26,7 +22,7 @@ test('debounce', async t => {
 
 
     // Wait to check debounce has been called.
-    await delay(100);
+    await time.wait(100);
     // t.is(count, 5);
 
 });
@@ -47,9 +43,31 @@ test('throttle', async t => {
     t.is(count, 2);
 
 
-    // Wait to check
-    await delay(100);
+    await time.wait(100);
     throttle();
     t.is(count, 3);
+
+});
+
+test('waitUntil', async t => {
+
+    let testValue = 0;
+    let waitUntilCallbackCalled = false;
+
+    // Set the interval to 1 for quick testing.
+    time.waitUntil(() => testValue == 5, 20, 1).then(() => {
+        waitUntilCallbackCalled = true;
+    })
+    t.is(waitUntilCallbackCalled, false);
+
+    // Make it true in 10ms.
+    setTimeout(() => {
+        testValue = 5;
+    }, 10)
+    t.is(waitUntilCallbackCalled, false);
+
+    // Now wait 15ms
+    await time.wait(100);
+    t.is(waitUntilCallbackCalled, true);
 
 });
