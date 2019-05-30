@@ -71,3 +71,96 @@ test('waitUntil', async t => {
     t.is(waitUntilCallbackCalled, true);
 
 });
+
+test('memoize', async t => {
+    // Number of times memoize function is run.
+    let count = 0;
+
+    let run = func.memoize((value: any) => {
+        count++;
+        return value;
+    })
+    t.is(count, 0);
+
+    t.is(run(5), 5);
+    t.is(count, 1);
+    // Run 2 several times.
+    t.is(run(6), 6);
+    t.is(count, 2);
+
+    // Now rerun the executions
+    t.is(run(5), 5);
+    t.is(run(5), 5);
+    t.is(run(5), 5);
+    t.is(run(5), 5);
+    t.is(run(5), 5);
+    t.is(run(6), 6);
+    t.is(run(6), 6);
+    t.is(run(6), 6);
+
+    // The count should still remain at 2.
+    t.is(count, 2);
+});
+
+test('memoizeSimple', async t => {
+    // Number of times memoize function is run.
+    let count = 0;
+
+    let run = func.memoizeSimple((value: any) => {
+        count++;
+        return value;
+    })
+    t.is(count, 0);
+
+    t.is(run(5), 5);
+    t.is(run(5), 5);
+    t.is(run(5), 5);
+    t.is(run(5), 5);
+    t.is(run(5), 5);
+    t.is(count, 1);
+    // Run 2 several times.
+    t.is(run(6), 6);
+    t.is(run(6), 6);
+    t.is(run(6), 6);
+    t.is(run(6), 6);
+    t.is(count, 2);
+
+    // Now rerun the executions.  Since simple has a simple memory,
+    // it should rerun.
+    t.is(run(5), 5);
+    t.is(count, 3);
+    t.is(run(5), 5);
+    t.is(count, 3);
+    t.is(run(6), 6);
+    t.is(count, 4);
+    t.is(run(6), 6);
+    t.is(count, 4);
+    t.is(run(7), 7);
+    t.is(count, 5);
+});
+
+
+test('runOnceOnChange', async t => {
+    // Number of times memoize function is run.
+    let count = 0;
+
+    let run = func.memoizeSimple((value: any) => {
+        count++;
+    })
+    t.is(count, 0);
+
+    run(1)
+    run(1)
+    run(1)
+    run(1)
+    run(1)
+    t.is(count, 1);
+    run(2)
+    t.is(count, 2);
+    run(1)
+    t.is(count, 3);
+    run(2)
+    run(2)
+    run(2)
+    t.is(count, 4);
+});

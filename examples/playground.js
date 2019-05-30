@@ -7,11 +7,13 @@ export default class Playgroundsmaple {
 
 
         // TIME Stuff
-        this.testFuncDebouncer();
+        // this.testFuncDebouncer();
         // this.testFuncThrottler();
         // this.testFuncWaitUntil();
         // this.testFuncWait();
-
+        // this.testFuncMemoizeSimple();
+        this.testFuncMemoize();
+        // this.testFuncRunOnceOnChange();
 
         // DOM Stuff
         // this.testWebWorker();
@@ -55,6 +57,54 @@ export default class Playgroundsmaple {
         });
     }
 
+    testFuncMemoizeSimple() {
+        let showName = func.memoizeSimple(
+            (name) => {
+                return name;
+            }
+        );
+
+        console.log(showName('John'));
+        console.log(showName('John'));
+        console.log(showName('John'));
+        console.log(showName('John'));
+        console.log(showName('Scott'));
+    }
+
+    testFuncRunOnceOnChange() {
+        let expensiveOperation = func.runOnceOnChange(
+            (name) => {
+                console.log(name);
+            }
+        );
+
+        expensiveOperation('Scott');
+        expensiveOperation('Scott');
+        expensiveOperation('Scott');
+        expensiveOperation('Scott');
+        expensiveOperation('Scott');
+        expensiveOperation('John');
+        expensiveOperation('John');
+        expensiveOperation('Aya');
+        expensiveOperation('Aya');
+    }
+
+    testFuncMemoize() {
+        let calculate = func.memoize(
+            (a, b) => {
+                console.log('calculating');
+                return a + b;
+            }
+        );
+
+        console.log(calculate(3, 2));
+        console.log(calculate(2, 2));
+        console.log(calculate(3, 2));
+        console.log(calculate(2, 2));
+        console.log(calculate(3, 2));
+
+    }
+
 
     testWebWorker() {
         var worker = new WebWorker((params) => {
@@ -73,4 +123,5 @@ export default class Playgroundsmaple {
             console.log('result2', result);
         });
     }
+
 }

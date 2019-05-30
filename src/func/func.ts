@@ -138,4 +138,163 @@ export class func {
 
         return returnPromise;
     }
+
+
+    /**
+     * Memoizes a function with just a one time memory.   This memoize
+     * conserves RAM (probably :))
+     *
+     * If the same parameter is passed as the last execution, the results are
+     * pulled from the cache.  When paramers change, the callback is reevaluated
+     * for new results.
+     *
+     * The key difference between [[mathf.memoize]] is that this memoize stores
+     * just the last results as opposed to a dictionary of all previous results.
+     *
+     * If running a lot of executions, this can save memory.
+     *
+     * Consider the following example.  The calculations are done only when
+     * a mutation occurs in the parameters.  Otherwise, the results are
+     * pull from the single cache.
+     *
+     * ```ts
+     * let expensiveCalculation = func.memoizeSimple((a,b,c)=> {
+     *   return a + b + c;
+     * })
+     *
+     * expensiveCalculation(1, 1, 1); // 3, callback executed and results cached.
+     * expensiveCalculation(1, 1, 1); // 3 from cache
+     * expensiveCalculation(1, 1, 1); // 3 from cache
+     * expensiveCalculation(1, 1, 1); // 3 from cache
+     *
+     * expensiveCalculation(2, 2, 2); // 6, callback executed and results cached.
+     * expensiveCalculation(2, 2, 2); // 6 from cache
+     *
+     * // Now in a classic memozize the below would not be reexecuted. But since
+     * // this memoize only has a simple memory, it will be reexecuted.
+     * expensiveCalculation(1, 1, 1); // 3, callback executed and results cached.
+     * expensiveCalculation(1, 1, 1); // 3 from cache
+     *
+     * ```
+     * @param {Function} callback The function to wrap the memoize mechanism.
+     *     It's expect that this function returns something.  Can't be void.
+     * @return {Function}
+     * @tested
+     */
+    static memoizeSimple(callback: Function): Function {
+        let cachedResults: any = null;
+        let cachedArgs: string | null = null;
+
+        return (...args: any[]) => {
+            let stringifiedArgs = JSON.stringify(args);
+            if (stringifiedArgs == cachedArgs) {
+                return cachedResults;
+            } else {
+                cachedArgs = stringifiedArgs;
+                return cachedResults = callback.apply(null, args);
+            }
+        };
+    }
+
+
+
+    /**
+     * Memoizes a function.  If the params passed to the function are the same
+     * as a previous call, then the cached results are returned, saving an
+     * unncessary excecution.
+     *
+     *
+     * Consider the follwing example
+     * ```ts
+     * let expensiveCalculation = func.memoize((a,b,c)=> {
+     *   return a + b + c;
+     * })
+     *
+     * expensiveCalculation(1, 1, 1); // 3, callback executed and results cached.
+     * expensiveCalculation(1, 1, 1); // 3 from cache
+     * expensiveCalculation(1, 1, 1); // 3 from cache
+     *
+     * expensiveCalculation(2, 2, 2); // 6, callback executed and results cached.
+     * expensiveCalculation(2, 2, 2); // 6 from cache
+     *
+     * expensiveCalculation(1, 1, 1); // 3 from cache
+     * expensiveCalculation(2, 2, 2); // 6 from cache
+     * ```
+     * @param {Function} callback The function to wrap the memoize mechanism.
+     *     It's expect that this function returns something.  Can't be void.
+     * @return {Function}
+     * @tested
+     */
+    static memoize(callback: Function): Function {
+        let cachedResults: Object = {};
+        return (...args: any[]) => {
+            let stringifiedArgs = JSON.stringify(args);
+
+            if (cachedResults[stringifiedArgs]) {
+                return cachedResults[stringifiedArgs]
+            } else {
+                return cachedResults[stringifiedArgs] = callback.apply(null, args);
+            }
+        };
+    }
+
+
+    /**
+     * Runs a function ONLY when the parameters have changed.
+     *
+     *
+     * Running the below, you will see only four console.logs executed, each
+     * when the params have changed.
+     * ```ts
+     *
+     *   let expensiveOperation = func.runOnceOnChange(
+     *       (name) => {
+     *           // Do expensive stuff here.
+     *           console.log(name);
+     *       }
+     *   );
+     *
+     *   expensiveOperation('Scott');  // Scott
+     *   expensiveOperation('Scott');
+     *   expensiveOperation('Scott');
+     *   expensiveOperation('Scott');
+     *   expensiveOperation('Scott');
+     *   expensiveOperation('John');   // John
+     *   expensiveOperation('John');
+     *   expensiveOperation('Aya');    // Aya
+     *   expensiveOperation('Aya');
+     *   expensiveOperation('John');   // John
+     *   expensiveOperation('John');
+     * ```
+     *
+     * More in practice.  Here we want to do mutate only when the window.innerWidth
+     * or windowHeight has changed.
+     * ```ts
+     * let updateCanvasSize = func.runOnceOnChanged(
+     *    (windowWidth, windowHeight)=> {
+     *       // Do something expensive.
+     *       console.log('Change the canvas size');
+     * })
+     *
+     * new Raf(()=> {
+     *   updateCanvasSize(window.innnerWidth, window.innerHeight);
+     * });
+     * ```
+     * @param {Function} callback The callback to execute.  Doesn't require
+     *     the callback to return a value.
+     * @tested
+     */
+    static runOnceOnChange(callback: Function) {
+        let cachedResults: any = null;
+        let cachedArgs: string | null = null;
+
+        return (...args: any[]) => {
+            let stringifiedArgs = JSON.stringify(args);
+            // Only excute if arguments are different.
+            if (stringifiedArgs !== cachedArgs) {
+                cachedArgs = stringifiedArgs;
+                return cachedResults = callback.apply(null, args);
+            }
+        };
+    }
 }

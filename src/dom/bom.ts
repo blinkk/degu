@@ -40,7 +40,6 @@ export class bom {
         window.addEventListener('resize', handler, options);
 
         return () => {
-            console.log("disposed");
             window.removeEventListener('resize', handler);
         }
     }
