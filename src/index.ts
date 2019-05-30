@@ -1,6 +1,7 @@
 import { dom } from './dom/dom';
 import { mathf } from './mathf/mathf';
 import { is } from './is/is';
+import { func } from './func/func';
 import { time } from './time/time';
 import { Raf } from './raf/raf';
 import { RafProgress } from './raf/raf-progress';
@@ -18,6 +19,7 @@ export {
 
     is,
     time,
+    func,
 
     Raf,
     RafProgress,

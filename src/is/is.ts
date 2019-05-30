@@ -10,7 +10,7 @@ export class is {
      * @param value
      * @param type
      */
-    static type(value: any, type: String) {
+    static type(value: any, type: String): boolean {
         const trueType =
             Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
         return type == trueType;
@@ -21,7 +21,7 @@ export class is {
      * @param value
      * @tested
      */
-    static boolean(value: any) {
+    static boolean(value: any): boolean {
         return is.type(value, 'boolean');
     }
 
@@ -29,7 +29,7 @@ export class is {
      * @param value
      * @tested
      */
-    static array(value: any) {
+    static array(value: any): boolean {
         return is.type(value, 'array');
     }
 
@@ -37,7 +37,7 @@ export class is {
      * @param value
      * @tested
      */
-    static string(value: any) {
+    static string(value: any): boolean {
         return is.type(value, 'string');
     }
 
@@ -53,7 +53,7 @@ export class is {
      * @param value
      * @tested
      */
-    static number(value: any) {
+    static number(value: any): boolean {
         return is.type(value, 'number');
     }
 
@@ -61,7 +61,7 @@ export class is {
      * @param value
      * @tested
      */
-    static function(value: any) {
+    static function(value: any): boolean {
         return is.type(value, 'function');
     }
 
@@ -69,7 +69,7 @@ export class is {
      * @param value
      * @tested
      */
-    static null(value: any) {
+    static null(value: any): boolean {
         return is.type(value, 'null');
     }
 
@@ -77,7 +77,7 @@ export class is {
      * @param value
      * @tested
      */
-    static undefined(value: any) {
+    static undefined(value: any): boolean {
         return is.type(value, 'undefined');
     }
 
@@ -85,7 +85,7 @@ export class is {
      * @param value
      * @tested
      */
-    static defined(value: any) {
+    static defined(value: any): boolean {
         return !is.undefined(value);
     }
 
@@ -93,7 +93,7 @@ export class is {
      * @param value
      * @tested
      */
-    static regex(value: any) {
+    static regex(value: any): boolean {
         return is.type(value, 'regexp');
     }
 
@@ -101,7 +101,7 @@ export class is {
      * @param value
      * @tested
      */
-    static object(value: any) {
+    static object(value: any): boolean {
         return is.type(value, 'object');
     }
 
@@ -109,7 +109,7 @@ export class is {
      * @param value
      * @tested
      */
-    static int(value: any) {
+    static int(value: any): boolean {
         return is.number(value) && value % 1 == 0;
     }
 
@@ -117,7 +117,7 @@ export class is {
      * @param value
      * @tested
      */
-    static float(value: any) {
+    static float(value: any): boolean {
         return is.number(value) && !is.int(value);
     }
 
@@ -125,7 +125,7 @@ export class is {
      * @param value
      * @tested
      */
-    static multipleOf(value: any, multiple: number) {
+    static multipleOf(value: any, multiple: number): boolean {
         return is.number(value) && value % multiple == 0;
     }
 
@@ -133,7 +133,7 @@ export class is {
      * @param value
      * @tested
      */
-    static even(value: any) {
+    static even(value: any): boolean {
         return is.number(value) && is.multipleOf(value, 2);
     }
 
@@ -141,7 +141,7 @@ export class is {
      * @param value
      * @tested
      */
-    static odd(value: any) {
+    static odd(value: any): boolean {
         return is.number(value) && !is.even(value);
     }
 
@@ -151,10 +151,42 @@ export class is {
      * @param value
      * @tested
      */
-    static nan(value: any) {
+    static nan(value: any): boolean {
         return value !== value;
     }
 
+    static mobile(): boolean {
+        return is.ios() || is.android();
+    }
 
+    static ios(): boolean {
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    static android(): boolean {
+        return /Android/i.test(navigator.userAgent);
+    }
+
+    static chrome(): boolean {
+        return navigator.userAgent.indexOf('Chrome') != -1;
+    }
+
+    static safari(): boolean {
+        return !is.chrome() && navigator.userAgent.indexOf('Safari') != -1;
+    }
+
+    static firefox(): boolean {
+        return navigator.userAgent.indexOf('Firefox') != -1;
+    }
+
+    static ie(): boolean {
+        return /MSIE\/\d+/.test(navigator.userAgent);
+    }
+
+    static ieOrEdge(): boolean {
+        return /Edge\/\d+/.test(navigator.userAgent) ||
+            /MSIE\/\d+/.test(navigator.userAgent) ||
+            /Trident\/\d+/.test(navigator.userAgent);
+    }
 
 }

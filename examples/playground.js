@@ -1,33 +1,33 @@
 
 import { WebWorker } from '../lib/dom/web-worker';
-import { time } from '../lib/time/time';
+import { func } from '../lib/func/func';
 export default class Playgroundsmaple {
     constructor() {
         console.log("play ground");
 
 
         // TIME Stuff
-        // this.testTimeDebouncer();
-        // this.testTimeThrottler();
-        // this.testTimeWaitUntil();
-        // this.testTimeWait();
+        this.testFuncDebouncer();
+        // this.testFuncThrottler();
+        // this.testFuncWaitUntil();
+        // this.testFuncWait();
 
 
         // DOM Stuff
-        this.testWebWorker();
+        // this.testWebWorker();
 
     }
 
 
-    testTimeDebouncer() {
-        let debouncer = time.debounce((event) => {
+    testFuncDebouncer() {
+        let debouncer = func.debounce((event) => {
             console.log('debounced', event);
         }, 1000);
         window.addEventListener('resize', debouncer);
     }
 
-    testTimeThrottler() {
-        let throttler = time.throttle((event) => {
+    testFuncThrottler() {
+        let throttler = func.throttle((event) => {
             console.log('throttled', event);
         }, 1000);
         window.addEventListener('resize', (event) => {
@@ -37,9 +37,9 @@ export default class Playgroundsmaple {
     }
 
 
-    testTimeWaitUntil() {
+    testFuncWaitUntil() {
         let someValue = 0;
-        time.waitUntil(() => someValue == 5).then(() => {
+        func.waitUntil(() => someValue == 5).then(() => {
             console.log('some value is 5!!!');
         });
 
@@ -48,9 +48,9 @@ export default class Playgroundsmaple {
         }, 1000);
     }
 
-    testTimeWait() {
+    testFuncWait() {
         console.log('hohoho');
-        time.wait(500).then(() => {
+        func.wait(500).then(() => {
             console.log('hohoho after 500ms');
         });
     }
