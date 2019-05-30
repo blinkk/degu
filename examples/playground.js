@@ -1,6 +1,8 @@
 
 import { WebWorker } from '../lib/dom/web-worker';
 import { func } from '../lib/func/func';
+
+
 export default class Playgroundsmaple {
     constructor() {
         console.log("play ground");
@@ -102,7 +104,6 @@ export default class Playgroundsmaple {
         console.log(calculate(3, 2));
         console.log(calculate(2, 2));
         console.log(calculate(3, 2));
-
     }
 
 

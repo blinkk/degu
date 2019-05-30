@@ -656,6 +656,45 @@ export class mathf {
 
 
   /**
+   * Lerps within a given range.
+   *
+   * Let's say you have to ranges that
+   * you want to make a linear association to.
+   *
+   * The easiest way to imagine this is imagine two ranges.
+   *
+   * ```
+   * 0     Range1        100
+   * |------10------------|
+   *
+   * 0               Range2                 200
+   * |-------------?-------------------------|
+   *```
+   *
+   * range1: 0 - 100
+   * range2: 0 - 200
+   *
+   * You have the value of 20 on range1 and want to know what the value would
+   * be on range2.
+   *
+   * The above would return 20 since 10% of 200 = 20.
+   *
+   * ```ts
+   * mathf.interpolateRange(0, 0, 100, 0, 200); // 0
+   * mathf.interpolateRange(10, 0, 100, 0, 200); // 20
+   * mathf.interpolateRange(30, 0, 100, 0, 200); // 60
+   *
+   * ```
+   */
+  static interpolateRange(range1Value: number, range1Min: number, range1Max: number,
+    range2Min: number, range2Max: number) {
+    let progress =
+      mathf.clampAsProgress(range1Value / (range1Max - range1Min));
+    return mathf.lerp(range2Min, range2Max, progress);
+  }
+
+
+  /**
    * Same as lerp but will apply an easingFunction to the current
    * progress, prior to running lerp.
    *

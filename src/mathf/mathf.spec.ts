@@ -158,6 +158,27 @@ test('ease', t => {
 
 });
 
+
+
+test('interpolateRange', t => {
+    t.is(
+        mathf.interpolateRange(0, 0, 100, 0, 200),
+        0
+    )
+    t.is(
+        mathf.interpolateRange(50, 0, 100, 0, 200),
+        100
+    )
+    t.is(
+        mathf.interpolateRange(30, 0, 100, 0, 200),
+        60
+    )
+    t.is(
+        mathf.int(mathf.interpolateRange(30, 10, 120, 800, 1000)),
+        855
+    )
+});
+
 test('fixDigits', t => {
     t.is(mathf.fixDigits(20.12345, 0), 20);
     t.is(mathf.fixDigits(20.12345, 1), 20.1);

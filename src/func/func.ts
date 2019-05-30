@@ -9,6 +9,7 @@ export class func {
     /**
      *  A basic debounce implementation.  Debounce will basically wait X amount
      * of seconds to execute AFTER it's last call.
+     *
      * ```ts
      *
      * const debouncer = func.debounce((windowEvent)=> {
@@ -80,6 +81,7 @@ export class func {
      * }, 500))
      *
      * ```
+     *
      * @param callback The callback function
      * @param wait The amount to wait in ms.
      * @tested
@@ -164,7 +166,7 @@ export class func {
      * pulled from the cache.  When paramers change, the callback is reevaluated
      * for new results.
      *
-     * The key difference between [[mathf.memoize]] is that this memoize stores
+     * The key difference between [[func.memoize]] is that this memoize stores
      * just the last results as opposed to a dictionary of all previous results.
      *
      * If running a lot of executions, this can save memory.
