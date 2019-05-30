@@ -7,7 +7,9 @@ import { is } from '../is/is';
 export class bom {
 
     /**
-     * Fixes resize thrashing that happens on mobile.
+     * Acts just like a regular window resize but fixes resize thrashing that
+     * happens on mobile.
+     *
      * The issue is that on mobile, there is that browser URL bar.  As the user
      * scrolls, the url bar scrolls way with it, increasing the viewport
      * height.  The window fires the resize event (since it is a different size).
@@ -19,6 +21,18 @@ export class bom {
      * The method creates a listener on the window resize except it retains
      * memory of the last browser width.  If the browser width hasn't
      * changed, it will cull/cut off that event.
+     *
+     * ```ts
+     * let done = bom.smartResize(()=> {
+     *   console.log('window resize but called when user scrolls on mobile')
+     * }, { passive: true});
+     *
+     *
+     * // Call later to remove listener.
+     * done();
+     *
+     * ```
+     *
      *
      * This isn't applied on non-mobile browsers.
      * @param {Function} callback

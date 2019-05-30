@@ -18,7 +18,14 @@ export class func {
      * // Now when you resize, it will wait 500 ms until the last resize call.
      * window.addEventListener('resize', debounce);
      *
+     * Or
+     *
+     * window.addEventListener('resize', func.debounce(()=> {
+     *   console.log('throttled');
+     * }, 500))
+     *
      * ```
+     *
      * @param callback The function to call.
      * @param wait The ms to delay.
      * @param immediate Optional, whether to immediately run (changes this to throttle)
@@ -55,6 +62,7 @@ export class func {
     /**
      * Throttles a function.  Throttle will run a function immediately when it's
      * called and wait X amount of seconds before it can be called again.
+     *
      * ```ts
      *
      * const throttler = func.throttle((windowEvent)=> {
@@ -64,6 +72,12 @@ export class func {
      * // Now when you resize, it will immediately call the throttle function
      * // and wait 500 ms before it can be called again.
      * window.addEventListener('resize', throttler);
+     *
+     * Or just:
+     *
+     * window.addEventListener('resize', func.throttle(()=> {
+     *   console.log('throttled');
+     * }, 500))
      *
      * ```
      * @param callback The callback function
@@ -104,6 +118,8 @@ export class func {
      *   someValue = 5;
      * }, 1000);
      * ```
+     *
+     *
      * @param {Function} A condition that returns a boolean.
      * @param {number} The amount of time that can elapse before rejecting the
      *     returning promise. Defaults to 0, which is evaluated as forever.
@@ -220,6 +236,24 @@ export class func {
      * expensiveCalculation(1, 1, 1); // 3 from cache
      * expensiveCalculation(2, 2, 2); // 6 from cache
      * ```
+     *
+     * A common case for memoize might be to use it in a class method.
+     * You can implement that with this pattern.
+     *
+     * ```ts
+     * class MyClass {
+     *
+     *     constructor() {
+     *        this.calculate = func.memoize(this.calculate.bind(this));
+     *     }
+     *
+     *     calculate(a, b) {
+     *       return a + b;
+     *     }
+     * }
+     *
+     * ```
+     *
      * @param {Function} callback The function to wrap the memoize mechanism.
      *     It's expect that this function returns something.  Can't be void.
      * @return {Function}
@@ -270,7 +304,7 @@ export class func {
      * More in practice.  Here we want to do mutate only when the window.innerWidth
      * or windowHeight has changed.
      * ```ts
-     * let updateCanvasSize = func.runOnceOnChanged(
+     * let updateCanvasSize = func.runOnceOnChange(
      *    (windowWidth, windowHeight)=> {
      *       // Do something expensive.
      *       console.log('Change the canvas size');
@@ -279,6 +313,25 @@ export class func {
      * new Raf(()=> {
      *   updateCanvasSize(window.innnerWidth, window.innerHeight);
      * });
+     * ```
+     *
+     * You can implement this for a class method as follows
+     * ```ts
+     * class MyClass {
+     *
+     *     constructor() {
+     *        this.element = document.getElementById('hello');
+     *        this.render = func.runOnceOnChange(this.render.bind(this));
+     *
+     *        this.render(800);
+     *        this.render(800); // Won't be called a second time.
+     *     }
+     *
+     *     render(height) {
+     *       this.element.style.height = height + 'px';
+     *     }
+     * }
+     *
      * ```
      * @param {Function} callback The callback to execute.  Doesn't require
      *     the callback to return a value.
