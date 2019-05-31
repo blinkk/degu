@@ -189,4 +189,7 @@ export class is {
             /Trident\/\d+/.test(navigator.userAgent);
     }
 
+    static chromeOs(): boolean {
+        return /\bCrOS\b/.test(navigator.userAgent)
+    }
 }

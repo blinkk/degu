@@ -129,6 +129,7 @@ export class mathf {
     return Math.min(Math.max(num, min), max);
   }
 
+
   /**
    * Given a progress (a value that ranges from 0 to 1), this method allows you
    * to create a child progress based on the parent progress.
@@ -685,6 +686,21 @@ export class mathf {
    * mathf.interpolateRange(30, 0, 100, 0, 200); // 60
    *
    * ```
+   *
+   * A practical example.
+   * Here when the screen width is 300, the padding is 0
+   * and when it's 1200, the padding is 500 and everything
+   * it clculates everything between.
+   * ```ts
+   *
+   * let padding = mathf.interpolateRange(
+   *     screenWidth,
+   *     300, 1200,
+   *     0, 500
+   * );
+   * ```
+   *
+   *
    */
   static interpolateRange(range1Value: number, range1Min: number, range1Max: number,
     range2Min: number, range2Max: number) {
