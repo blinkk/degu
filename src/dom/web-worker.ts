@@ -7,36 +7,65 @@
  *
  * Your worker function should return some result (any type).
  *
- * Every time you call [[WebWorker.run]], it will create a new ONE time worker that
- * self terminates upon completion.
+ * You can create one time workers or work with the same worker.
  *
- * Example:
+ * 1) One time workers
+ * Every time you call [[WebWorker.runOneTimeThrowAwayWorker]], it will create a
+ * new ONE time worker that self terminates upon completion.
+ *
+ * This is very useful in spawning multiple processes that all work at once.
+ * Each worker will run async and will resolve a promise when done.
+ *
+ * If you want to do many different calculations at once, a one time worker
+ * might be the way.
+ *
+ * 2) Use the same worker.  Calling [[WebWorker.run]] will run a webworker.
+ *   Calling it again, will run the same worker.  Note that if you make
+ *   make two calls to the same worker in sequence before the webworker can
+ *   resolve the first call, it will only response to the second call.
+ *
+ *
+ *
+ * There are some limitations / conventions in using this class.   Please
+ * see the below.
  * ```ts
  *
- * // Create a webworker with a single "params" object as your params.
- * var worker = new WebWorker((params)=> {
+ * // Create a web worker task function.
+ * //
+ * // Limitation 1: Note that task functon, actually ends up getting stringified
+ * // (important), bundled and sent to a separate thread.
+ * // Therefore, it is sandboxed in it's own world.
+ * //
+ * //
+ * // Limitation 2:
+ * // The function should accept only 1 parameter AND it must be named "params"
+ * // by convention.  You can send any parameters up as an object.  This is done
+ * // as a convention and to make it easier to wrap up.  See [[WebWorker]] for
+ * // more.
+ * var task = (params)=> {
  *    return params.a + params.b;
- * });
- *
- * var paramsToSend = {
- *   a: 2,
- *   b: 3
  * }
  *
- * // Create self terminating one time worker.
- * worker.run(paramsToSend).then((result)=> {
+ *
+ * // Now create an instance of WebWorker and set the task.
+ * var worker = new WebWorker(task);
+ *
+ *
+ * // Create two one time workers that run in parallel.
+ * worker.runOneTimeThrowAwayWorker({a: 2, b: 3}).then((result)=> {
  *   console.log(result); // 5
  * })
- *
- * // Create self terminating one time worker.
- * worker.run({ a: 5, b: 5}).then((result)=> {
+ * worker.runOneTimeThrowAwayWorker({ a: 5, b: 5}).then((result)=> {
  *   console.log(result); // 10
  * })
  *
  *
- * // ES2017
- * await result = worker(params);
- * console.log(result);
+ * // Reusing the same worker.
+ * await worker.run({a: 6, b:10});
+ * await worker.run({a:4, b:10});
+ *
+ * // Kill the worker
+ * worker.terminate();
  * ```
  */
 export class WebWorker {
@@ -56,6 +85,11 @@ export class WebWorker {
      */
     private codeToRun: string;
 
+    /**
+     * Internal cached instance of worker.
+     */
+    private worker: Worker;
+
 
     constructor(workerTask: Function) {
         // Prepare the worker code as a string.
@@ -68,7 +102,7 @@ export class WebWorker {
                 let result = 'No result was generated.';
                 result = function(params) { ${this.workerTaskAsString} }(params);
                 self.postMessage({ result: result });
-                close();
+                // close();
             })
          `;
 
@@ -94,8 +128,11 @@ export class WebWorker {
      * The Worker is terminated as soon as it resolves so it can be considered
      * a one time worker..
      * @param paramsToSend
+     * @param transfer.  An optional array of transferable objects.
+     *     https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage
+     *     for more.
      */
-    run(paramsToSend: Object): Promise<Object> {
+    runOneTimeThrowAwayWorker(paramsToSend: Object, transfer?: Array<any>): Promise<Object> {
         return new Promise<Object>((resolve, reject) => {
             var blob = new Blob([this.codeToRun],
                 { type: "application/javascript" });
@@ -103,7 +140,7 @@ export class WebWorker {
             const worker = new Worker(blobUrl);
 
             URL.revokeObjectURL(blobUrl);
-            worker.postMessage(paramsToSend);
+            worker.postMessage(paramsToSend, transfer);
             worker.onerror = (event: Object) => {
                 reject(event);
                 worker.terminate();
@@ -113,6 +150,31 @@ export class WebWorker {
                 worker.terminate();
             }
         });
+    }
+
+    run(paramsToSend: Object, transfer?: Array<any>): Promise<Object> {
+        return new Promise<Object>((resolve, reject) => {
+            if (!this.worker) {
+                var blob = new Blob([this.codeToRun],
+                    { type: "application/javascript" });
+                const blobUrl = URL.createObjectURL(blob);
+                this.worker = new Worker(blobUrl);
+            }
+
+            // URL.revokeObjectURL(blobUrl);
+            this.worker.postMessage(paramsToSend, transfer);
+            this.worker.onerror = (event: Object) => {
+                reject(event);
+            }
+            this.worker.onmessage = (event: Object) => {
+                resolve(event['data']['result']);
+            }
+        });
+    }
+
+
+    terminate() {
+        this.worker.terminate();
     }
 
 }

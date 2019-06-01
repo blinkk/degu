@@ -1,6 +1,7 @@
 
 import { WebWorker } from '../lib/dom/web-worker';
 import { func } from '../lib/func/func';
+import { mathf } from '../lib/mathf/mathf';
 
 
 export default class Playgroundsmaple {
@@ -14,11 +15,12 @@ export default class Playgroundsmaple {
         // this.testFuncWaitUntil();
         // this.testFuncWait();
         // this.testFuncMemoizeSimple();
-        this.testFuncMemoize();
+        // this.testFuncMemoize();
         // this.testFuncRunOnceOnChange();
 
         // DOM Stuff
-        // this.testWebWorker();
+        this.testWebWorker();
+        // this.testOffScreenCanvas();
 
     }
 
@@ -117,12 +119,24 @@ export default class Playgroundsmaple {
             b: 3
         };
 
+        worker.runOneTimeThrowAwayWorker(params).then((result) => {
+            console.log('one time worker');
+        });
+
+        worker.runOneTimeThrowAwayWorker(params).then((result) => {
+            console.log('one time worker');
+        });
+
+        // Run once.  Run uses the same worker.
         worker.run(params).then((result) => {
             console.log('result', result);
-        });
-        worker.run({ a: 4, b: 6 }).then((result) => {
-            console.log('result2', result);
+
+            // Make another call.
+            worker.run({ a: 4, b: 6 }).then((result) => {
+                console.log('result2', result);
+                worker.terminate();
+            });
+
         });
     }
-
 }

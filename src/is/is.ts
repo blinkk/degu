@@ -159,6 +159,7 @@ export class is {
         return is.ios() || is.android();
     }
 
+
     static ios(): boolean {
         return /iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
@@ -191,5 +192,14 @@ export class is {
 
     static chromeOs(): boolean {
         return /\bCrOS\b/.test(navigator.userAgent)
+    }
+
+
+    /**
+     * Detects support for offscreen canvas.
+     * https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
+     */
+    static supportingOffScreenCanvas(): boolean {
+        return !!window['OffscreenCanvas'];
     }
 }

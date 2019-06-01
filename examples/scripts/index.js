@@ -17,6 +17,7 @@ import RafProgressSample from '../raf-progress';
 
 import PlaygroundSample from '../playground';
 import DomWatcherSample from '../dom-watcher';
+import OffScreenCanvasSample from '../off-screen-canvas';
 
 const samples = {
   'easerDisableRafSample': EaserDisableRafSample,
@@ -29,7 +30,8 @@ const samples = {
   'rafTimerSample': RafTimerSample,
   'rafProgressSample': RafProgressSample,
   'playgroundSample': PlaygroundSample,
-  'domWatcherSample': DomWatcherSample
+  'domWatcherSample': DomWatcherSample,
+  'offScreenCanvasSample': OffScreenCanvasSample
 };
 
 class Main {

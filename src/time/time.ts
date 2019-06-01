@@ -31,12 +31,4 @@ export class time {
     }
 
 
-    /**
-     * Converts fps to ms.
-     * @param fps
-     */
-    static fpsToMs(fps: number) {
-
-    }
-
 }
