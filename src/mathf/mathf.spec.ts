@@ -258,6 +258,12 @@ test('isBetween', t => {
 });
 
 
+test('wrap', t => {
+    t.is(mathf.wrap(15, 0, 10), 5);
+    t.is(mathf.wrap(400, 0, 360), 40);
+    t.is(mathf.wrap(120, -90, 90), -60);
+});
+
 
 test('resizedimensionalBoxToWidth', t => {
     t.deepEqual(

@@ -202,4 +202,26 @@ export class is {
     static supportingOffScreenCanvas(): boolean {
         return !!window['OffscreenCanvas'];
     }
+
+    /**
+     * Detects support for webp images
+     */
+    static supportingWebp(): boolean {
+        var elem = document.createElement('canvas');
+        var canvasSupported = false;
+        if (elem.toDataURL('image/webp')) {
+            canvasSupported =
+                elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
+        }
+        return canvasSupported;
+    }
+
+    /**
+     * Whether the browser can handle more advanced css calc.
+     * @see https://css-tricks.com/making-custom-properties-css-variables-dynamic/
+     */
+    static supportingAdvancedCssCalc(): boolean {
+        document.body.style.transitionTimingFunction = 'cubic-bezier(calc(1 * 1),1,1,1)';
+        return getComputedStyle(document.body).transitionTimingFunction != 'ease';
+    }
 }

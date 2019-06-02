@@ -96,11 +96,12 @@ export class WebWorker {
     /**
      * Internal cached instance of worker.
      */
-    private worker: Worker;
+    private worker: Worker | null;
 
 
     constructor(workerTask: Function) {
         // Prepare the worker code as a string.
+        this.worker = null;
         this.workerTask = workerTask;
         this.workerTaskAsString = this.workerTask.toString();
         this.workerTaskAsString = this.formatTask(this.workerTaskAsString);
@@ -182,7 +183,7 @@ export class WebWorker {
 
 
     terminate() {
-        this.worker.terminate();
+        this.worker && this.worker.terminate();
     }
 
 }

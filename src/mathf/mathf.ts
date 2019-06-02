@@ -584,8 +584,6 @@ export class mathf {
    * @return {number} The value within the range.
    */
   static getValueInRangeByProgress(progress: number, min: number, max: number): number {
-    // Alternative way to calculate lerp.
-    //  return ((max - min) * percent) + min
     return mathf.lerp(min, max, progress);
   }
 
@@ -606,6 +604,8 @@ export class mathf {
   }
 
   /**
+   * Normalized a value between a min and max returning a value between
+   * 0 and 1.
    * An alias to [[mathf.getProgressInRangeByValue]].
    */
   static normalize(val: number, min: number, max: number): number {
@@ -653,7 +653,13 @@ export class mathf {
     amount = amount < 0 ? 0 : amount;
     amount = amount > 1 ? 1 : amount;
     return value1 + (value2 - value1) * amount;
+
+
+    // Alternative ways to calculate lerp
+    // return (1 - amount) * value1 + amount * value2;
+    // return ((value2 - value1) * amount) + amount
   }
+
 
 
   /**
@@ -792,6 +798,29 @@ export class mathf {
   static ease(start: number, end: number,
     progress: number, easeFunction: Function = EASE.linear): number {
     return mathf.lerpEase(start, end, progress, easeFunction);
+  }
+
+
+  /**
+   * Wraps a given number between two values.
+   * ```ts
+   *
+   * mathf.wrap(angle, 0, 360);  // Wrap between 0 and 360 degress
+   * mathf.wrap(angle, -90, 90); // Wrap between -90 and 90 degress
+   *
+   *
+   * mathf.wrap(15, 0, 10); // Wrap between 0 and 10 --> result 5
+   * mathf.wrap(400, 0, 360); // --> result 40
+   * mathf.wrap(120, -90, 90); // --> -60
+   *
+   * ```
+   * @param value
+   * @param min
+   * @param max
+   */
+  static wrap(value: number, min: number, max: number): number {
+    const diff = max - min;
+    return (min + ((((value - min) % diff) + diff) % diff));
   }
 
 
