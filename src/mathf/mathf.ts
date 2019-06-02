@@ -734,6 +734,28 @@ export class mathf {
     return mathf.lerp(value1, value2, amount);
   }
 
+
+
+  /**
+   * Similar to [[mathf.lerp]] but is damped and smoothed out with exponential
+   * decay.  Useful to use as an alternative to [[mathf.lerp]] or [[mathf.ease]]
+   * to smooth out animation movement.
+   * @see http://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/
+   * @tested
+   * @param {number} value1 The start of the range to lerp.
+   * @param {number} value2 The target of the range to lerp.
+   * @param {number} amount A value between 0-1 representing the progress of the
+   *     lerp.
+   * @param {number} damp A value between 0-1 representing the amount to damp.
+   * @param easeFunction An easing function. See [[ease]].  Defaults to linear
+   *   in which case, linear is equal to a regular lerp.
+   */
+  static damp(value1: number, value2: number, amount: number, damp: number) {
+    return mathf.lerp(value1, value2, 1 - Math.exp(-amount * damp));
+  }
+
+
+
   /**
    * An alias of [[mathf.lerpEase]]
    *
@@ -803,6 +825,7 @@ export class mathf {
 
   /**
    * Wraps a given number between two values.
+   *
    * ```ts
    *
    * mathf.wrap(angle, 0, 360);  // Wrap between 0 and 360 degress
@@ -814,6 +837,7 @@ export class mathf {
    * mathf.wrap(120, -90, 90); // --> -60
    *
    * ```
+   *
    * @param value
    * @param min
    * @param max
