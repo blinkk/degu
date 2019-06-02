@@ -36,6 +36,7 @@ interface RafProgressRangeWatcher {
  * values and run callbacks (IE: run a callback when the progress crosses 0.5).
  *
  *
+ * Example WITHOUT RafProgress:
  * Consider the following example to understand what RafProgress does.
  * Here we are using an html range input to represent Progress but progresss could
  * be a window scroll, duration, mouse position etc.....a percentage amount:
@@ -73,9 +74,8 @@ interface RafProgressRangeWatcher {
  * RAf and perhaps layout thrashing or performning unncessary calcs.
  *
  *
+ * Example WITH RafProgress
  * The above is simplied with this class.
- *
- *
  *
  *
  * ```ts

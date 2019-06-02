@@ -1,6 +1,5 @@
 /**
  * A class that makes it really easy to work with web workers.
- * Inpiration from https://gist.github.com/wmalara/6eb0e307424bc56350b658405034ced9
  *
  * This implementation limits your workers to just 1 parameter so it recommended
  * to use an object as your parameter.
@@ -10,6 +9,7 @@
  * You can create one time workers or work with the same worker.
  *
  * 1) One time workers
+ *
  * Every time you call [[WebWorker.runOneTimeThrowAwayWorker]], it will create a
  * new ONE time worker that self terminates upon completion.
  *
@@ -19,10 +19,12 @@
  * If you want to do many different calculations at once, a one time worker
  * might be the way.
  *
- * 2) Use the same worker.  Calling [[WebWorker.run]] will run a webworker.
- *   Calling it again, will run the same worker.  Note that if you make
- *   make two calls to the same worker in sequence before the webworker can
- *   resolve the first call, it will only response to the second call.
+ * 2) Use the same worker.
+ *
+ * Calling [[WebWorker.run]] will run a webworker.
+ * Calling it again, will run the same worker.  Note that if you make
+ * make two calls to the same worker in sequence before the webworker can
+ * resolve the first call, it will only response to the second call.
  *
  *
  *
@@ -32,12 +34,18 @@
  *
  * // Create a web worker task function.
  * //
- * // Limitation 1: Note that task functon, actually ends up getting stringified
- * // (important), bundled and sent to a separate thread.
- * // Therefore, it is sandboxed in it's own world.
+ * // Limitation 1:
+ * // Note that task functon, actually ends up getting stringified
+ * // (important), bundled and sent to a separate thread.  Trying to execute
+ * // imported clases won't work. Consider the function being sandboxed in it's
+ * // own world.
  * //
+ * // Limitaton 2:
+ * // It's a web worker function.  Workers have limitations like not being
+ * // able to access the DOM.
+ * // See https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API#Web_Workers_concepts_and_usage for more.
  * //
- * // Limitation 2:
+ * // Limitation 3:
  * // The function should accept only 1 parameter AND it must be named "params"
  * // by convention.  You can send any parameters up as an object.  This is done
  * // as a convention and to make it easier to wrap up.  See [[WebWorker]] for

@@ -5,21 +5,22 @@ import { WebWorker } from "./web-worker";
  * pretty easy to run tasks on a canvas in a separate thread.
  *
  * This works but there are some gotchas that users should be aware of.
- * As of now, since offScreenCanvas is on a separate thread without
- * limitations, thisclass is best used for doing computational tasks
+ * As of now, offScreenCanvas is run a separate thread with
+ * limitations, thisl class is best used for doing computational tasks
  * that can be wrapped in a task call.
  *
  * It may not be well suited to say try to run a huge 3D application.
- * If you want to do this, you are probably better off doing a regular
- * implementation.
+ * If you want run a large app, you are probably better off making or finding
+ * a different offScreenCanvas implementation.
  *
- * See the example usage in the /examples/off-screen-canvas.html sample.
+ * See the example usage in the /examples/off-screen-canvas sample.
  *
  * Read the below for the walk through.  There are several limitations.
  *
  *
  * TODO (uxder): The process of setup and be simplified.  setCanvas for example
  *     seems like an extra step.
+ *
  *
  *```ts
  * import { OffScreenCanvas, is } from 'yano-js';
@@ -41,7 +42,8 @@ import { WebWorker } from "./web-worker";
  * offScreenCanvas.setCanvas(canvas);
  *
  *
- * // Now create a function that will run as a worker.
+ * // Create a function that will run as a web worker.  This will get executed
+ * // on a different threadc.
  * //
  * // Limitation 1: Note that this  code actually ends up getting stringified
  * // (important), bundled and sent to a separate thread.
@@ -51,57 +53,67 @@ import { WebWorker } from "./web-worker";
  * // Limitation 2:
  * // The function should accept only 1 parameter AND it must be named "params"
  * // by convention.  You can send any parameters up as an object.  This is done
- * // as a convention and to make it easier to wrap up.  See [[WebWorker]] for
- * // more.
+ * // as a convention and to make it easier to wrap up.  See WebWorker for more.
  * //
  *  const task = (params) => {
  *       // If a command called init was sent, set the canvas
-*        if (params.command == 'init') {
-*           self.canvas = params.canvas;
-*           console.log("Hello", params.name);
-*           self.ctx = canvas.getContext('2d');
-*        }
-*
-*       // Defines an animation loop.
-*       var animate = () => {
-*           // Do something cool.
-*           ctx.fillRect(0, 0, 150, 75);
-*           requestAnimationFrame(animate);
-*       };
-*
-*       if (params.command == 'animate') {
-*         animate();
-*         // Return a mesagge when animate is sent.
-*         return { message: 'FROM WORKER: started animation' };
-*       }
-*   };
-*
-* // Now bind and set that task to your instanfe of OffScreenCanvas.
-* // This will tell offScreenCanvas to run your task in a separate thread.
-* offScreenCanvas.setCanvasTask(task);
-*
-*
-* // Now initialize offscreen canvas.  The canvas is automatically sent
-* // and will be available in your task with params.canvas.  You can send
-* // additional key/value data.
-*  offScreenCanvas.init({
-*     command: 'init',
-*     name: 'Scott'
-*   }).then((message) => {
-*
-*            // Once initialized, send additional commands with
-*            // sendMessageToCanvas.
-*            offScreenCanvas.sendMessageToCanvas({
-*                command: 'animate',
-*                data: 'John'
-*            }).then((message) => {
-*                console.log(message); // FROM WORKER: started animation
-*            });
+ *        if (params.command == 'init') {
+ *           self.canvas = params.canvas;
+ *           console.log("Hello", params.name);
+ *           self.ctx = canvas.getContext('2d');
+ *        }
+ *
+ *       // Defines an animation loop.
+ *       var animate = () => {
+ *           // Do something cool.
+ *           // This will draw on the canvas (on your main thread)
+ *           ctx.fillRect(0, 0, 150, 75);
+ *           requestAnimationFrame(animate);
+ *       };
+ *
+ *       if (params.command == 'animate') {
+ *         animate();
+ *         // Return a mesagge when animate is sent.
+ *         return { message: 'FROM WORKER: started animation' };
+ *       }
+ *   };
+ *
+ * // Now bind and set that task to your instanfe of OffScreenCanvas.
+ * // This will tell offScreenCanvas to run your task in a separate thread.
+ * offScreenCanvas.setCanvasTask(task);
+ *
+ *
+ * // Now initialize offscreen canvas.  The canvas is automatically sent
+ * // and will be available in your task with params.canvas.  You can send
+ * // additional key/value data.
+ *  offScreenCanvas.init({
+ *     command: 'init',
+ *     name: 'Scott'
+ *   }).then((message) => {
+ *
+ *            // Once initialized, send additional commands with
+ *            // sendMessageToCanvas.
+ *            offScreenCanvas.sendMessageToCanvas({
+ *                command: 'animate',
+ *                data: 'John'
+ *            }).then((message) => {
+ *                console.log(message); // FROM WORKER: started animation
+ *            });
  *        });
  *  }
  *
  * // When you are all done, don't forget to terminate the WebWorker.
  * offScreenCanvas.terminate();
+ * ```
+ *
+ *
+ * Now assuing you had the canvas you set attached to the DOM, you should
+ * see the canvas draw itself.  This is because, when you ran
+ * [[OffScreenCanvas.setCanvas]], you basically set it to release control of it
+ * to a separate worker.  So the manipulations to the canvas
+ * (draw call on context) get updated and visible.
+ *
+ *
  */
 export class OffScreenCanvas {
     private canvas: HTMLCanvasElement | null;

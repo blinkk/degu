@@ -8,7 +8,7 @@ export class bom {
 
     /**
      * Acts just like a regular window resize but fixes resize thrashing that
-     * happens on mobile.
+     * happens on mobile during scrolling.
      *
      * The issue is that on mobile, there is that browser URL bar.  As the user
      * scrolls, the url bar scrolls way with it, increasing the viewport
