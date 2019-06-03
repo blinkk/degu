@@ -101,6 +101,19 @@ test('multipleOf', t => {
     t.is(is.multipleOf(20, 3), false);
 });
 
+
+test('powerOf2', t => {
+    t.is(is.powerOf2(2), true);
+    t.is(is.powerOf2(3), false);
+    t.is(is.powerOf2(4), true);
+    t.is(is.powerOf2(6), false);
+    t.is(is.powerOf2(8), true);
+    t.is(is.powerOf2(12), false);
+    t.is(is.powerOf2(64), true);
+    t.is(is.powerOf2(128), true);
+    t.is(is.powerOf2(129), false);
+});
+
 test('even', t => {
     t.is(is.even(2), true);
     t.is(is.even(4), true);

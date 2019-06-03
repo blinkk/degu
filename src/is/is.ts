@@ -133,6 +133,14 @@ export class is {
      * @param value
      * @tested
      */
+    static powerOf2(value: number): boolean {
+        return value !== 0 && (value & (value - 1)) === 0;
+    }
+
+    /**
+     * @param value
+     * @tested
+     */
     static even(value: any): boolean {
         return is.number(value) && is.multipleOf(value, 2);
     }
