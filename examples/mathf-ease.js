@@ -61,6 +61,8 @@ export default class MathfEaseSample {
                 // this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
                 // this.progress = mathf.ease(this.progress, progress, 0.02, EASE.linear);
                 this.progress = mathf.damp(this.progress, progress, 0.25, 0.3);
+                // let prev = this.progress;
+                // console.log(prev, this.progress);
             } else {
                 // No easing on progress.
                 this.progress = progress;
@@ -69,8 +71,6 @@ export default class MathfEaseSample {
             // Positions with just pure math lerping.
             let x = mathf.ease(0, 500, this.progress, EASE.easeOutSine);
             let y = mathf.ease(0, 500, this.progress, EASE.easeInCubic);
-            // let x = mathf.damp(0, 500, this.progress, 0.3);
-            // let y = mathf.damp(0, 500, this.progress, 0.3);
 
             this.updateBallPosition(x, y);
         });

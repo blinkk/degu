@@ -85,6 +85,14 @@ test('lerp', t => {
     t.is(mathf.lerp(25, 79, 0.2), 35.8);
 });
 
+test('smoothStep', t => {
+    t.is(mathf.smoothStep(0, 10, 0), 0);
+    t.is(mathf.smoothStep(100, 200, 150), 0.5);
+    t.is(mathf.smoothStep(10, 20, 40), 1);
+    t.is(mathf.smoothStep(10, 20, 15), 0.5);
+    t.is(mathf.smoothStep(10, 30, 9), 0);
+});
+
 test('lerpEase', t => {
     // Check ease interopolate.
     let ease = EASE.easeInExpo;
@@ -364,7 +372,6 @@ test('getProgressInRangeByValue', t => {
 });
 
 test('calculateBackgroundCover', t => {
-
     // Simple scale up
     let parentBox = { width: 500, height: 500 };
     let childBox = { width: 50, height: 50 };

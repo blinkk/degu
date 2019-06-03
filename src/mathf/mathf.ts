@@ -566,6 +566,17 @@ export class mathf {
     return mathf.clampAsPercent(progress);
   }
 
+  /**
+   * Clamps a number to within 0-1.
+   * An alias of [[mathf.clampAsProgress]]
+   * @tested
+   * @param progress
+   * @return progress A value within 0-1.
+   */
+  static clamp01(progress: number) {
+    return mathf.clampAsPercent(progress);
+  }
+
 
   /**
    * Used to get a value within a range by progress.
@@ -593,6 +604,14 @@ export class mathf {
    * For instance, let's say you have a range of 325-1450.
    * You want 0% = 325 and 100% = 1450.
    * You can pass a value 420 and this will return the progress (percentage).
+   *
+   * ```ts
+   *
+   *    mathf.getProgressInRangeByValue(2, 0, 10) // 0.2
+   *    mathf.getProgressInRangeByValue(10, 0, 10) // 1
+   *    mathf.getProgressInRangeByValue(7, 2, 12) // 0.5
+   *
+   * ``
    *
    * @param {number} value The value to determine the progress.
    * @param {number} min The low end of the range.
@@ -660,6 +679,34 @@ export class mathf {
     // return ((value2 - value1) * amount) + amount
   }
 
+
+  /**
+   * Performs smoothstep from min to max using the given value using Hermite
+   * interpolation.
+   *
+   * Given three values, min, max and input, this will return a number between 0
+   * and 1 that represents the progress of the input value to the min and max
+   * values.
+   *
+   * This is similar too [[mathf.normalize]] or
+   * [[mathf.getProgressInRangeByValue]] except the curve is slightly smoothed
+   * out.
+   *
+   * ```ts
+   * mathf.smoothStep(100, 200, 100); // 0
+   * mathf.smoothStep(100, 200, 150); // 0.5
+   * mathf.smoothStep(100, 200, 300); // 1
+   * ```
+   * @see  https://en.wikipedia.org/wiki/Smoothstep
+   * @see http://www.fundza.com/rman_shaders/smoothstep/index.html
+   * @param {number} min The min of the range to lerp.
+   * @param {number} max The max of the range to lerp.
+   * @param {number} input A value between
+   */
+  static smoothStep(min: number, max: number, input: number): number {
+    var x = Math.max(0, Math.min(1, (input - min) / (max - min)));
+    return x * x * (3 - 2 * x);
+  }
 
 
   /**
