@@ -22,11 +22,11 @@ import { promises } from "fs";
  *
  * // Get the promise and handle it.
  * defer.getPromise().then((data)=> {
- *   console.log(data.message);
+ *   console.log(data.message); // you said hello
  * })
  *
  * window.setTimeout(()=> {
- *   hello():
+ *   hello();
  * }, 200)
  *
  *
