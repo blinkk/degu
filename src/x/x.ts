@@ -61,7 +61,6 @@ export class X {
             this.renderGameObject(gameObject);
         })
 
-        this.context.restore();
     }
 
 
@@ -99,6 +98,8 @@ export class X {
         // Call the gameObject render method to figure out how to draw this
         // GameObject.
         gameObject.render(this.context);
+
+        this.context.restore();
     }
 
     /*

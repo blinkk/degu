@@ -1,5 +1,5 @@
 
-import { XGameObject } from './x-game-object';
+import { XGameObject, XGameObjectDefaults } from './x-game-object';
 
 
 /**
@@ -9,8 +9,8 @@ export class XStage extends XGameObject {
     private stage: boolean;
     private canvasElement: HTMLCanvasElement | null;
     private context: CanvasRenderingContext2D | null;
-    constructor() {
-        super();
+    constructor(config = XGameObjectDefaults) {
+        super(config);
         /**
          * A flag to denote that this is a special GameObject of stage.
          */

@@ -164,3 +164,15 @@ test('runOnceOnChange', async t => {
     run(2)
     t.is(count, 4);
 });
+
+
+test('setDefault', async t => {
+    var test = func.setDefault(false, false);
+    t.is(test, false);
+    test = func.setDefault(undefined, 4);
+    t.is(test, 4);
+    test = func.setDefault(undefined, 0);
+    t.is(test, 0);
+    test = func.setDefault(0, 1);
+    t.is(test, 0);
+});

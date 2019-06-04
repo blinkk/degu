@@ -1,8 +1,9 @@
 
 import { X } from '../lib/x/x';
-import { XSprite } from '../lib/x/x-sprite';
+import { XGameObject } from '../lib/x/x-game-object';
 import { XLine } from '../lib/x/x-line';
 import { XStage } from '../lib/x/x-stage';
+import { XTexture } from '../lib/x/x-texture';
 import { ImageLoader } from '../lib/loader/image';
 
 
@@ -10,6 +11,7 @@ export default class XSample {
 
     constructor() {
         console.log('starting up x');
+        this.imageTextures = {};
 
         let images = new ImageLoader([
             '/public/boy.png',
@@ -17,6 +19,13 @@ export default class XSample {
             '/public/boy3.png',
         ]).load().then((results) => {
             console.log('all images loaded', results);
+
+            // Make textures out of the images.
+            Object.keys(results).forEach((key) => {
+                this.imageTextures[key] =
+                    new XTexture(results[key]);
+            });
+
             this.startApp();
         });
 
@@ -27,7 +36,7 @@ export default class XSample {
         this.X = new X(canvasElement);
 
         this.line = new XLine({
-            lineWidth: 1,
+            lineWidth: 10,
             startX: 100,
             startY: 100,
             endX: 250,

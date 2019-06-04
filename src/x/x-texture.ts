@@ -1,14 +1,17 @@
 
 
+/**
+ * Texture class to be used with the x-engine.
+ */
 export class XTexture {
     private width: number;
     private height: number;
+    private imageElement: HTMLImageElement;
 
-    constructor() {
-
-        this.width = 0;
-        this.height = 0;
-
+    constructor(imageElement: HTMLImageElement) {
+        this.imageElement = imageElement;
+        this.width = imageElement.width;
+        this.height = imageElement.height;
     }
 
 }

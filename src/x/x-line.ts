@@ -1,6 +1,8 @@
-import { is } from '../is/is';
+import { func } from '../func/func';
 
-interface XLineConfig {
+import { XGameObject, XGameObjectConfig } from './x-game-object';
+
+interface XLineConfig extends XGameObjectConfig {
     strokeStyle: string;
     lineWidth: number;
     startX: number;
@@ -8,7 +10,6 @@ interface XLineConfig {
     endX: number;
     endY: number;
 }
-import { XGameObject } from './x-game-object';
 
 /**
  * A single line in the x-engine.
@@ -23,14 +24,14 @@ export class XLine extends XGameObject {
     private endY: number;
 
     constructor(config: XLineConfig) {
-        super();
+        super(config);
 
-        this.strokeStyle = config.strokeStyle || 'red';
-        this.lineWidth = is.undefinedNumber(config.lineWidth) ? config.lineWidth : 1;
-        this.startX = is.undefinedNumber(config.startX) ? config.startX : 0;
-        this.startY = is.undefinedNumber(config.startY) ? config.startY : 0;
-        this.endX = is.undefinedNumber(config.endX) ? config.endX : 0;
-        this.endY = is.undefinedNumber(config.endY) ? config.endY : 0;
+        this.strokeStyle = func.setDefault(config.strokeStyle, 'red');
+        this.lineWidth = func.setDefault(config.lineWidth, 1);
+        this.startX = func.setDefault(config.startX, 0);
+        this.startY = func.setDefault(config.startY, 0);
+        this.endX = func.setDefault(config.endX, 0);
+        this.endY = func.setDefault(config.endY, 0);
 
         //Options are "round", "mitre" and "bevel".
         this.lineJoin = "round";

@@ -352,4 +352,21 @@ export class func {
             }
         };
     }
+
+
+    /**
+     * A method that sets the default value if undefined.
+     * Useful in setting explicit default values.
+     *
+     * ```ts
+     *
+     * func.setDefault(10, 20); // 10
+     * func.setDefault(undefined, 20); // 20
+     * func.setDefault(undefined, false); // false
+     * ```
+     * @tested
+     */
+    static setDefault(value: any, defaultValue: any) {
+        return Object.is(value, undefined) ? defaultValue : value;
+    }
 }
