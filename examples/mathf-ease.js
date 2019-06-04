@@ -61,8 +61,6 @@ export default class MathfEaseSample {
                 // this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
                 // this.progress = mathf.ease(this.progress, progress, 0.02, EASE.linear);
                 this.progress = mathf.damp(this.progress, progress, 0.25, 0.3);
-                // let prev = this.progress;
-                // console.log(prev, this.progress);
             } else {
                 // No easing on progress.
                 this.progress = progress;

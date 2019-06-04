@@ -1,6 +1,5 @@
 import { Defer } from './defer';
 import test from 'ava';
-import { deepStrictEqual } from 'assert';
 
 
 

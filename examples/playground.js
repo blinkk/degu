@@ -20,7 +20,7 @@ export default class Playgroundsmaple {
 
         // DOM Stuff
         this.testWebWorker();
-        // this.testOffScreenCanvas();
+
 
     }
 
@@ -139,4 +139,6 @@ export default class Playgroundsmaple {
 
         });
     }
+
+
 }
