@@ -1,6 +1,6 @@
 
-import { Observerable, Observable } from '../lib/stream/observable';
-import { Observer } from '../lib/stream/observer';
+import { Observerable, Observable } from '../../lib/stream/observable';
+import { Observer } from '../../lib/stream/observer';
 
 
 export default class ObservableSample {
