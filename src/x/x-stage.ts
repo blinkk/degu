@@ -1,8 +1,11 @@
 
-import { GameObject } from './game-object';
+import { XGameObject } from './x-game-object';
 
 
-export class Stage extends GameObject {
+/**
+ * Base stage class used for the x-engine.
+ */
+export class XStage extends XGameObject {
     private stage: boolean;
     private canvasElement: HTMLCanvasElement | null;
     private context: CanvasRenderingContext2D | null;

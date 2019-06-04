@@ -1,6 +1,6 @@
 import { is } from '../is/is';
 
-interface LineConfig {
+interface XLineConfig {
     strokeStyle: string;
     lineWidth: number;
     startX: number;
@@ -8,9 +8,12 @@ interface LineConfig {
     endX: number;
     endY: number;
 }
-import { GameObject } from './game-object';
+import { XGameObject } from './x-game-object';
 
-export class Line extends GameObject {
+/**
+ * A single line in the x-engine.
+ */
+export class XLine extends XGameObject {
     private strokeStyle: string;
     private lineWidth: number;
     private lineJoin: string;
@@ -19,7 +22,7 @@ export class Line extends GameObject {
     private endX: number;
     private endY: number;
 
-    constructor(config: LineConfig) {
+    constructor(config: XLineConfig) {
         super();
 
         this.strokeStyle = config.strokeStyle || 'red';

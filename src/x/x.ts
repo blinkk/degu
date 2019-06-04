@@ -1,7 +1,7 @@
 import { Raf } from '../raf/raf';
-import { GameObject } from './game-object';
-import { Stage } from './stage';
-import { Line } from './line';
+import { XGameObject } from './x-game-object';
+import { XStage } from './x-stage';
+import { XLine } from './x-line';
 
 /**
  * X is a mini canvas 2d engine within yano-js.
@@ -20,7 +20,7 @@ export class X {
     private context: CanvasRenderingContext2D;
     private raf: Raf;
     private dpr: number;
-    public stage: Stage;
+    public stage: XStage;
 
 
     constructor(element: HTMLCanvasElement) {
@@ -40,7 +40,7 @@ export class X {
         this.dpr = window.devicePixelRatio || 1;
 
         // Create the main stage sprite.
-        this.stage = new Stage();
+        this.stage = new XStage();
         this.stage.attachToCanvas(this.canvasElement);
 
         this.raf = new Raf(() => {
@@ -57,7 +57,7 @@ export class X {
         //Clear the canvas.
         this.context.clearRect(0, 0, this.width, this.height);
 
-        this.stage.children.forEach((gameObject: GameObject) => {
+        this.stage.children.forEach((gameObject: XGameObject) => {
             this.renderGameObject(gameObject);
         })
 
@@ -71,7 +71,7 @@ export class X {
      * itself and stamp out the sprite per frame.
      * @param gameObject
      */
-    renderGameObject(gameObject: GameObject) {
+    renderGameObject(gameObject: XGameObject) {
         // Whether this gameObject is off screen.
         const shouldRender =
             gameObject.visible &&

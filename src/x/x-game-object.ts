@@ -2,9 +2,9 @@
  * A GameObject within the X Engine.
  *
  */
-export class GameObject {
+export class XGameObject {
     public visible: boolean;
-    protected parent: GameObject | undefined;
+    protected parent: XGameObject | undefined;
     public x: number;
     public y: number;
     public width: number;
@@ -14,7 +14,7 @@ export class GameObject {
     public pivotX: number;
     public pivotY: number;
     public rotation: number;
-    public children: Array<GameObject>;
+    public children: Array<XGameObject>;
     protected alpha_: number;
     constructor() {
         /**
@@ -74,12 +74,12 @@ export class GameObject {
 
 
 
-    addChild(sprite: GameObject) {
+    addChild(sprite: XGameObject) {
         sprite.parent = this;
         this.children.push(sprite);
     }
 
-    removeChild(sprite: GameObject) {
+    removeChild(sprite: XGameObject) {
         if (sprite.parent !== this) {
             throw new Error(sprite + 'is not a child of ' + this);
         }

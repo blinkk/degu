@@ -1,8 +1,8 @@
 
 import { X } from '../lib/x/x';
-import { Sprite } from '../lib/x/sprite';
-import { Line } from '../lib/x/line';
-import { Stage } from '../lib/x/stage';
+import { XSprite } from '../lib/x/x-sprite';
+import { XLine } from '../lib/x/x-line';
+import { XStage } from '../lib/x/x-stage';
 import { ImageLoader } from '../lib/loader/image';
 
 
@@ -20,14 +20,13 @@ export default class XSample {
             this.startApp();
         });
 
-
     }
 
     startApp() {
         const canvasElement = document.getElementById('mainCanvas');
         this.X = new X(canvasElement);
 
-        this.line = new Line({
+        this.line = new XLine({
             lineWidth: 1,
             startX: 100,
             startY: 100,
