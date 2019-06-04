@@ -16,6 +16,16 @@ export class is {
         return type == trueType;
     }
 
+    /**
+     * Check if the value is false and also NOT zero.
+     * Note that this is different from undefined but rather
+     * is a common check to see of a value is false and also consider
+     * 0 as true.
+     * @param value
+     */
+    static undefinedNumber(value: number) {
+        return !!value && value !== 0;
+    }
 
     /**
      * @param value

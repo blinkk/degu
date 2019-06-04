@@ -99,6 +99,7 @@
     "publish-coverage": "surge --domain yano-js-coverage.surge.sh --project $PWD/coverage/",
     "doc-server": "simplehttpserver ./docs",
     "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
+    "dev-no-test": "concurrently \"tsc --watch\" \"npm run start\"",
     "test": "tsc && ava --watch",
     "ava": "ava",
     "coverage": "nyc ava",
