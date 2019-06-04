@@ -17,6 +17,8 @@ export interface observerConfig {
  * })
  *
  * ```
+ * 
+ * @hidden
  */
 export class Observer {
     private next_: Function;

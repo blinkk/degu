@@ -26,6 +26,7 @@ import { is } from '../is/is';
  *      obs.subscribe(observer);
  *
  * ```
+ * @hidden
  */
 export class Observable {
 
