@@ -105,5 +105,8 @@
     "coverage": "nyc ava",
     "lint": "tslint -c tslint.json \"src/**/*.ts\"",
     "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "typedoc-plugin-external-module-map": "^1.0.0"
   }
 }

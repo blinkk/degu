@@ -65,7 +65,8 @@
       "./src/**/*.ts"
     ],
     "exclude": "./src/*.spec.ts",
-    "mode": "file",
+    // "mode": "file",
+    "mode": "modules",
     "includeDeclarations": true,
     "tsconfig": "tsconfig.json",
     "out": "./docs",
@@ -75,9 +76,10 @@
     "hideGenerator": true,
     "readme": "README.md",
     "name": "Yano",
-    "theme": "minimal",
+    "theme": "default",
     "ignoreCompilerErrors": true,
     "plugin": "none",
+    "external-modulemap": ".*\/src\/([\\w\\-_]+)\/",
     "listInvalidSymbolLinks": true
   }
 }
