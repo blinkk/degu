@@ -461,22 +461,50 @@ export class mathf {
    * https://www.youtube.com/watch?v=a59YQ4qe7mE
    * https://en.wikipedia.org/wiki/Rotation_matrix
    *
-   * @param cx The x center point to calculate rotations.
-   * @param cy The y center point to calculate rotations.
-   * @param x The x value prior to rotation.
-   * @param y The y value prior to rotation.
-   * @param angle The angle
+   * @param cx The x center point to rotate around.
+   * @param cy The y center point to rotate around.
+   * @param x The x value of the point to be rotated prior to rotation.
+   * @param y The y value of the point to be rotated prior to rotation.
+   * @param angle The angle in radians
    * @tested
    */
   static calculate2dPointRotation(cx: number, cy: number,
-    x: number, y: number, radians: number) {
-    let cos = Math.cos(radians);
-    let sin = Math.sin(radians);
+    x: number, y: number, angle: number) {
+    let cos = Math.cos(angle);
+    let sin = Math.sin(angle);
     const tx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
     const ty = (cos * (y - cy)) - (sin * (x - cx)) + cy;
     return {
       x: tx,
       y: ty
+    };
+  }
+
+
+  /**
+   * Rotates a point around another point with angle and distance.
+   * This is similar to
+   * [[mathf.calculate2dPointRotation]] except that you are specifying a
+   * distance as well.
+   * @param cx The x center point to rotate around.
+   * @param cy The y center point to rotate around.
+   * @param x The x value of the point to be rotated prior to rotation.
+   * @param y The y value of the point to be rotated prior to rotation.
+   * @param angle The angle in radians
+   * @param distance The distance from cx and cy in which we should place the
+   *     new coordinates to.
+   */
+  static calculate2dPointRotationWithDistance(cx: number, cy: number,
+    x: number, y: number, angle: number, distance: number
+  ) {
+    var t = angle + Math.atan2(y - cy, x - cx);
+
+    x = cx + (distance * Math.cos(t));
+    y = cy + (distance * Math.sin(t));
+
+    return {
+      x: x,
+      y: y
     };
   }
 
@@ -800,11 +828,7 @@ export class mathf {
    * @return {number} The interporalated value.
    */
   static lerp(value1: number, value2: number, amount: number): number {
-    // amount = amount < 0 ? 0 : amount;
-    // amount = amount > 1 ? 1 : amount;
     return value1 + (value2 - value1) * mathf.clamp01(amount);
-
-
     // Alternative ways to calculate lerp
     // return (1 - amount) * value1 + amount * value2;
     // return ((value2 - value1) * amount) + amount
