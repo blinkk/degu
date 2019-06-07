@@ -51,7 +51,7 @@ export const XGameObjectDefaults = {
 }
 
 /**
- * A GameObject within the X Engine.
+ * # XEngine Game Object
  *
  * The GameObject is a central part of the X Engine and specifically,
  * the coordinate system is designed to make global calculations easy

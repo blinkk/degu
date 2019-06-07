@@ -2789,6 +2789,11 @@ pre code {
   font-size: 18px;
 }
 
+
+.tsd-signatures .tsd-signature.current {
+  background-color: transparent;
+}
+
 .tsd-navigation.secondary ul.current a {
   border-left-color: transparent;
 }
@@ -2801,4 +2806,8 @@ pre code {
 }
 .tsd-signature .tsd-kind-icon {
   background-color: #efefef;
+}
+dl.tsd-comment-tags dt {
+  color: #00b0e8;
+  border: 1px solid #00b0e8;
 }
