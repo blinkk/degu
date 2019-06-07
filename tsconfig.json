@@ -76,10 +76,11 @@
     "hideGenerator": true,
     "readme": "README.md",
     "name": "Yano",
-    "theme": "default",
+    // "theme": "default",
+    "theme": "_typedoc_theme/bin/default",
     "ignoreCompilerErrors": true,
     "plugin": "none",
     "external-modulemap": ".*\/src\/([\\w\\-_]+)\/",
-    "listInvalidSymbolLinks": true
+    "listInvalidSymbolLinks": true,
   }
 }
