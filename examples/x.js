@@ -116,12 +116,16 @@ export default class XSample {
             this.flower.rotaton = mathf.ease(
                 this.flower.rotation,
                 rotation,
-                0.25,
+                0.08,
                 EASE.linear
             );
 
             this.flower.rotation += rotation;
 
+            console.log(
+                this.flower.velocity.magnitude(),
+                this.flower.acceleration.magnitude()
+            );
         });
 
         this.X.start();

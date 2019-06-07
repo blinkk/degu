@@ -20,6 +20,7 @@ import DomWatcherSample from '../dom-watcher';
 import OffScreenCanvasSample from '../off-screen-canvas';
 
 import XSample from '../x';
+import X2Sample from '../x2';
 
 const samples = {
   'easerDisableRafSample': EaserDisableRafSample,
@@ -34,7 +35,8 @@ const samples = {
   'playgroundSample': PlaygroundSample,
   'domWatcherSample': DomWatcherSample,
   'offScreenCanvasSample': OffScreenCanvasSample,
-  'xSample': XSample
+  'xSample': XSample,
+  'x2Sample': X2Sample
 };
 
 class Main {

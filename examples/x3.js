@@ -56,16 +56,6 @@ export default class X2Sample {
             debugMode: true
         });
 
-
-        this.txt = new XText({
-            x: 100,
-            y: 100,
-            text: 'Hello yoyoyo;yoyoyoyoyo'
-        });
-        this.X.stage.addChild(this.txt);
-        console.log(this.txt);
-
-
         // this.line = new XLine({
         //     lineWidth: 10,
         //     startX: 100,
@@ -111,7 +101,35 @@ export default class X2Sample {
         // this.test.debug = true;
         this.X.stage.addChild(this.flower);
 
+        // this.rectangle = new XRectangle({
+        //     id: 'yo',
+        //     x: 20,
+        //     y: 30,
+        //     width: 250,
+        //     height: 250,
+        //     strokeStyle: 'blue',
+        // });
+        // this.X.stage.addChild(this.rectangle);
+
+
+
+
+
+
+        // this.X.stage.addChild(this.line);
+        // console.log(this.X.stage);
+
+        // this.text = new XText({
+        //     text: "This works"
+        // });
+        // this.X.stage.addChild(this.text);
+
+
+
+
         this.X.onTick(() => {
+
+
         });
 
         this.X.start();

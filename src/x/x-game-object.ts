@@ -55,13 +55,33 @@ export const XGameObjectDefaults = {
  *
  * The GameObject is a central part of the X Engine and specifically,
  * the coordinate system is designed to make global calculations easy
- * soo that the x-engine objects that exist in canvas can ultimately,
+ * so that the x-engine objects that exist in canvas can ultimately,
  * easily be aligned with DOM elements.
  *
  * At a high level, the XStage typically is the top level GameObject.
  * Each GameObject can have children.  When a child is attached to
  * a GameObject, it becomes grouped with it's parents and it's x,y positions
  * will become relative to the parent.
+ *
+ *
+ * # Positioning System
+ * Positioning is coordinated by a combination of position, velocity and
+ * acceleration vectors.
+ *
+ * position vector  (x,y)
+ * - this is the actual coordinates of the GameObject.
+ *
+ * velocity vector (vx, vy)
+ * - velocity is how much the position is changed per frame.  In short,
+ *   velocity gets added to the position every frame.
+ *
+ * acceleration vector (ax, ay)
+ * - A force that changes velocity.
+ *   acceleration is added to the velocity vector every frame.  acceleration
+ *   changes velocity.
+ *
+ * See the updatePosition method to see how these are added on each gameLoop
+ * cycle.
  *
  *
  *
@@ -120,8 +140,6 @@ export class XGameObject {
      * of the scale of it's parent.
      */
     public naturalScaleY: number;
-    protected canvasElement: HTMLCanvasElement | null;
-    protected context: CanvasRenderingContext2D | null;
 
     /**
      * A unique identifer for this game object.
@@ -213,9 +231,6 @@ export class XGameObject {
         this.debugObject = false;
 
         this.children = [];
-
-        this.canvasElement = null;
-        this.context = null;
 
         this.alpha_ = func.setDefault(config.alpha, 1);
 
@@ -552,8 +567,6 @@ export class XGameObject {
      */
     addChild(sprite: XGameObject) {
         sprite.parent = this;
-        sprite.canvasElement = this.canvasElement;
-        sprite.context = this.context;
         this.children.push(sprite);
 
         // Always maintain an ordered list of children.

@@ -1,5 +1,6 @@
 import { func } from '../func/func';
 import { XGameObject, XGameObjectConfig } from './x-game-object';
+import { xOffScreenCanvas } from './x-offscreen-canvas';
 
 
 interface XTextConfig extends XGameObjectConfig {
@@ -7,6 +8,7 @@ interface XTextConfig extends XGameObjectConfig {
     font?: string;
     fillStyle?: string;
     textBaseline?: string;
+    textAlign?: string;
 }
 
 /**
@@ -18,25 +20,44 @@ export class XText extends XGameObject {
     private font: string;
     private fillStyle: string;
     private textBaseline: CanvasTextBaseline;
+    private textAlign: CanvasTextAlign;
 
     constructor(config: XTextConfig) {
         super(config);
         this.text = func.setDefault(config.text, 'Hello');
         this.font = func.setDefault(config.font, '12px sans-serif');
+        this.textAlign = func.setDefault(config.textAlign, 'left');
         this.fillStyle = func.setDefault(config.fillStyle, 'red');
         this.textBaseline = func.setDefault(config.textBaseline, 'top');
     }
 
-    // get width(): number {
-    //     return this.context && this.context.measureText(this.text).width || 0;
-    // }
-    // // TODO (uxder) What's the best way to get height?
-    // get height(): number {
-    //     return this.context && this.context.measureText(this.text).width || 0;
-    // }
+    /**
+     * Sets the font to measure the width.
+     * https://developer.mozilla.org/en-US/docs/Web/API/TextMetrics
+     */
+    get width(): number {
+        let width = 0;
+        xOffScreenCanvas.context.font = this.font;
+        xOffScreenCanvas.context.textAlign = this.textAlign;
+        xOffScreenCanvas.context.textBaseline = this.textBaseline;
+        width = xOffScreenCanvas.context.measureText(this.text).width;
+        return width || 0;
+    }
 
-    get textMetrics(): TextMetrics | null {
-        return this.context && this.context.measureText(this.text);
+    /**
+     * Sets the font to measure the height.  There isn't really a crossbrowser
+     * or realiable way to measure text at the moment, so we measure the
+     * width of a single character and multiply that by an assumed 1.2 line
+     * height for now as an approximation.
+     * https://developer.mozilla.org/en-US/docs/Web/API/TextMetrics
+     */
+    get height(): number {
+        let height = 0;
+        xOffScreenCanvas.context.font = this.font;
+        xOffScreenCanvas.context.textAlign = this.textAlign;
+        xOffScreenCanvas.context.textBaseline = this.textBaseline;
+        let width = xOffScreenCanvas.context.measureText('w').width
+        return width * 1.2;
     }
 
 
