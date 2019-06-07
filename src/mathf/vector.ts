@@ -295,7 +295,7 @@ export class Vector {
 
     /**
      * Calculates the magnitude of this vector.
-     * Alias of [[Vectro.length]]
+     * Alias of [[Vector.length]]
      */
     magnitude(): number {
         return this.length();
