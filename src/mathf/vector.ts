@@ -293,6 +293,13 @@ export class Vector {
         return Math.sqrt(x * x + y * y + z * z);
     }
 
+    /**
+     * Calculates the magnitude of this vector.
+     * Alias of [[Vectro.length]]
+     */
+    magnitude(): number {
+        return this.length();
+    }
 
     /**
      * Normalizes this vector.
@@ -343,10 +350,6 @@ export class Vector {
      * @param progress A number between 0-1.
      */
     lerp(v: Vector, progress: number = 0): Vector {
-        var ax = this.x;
-        var ay = this.y;
-        var az = this.z;
-
         this.x = mathf.lerp(this.x, v.x, progress);
         this.y = mathf.lerp(this.y, v.y, progress);
         this.z = mathf.lerp(this.z, v.z, progress);
@@ -360,15 +363,29 @@ export class Vector {
      * @param easeFunction An easing function. See [[mathf.ease]].
      */
     ease(v: Vector, progress: number = 0, easeFunction = EASE.linear): Vector {
-        var ax = this.x;
-        var ay = this.y;
-        var az = this.z;
-
         this.x = mathf.ease(this.x, v.x, progress, easeFunction);
         this.y = mathf.ease(this.y, v.y, progress, easeFunction);
         this.z = mathf.ease(this.z, v.z, progress, easeFunction);
         return this;
     }
+
+
+
+    /**
+     * Ease interpolates and eases 1 vector towards another.
+     * @param v1 startVector
+     * @param v2 endVector
+     * @param progress
+     * @param easeFunction
+     */
+    static ease(v1: Vector, v2: Vector,
+        progress: number = 0, easeFunction = EASE.linear): Vector {
+        const x = mathf.ease(v1.x, v2.x, progress, easeFunction);
+        const y = mathf.ease(v1.y, v2.y, progress, easeFunction);
+        const z = mathf.ease(v1.z, v2.z, progress, easeFunction);
+        return new Vector(x, y, z);
+    }
+
 
     /**
      * A static zero vector.

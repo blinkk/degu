@@ -8,8 +8,6 @@ import { XTexture } from '../lib/x/x-texture';
 import { XText } from '../lib/x/x-text';
 import { ImageLoader } from '../lib/loader/image';
 import { Vector } from '../lib/mathf/Vector';
-import { mathf } from '../lib/mathf/mathf';
-import { EASE } from '../lib/ease/ease';
 
 
 /**
@@ -28,13 +26,13 @@ import { EASE } from '../lib/ease/ease';
  */
 export default class XSample {
 
-    /**
-     * Loads teh required images and saves them to a cache with Xtexture.
-     * This starts the app.
-     */
     constructor() {
         this.imageTextures = {};
+
         let images = new ImageLoader([
+            '/public/boy.png',
+            '/public/boy2.png',
+            '/public/boy3.png',
             '/public/flower.jpg',
         ]).load().then((results) => {
 
@@ -57,6 +55,13 @@ export default class XSample {
             debugMode: true
         });
 
+        // this.line = new XLine({
+        //     lineWidth: 10,
+        //     startX: 100,
+        //     startY: 100,
+        //     endX: 250,
+        //     endY: 250
+        // });
 
         this.flower = new XGameObject({
             id: 'flower',
@@ -68,9 +73,56 @@ export default class XSample {
             scaleY: 1,
             rotation: 1.5,
             interactable: true,
+            onMouseDown: (gameObject) => {
+                console.log(gameObject);
+
+                // gameObject.acceleration.add(Vector.ONE);
+
+                // console.table(gameObject.globalComputedBox);
+                // console.log('wh', gameObject.width, gameObject.height);
+                // console.log('gx', gameObject.gx, gameObject.gy);
+                // console.log('gcx', gameObject.gcx, gameObject.gcy);
+                // console.table({
+                //     anchor: gameObject.anchorX + ' ' + gameObject.anchorY,
+                //     width: gameObject.width,
+                //     height: gameObject.height,
+                //     x: gameObject.x,
+                //     y: gameObject.y,
+                //     box: gameObject.globalComputedBox,
+                //     parentX: gameObject.parent.x,
+                //     parentY: gameObject.parent.y,
+                //     gx: gameObject.gx,
+                //     gy: gameObject.gy,
+                // });
+            },
             texture: this.imageTextures['/public/flower.jpg'],
         });
-        this.X.stage.addChild(this.flower);
+        // this.test.debug = true;
+        this.X.stage.addChild(this.test);
+
+        // this.rectangle = new XRectangle({
+        //     id: 'yo',
+        //     x: 20,
+        //     y: 30,
+        //     width: 250,
+        //     height: 250,
+        //     strokeStyle: 'blue',
+        // });
+        // this.X.stage.addChild(this.rectangle);
+
+
+
+
+
+
+        // this.X.stage.addChild(this.line);
+        // console.log(this.X.stage);
+
+        // this.text = new XText({
+        //     text: "This works"
+        // });
+        // this.X.stage.addChild(this.text);
+
 
 
 
@@ -83,44 +135,19 @@ export default class XSample {
             // acceleration of the game object.
 
 
-            const distanceVector = Vector.subtract(
-                new Vector(this.flower.gcx, this.flower.gcy),
+            const distance = Vector.subtract(
+                new Vector(this.test.gcx, this.test.gcy),
                 // mouse
                 this.X.pointer.position
             );
 
-            // We could just set the acceleration to the distance but then
-            // the flower image would just exactly be the position of the
-            // mouse.  To add some delay and smoothing, we ease the
-            // vales.
-            this.flower.acceleration =
-                Vector.ease(this.flower.acceleration, distanceVector, 0.08);
+            this.flower.acceleration = distance;
 
-            // Damping. We still get a of sprining so we damp out the springing.
-            this.flower.acceleration.lerp(Vector.ZERO, 0.8);
+            // Damp out the springing.
+            // this.test.acceleration.lerp(Vector.ZERO, 1);
+            // this.test.rotation += 0.1;
 
-            // Based on the distance to the mouse, let's increase or decrease
-            // the rotation.
-            const minRotation = 0;
-            const maxRotation = 0.5;
-            const minMagnitude = 0;
-            const maxMagnitude = 500;
 
-            // Now we get a value between 0-0.5 based on when the distance
-            // is between 0 and 500.
-            const rotation = mathf.interpolateRange(
-                distanceVector.length(), // The magnitude of the distance vector
-                minMagnitude, maxMagnitude, minRotation, maxRotation);
-
-            // Let's make it more interesting and ease out the rotation per frame.
-            this.flower.rotaton = mathf.ease(
-                this.flower.rotation,
-                rotation,
-                0.25,
-                EASE.linear
-            );
-
-            this.flower.rotation += rotation;
 
         });
 

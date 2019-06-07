@@ -592,8 +592,7 @@ export class XGameObject {
             this.velocity.add(this.acceleration);
             this.position.add(this.velocity);
         } else {
-
-            this.velocity.ease(this.acceleration, 0.3, EASE.easeOutElastic);
+            this.velocity.ease(this.acceleration, 1, EASE.linear);
             this.position.add(this.velocity);
         }
     }
