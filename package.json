@@ -81,11 +81,6 @@
     "tslint": "^5.16.0",
     "tslint-eslint-rules": "^5.4.0",
     "typedoc": "^0.14.2",
-    "typedoc-canvo-theme": "^0.2.7",
-    "typedoc-clarity-theme": "^1.1.0",
-    "typedoc-fivemjs-theme": "^0.2.7",
-    "typedoc-henanigans-theme": "^0.2.2",
-    "typedoc-markdown-theme": "0.0.4",
     "typedoc-plugin-no-inherit": "^1.1.8",
     "typescript": "3.4.1",
     "webpack": "4.29.6",
@@ -110,11 +105,5 @@
     "coverage": "nyc ava",
     "lint": "tslint -c tslint.json \"src/**/*.ts\"",
     "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
-  },
-  "dependencies": {
-    "typedoc-dash-theme": "^1.1.0",
-    "typedoc-neo-theme": "^1.0.1",
-    "typedoc-plugin-external-module-map": "^1.0.0",
-    "typedoc-twilio-theme": "^1.0.0"
   }
 }
