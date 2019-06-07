@@ -58,13 +58,18 @@
   },
   "exclude": [
     "node_modules",
-    "lib"
+    "lib",
+    "labs"
   ],
   "typedocOptions": {
     "src": [
       "./src/**/*.ts"
     ],
-    "exclude": "./src/*.spec.ts",
+    "exclude": [
+      "./src/*.spec.ts",
+      "./labs/*.spec.ts",
+      "./labs/**/*.ts",
+    ],
     // "mode": "file",
     "mode": "modules",
     "includeDeclarations": true,
