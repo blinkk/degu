@@ -228,21 +228,21 @@ test('angleDistanceDegree', t => {
         , -30);
 });
 
-test('scaleY1', t => {
+test('scaleX', t => {
     t.is(
-        mathf.scaleY1(5, 10, 20),
+        mathf.scaleX(5, 10, 20),
         10);
     t.is(
-        mathf.scaleY1(2, 10, 20),
+        mathf.scaleX(2, 10, 20),
         4);
 });
 
-test('scaleY2', t => {
+test('scaleY', t => {
     t.is(
-        mathf.scaleY2(5, 10, 3),
+        mathf.scaleY(5, 10, 3),
         6);
     t.is(
-        mathf.scaleY2(2, 10, 20),
+        mathf.scaleY(2, 10, 20),
         100);
 });
 
@@ -275,26 +275,53 @@ test('wrap', t => {
 
 test('resizedimensionalBoxToWidth', t => {
     t.deepEqual(
-        mathf.resizedimensionalBoxToWidth({ width: 500, height: 500 }, 250),
+        mathf.resizeDimensionalBoxToWidth({ width: 500, height: 500 }, 250),
         { width: 250, height: 250 });
     t.deepEqual(
-        mathf.resizedimensionalBoxToWidth({ width: 250, height: 500 }, 800),
+        mathf.resizeDimensionalBoxToWidth({ width: 250, height: 500 }, 800),
         { width: 800, height: 1600 });
     t.deepEqual(
-        mathf.resizedimensionalBoxToWidth({ width: 10, height: 12 }, 800),
+        mathf.resizeDimensionalBoxToWidth({ width: 10, height: 12 }, 800),
         { width: 800, height: 960 });
 });
 
 test('resizedimensionalBoxToHeight', t => {
     t.deepEqual(
-        mathf.resizedimensionalBoxToHeight({ width: 500, height: 500 }, 250),
+        mathf.resizeDimensionalBoxToHeight({ width: 500, height: 500 }, 250),
         { width: 250, height: 250 });
     t.deepEqual(
-        mathf.resizedimensionalBoxToHeight({ width: 250, height: 500 }, 800),
+        mathf.resizeDimensionalBoxToHeight({ width: 250, height: 500 }, 800),
         { width: 400, height: 800 });
     t.deepEqual(
-        mathf.resizedimensionalBoxToHeight({ width: 10, height: 16 }, 800),
+        mathf.resizeDimensionalBoxToHeight({ width: 10, height: 16 }, 800),
         { width: 500, height: 800 });
+});
+
+test('calculated2dPointRotation', t => {
+    const newCoords = mathf.calculate2dPointRotation(2, 2, 4, 0, 1);
+    t.is(mathf.toFixed(newCoords.x, 3), 1.398);
+    t.is(mathf.toFixed(newCoords.y, 3), -0.764);
+});
+
+
+test('collisionPointVersusConvexPolygon', t => {
+    const poly = [
+        { x: 0, y: 0 },
+        { x: 3, y: 0 },
+        { x: 3, y: 3 },
+        { x: 0, y: 3 }
+    ]
+
+    t.is(mathf.collisionPointVersusConvexPolygon(
+        { x: 0, y: 1 }, poly), true)
+    t.is(mathf.collisionPointVersusConvexPolygon(
+        { x: -1, y: 1 }, poly), false)
+    t.is(mathf.collisionPointVersusConvexPolygon(
+        { x: 2, y: 1 }, poly), true)
+    t.is(mathf.collisionPointVersusConvexPolygon(
+        { x: 4, y: 1 }, poly), false)
+    t.is(mathf.collisionPointVersusConvexPolygon(
+        { x: 2, y: 2 }, poly), true)
 });
 
 test('getValueInRangeByProgress', t => {

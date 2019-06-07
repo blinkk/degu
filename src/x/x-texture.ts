@@ -4,9 +4,9 @@
  * Texture class to be used with the x-engine.
  */
 export class XTexture {
-    private width: number;
-    private height: number;
-    private imageElement: HTMLImageElement;
+    public width: number;
+    public height: number;
+    public imageElement: HTMLImageElement;
 
     constructor(imageElement: HTMLImageElement) {
         this.imageElement = imageElement;

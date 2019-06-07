@@ -1,5 +1,11 @@
 import { EASE } from '../ease/ease';
 
+export interface circ {
+  radius: number;
+  x: number;
+  y: number;
+}
+
 export interface box {
   height: number;
   width: number;
@@ -10,6 +16,11 @@ export interface box {
 export interface dimensionalBox {
   height: number;
   width: number;
+}
+
+export interface point {
+  x: number;
+  y: number;
 }
 
 export interface backgroundCoverBox {
@@ -279,10 +290,7 @@ export class mathf {
    * ```ts
    *   mathf.angleDistanceDegree(10, 10) ==> 0
    *   mathf.angleDistanceDegree(30, 10) ==> -20
-   *   mathf.angleDistanceDegree(10, 50) ==> 40
-   *   mathf.angleDistanceDegree(10, 340) ==> -30
-   * ```
-   *
+   *   mathf.angleDistanceDegree(10, 50) ==> 40 *   mathf.angleDistanceDegree(10, 340) ==> -30 * ``` *
    * @tested
    * @param {number} angle0 The first angle in degrees.
    * @param {number} angle1 The second angle in degrees.
@@ -344,7 +352,7 @@ export class mathf {
    * @param {Object} b An object with x, y, width and height.
    * @return {boolean} Whether the areas are colliding.
    */
-  static willCollide(a: box, b: box) {
+  static boxCollision(a: box, b: box) {
     return !(
       ((a.y + a.height) < (b.y)) ||
       (a.y > (b.y + b.height)) ||
@@ -352,6 +360,127 @@ export class mathf {
       (a.x > (b.x + b.width))
     );
   }
+
+
+  /**
+   * Given a circular and rectangular object, detects when the two collide
+   * with each other on a 2d space.  Assumes Box is unrotated.
+   * @param rect An object with x, y, width and height.
+   * @see https://yal.cc/rectangle-circle-intersection-test/
+   */
+  static collisionCircVsBox(circ: circ, rect: box) {
+    let dx = circ.x - Math.max(rect.x, Math.min(circ.x, rect.x + rect.width));
+    let dy = circ.y - Math.max(rect.y, Math.min(circ.y, rect.y + rect.height));
+    return (dx * dx + dy * dy) < (circ.radius * circ.radius);
+  }
+
+
+  /**
+   * Performs a test whether a point resized inside a convex polygon using
+   * raycasting.
+   * @param point An object with x,y coords of the point.
+   * @param poly An array of x,y points of a polygon.
+   * @return Whether the point is inside the polygon or not.
+   * @see http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+   * @see https://gamedevelopment.tutsplus.com/tutorials/collision-detection-using-the-separating-axis-theorem--gamedev-169
+   * @see https://www.gamedevelopment.blog/collision-detection-circles-rectangles-and-polygons/
+   * @see https://stackoverflow.com/questions/22521982/check-if-point-inside-a-polygon
+   * @see https://github.com/mikolalysenko/robust-point-in-polygon/blob/master/robust-pnp.js
+   */
+  static collisionPointVersusConvexPolygon(
+    point: point, poly: Array<point>): boolean {
+
+    // We go around in the polygon.
+    // Assuming there are four point (but could be more),
+    //
+    //   0----1
+    //   |    |
+    //   3----2
+    // We perform raycasting, 0-3, 1-0, 2-1, 3-2 points.
+    //
+    let isInside = false;
+    const size = poly.length;
+    let pointPolyAIndex = 0;
+    let pointPolyBIndex = size - 1;
+    for (var i = 0; i < size; i++) {
+      const polyA = poly[pointPolyAIndex];
+      const polyB = poly[pointPolyBIndex];
+
+      var intersects =
+        ((polyA.y > point.y) != (polyB.y > point.y))
+        && (point.x < (polyB.x - polyA.x) * (point.y - polyA.y) / (polyB.y - polyA.y) + polyA.x);
+      if (intersects) {
+        isInside = !isInside;
+      }
+
+      pointPolyBIndex = pointPolyAIndex;
+      pointPolyAIndex++;
+    }
+
+
+    return isInside;
+  }
+
+
+  /**
+   * Use rotational matrix to calculate the new coordinates of a rotated
+   * point.
+   *
+   * Put another way, given point x and y, and a center point of cx and cy,
+   * calculates the translated x, y points when rotated at a given angle.
+   *
+   * For example:
+   *
+   *      0,0--------------4,0
+   *       |               |
+   *       |       2,2     |
+   *       |               |
+   *      0,4 ------------ 4,4
+   *
+   * Say for example you have a rectangle.  The rotational center of the
+   * rectangle is the center in this case at 2,2.
+   *
+   * You can use this algo to calculate rotation.
+   * Lets say you rotate the rectangle by 1 radian (~57 degrees).
+   * What is the new coordinates of the top right corner?
+   *
+   * ```
+   * const newCoords = mathf.calculate2dPointRotation(2,2,4,0,1);
+   *
+   * newCoords.x;  // 1.398
+   * newCoords.y;  // -0.764
+   *
+   * ```
+   *
+   * Troubleshoot?
+   *
+   * The most common issue is that your rotation value is inverted.
+   * Try passing in -rotation and see if that helps.
+   *
+   * https://www.youtube.com/watch?v=xsN8cD6oisY&feature=youtu.be
+   * https://www.youtube.com/watch?v=a59YQ4qe7mE
+   * https://en.wikipedia.org/wiki/Rotation_matrix
+   *
+   * @param cx The x center point to calculate rotations.
+   * @param cy The y center point to calculate rotations.
+   * @param x The x value prior to rotation.
+   * @param y The y value prior to rotation.
+   * @param angle The angle
+   * @tested
+   */
+  static calculate2dPointRotation(cx: number, cy: number,
+    x: number, y: number, radians: number) {
+    let cos = Math.cos(radians);
+    let sin = Math.sin(radians);
+    const tx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
+    const ty = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+    return {
+      x: tx,
+      y: ty
+    };
+  }
+
+
 
   /**
    * Generates a set of random x,y points.
@@ -459,27 +588,27 @@ export class mathf {
    * Given a known set of sizes, scales and returns a y1.
    *
    * `````ts
-   *  x1     y1 (return)
+   *  x1     x2 (return)
    * ---- = ----
-   *  x2     y2
+   *  y1     y2
    *
    * ````
    */
-  static scaleY1(x1: number, x2: number, y2: number) {
-    return x1 * y2 / x2;
+  static scaleX(x1: number, y1: number, y2: number): number {
+    return x1 * y2 / y1;
   }
 
   /**
    * Given a known set of sizes, scales and returns a y2.
    *
    * `````ts
-   *  x1     y1
+   *  x1     x2
    * ---- = ----
-   *  x2     y2 (return)
+   *  y1     y2 (return)
    *
    * ````
    */
-  static scaleY2(x1: number, x2: number, y1: number) {
+  static scaleY(x1: number, y1: number, x2: number): number {
     return x2 * y1 / x1;
   }
 
@@ -516,11 +645,12 @@ export class mathf {
    * @param {number} box
    * @param {number} width
    * @return {dimensionalBox}
+   * @tested
    */
-  static resizedimensionalBoxToWidth(box: dimensionalBox, width: number): dimensionalBox {
+  static resizeDimensionalBoxToWidth(box: dimensionalBox, width: number): dimensionalBox {
     return {
       width,
-      height: mathf.scaleY2(box.width, box.height, width)
+      height: mathf.scaleY(box.width, box.height, width)
     };
   }
 
@@ -530,10 +660,11 @@ export class mathf {
    * @param {number} box
    * @param {number} height
    * @return {dimensionalBox}
+   * @tested
    */
-  static resizedimensionalBoxToHeight(box: dimensionalBox, height: number): dimensionalBox {
+  static resizeDimensionalBoxToHeight(box: dimensionalBox, height: number): dimensionalBox {
     return {
-      width: mathf.scaleY1(box.width, box.height, height),
+      width: mathf.scaleX(box.width, box.height, height),
       height
     };
   }
