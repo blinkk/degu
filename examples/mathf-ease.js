@@ -4,6 +4,8 @@ import { mathf } from '../lib/mathf/mathf';
 import { Raf } from '../lib/raf/raf';
 import { EASE } from '../lib/ease/ease';
 import { CubicBezier } from '../lib/mathf/cubic-bezier';
+import { CatmullRom } from '../lib/mathf/catmull-rom';
+import { Vector } from '../lib/mathf/vector';
 
 export default class MathfEaseSample {
     constructor() {
@@ -75,10 +77,40 @@ export default class MathfEaseSample {
             // Cubic Bezier  Example
             // Keep X as linear so you can see the bezier on the y.
             // https://cubic-bezier.com/
-            let x = mathf.ease(0, 500, this.progress,
-                EASE.linear);
-            let y = mathf.ease(500, 0, this.progress,
-                CubicBezier.makeEasingFunction(0.17, 0.67, 0.93, -0.12));
+            // let x = mathf.ease(0, 500, this.progress,
+            //     EASE.linear);
+            // let y = mathf.ease(500, 0, this.progress,
+            //     CubicBezier.makeEasingFunction(0.17, 0.67, 0.93, -0.12));
+
+
+
+            // Catmull-Rom example.
+            let catmullEasing = CatmullRom.interpolate(
+                [
+                    new Vector(0, 500),
+                    new Vector(100, 400),
+                    new Vector(300, 300),
+                    new Vector(200, 100),
+                    new Vector(100, 400),
+                    new Vector(200, 80),
+                    new Vector(200, 250),
+                    new Vector(0, 0),
+                    new Vector(0, 500),
+                    new Vector(400, 400),
+                    new Vector(500, 500),
+                ], 0, 0
+            );
+            // let x = mathf.ease(0, 500, this.progress,
+            //     EASE.linear);
+            // console.log('x');
+            let x = catmullEasing(this.progress).x;
+            let y = catmullEasing(this.progress).y;
+            // console.log(y);
+
+            // console.log(y);
+
+
+
 
             this.updateBallPosition(x, y);
         });

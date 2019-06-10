@@ -217,7 +217,7 @@ export class Vector {
     /**
      * Subtract this vector from another and create a new vector.
      */
-    static subtract(v1: Vector, v2: Vector) {
+    static subtract(v2: Vector, v1: Vector) {
         const x = v2.x - v1.x;
         const y = v2.y - v1.y;
         const z = v2.z - v1.z;
