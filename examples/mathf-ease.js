@@ -3,6 +3,7 @@
 import { mathf } from '../lib/mathf/mathf';
 import { Raf } from '../lib/raf/raf';
 import { EASE } from '../lib/ease/ease';
+import { CubicBezier } from '../lib/mathf/cubic-bezier';
 
 export default class MathfEaseSample {
     constructor() {
@@ -66,9 +67,18 @@ export default class MathfEaseSample {
                 this.progress = progress;
             }
 
-            // Positions with just pure math lerping.
-            let x = mathf.ease(0, 500, this.progress, EASE.easeOutSine);
-            let y = mathf.ease(0, 500, this.progress, EASE.easeInCubic);
+            // EASE Example
+            // let x = mathf.ease(0, 500, this.progress, EASE.easeOutSine);
+            // let y = mathf.ease(0, 500, this.progress, EASE.easeInCubic);
+
+
+            // Cubic Bezier  Example
+            // Keep X as linear so you can see the bezier on the y.
+            // https://cubic-bezier.com/
+            let x = mathf.ease(0, 500, this.progress,
+                EASE.linear);
+            let y = mathf.ease(500, 0, this.progress,
+                CubicBezier.makeEasingFunction(0.17, 0.67, 0.93, -0.12));
 
             this.updateBallPosition(x, y);
         });

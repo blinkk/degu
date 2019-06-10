@@ -986,6 +986,8 @@ export class mathf {
    *
    * Now lets try this with easing.  You can see the returned values between
    * 0 and 1 are different than a linear ease.
+   *
+   * You can also combine with CubicBezier.makeEasingFunction or a catmull-roll.
    * ```
    * import { EASE, mathf} from 'yano-js'
    * mathf.ease(0, 100, 0, EASE.easeInExpo)   ---> 0
@@ -993,6 +995,12 @@ export class mathf {
    * mathf.ease(0, 100, 0.5, EASE.easeInExpo) ---> 3.125
    * mathf.ease(0, 100, 0.9, EASE.easeInExpo) ---> 70.710678
    * mathf.ease(0, 100, 1, EASE.easeInExpo) ---> 100
+   *
+   *
+   *
+   * import { CubicBezier, EASE, mathf} from 'yano-js'
+   * mathf.ease(0, 100, 0.3, CubicBezier.makeEasingFunction(0, 1, 0.75, 0.9)) ---> 100
+   *
    * ```
    *
    * How can I use this with animations?
