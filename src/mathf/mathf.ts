@@ -68,9 +68,9 @@ export class mathf {
   /**
    * Takes a number and forces it to a float.
    * ```ts
-   *   mathf.in(20.3333)  --> 20
-   *   mathf.in(20.32)    --> 20
-   *   mathf.in(20)       --> 20
+   *   mathf.int(20.3333)  --> 20
+   *   mathf.int(20.32)    --> 20
+   *   mathf.int(20)       --> 20
    * ```
    * @tested
    * @param {number} value The number to convert
@@ -1056,6 +1056,7 @@ export class mathf {
     const diff = max - min;
     return (min + ((((value - min) % diff) + diff) % diff));
   }
+
 
 
   /**

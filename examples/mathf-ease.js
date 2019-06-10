@@ -95,7 +95,7 @@ export default class MathfEaseSample {
                     new Vector(200, 80),
                     new Vector(200, 250),
                     new Vector(0, 0),
-                    new Vector(0, 500),
+                    new Vector(500, 500),
                     new Vector(400, 400),
                     new Vector(500, 500),
                 ], 0, 0
