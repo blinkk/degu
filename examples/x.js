@@ -84,9 +84,9 @@ export default class XSample {
 
 
             const distanceVector = Vector.subtract(
-                new Vector(this.flower.gcx, this.flower.gcy),
                 // mouse
-                this.X.pointer.position
+                this.X.pointer.position,
+                new Vector(this.flower.gcx, this.flower.gcy)
             );
 
             // We could just set the acceleration to the distance but then

@@ -88,17 +88,12 @@ export default class MathfEaseSample {
             let catmullEasing = CatmullRom.interpolate(
                 [
                     new Vector(0, 500),
-                    new Vector(100, 400),
-                    new Vector(300, 300),
-                    new Vector(200, 100),
-                    new Vector(100, 400),
-                    new Vector(200, 80),
-                    new Vector(200, 250),
-                    new Vector(0, 0),
-                    new Vector(500, 500),
-                    new Vector(400, 400),
-                    new Vector(500, 500),
-                ], 0, 0
+                    new Vector(100, 300),
+                    new Vector(200, 200),
+                    new Vector(300, 400),
+                    new Vector(400, 200),
+                    new Vector(500, 300),
+                ], 0.5, 0.5
             );
             // let x = mathf.ease(0, 500, this.progress,
             //     EASE.linear);

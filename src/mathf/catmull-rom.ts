@@ -95,10 +95,11 @@ export class CatmullRom {
             pointCount - 1,
             0);
 
-        var p_1 = points[i - 1];
-        var p0 = points[i];
-        var p1 = points[i + 1];
-        var p2 = points[i + 2];
+
+        var p_1 = points[i - 1] && points[i - 1].clone();
+        var p0 = points[i] && points[i].clone();
+        var p1 = points[i + 1] && points[i + 1].clone();
+        var p2 = points[i + 2] && points[i + 2].clone();
 
         // Calculate M0 tangent
         //   M0 = p1 - p_1 / 2

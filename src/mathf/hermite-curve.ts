@@ -6,6 +6,21 @@ import { Vector } from './vector';
 /**
  * Calculates the points on a hermite curve given contrl points and a time.
  *
+ *
+ * ```ts
+ *
+ * let hermitCurve = HermiteCurve.getPoint(
+ *          0.3,
+ *          new Vector(0, 100),
+ *          new Vector(50, 100),
+ *          new Vector(100, 200),
+ *          new Vector(300, 300),
+ * )
+ *
+ * let myXPoint = HermiteCurve.x;
+ * let myYPoint = HermiteCurve.y;
+ * ```
+ *
  * @see http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20150105
  * @see https://en.wikibooks.org/wiki/Cg_Programming/Unity/Hermite_Curves#/media/File:Hermite_spline_2-segments.svg
  * @see https://en.wikipedia.org/wiki/Cubic_Hermite_spline
@@ -30,18 +45,18 @@ export class HermiteCurve {
      * @param m1 The tangent of p1
      */
     public static getPoint(t: number, p0: Vector, m0: Vector, p1: Vector, m1: Vector): Vector {
-        return p0.scale(1 - 3 * t * t + 2 * t * t * t)
+        return p0.clone().scale(1 - 3 * t * t + 2 * t * t * t)
             // h1
             .add(
-                m0.scale(t - 2 * t * t + t * t * t)
+                m0.clone().scale(t - 2 * t * t + t * t * t)
             )
             // h2
             .add(
-                m1.scale(-t * t + t * t * t)
+                m1.clone().scale(-t * t + t * t * t)
             )
             // h3
             .add(
-                p1.scale(3 * t * t - 2 * t * t * t)
+                p1.clone().scale(3 * t * t - 2 * t * t * t)
             )
     }
 }

@@ -49,8 +49,9 @@ worker.run({a: 5, b: 2}).then((result)=> {
 
 Import specific files
 ```ts
-import { mathf } from 'yano-js/mathf'
-import { dom } from 'yano-js/dom'
+import { mathf } from 'yano-js/lib/mathf/mathf/'
+import { is } from 'yano-js/lib/is/is/'
+import { dom } from 'yano-js/lib/dom/dom/'
 ```
 
 

@@ -19,6 +19,10 @@ import PlaygroundSample from '../playground';
 import DomWatcherSample from '../dom-watcher';
 import OffScreenCanvasSample from '../off-screen-canvas';
 
+import CatmullRomSample from '../catmull-rom';
+import HermiteCurveSample from '../hermite-curve';
+import BezierCurveSample from '../bezier-curve';
+
 import XSample from '../x';
 import X2Sample from '../x2';
 
@@ -35,6 +39,9 @@ const samples = {
   'playgroundSample': PlaygroundSample,
   'domWatcherSample': DomWatcherSample,
   'offScreenCanvasSample': OffScreenCanvasSample,
+  'catmullRomSample': CatmullRomSample,
+  'hermitCurveSample': HermiteCurveSample,
+  'bezierCurveSample': BezierCurveSample,
   'xSample': XSample,
   'x2Sample': X2Sample
 };

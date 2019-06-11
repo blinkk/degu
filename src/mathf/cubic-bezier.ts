@@ -1,10 +1,12 @@
 import { point } from './mathf';
+import { Vector } from './vector';
 
 /**
- * Implements a basic cubic beizer class with start point defined as 0,0 and
- * end point at 1,1.
+ * Implements a basic cubic beizer class.
  *
- * The most common usecase for this might to apply a CubiicBezier as an
+ *
+ * The interpolate and interpolateProgress methods are designed to work with
+ * normalized values. The most common usecase for this might to apply a CubiicBezier as an
  * easing function.  To do this, you can use the makeEasingFunction which
  * creates the CubicBezier internals and allows you to pass a t (time/progress),
  * to get results.
@@ -18,11 +20,11 @@ import { point } from './mathf';
  *
  * ```ts
  * let myBezier = new CubicBezier(0.2, 0.17, 0.83, 0.67);
- * myBezier.interporate(0);
- * myBezier.interporate(0.2);
- * myBezier.interporate(0.5);
- * myBezier.interporate(0.8);
- * myBezier.interporate(1);
+ * myBezier.interpolate(0);
+ * myBezier.interpolate(0.2);
+ * myBezier.interpolate(0.5);
+ * myBezier.interpolate(0.8);
+ * myBezier.interpolate(1);
  *
  * let x = mathf.ease(0, 500, this.progress,
  *            myBeizer.easingFunction());
@@ -33,17 +35,37 @@ import { point } from './mathf';
  * Use static method.
  *
  * ```ts
- * CubicBezier.interporate(0, 0.2, 0.17, 0.83, 0.67);
- * CubicBezier.interporate(0.2, 0.2, 0.17, 0.83, 0.67);
- * CubicBezier.interporate(0.5, 0.2, 0.17, 0.83, 0.67);
- * CubicBezier.interporate(0.8, 0.2, 0.17, 0.83, 0.67);
- * CubicBezier.interporate(1, 0.2, 0.17, 0.83, 0.67);
+ * CubicBezier.interpolateProgress(0, 0.2, 0.17, 0.83, 0.67);
+ * CubicBezier.interpolateProgress(0.2, 0.2, 0.17, 0.83, 0.67);
+ * CubicBezier.interpolateProgress(0.5, 0.2, 0.17, 0.83, 0.67);
+ * CubicBezier.interpolateProgress(0.8, 0.2, 0.17, 0.83, 0.67);
+ * CubicBezier.interpolateProgress(1, 0.2, 0.17, 0.83, 0.67);
  *
  *
  * let x = mathf.ease(0, 500, this.progress,
  *            CubicBezier.makeEasingFunction(0.2,0.17,0.83,0.67));
  *
- * ``1
+ * ```
+ *
+ *
+ * You can also use getPoint and getBezierPoint as way to calculate standard
+ * bezier curves (non normalized).
+ *
+ *
+ * ```ts
+ *
+ *   // Create control vectors.
+ *   let c1 = new Vector(50, 400);
+ *   let c2 = new Vector(100, 200);
+ *   let c3 = new Vector(300, 300);
+ *   let c4 = new Vector(400, 400);
+ *
+ *   // Find the vector on the cubic bezier at 0.3 progress / t.
+ *   const vector = CubicBezier.getPoint(
+ *     0.3, c1, c2, c3, c4
+ *    );
+ *
+ * ```
  *
  *
  * References:
@@ -94,6 +116,20 @@ export class CubicBezier {
             y: y
         }
     }
+
+    /**
+     * Gets a point along the cubic bezier.
+     * @param progress
+     * @param v1 The start vector
+     * @param v2 The control2 vector
+     * @param v3 The control3 vector
+     * @param v4  The end vector
+     */
+    public static getPoint(progress: number, v1: Vector, v2: Vector, v3: Vector, v4: Vector): point {
+        return CubicBezier.getBezierPoint(progress,
+            v1.x, v1.y, v2.x, v2.y, v3.x, v3.y, v4.x, v4.y);
+    }
+
 
 
     /**
