@@ -829,7 +829,7 @@ export class mathf {
    */
   static lerp(value1: number, value2: number, amount: number): number {
     return value1 + (value2 - value1) * mathf.clamp01(amount);
-    // Alternative ways to calculate lerp
+    // Alternative ways to calculate ler
     // return (1 - amount) * value1 + amount * value2;
     // return ((value2 - value1) * amount) + amount
   }

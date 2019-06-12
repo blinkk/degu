@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Progress</title>
+  <style>
+    #wrapper {
+      height: 500vh;
+    }
+
+    #range {
+      position: relative;
+      z-index: 100;
+    }
+
+    #video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body init-sample="videoProgressSample">
+
+  <div id="wrapper">
+    <video id="video">
+        <source src="/public/video3.mp4" type="video/mp4"></video>
+    </video>
+
+  </div>
+
+
+</body>
+</html>

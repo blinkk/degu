@@ -344,6 +344,15 @@ export class Vector {
     }
 
 
+
+    // /**
+    //  * Transform this vector given the provided matrix4.
+    //  */
+    // transformMatrix4(matrix: Matrix) {
+
+    // }
+
+
     /**
      * Linear interpolates this vector TOWARDS the provided vector.
      * @param v

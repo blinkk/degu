@@ -1,7 +1,6 @@
 import '../styles/index.sass';
 
 // Examples.
-import DomWatcher from '../dom-watcher';
 
 import EaserDisableRafSample from '../easer-disable-raf';
 import EaserSample from '../easer';
@@ -16,12 +15,14 @@ import RafTimerSample from '../raf-timer';
 import RafProgressSample from '../raf-progress';
 
 import PlaygroundSample from '../playground';
-import DomWatcherSample from '../dom-watcher';
 import OffScreenCanvasSample from '../off-screen-canvas';
 
 import CatmullRomSample from '../catmull-rom';
 import HermiteCurveSample from '../hermite-curve';
 import BezierCurveSample from '../bezier-curve';
+import MatrixIVSample from '../matrixIV';
+
+// import VideoProgressSample from '../playground/video-progress';
 
 import XSample from '../x';
 import X2Sample from '../x2';
@@ -37,11 +38,12 @@ const samples = {
   'rafTimerSample': RafTimerSample,
   'rafProgressSample': RafProgressSample,
   'playgroundSample': PlaygroundSample,
-  'domWatcherSample': DomWatcherSample,
   'offScreenCanvasSample': OffScreenCanvasSample,
   'catmullRomSample': CatmullRomSample,
   'hermitCurveSample': HermiteCurveSample,
   'bezierCurveSample': BezierCurveSample,
+  // 'videoProgressSample': VideoProgressSample,
+  'matrixIVSample': MatrixIVSample,
   'xSample': XSample,
   'x2Sample': X2Sample
 };

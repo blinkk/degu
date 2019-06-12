@@ -39,20 +39,37 @@ export class Defer {
     public resolve: Function;
     public promise: Promise<any>;
     public reject: Function;
-    constructor() {
+    public complete: boolean;
 
+    constructor() {
         this.resolve = () => { };
         this.reject = () => { };
-        this.promise = new Promise((resolve: Function, reject: Function) => {
-            this.resolve = resolve;
-            this.reject = reject;
-        });
+        this.complete = false;
 
-        Object.freeze(this);
+        this.promise = new Promise((resolve: Function, reject: Function) => {
+            this.resolve = (data: any) => {
+                this.complete = true;
+                return resolve(data);
+            };
+            this.reject = (data: any) => {
+                this.complete = true;
+                return reject(data);
+            };
+        });
     }
 
+    /**
+     * Returns the deferred promise.  If the defer was already completed for
+     * some reason, will return a promise that is immediately resolved.
+     */
     getPromise(): Promise<any> {
-        return this.promise;
+        if (this.complete) {
+            return new Promise((resolve: Function, reject: Function) => {
+                resolve();
+            });
+        } else {
+            return this.promise;
+        }
     }
 
 }
