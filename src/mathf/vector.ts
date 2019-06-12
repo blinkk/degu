@@ -1,6 +1,7 @@
 
 import { EASE } from '../ease/ease';
 import { mathf } from './mathf';
+import { MatrixIV } from './matrixIV';
 
 /**
  *
@@ -345,12 +346,25 @@ export class Vector {
 
 
 
-    // /**
-    //  * Transform this vector given the provided matrix4.
-    //  */
-    // transformMatrix4(matrix: Matrix) {
+    /**
+     * Transform this vector given the provided matrix4.
+     */
+    transformWithMatrixIV(matrix: MatrixIV) {
+        var x = this.x;
+        var y = this.y;
+        var z = this.z;
+        var m = matrix.value;
 
-    // }
+        var tx = (x * m[0]) + (y * m[4]) + (z * m[8]) + m[12];
+        var ty = (x * m[1]) + (y * m[5]) + (z * m[9]) + m[13];
+        var tz = (x * m[2]) + (y * m[6]) + (z * m[10]) + m[14];
+        var tw = (x * m[3]) + (y * m[7]) + (z * m[11]) + m[15];
+
+        this.x = tx / tw;
+        this.y = ty / tw;
+        this.z = tz / tw;
+        return this;
+    }
 
 
     /**

@@ -241,13 +241,30 @@ export class MatrixIV {
         return this;
     }
 
-
     /**
-     *
+     * Rotate 3
      * @param angle
      * @param axis
      */
-    rotate(angle: number, axis: Vector) {
+    rotate(angle: number): MatrixIV {
+        var s = Math.sin(angle);
+        var c = Math.cos(angle);
+        this.value[0] = c * this.value[0] + s * this.value[3];
+        this.value[1] = c * this.value[1] + s * this.value[4];
+        this.value[2] = c * this.value[2] + s * this.value[5];
+        this.value[3] = c * this.value[3] - s * this.value[0];
+        this.value[4] = c * this.value[4] - s * this.value[1];
+        this.value[5] = c * this.value[5] - s * this.value[2];
+        return this;
+    }
+
+
+    /**
+     * Rotates this matrix at an given angle and axis.
+     * @param angle An angle in radians
+     * @param axis A vector point that acts as the axis.
+     */
+    rotate4(angle: number, axis: Vector): MatrixIV {
         let mg = axis.magnitude();
         let a = axis.x,
             b = axis.y,
@@ -296,7 +313,7 @@ export class MatrixIV {
         this.value[9] = h * y + l * z + p * A;
         this.value[10] = i * y + m * z + q * A;
         this.value[11] = j * y + n * z + r * A;
-        return this.value;
+        return this;
     }
 
 
@@ -309,6 +326,13 @@ export class MatrixIV {
      * @static
      */
     static get IDENTITY(): MatrixIV {
+        return new MatrixIV().identity();
+    }
+
+    /**
+     * Alias to Matrix4 identity.
+     */
+    static get _(): MatrixIV {
         return new MatrixIV().identity();
     }
 

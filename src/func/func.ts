@@ -369,4 +369,25 @@ export class func {
     static setDefault(value: any, defaultValue: any) {
         return Object.is(value, undefined) ? defaultValue : value;
     }
+
+
+    /**
+     * Run the callback a specific number of times.
+     *
+     * ```ts
+     *
+     *  // Runs 5 times.
+     *  func.times(5, (i) => {
+     *       console.log('times', i);
+     *  });
+     *
+     * ```
+     * @param count
+     * @param callback
+     */
+    static times(count: number, callback: Function) {
+        [...Array(count)].forEach((x, i) => {
+            callback(i);
+        })
+    }
 }
