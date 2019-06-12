@@ -1,9 +1,9 @@
 
 
-import { Defer } from '../func/defer';
-import { func } from '../func/func';
-import { mathf } from '../mathf/mathf';
-import { WebWorker } from "./web-worker";
+import { Defer } from '../../src/func/defer';
+import { func } from '../../src/func/func';
+import { mathf } from '../../src/mathf/mathf';
+import { WebWorker } from "../../src/dom/web-worker";
 
 /**
  * See /examples/playground video progress for a sample.
@@ -14,8 +14,11 @@ export class VideoProgress {
 
     constructor(video: HTMLVideoElement) {
         this.video = video;
+        // Ensure we don't run into autoplay issues.
         this.video.muted = true;
         this.video['playsinline'] = true;
+        this.video.autoplay = false;
+
         this.videoReady = new Defer();
     }
 

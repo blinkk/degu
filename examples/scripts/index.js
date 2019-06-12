@@ -22,6 +22,7 @@ import HermiteCurveSample from '../hermite-curve';
 import BezierCurveSample from '../bezier-curve';
 import MatrixIVSample from '../matrixIV';
 import MatrixIVSample2 from '../matrixIV2';
+import MatrixIVSample3 from '../matrixIV3';
 
 // import VideoProgressSample from '../playground/video-progress';
 
@@ -46,6 +47,7 @@ const samples = {
   // 'videoProgressSample': VideoProgressSample,
   'matrixIVSample': MatrixIVSample,
   'matrixIVSample2': MatrixIVSample2,
+  'matrixIVSample3': MatrixIVSample3,
   'xSample': XSample,
   'x2Sample': X2Sample
 };

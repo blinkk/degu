@@ -9,6 +9,10 @@ import { func } from '../lib/func/func';
 
 /**
  * An example of applying matrix transforms to a basis polygon.
+ * Note that this example, is a very MANUAL way to do things
+ * just to do a gentle intro to matrix.
+ *
+ * See MatrixIV3Sample for a quicker way to do this.
  */
 export default class MatrixIV2Sample {
     constructor() {
@@ -130,9 +134,6 @@ export default class MatrixIV2Sample {
         t2 = Vector.add(p2, basePositionVector);
         t3 = Vector.add(p3, basePositionVector);
 
-
-
-        console.log(t0, t1, t2, t3);
 
         domCanvas.vectorQuadrilateral(
             this.context,

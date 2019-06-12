@@ -3,6 +3,8 @@ import { Vector } from './vector';
 /**
  * A 4 four dimensional matrix class.
  *
+ * See examples in /examples for uses of matrix.
+ *
  * ```
  * // Creates a new matrix.  Default matrix is set to identity.
  * let matrixA = new MatrixIV();
@@ -27,6 +29,15 @@ export class MatrixIV {
 
     /**
      * The internal matrix values.
+     *
+     * Roughly visualized as:
+     * [
+     *   0,  1,  2,  3
+     *   4,  5,  6,  7,
+     *   8,  9, 10, 11,
+     *  12, 13, 14, 15
+     * ]
+     *
      */
     public value: Float32Array;
 
@@ -90,28 +101,44 @@ export class MatrixIV {
         return this;
     }
 
-
     /**
-     * Sets the x,y,z values of this matrix.
-     * @param x
-     * @param y
-     * @param z
+     * Fills a specific column of this matrix with a vector values.
+     *
+     * ```
+     *
+     * For example, passing 2 as the column would:
+     * [
+     *   1,  0,  x,  0
+     *   0,  1,  y,  0,
+     *   0,  0,  z,  0,
+     *   0,  0,  0,  1
+     * ]
+     *
+     * ```
+     * This is useful to create a basis matrix.  Below is a 4x4
+     * matrix constructed of up, right and forward vectors.
+     *
+     * ```ts
+     *
+     *   let up = new Vector(0, 50);
+     *   let right = new Vector(50, 0);
+     *   let forward = Vector.ONE.cross(up);
+     *   let basisMatrix = new MatrixIV();
+     *   basisMatrix.setVectorColumn(0, right);
+     *   basisMatrix.setVectorColumn(1, up);
+     *   basisMatrix.setVectorColumn(2, foward);
+     *
+     * ```
+     *
+     * @param column The column number to fill.  A value between 0 and 3.
+     * @param vector The vector to set.
      */
-    setXyz(x: number, y: number, z: number) {
-        // Reset this matrix to the identiy matrix.
-        this.identity();
-        this.value[12] = x;
-        this.value[13] = y;
-        this.value[14] = z;
-        return this;
+    setVectorColumn(column: number, v: Vector) {
+        this.value[1 * column] = v.x;
+        this.value[1 * column + 4] = v.y;
+        this.value[1 * column + 8] = v.z;
     }
 
-    /**
-     * Sets a vector to this matrix.
-     */
-    set(v: Vector) {
-        return this.setXyz(v.x, v.y, v.z);
-    }
 
 
     /**
@@ -256,6 +283,53 @@ export class MatrixIV {
         this.value[14] = M * c + N * g + O * k + P * o;
         this.value[15] = M * d + N * h + O * l + P * p;
         return this;
+    }
+
+
+    /**
+     * Multiplies this 4x4 matrix by a 4x1 matrix.  This results in
+     * returning the results as a 4x1 matrix.
+     */
+    multiplyBy4x1(x: number, y: number, z: number, w: number = 1): Array<number> {
+        let a = this.value;
+        return [
+            a[0] * x + a[1] * y + a[2] * z + a[3] * w,
+            a[4] * x + a[5] * y + a[6] * z + a[7] * w,
+            a[8] * x + a[9] * y + a[10] * z + a[11] * w,
+            a[12] * x + a[13] * y + a[14] * z + a[15] * w
+        ]
+    }
+
+    /**
+     * Multiplies this matrix by a vector that is converted to a 4x1.  Returns
+     * a vector that was converted from the resulting 4x1.
+     *
+     * ```ts
+     *
+     *   let up = new Vector(0, 50);
+     *   let right = new Vector(50, 0);
+     *   let forward = Vector.ONE.cross(up);
+     *   let basisMatrix = new MatrixIV();
+     *   basisMatrix.setVectorColumn(0, right);
+     *   basisMatrix.setVectorColumn(1, up);
+     *   basisMatrix.setVectorColumn(2, forward);
+     *
+     *   let p0 = new Vector(-1, -1);
+     *   let p1 = new Vector(1, -1);
+     *   let p2 = new Vector(1, 1);
+     *   let p3 = new Vector(-1, 1);
+     *   let t0 = basisMatrix.clone().multiplyByVector(p1);
+     *   let t1 = basisMatrix.clone().multiplyByVector(p1);
+     *   let t2 = basisMatrix.clone().multiplyByVector(p2);
+     *   let t3 = basisMatrix.clone().multiplyByVector(p3);
+     *
+     *   // Now t0-t3 are vector of the corner points of a 100x100 square.
+     *
+     * ```
+     */
+    multiplyByVector(v: Vector): Vector {
+        let result = this.multiplyBy4x1(v.x, v.y, v.z);
+        return new Vector(result[0], result[1], result[2]);
     }
 
 
