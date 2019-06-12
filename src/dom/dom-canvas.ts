@@ -52,4 +52,16 @@ export class domCanvas {
         size: number = 5) {
         domCanvas.point(context, v.x, v.y, size);
     }
+
+    static vectorQuadrilateral(
+        context: CanvasRenderingContext2D,
+        v1: Vector, v2: Vector, v3: Vector, v4: Vector) {
+        context.beginPath();
+        context.moveTo(v1.x, v1.y);
+        context.lineTo(v2.x, v2.y);
+        context.lineTo(v3.x, v3.y);
+        context.lineTo(v4.x, v4.y);
+        context.closePath();
+        context.fill();
+    }
 }

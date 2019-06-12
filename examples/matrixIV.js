@@ -33,8 +33,7 @@ export default class MatrixIVSample {
         domCanvas.vectorPoint(this.context, c2);
 
 
-        console.log('is this working?');
-        // Now let's try adding some dots around
+        // A basic scaling.
         let c3 = new Vector(400, 400);
         domCanvas.setFillColor(this.context, 'green');
         domCanvas.setStrokeColor(this.context, 'green');
@@ -46,6 +45,7 @@ export default class MatrixIVSample {
         domCanvas.vectorPoint(this.context, c4);
 
 
+        // Translate multiple points.
         domCanvas.setFillColor(this.context, 'orange');
         domCanvas.setStrokeColor(this.context, 'orange');
         let c6 = new Vector(300, 50, 0);

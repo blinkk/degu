@@ -203,6 +203,12 @@ export class Vector {
         return this;
     }
 
+    static add(v2: Vector, v1: Vector) {
+        const x = v2.x + v1.x;
+        const y = v2.y + v1.y;
+        const z = v2.z + v1.z;
+        return new Vector(x, y, z);
+    }
 
     /**
      * Subtract this vector from another .
@@ -269,6 +275,13 @@ export class Vector {
         this.y = -this.y;
         this.z = mathf.absZero(-this.z);
         return this;
+    }
+
+    static negate(v: Vector): Vector {
+        let x = -v.x;
+        let y = -v.y;
+        let z = mathf.absZero(-v.z);
+        return new Vector(x, y, z);
     }
 
 
@@ -353,12 +366,12 @@ export class Vector {
         var x = this.x;
         var y = this.y;
         var z = this.z;
-        var m = matrix.value;
+        var mat = matrix.value;
 
-        var tx = (x * m[0]) + (y * m[4]) + (z * m[8]) + m[12];
-        var ty = (x * m[1]) + (y * m[5]) + (z * m[9]) + m[13];
-        var tz = (x * m[2]) + (y * m[6]) + (z * m[10]) + m[14];
-        var tw = (x * m[3]) + (y * m[7]) + (z * m[11]) + m[15];
+        var tx = (x * mat[0]) + (y * mat[4]) + (z * mat[8]) + mat[12];
+        var ty = (x * mat[1]) + (y * mat[5]) + (z * mat[9]) + mat[13];
+        var tz = (x * mat[2]) + (y * mat[6]) + (z * mat[10]) + mat[14];
+        var tw = (x * mat[3]) + (y * mat[7]) + (z * mat[11]) + mat[15];
 
         this.x = tx / tw;
         this.y = ty / tw;

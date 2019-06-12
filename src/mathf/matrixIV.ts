@@ -7,9 +7,20 @@ import { Vector } from './vector';
  * // Creates a new matrix.  Default matrix is set to identity.
  * let matrixA = new MatrixIV();
  *
- * matrixA.set(new Vector(20, 30, 40));
  * matrixA.translateXyz(20, 30, 40);
+ *
+ *
+ * // Creates an identity matrix.
+ * let matrixB = MatrixIV.IDENTITY;
+ *
+ * // Rotate it on the Z axis by 90 degrees.
+ * matrixB.scale(90 * Math.PI / 180, new Vector(0,0, 1));
+ *
  * ```
+ *
+ * Referenced:
+ * @see https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js
+ * @see https://www.youtube.com/channel/UCEhBM2x5MG9-e_JSOzU068w
  *
  */
 export class MatrixIV {
@@ -21,6 +32,7 @@ export class MatrixIV {
 
     constructor(matrix?: MatrixIV) {
         this.value = new Float32Array(16);
+        this.identity();
 
         // If matrix was provided, copy it, otherwise, create
         // an identity default matrix.
@@ -57,7 +69,7 @@ export class MatrixIV {
     /**
      * Clones this matrix.
      *
-     * ```
+     * ```ts
      * let m = myMatrix.clone();  // m is now a new clone of myMatrix.
      * ```
      */
@@ -104,6 +116,11 @@ export class MatrixIV {
 
     /**
      * Scales this matrix given x, y, z values.
+     *
+     * ```ts
+     * myMatrix.scaleXyz(0.5, 0.5, 0.5);
+     * ```
+     *
      * @param x
      * @param y
      * @param z
@@ -131,7 +148,7 @@ export class MatrixIV {
      * Apply a scale transformation to this matrix given a scale vector.
      *
      * ```ts
-     * myMatrix.scale(new Vector(1, 1, 1));
+     * myMatrix.scale(new Vector(0.5, 0.5, 0.5));
      * ```
      *
      * @param v {Vector} The vector to scale this matrix.
@@ -241,31 +258,30 @@ export class MatrixIV {
         return this;
     }
 
-    /**
-     * Rotate 3
-     * @param angle
-     * @param axis
-     */
-    rotate(angle: number): MatrixIV {
-        var s = Math.sin(angle);
-        var c = Math.cos(angle);
-        this.value[0] = c * this.value[0] + s * this.value[3];
-        this.value[1] = c * this.value[1] + s * this.value[4];
-        this.value[2] = c * this.value[2] + s * this.value[5];
-        this.value[3] = c * this.value[3] - s * this.value[0];
-        this.value[4] = c * this.value[4] - s * this.value[1];
-        this.value[5] = c * this.value[5] - s * this.value[2];
-        return this;
-    }
-
 
     /**
      * Rotates this matrix at an given angle and axis.
+     *
+     *
+     * ```
+     *  // Rotate along X as the axis, similar to rotateX
+     *   let matrix = new MatrixIV().rotate(angle, new Vector(1, 0, 0));
+     *
+     *  // Rotate along y as the axis, similar to rotateY
+     *   matrix = new MatrixIV().rotate(angle, new Vector(0, 1, 0));
+     *
+     *  // Rotate along y as the axis, similar to rotateZ
+     *   matrix = new MatrixIV().rotate(angle, new Vector(0, 0, 1));
+     * ```
+     *
      * @param angle An angle in radians
      * @param axis A vector point that acts as the axis.
      */
-    rotate4(angle: number, axis: Vector): MatrixIV {
+    rotate(angle: number, axis: Vector): MatrixIV | null {
         let mg = axis.magnitude();
+        if (!mg) {
+            return null;
+        }
         let a = axis.x,
             b = axis.y,
             c = axis.z;
@@ -315,6 +331,74 @@ export class MatrixIV {
         this.value[11] = j * y + n * z + r * A;
         return this;
     }
+
+
+    /**
+     * Rotates this matrix along the x plane.
+     * @param angle Angle in radians.
+     */
+    rotateX(angle: number) {
+        var s = Math.sin(angle);
+        var c = Math.cos(angle);
+        this.value[4] = this.value[4] + this.value[8] * s;
+        this.value[5] = this.value[5] * c + this.value[9] * s;
+        this.value[6] = this.value[6] * c + this.value[10] * s;
+        this.value[7] = this.value[7] * c + this.value[11] * s;
+        this.value[8] = this.value[8] * c - this.value[4] * s;
+        this.value[9] = this.value[9] * c - this.value[5] * s;
+        this.value[10] = this.value[10] * c - this.value[6] * s;
+        this.value[11] = this.value[11] * c - this.value[7] * s;
+        return this;
+    }
+
+    /**
+     * Rotates this matrix along the y plane.
+     * @param angle Angle in radians.
+     */
+    rotateY(angle: number) {
+        var s = Math.sin(angle);
+        var c = Math.cos(angle);
+        this.value[0] = this.value[0] * c - this.value[8] * s;
+        this.value[1] = this.value[1] * c - this.value[9] * s;
+        this.value[2] = this.value[2] * c - this.value[10] * s;
+        this.value[3] = this.value[3] * c - this.value[11] * s;
+        this.value[8] = this.value[0] * s + this.value[8] * c;
+        this.value[9] = this.value[1] * s + this.value[9] * c;
+        this.value[10] = this.value[2] * s + this.value[10] * c;
+        this.value[11] = this.value[3] * s + this.value[11] * c;
+        return this;
+    }
+
+    /**
+     * Rotates this matrix along the z plane.
+     * @param angle Angle in radians.
+     */
+    rotateZ(angle: number) {
+        var s = Math.sin(angle);
+        var c = Math.cos(angle);
+
+        var v0 = this.value[0];
+        var v1 = this.value[1];
+        var v2 = this.value[2];
+        var v3 = this.value[3];
+
+        var v4 = this.value[4];
+        var v5 = this.value[5];
+        var a12 = this.value[6];
+        var a13 = this.value[7];
+
+        this.value[0] = v0 * c + v4 * s;
+        this.value[1] = v1 * c + v5 * s;
+        this.value[2] = v2 * c + a12 * s;
+        this.value[3] = v3 * c + a13 * s;
+        this.value[4] = v4 * c - v0 * s;
+        this.value[5] = v5 * c - v1 * s;
+        this.value[6] = a12 * c - v2 * s;
+        this.value[7] = a13 * c - v3 * s;
+
+        return this;
+    }
+
 
 
     /**

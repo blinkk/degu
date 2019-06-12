@@ -21,6 +21,7 @@ import CatmullRomSample from '../catmull-rom';
 import HermiteCurveSample from '../hermite-curve';
 import BezierCurveSample from '../bezier-curve';
 import MatrixIVSample from '../matrixIV';
+import MatrixIVSample2 from '../matrixIV2';
 
 // import VideoProgressSample from '../playground/video-progress';
 
@@ -44,6 +45,7 @@ const samples = {
   'bezierCurveSample': BezierCurveSample,
   // 'videoProgressSample': VideoProgressSample,
   'matrixIVSample': MatrixIVSample,
+  'matrixIVSample2': MatrixIVSample2,
   'xSample': XSample,
   'x2Sample': X2Sample
 };
