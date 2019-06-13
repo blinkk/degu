@@ -94,12 +94,13 @@ export class Pseudo3dCanvas {
             new MatrixIV()
                 .perspectiveLeftHand(this.fov, this.aspect, this.near, this.far)
 
+        const centerOfScreenTranslationMatrix =
+            new MatrixIV().translate(
+                new Vector(this.width / 2, this.height / 2));
+
         meshes.forEach((mesh) => {
             // Create a worldMatrix that will move, rotation this
             // object to the correct location.
-            const centerOfScreenTranslationMatrix =
-                new MatrixIV().translate(
-                    new Vector(this.width / 2, this.height / 2));
             let rotationMatrix = new MatrixIV()
                 .rotateX(mesh.rotation.x)
                 .rotateY(mesh.rotation.y)
@@ -118,16 +119,28 @@ export class Pseudo3dCanvas {
                 .multiply(rotationMatrix)
                 .multiply(translateMatrix);
 
+            // const worldMatrix = centerOfScreenTranslationMatrix;
+
             // World x View x Projection
             let transformMatrix = worldMatrix
                 .multiply(viewMatrix).multiply(projectionMatrix);
-            // let transformMatrix = projectionMatrix;
+            // let transformMatrix = worldMatrix.clone()
+            //     .multiply(viewMatrix);
 
             // Now we are going to apply the transformMatrix to each
             // vertices point in the mesh effectively projecting 3d into
             // the 2d canvas.
             mesh.vertices.forEach((v: Vector, i: number) => {
-                let vector2d = v.clone().transformWithMatrixIVTo2d(transformMatrix);
+                // let basisMatrix = mesh.basisMatrix
+                //     .rotateX(mesh.rotation.x)
+                //     .rotateY(mesh.rotation.y)
+                //     .rotateZ(mesh.rotation.z)
+                //     .translate(mesh.position);
+                // let transformedVector = mesh.basisMatrix.clone().multiplyByVector(v);
+                let transformedVector = v;
+
+                let vector2d = transformedVector.clone()
+                    .transformWithMatrixIVTo2d(transformMatrix);
 
                 // Check if this vector goes out of boundaries in which case,
                 // we don't need to draw it.

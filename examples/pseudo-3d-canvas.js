@@ -34,6 +34,11 @@ export default class pseudo3dCanvasSample {
         cubeMesh.position.y = 0;
         cubeMesh.position.z = 0;
 
+        let cubeMesh2 = new CubeMesh();
+        cubeMesh2.position.x = 100;
+        cubeMesh2.position.y = 0;
+        cubeMesh2.position.z = 0;
+
         console.log(cubeMesh);
 
         // Update the camera position.
@@ -42,7 +47,8 @@ export default class pseudo3dCanvasSample {
         this.camera.position.z = 5.0;
 
         this.meshes = [
-            cubeMesh
+            cubeMesh,
+            cubeMesh2
         ];
 
 
@@ -78,9 +84,9 @@ export default class pseudo3dCanvasSample {
     renderLoop() {
 
         this.meshes.forEach((mesh) => {
-            mesh.rotation.x += 0.01;
-            mesh.rotation.y += 0.01;
-            mesh.rotation.z += 0.01;
+            // mesh.rotation.x += 0.01;
+            // mesh.rotation.y += 0.01;
+            // mesh.rotation.z += 0.01;
         });
 
         this.pseudo3dCanvas.render(
