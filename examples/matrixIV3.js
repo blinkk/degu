@@ -131,6 +131,7 @@ export default class MatrixIV3Sample {
         domCanvas.quickText(this.context, 't2', t2.x, t2.y - 4);
         domCanvas.quickText(this.context, 't3', t3.x, t3.y - 4);
 
+        // Add this point, we have laid out four dots as a square.
         domCanvas.vectorPoint(this.context, t0);
         domCanvas.vectorPoint(this.context, t1);
         domCanvas.vectorPoint(this.context, t2);

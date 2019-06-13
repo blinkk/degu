@@ -152,7 +152,11 @@ export class X {
         }
 
 
+
         this.context.save();
+        // this.context.translate(
+        //         this.canvasElement.width  / 2,
+        //         this.canvasElement.height / 2)
 
 
         // Adjust alpha

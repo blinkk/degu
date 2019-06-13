@@ -59,7 +59,8 @@
   "exclude": [
     "node_modules",
     "lib",
-    "labs"
+    "labs",
+    "ref"
   ],
   "typedocOptions": {
     "src": [
@@ -69,6 +70,7 @@
       "./src/*.spec.ts",
       "./labs/*.spec.ts",
       "./labs/**/*.ts",
+      "./ref/**/*.ts",
     ],
     // "mode": "file",
     "mode": "modules",

@@ -64,4 +64,22 @@ export class domCanvas {
         context.closePath();
         context.fill();
     }
+
+
+
+    /**
+     * Given a list of Vectors, draws lines from start to end.
+     */
+    static drawVectors(
+        context: CanvasRenderingContext2D,
+        vectors: Array<Vector>
+    ) {
+        context.beginPath();
+        context.moveTo(vectors[0].x, vectors[0].y);
+        vectors.forEach((v) => {
+            context.lineTo(v.x, v.y);
+        })
+        context.closePath();
+        context.fill();
+    }
 }

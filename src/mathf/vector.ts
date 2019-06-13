@@ -362,21 +362,37 @@ export class Vector {
     /**
      * Transform this vector given the provided matrix4.
      */
-    transformWithMatrixIV(matrix: MatrixIV) {
-        var x = this.x;
-        var y = this.y;
-        var z = this.z;
-        var mat = matrix.value;
+    transformWithMatrixIV(matrix: MatrixIV): Vector {
+        let x = this.x;
+        let y = this.y;
+        let z = this.z;
+        let mat = matrix.value;
 
-        var tx = (x * mat[0]) + (y * mat[4]) + (z * mat[8]) + mat[12];
-        var ty = (x * mat[1]) + (y * mat[5]) + (z * mat[9]) + mat[13];
-        var tz = (x * mat[2]) + (y * mat[6]) + (z * mat[10]) + mat[14];
-        var tw = (x * mat[3]) + (y * mat[7]) + (z * mat[11]) + mat[15];
+        let tx = (x * mat[0]) + (y * mat[4]) + (z * mat[8]) + mat[12];
+        let ty = (x * mat[1]) + (y * mat[5]) + (z * mat[9]) + mat[13];
+        let tz = (x * mat[2]) + (y * mat[6]) + (z * mat[10]) + mat[14];
+        let tw = (x * mat[3]) + (y * mat[7]) + (z * mat[11]) + mat[15];
+        tw = tw || 1.0;
 
         this.x = tx / tw;
         this.y = ty / tw;
         this.z = tz / tw;
         return this;
+    }
+
+    /**
+     * Transform the current vector with the provided matrix4 to a
+     * 2d.  This effectively takes this 3d vector and makes it into
+     * the cooresponding 2d coordinates using the transformMatrix.
+     *
+     * This operation is the same as transformWithMatrixIV except the
+     * z is dropped.
+     * @param matrix
+     */
+    transformWithMatrixIVTo2d(matrix: MatrixIV): Vector {
+        return this
+            .transformWithMatrixIV(matrix)
+            .set(this.x, this.y, 0);
     }
 
 
