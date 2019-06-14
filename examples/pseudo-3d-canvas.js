@@ -31,25 +31,25 @@ export default class pseudo3dCanvasSample {
         this.camera = new Camera();
 
         let cubeMesh = new CubeMesh();
-        cubeMesh.position.x = 0;
-        cubeMesh.position.y = 0;
+        cubeMesh.position.x = 1;
+        cubeMesh.position.y = 1;
         cubeMesh.position.z = 0;
-        cubeMesh.size(10, 10, 0);
+        cubeMesh.color = 'green';
+        cubeMesh.size(1.4, 1.4, 1);
 
         let cubeMesh2 = new CubeMesh();
         cubeMesh2.position.x = 0;
         cubeMesh2.position.y = 0;
         cubeMesh2.position.z = 100;
-        cubeMesh2.size(100, 100, 1);
+        // cubeMesh2.size(100, 100, 1);
         cubeMesh2.color = 'orange';
-        cubeMesh2.rotation.x = 0.78;
 
 
         // Update the camera position.
-        // this.camera.position = new Vector(0.5, 0.5, 0.5);
-        // this.camera.target = new Vector(0.5, 0.5, 5);
-        this.camera.position = new Vector(0, 0, 10);
+        this.camera.position = new Vector(0, 0, 30);
         this.camera.target = new Vector(0, 0, 0);
+        // this.camera.position = new Vector(0, 0, 1);
+        // this.camera.target = new Vector(0, 0, 0);
 
         this.meshes = [
             cubeMesh,
@@ -64,24 +64,24 @@ export default class pseudo3dCanvasSample {
         projection.add(this.pseudo3dCanvas, 'far', -10000, 10000);
 
         let cameraFolder = this.gui.addFolder('camera position');
-        cameraFolder.add(this.camera.position, 'x', -500, 500);
-        cameraFolder.add(this.camera.position, 'y', -500, 500);
-        cameraFolder.add(this.camera.position, 'z', -500, 500);
+        cameraFolder.add(this.camera.position, 'x', -1, 1);
+        cameraFolder.add(this.camera.position, 'y', -1, 1);
+        cameraFolder.add(this.camera.position, 'z', -1, 1);
         let cameraTargetFolder = this.gui.addFolder('camera target');
-        cameraTargetFolder.add(this.camera.target, 'x', -500, 500);
-        cameraTargetFolder.add(this.camera.target, 'y', -500, 500);
-        cameraTargetFolder.add(this.camera.target, 'z', -500, 500);
+        cameraTargetFolder.add(this.camera.target, 'x', -1, 1);
+        cameraTargetFolder.add(this.camera.target, 'y', -1, 1);
+        cameraTargetFolder.add(this.camera.target, 'z', -1, 1);
 
-        let meshFolder = this.gui.addFolder('mesh');
-        meshFolder.add(cubeMesh.rotation, 'x', 0.001, 0.9);
-        meshFolder.add(cubeMesh.rotation, 'y', 0.001, 0.9);
-        meshFolder.add(cubeMesh.rotation, 'z', 0.001, 0.9);
+        // let meshFolder = this.gui.addFolder('mesh');
+        // meshFolder.add(cubeMesh.rotation, 'x', 0.001, 0.9);
+        // meshFolder.add(cubeMesh.rotation, 'y', 0.001, 0.9);
+        // meshFolder.add(cubeMesh.rotation, 'z', 0.001, 0.9);
 
 
         this.renderLoop();
         console.log(this.pseudo3dCanvas);
         console.log(cubeMesh);
-        console.log(cubeMesh2);
+        // console.log(cubeMesh2);
         // Start raf loop.
         this.raf.start();
         // this.renderLoop();
@@ -92,12 +92,18 @@ export default class pseudo3dCanvasSample {
      * Handles each raf loop.
      */
     renderLoop() {
+        this.meshes[0].rotation.x += 0.01;
+        this.meshes[0].rotation.y += 0.01;
 
-        this.meshes.forEach((mesh) => {
-            mesh.rotation.x += 0.01;
-            mesh.rotation.y += 0.01;
-            // mesh.rotation.z += 0.01;
-        });
+        this.meshes[1].rotation.x += 0.01;
+        this.meshes[1].rotation.y += 0.02;
+        this.meshes[1].rotation.z += 0.03;
+
+        // this.meshes.forEach((mesh) => {
+        //     mesh.rotation.x += 0.01;
+        //     mesh.rotation.y += 0.01;
+        //     // mesh.rotation.z += 0.01;
+        // });
 
         this.pseudo3dCanvas.render(
             this.camera,

@@ -97,22 +97,21 @@ export class Pseudo3dCanvas {
     render(camera: Camera, meshes: Array<Mesh>): void {
         this.context.clearRect(0, 0, this.width, this.height);
 
-        // Generate the view matrix based on the camera position.
-        // TODO, I think we can add camera rotation here.
-        this.viewMatrix =
-            new MatrixIV().lookAt(camera.position, camera.target, Vector.UP);
-
-        // Generate the projection matrix.
-        this.projectionMatrix =
-            new MatrixIV()
-                .perspective(
-                    this.fov, this.aspect, this.near, this.far)
 
         const centerOfScreenTranslationMatrix =
             new MatrixIV().translate(
                 new Vector(this.width / 2, this.height / 2));
 
         meshes.forEach((mesh) => {
+
+            this.viewMatrix =
+                new MatrixIV().lookAt(camera.position, camera.target, Vector.UP);
+
+            this.projectionMatrix =
+                new MatrixIV()
+                    .perspective(
+                        this.fov, this.aspect, this.near, this.far)
+
             // Create a worldMatrix that will move, rotation this
             // object to the correct location.
             // this.rotationMatrix = new MatrixIV()
@@ -123,16 +122,16 @@ export class Pseudo3dCanvas {
             // Adding a rotation matrix here will rotate the whole world.
             this.rotationMatrix = MatrixIV.IDENTITY;
             // Translate the world to the mesh postion.
-            this.translationMatrix = new MatrixIV().translate(mesh.position);
+            // this.translationMatrix = new MatrixIV().translate(mesh.position);
             // this.translationMatrix = MatrixIV.IDENTITY;
 
             // Note that we start with a centerOfScreenTrnaslationMatrix,
             this.worldMatrix =
                 // centerOfScreenTranslationMatrix
-                this.rotationMatrix
-                    // MatrixIV.IDENTITY
-                    //     .multiply(this.rotationMatrix)
-                    .multiply(this.translationMatrix);
+                // this.rotationMatrix
+                MatrixIV.IDENTITY
+                    .multiply(this.rotationMatrix)
+                    .multiply(this.translationMatrix)
 
 
             // P * V * W
@@ -149,29 +148,25 @@ export class Pseudo3dCanvas {
                 let basisMatrix = mesh.basisMatrix.clone();
                 basisMatrix
                     .ypr(mesh.rotation.x, mesh.rotation.y, mesh.rotation.z)
+                    .translate(mesh.position)
                 // .rotateX(mesh.rotation.x)
                 // .rotateY(mesh.rotation.y)
                 // .rotateZ(mesh.rotation.z)
-                // .translate(mesh.position)
                 let transformedVector = basisMatrix.multiplyByVector(v.clone());
                 // let transformedVector = v.clone();
 
-                // let vector2d = transformedVector.clone()
-                //     .transformWithMatrixIV(this.transformMatrix);
+                let vector2d = transformedVector.clone()
+                    .transformWithMatrixIV(this.transformMatrix);
                 // let vector2d = this.transformMatrix.multiplyByVector(transformedVector);
 
+                console.log(vector2d);
 
 
-                let vector2d = transformedVector.transformCoordinates(
-                    this.transformMatrix);
-                // console.log(vector2d);
-                var x = vector2d.x * this.width + this.width / 2.0 >> 0;
-                var y = -vector2d.y * this.width + this.height / 2.0 >> 0;
+                var x = vector2d.x * this.width + this.width / 2.0;
+                var y = -vector2d.y * this.height + this.height / 2.0;
                 vector2d = new Vector(x, y);
-                // console.log(vector2d);
 
 
-                // console.log(vector2d);
                 // Check if this vector goes out of boundaries in which case,
                 // we don't need to draw it.
                 if (vector2d.x >= 0 && vector2d.y >= 0 && vector2d.x < this.width

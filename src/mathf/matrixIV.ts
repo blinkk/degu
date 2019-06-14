@@ -646,23 +646,6 @@ export class MatrixIV {
     }
 
 
-    perspectiveLeftHand(fov: number, aspect: number, near: number, far: number) {
-        let t = 1.0 / (Math.tan(fov * 0.5));
-        let a = (t / aspect);
-        let b = t;
-        let c = (far + near) / (far - near);
-        let d = -2.0 * far * near / (far - near);
-
-        var matrix = new Float32Array([
-            a, 0, 0, 0,
-            0, b, 0, 0,
-            0, 0, c, 1,
-            0, 0, d, 0,
-        ]);
-
-        this.fromArray(matrix);
-        return this;
-    }
 
     /**
      * Sets the values of this matrix based on given yaw, pitch and roll.
