@@ -307,6 +307,14 @@ export class Vector {
         return Math.sqrt(x * x + y * y + z * z);
     }
 
+
+    /**
+     * Calculates the length squared
+     */
+    lengthSquared(): number {
+        return (this.x * this.x + this.y * this.y);
+    }
+
     /**
      * Calculates the magnitude of this vector.
      * Alias of [[Vector.length]]
@@ -377,7 +385,28 @@ export class Vector {
         this.x = tx / tw;
         this.y = ty / tw;
         this.z = tz / tw;
-        return this;
+        return new Vector(this.x, this.y, this.z);
+    }
+
+
+    /**
+     * @param transformation defines the transformation matrix
+     * @param result defines the Vector3 where to store the result
+     */
+    transformCoordinates(matrix: MatrixIV): Vector {
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
+        const m = matrix.value;
+        var rx = x * m[0] + y * m[4] + z * m[8] + m[12];
+        var ry = x * m[1] + y * m[5] + z * m[9] + m[13];
+        var rz = x * m[2] + y * m[6] + z * m[10] + m[14];
+        var rw = 1 / (x * m[3] + y * m[7] + z * m[11] + m[15]);
+
+        this.x = rx * rw;
+        this.y = ry * rw;
+        this.z = rz * rw;
+        return new Vector(this.x, this.y, this.z);
     }
 
     /**

@@ -16,6 +16,7 @@ export class Mesh {
     public forward: Vector;
     public vertices: Array<Vector>;
     public basisMatrix: MatrixIV;
+    public color: string;
 
 
     /**
@@ -30,6 +31,7 @@ export class Mesh {
         this.right = Vector.ZERO;
         this.forward = Vector.ZERO;
         this.basisMatrix = MatrixIV.IDENTITY;
+        this.color = 'green';
     }
 
     size(width: number, height: number, depth: number) {
@@ -42,6 +44,7 @@ export class Mesh {
         basisMatrix.setVectorColumn(0, this.right);
         basisMatrix.setVectorColumn(1, this.up);
         basisMatrix.setVectorColumn(2, this.forward);
+        this.basisMatrix = basisMatrix;
 
     }
 }
@@ -65,12 +68,5 @@ export class CubeMesh extends Mesh {
             new Vector(1, -1, 1),
             new Vector(1, -1, -1)
         ]
-        // this.size(100);
-    }
-
-    size(value: number) {
-        this.vertices = this.vertices.map((v) => {
-            return v.scale(value);
-        })
     }
 }

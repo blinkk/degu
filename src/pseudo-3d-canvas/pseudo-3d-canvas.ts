@@ -37,6 +37,13 @@ export class Pseudo3dCanvas {
     public far: number;
     public aspect: number;
 
+    private rotationMatrix: MatrixIV;
+    private translationMatrix: MatrixIV;
+    private viewMatrix: MatrixIV;
+    private worldMatrix: MatrixIV;
+    private projectionMatrix: MatrixIV;
+    private transformMatrix: MatrixIV;
+
     constructor(config: Pseudo3dCanvasConfig) {
         console.log('constructed');
         this.canvasElement = config.canvasElement;
@@ -47,9 +54,16 @@ export class Pseudo3dCanvas {
         this.height = this.canvasElement.offsetHeight;
 
         this.fov = mathf.degreeToRadian(45);
-        this.near = 0.01;
+        this.near = 1;
         this.aspect = this.width / this.height;
-        this.far = 1;
+        this.far = 10000;
+
+        this.rotationMatrix = MatrixIV.IDENTITY;
+        this.translationMatrix = MatrixIV.IDENTITY;
+        this.viewMatrix = MatrixIV.IDENTITY;
+        this.worldMatrix = MatrixIV.IDENTITY;
+        this.transformMatrix = MatrixIV.IDENTITY;
+        this.projectionMatrix = MatrixIV.IDENTITY;
     }
 
 
@@ -82,17 +96,30 @@ export class Pseudo3dCanvas {
      */
     render(camera: Camera, meshes: Array<Mesh>): void {
         this.context.clearRect(0, 0, this.width, this.height);
-        domCanvas.setFillColor(this.context, 'orange');
-        domCanvas.setStrokeColor(this.context, 'orange');
 
         // Generate the view matrix based on the camera position.
-        const viewMatrix =
+        // TODO, I think we can add camera rotation here.
+        this.viewMatrix =
             new MatrixIV().lookAt(camera.position, camera.target, Vector.UP);
 
+        console.log(this.viewMatrix);
+
+        // const mat = new Float32Array(
+        //     [-1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 0, -0, -0, 10, 1]
+        // )
+        // this.viewMatrix = MatrixIV.IDENTITY.fromArray(mat);
+
         // Generate the projection matrix.
-        const projectionMatrix =
+        this.projectionMatrix =
             new MatrixIV()
-                .perspectiveLeftHand(this.fov, this.aspect, this.near, this.far)
+                .perspective(
+                    this.fov, this.aspect, this.near, this.far)
+
+        // const mat2 = new Float32Array(
+        //     [1.520478108791285, 0, 0, 0, 0, 2.4327649740660564, 0, 0, 0, 0, 1.0101010101010102, 1, 0, 0, -0.010101010101010102, 0]
+        // )
+        // this.projectionMatrix = MatrixIV.IDENTITY.fromArray(mat2);
+
 
         const centerOfScreenTranslationMatrix =
             new MatrixIV().translate(
@@ -101,53 +128,136 @@ export class Pseudo3dCanvas {
         meshes.forEach((mesh) => {
             // Create a worldMatrix that will move, rotation this
             // object to the correct location.
-            let rotationMatrix = new MatrixIV()
-                .rotateX(mesh.rotation.x)
-                .rotateY(mesh.rotation.y)
-                .rotateZ(mesh.rotation.z)
-            const translateMatrix = new MatrixIV().translate(mesh.position);
+            // this.rotationMatrix = new MatrixIV()
+            // .ypr(mesh.rotation.y, mesh.rotation.x, mesh.rotation.z)
+            //     // .rotateX(mesh.rotation.x)
+            //     // .rotateY(mesh.rotation.y)
+            //     // .rotateZ(mesh.rotation.z)
+            // Adding a rotation matrix here will rotate the whole world.
+            this.rotationMatrix = MatrixIV.IDENTITY;
+            // Translate the world to the mesh postion.
+            this.translationMatrix = new MatrixIV().translate(mesh.position);
+            // this.translationMatrix = MatrixIV.IDENTITY;
 
             // Note that we start with a centerOfScreenTrnaslationMatrix,
-            // which takes our current vector and places it in the center
-            // of the screen.
-            //
-            // We then apply the rotationMatrix with the mesh rotation vector,
-            // and then apply any position transforms based on the mesh.position.
-            // Note taht the mesh.position starts from the center of the screen
-            // because with moved it with centerOfScreenTranslationMatrix.
-            const worldMatrix = centerOfScreenTranslationMatrix
-                .multiply(rotationMatrix)
-                .multiply(translateMatrix);
+            this.worldMatrix =
+                // centerOfScreenTranslationMatrix
+                this.rotationMatrix
+                    // MatrixIV.IDENTITY
+                    //     .multiply(this.rotationMatrix)
+                    .multiply(this.translationMatrix);
 
-            // const worldMatrix = centerOfScreenTranslationMatrix;
+            // this.worldMatrix =
+            //     // centerOfScreenTranslationMatrix
+            //     this.translationMatrix
+            //         // MatrixIV.IDENTITY
+            //         //     .multiply(this.rotationMatrix)
+            //         .multiply(this.rotationMatrix);
+
+            // const mat4 = new Float32Array(
+            //     [
+            //         0.5978339822872978,
+            //         0,
+            //         -0.8016199408837775,
+            //         0,
+            //         0.642594529622511,
+            //         0.5978339822872978,
+            //         0.47923564153945697,
+            //         0,
+            //         0.47923564153945697,
+            //         -0.8016199408837775,
+            //         0.3574054703774891,
+            //         0,
+            //         0,
+            //         0,
+            //         0,
+            //         1
+
+            //     ]
+            // )
+            // this.worldMatrix = MatrixIV.IDENTITY.fromArray(mat4);
+
+
+
+            // this.transformMatrix = this.worldMatrix
+            //     .multiply(this.viewMatrix).multiply(this.projectionMatrix);
+            this.transformMatrix = this.projectionMatrix
+                .multiply(this.viewMatrix).multiply(this.worldMatrix);
 
             // World x View x Projection
-            let transformMatrix = worldMatrix
-                .multiply(viewMatrix).multiply(projectionMatrix);
-            // let transformMatrix = worldMatrix.clone()
-            //     .multiply(viewMatrix);
+            // const mat3 = new Float32Array(
+            //     [
+            //         0.9684691519886944,
+            //         0,
+            //         0.7786916954769801,
+            //         0.7709047785222103,
+            //         -0.9036112871444302,
+            //         -1.5495506431819113,
+            //         0.4959879932626835,
+            //         0.49102811333005664,
+            //         0.7465974971194373,
+            //         -1.875430143528984,
+            //         -0.40980386106224437,
+            //         -0.4057058224516219,
+            //         0,
+            //         0,
+            //         10.090909090909092,
+            //         10
+            //     ]
+            // )
+            // this.transformMatrix = MatrixIV.IDENTITY.fromArray(mat3);
+
+
+            // Reverse
+            // const vp = this.viewMatrix.multiply(this.projectionMatrix);
+            // const mvp = vp.multiply(this.worldMatrix);
+            // this.transformMatrix = mvp;
+
+            // this.transformMatrix =
+            //     this.projectionMatrix
+            //         .multiply(this.viewMatrix)
+            //         .multiply(this.worldMatrix);
+
 
             // Now we are going to apply the transformMatrix to each
             // vertices point in the mesh effectively projecting 3d into
             // the 2d canvas.
             mesh.vertices.forEach((v: Vector, i: number) => {
-                // let basisMatrix = mesh.basisMatrix
-                //     .rotateX(mesh.rotation.x)
-                //     .rotateY(mesh.rotation.y)
-                //     .rotateZ(mesh.rotation.z)
-                //     .translate(mesh.position);
-                // let transformedVector = mesh.basisMatrix.clone().multiplyByVector(v);
-                let transformedVector = v;
+                // Locally rotate and translate the position of this vertices.
+                let basisMatrix = mesh.basisMatrix.clone();
+                basisMatrix
+                    // .ypr(mesh.rotation.x, mesh.rotation.y, mesh.rotation.z)
+                    .rotateX(mesh.rotation.x)
+                    .rotateY(mesh.rotation.y)
+                    .rotateZ(mesh.rotation.z)
+                // .translate(mesh.position)
+                let transformedVector = basisMatrix.multiplyByVector(v.clone());
+                // let transformedVector = v.clone();
 
-                let vector2d = transformedVector.clone()
-                    .transformWithMatrixIVTo2d(transformMatrix);
+                // let vector2d = transformedVector.clone()
+                //     .transformWithMatrixIV(this.transformMatrix);
+                // let vector2d = this.transformMatrix.multiplyByVector(transformedVector);
 
+
+
+                let vector2d = transformedVector.transformCoordinates(
+                    this.transformMatrix);
+                // console.log(vector2d);
+                var x = vector2d.x * this.width + this.width / 2.0 >> 0;
+                var y = -vector2d.y * this.width + this.height / 2.0 >> 0;
+                vector2d = new Vector(x, y);
+                // console.log(vector2d);
+
+
+                // console.log(vector2d);
                 // Check if this vector goes out of boundaries in which case,
                 // we don't need to draw it.
                 if (vector2d.x >= 0 && vector2d.y >= 0 && vector2d.x < this.width
                     && vector2d.y < this.height) {
 
                     // TODO (uxder): Expand for way to have different rendering methods.
+                    domCanvas.setFillColor(this.context, mesh.color);
+                    domCanvas.setStrokeColor(this.context, mesh.color);
                     domCanvas.vectorPoint(this.context, vector2d);
                     domCanvas.quickText(this.context, 'v' + i, vector2d.x, vector2d.y - 4);
                 }

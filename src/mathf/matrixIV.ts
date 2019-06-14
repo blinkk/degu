@@ -1,7 +1,7 @@
 import { Vector } from './vector';
 
 /**
- * A 4 four dimensional matrix class.
+ * A 4 four dimensional homogenous matrix class.
  *
  * See examples in /examples for uses of matrix.
  *
@@ -327,7 +327,6 @@ export class MatrixIV {
         return this;
     }
 
-
     /**
      * Multiplies this 4x4 matrix by a 4x1 matrix.  This results in
      * returning the results as a 4x1 matrix.
@@ -391,8 +390,8 @@ export class MatrixIV {
      *
      * ```
      */
-    multiplyByVector(v: Vector): Vector {
-        let result = this.multiplyBy4x1(v.x, v.y, v.z);
+    multiplyByVector(v: Vector, w: number = 1): Vector {
+        let result = this.multiplyBy4x1(v.x, v.y, v.z, w);
         return new Vector(result[0], result[1], result[2]);
     }
 
@@ -477,16 +476,7 @@ export class MatrixIV {
      * @param angle Angle in radians.
      */
     rotateX(angle: number) {
-        var s = Math.sin(angle);
-        var c = Math.cos(angle);
-        this.value[4] = this.value[4] + this.value[8] * s;
-        this.value[5] = this.value[5] * c + this.value[9] * s;
-        this.value[6] = this.value[6] * c + this.value[10] * s;
-        this.value[7] = this.value[7] * c + this.value[11] * s;
-        this.value[8] = this.value[8] * c - this.value[4] * s;
-        this.value[9] = this.value[9] * c - this.value[5] * s;
-        this.value[10] = this.value[10] * c - this.value[6] * s;
-        this.value[11] = this.value[11] * c - this.value[7] * s;
+        this.rotate(angle, new Vector(1, 0, 0))
         return this;
     }
 
@@ -495,16 +485,7 @@ export class MatrixIV {
      * @param angle Angle in radians.
      */
     rotateY(angle: number) {
-        var s = Math.sin(angle);
-        var c = Math.cos(angle);
-        this.value[0] = this.value[0] * c - this.value[8] * s;
-        this.value[1] = this.value[1] * c - this.value[9] * s;
-        this.value[2] = this.value[2] * c - this.value[10] * s;
-        this.value[3] = this.value[3] * c - this.value[11] * s;
-        this.value[8] = this.value[0] * s + this.value[8] * c;
-        this.value[9] = this.value[1] * s + this.value[9] * c;
-        this.value[10] = this.value[2] * s + this.value[10] * c;
-        this.value[11] = this.value[3] * s + this.value[11] * c;
+        this.rotate(angle, new Vector(0, 1, 0))
         return this;
     }
 
@@ -513,28 +494,7 @@ export class MatrixIV {
      * @param angle Angle in radians.
      */
     rotateZ(angle: number) {
-        var s = Math.sin(angle);
-        var c = Math.cos(angle);
-
-        var v0 = this.value[0];
-        var v1 = this.value[1];
-        var v2 = this.value[2];
-        var v3 = this.value[3];
-
-        var v4 = this.value[4];
-        var v5 = this.value[5];
-        var a12 = this.value[6];
-        var a13 = this.value[7];
-
-        this.value[0] = v0 * c + v4 * s;
-        this.value[1] = v1 * c + v5 * s;
-        this.value[2] = v2 * c + a12 * s;
-        this.value[3] = v3 * c + a13 * s;
-        this.value[4] = v4 * c - v0 * s;
-        this.value[5] = v5 * c - v1 * s;
-        this.value[6] = a12 * c - v2 * s;
-        this.value[7] = a13 * c - v3 * s;
-
+        this.rotate(angle, new Vector(0, 0, 1))
         return this;
     }
 
@@ -646,6 +606,7 @@ export class MatrixIV {
         return this;
     }
 
+
     perspective(fov: number, aspect: number, near: number, far: number): MatrixIV {
         let f = 1.0 / Math.tan(fov / 2);
         let nf;
@@ -671,6 +632,7 @@ export class MatrixIV {
             this.value[10] = -1;
             this.value[14] = -2 * near;
         }
+
         return this;
     }
 
@@ -757,8 +719,9 @@ export class MatrixIV {
      * Sets this matrix from an array.
      * @param values
      */
-    fromArray(values: Float32Array) {
+    fromArray(values: Float32Array): MatrixIV {
         this.value = values;
+        return this;
     }
 
 
