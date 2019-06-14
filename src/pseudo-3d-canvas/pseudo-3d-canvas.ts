@@ -56,7 +56,7 @@ export class Pseudo3dCanvas {
         this.fov = mathf.degreeToRadian(45);
         this.near = 1;
         this.aspect = this.width / this.height;
-        this.far = 10000;
+        this.far = 1000;
 
         this.rotationMatrix = MatrixIV.IDENTITY;
         this.translationMatrix = MatrixIV.IDENTITY;
@@ -114,15 +114,15 @@ export class Pseudo3dCanvas {
 
             // Create a worldMatrix that will move, rotation this
             // object to the correct location.
-            // this.rotationMatrix = new MatrixIV()
-            // .ypr(mesh.rotation.y, mesh.rotation.x, mesh.rotation.z)
+            this.rotationMatrix = new MatrixIV()
+                .ypr(mesh.rotation.y, mesh.rotation.x, mesh.rotation.z)
             //     // .rotateX(mesh.rotation.x)
             //     // .rotateY(mesh.rotation.y)
             //     // .rotateZ(mesh.rotation.z)
             // Adding a rotation matrix here will rotate the whole world.
             this.rotationMatrix = MatrixIV.IDENTITY;
             // Translate the world to the mesh postion.
-            // this.translationMatrix = new MatrixIV().translate(mesh.position);
+            this.translationMatrix = new MatrixIV().translate(mesh.position);
             // this.translationMatrix = MatrixIV.IDENTITY;
 
             // Note that we start with a centerOfScreenTrnaslationMatrix,
@@ -148,13 +148,15 @@ export class Pseudo3dCanvas {
                 let basisMatrix = mesh.basisMatrix.clone();
                 basisMatrix
                     .ypr(mesh.rotation.x, mesh.rotation.y, mesh.rotation.z)
+                    .rotateX(mesh.rotation.x)
+                    .rotateY(mesh.rotation.y)
+                    .rotateZ(mesh.rotation.z)
                     .translate(mesh.position)
-                // .rotateX(mesh.rotation.x)
-                // .rotateY(mesh.rotation.y)
-                // .rotateZ(mesh.rotation.z)
                 let transformedVector = basisMatrix.multiplyByVector(v.clone());
-                // let transformedVector = v.clone();
 
+                // These are our final vector coordinates that are normalized
+                // where by the screen is 1x1 with the center in zero position
+                // like webGL.
                 let vector2d = transformedVector.clone()
                     .transformWithMatrixIV(this.transformMatrix);
                 // let vector2d = this.transformMatrix.multiplyByVector(transformedVector);
@@ -162,8 +164,22 @@ export class Pseudo3dCanvas {
                 console.log(vector2d);
 
 
-                var x = vector2d.x * this.width + this.width / 2.0;
-                var y = -vector2d.y * this.height + this.height / 2.0;
+                // So far the coordinate system is one based on center / center
+                // like webGL.
+                // But this is draw at 1px X 1px scale in the top left.
+                // in short, the vector position is normalized so we want to
+                // scale it to the canvas size.
+                //
+                // Scale it and then shift it over half the screen width to center
+                // it.
+                var x = (vector2d.x * this.width);
+                x += (this.width * 0.5)
+                // Scale it and then shift it over half the screen width to center
+                // it.
+                var y = (-vector2d.y * this.height)
+                y += (this.height * 0.5);
+
+                // We get our final vector coordinates on the canvas.
                 vector2d = new Vector(x, y);
 
 
