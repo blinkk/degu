@@ -607,6 +607,15 @@ export class MatrixIV {
     }
 
 
+    /**
+     * Generates a left-handed perspection projection matrix with the given bounds.
+     * The projection matrix is based on near and far view distance,
+     * angle of the view of the camera and your screen resolution proportion.
+     * @param fov The field of view in radians.
+     * @param aspect The aspect ratio of the view.
+     * @param near The near clipping bound of frustum. Should be larger than 0.
+     * @param far The far clipping bound of frustum. Should be larger than 0.
+     */
     perspective(fov: number, aspect: number, near: number, far: number): MatrixIV {
         let f = 1.0 / Math.tan(fov / 2);
         let nf;
@@ -637,15 +646,6 @@ export class MatrixIV {
     }
 
 
-    /**
-     * Generates a left-handed perspection projection matrix with the given bounds.
-     * The projection matrix is based on near and far view distance,
-     * angle of the view of the camera and your screen resolution proportion.
-     * @param fov The field of view in radians.
-     * @param aspect The aspect ratio of the view.
-     * @param near The near clipping bound of frustum. Should be larger than 0.
-     * @param far The far clipping bound of frustum. Should be larger than 0.
-     */
     perspectiveLeftHand(fov: number, aspect: number, near: number, far: number) {
         let t = 1.0 / (Math.tan(fov * 0.5));
         let a = (t / aspect);

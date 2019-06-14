@@ -34,13 +34,13 @@ export default class pseudo3dCanvasSample {
         cubeMesh.position.x = 0;
         cubeMesh.position.y = 0;
         cubeMesh.position.z = 0;
-        cubeMesh.size(1, 1, 0);
+        cubeMesh.size(10, 10, 0);
 
         let cubeMesh2 = new CubeMesh();
         cubeMesh2.position.x = 0;
         cubeMesh2.position.y = 0;
         cubeMesh2.position.z = 100;
-        cubeMesh2.size(1, 1, 1);
+        cubeMesh2.size(100, 100, 1);
         cubeMesh2.color = 'orange';
         cubeMesh2.rotation.x = 0.78;
 
@@ -53,7 +53,7 @@ export default class pseudo3dCanvasSample {
 
         this.meshes = [
             cubeMesh,
-            // cubeMesh2
+            cubeMesh2
         ];
 
 
