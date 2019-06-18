@@ -103,6 +103,17 @@ export class Vector {
         this.x = ~~this.x;
         this.y = ~~this.y;
         this.z = ~~this.z;
+        return this;
+    }
+
+    /**
+     * Converts internal values to int
+     */
+    int() {
+        this.x = this.x >> 0;
+        this.y = this.y >> 0;
+        this.z = this.z >> 0;
+        return this;
     }
 
 

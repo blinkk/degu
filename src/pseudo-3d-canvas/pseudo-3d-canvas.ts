@@ -13,11 +13,8 @@ interface Pseudo3dCanvasConfig {
 /**
  * The main renderer for pseudo3dCanvas.
  *
- * Takes various 3d meshes that need to be displayed on the screen
- * and projects them as 2d points.
- *
- * This pseudo3dCanvas particular class, implements the world - view - perspective
- * matrices to achieve pseudo3d.
+ * This pseudo3dCanvas particular class, implements the model - view - perspective
+ * matrices to achieve pseudo3d onto 2d canvas.
  *
  *
  * @see http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/
@@ -45,7 +42,6 @@ export class Pseudo3dCanvas {
     private transformMatrix: MatrixIV;
 
     constructor(config: Pseudo3dCanvasConfig) {
-        console.log('constructed');
         this.canvasElement = config.canvasElement;
         this.context = this.canvasElement.getContext('2d')!;
         this.canvasElement.width = this.canvasElement.offsetWidth;
@@ -78,15 +74,15 @@ export class Pseudo3dCanvas {
      *
      *
      * Note that this order matters.
+     *
      * ```ts
      *
-     * var transformMatrix = worldMatrix * viewMatrix * projectionMatrix;
-     *
+     * var transformMatrix = projectionMatrix * viewMatrix * projectionMatrix;
      * ```
      *
-     * WorldMatrix = takes object space to world space
-     * ViewMatrix = camera matrix - transforms world space to camera space
-     * projectionMatrix = near or far angle of view.
+     * WorldMatrix = Takes object space to world space
+     * ViewMatrix = Camera matrix - transforms world space to camera space
+     * projectionMatrix = Near or far angle of view.
      *
      *
      * http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/
@@ -97,79 +93,70 @@ export class Pseudo3dCanvas {
     render(camera: Camera, meshes: Array<Mesh>): void {
         this.context.clearRect(0, 0, this.width, this.height);
 
-
-        const centerOfScreenTranslationMatrix =
-            new MatrixIV().translate(
-                new Vector(this.width / 2, this.height / 2));
-
+        // Loop through each mesh.
         meshes.forEach((mesh) => {
 
+            // This is the main view / camera matrix.
             this.viewMatrix =
                 new MatrixIV().lookAt(camera.position, camera.target, Vector.UP);
 
+            // The main projection matrix.
             this.projectionMatrix =
                 new MatrixIV()
                     .perspective(
                         this.fov, this.aspect, this.near, this.far)
 
-            // Create a worldMatrix that will move, rotation this
-            // object to the correct location.
-            this.rotationMatrix = new MatrixIV()
-                .ypr(mesh.rotation.y, mesh.rotation.x, mesh.rotation.z)
-            //     // .rotateX(mesh.rotation.x)
-            //     // .rotateY(mesh.rotation.y)
-            //     // .rotateZ(mesh.rotation.z)
-            // Adding a rotation matrix here will rotate the whole world.
-            this.rotationMatrix = MatrixIV.IDENTITY;
-            // Translate the world to the mesh postion.
-            this.translationMatrix = new MatrixIV().translate(mesh.position);
-            // this.translationMatrix = MatrixIV.IDENTITY;
 
-            // Note that we start with a centerOfScreenTrnaslationMatrix,
+            // The main world or model matrix.  Here we are going to shift the
+            // position of the mesh based on the curren tmesh position.
+            this.translationMatrix = new MatrixIV()
+                .translate(mesh.position);
             this.worldMatrix =
-                // centerOfScreenTranslationMatrix
-                // this.rotationMatrix
                 MatrixIV.IDENTITY
-                    .multiply(this.rotationMatrix)
                     .multiply(this.translationMatrix)
 
 
-            // P * V * W
+            // Create the transform matrix.
+            // ProjectMatrix * ViewMatrix * WorldMatrix
             this.transformMatrix = this.projectionMatrix
                 .multiply(this.viewMatrix).multiply(this.worldMatrix);
-
 
 
             // Now we are going to apply the transformMatrix to each
             // vertices point in the mesh effectively projecting 3d into
             // the 2d canvas.
             mesh.vertices.forEach((v: Vector, i: number) => {
-                // Locally rotate and translate the position of this vertices.
-                let basisMatrix = mesh.basisMatrix.clone();
-                basisMatrix
-                    .ypr(mesh.rotation.x, mesh.rotation.y, mesh.rotation.z)
-                    .rotateX(mesh.rotation.x)
-                    .rotateY(mesh.rotation.y)
-                    .rotateZ(mesh.rotation.z)
-                    .translate(mesh.position)
-                let transformedVector = basisMatrix.multiplyByVector(v.clone());
 
+
+                // Take each vector point such as 1,1 and first locally,
+                // rotate and move it's position based on the basisMatrix.
+                // The basisMatrix consists of up, right, forward vectors
+                // that define the shape of the mesh and this particular vector.
+                // Apart from the basic position (controled in worldMatrix),
+                // this locally affects the position of each vector which can
+                // be controlled by the mesh size and vector positions.
+                let rotationMatrix = new MatrixIV()
+                    .ypr(mesh.rotation.y, mesh.rotation.x, mesh.rotation.z)
+                let basisMatrix = mesh.basisMatrix.clone()
+                    .multiply(rotationMatrix);
+                let transformedVector = v.clone()
+                    .transformWithMatrixIV(basisMatrix);
+
+                // Apply the transformation to the vector.
                 // These are our final vector coordinates that are normalized
                 // where by the screen is 1x1 with the center in zero position
                 // like webGL.
                 let vector2d = transformedVector.clone()
                     .transformWithMatrixIV(this.transformMatrix);
-                // let vector2d = this.transformMatrix.multiplyByVector(transformedVector);
 
-                console.log(vector2d);
 
 
                 // So far the coordinate system is one based on center / center
                 // like webGL.
-                // But this is draw at 1px X 1px scale in the top left.
-                // in short, the vector position is normalized so we want to
-                // scale it to the canvas size.
-                //
+                // The vector position remains normalized so we want to
+                // scale/map it to the canvas dimensions.
+
+
                 // Scale it and then shift it over half the screen width to center
                 // it.
                 var x = (vector2d.x * this.width);
@@ -180,7 +167,7 @@ export class Pseudo3dCanvas {
                 y += (this.height * 0.5);
 
                 // We get our final vector coordinates on the canvas.
-                vector2d = new Vector(x, y);
+                vector2d = new Vector(x, y).int();
 
 
                 // Check if this vector goes out of boundaries in which case,
@@ -188,7 +175,6 @@ export class Pseudo3dCanvas {
                 if (vector2d.x >= 0 && vector2d.y >= 0 && vector2d.x < this.width
                     && vector2d.y < this.height) {
 
-                    // TODO (uxder): Expand for way to have different rendering methods.
                     domCanvas.setFillColor(this.context, mesh.color);
                     domCanvas.setStrokeColor(this.context, mesh.color);
                     domCanvas.vectorPoint(this.context, vector2d);

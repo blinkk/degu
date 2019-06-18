@@ -35,18 +35,22 @@ export default class pseudo3dCanvasSample {
         cubeMesh.position.x = 0;
         cubeMesh.position.y = 0;
         cubeMesh.position.z = 100;
-        cubeMesh.color = 'green';
         cubeMesh.originalPosition = cubeMesh.position.clone();
-        cubeMesh.size(100, 100, 100);
+        cubeMesh.rotation = new Vector(-1, -1, -1);
+        cubeMesh.color = 'green';
+        cubeMesh.size(3, 3, 3);
 
         let cubeMesh2 = new CubeMesh();
         cubeMesh2.position.x = 0;
         cubeMesh2.position.y = 10;
         cubeMesh2.position.z = 100;
         cubeMesh2.originalPosition = cubeMesh2.position.clone();
+        cubeMesh2.rotation = new Vector(-1, -1, -1);
         cubeMesh2.size(1, 1, 1);
         cubeMesh2.color = 'orange';
 
+        console.log('c1', cubeMesh);
+        console.log('c2', cubeMesh2);
 
         // Update the camera position.
         this.camera.position = new Vector(0, 0, 5);
@@ -83,11 +87,10 @@ export default class pseudo3dCanvasSample {
         this.wave = 0;
         this.wave2 = 0;
 
-        this.renderLoop();
         console.log(this.pseudo3dCanvas);
         console.log(cubeMesh);
         // console.log(cubeMesh2);
-        // Start raf loop.
+        // // Start raf loop.
         this.raf.start();
         // this.renderLoop();
     }
