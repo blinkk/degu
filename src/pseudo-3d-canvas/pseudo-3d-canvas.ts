@@ -73,11 +73,11 @@ export class Pseudo3dCanvas {
      * translation matrix and then applies that to each vector point.
      *
      *
-     * Note that this order matters.
+     * Note that this order matters.  Using OpenGL right to left multiplication:
      *
      * ```ts
      *
-     * var transformMatrix = projectionMatrix * viewMatrix * projectionMatrix;
+     * var transformMatrix = projectionMatrix * ViewMatrix * WorldMatrix;
      * ```
      *
      * WorldMatrix = Takes object space to world space

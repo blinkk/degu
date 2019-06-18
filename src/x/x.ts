@@ -94,6 +94,9 @@ export class X {
     }
 
 
+    getPointer(): XPointer {
+        return this.pointer;
+    }
 
     /**
      * The main engine loop.  Here we call through all the
