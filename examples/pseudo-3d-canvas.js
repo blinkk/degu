@@ -36,6 +36,7 @@ export default class pseudo3dCanvasSample {
         cubeMesh.position.y = 0;
         cubeMesh.position.z = 100;
         cubeMesh.color = 'green';
+        cubeMesh.originalPosition = cubeMesh.position.clone();
         cubeMesh.size(100, 100, 100);
 
         let cubeMesh2 = new CubeMesh();
@@ -80,6 +81,7 @@ export default class pseudo3dCanvasSample {
         // meshFolder.add(cubeMesh.rotation, 'z', 0.001, 0.9);
 
         this.wave = 0;
+        this.wave2 = 0;
 
         this.renderLoop();
         console.log(this.pseudo3dCanvas);
@@ -96,16 +98,24 @@ export default class pseudo3dCanvasSample {
      */
     renderLoop(delta) {
         this.wave += 0.03;
+        this.wave2 += 0.02;
 
 
 
         this.meshes[0].rotation.x += 0.05;
         this.meshes[0].rotation.y += 0.05;
         this.meshes[0].rotation.z += 0.05;
+        this.meshes[0].position.z = mathf.lerp(
+            this.meshes[0].position.z,
+            this.meshes[0].originalPosition.z + -Math.sin(this.wave2) * 60,
+            0.3
+        );
 
-        this.meshes[1].rotation.x += 0.01;
+        this.meshes[1].rotation.x += 0.02;
         this.meshes[1].rotation.y += 0.01;
-        this.meshes[1].rotation.z += 0.01;
+        this.meshes[1].rotation.z += 0.02;
+
+
         // Update the cubeMesh2 position.
         this.meshes[1].position.x = mathf.lerp(
             this.meshes[1].position.x,
@@ -114,13 +124,13 @@ export default class pseudo3dCanvasSample {
         );
         this.meshes[1].position.y = mathf.lerp(
             this.meshes[1].position.y,
-            this.meshes[1].originalPosition.y + Math.sin(this.wave) * 10,
+            this.meshes[1].originalPosition.y + Math.sin(this.wave2) * 5,
             0.2
         );
         this.meshes[1].position.z = mathf.lerp(
             this.meshes[1].position.z,
-            this.meshes[1].originalPosition.z + Math.sin(this.wave) * 50,
-            0.2
+            this.meshes[1].originalPosition.z + Math.sin(this.wave2) * 60,
+            0.3
         );
 
 
