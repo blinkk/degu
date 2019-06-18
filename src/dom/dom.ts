@@ -84,4 +84,35 @@ export class dom {
         element.style.setProperty(name, value);
     }
 
+
+    /**
+     * Tests whether a given element is a descendant of another elemenet.
+     *
+     * Examples:
+     * ```ts
+     *  var isChild = dom.testDescendant(
+     *      document.getElementById('button'),
+     *      document.querySelector('.article'));
+     *
+     * // Whether the active focused element is under the article container.
+     *  var isFocused = dom.testDescendant(document.activeElement,
+     *      document.querySelector('.article'));
+     * ```
+     *
+     * @param element The child element
+     * @param parentElement The possible parent element
+     * @return Whether element is a descendant of the provided parent element.
+     */
+    static testDescendant(element: HTMLElement,
+        parentElement: HTMLElement): boolean {
+        var currentNode = element.parentNode;
+        while (currentNode) {
+            if (currentNode == parentElement) {
+                return true;
+            }
+            currentNode = currentNode.parentNode;
+        }
+        return false;
+    }
+
 }

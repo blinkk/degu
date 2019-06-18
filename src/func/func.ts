@@ -109,6 +109,7 @@ export class func {
     /**
      * Wait until a condition becomes truthy.   This under the hood implements
      * polling to evaluate the condition so use wisely.
+     *
      * ```ts
      *
      * let someValue = 0;
@@ -119,6 +120,7 @@ export class func {
      * setTimeout(()=> {
      *   someValue = 5;
      * }, 1000);
+     *
      * ```
      *
      *
