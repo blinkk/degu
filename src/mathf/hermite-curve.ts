@@ -17,8 +17,8 @@ import { Vector } from './vector';
  *          new Vector(300, 300),
  * )
  *
- * let myXPoint = HermiteCurve.x;
- * let myYPoint = HermiteCurve.y;
+ * let myXPoint = hermiteCurve.x;
+ * let myYPoint = hermiteCurve.y;
  * ```
  *
  * @see http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20150105

@@ -66,7 +66,7 @@ export class mathf {
   }
 
   /**
-   * Takes a number and forces it to a int with rounding up.
+   * Takes a number and forces it to an int with rounding up.
    * ```ts
    *   mathf.int(20.3333)  --> 20
    *   mathf.int(20.32)    --> 20
@@ -83,7 +83,7 @@ export class mathf {
 
   /**
    *
-   * Takes a number and forces it to a int by simply dropping decimals.
+   * Takes a number and forces it to an int by simply dropping decimals.
    * ```ts
    *   mathf.int(20.3333)  --> 20
    *   mathf.int(20.32)    --> 20
