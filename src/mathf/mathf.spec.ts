@@ -203,7 +203,17 @@ test('getDirection', t => {
 test('int', t => {
     t.is(mathf.int(20.311), 20);
     t.is(mathf.int(20.32), 20);
+    t.is(mathf.int(20.5), 21);
+    t.is(mathf.int(20.9999), 21);
     t.is(mathf.int(20), 20);
+});
+
+test('int0', t => {
+    t.is(mathf.int0(20.311), 20);
+    t.is(mathf.int0(20.32), 20);
+    t.is(mathf.int0(20.5), 20);
+    t.is(mathf.int0(20.9999), 20);
+    t.is(mathf.int0(20), 20);
 });
 
 test('calculateCenterOffset', t => {

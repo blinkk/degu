@@ -66,10 +66,11 @@ export class mathf {
   }
 
   /**
-   * Takes a number and forces it to a float.
+   * Takes a number and forces it to a int with rounding up.
    * ```ts
    *   mathf.int(20.3333)  --> 20
    *   mathf.int(20.32)    --> 20
+   *   mathf.int(20.5)    --> 21
    *   mathf.int(20)       --> 20
    * ```
    * @tested
@@ -78,6 +79,24 @@ export class mathf {
    */
   static int(value: number): number {
     return mathf.fixDigits(value, 0);
+  }
+
+  /**
+   *
+   * Takes a number and forces it to a int by simply dropping decimals.
+   * ```ts
+   *   mathf.int(20.3333)  --> 20
+   *   mathf.int(20.32)    --> 20
+   *   mathf.int(20.555)  --> 20
+   *   mathf.int(20.9999)  --> 20
+   *   mathf.int(20)       --> 20
+   * ```
+   * @tested
+   * @param {number} value The number to convert
+   * @param {number} digits The number of digits to output.
+   */
+  static int0(value: number): number {
+    return value >> 0;
   }
 
   /**
