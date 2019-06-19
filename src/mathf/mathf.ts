@@ -1160,4 +1160,60 @@ export class mathf {
     };
   }
 
+
+  /**
+   * Given two boxes of different sizes calculates the amount that the childBox
+   * would need to scale in order to mimic the background:contain effect in html.
+   *
+   * Imagine the following:
+   * ```
+   * -------p--------
+   * |               |
+   * |   -----       |
+   * |   | C  |      |
+   * |   -----       |
+   * |               |
+   * -----------------
+   * ```
+   *
+   * This case, c would have to scale up to cover the
+   * parent.      This method would return the amount that C needs to scale
+   * (up or down).
+   *
+   * Since this is contain, applying the scale value to the child would never
+   * exceed the width or height of the parent (no bleeding).
+   *
+   * Note that this method assumes that the child is absolutely centered against
+   * the parent.
+   *
+   * ```ts
+   * parentBox = { width: 100, height: 100 };
+   * childBox = { width: 200, height: 100 };
+   * mathf.calculateBackgroundContain(parentBox, childBox) // return 0.5.
+   *
+   *
+   * parentBox = { width: 500, height: 500 };
+   * childBox = { width: 50, height: 50 };
+   * mathf.calculateBackgroundContain(parentBox, childBox) // return 10
+   *
+   * ```
+   *
+   * @param parentBox
+   * @param childBox
+   */
+  static calculateBackgroundContain(
+    parentBox: dimensionalBox, childBox: dimensionalBox): number {
+
+    let pw = parentBox.width;
+    let ph = parentBox.height;
+    let cw = childBox.width;
+    let ch = childBox.height;
+    let heightScale = parentBox.height / childBox.height;
+    let widthScale = parentBox.width / childBox.width;
+
+    let scale = Math.min(heightScale, widthScale);
+
+    return scale;
+  }
+
 }

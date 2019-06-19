@@ -408,6 +408,26 @@ test('getProgressInRangeByValue', t => {
         , 1);
 });
 
+
+test('calculateBackgroundContain', t => {
+    // Simple scale up
+    let parentBox = { width: 500, height: 500 };
+    let childBox = { width: 50, height: 50 };
+    t.is(
+        mathf.calculateBackgroundContain(parentBox, childBox)
+        , 10);
+    t.is(
+        mathf.calculateBackgroundContain(childBox, parentBox)
+        , 0.1);
+
+    parentBox = { width: 100, height: 100 };
+    childBox = { width: 200, height: 100 };
+    t.is(
+        mathf.calculateBackgroundContain(parentBox, childBox)
+        , 0.5);
+
+})
+
 test('calculateBackgroundCover', t => {
     // Simple scale up
     let parentBox = { width: 500, height: 500 };

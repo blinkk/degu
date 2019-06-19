@@ -1,4 +1,5 @@
 import { dom } from './dom/dom';
+import { DomWatcher } from './dom/dom-watcher';
 import { bom } from './dom/bom';
 import { mathf } from './mathf/mathf';
 import { is } from './is/is';
@@ -27,6 +28,7 @@ export {
     RafTimer,
 
     dom,
+    DomWatcher,
     bom,
     mathf,
 };
