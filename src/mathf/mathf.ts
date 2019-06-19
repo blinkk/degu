@@ -938,6 +938,16 @@ export class mathf {
 
 
   /**
+   * A normalized sin - so instead of returning -1 to 1, normalized sin returns
+   * a value between 0 and 1.
+   * @param time
+   */
+  static sinNormalized(time: number): number {
+    return mathf.interpolateRange(Math.sin(time) + 1, 0, 2, 0, 1);
+  }
+
+
+  /**
    * Same as lerp but will apply an easingFunction to the current
    * progress, prior to running lerp.
    *

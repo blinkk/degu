@@ -27,6 +27,7 @@ import MatrixIVSample3 from '../matrixIV3';
 import Pseudo3dCanvasSample from '../pseudo-3d-canvas';
 import RayCastingSample from '../raycasting';
 import RayCasting2Sample from '../raycasting2';
+import PerlinNoiseSample from '../perlin-noise';
 
 // import VideoProgressSample from '../playground/video-progress';
 
@@ -57,7 +58,8 @@ const samples = {
   'rayCasting2Sample': RayCasting2Sample,
   'xSample': XSample,
   'x2Sample': X2Sample,
-  'domWatcherSample': DomWatcherSample
+  'domWatcherSample': DomWatcherSample,
+  'perlinNoiseSample': PerlinNoiseSample
 };
 
 class Main {

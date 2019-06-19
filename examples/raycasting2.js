@@ -10,8 +10,7 @@ import { ImageLoader } from '../lib/loader/image';
 import { Vector } from '../lib/mathf/Vector';
 import { mathf } from '../lib/mathf/mathf';
 import { Raycast } from '../lib/mathf/raycast';
-import { MatrixIV } from '../lib/mathf/matrixIV';
-import { timingSafeEqual } from 'crypto';
+import { PerlinNoise } from '../lib/mathf/perlin-noise';
 
 
 export default class RayCasting2Sample {
@@ -99,8 +98,6 @@ export default class RayCasting2Sample {
 
             // The origin will always be the mouse poition.
             let origin = pointer.position;
-
-
 
             // Define the number of rays and the angles we want to generate.
             let rayAngles = [];
