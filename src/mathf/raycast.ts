@@ -12,6 +12,16 @@ interface RayCastObject {
      * If there was a hit, a vector representing the position of the hit itself.
      */
     collision?: Vector | null;
+
+    /**
+     * The distance recording from the origin.
+     */
+    distance?: number,
+
+    /**
+     * The original between the origin and the collision in radians.
+     */
+    angle?: number
 }
 
 /**
@@ -135,9 +145,12 @@ export class Raycast {
         if (t > 0 && t < 1 && u > 0) {
             const x = x1 + t * (x2 - x1);
             const y = y1 + t * (y2 - y1);
+            const collision = new Vector(x, y);
             return {
                 hit: true,
-                collision: new Vector(x, y)
+                collision: collision,
+                distance: Vector.subtract(origin, collision).length(),
+                angle: mathf.toFixed(Vector.angle2d(origin, collision), 3)
             }
         } else {
             return {

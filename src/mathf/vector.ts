@@ -232,6 +232,30 @@ export class Vector {
 
 
     /**
+     * Gets the angle between two vectors.
+     *
+     *
+     * ```ts
+     *
+     * let a = new Vector(100,200);
+     * let b = new Vector(150,240);
+     *
+     * let angle = Vector.angle2d(a, b);
+     *
+     * ```
+     *
+     * @param a The first vector
+     * @param b The second vector
+     * @return The angle of the two vectors in radians.
+     */
+    static angle2d(a: Vector, b: Vector): number {
+        var dx = a.x - b.x,
+            dy = a.y - b.y;
+        return Math.atan2(dy, dx);
+    }
+
+
+    /**
      * Adds this vector to another.
      */
     add(v: Vector): Vector {

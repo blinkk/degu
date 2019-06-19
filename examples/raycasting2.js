@@ -17,7 +17,7 @@ import { timingSafeEqual } from 'crypto';
 export default class RayCasting2Sample {
 
     constructor() {
-        console.log('raycasting2');
+        console.log('raycasting2 sample');
         this.imageTextures = {};
         this.hitObjects = [];
         this.rays = [];
@@ -34,37 +34,16 @@ export default class RayCasting2Sample {
         });
 
         this.lines = [];
-        this.lines.push(new XLine({
-            lineWidth: 5,
-            startX: 800,
-            startY: 800,
-            endX: 0,
-            endY: 890,
-        }));
+        for (let i = 0; i < 6; i += 1) {
+            this.lines.push(new XLine({
+                lineWidth: 5,
+                startX: mathf.getRandomInt(0, 1000),
+                startY: mathf.getRandomInt(0, 1000),
+                endX: mathf.getRandomInt(0, 1000),
+                endY: mathf.getRandomInt(0, 1000),
+            }));
+        }
 
-
-        this.lines.push(new XLine({
-            lineWidth: 5,
-            startX: 100,
-            startY: 100,
-            endX: 400,
-            endY: 0,
-        }));
-        this.lines.push(new XLine({
-            lineWidth: 5,
-            startX: 400,
-            startY: 100,
-            endX: 200,
-            endY: 400,
-        }));
-
-        this.lines.push(new XLine({
-            lineWidth: 5,
-            startX: 500,
-            startY: 600,
-            endX: 200,
-            endY: 600,
-        }));
 
         this.lines.forEach((line) => {
             this.X.stage.addChild(line);
@@ -114,6 +93,8 @@ export default class RayCasting2Sample {
                 rayAngles.push(i);
             }
 
+            let hitRaycasts = [];
+
             // Loop through each line object to see if there is a collision.
             this.lines.forEach((line) => {
                 // For each ray test to see if there is a collision.
@@ -123,33 +104,64 @@ export default class RayCasting2Sample {
                         new Vector(line.endX, line.endY)
                     );
 
+                    // If the current raycast is hitting.
                     if (raycast.hit) {
-                        // Add a square for intersection point.
-                        const hitRect = new XRectangle({
-                            fillStyle: 'green',
-                            x: raycast.collision.x - 5,
-                            y: raycast.collision.y - 5,
-                            width: 10,
-                            height: 10
-                        });
-                        this.X.stage.addChild(hitRect);
-                        this.hitObjects.push(hitRect);
+                        hitRaycasts.push(raycast);
 
-
-                        // Draw a line from the origin to intersectin point.
-                        const ray = new XLine({
-                            strokeStyle: 'grey',
-                            lineWidth: 1,
-                            startX: origin.x,
-                            startY: origin.y,
-                            endX: raycast.collision.x,
-                            endY: raycast.collision.y
+                        // Now previously, there might have been other rays
+                        // of the same angle.  In this case, we want the ray
+                        // that is of the shortest distance over the longer one.
+                        // This creates a visual effect, where a ray appears
+                        // to not be able to penetrate walls - merely because
+                        // we are filtered out duplicate angle rays that penetrate
+                        // walls.
+                        let shortestCast = raycast;
+                        hitRaycasts.forEach((ray) => {
+                            if (ray.angle == shortestCast.angle) {
+                                if (ray == shortestCast) {
+                                    return;
+                                } else if (ray.distance >= shortestCast.distance) {
+                                    hitRaycasts.splice(hitRaycasts.indexOf(ray), 1);
+                                } else {
+                                    hitRaycasts.splice(hitRaycasts.indexOf(shortestCast), 1);
+                                    shortestCast = ray;
+                                }
+                            }
                         });
-                        this.X.stage.addChild(ray);
-                        this.rays.push(ray);
+
                     }
-
                 });
+            });
+
+            console.log(hitRaycasts);
+
+
+
+            // For each raycast, we are going to render it out.
+            hitRaycasts.forEach((raycast) => {
+                // Add a square for intersection point.
+                const hitRect = new XRectangle({
+                    fillStyle: 'green',
+                    x: raycast.collision.x - 5,
+                    y: raycast.collision.y - 5,
+                    width: 10,
+                    height: 10
+                });
+                this.X.stage.addChild(hitRect);
+                this.hitObjects.push(hitRect);
+
+
+                // Draw a line from the origin to intersectin point.
+                const ray = new XLine({
+                    strokeStyle: 'grey',
+                    lineWidth: 1,
+                    startX: origin.x,
+                    startY: origin.y,
+                    endX: raycast.collision.x,
+                    endY: raycast.collision.y
+                });
+                this.X.stage.addChild(ray);
+                this.rays.push(ray);
             });
         });
 
