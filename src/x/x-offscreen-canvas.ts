@@ -12,11 +12,13 @@
 export class XOffScreenCanvas {
     public canvas: HTMLCanvasElement;
     public context: CanvasRenderingContext2D;
+    private dpr: number;
     constructor() {
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d')!;
-        this.canvas.width = 1000;
-        this.canvas.height = 1000;
+        this.dpr = window.devicePixelRatio || 1;
+        this.canvas.width = 1000 * this.dpr;
+        this.canvas.height = 1000 * this.dpr;
     }
 }
 

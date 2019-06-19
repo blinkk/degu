@@ -5,6 +5,7 @@ import { XStage } from './x-stage';
 import { XLine } from './x-line';
 import { XPointer } from './x-pointer';
 import { XText } from './x-text';
+import { DomWatcher } from '../dom/dom-watcher';
 
 interface XConfig {
     canvasElement: HTMLCanvasElement;
@@ -32,6 +33,7 @@ export class X {
     public stage: XStage;
     private debugMode: boolean;
     private mouseCoordsTextDebugObject: XText;
+    private watcher: DomWatcher;
 
 
     constructor(config: XConfig) {
@@ -44,12 +46,18 @@ export class X {
         // css stretches the pixels within the canvas.
         // Setting it as such, forces the correct size.
         this.dpr = window.devicePixelRatio || 1;
-        this.canvasElement.width = this.canvasElement.offsetWidth * this.dpr;
-        this.canvasElement.height = this.canvasElement.offsetHeight * this.dpr;
-        this.width = this.canvasElement.offsetWidth;
-        this.height = this.canvasElement.offsetHeight;
+        this.canvasElement.width = 0;
+        this.canvasElement.height = 0;
+        this.width = 0;
+        this.height = 0;
+        this.resize();
 
-
+        this.watcher = new DomWatcher();
+        this.watcher.add({
+            element: window,
+            on: 'resize',
+            callback: this.resize.bind(this)
+        })
 
         this.debugMode =
             func.setDefault(config.debugMode, false);
@@ -94,6 +102,13 @@ export class X {
         })
     }
 
+    resize() {
+        this.dpr = window.devicePixelRatio || 1;
+        this.canvasElement.width = this.canvasElement.offsetWidth * this.dpr;
+        this.canvasElement.height = this.canvasElement.offsetHeight * this.dpr;
+        this.width = this.canvasElement.offsetWidth * this.dpr;
+        this.height = this.canvasElement.offsetHeight * this.dpr;
+    }
 
     getPointer(): XPointer {
         return this.pointer;
@@ -162,6 +177,8 @@ export class X {
         //         this.canvasElement.width  / 2,
         //         this.canvasElement.height / 2)
 
+        // Scale to aspect ratio first.
+        this.context.scale(this.dpr, this.dpr);
 
         // Adjust alpha
         this.context.globalAlpha = gameObject.alpha;
@@ -181,8 +198,8 @@ export class X {
 
         // Now scale
         this.context.scale(
-            gameObject.scaleX * this.dpr,
-            gameObject.scaleY * this.dpr);
+            gameObject.scaleX,
+            gameObject.scaleY);
 
         // Call the gameObject render method to figure out how to draw this
         // GameObject.
