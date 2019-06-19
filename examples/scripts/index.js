@@ -8,6 +8,7 @@ import EaserSample from '../easer';
 import InterpolateSample from '../interpolate';
 import MultiInterpolateSample from '../multi-interpolate';
 import CssVarInterpolateSample from '../css-var-interpolate';
+import DomWatcherSample from '../dom-watcher';
 
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
@@ -53,7 +54,8 @@ const samples = {
   'pseudo3dCanvasSample': Pseudo3dCanvasSample,
   'rayCastingSample': RayCastingSample,
   'xSample': XSample,
-  'x2Sample': X2Sample
+  'x2Sample': X2Sample,
+  'domWatcherSample': DomWatcherSample
 };
 
 class Main {

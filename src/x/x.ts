@@ -43,12 +43,13 @@ export class X {
         // Force set the canvas size. When you set the canvas size via css,
         // css stretches the pixels within the canvas.
         // Setting it as such, forces the correct size.
-        this.canvasElement.width = this.canvasElement.offsetWidth;
-        this.canvasElement.height = this.canvasElement.offsetHeight;
-
+        this.dpr = window.devicePixelRatio || 1;
+        this.canvasElement.width = this.canvasElement.offsetWidth * this.dpr;
+        this.canvasElement.height = this.canvasElement.offsetHeight * this.dpr;
         this.width = this.canvasElement.offsetWidth;
         this.height = this.canvasElement.offsetHeight;
-        this.dpr = window.devicePixelRatio || 1;
+
+
 
         this.debugMode =
             func.setDefault(config.debugMode, false);
