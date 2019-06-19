@@ -32,6 +32,8 @@ export default class RayCasting2Sample {
             debugMode: true
         });
 
+        this.X.setStageColor('black');
+
         this.lines = [];
         for (let i = 0; i < 6; i += 1) {
             this.lines.push(new XLine({
@@ -111,7 +113,8 @@ export default class RayCasting2Sample {
             this.lines.forEach((line) => {
                 // For each ray test to see if there is a collision.
                 rayAngles.forEach((angle) => {
-                    const raycast = Raycast.castInfinite2dRay(origin, angle,
+                    const raycast = Raycast.castInfinite2dRay(origin,
+                        mathf.degreeToRadian(angle),
                         new Vector(line.startX, line.startY),
                         new Vector(line.endX, line.endY)
                     );
@@ -150,20 +153,38 @@ export default class RayCasting2Sample {
             hitRaycasts.forEach((raycast) => {
                 // Add a square for intersection point.
                 const hitRect = new XRectangle({
-                    fillStyle: 'green',
-                    x: raycast.collision.x - 5,
-                    y: raycast.collision.y - 5,
-                    width: 10,
-                    height: 10
+                    fillStyle: '#4f0a10',
+                    x: raycast.collision.x - 1,
+                    y: raycast.collision.y - 1,
+                    width: 2,
+                    height: 2
                 });
                 this.X.stage.addChild(hitRect);
                 this.hitObjects.push(hitRect);
 
 
-                // Draw a line from the origin to intersectin point.
+                // Although the ray goes all the way to the point
+                // We want to create a light effect so we create
+                // a gradient line.  The point at which the light should become
+                // black is about 100 pixels so we aclcualte what that point is.
+                let distance = raycast.distance;
+                let lightDistance = 400;
+                let blackStop = mathf.clamp01(lightDistance / distance);
+
                 const ray = new XLine({
-                    strokeStyle: 'grey',
-                    lineWidth: 1,
+                    linearGradient: {
+                        startX: origin.x,
+                        startY: origin.y,
+                        // endX: Vector.add(origin, gradientVector).x,
+                        // endY: Vector.add(origin, gradientVector).y,
+                        endX: raycast.collision.x,
+                        endY: raycast.collision.y
+                    },
+                    gradientStops: [
+                        { stop: 0, color: 'white' },
+                        { stop: blackStop, color: '#111111' }
+                    ],
+                    lineWidth: 2,
                     startX: origin.x,
                     startY: origin.y,
                     endX: raycast.collision.x,

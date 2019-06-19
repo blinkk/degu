@@ -34,6 +34,7 @@ export class X {
     private debugMode: boolean;
     private mouseCoordsTextDebugObject: XText;
     private watcher: DomWatcher;
+    private stageColor: string | null;
 
 
     constructor(config: XConfig) {
@@ -80,6 +81,10 @@ export class X {
             this.stage.addChild(this.mouseCoordsTextDebugObject);
         }
 
+        /**
+         * The background color.
+         */
+        this.stageColor = null;
 
 
         // Create the main pointer.
@@ -102,6 +107,14 @@ export class X {
         })
     }
 
+    /**
+     * The background color for the stage.
+     * @param color
+     */
+    setStageColor(color: string) {
+        this.stageColor = color;
+    }
+
     resize() {
         this.dpr = window.devicePixelRatio || 1;
         this.canvasElement.width = this.canvasElement.offsetWidth * this.dpr;
@@ -121,6 +134,12 @@ export class X {
     gameLoop() {
         //Clear the canvas.
         this.context.clearRect(0, 0, this.width, this.height);
+
+
+        if (this.stageColor) {
+            this.context.fillStyle = this.stageColor;
+            this.context.fillRect(0, 0, this.width, this.height);
+        }
 
         // Update the positions of each object
         this.stage.children.forEach((gameObject: XGameObject) => {
