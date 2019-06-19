@@ -22,22 +22,7 @@ export default class RayCastingSample {
         this.hitObjects = [];
         this.rays = [];
 
-        let images = new ImageLoader([
-            '/public/boy.png',
-            '/public/boy2.png',
-            '/public/boy3.png',
-            '/public/flower.jpg',
-        ]).load().then((results) => {
-
-            // Make textures out of the images.
-            Object.keys(results).forEach((key) => {
-                this.imageTextures[key] =
-                    new XTexture(results[key]);
-            });
-
-
-            this.startApp();
-        });
+        this.startApp();
 
     }
 

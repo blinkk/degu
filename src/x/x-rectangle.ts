@@ -23,7 +23,6 @@ export class XRectangle extends XGameObject {
     }
 
 
-
     render(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = this.fillStyle;
         ctx.strokeStyle = this.strokeStyle;
