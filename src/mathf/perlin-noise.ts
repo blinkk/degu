@@ -5,6 +5,7 @@ import { mathf } from './mathf';
  * Port of Ken Perlin's noise algo and also sipmlex noise algo.
  * Big thanks to Ken Perlin, Kas Thomas for the explanation and also josephg.
  *
+ * @see http://webstaff.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
  * @see http://cs.nyu.edu/%7Eperlin/noise/
  * @see http://asserttrue.blogspot.com/2011/12/perlin-noise-in-javascript_31.html
  * @see https://github.com/josephg/noisejs/blob/master/perlin.js
@@ -13,16 +14,12 @@ export class PerlinNoise {
 
     /**
      * Generates perlin noise.  Specify normalized coordinates between 0 and 1.
-     * @param x  The x coordinate. A value between 0 and 1.
-     * @param y  The y coordinate. A value between 0 and 1.
-     * @param z  The z coordinate. A value betwen 0 and 1.
+     * @param x  The x coordinate.
+     * @param y  The y coordinate.
+     * @param z  The z coordinate.
      * @return A value between 0 and 1.
      */
     static noise3(x: number, y: number, z: number = 0): number {
-        x = mathf.interpolateRange(x, 0, 1, -1, 1);
-        y = mathf.interpolateRange(y, 0, 1, -1, 1);
-        z = mathf.interpolateRange(z, 0, 1, -1, 1);
-
 
         var fade = (t: number) => { return t * t * t * (t * (t * 6 - 15) + 10); }
         var lerp = (t: number, a: number, b: number) => { return a + t * (b - a); }
