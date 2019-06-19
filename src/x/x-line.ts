@@ -12,6 +12,7 @@ interface XLineConfig extends XGameObjectConfig {
     endY: number;
     gradientStops?: Array<Object>;
     linearGradient?: Object;
+    radialGradient?: Object;
 }
 
 /**
@@ -44,6 +45,7 @@ export class XLine extends XGameObject {
      * TODO (uxder): Clean this up.
      */
     private linearGradient: any | null;
+    private radialGradient: any | null;
 
 
     constructor(config: XLineConfig) {
@@ -76,6 +78,17 @@ export class XLine extends XGameObject {
                     this.linearGradient.startY,
                     this.linearGradient.endX,
                     this.linearGradient.endY)
+            }
+            // Override linear gradient poitns.
+            if (this.radialGradient) {
+                grad = ctx.createRadialGradient(
+                    this.radialGradient.x0,
+                    this.radialGradient.y0,
+                    this.radialGradient.r0,
+                    this.radialGradient.x1,
+                    this.radialGradient.y1,
+                    this.radialGradient.r1,
+                )
             }
 
             this.gradientStops.forEach((stop: any) => {

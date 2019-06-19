@@ -163,28 +163,26 @@ export default class RayCasting2Sample {
                 this.hitObjects.push(hitRect);
 
 
-                // Although the ray goes all the way to the point
-                // We want to create a light effect so we create
-                // a gradient line.  The point at which the light should become
-                // black is about 100 pixels so we aclcualte what that point is.
-                let distance = raycast.distance;
-                let lightDistance = 400;
-                let blackStop = mathf.clamp01(lightDistance / distance);
+
+                // const endGradientVector = Vector.fromAngle(raycast.angle, 100);
+                // let end = Vector.add(origin, endGradientVector);
+                // const useEnd = end.magnitude() < raycast.distance;
+                // end = useEnd ? end : raycast.collision;
 
                 const ray = new XLine({
-                    linearGradient: {
-                        startX: origin.x,
-                        startY: origin.y,
-                        // endX: Vector.add(origin, gradientVector).x,
-                        // endY: Vector.add(origin, gradientVector).y,
-                        endX: raycast.collision.x,
-                        endY: raycast.collision.y
+                    radialGradient: {
+                        x0: origin.x,
+                        y0: origin.y,
+                        r0: 100,
+                        x1: raycast.collision.x,
+                        y1: raycast.collision.y,
+                        r1: 1000
                     },
                     gradientStops: [
                         { stop: 0, color: 'white' },
-                        { stop: blackStop, color: '#111111' }
+                        { stop: 1, color: '#010101' }
                     ],
-                    lineWidth: 2,
+                    lineWidth: 3,
                     startX: origin.x,
                     startY: origin.y,
                     endX: raycast.collision.x,
