@@ -204,6 +204,34 @@ export class Vector {
 
 
     /**
+     * Creates a new 2d Vector with a specific angle and length.
+     * This is useful to create a directional vector.
+     *
+     * Example:
+     * ```ts
+     *
+     *  let origin = new Vector(10, 20);
+     *  // Create a ray that goes 90 degrees down in 100 length.
+     *  let ray = Vector.fromAngle(mathf.degreeToRadian(90), 100);
+     *
+     *  // Combine the origin and ray to get the endpoint (the tip of the ray).
+     *  let endPoint = Vector.add(origin, ray);
+     *
+     * ```
+     *
+     *
+     * @param angle Angle in radians
+     * @param length The length, magnitude of the vector. Defaults to a
+     *     semi-infinite length.
+     */
+    static fromAngle(angle: number, length: number = 100000) {
+        return new Vector(
+            length * Math.cos(angle),
+            length * Math.sin(angle), 0);
+    }
+
+
+    /**
      * Adds this vector to another.
      */
     add(v: Vector): Vector {
