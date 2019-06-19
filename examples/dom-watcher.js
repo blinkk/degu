@@ -1,5 +1,6 @@
 
 import { DomWatcher } from '../lib/dom/dom-watcher';
+import { func } from '../lib/func/func';
 
 export default class DomWatcherSample {
     constructor() {
@@ -47,9 +48,9 @@ export default class DomWatcherSample {
         watcher.add({
             element: document.body,
             on: 'mousemove',
-            callback: () => {
+            callback: func.debounce((event) => {
                 console.log('movemove!!');
-            },
+            }, 500),
         });
 
 

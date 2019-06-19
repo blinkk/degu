@@ -114,6 +114,16 @@ export interface DomWatcherConfig {
  *    runWhen: ()=> { return this.validate()}
  * });
  *
+ *
+ * // Add debouncing.
+ *     watcher.add({
+ *         element: document.body,
+ *         on: 'mousemove',
+ *         callback: func.debounce((event) => {
+ *             console.log('movemove!!');
+ *         }, 500),
+ *     });
+ *
  * ```
  *
  */
