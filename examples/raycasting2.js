@@ -43,6 +43,21 @@ export default class RayCasting2Sample {
                 endY: mathf.getRandomInt(0, 1000),
             }));
         }
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        // Create borders.
+        this.lines.push(new XLine({
+            lineWidth: 5, startX: 0, startY: 0, endX: w, endY: 0,
+        }));
+        this.lines.push(new XLine({
+            lineWidth: 5, startX: w, startY: 0, endX: w, endY: h,
+        }));
+        this.lines.push(new XLine({
+            lineWidth: 5, startX: w, startY: h, endX: 0, endY: h,
+        }));
+        this.lines.push(new XLine({
+            lineWidth: 5, startX: 0, startY: h, endX: 0, endY: 0,
+        }));
 
 
         this.lines.forEach((line) => {
@@ -89,7 +104,7 @@ export default class RayCasting2Sample {
 
             // Define the number of rays and the angles we want to generate.
             let rayAngles = [];
-            for (let i = 0; i < 360; i += 5) {
+            for (let i = 0; i < 360; i += 1) {
                 rayAngles.push(i);
             }
 
@@ -109,7 +124,8 @@ export default class RayCasting2Sample {
                         hitRaycasts.push(raycast);
 
                         // Now previously, there might have been other rays
-                        // of the same angle.  In this case, we want the ray
+                        // of the same angle.
+                        //  In this case, we want the ray
                         // that is of the shortest distance over the longer one.
                         // This creates a visual effect, where a ray appears
                         // to not be able to penetrate walls - merely because
@@ -132,10 +148,6 @@ export default class RayCasting2Sample {
                     }
                 });
             });
-
-            console.log(hitRaycasts);
-
-
 
             // For each raycast, we are going to render it out.
             hitRaycasts.forEach((raycast) => {
