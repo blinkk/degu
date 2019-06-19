@@ -26,6 +26,7 @@ import MatrixIVSample2 from '../matrixIV2';
 import MatrixIVSample3 from '../matrixIV3';
 import Pseudo3dCanvasSample from '../pseudo-3d-canvas';
 import RayCastingSample from '../raycasting';
+import RayCasting2Sample from '../raycasting2';
 
 // import VideoProgressSample from '../playground/video-progress';
 
@@ -53,6 +54,7 @@ const samples = {
   'matrixIVSample3': MatrixIVSample3,
   'pseudo3dCanvasSample': Pseudo3dCanvasSample,
   'rayCastingSample': RayCastingSample,
+  'rayCasting2Sample': RayCasting2Sample,
   'xSample': XSample,
   'x2Sample': X2Sample,
   'domWatcherSample': DomWatcherSample

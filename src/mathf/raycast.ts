@@ -19,6 +19,33 @@ interface RayCastObject {
  */
 export class Raycast {
 
+    /**
+     * Casts an inifinite ray (a vector of infinite maginitude) from the origin
+     * at a specific angle and tests if it intersects with boundaryA - boundaryB.
+     * See [[Raycast.cast2d]] for more.
+     *
+     * ```
+     *                        x (boundary A)
+     *        angle            |
+     *    o ------------------- |-----------------------------Infinite--->
+     *  (origin)                 |
+     *                            |
+     *                             |
+     *                              x (boundary Bb)
+     *
+     * ```
+     *
+     * @param origin
+     * @param angle The angle in radians
+     * @param boundaryA
+     * @param boundaryB
+     */
+    static castInfinite2dRay(origin: Vector, angle: number, boundaryA: Vector,
+        boundaryB: Vector) {
+        let direction = Vector.fromAngle(angle);
+        return Raycast.cast2d(origin, direction, boundaryA, boundaryB);
+    }
+
 
     /**
      * Raycasts out to 2d coordinates ignoring z.  Basically we do a line-line
