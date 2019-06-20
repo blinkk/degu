@@ -71,7 +71,8 @@ export default class RayCasting3Sample {
 
         this.projectionRays = [];
         // The field of view.
-        this.fov = 40;
+        this.fov = 45;
+        this.rayPerAngle = 0.15;
 
 
         this.startApp();
@@ -96,8 +97,8 @@ export default class RayCasting3Sample {
         // Create the player
         this.player = new XRectangle({
             fillStyle: 'white',
-            x: window.innerWidth / 2 / 2,
-            y: window.innerHeight / 2,
+            x: window.innerWidth / 2 / 2 - 300,
+            y: window.innerHeight - 100,
             width: 2,
             heigth: 2
         });
@@ -106,15 +107,32 @@ export default class RayCasting3Sample {
 
         // Create a bunch of lines in the world.
         this.lines = [];
-        for (let i = 0; i < 2; i += 1) {
-            this.lines.push(new XLine({
-                lineWidth: 5,
-                startX: mathf.getRandomInt(0, 1000),
-                startY: mathf.getRandomInt(0, 1000),
-                endX: mathf.getRandomInt(0, 1000),
-                endY: mathf.getRandomInt(0, 1000),
-            }));
-        }
+        // for (let i = 0; i < 2; i += 1) {
+        //     this.lines.push(new XLine({
+        //         lineWidth: 5,
+        //         startX: mathf.getRandomInt(0, 1000),
+        //         startY: mathf.getRandomInt(0, 1000),
+        //         endX: mathf.getRandomInt(0, 1000),
+        //         endY: mathf.getRandomInt(0, 1000),
+        //     }));
+        // }
+
+        this.lines.push(new XLine({ lineWidth: 5, startX: 50, startY: 50, endX: 200, endY: 50 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 200, startY: 50, endX: 200, endY: 200 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 200, startY: 200, endX: 50, endY: 200 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 50, startY: 200, endX: 50, endY: 50 }));
+
+
+        this.lines.push(new XLine({ lineWidth: 5, startX: 300, startY: 300, endX: 500, endY: 300 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 500, startY: 300, endX: 500, endY: 500 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 500, startY: 500, endX: 300, endY: 500 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 300, startY: 500, endX: 300, endY: 300 }));
+
+        this.lines.push(new XLine({ lineWidth: 5, startX: 650, startY: 650, endX: 800, endY: 650 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 800, startY: 650, endX: 800, endY: 800 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 800, startY: 800, endX: 650, endY: 800 }));
+        this.lines.push(new XLine({ lineWidth: 5, startX: 650, startY: 800, endX: 650, endY: 650 }));
+
         const w = window.innerWidth;
         const h = window.innerHeight;
         // Create borders on the edge of the world.
@@ -144,7 +162,7 @@ export default class RayCasting3Sample {
 
         // Define the number of rays and the angles we want to generate.
         let rayAngles = [];
-        for (let i = 0; i < this.fov; i += 0.1) {
+        for (let i = 0; i < this.fov; i += this.rayPerAngle) {
             rayAngles.push(i);
         }
 
@@ -190,7 +208,7 @@ export default class RayCasting3Sample {
             // Loop through each line object to see if there is a collision.
             this.lines.forEach((line) => {
                 // For each ray test to see if there is a collision.
-                rayAngles.forEach((angle) => {
+                rayAngles.forEach((angle, i) => {
                     // // Offset the angle so the field of view is centered.
                     angle -= this.fov / 2;
 
@@ -203,6 +221,7 @@ export default class RayCasting3Sample {
                     // If the current raycast is hitting.
                     if (raycast.hit) {
                         raycast.originalAngle = angle;
+                        raycast.order = i;
                         this.hitRaycasts.push(raycast);
 
                         // Now previously, there might have been other rays
@@ -253,8 +272,9 @@ export default class RayCasting3Sample {
 
 
 
+            // Sort the ray casts correctly.
             this.hitRaycasts = this.hitRaycasts.sort((a, b) => {
-                a.angle - b.angle;
+                return a.order - b.order;
             });
 
             this.projectionXUpdate(w, h);
@@ -276,24 +296,61 @@ export default class RayCasting3Sample {
 
         // Create a rectangle for each ray.  The more distance, the more faded it
         // should look.
+        let depth = 9;
+        let visionDistance = 3000;
         this.hitRaycasts.forEach((ray, i) => {
-            let scale = ray.distance / 500;
+            let distance = ray.distance;
+            let scale = distance / visionDistance;
             scale = 1 - mathf.clamp01(scale);
-            let height = Math.max(h * scale, 10);
+            // Avoid fisheye so use square.
+            scale = Math.pow(scale, depth);
+            let height = Math.max(h * scale, 1);
             let halfHeight = height / 2;
             let centerV = h / 2;
             const rect =
                 new XLine({
-                    startX: i * widthPerRay,
+                    startX: i * widthPerRay + 1,
                     startY: centerV - halfHeight,
-                    lineWidth: widthPerRay,
-                    fillStyle: 'red',
+                    lineWidth: widthPerRay + 1,
+                    strokeStyle: 'red',
                     endX: i * widthPerRay,
                     endY: centerV + halfHeight,
                     alpha: Math.max(0.1, scale)
                 });
+            const floor = new XLine({
+                startX: i * widthPerRay + 1,
+                startY: centerV + halfHeight,
+                lineWidth: widthPerRay + 1,
+                radialGradient: {
+                    x0: i * widthPerRay + 1,
+                    y0: centerV + halfHeight,
+                    r0: 100,
+                    x1: i * widthPerRay + 1,
+                    y1: h,
+                    r1: 500
+                },
+                gradientStops: [
+                    { stop: 0, color: '#010101' },
+                    { stop: 1, color: 'white' }
+                ],
+                endX: i * widthPerRay,
+                endY: h,
+                alpha: 1
+                // alpha: Math.max(0.1, scale)
+            });
+            // const text =
+            //     new XLine({
+            //         fillStyle: 'white',
+            //         x: i * widthPerRay + 1,
+            //         y: h,
+            //         text: ray.distance
+            //     });
             this.projectionRays.push(rect);
+            this.projectionRays.push(floor);
+            // this.projectionRays.push(text);
             this.projectionX.stage.addChild(rect);
+            this.projectionX.stage.addChild(floor);
+            // this.projectionX.stage.addChild(text);
         });
 
         // console.log(this.projectionRays[0]);
