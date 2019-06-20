@@ -192,7 +192,7 @@ export default class RayCasting3Sample {
                 // For each ray test to see if there is a collision.
                 rayAngles.forEach((angle) => {
                     // // Offset the angle so the field of view is centered.
-                    // angle -= this.fov / 2;
+                    angle -= this.fov / 2;
 
                     const raycast = Raycast.castInfinite2dRay(origin,
                         mathf.degreeToRadian(angle + rotation),
