@@ -1,17 +1,11 @@
 
 import { X } from '../lib/x/x';
-import { XGameObject } from '../lib/x/x-game-object';
 import { XLine } from '../lib/x/x-line';
 import { XRectangle } from '../lib/x/x-rectangle';
-import { XStage } from '../lib/x/x-stage';
-import { XTexture } from '../lib/x/x-texture';
-import { XText } from '../lib/x/x-text';
-import { ImageLoader } from '../lib/loader/image';
 import { Vector } from '../lib/mathf/Vector';
 import { mathf } from '../lib/mathf/mathf';
 import { Raycast } from '../lib/mathf/raycast';
 import { MatrixIV } from '../lib/mathf/matrixIV';
-import { timingSafeEqual } from 'crypto';
 
 
 export default class RayCastingSample {
