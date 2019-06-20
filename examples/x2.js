@@ -65,6 +65,15 @@ export default class X2Sample {
         this.X.stage.addChild(this.txt);
         console.log(this.txt);
 
+        const rect = new XRectangle({
+            x: 900,
+            y: 500,
+            width: 100,
+            height: 150,
+            fillStyle: 'red'
+        });
+
+        this.X.stage.addChild(rect);
 
         // this.line = new XLine({
         //     lineWidth: 10,

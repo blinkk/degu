@@ -127,13 +127,17 @@ export class X {
         return this.pointer;
     }
 
+    clear() {
+        this.context.clearRect(0, 0, this.width, this.height);
+    }
+
     /**
      * The main engine loop.  Here we call through all the
      * sprites on the main stage.
      */
     gameLoop() {
         //Clear the canvas.
-        this.context.clearRect(0, 0, this.width, this.height);
+        this.clear();
 
 
         if (this.stageColor) {
