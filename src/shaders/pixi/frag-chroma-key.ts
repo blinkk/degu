@@ -1,4 +1,25 @@
 /**
+ *  A chroma-key frag shader.  Takes a given color and makes it transparent.
+ *
+ *
+ * Sample usage with Pixi.
+ * ```ts
+ *
+ *   import {color} from 'yano-js';
+ *   import {fragChromaKey} from 'yano-js/lib/shaders/pixi/frag-chroma-key';
+ *
+ *   let uniforms = {
+ *     // Threshold
+ *     epsilon: {type: '1f', value: 0.45},
+ *     // The color to replace.
+ *     color: {type: 'v3', value: color.hexToRgbNormalized(0x50ff00)},
+ *   };
+ *   let chromaKeyShader = new PIXI.Filter(null, fragChromaKey, uniforms);
+ *
+ *
+ * ```
+ *
+ *
  * @see https://github.com/pixijs/pixi-filters/blob/master/filters/color-replace/src/colorReplace.frag
  * @see https://developer.tizen.org/community/tip-tech/creating-pixi.js-filters-using-webgl
  */
