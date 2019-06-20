@@ -22,21 +22,50 @@ export default class RayCasting3Sample {
         this.rays = [];
 
         this.domWatcher = new DomWatcher();
-        this.keydown = false;
+        this.forwardKey = false;
+        this.leftKey = false;
+        this.rightKey = false;
+        this.downKey = false;
 
         this.domWatcher.add({
             element: document,
             on: 'keydown',
-            callback: () => {
-                this.keydown = true;
+            callback: (event) => {
+                // up arrow
+                if (event.keyCode == 38) {
+                    this.forwardKey = true;
+                }
+                // right arrow
+                if (event.keyCode == 39) {
+                    this.rightKey = true;
+                }
+                // left arrow
+                if (event.keyCode == 37) {
+                    this.leftKey = true;
+                }
+                // Down arrow
+                if (event.keyCode == 40) {
+                    this.backKey = true;
+                }
             }
         });
 
         this.domWatcher.add({
             element: document,
             on: 'keyup',
-            callback: () => {
-                this.keydown = false;
+            callback: (event) => {
+                if (event.keyCode == 38) {
+                    this.forwardKey = false;
+                }
+                if (event.keyCode == 39) {
+                    this.rightKey = false;
+                }
+                if (event.keyCode == 37) {
+                    this.leftKey = false;
+                }
+                if (event.keyCode == 40) {
+                    this.backKey = false;
+                }
             }
         });
 
@@ -77,7 +106,7 @@ export default class RayCasting3Sample {
 
         // Create a bunch of lines in the world.
         this.lines = [];
-        for (let i = 0; i < 6; i += 1) {
+        for (let i = 0; i < 2; i += 1) {
             this.lines.push(new XLine({
                 lineWidth: 5,
                 startX: mathf.getRandomInt(0, 1000),
@@ -128,19 +157,32 @@ export default class RayCasting3Sample {
             });
             this.rays = [];
 
+
+            if (this.leftKey) {
+                this.player.rotation -= 3;
+            }
+            if (this.rightKey) {
+                this.player.rotation += 3;
+            }
+            this.player.rotation = mathf.wrap(this.player.rotation, 0, 360);
+
             // Origin should center from where the player stands.
             let origin = this.player.position;
-            let mouseNormalized = pointer.position.x / (w / 2);
-            let rotation = mathf.lerp(0, 360, mouseNormalized);
-
+            let rotation = this.player.rotation;
 
             // If the player is pressing some key we allow the player to move forward.
-            if (this.keydown) {
-                console.log(this.keydown);
+            if (this.forwardKey) {
+                // Get the current rotation and add a forwardVector in that direction.
                 let forwardVector = Vector.fromAngle(
                     mathf.degreeToRadian(rotation, 1), 10);
-                console.log(forwardVector);
                 origin.add(forwardVector);
+            }
+
+            if (this.backKey) {
+                // Get the forward Vector and negate it.
+                let forwardVector = Vector.fromAngle(
+                    mathf.degreeToRadian(rotation, 1), 10);
+                origin.add(forwardVector.negate());
             }
 
             this.hitRaycasts = [];
@@ -149,6 +191,9 @@ export default class RayCasting3Sample {
             this.lines.forEach((line) => {
                 // For each ray test to see if there is a collision.
                 rayAngles.forEach((angle) => {
+                    // // Offset the angle so the field of view is centered.
+                    // angle -= this.fov / 2;
+
                     const raycast = Raycast.castInfinite2dRay(origin,
                         mathf.degreeToRadian(angle + rotation),
                         new Vector(line.startX, line.startY),
@@ -157,6 +202,7 @@ export default class RayCasting3Sample {
 
                     // If the current raycast is hitting.
                     if (raycast.hit) {
+                        raycast.originalAngle = angle;
                         this.hitRaycasts.push(raycast);
 
                         // Now previously, there might have been other rays
@@ -194,7 +240,7 @@ export default class RayCasting3Sample {
                 // end = useEnd ? end : raycast.collision;
 
                 const ray = new XLine({
-                    fillStyle: 'white',
+                    strokeStyle: 'white',
                     lineWidth: 3,
                     startX: origin.x,
                     startY: origin.y,
@@ -205,6 +251,11 @@ export default class RayCasting3Sample {
                 this.rays.push(ray);
             });
 
+
+
+            this.hitRaycasts = this.hitRaycasts.sort((a, b) => {
+                a.angle - b.angle;
+            });
 
             this.projectionXUpdate(w, h);
         });
@@ -226,9 +277,8 @@ export default class RayCasting3Sample {
         // Create a rectangle for each ray.  The more distance, the more faded it
         // should look.
         this.hitRaycasts.forEach((ray, i) => {
-            let scale = Math.abs(ray.distance) / 500;
+            let scale = ray.distance / 500;
             scale = 1 - mathf.clamp01(scale);
-            scale *= 0.9;
             let height = Math.max(h * scale, 10);
             let halfHeight = height / 2;
             let centerV = h / 2;
