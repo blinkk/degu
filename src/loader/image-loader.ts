@@ -13,7 +13,7 @@
  *  'http://mydomain.com/cat.png'
  *  'http://mydomain.com/cow.jpg'
  * ];
- * const myImageLoader = new ImageLoader();
+ * const myImageLoader = new ImageLoader(myImages);
  *
  * await results = myImageLoader.load();
  *

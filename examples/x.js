@@ -6,7 +6,7 @@ import { XRectangle } from '../lib/x/x-rectangle';
 import { XStage } from '../lib/x/x-stage';
 import { XTexture } from '../lib/x/x-texture';
 import { XText } from '../lib/x/x-text';
-import { ImageLoader } from '../lib/loader/image';
+import { ImageLoader } from '../lib/loader/image-loader';
 import { Vector } from '../lib/mathf/Vector';
 import { mathf } from '../lib/mathf/mathf';
 import { EASE } from '../lib/ease/ease';
