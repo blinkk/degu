@@ -1,0 +1,31 @@
+=aspect-ratio($width, $height)
+  position: relative
+  &:before
+    display: block
+    content: ""
+    width: 100%
+    padding-top: ($height / $width) * 100%
+  & > div
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+
+//
+// Aspect ratio declaration via css vars.
+//      style="--height: {{aspect_y}}; --width: {{aspect_x}}"
+//
+=aspect-ratio-css-var()
+  position: relative
+  &:before
+    display: block
+    content: ""
+    width: 100%
+    padding-top: calc((var(--height) / var(--width)) * 100%)
+  & > div
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
