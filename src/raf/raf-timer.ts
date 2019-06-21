@@ -37,7 +37,7 @@ import { Raf } from './raf'
  *
  * // Set the duration of the rafTimer 300 and start it.
  * rafTimer.setDuration(300);
- * rafTimer.start();
+ * rafTimer.play();
  *
  *
  * // If you want, slow down the FPS.

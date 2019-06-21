@@ -14,6 +14,8 @@
  *  'http://mydomain.com/cow.jpg'
  * ];
  * const myImageLoader = new ImageLoader(myImages);
+ * // Optional - decodes the image as well.
+ * myImageLoader.decodeAfterFetch = true;
  *
  * await results = myImageLoader.load();
  *
@@ -36,11 +38,17 @@ export class ImageLoader {
      */
     public maxRetries: number;
 
+    /**
+     * Whether to immediately image decode after a fetch (available to limited browsers).
+     */
+    public decodeAfterFetch: boolean;
+
 
     constructor(imageSources: Array<string>) {
         this.imageSources = imageSources;
         this.images = {};
         this.maxRetries = 3;
+        this.decodeAfterFetch = false;
     }
 
     /**
@@ -82,13 +90,36 @@ export class ImageLoader {
                 .then((response) => {
                     const blob = response;
                     const img = document.createElement('img');
-                    img.onload = () => {
-                        URL.revokeObjectURL(img.src);
-                        this.images[source] = img;
-                        resolve();
-                    };
-                    img.src = URL.createObjectURL(blob);
-                })
+                    if (this.decodeAfterFetch && 'decode' in img) {
+                        img.src = URL.createObjectURL(blob);
+                        img.decoding = 'async';
+                        img.decode().then(() => {
+                            URL.revokeObjectURL(img.src);
+                            this.images[source] = img;
+                            resolve();
+                        }).catch((error) => {
+                            // throw new Error(error);
+                            // Usually when there is an error thrown it's
+                            // because this image couldn't be decoded
+                            // in a regular manner so we fall back again
+                            // to loading it normally.
+                            img.onload = () => {
+                                URL.revokeObjectURL(img.src);
+                                this.images[source] = img;
+                                resolve();
+                            }
+                            img.src = URL.createObjectURL(blob);
+                        })
+                    } else {
+                        img.onload = () => {
+                            URL.revokeObjectURL(img.src);
+                            this.images[source] = img;
+                            resolve();
+                        }
+                        img.src = URL.createObjectURL(blob);
+                    }
+
+                });
 
 
         })

@@ -196,6 +196,8 @@ export default class RayCasting3Sample {
                 origin.add(forwardVector);
             }
 
+
+
             if (this.backKey) {
                 // Get the forward Vector and negate it.
                 let forwardVector = Vector.fromAngle(
