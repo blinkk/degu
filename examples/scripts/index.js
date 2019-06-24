@@ -25,6 +25,8 @@ import MatrixIVSample from '../matrixIV';
 import MatrixIVSample2 from '../matrixIV2';
 import MatrixIVSample3 from '../matrixIV3';
 import Pseudo3dCanvasSample from '../pseudo-3d-canvas';
+import VectorDomSample from '../vector-dom';
+import VectorDomSample2 from '../vector-dom2';
 import RayCastingSample from '../raycasting';
 import RayCasting2Sample from '../raycasting2';
 import RayCasting3Sample from '../raycasting3';
@@ -55,6 +57,8 @@ const samples = {
   'matrixIVSample2': MatrixIVSample2,
   'matrixIVSample3': MatrixIVSample3,
   'pseudo3dCanvasSample': Pseudo3dCanvasSample,
+  'vectorDomSample': VectorDomSample,
+  'vectorDomSample2': VectorDomSample2,
   'rayCastingSample': RayCastingSample,
   'rayCasting2Sample': RayCasting2Sample,
   'rayCasting3Sample': RayCasting3Sample,

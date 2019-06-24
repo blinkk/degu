@@ -240,7 +240,7 @@ export class MatrixIV {
 
 
     /**
-     * Apply a scale transformation to this matrix given a scale vector.
+     * Apply a translation.
      *
      * ```ts
      * myMatrix.translate(new Vector(1, 1, 1));
@@ -248,6 +248,45 @@ export class MatrixIV {
      */
     translate(v: Vector): MatrixIV {
         return this.translateXyz(v.x, v.y, v.z);
+    }
+
+
+    /**
+     * Converts the current 4x4 matrix over to a css 3d matrix translation string.
+     *
+     * ```
+     *
+     * [
+     * a1 a2 a3 a4
+     * b1 b2 b3 b4
+     * c1 c2 c3 c4
+     * d1 d2 d3 d4
+     * ]
+     * = matrix3d(a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, a4, b4, c4, d4)
+     * ```
+     *
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d
+     */
+    toCss3dMatrix(): string {
+        const a1 = this.value[0];
+        const a2 = this.value[1];
+        const a3 = this.value[2];
+        const a4 = this.value[3];
+        const b1 = this.value[4];
+        const b2 = this.value[5];
+        const b3 = this.value[6];
+        const b4 = this.value[7];
+        const c1 = this.value[8];
+        const c2 = this.value[9];
+        const c3 = this.value[10];
+        const c4 = this.value[11];
+        const d1 = this.value[12];
+        const d2 = this.value[13];
+        const d3 = this.value[14];
+        const d4 = this.value[15];
+        return `matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2},
+            ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`;
     }
 
 
