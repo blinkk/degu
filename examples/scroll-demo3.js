@@ -27,7 +27,7 @@ export default class ScrollDemoSample3 {
             callback: (event) => {
                 this.progress =
                     dom.getElementScrolledPercent(this.parentElement);
-                rafProgress.easeTo(this.progress, 0.25, EASE.Linear);
+                rafProgress.easeTo(this.progress, 0.08, EASE.Linear);
             },
             eventOptions: { passive: true }
         });

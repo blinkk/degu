@@ -70,6 +70,49 @@ const timelineProperties = ['x', 'y', 'z', 'rx', 'ry', 'rz', 'alpha'];
  *
  * ```
  *
+ *
+ *
+ * Example of using timeline:
+ * ```ts
+ * var timeline = [
+ *    {
+ *      progress: 0,
+ *      x: 0,
+ *      y: 0,
+ *      z: 1 - 1,
+ *      alpha: 0.2
+ *    },
+ *    {
+ *      progress: 0.2,
+ *      x: 100,
+ *      y: 200,
+ *      z: 1 - 0.8,
+ *      alpha: 0.2,
+ *      easingFunction: EASE.easeInOutCubic
+ *     },
+ *    {
+ *      progress: 0.5,
+ *      x: 20,
+ *      y: 20,
+ *      z: 1 - 1,
+ *      alpha: 1
+ *     }
+ * ]
+ *
+ * let element = document.getElementById('myelmeent');
+ * let vector = new VectorDom(element);
+ *
+ * // Set the timeline.
+ * vector.setTimeline(timeline);
+ *
+ * // Now update the vector to a specific "progress" in the timeline.
+ * let currentProgress = 0.2; // Could be amount of scroll, range input, whatever.
+ * vector.setTimeline(0.2);
+ *
+ * // Now render it...it will render at where the values are at 20%
+ * vector.render();
+ * ``
+ *
  * See more demo in /examples/vector-dom and /examples/scroll-demo
  */
 export class VectorDom {

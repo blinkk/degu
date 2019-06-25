@@ -25,7 +25,6 @@ export default class VectorDomSample {
 
         this.raf = new Raf(this.onRaf.bind(this));
         this.raf.start();
-        console.log(this.vectorBall);
 
 
         let anchor = this.gui.addFolder('Anchor');
@@ -34,7 +33,7 @@ export default class VectorDomSample {
         let projection = this.gui.addFolder('Position');
         projection.add(this.vectorBall.position, 'x', -180, 180);
         projection.add(this.vectorBall.position, 'y', -180, 180);
-        projection.add(this.vectorBall.position, 'z', 0, 10);
+        projection.add(this.vectorBall.position, 'z', -2, 10);
         let rotation = this.gui.addFolder('Rotation');
         rotation.add(this.vectorBall.rotation, 'x', -1, 1);
         rotation.add(this.vectorBall.rotation, 'y', -1, 1);
