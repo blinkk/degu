@@ -36,6 +36,7 @@ import PerlinNoiseSample from '../perlin-noise';
 
 import ScrollDemoSample from '../scroll-demo';
 import ScrollDemoSample2 from '../scroll-demo2';
+import ScrollDemoSample3 from '../scroll-demo3';
 
 import XSample from '../x';
 import X2Sample from '../x2';
@@ -70,7 +71,8 @@ const samples = {
   'domWatcherSample': DomWatcherSample,
   'perlinNoiseSample': PerlinNoiseSample,
   'scrollDemoSample': ScrollDemoSample,
-  'scrollDemoSample2': ScrollDemoSample2
+  'scrollDemoSample2': ScrollDemoSample2,
+  'scrollDemoSample3': ScrollDemoSample3
 };
 
 class Main {

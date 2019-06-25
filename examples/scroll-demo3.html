@@ -1,10 +1,8 @@
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Scroll demo2</title>
+  <title>Scroll demo</title>
   <style>
       .parent {
           position: relative;
@@ -35,20 +33,14 @@
   </style>
 
 </head>
-<body init-sample="scrollDemoSample2" style="padding: 0px">
+<body init-sample="scrollDemoSample3" style="padding: 0px">
   <div class="module">
       <h1> This is the start of the page</h1>
-      <p> This is an example of using VectorDom tied to scroll positions.
-          The VectorDom positions are updated via acceleration and adds
-          additional smoothness.  Further, notice how we add vectors..so you
-          can combine forces like mouse position, scroll position and a floaty
-          animation all together.
   </div>
   <div class="parent" id="parent">
       <div class="child" id="child">
         <div class="container">
             <div class="flower" id="flower"><div><img src="/public/flower.jpg"/></div></div>
-            <div class="flower" id="flower2"><div><img src="/public/flower.jpg"/></div></div>
         </div>
       </div>
   </div>

@@ -5,7 +5,19 @@ import { mathf } from '../mathf/mathf';
 import { MatrixIV } from '../mathf/matrixIV';
 import { Vector } from '../mathf/vector';
 import { func } from '../func/func';
+import { is } from '../is/is';
 
+interface VectorDomTimeline {
+    progress: number;
+    x: number;
+    y: number;
+    z: number;
+    alpha: number;
+    easingFunction?: Function;
+}
+
+
+const timelineProperties = ['x', 'y', 'z', 'rx', 'ry', 'rz', 'alpha'];
 
 /**
  * A gameObject type class for DOM elements.
@@ -122,6 +134,8 @@ export class VectorDom {
 
     public transformOrigin: string;
 
+    private timeline: Array<VectorDomTimeline> | null;
+
     constructor(element: HTMLElement) {
         this.element = element;
         this.offset = Vector.ZERO;
@@ -137,6 +151,7 @@ export class VectorDom {
         this.anchorY = 0.5;
         this.alpha = 1;
         this.zIndexScalar = 100;
+        this.timeline = null;
         this.calculateSize();
 
         this.setTransformOrigin();
@@ -160,18 +175,22 @@ export class VectorDom {
     get x(): number {
         return this.position.x;
     }
+
     set x(value: number) {
         this.position.x = value;
     }
+
     get y(): number {
         return this.position.y;
     }
     set y(value: number) {
         this.position.y = value;
     }
+
     get z(): number {
         return this.position.z;
     }
+
     set z(value: number) {
         this.position.z = value;
     }
@@ -381,14 +400,67 @@ export class VectorDom {
      *
      * ```
      */
-    setTimeline(timeline) {
-        this.timeline = timeline;
+    setTimeline(timeline: Array<VectorDomTimeline>) {
+        // Sort by progression.
+        this.timeline = timeline.sort((a, b) => {
+            return a.progress - b.progress;
+        });
+
+        // Convert rotation values to radians.
+        const rotationValue = ['rx', 'ry', 'rz'];
+        this.timeline = timeline.map((timeline) => {
+            rotationValue.forEach((key) => {
+                if (timeline[key]) {
+                    timeline[key] = mathf.degreeToRadian(timeline[key]);
+                }
+            })
+            return timeline;
+        });
     }
 
-    setToTimelineProgress(progress) {
+    setTimelineProgress(progress: number) {
         if (!this.timeline) {
             throw new Error('You need to set a timeline progress first.')
         }
+
+        /**
+         * Loop through each possible property.
+         */
+        timelineProperties.forEach((key) => {
+
+            // Set the start value as the current position in case it's not specified.
+            let start = this[key];
+            let startProgress = 0;
+            let end: any = null;
+            let endProgress = 1;
+            let easing = null;
+            let previous = null;
+
+            // Look up the start and end values for this key in based on
+            // the current progress.
+            this.timeline && this.timeline.forEach((timeline) => {
+                if (timeline.progress < progress) {
+                    start = timeline[key];
+                    startProgress = timeline.progress;
+                    easing = timeline.easingFunction;
+                }
+                if (!is.number(end) && timeline.progress >= progress && is.number(timeline[key])) {
+                    endProgress = timeline.progress;
+                    end = timeline[key];
+                };
+
+                previous = timeline;
+            });
+
+            // Now run an interpolation and update the internal value.
+            if (!is.null(start) && !is.null(end)) {
+                let childProgress = mathf.childProgress(progress, startProgress, endProgress);
+                let value = mathf.ease(start, end, childProgress, easing || EASE.linear);
+                if (value) {
+                    this[key] = value;
+                }
+            }
+        })
 
     }
 
