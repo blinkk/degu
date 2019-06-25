@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll demo</title>
+  <style>
+      .parent {
+          position: relative;
+          height: 800vh;
+      }
+      .child {
+          position: sticky;
+          top: 0px;
+          height: 100vh;
+          background-color: blue;
+      }
+      .container {
+          position: relative;
+          height: 100vw;
+          height: 100vh;
+          overflow: hidden;
+      }
+      .flower {
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+      .module {
+          height: 100vh;
+          background-color: #efefef;
+      }
+
+  </style>
+
+</head>
+<body init-sample="scrollDemoSample" style="padding: 0px">
+  <div class="module">
+      <h1> This is the start of the page</h1>
+  </div>
+  <div class="parent" id="parent">
+      <div class="child" id="child">
+        <div class="container">
+            <div class="flower" id="flower"><div><img src="/public/flower.jpg"/></div></div>
+        </div>
+      </div>
+  </div>
+  <div class="module">
+      <h1> This is the end of the page.</h1>
+  </div>
+</body>
+</html>

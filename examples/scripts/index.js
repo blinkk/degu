@@ -34,6 +34,9 @@ import PerlinNoiseSample from '../perlin-noise';
 
 // import VideoProgressSample from '../playground/video-progress';
 
+import ScrollDemoSample from '../scroll-demo';
+import ScrollDemoSample2 from '../scroll-demo2';
+
 import XSample from '../x';
 import X2Sample from '../x2';
 
@@ -65,7 +68,9 @@ const samples = {
   'xSample': XSample,
   'x2Sample': X2Sample,
   'domWatcherSample': DomWatcherSample,
-  'perlinNoiseSample': PerlinNoiseSample
+  'perlinNoiseSample': PerlinNoiseSample,
+  'scrollDemoSample': ScrollDemoSample,
+  'scrollDemoSample2': ScrollDemoSample2
 };
 
 class Main {

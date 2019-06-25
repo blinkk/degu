@@ -34,8 +34,8 @@ export default class VectorDomSample2 {
             this.ballVectors.push(ballVector);
         };
         createBall('ball1', -100, 100, 2);
-        createBall('ball2', 100, 100, 0.5);
-        createBall('ball3', -100, -100, 0.2);
+        createBall('ball2', 100, 100, -0.5);
+        createBall('ball3', -100, -100, -0.2);
         createBall('ball4', -100, -100, 1);
         createBall('ball5', -100, 100, 0.5);
         createBall('ball6', 100, 100, 0.2);

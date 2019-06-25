@@ -14,7 +14,7 @@ export default class VectorDomSample {
 
         this.vectorBall = new VectorDom(document.getElementById('ball'));
         this.vectorBall.setPosition(
-            new Vector(0, 0, 1)
+            new Vector(0, 0, 0)
         );
         // We are going to offset the entire element position to the center
         // of the container.

@@ -468,55 +468,58 @@ export class Vector {
     }
 
 
-    /**
-     * Adds a 3d rotation.  This is NOT a rotation based on the center of the
-     * this vector but based from VECTOR.ZERO.  (so adding a rotation will move
-     * the position not the direction it's looking).
-     * https://ikeryou.hatenablog.com/entry/2018/01/07/104729
-     * @param v
-     * @param angle Angle in radians.
-     */
-    rotateX(angle: number) {
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-        this.y = this.y * cos - this.z * sin;
-        this.z = this.z * cos + this.y * sin;
-        return this;
-    }
+    // /**
+    //  * Adds a 3d rotation.  This is NOT a rotation based on the center of the
+    //  * this vector but based from VECTOR.ZERO.  (so adding a rotation will move
+    //  * the position not the direction it's looking).
+    //  * https://ikeryou.hatenablog.com/entry/2018/01/07/104729
+    //  * @param v
+    //  * @param angle Angle in radians.
+    //  * TODO (uxder): Maybe move to vector-dom instead?
+    //  */
+    // rotateX(angle: number) {
+    //     const cos = Math.cos(angle);
+    //     const sin = Math.sin(angle);
+    //     this.y = this.y * cos - this.z * sin;
+    //     this.z = this.z * cos + this.y * sin;
+    //     return this;
+    // }
 
 
-    /**
-     * Adds a 3d rotation.  This is NOT a rotation based on the center of the
-     * this vector but based from VECTOR.ZERO.  (so adding a rotation will move
-     * the position not the direction it's looking).
-     * https://ikeryou.hatenablog.com/entry/2018/01/07/104729
-     * @param v
-     * @param angle Angle in radians.
-     */
-    rotateY(angle: number) {
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-        this.x = this.x * cos - this.z * sin;
-        this.z = this.z * cos + this.x * sin;
-        return this;
-    }
+    // /**
+    //  * Adds a 3d rotation.  This is NOT a rotation based on the center of the
+    //  * this vector but based from VECTOR.ZERO.  (so adding a rotation will move
+    //  * the position not the direction it's looking).
+    //  * https://ikeryou.hatenablog.com/entry/2018/01/07/104729
+    //  * @param v
+    //  * @param angle Angle in radians.
+    //  * TODO (uxder): Maybe move to vector-dom instead?
+    //  */
+    // rotateY(angle: number) {
+    //     const cos = Math.cos(angle);
+    //     const sin = Math.sin(angle);
+    //     this.x = this.x * cos - this.z * sin;
+    //     this.z = this.z * cos + this.x * sin;
+    //     return this;
+    // }
 
 
-    /**
-     * Adds a 3d rotation.  This is NOT a rotation based on the center of the
-     * this vector but based from VECTOR.ZERO.  (so adding a rotation will move
-     * the position not the direction it's looking).
-     * https://ikeryou.hatenablog.com/entry/2018/01/07/104729
-     * @param v
-     * @param angle Angle in radians.
-     */
-    rotateZ(angle: number) {
-        const cos = Math.cos(angle);
-        const sin = Math.sin(angle);
-        this.x = this.x * cos - this.y * sin;
-        this.y = this.y * cos + this.x * sin;
-        return this;
-    }
+    // /**
+    //  * Adds a 3d rotation.  This is NOT a rotation based on the center of the
+    //  * this vector but based from VECTOR.ZERO.  (so adding a rotation will move
+    //  * the position not the direction it's looking).
+    //  * https://ikeryou.hatenablog.com/entry/2018/01/07/104729
+    //  * @param v
+    //  * @param angle Angle in radians.
+    //  * TODO (uxder): Maybe move to vector-dom instead?
+    //  */
+    // rotateZ(angle: number) {
+    //     const cos = Math.cos(angle);
+    //     const sin = Math.sin(angle);
+    //     this.x = this.x * cos - this.y * sin;
+    //     this.y = this.y * cos + this.x * sin;
+    //     return this;
+    // }
 
     /**
      * Linear interpolates this vector TOWARDS the provided vector.

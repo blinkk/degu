@@ -33,8 +33,10 @@ import { func } from '../func/func';
  * // Update the transform origin if you want. Default center center.
  * vectorElement.transformOrigin = 'center center'
  *
- * // Set the initial position, rotation of the vector dom.  z indicates scale.
- * vectorElement.setPosition( new Vector(0, 0, 1));
+ * // Set the initial position, rotation of the vector dom.
+ * //  z indicates scale.
+ * // The z is shifted by 1.  So -1 = 0%.  0 = 100%; 1 = 200%.
+ * vectorElement.setPosition( new Vector(0, 0, 0));
  * vectorElement.setRotation( new Vector(0.01, 0, 0));
  *
  * // Optionally set the global offset.  Here we center this element to the
@@ -43,7 +45,11 @@ import { func } from '../func/func';
  *      window.innerWidth/ 2,  window.innerHeight /2, 0));
  *
  *
+ *
  * new Raf(()=> {
+ *   // On each raf, add the rotate vector.
+ *   let rotate = new Vector(0.01, 0, 0);
+ *   this.vectorElement.rotation.add(rotate);
  *
  *   // Render updates the style.  It is automatically culled so only updated
  *   // when values change.
@@ -51,6 +57,8 @@ import { func } from '../func/func';
  * })
  *
  * ```
+ *
+ * See more demo in /examples/vector-dom and /examples/scroll-demo
  */
 export class VectorDom {
     /**
@@ -62,6 +70,16 @@ export class VectorDom {
      * The position of this html element.  Z value refers to scale.
      */
     private position: Vector;
+
+    /**
+     * The acceleration of this element.
+     */
+    private acceleration: Vector;
+
+    /**
+     * The velocity of this element.
+     */
+    private velocity: Vector;
 
     /**
      * The rotation of this html element.
@@ -97,12 +115,19 @@ export class VectorDom {
      */
     public height: number;
 
+    /**
+     * The opacity of this object.
+     */
+    public alpha: number;
+
     public transformOrigin: string;
 
     constructor(element: HTMLElement) {
         this.element = element;
         this.offset = Vector.ZERO;
         this.position = Vector.ZERO;
+        this.acceleration = Vector.ZERO;
+        this.velocity = Vector.ZERO;
         this.rotation = Vector.ZERO;
         this.transformOrigin = 'center center';
         this.render_ = func.runOnceOnChange(this.render_.bind(this));
@@ -110,6 +135,7 @@ export class VectorDom {
         this.height = element.offsetHeight;
         this.anchorX = 0.5;
         this.anchorY = 0.5;
+        this.alpha = 1;
         this.zIndexScalar = 100;
         this.calculateSize();
 
@@ -129,6 +155,99 @@ export class VectorDom {
 
     setPosition(v: Vector) {
         this.position = v;
+    }
+
+    get x(): number {
+        return this.position.x;
+    }
+    set x(value: number) {
+        this.position.x = value;
+    }
+    get y(): number {
+        return this.position.y;
+    }
+    set y(value: number) {
+        this.position.y = value;
+    }
+    get z(): number {
+        return this.position.z;
+    }
+    set z(value: number) {
+        this.position.z = value;
+    }
+
+    get vx(): number {
+        return this.velocity.x;
+    }
+
+    set vx(value: number) {
+        this.velocity.x = value;
+    }
+
+    get vy(): number {
+        return this.velocity.y;
+    }
+
+    set vy(value: number) {
+        this.velocity.y = value;
+    }
+
+    get vz(): number {
+        return this.velocity.z;
+    }
+
+    set vz(value: number) {
+        this.velocity.z = value;
+    }
+
+
+    get ax(): number {
+        return this.acceleration.x;
+    }
+
+    set ax(value: number) {
+        this.acceleration.x = value;
+    }
+
+    get ay(): number {
+        return this.acceleration.y;
+    }
+
+    set ay(value: number) {
+        this.acceleration.y = value;
+    }
+
+    get az(): number {
+        return this.acceleration.z;
+    }
+
+    set az(value: number) {
+        this.acceleration.z = value;
+    }
+
+    get rx(): number {
+        return this.rotation.x;
+    }
+
+    set rx(value: number) {
+        this.rotation.x = value;
+    }
+
+    get ry(): number {
+        return this.rotation.y;
+    }
+
+    set ry(value: number) {
+        this.rotation.y = value;
+    }
+
+
+    get rz(): number {
+        return this.rotation.z;
+    }
+
+    set rz(value: number) {
+        this.rotation.z = value;
     }
 
     setOffset(v: Vector) {
@@ -198,7 +317,7 @@ export class VectorDom {
         offsetMatrix.setVectorColumn(3, offsetVector);
 
         // Scale based on the z position.
-        let z = mathf.clamp(-1, 10, this.position.z);
+        let z = mathf.clamp(-1, 10, this.position.z + 1);
 
         const scaleMatrix = new MatrixIV().scaleXyz(z, z, z);
         const rotationMatrix = new MatrixIV().ypr(
@@ -218,19 +337,80 @@ export class VectorDom {
     }
 
 
+    /**
+     * Given a set timeline, this will update the positions, rotation
+     * of the vector dom.
+     *
+     * ```ts
+     *
+     * var timeline = [
+     *    {
+     *      progress: 0,
+     *      x: 0,
+     *      y: 0,
+     *      z: 1 - 1,
+     *      alpha: 0.2
+     *    },
+     *    {
+     *      progress: 0.2,
+     *      x: 100,
+     *      y: 200,
+     *      z: 1 - 0.8,
+     *      alpha: 0.2
+     *     }
+     *    {
+     *      progress: 0.5,
+     *      x: 20,
+     *      y: 20,
+     *      z: 1 - 1,
+     *      alpha: 1
+     *     }
+     * ]
+     *
+     * let element = document.getElementById('myelmeent');
+     * let vector = new VectorDom(element);
+     *
+     * // Set the timeline.
+     * vector.setTimeline(timeline);
+     *
+     * // Now update the vector to a specific "progress" in the timeline.
+     * vector.setTimeline(0.2);
+     *
+     * // Now render it...it will render at where the values are at 20%
+     * vector.render();
+     *
+     * ```
+     */
+    setTimeline(timeline) {
+        this.timeline = timeline;
+    }
+
+    setToTimelineProgress(progress) {
+        if (!this.timeline) {
+            throw new Error('You need to set a timeline progress first.')
+        }
+
+    }
+
+
     render() {
+        // Update the position based on velocity and acceleration.
+        // Has not effect if you just directly update the position.
+        this.velocity.ease(this.acceleration, 1, EASE.linear);
+        this.position.add(this.velocity);
         const matrixValue = this.toCss3dMatrix();
-        this.render_(matrixValue);
+        this.render_(matrixValue, this.alpha);
     }
 
     /**
      * Applies the css transform to this object.  Unneccesary calls get culled by
      * func.runOnceOnChange.
      */
-    private render_(value: string) {
-        this.element.style.transform = value;
+    private render_(transform: string, alpha: number) {
+        this.element.style.transform = transform;
+        this.element.style.opacity = alpha + '';
         this.element.style.zIndex =
-            (this.zIndexScalar * this.position.z >> 0) + '';
+            (this.zIndexScalar * (this.position.z + 1) >> 0) + '';
     }
 
 }
