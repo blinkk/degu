@@ -7,7 +7,7 @@ import { XStage } from '../lib/x/x-stage';
 import { XTexture } from '../lib/x/x-texture';
 import { XText } from '../lib/x/x-text';
 import { ImageLoader } from '../lib/loader/image-loader';
-import { Vector } from '../lib/mathf/Vector';
+import { Vector } from '../lib/mathf/vector';
 
 
 /**

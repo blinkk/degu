@@ -2,7 +2,7 @@
 import { X } from '../lib/x/x';
 import { XLine } from '../lib/x/x-line';
 import { XRectangle } from '../lib/x/x-rectangle';
-import { Vector } from '../lib/mathf/Vector';
+import { Vector } from '../lib/mathf/vector';
 import { mathf } from '../lib/mathf/mathf';
 import { Raycast } from '../lib/mathf/raycast';
 
