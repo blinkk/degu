@@ -115,13 +115,13 @@ export default class ScrollDemoSample2 {
         // Calcualte the distance.
         const distanceVector = Vector.subtract(
             targetPositionVector,
-            this.flowerVector.position,
+            this.flowerVector.position
         );
 
         // Calculate the distance from the pointer.
         const pointerDistanceVector = Vector.subtract(
             this.pointer,
-            this.flowerVector.position,
+            this.flowerVector.position
         );
 
         // Add the distance from the target to poitner but we don't want to

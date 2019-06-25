@@ -6,6 +6,7 @@ import { MatrixIV } from '../mathf/matrixIV';
 import { Vector } from '../mathf/vector';
 import { func } from '../func/func';
 import { is } from '../is/is';
+import { dom } from '../dom/dom';
 
 interface VectorDomTimeline {
     progress: number;
@@ -17,7 +18,6 @@ interface VectorDomTimeline {
 }
 
 
-const timelineProperties = ['x', 'y', 'z', 'rx', 'ry', 'rz', 'alpha'];
 
 /**
  * A gameObject type class for DOM elements.
@@ -74,13 +74,24 @@ const timelineProperties = ['x', 'y', 'z', 'rx', 'ry', 'rz', 'alpha'];
  *
  * Example of using timeline:
  * ```ts
+ *
+ *  // Notice how we add the css var --blur here.
+ * .myelement {
+ *     filter: blur(calc(var(--blur) * 4px));
+ * }
+ *
+ *
+ * // In the timeline, define storyboard out the animations.
+ * // Any key that starts with '--' will automatically be available
+ * // as a css var.
  * var timeline = [
  *    {
  *      progress: 0,
  *      x: 0,
  *      y: 0,
  *      z: 1 - 1,
- *      alpha: 0.2
+ *      alpha: 0.2,
+ *      '--blur': 1
  *    },
  *    {
  *      progress: 0.2,
@@ -88,6 +99,7 @@ const timelineProperties = ['x', 'y', 'z', 'rx', 'ry', 'rz', 'alpha'];
  *      y: 200,
  *      z: 1 - 0.8,
  *      alpha: 0.2,
+ *      '--blur': 0.2
  *      easingFunction: EASE.easeInOutCubic
  *     },
  *    {
@@ -95,6 +107,7 @@ const timelineProperties = ['x', 'y', 'z', 'rx', 'ry', 'rz', 'alpha'];
  *      x: 20,
  *      y: 20,
  *      z: 1 - 1,
+ *      '--blur': 1
  *      alpha: 1
  *     }
  * ]
@@ -178,6 +191,7 @@ export class VectorDom {
     public transformOrigin: string;
 
     private timeline: Array<VectorDomTimeline> | null;
+    private timelineKeys: Array<string>;
 
     constructor(element: HTMLElement) {
         this.element = element;
@@ -188,6 +202,7 @@ export class VectorDom {
         this.rotation = Vector.ZERO;
         this.transformOrigin = 'center center';
         this.render_ = func.runOnceOnChange(this.render_.bind(this));
+        this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
         this.anchorX = 0.5;
@@ -195,6 +210,7 @@ export class VectorDom {
         this.alpha = 1;
         this.zIndexScalar = 100;
         this.timeline = null;
+        this.timelineKeys = [];
         this.calculateSize();
 
         this.setTransformOrigin();
@@ -449,16 +465,27 @@ export class VectorDom {
             return a.progress - b.progress;
         });
 
-        // Convert rotation values to radians.
+        this.timelineKeys = [];
+
         const rotationValue = ['rx', 'ry', 'rz'];
         this.timeline = timeline.map((timeline) => {
+
+            // Save any new keys.
+            let keys = Object.keys(timeline);
+
+            // Add the keys to timelineKeys while deduping.
+            this.timelineKeys = [...new Set([...this.timelineKeys, ...keys])];
+
+            // Convert rotation values to radians.
             rotationValue.forEach((key) => {
                 if (timeline[key]) {
                     timeline[key] = mathf.degreeToRadian(timeline[key]);
                 }
             })
+
             return timeline;
         });
+
     }
 
     setTimelineProgress(progress: number) {
@@ -466,10 +493,15 @@ export class VectorDom {
             throw new Error('You need to set a timeline progress first.')
         }
 
+        const skipKeys = ['progress', 'easingFunction'];
+
         /**
          * Loop through each possible property.
          */
-        timelineProperties.forEach((key) => {
+        this.timelineKeys.forEach((key) => {
+            if (skipKeys.includes(key)) {
+                return;
+            }
 
             // Set the start value as the current position in case it's not specified.
             let start = this[key];
@@ -504,7 +536,6 @@ export class VectorDom {
                 }
             }
         })
-
     }
 
 
@@ -515,6 +546,21 @@ export class VectorDom {
         this.position.add(this.velocity);
         const matrixValue = this.toCss3dMatrix();
         this.render_(matrixValue, this.alpha);
+
+
+
+        // Add all registered css keys.
+        let cssVars = [];
+        for (let key in this) {
+            if (key.startsWith('--')) {
+                cssVars.push({
+                    'name': key,
+                    'value': this[key]
+                });
+            }
+        }
+
+        this.setCssKeys_(cssVars);
     }
 
     /**
@@ -526,6 +572,18 @@ export class VectorDom {
         this.element.style.opacity = alpha + '';
         this.element.style.zIndex =
             (this.zIndexScalar * (this.position.z + 1) >> 0) + '';
+    }
+
+
+
+    /**
+     * Applies the css variables.  Unneccesary calls get culled by
+     * func.runOnceOnChange.
+     */
+    private setCssKeys_(cssVars: Array<Object>) {
+        cssVars.forEach((cssVar) => {
+            dom.setCssVariable(this.element, cssVar['name'], cssVar['value']);
+        })
     }
 
 }

@@ -63,7 +63,7 @@ export default class VectorDomSample2 {
             let position = new Vector(
                 ballVector.moveX * sin,
                 ballVector.moveY * sin,
-                ballVector.moveZ * sin,
+                ballVector.moveZ * sin
             );
             ballVector.position.add(position);
             ballVector.rotation.add(new Vector(
