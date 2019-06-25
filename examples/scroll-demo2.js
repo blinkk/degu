@@ -73,7 +73,7 @@ export default class ScrollDemoSample2 {
         // Center this flower
         this.flowerVector2.setOffset(new Vector(
             this.childElement.offsetWidth / 2,
-            this.childElement.offsetHeight / 2,
+            this.childElement.offsetHeight / 2
         ));
 
         // Update progress immediately on load.
