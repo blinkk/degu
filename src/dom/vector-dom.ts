@@ -7,6 +7,8 @@ import { Vector } from '../mathf/vector';
 import { func } from '../func/func';
 import { is } from '../is/is';
 import { dom } from '../dom/dom';
+import { HermiteCurve } from '../mathf/hermite-curve';
+import { isBuffer } from 'util';
 
 interface VectorDomTimeline {
     progress: number;
@@ -99,7 +101,7 @@ interface VectorDomTimeline {
  *      progress: 0,
  *      x: 0,
  *      y: 0,
- *      z: 1 - 1,
+ *      z: 0.3 - 1,
  *      alpha: 0.2,
  *      '--blur': 1
  *    },
@@ -107,7 +109,7 @@ interface VectorDomTimeline {
  *      progress: 0.2,
  *      x: 100,
  *      y: 200,
- *      z: 1 - 0.8,
+ *      z: 0.8 - 1,
  *      alpha: 0.2,
  *      '--blur': 0.2
  *      easingFunction: EASE.easeInOutCubic
@@ -130,10 +132,27 @@ interface VectorDomTimeline {
  *
  * // Now update the vector to a specific "progress" in the timeline.
  * let currentProgress = 0.2; // Could be amount of scroll, range input, whatever.
- * vector.setTimeline(0.2);
+ * vector.setTimeline(currentProgress);
  *
  * // Now render it...it will render at where the values are at 20%
  * vector.render();
+ * ```
+ *
+ *
+ *
+ * Catmull Rom - instead of a linear, you can set timeline to use
+ * catmull rom splines to smooth out the curves between progress points.
+ *
+ * ```ts
+ *
+ * // Set the timeline.
+ * vector.setTimeline(timeline);
+ * // Set the timeline mode to catmullrom.  Any easing functions
+ * // will get ignored.
+ * vector.timelineCatmullRomMode = true;
+ * // Change the default tension if you wish.
+ * vector.timelineCatmullRomTension = 1.2;
+ *
  * ```
  *
  * See more demo in /examples/vector-dom and /examples/scroll-demo
@@ -203,6 +222,18 @@ export class VectorDom {
     private timeline: Array<VectorDomTimeline> | null;
     private timelineKeys: Array<string>;
 
+
+    /**
+     * Whether to use catmull rom to evaluate timeline.
+     */
+    public timelineCatmullRomMode: boolean;
+
+    /**
+     * If using catmull rom to evaluate the timeline, the tension value of the
+     * hermit curve m1, m2 points.
+     */
+    public timelineCatmullRomTension: number;
+
     constructor(element: HTMLElement) {
         this.element = element;
         this.offset = Vector.ZERO;
@@ -221,6 +252,8 @@ export class VectorDom {
         this.zIndexScalar = 100;
         this.timeline = null;
         this.timelineKeys = [];
+        this.timelineCatmullRomMode = false;
+        this.timelineCatmullRomTension = 1;
         this.calculateSize();
 
         this.setTransformOrigin();
@@ -539,8 +572,36 @@ export class VectorDom {
 
             // Now run an interpolation and update the internal value.
             if (!is.null(start) && !is.null(end)) {
-                let childProgress = mathf.childProgress(progress, startProgress, endProgress);
-                let value = mathf.ease(start, end, childProgress, easing || EASE.linear);
+                let childProgress =
+                    mathf.clamp01(mathf.childProgress(progress, startProgress, endProgress));
+
+                // Safe guard.
+                if (is.nan(childProgress)) {
+                    return;
+                }
+
+                let value;
+                if (!this.timelineCatmullRomMode) {
+                    value = mathf.ease(start, end, childProgress, easing || EASE.linear);
+                } else {
+                    let diff = end - start;
+                    // Technically, not a catmull rom but create a similar
+                    // spline out of HermiteCurves.
+                    const vector = HermiteCurve.getPoint(
+                        childProgress,
+                        new Vector(start, start),
+                        new Vector(start * this.timelineCatmullRomTension,
+                            start * this.timelineCatmullRomTension),
+                        new Vector(end, end),
+                        new Vector(end * this.timelineCatmullRomTension,
+                            end * this.timelineCatmullRomTension),
+                    );
+                    if (vector) {
+                        value = vector.x;
+                    }
+                }
+
+
                 if (value) {
                     this[key] = value;
                 }

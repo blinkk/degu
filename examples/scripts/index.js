@@ -38,6 +38,7 @@ import ScrollDemoSample from '../scroll-demo';
 import ScrollDemoSample2 from '../scroll-demo2';
 import ScrollDemoSample3 from '../scroll-demo3';
 import ScrollDemoSample4 from '../scroll-demo4';
+import ScrollDemoSample5 from '../scroll-demo5';
 
 import XSample from '../x';
 import X2Sample from '../x2';
@@ -74,7 +75,8 @@ const samples = {
   'scrollDemoSample': ScrollDemoSample,
   'scrollDemoSample2': ScrollDemoSample2,
   'scrollDemoSample3': ScrollDemoSample3,
-  'scrollDemoSample4': ScrollDemoSample4
+  'scrollDemoSample4': ScrollDemoSample4,
+  'scrollDemoSample5': ScrollDemoSample5
 };
 
 class Main {
