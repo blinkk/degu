@@ -1,4 +1,5 @@
 
+import * as dat from "dat.gui";
 import { RafProgress, RAF_PROGRESS_EVENTS } from '../lib/raf/raf-progress';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 import { VectorDom } from '../lib/dom/vector-dom';
@@ -39,12 +40,12 @@ export default class ScrollDemoSample5 {
         this.flowerVector.anchorY = 0;
 
         const timeline = [
-            { progress: 0, x: 0, y: 0, z: 0.5 - 1 },
-            { progress: 0.2, x: 200, y: 500, z: 0.5 - 1 },
-            { progress: 0.4, x: 400, y: 100, z: 0.5 - 1 },
-            { progress: 0.6, x: 600, y: 400, z: 0.8 - 1 },
-            { progress: 0.8, x: 800, y: 500, z: 0.3 - 1 },
-            { progress: 1, x: 1000, y: 200, z: 1 - 1 },
+            { progress: 0, rz: 0, x: 0, y: 0, z: 0.5 - 1 },
+            { progress: 0.2, rz: 90, x: 200, y: 500, z: 0.2 - 1 },
+            { progress: 0.4, rz: -90, x: 400, y: 100, z: 0.5 - 1 },
+            { progress: 0.6, rz: 0, x: 600, y: 400, z: 1 - 1 },
+            { progress: 0.8, rz: 0, x: 800, y: 500, z: 0.3 - 1 },
+            { progress: 1, rz: 0, x: 1000, y: 200, z: 1 - 1 },
         ];
         this.flowerVector.setTimeline(timeline);
         this.flowerVector.timelineCatmullRomMode = true;
@@ -56,6 +57,12 @@ export default class ScrollDemoSample5 {
         rafProgress.easeTo(this.progress, 1, EASE.Linear);
 
         rafProgress.watch(this.onProgressUpdate.bind(this));
+
+
+        this.gui = new dat.GUI();
+        let datFolder = this.gui.addFolder('Catmull Rom');
+        datFolder.add(this.flowerVector, 'timelineCatmullRomMode');
+        datFolder.add(this.flowerVector, 'timelineCatmullRomTension', -3, 3);
     }
 
 
