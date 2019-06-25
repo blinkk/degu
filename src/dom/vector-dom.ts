@@ -53,7 +53,7 @@ interface VectorDomTimeline {
  *
  * // Optionally set the global offset.  Here we center this element to the
  * // center of the screen.
- * vectorElement.setPosition( new Vector(
+ * vectorElement.setOffset( new Vector(
  *      window.innerWidth/ 2,  window.innerHeight /2, 0));
  *
  *
@@ -62,6 +62,10 @@ interface VectorDomTimeline {
  *   // On each raf, add the rotate vector.
  *   let rotate = new Vector(0.01, 0, 0);
  *   this.vectorElement.rotation.add(rotate);
+ *
+ *   // Move the element up 1px on each raf.
+ *   let up = new Vector(1, 0, 0);
+ *   this.vectorElement.position.add(rotate);
  *
  *   // Render updates the style.  It is automatically culled so only updated
  *   // when values change.
@@ -72,7 +76,13 @@ interface VectorDomTimeline {
  *
  *
  *
- * Example of using timeline:
+ * VectorDom also has a timeline feature which can be handy to animate
+ * elements to a progress.
+ *
+ * The default properties of VectorDom get directly appended to the element
+ * as a css 3dMatrix (x, y, z, rx, ry, rz).  However, you can optionally,
+ * set css variable key values in timeline to set css variables.
+ *
  * ```ts
  *
  *  // Notice how we add the css var --blur here.
@@ -124,7 +134,7 @@ interface VectorDomTimeline {
  *
  * // Now render it...it will render at where the values are at 20%
  * vector.render();
- * ``
+ * ```
  *
  * See more demo in /examples/vector-dom and /examples/scroll-demo
  */
