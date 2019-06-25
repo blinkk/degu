@@ -1,6 +1,6 @@
 
 import { Camera } from './camera';
-import { Mesh } from './Mesh';
+import { Mesh } from './mesh';
 import { mathf } from '../mathf/mathf';
 import { MatrixIV } from '../mathf/matrixIV';
 import { Vector } from '../mathf/vector';

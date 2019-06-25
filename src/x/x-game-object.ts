@@ -1,7 +1,7 @@
 import { XTexture } from './x-texture';
 import { func } from '../func/func';
 import { mathf, point } from '../mathf/mathf';
-import { Vector } from '../mathf/Vector';
+import { Vector } from '../mathf/vector';
 import { EASE } from '../ease/ease';
 
 export interface XGameConfigComputedBox {

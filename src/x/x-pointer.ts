@@ -1,7 +1,7 @@
 
 import { mathf } from '../mathf/mathf';
 import { XGameObject } from './x-game-object';
-import { Vector } from '../mathf/Vector';
+import { Vector } from '../mathf/vector';
 
 /**
  * The main pointer class for x-engine.  Use this to detect collision with
