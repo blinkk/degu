@@ -144,6 +144,9 @@ export default class ScrollDemoSample2 {
         );
         this.flowerVector.position.add(floatyVector);
 
+        // Finally also update alpha.
+        this.flowerVector.alpha = (1 * this.easedProgress) + 0.5;
+
         this.flowerVector.render();
 
     }
