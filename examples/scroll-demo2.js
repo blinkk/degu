@@ -69,7 +69,7 @@ export default class ScrollDemoSample2 {
         this.flowerVector2.anchorX = 0.5;
         this.flowerVector2.anchorY = 0.5;
         // keep this flower small.
-        this.flowerVector2.z = -0.2;
+        this.flowerVector2.z = -0.5;
         // Center this flower
         this.flowerVector2.setOffset(new Vector(
             this.childElement.offsetWidth / 2,
@@ -154,8 +154,11 @@ export default class ScrollDemoSample2 {
 
     updateSecondFlower() {
 
+        const pointer = this.pointer.clone();
+        // We don't want the pointer to affect the scale.
+        pointer.z = this.flowerVector2.z;
         const distanceVector = Vector.subtract(
-            this.pointer.clone().subtract(this.flowerVector2.offset),
+            pointer.subtract(this.flowerVector2.offset),
             this.flowerVector2.position
         );
         this.flowerVector2.acceleration =
