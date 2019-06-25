@@ -43,6 +43,9 @@ import ScrollDemoSample5 from '../scroll-demo5';
 import XSample from '../x';
 import X2Sample from '../x2';
 
+
+import WebGlSample from '../webgl';
+
 const samples = {
   'easerDisableRafSample': EaserDisableRafSample,
   'easerSample': EaserSample,
@@ -76,7 +79,8 @@ const samples = {
   'scrollDemoSample2': ScrollDemoSample2,
   'scrollDemoSample3': ScrollDemoSample3,
   'scrollDemoSample4': ScrollDemoSample4,
-  'scrollDemoSample5': ScrollDemoSample5
+  'scrollDemoSample5': ScrollDemoSample5,
+  'webGlSample': WebGlSample
 };
 
 class Main {
