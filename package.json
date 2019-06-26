@@ -92,7 +92,7 @@
     "webpack-merge": "4.2.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js --port 8080",
+    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
     "server": "node server",
     "prepare": "npm run build",
     "build": "rm -rf lib && mkdir lib && tsc",

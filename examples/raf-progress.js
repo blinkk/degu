@@ -38,10 +38,12 @@ export default class RafProgressSample {
             this.addClass('blue');
         });
 
-        rafProgress.watchFor(0.5, () => {
+        rafProgress.watchFor([0.5, 0.6], () => {
+            console.log('red');
             this.addClass('red');
         });
         rafProgress.watchFor(0.7, () => {
+            console.log('yellow');
             this.addClass('yellow');
         });
 

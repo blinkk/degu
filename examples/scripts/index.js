@@ -43,6 +43,8 @@ import ScrollDemoSample5 from '../scroll-demo5';
 import XSample from '../x';
 import X2Sample from '../x2';
 
+import VideoProgressSample from '../video-progress';
+
 
 import WebGlSample from '../webgl';
 
@@ -61,7 +63,7 @@ const samples = {
   'catmullRomSample': CatmullRomSample,
   'hermitCurveSample': HermiteCurveSample,
   'bezierCurveSample': BezierCurveSample,
-  // 'videoProgressSample': VideoProgressSample,
+  'videoProgressSample': VideoProgressSample,
   'matrixIVSample': MatrixIVSample,
   'matrixIVSample2': MatrixIVSample2,
   'matrixIVSample3': MatrixIVSample3,
