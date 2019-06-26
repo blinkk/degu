@@ -10,6 +10,9 @@ import { WebWorker } from "./web-worker";
  * Note that this is a HIGHLY experimental class and it generally only works
  * well for small size mp4 on Chrome and Safari.  It totally janks on Firefox.
  * See /examples/playground video progress for a sample.
+ *
+ * @experimental
+ * @hidden
  */
 export class VideoProgress {
     private video: HTMLVideoElement;
