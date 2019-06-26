@@ -1,8 +1,6 @@
 
-import { mathf } from './mathf';
 import { Vector } from './vector';
 import test from 'ava';
-import { timingSafeEqual } from 'crypto';
 
 
 

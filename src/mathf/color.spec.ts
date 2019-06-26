@@ -1,0 +1,48 @@
+
+import { color } from './color';
+import test from 'ava';
+
+test('hexToRgbNormalized', t => {
+    let normalizedRgb = color.hexToRgbNormalized(0xffffff) // >> [1, 1, 1];
+    t.deepEqual(normalizedRgb, [1, 1, 1]);
+
+    normalizedRgb = color.hexToRgbNormalized(0x00000);
+    t.deepEqual(normalizedRgb, [0, 0, 0]);
+});
+
+test('normaliizedRgbToHex', t => {
+    let result = color.normalizedRgbToHex([1, 1, 1]) // >> 0xFFFFFF
+    t.is(result, 0xFFFFFF);
+
+    result = color.normalizedRgbToHex([0, 0, 0])
+    t.is(result, 0x000000);
+});
+
+test('rgbaLerp', t => {
+    let a = { r: 0, g: 0, b: 0, a: 0 };
+    let b = { r: 1, g: 1, b: 1, a: 1 };
+    let lerp = color.rgbaLerp(a, b, 0.5);
+    let expected = {
+        r: 0.5,
+        g: 0.5,
+        b: 0.5,
+        a: 0.5,
+    }
+    t.deepEqual(lerp, expected);
+});
+
+test('rgbToHex', t => {
+    let color1 = color.rgbToHex({ r: 255, g: 255, b: 255 }); // #FFFFFF
+    t.is(color1, '#FFFFFF');
+    color1 = color.rgbToHex({ r: 0, g: 0, b: 0 });
+    t.is(color1, '#000000');
+    color1 = color.rgbToHex({ r: 0, g: 0, b: 0, a: 0 });
+    t.is(color1, '#000000');
+});
+
+test('hexToRgba', t => {
+    let color1 = color.hexToRgba('#FFFFFF');
+    t.deepEqual(color1, { r: 255, g: 255, b: 255, a: 1 })
+    color1 = color.hexToRgba('#000000');
+    t.deepEqual(color1, { r: 0, g: 0, b: 0, a: 1 })
+});
