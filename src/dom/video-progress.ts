@@ -8,7 +8,7 @@ import { WebWorker } from "./web-worker";
 /**
  * VideoProgress is a class that allows you to quick seek videos.
  * Note that this is a HIGHLY experimental class and it generally only works
- * well for small size mp4 on Chrome and Safari.  It totally janks on Firefox.
+ * well for small size mp4 on Chrome and Safari (desktop).  It totally janks on Firefox.
  * See /examples/playground video progress for a sample.
  *
  * @experimental
