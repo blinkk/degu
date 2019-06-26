@@ -93,6 +93,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js --port 8080",
+    "server": "node server",
     "prepare": "npm run build",
     "build": "rm -rf lib && mkdir lib && tsc",
     "build-watch": "tsc --watch",

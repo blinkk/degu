@@ -123,3 +123,8 @@ $ npm unlink --no-save yano-js
 $ cd ~/yano-js  # To to whereever this git repo is cloned to
 $ npm unlink
 ```
+
+
+### Examples runnning on server
+Examples can be run on a servrer using `node server` which is an express
+app.   See server.js.
