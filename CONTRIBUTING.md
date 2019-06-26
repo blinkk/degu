@@ -128,3 +128,9 @@ $ npm unlink
 ### Examples runnning on server
 Examples can be run on a servrer using `node server` which is an express
 app.   See server.js.
+
+```
+npm install
+npm rebuild node-sass  # Sometimes need on linux
+node server
+```

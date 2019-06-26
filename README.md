@@ -5,6 +5,7 @@ Yano is a general utility library for interactive websites.
 Yano-js is currently in Alpha and the API can and probably will change
 in the future.
 
+- [Examples] (http://yano.inverseq.com/index.html)
 - [API Docs](https://yano-js.surge.sh)
 - [Coverage Report](https://yano-js-coverage.surge.sh)
 - [Circle CI Builds](https://circleci.com/gh/uxder/yano-js)
