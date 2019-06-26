@@ -1,7 +1,6 @@
 import { func } from '../func/func';
 
 import { XGameObject, XGameObjectConfig } from './x-game-object';
-import { isContext } from 'vm';
 
 interface XLineConfig extends XGameObjectConfig {
     strokeStyle: string;

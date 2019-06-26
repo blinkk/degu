@@ -1,5 +1,4 @@
 import { time } from '../time/time';
-import { EventEmitter } from 'events';
 
 
 interface RafEvent extends Event {
