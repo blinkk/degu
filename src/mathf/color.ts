@@ -74,12 +74,28 @@ export class color {
      */
     static rgbaLerp(start: ColorRGBA, end: ColorRGBA, t: number): ColorRGBA {
         return {
-            r: mathf.lerp(start.r, end.r, t),
-            g: mathf.lerp(start.g, end.g, t),
-            b: mathf.lerp(start.b, end.b, t),
+            r: mathf.lerp(start.r, end.r, t) >> 0,
+            g: mathf.lerp(start.g, end.g, t) >> 0,
+            b: mathf.lerp(start.b, end.b, t) >> 0,
             a: mathf.lerp(start.a, end.a, t)
         }
     }
+
+    /**
+     * Similar to to [[color.rgbaLerp]] but uses ease.
+     * @param start
+     * @param end
+     * @param t
+     */
+    static rgbaEase(start: ColorRGBA, end: ColorRGBA, t: number, ease: Function): ColorRGBA {
+        return {
+            r: mathf.ease(start.r, end.r, t, ease) >> 0,
+            g: mathf.ease(start.g, end.g, t, ease) >> 0,
+            b: mathf.ease(start.b, end.b, t, ease) >> 0,
+            a: mathf.ease(start.a, end.a, t, ease)
+        }
+    }
+
 
 
 
@@ -176,5 +192,21 @@ export class color {
         }
 
         return null;
+    }
+
+
+    /**
+     * Converts ColorRGBA to a css string.
+     *
+     * ```ts
+     *
+     * color.rgbaToCss({r: 255, g: 255, b: 255, a: 1}); // rgba(255, 255, 255, 1)
+     *
+     * ```
+     *
+     * @param rgba
+     */
+    static rgbaToCss(rgba: ColorRGBA): string {
+        return `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
     }
 }

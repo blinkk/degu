@@ -7,7 +7,7 @@ import { ColorRGBA, color } from '../mathf/color';
  * The different types of structures that can be passed.
  * @see https://css-tricks.com/converting-color-spaces-in-javascript/
  */
-enum CssUnitObjectTypes {
+export enum CssUnitObjectTypes {
     /**
      * A number.
      */
@@ -34,7 +34,7 @@ enum CssUnitObjectTypes {
     rgb = 'rgb',
 }
 
-interface CssUnitObject {
+export interface CssUnitObject {
     value: number | ColorRGBA | null,
     valueType: CssUnitObjectTypes | string | null;
     originalValue: string | null,
@@ -51,6 +51,7 @@ interface CssUnitObject {
  *
  * cssUnit.parse('10%').unit // %
  * cssUnit.parse('10%').type // unit
+ * cssUnit.parse('10%').valueType // number
  * cssUnit.parse('10%').value // 10
  *
  *
@@ -102,17 +103,17 @@ export class cssUnit {
         };
 
 
-        if (is.cssHex(css)) {
-            result.value = color.cssToRgba(css);
-            result.type = CssUnitObjectTypes.cssHex;
-            result.valueType = CssUnitObjectTypes.rgba;
-        } else if (is.cssRgba(css)) {
+        if (is.cssRgba(css)) {
             result.type = CssUnitObjectTypes.rgba;
             result.value = color.cssToRgba(css);
             result.valueType = CssUnitObjectTypes.rgba;
         } else if (is.cssRgb(css)) {
             result.type = CssUnitObjectTypes.rgb;
             result.value = color.cssToRgba(css);
+            result.valueType = CssUnitObjectTypes.rgba;
+        } else if (is.cssHex(css)) {
+            result.value = color.cssToRgba(css);
+            result.type = CssUnitObjectTypes.cssHex;
             result.valueType = CssUnitObjectTypes.rgba;
         } else {
             result.value = value ? +value[0] : null;
@@ -122,7 +123,6 @@ export class cssUnit {
         }
 
         result.originalValue = css;
-
 
         return result;
     }

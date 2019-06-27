@@ -14,14 +14,17 @@ import { dom } from '../dom/dom';
  * <input id="range" type="range" name="points" step="0.01" min="0" max="1" style="width: 500px;">
  *
  * Sass
- *   You can apply the interpolated value as a css variable.  Note that unless
- *   since cssVarInterpolate doesn't deal with units at the moment, you need to
- *   multiply your unit via css calc.
- *   Example:
+ *   You can apply the interpolated value as a css variable. If you specify
+ *   numerical values in your from and to values, add the unit in css by
+ *   multiplying it.
+ *   Example of using vh:
  *      top: calc(var(--x) * 1vh)
+ *   Example of using px:
+ *      top: calc(var(--x) * 1px)
+ *   Example of a complex variable setup:
+ *   .ball
+ *      transform: translateX(calc(var(--x) * 1px)) translateY(calc(var(--y) * 1px));
  *
- * .ball
- *    transform: translateX(calc(var(--x) * 1px)) translateY(calc(var(--y) * 1px));
  *
  *
  * JS
@@ -47,6 +50,13 @@ import { dom } from '../dom/dom';
  *               { from: 0.5, to: 1, start: 0, end: 500, easingFunction: EASE.easeInQuad },
  *            ],
  *            id: '--y'
+ *          },
+ *          // You can use simple unit values.  See interpolate for more.
+ *          {
+ *            progress: [
+ *              { from: '10px', to: '20px', start: 0, end: 500 },
+ *            ],
+ *            id: '--z'
  *          },
  *      ]}
  *  )

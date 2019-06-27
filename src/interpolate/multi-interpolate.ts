@@ -1,5 +1,6 @@
 
 import { mathf } from '../mathf/mathf';
+import { EASE } from '../ease/ease';
 import { Interpolate } from './interpolate';
 
 export interface rangedProgress {
@@ -150,6 +151,13 @@ export const multiInterpolateHelper = {
  *     {
  *       progress: [{ from: 0, to: 1, start: 0, end: 100 }]
  *       id: 'someOther',
+ *     },
+ *
+ *     // Multi interpolate also supports simple units.  See interpolate for
+ *     // unit and color support.
+ *     {
+ *       progress: [{ from: 0, to: 1, start: '0px', end: '100px' }]
+ *       id: 'z',
  *     }
  *  ]
  * });
@@ -266,12 +274,12 @@ export class MultiInterpolate {
 
                 // Now calculate the interpolation based on the childProgress
                 // progress value.
-                const interpolatedValue = mathf.ease(
-                    matchedRangeProgress.start,
-                    matchedRangeProgress.end,
-                    childProgress,
-                    matchedRangeProgress.easingFunction
-                )
+                const interpolatedValue = new Interpolate({
+                    from: matchedRangeProgress.start,
+                    to: matchedRangeProgress.end,
+                    easeFunction: matchedRangeProgress.easingFunction ||
+                        EASE.linear
+                }).calculate(childProgress);
 
                 // Finally cache this value to the current values list.
                 this.currentValues[config.id] = interpolatedValue;

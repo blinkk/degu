@@ -20,13 +20,13 @@ test('normaliizedRgbToHex', t => {
 
 test('rgbaLerp', t => {
     let a = { r: 0, g: 0, b: 0, a: 0 };
-    let b = { r: 1, g: 1, b: 1, a: 1 };
+    let b = { r: 255, g: 255, b: 255, a: 1 };
     let lerp = color.rgbaLerp(a, b, 0.5);
     let expected = {
-        r: 0.5,
-        g: 0.5,
-        b: 0.5,
-        a: 0.5,
+        r: 127,
+        g: 127,
+        b: 127,
+        a: 0.5
     }
     t.deepEqual(lerp, expected);
 });

@@ -8,6 +8,7 @@ import EaserSample from '../easer';
 import InterpolateSample from '../interpolate';
 import MultiInterpolateSample from '../multi-interpolate';
 import CssVarInterpolateSample from '../css-var-interpolate';
+import CssVarInterpolateSample2 from '../css-var-interpolate2';
 import DomWatcherSample from '../dom-watcher';
 
 import MathfEaseSample from '../mathf-ease';
@@ -55,6 +56,7 @@ const samples = {
   'mathfEaseSample': MathfEaseSample,
   'multiInterpolateSample': MultiInterpolateSample,
   'cssVarInterpolateSample': CssVarInterpolateSample,
+  'cssVarInterpolateSample2': CssVarInterpolateSample2,
   'rafSample': RafSample,
   'rafTimerSample': RafTimerSample,
   'rafProgressSample': RafProgressSample,
