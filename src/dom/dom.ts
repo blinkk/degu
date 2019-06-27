@@ -46,6 +46,39 @@ export class dom {
      *
      * ```
      *
+     * Top and bottom offset.
+     * You can offset the top and bottom so that the calculations are shifted.
+     *
+     * ```ts
+     *
+     *     let startOffset = 100;
+     *     // Now progress will start when the element is 100px inview.
+     *     // But still will complete normally at the bottom.
+     *     let progress =
+     *             mathf.getElementScrolledPercent(this.element, startOffset, 0);
+     *
+     *     let heightOffset = -100;
+     *     // Entry as normal - 0 when the element first comes into view.
+     *     // Now progress will complete get to 0 when there is still 100px
+     *     // of the element still to be shown since it is virtually 100px shorter.
+     *     let progress =
+     *             mathf.getElementScrolledPercent(this.element, 0, heightOffset);
+     *
+     *     // Now progress will complete when the element has scrolled past
+     *     // the center of the screen since we virually extend the height by
+     *     // 50vh.
+     *     let heightOffset = window.innerHeight * 0.5;
+     *     let progress =
+     *             mathf.getElementScrolledPercent(this.element, 0, heightOffset);
+     *
+     *     // Now progress will complete when the element has scrolled past
+     *     // the very top of the screen.
+     *     let heightOffset = window.innerHeight * 1;
+     *     let progress =
+     *             mathf.getElementScrolledPercent(this.element, 0, heightOffset);
+     *
+     * ```
+     *
      * Provided the element is larger than the viewport height,
      * this will return 0% when the element is above the screen,
      * it increases in value as the user scrolls through the element and
@@ -55,17 +88,30 @@ export class dom {
      * This method assumes that the tracked element is atleast more than 100vh.
      *
      * @param {HTMLElement} element The root element.
+     * @param {number} startOffset A positive value (pixel) to offset the top position
+     *     of the element.
+     *     The start offset value should never be negative as technically, offseting
+     *     to before the element comes into view doesn't have an effect and will
+     *     only complicate things for you.
+     *     Changing this value will affect the poitn at which your progress hits
+     *     0 (starts).
+     * @param {number} heightOffset A value (pixel) to add to the total height of
+     *     the element.  Can be positive or negative values.  Think of this,
+     *     shortening or growing your element virually.  Changing this value
+     *     will affect the point at which your progress hits 1 (ends).
      * @return {number} percent The amount in percentage that the user has scrolled
      *     in the element.
      */
-    static getElementScrolledPercent(element: HTMLElement): number {
+    static getElementScrolledPercent(element: HTMLElement,
+        startOffset: number = 0,
+        heightOffset: number = 0): number {
         const box = element.getBoundingClientRect();
         const wh = window.innerHeight;
         // We need to calculate this so that we start the 0% when the element comes
         // in (the top of the element).  But the 100% is marked when the BOTTOM
         // of the element passes the bottom of the screen.
-        const current = wh - box.top;
-        const percent = current / box.height;
+        const current = wh - (box.top + startOffset);
+        const percent = current / (box.height - startOffset + heightOffset);
         return mathf.clampAsPercent(percent);
     }
 
