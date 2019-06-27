@@ -1,24 +1,19 @@
 import { mathf } from './mathf';
+import { is } from '..';
 
-interface ColorRGBA {
+export interface ColorRGBA {
     r: number,
     g: number,
     b: number,
     a: number
 }
 
-interface ColorRGB {
+export interface ColorRGB {
     r: number,
     g: number,
     b: number
 }
 
-
-interface ColorHSV {
-    h: number,
-    s: number,
-    v: number
-}
 
 
 export class color {
@@ -131,5 +126,57 @@ export class color {
             }
         }
         return rgba;
+    }
+
+
+    /**
+     * Converts a css like rgba string to an RGBA object.
+     *
+     * ```ts
+     *
+     * color.cssToRgba('#FFFFFF') // { r: 255, b: 255, g: 255, a: 1}
+     * color.cssToRgba('rgba(255, 255, 255, 0.3)') // { r: 255, b: 255, g: 255, a: 0.3}
+     * color.cssToRgb('rgb(255, 255, 255)') // { r: 255, b: 255, g: 255, a: 1}
+     *
+     * color.cssToRgba(20) // null
+     * color.cssToRgba('hello') // null
+     * ```
+     */
+    static cssToRgba(css: string): any {
+        if (is.cssHex(css)) {
+            return color.hexToRgba(css);
+        }
+
+        if (is.cssRgb(css)) {
+            var match = css.match(/^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/);
+            if (match) {
+                const rgba = {
+                    r: +match[1],
+                    g: +match[2],
+                    b: +match[3],
+                    a: 1
+                }
+                return rgba;
+
+            } else {
+                return null;
+            }
+        }
+
+        if (is.cssRgba(css)) {
+            var match = css.match(/^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/);
+            if (match) {
+                const rgba = {
+                    r: +match[1],
+                    g: +match[2],
+                    b: +match[3],
+                    a: +match[4]
+                }
+                return rgba;
+
+            } else {
+                return null;
+            }
+        }
     }
 }

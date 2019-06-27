@@ -46,3 +46,29 @@ test('hexToRgba', t => {
     color1 = color.hexToRgba('#000000');
     t.deepEqual(color1, { r: 0, g: 0, b: 0, a: 1 })
 });
+
+
+test('cssToRgba', t => {
+    let result = {
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 1
+    }
+    t.deepEqual(color.cssToRgba('#FFFFFF'), result);
+    t.deepEqual(color.cssToRgba('rgba(255, 255, 255, 1)'), result);
+    t.deepEqual(color.cssToRgba('rgb(255, 255, 255, 1)'), result);
+
+    let result2 = {
+        r: 52,
+        g: 85,
+        b: 52,
+        a: 1
+    };
+
+    t.deepEqual(color.cssToRgba('#345534'), result2);
+    t.deepEqual(color.cssToRgba('rgba(52, 85, 52, 1)'), result2);
+    t.deepEqual(color.cssToRgba('rgb(52, 85, 52, 1)'), result2);
+
+
+});

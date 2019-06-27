@@ -231,4 +231,66 @@ export class is {
         document.body.style.transitionTimingFunction = 'cubic-bezier(calc(1 * 1),1,1,1)';
         return getComputedStyle(document.body).transitionTimingFunction != 'ease';
     }
+
+
+    /**
+     * A string value that appears to be a css hex.
+     *
+     * ```
+     * is.cssHex('#FFFFFF') // true
+     * is.cssHex('#ffffff') // true
+     * is.cssHex('FFFFFF') // false
+     * is.cssHex(0) // false
+     *
+     * ```
+     */
+    static cssHex(value: any): boolean {
+        return is.string(value) && value.startsWith('#');
+    }
+
+
+    /**
+     * A string value that appears to be a css rgba like.
+     *
+     * ```
+     * is.cssRgba("rgba(255, 255, 255, 0.3)") // true
+     * is.cssRgba("rgba()") // true
+     * is.cssRgba('rgb('255, 255, 255)') // false
+     *
+     * ```
+     */
+    static cssRgba(value: any) {
+        return is.string(value) && value.startsWith('rgba(');
+    }
+
+    /**
+     * A string value that appears to be a css rgb like.
+     *
+     * ```
+     * is.cssRgb("rgb(255, 255, 255)") // true
+     * is.cssRgb("rgba(')") // false
+     * is.cssRgb(90) // false
+     *
+     * ```
+     */
+    static cssRgb(value: any) {
+        return is.string(value) && value.startsWith('rgb(');
+    }
+
+
+    /**
+     * Tests whether this is a hex value.
+     * ```
+     * is.hex('#FFFFFF') // false -> starts with #.
+     * is.hex('FFFFFF') // true
+     * is.hex('ffffff') // true
+     * is.hex(0) // false
+     *
+     * ```
+     * @param value
+     */
+    static hex(value: any): boolean {
+        var a = parseInt(value, 16);
+        return is.string(value) && (a.toString(16) === value.toLowerCase())
+    }
 }

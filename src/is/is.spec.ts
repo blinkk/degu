@@ -138,3 +138,30 @@ test('nan', t => {
     t.is(is.nan(4), false);
     t.is(is.nan(5), false);
 });
+
+test('cssHex', t => {
+    t.is(is.cssHex('#FFFFFF'), true);
+    t.is(is.cssHex('FFFFFF'), false);
+    t.is(is.cssHex('no'), false);
+    t.is(is.cssHex(0), false);
+});
+
+test('hex', t => {
+    t.is(is.hex('#FFFFFF'), false);
+    t.is(is.hex('FFFFFF'), true);
+    t.is(is.hex('ffffff'), true);
+    t.is(is.hex('no'), false);
+    t.is(is.hex(0), false);
+});
+
+test('cssRgba', t => {
+    t.is(is.cssRgba("rgba(255, 255, 255, 255, 0.3)"), true);
+    t.is(is.cssRgba("rgba()"), true);
+    t.is(is.cssRgba(9), false);
+});
+
+test('cssRgb', t => {
+    t.is(is.cssRgb("rgb(255, 255, 255, 255, 0.3)"), true);
+    t.is(is.cssRgb("rgb()"), true);
+    t.is(is.cssRgb(9), false);
+});
