@@ -4,6 +4,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Scroll demo</title>
   <style>
+      body {
+          perspective: 500px;
+      }
       .parent {
           position: relative;
           height: 800vh;
@@ -38,6 +41,7 @@
         color: var(--text-color);
         opacity: var(--opacity);
         transform: translateY(var(--y));
+        z-index: 30;
       }
       .module {
           height: 100vh;

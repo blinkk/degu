@@ -600,8 +600,52 @@ export class VectorDom {
         this.timeline = this.timeline.sort((a, b) => {
             return a.progress - b.progress;
         })
-        console.log(this.timeline);
 
+    }
+
+    /**
+     * Does a look up in the timeline for the next available key.
+     *
+     * Consider this example:
+     * ```
+     * {
+     *   progress: 0,
+     *   x: 100,
+     *   y: 200
+     * },
+     * {
+     *   progress: 0.2,
+     *   y: 100,
+     * }
+     * {
+     *   progress: 1,
+     *   x: 100,
+     * }
+     *
+     * ```
+     * In this timeline, x is not available in the 0.2.  This method will
+     * do a look up.  If you start a search from the i = 1, since x is not
+     * available, it will proceed to the next item until it is found.
+     * @param key The key you are looking up.
+     * @param i The index position to start search.
+     */
+    findNextAvailableKeyInTimeline(key: string, i: number): Object | null {
+        if (!this.timeline) {
+            throw new Error('You need to set a timeline progress first.')
+        }
+        if (is.defined(this.timeline[i][key])) {
+            return {
+                'value': this.timeline[i][key],
+                'key': key,
+                'index': i
+            }
+        } else {
+            if (i >= this.timeline.length - 1) {
+                return null;
+            } else {
+                return this.findNextAvailableKeyInTimeline(key, i + 1);
+            }
+        }
     }
 
     setTimelineProgress(progress: number) {
@@ -620,16 +664,29 @@ export class VectorDom {
             }
 
             // Set the start value as the current position in case it's not specified.
-            let start = this[key];
+            let start: any = null;
             let startProgress = 0;
             let end: any = null;
             let endProgress = 1;
             let easing = null;
             let previous = null;
 
+
             // Look up the start and end values for this key in based on
             // the current progress.
-            this.timeline && this.timeline.forEach((timeline) => {
+            this.timeline!.forEach((timeline) => {
+                // If the progress is zero, just take the first available
+                // values.
+                if (progress == 0) {
+                    let endIndex: number =
+                        this.findNextAvailableKeyInTimeline(key, 1)!['index'] || 0;
+                    start = this.timeline![0][key];
+                    end = this.timeline![endIndex][key];
+                    easing = this.timeline![0].easingFunction;
+                    startProgress = this.timeline![0].progress;
+                    endProgress = this.timeline![endIndex].progress;
+                }
+
                 if (timeline.progress < progress) {
                     start = timeline[key];
                     startProgress = timeline.progress;
@@ -686,7 +743,7 @@ export class VectorDom {
                     }).calculate(childProgress);
                 }
 
-                if (value) {
+                if (is.defined(value)) {
                     this[key] = value;
                 }
             }
