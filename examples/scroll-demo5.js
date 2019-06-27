@@ -5,9 +5,7 @@ import { DomWatcher } from '../lib/dom/dom-watcher';
 import { VectorDom } from '../lib/dom/vector-dom';
 import { EASE } from '../lib/ease/ease';
 import { dom } from '../lib/dom/dom';
-import { mathf } from '../lib/mathf/mathf';
-import { CatmullRom } from '../lib/mathf/catmull-rom';
-import { Vector } from '../lib/mathf/vector';
+import { CssVarInterpolate } from '../lib/interpolate/css-var-interpolate';
 
 export default class ScrollDemoSample5 {
     constructor() {
@@ -48,6 +46,8 @@ export default class ScrollDemoSample5 {
             { progress: 1, rz: 0, x: 1000, y: 200, z: 1 - 1 },
         ];
         this.flowerVector.setTimeline(timeline);
+
+        // Use catmull rom mode to make this super smooth between points.
         this.flowerVector.timelineCatmullRomMode = true;
         this.flowerVector.timelineCatmullRomTension = 1;
 
@@ -57,6 +57,32 @@ export default class ScrollDemoSample5 {
         rafProgress.easeTo(this.progress, 1, EASE.Linear);
 
         rafProgress.watch(this.onProgressUpdate.bind(this));
+
+
+
+        // Animate the background color of the body with css var interpolate.
+        this.cssVarInterpolate = new CssVarInterpolate(
+            document.body,
+            {
+                interpolations: [
+                    {
+                        progress: [
+                            {
+                                from: 0, to: 0.5,
+                                start: 'rgba(255, 128, 0, 0.3)',  // orange
+                                end: 'rgba(255, 153, 204, 1)' // pink
+                            },
+                            {
+                                from: 0.5, to: 1,
+                                start: 'rgba(255, 153, 204, 1)', // pink
+                                end: 'rgba(0, 0, 255, 1)',  // blue
+                            },
+                        ],
+                        id: '--background'
+                    }
+                ]
+            }
+        );
 
 
         this.gui = new dat.GUI();
@@ -70,6 +96,7 @@ export default class ScrollDemoSample5 {
     onProgressUpdate(easedProgress, direction) {
         let sin = Math.sin(easedProgress);
 
+        this.cssVarInterpolate.update(easedProgress);
         this.flowerVector.setTimelineProgress(easedProgress);
         this.flowerVector.render();
     }

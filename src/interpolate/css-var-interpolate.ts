@@ -148,6 +148,7 @@ export class CssVarInterpolate {
      * Updates the progress and updates the css variable values.
      */
     update(progress: number) {
+
         // Only make updates when progress value was updated to avoid layout
         // thrashing.
         if (progress == this.mainProgress) {
