@@ -25,12 +25,12 @@ export class XPointer {
         this.radius = 1;
         this.element = element;
 
-        this.element.addEventListener('mousedown', this.pointerDownHandler.bind(this));
-        this.element.addEventListener('touchstart', this.pointerDownHandler.bind(this));
-        this.element.addEventListener('mouseup', this.pointerUpHandler.bind(this));
-        this.element.addEventListener('touchend', this.pointerUpHandler.bind(this));
-        this.element.addEventListener('mousemove', this.pointerMoveHandler.bind(this));
-        this.element.addEventListener('touchmove', this.pointerMoveHandler.bind(this));
+        this.element.addEventListener('mousedown', this.pointerDownHandler.bind(this), { passive: true });
+        this.element.addEventListener('touchstart', this.pointerDownHandler.bind(this), { passive: true });
+        this.element.addEventListener('mouseup', this.pointerUpHandler.bind(this), { passive: true });
+        this.element.addEventListener('touchend', this.pointerUpHandler.bind(this), { passive: true });
+        this.element.addEventListener('mousemove', this.pointerMoveHandler.bind(this), { passive: true });
+        this.element.addEventListener('touchmove', this.pointerMoveHandler.bind(this), { passive: true });
     }
 
     get x() {
