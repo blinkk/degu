@@ -57,7 +57,9 @@ test('cssToRgba', t => {
     }
     t.deepEqual(color.cssToRgba('#FFFFFF'), result);
     t.deepEqual(color.cssToRgba('rgba(255, 255, 255, 1)'), result);
-    t.deepEqual(color.cssToRgba('rgb(255, 255, 255, 1)'), result);
+    t.deepEqual(color.cssToRgba('rgba( 255,255,255,1)'), result);
+    t.deepEqual(color.cssToRgba('rgba( 255 , 255 , 255 ,1)'), result);
+    t.deepEqual(color.cssToRgba('rgb(255, 255, 255)'), result);
 
     let result2 = {
         r: 52,
@@ -68,7 +70,11 @@ test('cssToRgba', t => {
 
     t.deepEqual(color.cssToRgba('#345534'), result2);
     t.deepEqual(color.cssToRgba('rgba(52, 85, 52, 1)'), result2);
-    t.deepEqual(color.cssToRgba('rgb(52, 85, 52, 1)'), result2);
+    t.deepEqual(color.cssToRgba('rgb(52, 85, 52)'), result2);
+
+
+    // Check invalid cases
+    t.deepEqual(color.cssToRgba('hello'), null);
 
 
 });

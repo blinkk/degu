@@ -16,6 +16,11 @@ export interface ColorRGB {
 
 
 
+/**
+ * A class that helps with color transformations.
+ *
+ * @see https://www.alanzucconi.com/2016/01/06/colour-interpolation/
+ */
 export class color {
 
     constructor() { }
@@ -142,29 +147,20 @@ export class color {
      * color.cssToRgba('hello') // null
      * ```
      */
-    static cssToRgba(css: string): any {
+    static cssToRgba(css: string): ColorRGBA | null {
         if (is.cssHex(css)) {
             return color.hexToRgba(css);
         }
 
         if (is.cssRgb(css)) {
-            var match = css.match(/^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/);
-            if (match) {
-                const rgba = {
-                    r: +match[1],
-                    g: +match[2],
-                    b: +match[3],
-                    a: 1
-                }
-                return rgba;
-
-            } else {
-                return null;
-            }
+            // We are just going to modify the rgb string to be rgba like
+            // and process it as a rgba type string.
+            css = css.replace(')', ',1)');
+            css = css.replace('rgb', 'rgba');
         }
 
         if (is.cssRgba(css)) {
-            var match = css.match(/^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*(\d*(?:\.\d+)?)\)$/);
+            var match = css.match(/^rgba\(\s*?(\d{1,3})\s*?,\s*?(\d{1,3})\s*?,\s*?(\d{1,3})\s*?,\s*?(\d*(?:\.\d+)?)\)$/);
             if (match) {
                 const rgba = {
                     r: +match[1],
@@ -172,11 +168,13 @@ export class color {
                     b: +match[3],
                     a: +match[4]
                 }
-                return rgba;
 
+                return rgba;
             } else {
                 return null;
             }
         }
+
+        return null;
     }
 }
