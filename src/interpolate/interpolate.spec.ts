@@ -45,6 +45,20 @@ test('sin interpolation', t => {
     t.is(mathf.int(inter.calculate(1) as number), 100)
 });
 
+test('negative interpolation', t => {
+
+    let inter = new Interpolate({
+        from: 0,
+        to: -100,
+        easeFunction: EASE.linear
+    });
+
+    t.is(inter.calculate(0), 0)
+    t.is(inter.calculate(0.1), -10)
+    t.is(inter.calculate(0.5), -50)
+    t.is(inter.calculate(0.9), -90)
+    t.is(inter.calculate(1), -100)
+});
 
 test('unit interpolation', t => {
 
@@ -62,6 +76,16 @@ test('unit interpolation', t => {
     });
     t.is(inter.calculate(0.3), '30vw');
 });
+
+test('negative unit interpolation', t => {
+    let inter = new Interpolate({
+        from: '0px',
+        to: '-100px',
+        easeFunction: EASE.linear
+    });
+    t.is(inter.calculate(0.3), '-30px');
+
+})
 
 test('color interpolation hex', t => {
 

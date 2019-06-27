@@ -7,12 +7,12 @@
       .parent {
           position: relative;
           height: 800vh;
+          background-color: var(--background);
       }
       .child {
           position: sticky;
           top: 0px;
           height: 100vh;
-          background-color: blue;
       }
       .container {
           position: relative;
@@ -25,6 +25,20 @@
           top: 0;
           left: 0;
       }
+      .text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 50px;
+        color: var(--text-color);
+        opacity: var(--opacity);
+        transform: translateY(var(--y));
+      }
       .module {
           height: 100vh;
           background-color: #efefef;
@@ -36,12 +50,20 @@
 <body init-sample="scrollDemoSample3" style="padding: 0px">
   <div class="module">
       <h1> This is the start of the page</h1>
-      <p> This is an example of using VectorDom timeline feature.  You can control vector positions and rotation via a timeline.</p>
+      <p> This is an example of using VectorDom timeline feature.
+          You can control vector positions and rotation via a timeline.</p>
+      <p> With VectorDom you can also set css variables.  Notice how the parent
+          element has a background changing.  This is set via css variables that
+          are updated with VectorDom.
+      </p>
   </div>
   <div class="parent" id="parent">
       <div class="child" id="child">
         <div class="container">
             <div class="flower" id="flower"><div><img src="/public/flower.jpg"/></div></div>
+            <div class="text" id="text">
+                <h1> Hello  this is some text</h1>
+            </div>
         </div>
       </div>
   </div>

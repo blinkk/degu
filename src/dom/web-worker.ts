@@ -149,7 +149,7 @@ export class WebWorker {
             const worker = new Worker(blobUrl);
 
             URL.revokeObjectURL(blobUrl);
-            worker.postMessage(paramsToSend, transfer);
+            worker.postMessage(paramsToSend, transfer as Array<any>);
             worker.onerror = (event: Object) => {
                 reject(event);
                 worker.terminate();
@@ -171,7 +171,7 @@ export class WebWorker {
             }
 
             // URL.revokeObjectURL(blobUrl);
-            this.worker.postMessage(paramsToSend, transfer);
+            this.worker.postMessage(paramsToSend, transfer as Array<any>);
             this.worker.onerror = (event: Object) => {
                 reject(event);
             }

@@ -57,6 +57,12 @@ export class dom {
      *     let progress =
      *             mathf.getElementScrolledPercent(this.element, startOffset, 0);
      *
+     *     let startOffset = window.innerHeight;
+     *     // Now progress when the top of the element hits the top of the screen.
+     *     // But still will complete normally at the bottom.
+     *     let progress =
+     *             mathf.getElementScrolledPercent(this.element, startOffset, 0);
+     *
      *     let heightOffset = -100;
      *     // Entry as normal - 0 when the element first comes into view.
      *     // Now progress will complete get to 0 when there is still 100px

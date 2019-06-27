@@ -10,6 +10,14 @@ test('parse values', t => {
     t.is(cssUnit.parse('1px').type, 'unit');
     t.is(cssUnit.parse('10vw').value, 10);
 
+    t.is(cssUnit.parse('-10vw').unit, 'vw');
+    t.is(cssUnit.parse('-1px').type, 'unit');
+    t.is(cssUnit.parse('-10vw').value, -10);
+    t.is(cssUnit.parse('0.5em').value, 0.5);
+    t.is(cssUnit.parse('-0.5em').value, -0.5);
+    t.is(cssUnit.parse('-0.5em').unit, 'em');
+
+
     t.is(cssUnit.parse('10%').unit, '%');
     t.is(cssUnit.parse('1px').type, 'unit');
     t.is(cssUnit.parse('10vw').value, 10);

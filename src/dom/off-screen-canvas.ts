@@ -116,7 +116,7 @@ import { WebWorker } from "./web-worker";
  *
  */
 export class OffScreenCanvas {
-    private canvas: HTMLCanvasElement | null;
+    private canvas: HTMLCanvasElement | null | any;
     private offScreenHandler: Function | null;
     private worker: WebWorker | null;
     private canvasSent: boolean;

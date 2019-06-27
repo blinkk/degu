@@ -8,17 +8,27 @@ import { func } from '../func/func';
 import { is } from '../is/is';
 import { dom } from '../dom/dom';
 import { HermiteCurve } from '../mathf/hermite-curve';
-import { isBuffer } from 'util';
+import { Interpolate } from '../interpolate/interpolate';
 
 interface VectorDomTimeline {
     progress: number;
     x: number;
     y: number;
     z: number;
+    rx: number;
+    ry: number;
+    rz: number;
     alpha: number;
     easingFunction?: Function;
 }
 
+
+interface VectorDomOptions {
+    /**
+     * Whether to set cssTimelineOnly to true.
+     */
+    cssTimelineOnly: boolean;
+}
 
 
 /**
@@ -95,7 +105,7 @@ interface VectorDomTimeline {
  *
  * // In the timeline, define storyboard out the animations.
  * // Any key that starts with '--' will automatically be available
- * // as a css var.
+ * // as a css var on the element.
  * var timeline = [
  *    {
  *      progress: 0,
@@ -154,6 +164,21 @@ interface VectorDomTimeline {
  * vector.timelineCatmullRomTension = 1.2;
  *
  * ```
+ *
+ *
+ *
+ * Creating a VectorDom only for css timeline.
+ * You may want to use VectorDom ONLY for the timeline feature but discard
+ * the transforms and vector features.  You can set:
+ *
+ * ```
+ * new VectorDom(myElement, { cssTimelineOnly: true});
+ *
+ * ```
+ * to indicate that you only want to use this VectorDom with the timeline feature.
+ * The timeline feature would only accept css var property keys.
+ *
+ *
  *
  * See more demo in /examples/vector-dom and /examples/scroll-demo
  */
@@ -217,10 +242,47 @@ export class VectorDom {
      */
     public alpha: number;
 
+    /**
+     * Sets the transform origin of this VectorDom.
+     */
     public transformOrigin: string;
 
+    /**
+     * A list of values to interpolate between a given progress.  This is
+     * the story board of the timeline feature.
+     *
+     * ```ts
+     * var timeline = [
+     *       {
+     *           progress: 0,
+     *           y: 0,
+     *       },
+     *       {
+     *           progress: 0.1,
+     *           '--opacity': 1,
+     *           y: 100,
+     *       },
+     *       {
+     *           progress: 0.5,
+     *           '--opacity': 0,
+     *           y: 200,
+     *       }
+     *]
+     * ```
+     */
     private timeline: Array<VectorDomTimeline> | null;
+
+    /**
+     * An internal list of all recorded timeline keys.
+     */
     private timelineKeys: Array<string>;
+    /**
+     * Whether this is a vector that will only be used for css timeline.
+     * If set to true, the default vector functionality will not be applied
+     * and effectively, ONLY the timeline functionality with css variable keys
+     * will work.
+     */
+    public cssTimelineOnly: boolean;
 
 
     /**
@@ -234,7 +296,7 @@ export class VectorDom {
      */
     public timelineCatmullRomTension: number;
 
-    constructor(element: HTMLElement) {
+    constructor(element: HTMLElement, options?: VectorDomOptions) {
         this.element = element;
         this.offset = Vector.ZERO;
         this.position = Vector.ZERO;
@@ -249,11 +311,13 @@ export class VectorDom {
         this.anchorX = 0.5;
         this.anchorY = 0.5;
         this.alpha = 1;
-        this.zIndexScalar = 100;
+        this.zIndexScalar = 30;
         this.timeline = null;
         this.timelineKeys = [];
         this.timelineCatmullRomMode = false;
         this.timelineCatmullRomTension = 1;
+        this.cssTimelineOnly =
+            func.setDefault(options && options.cssTimelineOnly, false);
         this.calculateSize();
 
         this.setTransformOrigin();
@@ -266,6 +330,9 @@ export class VectorDom {
 
 
     setTransformOrigin(value: string = 'center center') {
+        if (this.cssTimelineOnly) {
+            return;
+        }
         this.transformOrigin = value;
         this.element.style.transformOrigin = 'center center';
     }
@@ -529,6 +596,12 @@ export class VectorDom {
             return timeline;
         });
 
+
+        this.timeline = this.timeline.sort((a, b) => {
+            return a.progress - b.progress;
+        })
+        console.log(this.timeline);
+
     }
 
     setTimelineProgress(progress: number) {
@@ -562,7 +635,8 @@ export class VectorDom {
                     startProgress = timeline.progress;
                     easing = timeline.easingFunction;
                 }
-                if (!is.number(end) && timeline.progress >= progress && is.number(timeline[key])) {
+                // if (!is.number(end) && timeline.progress >= progress && is.number(timeline[key])) {
+                if (is.null(end) && timeline.progress >= progress && is.defined(timeline[key])) {
                     endProgress = timeline.progress;
                     end = timeline[key];
                 };
@@ -571,7 +645,7 @@ export class VectorDom {
             });
 
             // Now run an interpolation and update the internal value.
-            if (!is.null(start) && !is.null(end)) {
+            if (!is.null(start) && !is.undefined(start) && !is.null(end)) {
                 let childProgress =
                     mathf.clamp01(mathf.childProgress(progress, startProgress, endProgress));
 
@@ -581,26 +655,36 @@ export class VectorDom {
                 }
 
                 let value;
-                if (!this.timelineCatmullRomMode) {
-                    value = mathf.ease(start, end, childProgress, easing || EASE.linear);
-                } else {
-                    let diff = end - start;
-                    // Technically, not a catmull rom but create a similar
-                    // spline out of HermiteCurves.
-                    const vector = HermiteCurve.getPoint(
-                        childProgress,
-                        new Vector(start, start),
-                        new Vector(start * this.timelineCatmullRomTension,
-                            start * this.timelineCatmullRomTension),
-                        new Vector(end, end),
-                        new Vector(end * this.timelineCatmullRomTension,
-                            end * this.timelineCatmullRomTension),
-                    );
-                    if (vector) {
-                        value = vector.x;
+                // If the value is a numberical.
+                if (is.number(start) && is.number(end)) {
+                    if (!this.timelineCatmullRomMode) {
+                        value = mathf.ease(start, end, childProgress, easing || EASE.linear);
+                    } else {
+                        let diff = end - start;
+                        // Technically, not a catmull rom but create a similar
+                        // spline out of HermiteCurves.
+                        const vector = HermiteCurve.getPoint(
+                            childProgress,
+                            new Vector(start, start),
+                            new Vector(start * this.timelineCatmullRomTension,
+                                start * this.timelineCatmullRomTension),
+                            new Vector(end, end),
+                            new Vector(end * this.timelineCatmullRomTension,
+                                end * this.timelineCatmullRomTension),
+                        );
+                        if (vector) {
+                            value = vector.x;
+                        }
                     }
+                } else {
+                    // If string values were passed, process it via Interpolate.
+                    // to be able to use css units.
+                    value = new Interpolate({
+                        from: start,
+                        to: end,
+                        easeFunction: easing || EASE.linear
+                    }).calculate(childProgress);
                 }
-
 
                 if (value) {
                     this[key] = value;
@@ -639,6 +723,9 @@ export class VectorDom {
      * func.runOnceOnChange.
      */
     private render_(transform: string, alpha: number) {
+        if (this.cssTimelineOnly) {
+            return;
+        }
         this.element.style.transform = transform;
         this.element.style.opacity = alpha + '';
         this.element.style.zIndex =

@@ -91,7 +91,8 @@ export class cssUnit {
      * @param css
      */
     static parse(css: string): CssUnitObject {
-        const value = css.match(/\d+/g);
+        // const value = css.match(/-?\d+/g);
+        const value = css.replace(/[a-zA-Z%]+/g, '');
         const unit = css.match(/[a-zA-Z%]+/g);
 
         let result: CssUnitObject = {
@@ -116,7 +117,7 @@ export class cssUnit {
             result.type = CssUnitObjectTypes.cssHex;
             result.valueType = CssUnitObjectTypes.rgba;
         } else {
-            result.value = value ? +value[0] : null;
+            result.value = value ? +value : null;
             result.unit = unit ? unit[0] : null;
             result.type = CssUnitObjectTypes.unit;
             result.valueType = CssUnitObjectTypes.number;
