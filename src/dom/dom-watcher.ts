@@ -114,7 +114,12 @@ export interface DomWatcherConfig {
  *    runWhen: ()=> { return this.validate()}
  * });
  *
+ * ```
  *
+ *
+ * Adding Debouncing:
+ *
+ * ```ts
  * // Add debouncing.
  *     watcher.add({
  *         element: document.body,
@@ -125,6 +130,31 @@ export interface DomWatcherConfig {
  *     });
  *
  * ```
+ *
+ *
+ * Culling events only when an element is inview.
+ * See example/scroll-demo for actual example.
+ *
+ * ```ts
+ *   let ev = elementVisibility.inview(element, {});
+ *   let watcher = new DomWatcher();
+ *   watcher.add({
+ *      element: window,
+ *      on: 'scroll',
+ *      callback: ()=> {
+ *         // Runs only when this element is inview.
+ *      },
+ *      // Tells to run scroll ONLY when the element is inview.
+ *      runWhen: ()=> { return ev.state().inview; }
+ *   });
+ *
+ *
+ *   // Later
+ *   ev.dispose();
+ *   watcher.dispose();
+ *
+ * ```
+ *
  *
  */
 export class DomWatcher {

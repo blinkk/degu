@@ -59,12 +59,26 @@ export default class ScrollDemoSample {
         );
 
 
+        // Example of using DOMWatcher to do something when the footer title
+        // is inview.
+        let ev = elementVisibility.inview(
+            document.getElementById('footer-title'), {});
+        this.domWatcher.add({
+            element: window,
+            on: 'scroll',
+            callback: () => {
+                console.log('this should only run when the footer is inview');
+            },
+            runWhen: () => { return ev.state().inview; }
+        });
+
+
         // Example of disposing the element visibility after
         // 10 seconds.
-        window.setTimeout(() => {
-            console.log('dispoed');
-            observer.dispose();
-        }, 10000);
+        // window.setTimeout(() => {
+        //     console.log('dispoed');
+        //     observer.dispose();
+        // }, 10000);
     }
 
 
