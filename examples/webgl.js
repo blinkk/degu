@@ -43,8 +43,8 @@ void main() {
 
 
 const assets = [
-    '/public/guy2.jpg',
     '/public/guy1.jpg',
+    '/public/guy2.jpg',
     '/public/displacement1.png'
 ];
 
