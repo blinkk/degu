@@ -36,7 +36,9 @@ void main() {
     vec4 disp = texture2D(uDisp, vUv);
     float trans = clamp((uTrans * uTrans * 5.0) - disp.r * 2.0, 0.0, 1.0);
     vec4 color0 = texture2D(uTexture0, vUv);
-    vec4 color1 = texture2D(uTexture1, vUv);
+    float shift = 1.0 - quarticInOut(uTrans);
+    shift = shift * shift * shift * shift;
+    vec4 color1 = texture2D(uTexture1, vUv + vec2(0.01 * shift, 0.01 * shift));
 	gl_FragColor = mix(color0, color1 , trans);
 }
 `;
