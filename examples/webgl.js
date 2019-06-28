@@ -172,22 +172,18 @@ export default class WebGlSample {
     loop() {
 
         let gl = this.gl;
-        // WebGLを初期化する
+
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
-        // 使用するprogramを指定する
         gl.useProgram(this.program);
 
-        // 描画に使用する頂点バッファーをattributeとして設定する。
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
         gl.vertexAttribPointer(
             this.vertexLocation, 2, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(this.vertexLocation);
 
-        // uniformsの値を指定する
-        // 描画に使用するのtexture設定
         this.textures.forEach((texture, index) => {
             gl.activeTexture(gl.TEXTURE0 + index);
             gl.bindTexture(gl.TEXTURE_2D, texture);
