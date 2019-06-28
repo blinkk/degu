@@ -32,6 +32,14 @@
           height: 100vh;
           background-color: #efefef;
       }
+      .footer-title {
+          opacity: 0;
+      }
+      .footer-title.active {
+          transition: 0.3s all ease;
+          transition-delay: 0.3s;
+          opacity: 1;
+      }
 
   </style>
 
@@ -48,7 +56,7 @@
       </div>
   </div>
   <div class="module">
-      <h1> This is the end of the page.</h1>
+      <h1 class="footer-title" id="footer-title"> This is the end of the page.</h1>
   </div>
 </body>
 </html>

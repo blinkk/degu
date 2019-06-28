@@ -4,9 +4,7 @@ import { DomWatcher } from '../lib/dom/dom-watcher';
 import { VectorDom } from '../lib/dom/vector-dom';
 import { EASE } from '../lib/ease/ease';
 import { dom } from '../lib/dom/dom';
-import { mathf } from '../lib/mathf/mathf';
-import { CatmullRom } from '../lib/mathf/catmull-rom';
-import { Vector } from '../lib/mathf/vector';
+import { elementVisibility } from '../lib/dom/element-visibility';
 
 export default class ScrollDemoSample {
     constructor() {
@@ -44,6 +42,29 @@ export default class ScrollDemoSample {
         rafProgress.easeTo(this.progress, 1, EASE.Linear);
 
         rafProgress.watch(this.onProgressUpdate.bind(this));
+
+
+        // Element visibility.
+        let observer = elementVisibility.inview(
+            document.getElementById('footer-title'), {},
+            (element, changes, dispose) => {
+                if (changes.isIntersecting) {
+                    console.log('inview');
+                    element.classList.add('active');
+                } else {
+                    console.log('not inview');
+                    element.classList.remove('active');
+                }
+            }
+        );
+
+
+        // Example of disposing the element visibility after
+        // 10 seconds.
+        window.setTimeout(() => {
+            console.log('dispoed');
+            observer.dispose();
+        }, 10000);
     }
 
 
