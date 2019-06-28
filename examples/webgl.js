@@ -37,16 +37,16 @@ void main() {
     float trans = clamp((uTrans * uTrans * 5.0) - disp.r * 2.0, 0.0, 1.0);
     vec4 color0 = texture2D(uTexture0, vUv);
     float shift = 1.0 - quarticInOut(uTrans);
-    shift = shift * shift * shift * shift;
-    vec4 color1 = texture2D(uTexture1, vUv + vec2(0.01 * shift, 0.01 * shift));
+    shift = shift * disp.x;
+    vec4 color1 = texture2D(uTexture1, vUv + vec2(0.1 * disp.x * shift, 0.1 * disp.y * shift));
 	gl_FragColor = mix(color0, color1 , trans);
 }
 `;
 
 
 const assets = [
-    '/public/guy1.jpg',
     '/public/guy2.jpg',
+    '/public/guy1.jpg',
     '/public/displacement1.png'
 ];
 
