@@ -141,6 +141,7 @@ export interface DomWatcherConfig {
  *   watcher.add({
  *      element: window,
  *      on: 'scroll',
+ *      eventOptions: { passive: true },
  *      callback: ()=> {
  *         // Runs only when this element is inview.
  *      },

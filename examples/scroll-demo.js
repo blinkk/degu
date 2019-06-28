@@ -66,6 +66,7 @@ export default class ScrollDemoSample {
         this.domWatcher.add({
             element: window,
             on: 'scroll',
+            eventOptions: { passive: true },
             callback: () => {
                 console.log('this should only run when the footer is inview');
             },
