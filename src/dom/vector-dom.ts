@@ -1,5 +1,7 @@
 
 
+import globalWindow from './global-window';
+import documentMouseTracker from './document-mouse-tracker';
 import { EASE } from '../ease/ease';
 import { mathf } from '../mathf/mathf';
 import { MatrixIV } from '../mathf/matrixIV';
@@ -9,6 +11,8 @@ import { is } from '../is/is';
 import { dom } from '../dom/dom';
 import { HermiteCurve } from '../mathf/hermite-curve';
 import { Interpolate } from '../interpolate/interpolate';
+import { MouseTracker } from './mouse-tracker';
+import { DomWatcher } from './dom-watcher';
 
 interface VectorDomTimeline {
     progress: number;
@@ -87,6 +91,7 @@ interface VectorDomOptions {
  * ```
  *
  *
+ * ### TIMELINE FEATURE #######
  *
  * VectorDom also has a timeline feature which can be handy to animate
  * elements to a progress.
@@ -179,8 +184,14 @@ interface VectorDomOptions {
  * The timeline feature would only accept css var property keys.
  *
  *
- *
  * See more demo in /examples/vector-dom and /examples/scroll-demo
+ *
+ *
+ * ############# GOTCHAS ###################
+ * globalPosition
+ *   In order to avoid layout thrashing, VectorDom internally calculates the
+ *   globalPosition.  However this relies on the document.body to not have
+ *   padding.
  */
 export class VectorDom {
     /**
@@ -207,6 +218,13 @@ export class VectorDom {
      * The rotation of this html element.
      */
     private rotation: Vector;
+
+    /**
+     * An internal rotation cache to keep track of how much mouse force is being
+     * applied on the element.  Starts at Vector.ZERO and tied to the
+     * addMouseRotationPushForce method.
+     */
+    private rotationMouseForce: Vector;
 
     /**
      * The total offset of this vector.  This is useful in realigning centeral
@@ -236,6 +254,21 @@ export class VectorDom {
      * The element height.
      */
     public height: number;
+
+
+    /**
+     * The global x and y positions of this element in relation to the current
+     * window.  This value would be 0, 0 if the element is currently in view and
+     * in the top right corner.  It's effectively the same as getBoundingRect
+     * top and left but it is internally calculated to optimize performance.
+     *
+     * Note this represents the cached value so this value should not be used
+     * directly as it can be outdated.
+     *
+     * Use globalPosition vector for an up to date value of global x, y positioning.
+     */
+    private gx_: number;
+    private gy_: number;
 
     /**
      * The opacity of this object.
@@ -296,6 +329,19 @@ export class VectorDom {
      */
     public timelineCatmullRomTension: number;
 
+
+    /**
+     * The instance of documentMouseTracker, making it readily available in
+     * VectorDom
+     */
+    public mouse: MouseTracker;
+
+
+    /**
+     * Internal instance of domWatcher.
+     */
+    private watcher: DomWatcher;
+
     constructor(element: HTMLElement, options?: VectorDomOptions) {
         this.element = element;
         this.offset = Vector.ZERO;
@@ -303,6 +349,7 @@ export class VectorDom {
         this.acceleration = Vector.ZERO;
         this.velocity = Vector.ZERO;
         this.rotation = Vector.ZERO;
+        this.rotationMouseForce = Vector.ZERO;
         this.transformOrigin = 'center center';
         this.render_ = func.runOnceOnChange(this.render_.bind(this));
         this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
@@ -316,16 +363,33 @@ export class VectorDom {
         this.timelineKeys = [];
         this.timelineCatmullRomMode = false;
         this.timelineCatmullRomTension = 1;
+        this.mouse = documentMouseTracker;
+        this.watcher = new DomWatcher();
+        this.gx_ = 0;
+        this.gy_ = 0;
         this.cssTimelineOnly =
             func.setDefault(options && options.cssTimelineOnly, false);
-        this.calculateSize();
 
+        this.watcher.add({
+            element: window,
+            on: 'resize',
+            callback: this.calculateSize.bind(this),
+            eventOptions: { passive: true }
+        })
+
+        this.calculateSize();
         this.setTransformOrigin();
     }
+
 
     calculateSize() {
         this.width = this.element.offsetWidth;
         this.height = this.element.offsetHeight;
+
+        // Cache the global gx_ and gy_ values.
+        let bounds = this.bounds;
+        this.gx_ = bounds.left;
+        this.gy_ = bounds.top + globalWindow.scrollY;
     }
 
 
@@ -429,13 +493,57 @@ export class VectorDom {
         this.rotation.y = value;
     }
 
-
     get rz(): number {
         return this.rotation.z;
     }
 
     set rz(value: number) {
         this.rotation.z = value;
+    }
+
+    /**
+     * Gets the global position of this element in relation to the window.
+     * If the element is in the top, left of the window, this value would
+     * would return 0,0.
+     *
+     * Note that this value is to the 0,0 (top left) position of the element.
+     * It doesn't account for anchorX or anchorY.
+     */
+    get globalPosition() {
+        let x = this.gx_;
+        let y = this.gy_ - globalWindow.scrollY;
+        return new Vector(x, y);
+    }
+
+    /**
+     * The global element center position.  This is the x,y in relation to
+     * the current window view to the center of the element.   If this value
+     * is 0,0, the "center" of the element is at the top left of the window.
+     *
+     * In short, this is asking, where on the screen is the center coordinates
+     * of the element.
+     */
+    get globalElementCenterPosition() {
+        const g = this.globalPosition.clone();
+        const hw = (this.width * (this.z + 1)) / 2;
+        const hh = (this.height * (this.z + 1)) / 2;
+        const x = g.x + hw;
+        const y = g.y + hh;
+        return new Vector(x, y);
+    }
+
+
+    /**
+     * The element bounds including left, top, width, height. Watch out calling
+     * this on RAF since it can cause layout thrashing.  If possible,
+     * use other values since they are cached.  Consider using globalPosition instead
+     * which is more optimized.
+     *
+     * Since this is using getBoundingClientRect() it is the rendered width / height versus
+     * actual.
+     */
+    get bounds() {
+        return this.element.getBoundingClientRect();
     }
 
     setOffset(v: Vector) {
@@ -799,6 +907,109 @@ export class VectorDom {
         cssVars.forEach((cssVar) => {
             dom.setCssVariable(this.element, cssVar['name'], cssVar['value']);
         })
+    }
+
+    public updateWithWave() {
+
+    }
+
+
+    /**
+     * Takes the distance to the mouse position as a force and applies an
+     * effect where the mouse "pushes" the element.  This creates a slight
+     * interaction effect.
+     *
+     * The push force is added to the rotation vector.
+     *
+     * Note this is rather experiemental at this point and it may cause
+     * side effects.
+     *
+     * This method should be called PRIOR to calling render in the render loop.
+     *
+     *
+     * Example:
+     *
+     * ```ts
+     *
+     * let myVector = new VectorDom(element);
+     *
+     *
+     * new Raf(()=> {
+     *
+     *   myVector.addMouseRotationPushForce();
+     *   myVector.render();
+     *
+     * }).start();
+     *
+     *
+     * ```
+     */
+    public addMouseRotationPushForce(
+        xScalar: number = 0.0005,
+        yScalar: number = 0.0005, zScalar: number = 0.0005, lerp: number = 0.02) {
+        let globalMousePosition = this.mouse.position.clone();
+        globalMousePosition.y = globalMousePosition.y - globalWindow.scrollY;
+
+
+        // Get the angle difference between the mouse and the center of this element.
+        let angleDelta = Vector.getXyzRotationTo(
+            globalMousePosition,
+            this.globalElementCenterPosition
+        )
+
+        // Scale the angleDelta.
+        angleDelta[0] = angleDelta[0] * xScalar;
+        angleDelta[1] = angleDelta[1] * yScalar;
+        angleDelta[2] = angleDelta[3] * zScalar;
+
+        // Make that into a vector.
+        let targetRotation = Vector.fromArray(angleDelta);
+
+        // TODO (uxder) Is rx inverted?
+        targetRotation.x = -targetRotation.x;
+
+        // We want an effect where the mouse "PUSHes" away the element
+        // The getXyzRotationTo is a more pull so we negate the value.
+        targetRotation.negate();
+
+        // Now in memory lerp that rotationMouseForce (an internal mouse rotation
+        // only value).
+        this.rotationMouseForce.lerp(targetRotation, lerp);
+
+        // Now get the difference between the target rotation and rotationmouseForce.
+        // and apply that to the main rotation vector.
+        // This effectively, applies the force to the main rotation vector
+        // but as the internal rotationMouseForce gets closer to the target rotation
+        // value the force will lessen.  It effectively, clamps the rotations.
+        let diffVector = Vector.subtract(
+            this.rotationMouseForce, targetRotation);
+
+        this.rotation.add(diffVector);
+    }
+
+
+    /**
+     * WIP - Update with quaternions.
+     * TODO (uxder) update with quaternions
+     */
+    public updateRotationTowardsCenterScreen() {
+        let windowCenter = new Vector(
+            window.innerWidth / 2,
+            window.innerHeight / 2);
+        let delta = Vector.subtract(windowCenter,
+            this.globalElementCenterPosition.clone());
+        // Now based on the delta, create a new vector that will
+        // add or subtract.
+        delta.normalize().scale(0.3);
+        // TODO (uxder) Is rx inverted?
+        delta.x = -delta.x;
+
+        this.rotation.lerp(delta, 0.08);
+
+    }
+
+    dispose() {
+        this.watcher.dispose();
     }
 
 }

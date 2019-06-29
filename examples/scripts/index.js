@@ -13,6 +13,7 @@ import DomWatcherSample from '../dom-watcher';
 
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
+import RafSample2 from '../raf2';
 import RafTimerSample from '../raf-timer';
 import RafProgressSample from '../raf-progress';
 
@@ -28,6 +29,7 @@ import MatrixIVSample3 from '../matrixIV3';
 import Pseudo3dCanvasSample from '../pseudo-3d-canvas';
 import VectorDomSample from '../vector-dom';
 import VectorDomSample2 from '../vector-dom2';
+import VectorDomSample3 from '../vector-dom3';
 import RayCastingSample from '../raycasting';
 import RayCasting2Sample from '../raycasting2';
 import RayCasting3Sample from '../raycasting3';
@@ -58,6 +60,7 @@ const samples = {
   'cssVarInterpolateSample': CssVarInterpolateSample,
   'cssVarInterpolateSample2': CssVarInterpolateSample2,
   'rafSample': RafSample,
+  'rafSample2': RafSample2,
   'rafTimerSample': RafTimerSample,
   'rafProgressSample': RafProgressSample,
   'playgroundSample': PlaygroundSample,
@@ -72,6 +75,7 @@ const samples = {
   'pseudo3dCanvasSample': Pseudo3dCanvasSample,
   'vectorDomSample': VectorDomSample,
   'vectorDomSample2': VectorDomSample2,
+  'vectorDomSample3': VectorDomSample3,
   'rayCastingSample': RayCastingSample,
   'rayCasting2Sample': RayCasting2Sample,
   'rayCasting3Sample': RayCasting3Sample,
@@ -110,4 +114,6 @@ class Main {
 }
 
 
-new Main();
+window.addEventListener('load', () => {
+  new Main();
+});

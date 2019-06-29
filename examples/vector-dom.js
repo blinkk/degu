@@ -3,8 +3,6 @@ import * as dat from "dat.gui";
 import { VectorDom } from "../lib/dom/vector-dom";
 import { Raf } from '../lib/raf/raf';
 import { Vector } from "../lib/mathf/vector";
-import { mathf } from "../lib/mathf/mathf";
-import { MatrixIV } from "../lib/mathf/matrixIV";
 
 export default class VectorDomSample {
     constructor() {

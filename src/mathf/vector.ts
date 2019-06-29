@@ -180,7 +180,7 @@ export class Vector {
      * Creates a new Vector from a set of arrays.
      *
      * ```ts
-     * var v = Vector.fromArray(0,2,2);
+     * var v = Vector.fromArray([0,2,2]);
      * ```
      */
     static fromArray(values: Array<number>): Vector {
@@ -255,6 +255,43 @@ export class Vector {
     }
 
 
+
+    /**
+     * Given a targetVector, this will find the rotation angles of each
+     * axis which you can then later use to on rotateX, rotateY, rotateZ
+     * values on a matrix or rotational vector.
+     *
+     *
+     * Basic Example:
+     * ```ts
+     *
+     * let origin = Vector.ZERO;
+     * let target = new Vector(10,15,20);
+     * let angles = Vector.getXyzRotationTo(origin, target);
+     *
+     * angles[0] // 1.95.. -- radian x rotation value
+     * angles[1] // 2.16.. -- radian y rotation value
+     * angles[2] // 2.40.. -- radian z rotation value
+     *
+     * ```
+     *
+     * See for a reference but the below is not using this:
+     * https://stackoverflow.com/questions/48532207/get-xyz-rotation-from-pvector
+     * @param targetVector
+     * @return Array<number> An array with three numbers,
+     *      angleX, angleY and angleZ in radians.
+     */
+    static getXyzRotationTo(originVector: Vector, targetVector: Vector) {
+        // Use the difference between current vector and target as the basis.
+        let delta = originVector.clone().subtract(targetVector);
+        let angleX = Math.atan(delta.x);
+        let angleY = Math.atan(delta.y);
+        let angleZ = Math.atan(delta.z);
+        return [angleX, angleY, angleZ];
+    }
+
+
+
     /**
      * Adds this vector to another.
      */
@@ -307,7 +344,7 @@ export class Vector {
     /**
      * Divide this vector with another.
      */
-    device(v: Vector): Vector {
+    divide(v: Vector): Vector {
         this.x /= v.x;
         this.y /= v.y;
         this.z /= v.z || 1;
@@ -333,7 +370,7 @@ export class Vector {
     /**
      * Negate this vector as a 3d vector.
      */
-    negate(v: Vector): Vector {
+    negate(): Vector {
         this.x = -this.x;
         this.y = -this.y;
         this.z = mathf.absZero(-this.z);
