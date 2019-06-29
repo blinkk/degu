@@ -234,6 +234,22 @@ export class is {
 
 
     /**
+     * Whether touch is supported or not.
+     */
+    static supportingTouch(): boolean {
+        return (('ontouchstart' in window) || window['DocumentTouch'] && document instanceof window['DocumentTouch']);
+    }
+
+
+    /**
+     * Whether device orientation is supported
+     */
+    static supportingDeviceOrientation(): boolean {
+        return !!window['DeviceOrientationEvent'] as any;
+    }
+
+
+    /**
      * A string value that appears to be a css hex.
      *
      * ```
