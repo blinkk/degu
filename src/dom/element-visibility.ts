@@ -21,7 +21,17 @@ export class elementVisibility {
      *
      * Basic usage:
      *
+     *
      * ```ts
+     * let ev = elementVisibility.inview(element);
+     * console.log(ev.state().inview); // Is the elmeent inview now?
+     * ev.dispose();
+     * ```
+     *
+     *
+     * Basic usage with callback structure.
+     * ```ts
+     *
      *
      *   elementVisibility.inview(element, { threshold: 0.3 },
      *     // Note that your callback will get immediately
@@ -35,13 +45,7 @@ export class elementVisibility {
      *     }
      *   );
      *
-     * ```
      *
-     * Disposing.  This is important to keep your app optimized.
-     *
-     * ```ts
-     * let observer = elementVisibility.inview(el, null, ()=> {});
-     * observer.dispose();
      * ```
      *
      *
@@ -52,7 +56,7 @@ export class elementVisibility {
      *
      *
      * ```ts
-     * let ev = elementVisibility.inview(element, {});
+     * let ev = elementVisibility.inview(element);
      *
      * console.log(ev.state().inview); // Is the elmeent inview now?
      *
@@ -74,7 +78,7 @@ export class elementVisibility {
      * ```
      *
      *
-     * I want to check if my element is inview just once.
+     * --> I want to check if my element is inview just once.
      *
      * ```ts
      * let ev = elementVisibility.inview(element, {});
@@ -82,11 +86,10 @@ export class elementVisibility {
      * ev.dipose(); // Dispose it.
      * ```
      *
-     * I want to run scroll events only when the element is inview.
+     * --> I want to run scroll events only when the element is inview.
      * See [[DomWatcher]] for an example of this.
      *
      *
-     * ```
      */
     static inview(element: HTMLElement, options: Object = {}, callback?: Function) {
         // Cache the last known state in the closure.
@@ -132,6 +135,9 @@ export class elementVisibility {
         return {
             observer: observer,
             dispose: dispose,
+            /**
+             * A method you can call to acquire the last known inview state.
+             */
             state: state
         };
     }
