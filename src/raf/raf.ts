@@ -35,7 +35,40 @@ interface RafEvent extends Event {
  * }
  * raf.watch(onRaf);
  * raf.unwatch(onRaf);
+ *
  * ```
+ *
+ * RunWhen option.
+ * You can pass a run condition to limit raf only when the condition resolve
+ * to true.  This is useful to cull unncessary requests.
+ * An example is to use elementVisility to only run RAF when an element is
+ * in view and stop raf when it goes out of view.
+ *
+ *
+ * ```ts
+ *
+ * // Runs only when the window is small.
+ * var raf = new Raf(()=> {
+ *   console.log('this runs when scren size is less than 1000');
+ * });
+ * raf.runWhen(()=> { window.innerWidth < 1000});
+ * raf.start();
+ *
+ *
+ *
+ * // Runs only when myElement is in view.
+ * let ev = elementVisibility.inview(myElement);
+ * var raf = new Raf(() => {
+ *    console.log('a raf that runs when element is in view.');
+ * });
+ * raf.runWhen(() => {
+ *    return ev.state().inview;
+ * });
+ * raf.start();
+ *
+ *
+ * ```
+ *
  * @noInheritDoc
  * @class
  */
@@ -47,6 +80,7 @@ export class Raf {
     private fps: number;
     private isPlaying: boolean;
     private callbacks: Array<Function>;
+    private runCondition: Function | null;
 
     /**
      * @param {Function} rafLoop  Optional function to be called on each
@@ -94,6 +128,14 @@ export class Raf {
          */
         this.callbacks = [];
 
+        /**
+         * An optional condition in which if set and resolved to false,
+         * the raf loop gets cull.ed
+         * @type {Function}
+         */
+        this.runCondition = null;
+
+
         if (rafLoop) {
             this.watch(rafLoop);
         }
@@ -115,6 +157,17 @@ export class Raf {
         this.callbacks = this.callbacks.filter((callback) => {
             return callback == callbackToRemove;
         })
+    }
+
+
+    /**
+     * Sets a function to execute on each raf loop.  If the condition resolves
+     * to true, the raf loop callbacks will be executed.  If false, the raf
+     * loop is culled.
+     * @param callbackCondition
+     */
+    runWhen(callbackCondition: Function) {
+        this.runCondition = callbackCondition;
     }
 
 
@@ -164,12 +217,18 @@ export class Raf {
             const elapsed = current - this.lastUpdateTime;
             const fps = this.fps == 0 ? 0 : 1000 / this.fps;
             if (elapsed > fps) {
-
                 this.callbacks.forEach((callback) => {
-                    callback(this.frame, this.lastUpdateTime, elapsed, () => {
-                        this.stop();
-                    });
-                })
+                    const callCallback = () => {
+                        callback(this.frame, this.lastUpdateTime, elapsed, () => {
+                            this.stop();
+                        });
+                    }
+                    if (this.runCondition) {
+                        this.runCondition() && callCallback();
+                    } else {
+                        callCallback();
+                    }
+                });
 
                 this.lastUpdateTime = time.now();
             }

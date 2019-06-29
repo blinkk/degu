@@ -88,7 +88,7 @@ export class elementVisibility {
      *
      * ```
      */
-    static inview(element: HTMLElement, options: Object, callback?: Function) {
+    static inview(element: HTMLElement, options: Object = {}, callback?: Function) {
         // Cache the last known state in the closure.
         let cachedChanges: any = [];
         let cachedLastChange: any = null;
