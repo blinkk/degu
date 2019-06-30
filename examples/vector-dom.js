@@ -19,6 +19,7 @@ export default class VectorDomSample {
         this.vectorBall.setOffset(
             new Vector(800 / 2, 800 / 2, 0)
         );
+        this.vectorBall.init();
 
 
         this.raf = new Raf(this.onRaf.bind(this));
