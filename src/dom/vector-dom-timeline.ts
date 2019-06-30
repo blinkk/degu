@@ -32,12 +32,14 @@ export interface VectorDomTimelineObject {
  *
  * ### TIMELINE FEATURE #######
  *
- * VectorDom also has a timeline feature which can be handy to animate
- * elements to a progress.
+ * The timeline feature is a component of VectorDom to make sequential animations.
  *
- * The default properties of VectorDom get directly appended to the element
- * as a css 3dMatrix (x, y, z, rx, ry, rz).  However, you can optionally,
- * set css variable key values in timeline to set css variables.
+ * The timeline feature will directly update element properties including,
+ * x, y, z, rx, ry, rz, alpha.  In addition, you can append any css variable and
+ * timeline will take care of the interpolations.
+ *
+ *
+ * Here is a basic example:
  *
  * ```ts
  *
@@ -75,18 +77,26 @@ export interface VectorDomTimelineObject {
  *      z: 1 - 1,
  *      '--blur': 1
  *      alpha: 1
+ *     },
+ *     {
+ *      progress: 1,
+ *      x: 100,
+ *      y: 20,
+ *      z: 0.2 - 1,
+ *      '--blur': 1
+ *      alpha: 1
  *     }
  * ]
  *
  * let element = document.getElementById('myelmeent');
  * let vector = new VectorDom(element);
  *
- * // Set the timeline.
- * vector.timeline.setTimeline(timeline);
+ * // Access the timeline component and set the timeline.
+ * vector._.timeline.setTimeline(timeline);
  *
  * // Now update the vector to a specific "progress" in the timeline.
  * let currentProgress = 0.2; // Could be amount of scroll, range input, whatever.
- * vector.timeline.setTimeline(currentProgress);
+ * vector._.timeline.setTimeline(currentProgress);
  *
  * // Now render it...it will render at where the values are at 20%
  * vector.render();
@@ -94,34 +104,46 @@ export interface VectorDomTimelineObject {
  *
  *
  *
- * Catmull Rom - instead of a linear, you can set timeline to use
- * catmull rom splines to smooth out the curves between progress points.
+ * ### Catmull Rom Mode.
+ * Timeline goes step to step in your progress but this can often lead to
+ * rather robotic movement.  Instead of a linear progresss, you can create a
+ * spline from your points.
  *
  * ```ts
  *
  * // Set the timeline.
- * vector.timeline.setTimeline(timeline);
+ * vector._.timeline.setTimeline(timeline);
+ *
  * // Set the timeline mode to catmullrom.  Any easing functions
  * // will get ignored.
- * vector.timeline.timelineCatmullRomMode = true;
+ * vector._.timeline.catmullRomMode = true;
+ *
  * // Change the default tension if you wish.
- * vector.timeline.timelineCatmullRomTension = 1.2;
+ * vector._.timeline.catmullRomTension = 1.2;
  *
  * ```
  *
  *
+ * ### Using CSS vars Only.
+ * If you want to use VectorDom only with css variables or sometimes you want to
+ * manually modify the x,y,z (transform values) instead of vectorDOM taking care
+ * of it you can use the css vars only mode.
  *
- * Creating a VectorDom only for css timeline.
- * You may want to use VectorDom ONLY for the timeline feature but discard
- * the transforms and vector features.  You can set:
+ * Update your vectorDom to not update style properties by doing:
+ *
+ * ```ts
+ *
+ * let myVector = new VectorDom(myElement);
+ * vector._.timeline.setTimeline(timeline, { timeline: cssOnly: true}});
  *
  * ```
+ *
+ * alternatively, which results in the same thing.
+ * ```ts
  * let myVector = new VectorDom(myElement);
  * myVector.disableStyleRenders = true;
  *
  * ```
- * to indicate that you only want to use this VectorDom with the timeline feature.
- * The timeline feature would only accept css var property keys.
  *
  *
  */
@@ -155,16 +177,17 @@ export class VectorDomTimeline implements VectorDomComponent {
      * ```
      */
     private timeline: Array<VectorDomTimelineObject> | null;
+
     /**
      * Whether to use catmull rom to evaluate timeline.
      */
-    public timelineCatmullRomMode: boolean;
+    public catmullRomMode: boolean;
 
     /**
      * If using catmull rom to evaluate the timeline, the tension value of the
      * hermit curve m1, m2 points.
      */
-    public timelineCatmullRomTension: number;
+    public catmullRomTension: number;
 
     /**
      * An internal list of all recorded timeline keys.
@@ -192,12 +215,15 @@ export class VectorDomTimeline implements VectorDomComponent {
         this.timeline = [];
         this.timeline = null;
         this.timelineKeys = [];
-        this.timelineCatmullRomMode = false;
-        this.timelineCatmullRomTension = 1;
+        this.catmullRomMode = false;
+        this.catmullRomTension = 1;
 
         // Cull unncessary requests to setCssKeys.
         this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
     }
+
+
+    init() { }
 
     /*
      * Given a set timeline, this will update the positions, rotation
@@ -389,7 +415,7 @@ export class VectorDomTimeline implements VectorDomComponent {
                 let value;
                 // If the value is a numberical.
                 if (is.number(start) && is.number(end)) {
-                    if (!this.timelineCatmullRomMode) {
+                    if (!this.catmullRomMode) {
                         value = mathf.ease(start, end, childProgress, easing || EASE.linear);
                     } else {
                         let diff = end - start;
@@ -398,11 +424,11 @@ export class VectorDomTimeline implements VectorDomComponent {
                         const vector = HermiteCurve.getPoint(
                             childProgress,
                             new Vector(start, start),
-                            new Vector(start * this.timelineCatmullRomTension,
-                                start * this.timelineCatmullRomTension),
+                            new Vector(start * this.catmullRomTension,
+                                start * this.catmullRomTension),
                             new Vector(end, end),
-                            new Vector(end * this.timelineCatmullRomTension,
-                                end * this.timelineCatmullRomTension),
+                            new Vector(end * this.catmullRomTension,
+                                end * this.catmullRomTension),
                         );
                         if (vector) {
                             value = vector.x;
@@ -523,7 +549,7 @@ export class VectorDomTimeline implements VectorDomComponent {
                 let value;
                 // If the value is a numberical.
                 if (is.number(start) && is.number(end)) {
-                    if (!this.timelineCatmullRomMode) {
+                    if (!this.catmullRomMode) {
                         value = mathf.ease(start, end, childProgress, easing || EASE.linear);
 
                     } else {
@@ -533,11 +559,11 @@ export class VectorDomTimeline implements VectorDomComponent {
                         const vector = HermiteCurve.getPoint(
                             childProgress,
                             new Vector(start, start),
-                            new Vector(start * this.timelineCatmullRomTension,
-                                start * this.timelineCatmullRomTension),
+                            new Vector(start * this.catmullRomTension,
+                                start * this.catmullRomTension),
                             new Vector(end, end),
-                            new Vector(end * this.timelineCatmullRomTension,
-                                end * this.timelineCatmullRomTension),
+                            new Vector(end * this.catmullRomTension,
+                                end * this.catmullRomTension),
                         );
                         if (vector) {
                             value = vector.x;

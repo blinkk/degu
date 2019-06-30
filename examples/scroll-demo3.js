@@ -49,7 +49,7 @@ export default class ScrollDemoSample3 {
 
         this.flowerVector._.timeline.setTimeline(timeline);
         // Enable smoothing.
-        this.flowerVector._.timeline.timelineCatmullRomMode = true;
+        this.flowerVector._.timeline.catmullRomMode = true;
         this.flowerVector.init();
 
         // Create a second VectorDom on the parent element.

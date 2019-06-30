@@ -19,6 +19,7 @@ import { VectorDomTimeline, VectorDomTimelineOptions } from './vector-dom-timeli
  * VectorDom Component interface.
  */
 export interface VectorDomComponent {
+    init: Function
     render: Function
     resize: Function
     dispose: Function
@@ -40,6 +41,7 @@ export interface VectorDomOptions {
  * The z value of the position vector gets translated as the scale.
  *
  *
+ * ## Basic Usage:
  * ```ts
  *
  * const element = document.getElementById('myelement');
@@ -68,10 +70,12 @@ export interface VectorDomOptions {
  * vectorElement.setOffset( new Vector(
  *      window.innerWidth/ 2,  window.innerHeight /2, 0));
  *
+ * // After setting intial positions and options, run initialize.
+ * vectorElement.init();
  *
  *
  * new Raf(()=> {
- *   // On each raf, add the rotate vector.
+ *   // On each raf, let's rotate the element.
  *   let rotate = new Vector(0.01, 0, 0);
  *   this.vectorElement.rotation.add(rotate);
  *
@@ -122,6 +126,7 @@ export interface VectorDomOptions {
  * Components can be access via `.components` or `._` for shorthand.
  *
  * These two are the same thing.
+ *
  * ```ts
  *
  * vectorDom.components.timeline.setProgress(0.4);
@@ -318,7 +323,7 @@ export class VectorDom {
         this.watcher.add({
             element: window,
             on: 'resize',
-            callback: this.calculateSize.bind(this),
+            callback: this.resize.bind(this),
             eventOptions: { passive: true }
         })
 
@@ -334,15 +339,20 @@ export class VectorDom {
     }
 
     init() {
-        this.calculateSize();
+
+        this.resize();
         this.setTransformOrigin();
+
+        for (let key in this.components) {
+            this.components[key].init();
+        }
 
         // Make sure render only runs when changes are detected.
         this.render_ = func.runOnceOnChange(this.render_.bind(this));
     }
 
 
-    calculateSize() {
+    resize() {
         this.width = this.element.offsetWidth;
         this.height = this.element.offsetHeight;
 
@@ -824,8 +834,14 @@ export class VectorDom {
 
 
     dispose() {
+
+        for (let key in this.components) {
+            this.components[key].dispose();
+        }
+
         this.watcher.dispose();
         this.elementVisibility.dispose();
+
     }
 
 }

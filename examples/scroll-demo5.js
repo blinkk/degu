@@ -50,8 +50,8 @@ export default class ScrollDemoSample5 {
         this.flowerVector.init();
 
         // Use catmull rom mode to make this super smooth between points.
-        this.flowerVector._.timeline.timelineCatmullRomMode = true;
-        this.flowerVector._.timeline.timelineCatmullRomTension = 1;
+        this.flowerVector._.timeline.catmullRomMode = true;
+        this.flowerVector._.timeline.catmullRomTension = 1;
 
         // Update progress immediately on load.
         this.progress =
