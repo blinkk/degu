@@ -33,9 +33,7 @@ export default class ScrollDemoSample5 {
 
 
         this.flowerElement = document.getElementById('flower');
-
         this.flowerVector = new VectorDom(this.flowerElement);
-        this.flowerVector.renderOnlyWhenInview = true;
         this.flowerVector.anchorX = 0;
         this.flowerVector.anchorY = 0;
 

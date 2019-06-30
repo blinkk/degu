@@ -24,8 +24,6 @@ export default class ScrollDemoSample4 {
 
         this.wave = new Wave(0.03);
 
-        // Instance of rafProgress.
-        const rafProgress = new RafProgress();
 
         // Update the progress value per scroll.
         this.domWatcher.add({
@@ -96,6 +94,7 @@ export default class ScrollDemoSample4 {
     }
 
 
+
     onRaf() {
         this.easedProgress =
             mathf.lerp(this.easedProgress, this.progress, 0.25);
@@ -115,6 +114,9 @@ export default class ScrollDemoSample4 {
                 0
             );
             vector.position.add(floatyVector);
+            vector.addMouseRotationForce(
+                -0.008, -0.008, 0, 0.04
+            );
             vector.render();
         });
     }

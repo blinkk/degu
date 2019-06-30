@@ -424,7 +424,6 @@ export class VectorDom {
 
         // Add element visibility to the VectorDom.
         this.elementVisibility = elementVisibility.inview(this.element);
-        console.log(this.elementVisibility.state().inview);
 
         this.watcher.add({
             element: window,
@@ -569,8 +568,14 @@ export class VectorDom {
      * It doesn't account for anchorX or anchorY.
      */
     get globalPosition() {
-        let x = this.gx_;
-        let y = this.gy_ - globalWindow.scrollY;
+
+        const anchorOffsetVector = new Vector(
+            -(this.anchorX * this.width),
+            -(this.anchorY * this.height),
+            0
+        )
+        let x = this.gx_ + this.offset.x + anchorOffsetVector.x;
+        let y = this.gy_ - globalWindow.scrollY + this.offset.y + anchorOffsetVector.y;
         return new Vector(x, y);
     }
 
@@ -584,8 +589,10 @@ export class VectorDom {
      */
     get globalElementCenterPosition() {
         const g = this.globalPosition.clone();
-        const hw = (this.width * (this.z + 1)) / 2;
-        const hh = (this.height * (this.z + 1)) / 2;
+        // const hw = (this.width * (this.z + 1)) / 2;
+        // const hh = (this.height * (this.z + 1)) / 2;
+        const hw = this.width / 2;
+        const hh = this.height / 2;
         const x = g.x + hw;
         const y = g.y + hh;
         return new Vector(x, y);
@@ -870,6 +877,8 @@ export class VectorDom {
 
             // Now run an interpolation and update the internal value.
             if (!is.null(start) && !is.undefined(start) && !is.null(end)) {
+
+
                 let childProgress =
                     mathf.clamp01(mathf.childProgress(progress, startProgress, endProgress));
 
@@ -883,6 +892,7 @@ export class VectorDom {
                 if (is.number(start) && is.number(end)) {
                     if (!this.timelineCatmullRomMode) {
                         value = mathf.ease(start, end, childProgress, easing || EASE.linear);
+
                     } else {
                         let diff = end - start;
                         // Technically, not a catmull rom but create a similar
@@ -1038,7 +1048,6 @@ export class VectorDom {
         yScalar: number = 0.0005, zScalar: number = 0.0005, lerp: number = 0.02) {
         let globalMousePosition = this.mouse.position.clone();
         globalMousePosition.y = globalMousePosition.y - globalWindow.scrollY;
-
 
         // Get the angle difference between the mouse and the center of this element.
         let angleDelta = Vector.getXyzRotationTo(
