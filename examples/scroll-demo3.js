@@ -54,8 +54,7 @@ export default class ScrollDemoSample3 {
 
         // Create a second VectorDom on the parent element.
         this.parentElement = document.getElementById('parent');
-        this.parentVector = new VectorDom(this.parentElement, { cssTimelineOnly: true });
-        this.parentVector.disableStyleRenders = true;
+        this.parentVector = new VectorDom(this.parentElement, { timeline: { cssOnly: true } });
         this.parentVector._.timeline.setTimeline([
             {
                 progress: 0,

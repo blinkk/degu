@@ -220,6 +220,10 @@ export class VectorDomTimeline implements VectorDomComponent {
 
         // Cull unncessary requests to setCssKeys.
         this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
+
+        if (this.options.cssOnly) {
+            this.host.disableStyleRenders = true;
+        }
     }
 
 
