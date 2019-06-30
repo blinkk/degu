@@ -64,17 +64,18 @@ export default class ScrollDemoSample4 {
                     { progress: 0, x: -100, y: 0, z: 0.2 - 1 },
                     { progress: 1, x: 100, y: -500, z: 0.3 - 1 },
                 ];
-                flowerVector.setTimeline(timeline);
+                flowerVector._.timeline.setTimeline(timeline);
             } else {
                 const timeline = [
                     { progress: 0, rx: 0, ry: 0, rz: 0, x: -100, y: 0, z: 0.5 - 1, '--blur': 1 },
                     { progress: 1, rx: 20, ry: 20, rz: 180, x: 100, y: -500, z: 0.8 - 1, '--blur': 0 },
                 ];
-                flowerVector.setTimeline(timeline);
-
+                flowerVector._.timeline.setTimeline(timeline);
             }
 
             flowerVector.waveMovementFactor = mathf.getRandomInt(2, 20);
+            flowerVector.init();
+
 
             this.flowerVectors.push(flowerVector);
 
@@ -104,7 +105,7 @@ export default class ScrollDemoSample4 {
 
 
         this.flowerVectors.forEach((vector) => {
-            vector.setTimelineProgress(this.easedProgress);
+            vector._.timeline.updateProgress(this.easedProgress);
 
             // Add a littie up and down motion.
             let floatyVector = new Vector(

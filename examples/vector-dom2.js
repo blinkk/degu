@@ -36,6 +36,7 @@ export default class VectorDomSample2 {
 
 
             ballVector.setPosition(new Vector(x, y, z));
+            ballVector.init();
             this.ballVectors.push(ballVector);
         };
         createBall('ball1', -100, 100, 2);

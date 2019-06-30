@@ -45,11 +45,13 @@ export default class ScrollDemoSample5 {
             { progress: 0.8, rz: 0, x: 800, y: 500, z: 0.3 - 1 },
             { progress: 1, rz: 0, x: 1000, y: 200, z: 1 - 1 },
         ];
-        this.flowerVector.setTimeline(timeline);
+        this.flowerVector._.timeline.setTimeline(timeline);
+
+        this.flowerVector.init();
 
         // Use catmull rom mode to make this super smooth between points.
-        this.flowerVector.timelineCatmullRomMode = true;
-        this.flowerVector.timelineCatmullRomTension = 1;
+        this.flowerVector._.timeline.timelineCatmullRomMode = true;
+        this.flowerVector._.timeline.timelineCatmullRomTension = 1;
 
         // Update progress immediately on load.
         this.progress =
@@ -87,8 +89,8 @@ export default class ScrollDemoSample5 {
 
         this.gui = new dat.GUI();
         let datFolder = this.gui.addFolder('Catmull Rom');
-        datFolder.add(this.flowerVector, 'timelineCatmullRomMode');
-        datFolder.add(this.flowerVector, 'timelineCatmullRomTension', -3, 3);
+        datFolder.add(this.flowerVector._.timeline, 'timelineCatmullRomMode');
+        datFolder.add(this.flowerVector._.timeline, 'timelineCatmullRomTension', -3, 3);
     }
 
 
@@ -97,7 +99,7 @@ export default class ScrollDemoSample5 {
         let sin = Math.sin(easedProgress);
 
         this.cssVarInterpolate.update(easedProgress);
-        this.flowerVector.setTimelineProgress(easedProgress);
+        this.flowerVector._.timeline.updateProgress(easedProgress);
         this.flowerVector.render();
     }
 

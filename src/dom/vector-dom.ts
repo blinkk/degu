@@ -8,36 +8,31 @@ import { MatrixIV } from '../mathf/matrixIV';
 import { Vector } from '../mathf/vector';
 import { func } from '../func/func';
 import { is } from '../is/is';
-import { dom } from '../dom/dom';
-import { HermiteCurve } from '../mathf/hermite-curve';
-import { Interpolate } from '../interpolate/interpolate';
 import { MouseTracker } from './mouse-tracker';
 import { DomWatcher } from './dom-watcher';
 import { ElementVisibilityObject, elementVisibility } from './element-visibility';
+import { VectorDomTimeline, VectorDomTimelineOptions } from './vector-dom-timeline';
 
-interface VectorDomTimeline {
-    progress: number;
-    x: number;
-    y: number;
-    z: number;
-    rx: number;
-    ry: number;
-    rz: number;
-    alpha: number;
-    easingFunction?: Function;
+
+
+/**
+ * VectorDom Component interface.
+ */
+export interface VectorDomComponent {
+    render: Function
+    resize: Function
+    dispose: Function
 }
 
 
-interface VectorDomOptions {
-    /**
-     * Whether to set cssTimelineOnly to true.
-     */
-    cssTimelineOnly: boolean;
+export interface VectorDomOptions {
+    timeline?: VectorDomTimelineOptions
 }
 
 
 /**
- * A gameObject type class for DOM elements.
+ * VectorDom is a general object is similar to a GameObject in many engines (but
+ * much simpler).
  *
  * Vector-DOM allows you to specify the position (vec3), rotation (vec3) of an
  * html element using matrix3d transforms.
@@ -91,101 +86,6 @@ interface VectorDomOptions {
  *
  * ```
  *
- *
- * ### TIMELINE FEATURE #######
- *
- * VectorDom also has a timeline feature which can be handy to animate
- * elements to a progress.
- *
- * The default properties of VectorDom get directly appended to the element
- * as a css 3dMatrix (x, y, z, rx, ry, rz).  However, you can optionally,
- * set css variable key values in timeline to set css variables.
- *
- * ```ts
- *
- *  // Notice how we add the css var --blur here.
- * .myelement {
- *     filter: blur(calc(var(--blur) * 4px));
- * }
- *
- *
- * // In the timeline, define storyboard out the animations.
- * // Any key that starts with '--' will automatically be available
- * // as a css var on the element.
- * var timeline = [
- *    {
- *      progress: 0,
- *      x: 0,
- *      y: 0,
- *      z: 0.3 - 1,
- *      alpha: 0.2,
- *      '--blur': 1
- *    },
- *    {
- *      progress: 0.2,
- *      x: 100,
- *      y: 200,
- *      z: 0.8 - 1,
- *      alpha: 0.2,
- *      '--blur': 0.2
- *      easingFunction: EASE.easeInOutCubic
- *     },
- *    {
- *      progress: 0.5,
- *      x: 20,
- *      y: 20,
- *      z: 1 - 1,
- *      '--blur': 1
- *      alpha: 1
- *     }
- * ]
- *
- * let element = document.getElementById('myelmeent');
- * let vector = new VectorDom(element);
- *
- * // Set the timeline.
- * vector.setTimeline(timeline);
- *
- * // Now update the vector to a specific "progress" in the timeline.
- * let currentProgress = 0.2; // Could be amount of scroll, range input, whatever.
- * vector.setTimeline(currentProgress);
- *
- * // Now render it...it will render at where the values are at 20%
- * vector.render();
- * ```
- *
- *
- *
- * Catmull Rom - instead of a linear, you can set timeline to use
- * catmull rom splines to smooth out the curves between progress points.
- *
- * ```ts
- *
- * // Set the timeline.
- * vector.setTimeline(timeline);
- * // Set the timeline mode to catmullrom.  Any easing functions
- * // will get ignored.
- * vector.timelineCatmullRomMode = true;
- * // Change the default tension if you wish.
- * vector.timelineCatmullRomTension = 1.2;
- *
- * ```
- *
- *
- *
- * Creating a VectorDom only for css timeline.
- * You may want to use VectorDom ONLY for the timeline feature but discard
- * the transforms and vector features.  You can set:
- *
- * ```
- * new VectorDom(myElement, { cssTimelineOnly: true});
- *
- * ```
- * to indicate that you only want to use this VectorDom with the timeline feature.
- * The timeline feature would only accept css var property keys.
- *
- *
- *
  * #### Element Visibility
  *
  * Each vector dom also tracks it's visility on the page using elmeentVisiblity.
@@ -210,7 +110,22 @@ interface VectorDomOptions {
  * DOM even when the element is out of view.
  *
  * ```
- * vectorElement.renderOnlyWhenInview = false;
+ * vectorDom.renderOnlyWhenInview = false;
+ *
+ * ```
+ *
+ *
+ *
+ * #### Components
+ *
+ * VectorDom extends functionality via components.
+ * Components can be access via `.components` or `._` for shorthand.
+ *
+ * These two are the same thing.
+ * ```ts
+ *
+ * vectorDom.components.timeline.setProgress(0.4);
+ * vectorDom._.timeline.setProgress(0.4);
  *
  * ```
  *
@@ -224,50 +139,51 @@ interface VectorDomOptions {
  *   padding.
  */
 export class VectorDom {
+
     /**
      * The html element that VectorDom should control.
      */
-    private element: HTMLElement;
+    public element: HTMLElement;
 
     /**
      * The position of this html element.  Z value refers to scale.
      */
-    private position: Vector;
+    protected position: Vector;
 
     /**
      * The acceleration of this element.
      */
-    private acceleration: Vector;
+    protected acceleration: Vector;
 
     /**
      * The velocity of this element.
      */
-    private velocity: Vector;
+    protected velocity: Vector;
 
     /**
      * The rotation of this html element.
      */
-    private rotation: Vector;
+    protected rotation: Vector;
 
     /**
      * An internal rotation cache to keep track of how much mouse force is being
      * applied on the element.  Starts at Vector.ZERO and tied to the
      * addMouseRotationPushForce method.
      */
-    private rotationMouseForce: Vector;
+    protected rotationMouseForce: Vector;
 
     /**
      * An internal rotation cache to keep track of how much scrollY force is being
      * applied on the element.  Starts at Vector.ZERO and tied to the
      * addScrollYRotationForce method.
      */
-    private rotationScrollYForce: Vector;
+    protected rotationScrollYForce: Vector;
 
     /**
      * The total offset of this vector.  This is useful in realigning centeral
      * coordinates.
      */
-    private offset: Vector;
+    protected offset: Vector;
 
     /**
      * The base zIndex scalar value.  As elements are scaled, the closer they are,
@@ -304,8 +220,8 @@ export class VectorDom {
      *
      * Use globalPosition vector for an up to date value of global x, y positioning.
      */
-    private gx_: number;
-    private gy_: number;
+    protected gx_: number;
+    protected gy_: number;
 
     /**
      * The opacity of this object.
@@ -318,56 +234,6 @@ export class VectorDom {
     public transformOrigin: string;
 
     /**
-     * A list of values to interpolate between a given progress.  This is
-     * the story board of the timeline feature.
-     *
-     * ```ts
-     * var timeline = [
-     *       {
-     *           progress: 0,
-     *           y: 0,
-     *       },
-     *       {
-     *           progress: 0.1,
-     *           '--opacity': 1,
-     *           y: 100,
-     *       },
-     *       {
-     *           progress: 0.5,
-     *           '--opacity': 0,
-     *           y: 200,
-     *       }
-     *]
-     * ```
-     */
-    private timeline: Array<VectorDomTimeline> | null;
-
-    /**
-     * An internal list of all recorded timeline keys.
-     */
-    private timelineKeys: Array<string>;
-    /**
-     * Whether this is a vector that will only be used for css timeline.
-     * If set to true, the default vector functionality will not be applied
-     * and effectively, ONLY the timeline functionality with css variable keys
-     * will work.
-     */
-    public cssTimelineOnly: boolean;
-
-
-    /**
-     * Whether to use catmull rom to evaluate timeline.
-     */
-    public timelineCatmullRomMode: boolean;
-
-    /**
-     * If using catmull rom to evaluate the timeline, the tension value of the
-     * hermit curve m1, m2 points.
-     */
-    public timelineCatmullRomTension: number;
-
-
-    /**
      * The instance of documentMouseTracker, making it readily available in
      * VectorDom
      */
@@ -377,7 +243,7 @@ export class VectorDom {
     /**
      * Internal instance of domWatcher.
      */
-    private watcher: DomWatcher;
+    protected watcher: DomWatcher;
 
 
     /**
@@ -393,6 +259,34 @@ export class VectorDom {
      */
     public renderOnlyWhenInview: boolean;
 
+
+    /**
+     * An option to prevent VectorDom to writing out to the "style" attribute
+     * of the element.  This option maybe used when you want to just use VectorDom
+     * to calculate positions and transforms in memory but not actually have
+     * VectorDom update the style value of the element.  It is also used by
+     * VectorDomTimeline cssOnly option where the user can option to update
+     * element positions via css variables.
+     *
+     * This value defaults to false.
+     */
+    public disableStyleRenders: boolean;
+
+    /**
+     * The list of options passed to VectorDom upon creation.
+     */
+    public options: VectorDomOptions;
+
+    /**
+     * VectorDom extension components that add funcitonality to the base
+     * VectorDom.
+     */
+    public components: { [name: string]: VectorDomComponent };
+    /**
+     * An alias to components.  This makes it shorter to write out components.
+     */
+    public _: { [name: string]: VectorDomComponent };
+
     constructor(element: HTMLElement, options?: VectorDomOptions) {
         this.element = element;
         this.offset = Vector.ZERO;
@@ -403,24 +297,20 @@ export class VectorDom {
         this.rotationMouseForce = Vector.ZERO;
         this.rotationScrollYForce = Vector.ZERO;
         this.transformOrigin = 'center center';
-        this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
         this.anchorX = 0.5;
         this.anchorY = 0.5;
         this.alpha = 1;
         this.zIndexScalar = 30;
-        this.timeline = null;
-        this.timelineKeys = [];
-        this.timelineCatmullRomMode = false;
-        this.timelineCatmullRomTension = 1;
         this.mouse = documentMouseTracker;
         this.watcher = new DomWatcher();
         this.renderOnlyWhenInview = true;
+        this.options = options || {};
+        this.disableStyleRenders = false;
+
         this.gx_ = 0;
         this.gy_ = 0;
-        this.cssTimelineOnly =
-            func.setDefault(options && options.cssTimelineOnly, false);
 
         // Add element visibility to the VectorDom.
         this.elementVisibility = elementVisibility.inview(this.element);
@@ -432,11 +322,23 @@ export class VectorDom {
             eventOptions: { passive: true }
         })
 
-        // Make sure render only runs when changes are detected.
-        this.render_ = func.runOnceOnChange(this.render_.bind(this));
+        // Initialize all components.
+        this.components = {
+            /**
+             * The vector dom timeline component.
+             */
+            timeline: new VectorDomTimeline(this)
+        }
+        // Create an alias to components.
+        this._ = this.components;
+    }
 
+    init() {
         this.calculateSize();
         this.setTransformOrigin();
+
+        // Make sure render only runs when changes are detected.
+        this.render_ = func.runOnceOnChange(this.render_.bind(this));
     }
 
 
@@ -448,11 +350,16 @@ export class VectorDom {
         let bounds = this.bounds;
         this.gx_ = bounds.left;
         this.gy_ = bounds.top + globalWindow.scrollY;
+
+        // Update components.
+        for (let key in this.components) {
+            this.components[key].resize();
+        }
     }
 
 
     setTransformOrigin(value: string = 'center center') {
-        if (this.cssTimelineOnly) {
+        if (this.disableStyleRenders) {
             return;
         }
         this.transformOrigin = value;
@@ -699,257 +606,21 @@ export class VectorDom {
     }
 
 
-    /**
-     * Given a set timeline, this will update the positions, rotation
-     * of the vector dom.
-     *
-     * ```ts
-     *
-     * var timeline = [
-     *    {
-     *      progress: 0,
-     *      x: 0,
-     *      y: 0,
-     *      z: 1 - 1,
-     *      alpha: 0.2
-     *    },
-     *    {
-     *      progress: 0.2,
-     *      x: 100,
-     *      y: 200,
-     *      z: 1 - 0.8,
-     *      alpha: 0.2
-     *     }
-     *    {
-     *      progress: 0.5,
-     *      x: 20,
-     *      y: 20,
-     *      z: 1 - 1,
-     *      alpha: 1
-     *     }
-     * ]
-     *
-     * let element = document.getElementById('myelmeent');
-     * let vector = new VectorDom(element);
-     *
-     * // Set the timeline.
-     * vector.setTimeline(timeline);
-     *
-     * // Now update the vector to a specific "progress" in the timeline.
-     * vector.setTimeline(0.2);
-     *
-     * // Now render it...it will render at where the values are at 20%
-     * vector.render();
-     *
-     * ```
-     */
-    setTimeline(timeline: Array<VectorDomTimeline>) {
-        // Sort by progression.
-        this.timeline = timeline.sort((a, b) => {
-            return a.progress - b.progress;
-        });
-
-        this.timelineKeys = [];
-
-        const rotationValue = ['rx', 'ry', 'rz'];
-        this.timeline = timeline.map((timeline) => {
-
-            // Save any new keys.
-            let keys = Object.keys(timeline);
-
-            // Add the keys to timelineKeys while deduping.
-            this.timelineKeys = [...new Set([...this.timelineKeys, ...keys])];
-
-            // Convert rotation values to radians.
-            rotationValue.forEach((key) => {
-                if (timeline[key]) {
-                    timeline[key] = mathf.degreeToRadian(timeline[key]);
-                }
-            })
-
-            return timeline;
-        });
-
-
-        this.timeline = this.timeline.sort((a, b) => {
-            return a.progress - b.progress;
-        })
-
-    }
-
-    /**
-     * Does a look up in the timeline for the next available key.
-     *
-     * Consider this example:
-     * ```
-     * {
-     *   progress: 0,
-     *   x: 100,
-     *   y: 200
-     * },
-     * {
-     *   progress: 0.2,
-     *   y: 100,
-     * }
-     * {
-     *   progress: 1,
-     *   x: 100,
-     * }
-     *
-     * ```
-     * In this timeline, x is not available in the 0.2.  This method will
-     * do a look up.  If you start a search from the i = 1, since x is not
-     * available, it will proceed to the next item until it is found.
-     * @param key The key you are looking up.
-     * @param i The index position to start search.
-     */
-    findNextAvailableKeyInTimeline(key: string, i: number): Object | null {
-        if (!this.timeline) {
-            throw new Error('You need to set a timeline progress first.')
-        }
-        if (is.defined(this.timeline[i][key])) {
-            return {
-                'value': this.timeline[i][key],
-                'key': key,
-                'index': i
-            }
-        } else {
-            if (i >= this.timeline.length - 1) {
-                return null;
-            } else {
-                return this.findNextAvailableKeyInTimeline(key, i + 1);
-            }
-        }
-    }
-
-    setTimelineProgress(progress: number) {
-        if (!this.timeline) {
-            throw new Error('You need to set a timeline progress first.')
-        }
-
-        const skipKeys = ['progress', 'easingFunction'];
-
-        /**
-         * Loop through each possible property.
-         */
-        this.timelineKeys.forEach((key) => {
-            if (skipKeys.includes(key)) {
-                return;
-            }
-
-            // Set the start value as the current position in case it's not specified.
-            let start: any = null;
-            let startProgress = 0;
-            let end: any = null;
-            let endProgress = 1;
-            let easing = null;
-            let previous = null;
-
-
-            // Look up the start and end values for this key in based on
-            // the current progress.
-            this.timeline!.forEach((timeline) => {
-                // If the progress is zero, just take the first available
-                // values.
-                if (progress == 0) {
-                    let endIndex: number =
-                        this.findNextAvailableKeyInTimeline(key, 1)!['index'] || 0;
-                    start = this.timeline![0][key];
-                    end = this.timeline![endIndex][key];
-                    easing = this.timeline![0].easingFunction;
-                    startProgress = this.timeline![0].progress;
-                    endProgress = this.timeline![endIndex].progress;
-                }
-
-                if (timeline.progress < progress) {
-                    start = timeline[key];
-                    startProgress = timeline.progress;
-                    easing = timeline.easingFunction;
-                }
-                // if (!is.number(end) && timeline.progress >= progress && is.number(timeline[key])) {
-                if (is.null(end) && timeline.progress >= progress && is.defined(timeline[key])) {
-                    endProgress = timeline.progress;
-                    end = timeline[key];
-                };
-
-                previous = timeline;
-            });
-
-            // Now run an interpolation and update the internal value.
-            if (!is.null(start) && !is.undefined(start) && !is.null(end)) {
-
-
-                let childProgress =
-                    mathf.clamp01(mathf.childProgress(progress, startProgress, endProgress));
-
-                // Safe guard.
-                if (is.nan(childProgress)) {
-                    return;
-                }
-
-                let value;
-                // If the value is a numberical.
-                if (is.number(start) && is.number(end)) {
-                    if (!this.timelineCatmullRomMode) {
-                        value = mathf.ease(start, end, childProgress, easing || EASE.linear);
-
-                    } else {
-                        let diff = end - start;
-                        // Technically, not a catmull rom but create a similar
-                        // spline out of HermiteCurves.
-                        const vector = HermiteCurve.getPoint(
-                            childProgress,
-                            new Vector(start, start),
-                            new Vector(start * this.timelineCatmullRomTension,
-                                start * this.timelineCatmullRomTension),
-                            new Vector(end, end),
-                            new Vector(end * this.timelineCatmullRomTension,
-                                end * this.timelineCatmullRomTension),
-                        );
-                        if (vector) {
-                            value = vector.x;
-                        }
-                    }
-                } else {
-                    // If string values were passed, process it via Interpolate.
-                    // to be able to use css units.
-                    value = new Interpolate({
-                        from: start,
-                        to: end,
-                        easeFunction: easing || EASE.linear
-                    }).calculate(childProgress);
-                }
-
-                if (is.defined(value)) {
-                    this[key] = value;
-                }
-            }
-        })
-    }
-
-
     render() {
+
+        // Components render out first.
+        for (let key in this.components) {
+            this.components[key].render();
+        }
+
         // Update the position based on velocity and acceleration.
         // Has not effect if you just directly update the position.
         this.velocity.ease(this.acceleration, 1, EASE.linear);
         this.position.add(this.velocity);
         const matrixValue = this.toCss3dMatrix();
+
         this.render_(matrixValue, this.alpha);
 
-
-
-        // Add all registered css keys.
-        let cssVars = [];
-        for (let key in this) {
-            if (key.startsWith('--')) {
-                cssVars.push({
-                    'name': key,
-                    'value': this[key]
-                });
-            }
-        }
-
-        this.setCssKeys_(cssVars);
     }
 
     /**
@@ -957,10 +628,9 @@ export class VectorDom {
      * func.runOnceOnChange.
      */
     private render_(transform: string, alpha: number) {
-        if (this.cssTimelineOnly) {
+        if (this.disableStyleRenders) {
             return;
         }
-
 
         /**
          * Render this element only when it is inview for performance boost.
@@ -979,26 +649,6 @@ export class VectorDom {
 
 
 
-    /**
-     * Applies the css variables.  Unneccesary calls get culled by
-     * func.runOnceOnChange.
-     */
-    private setCssKeys_(cssVars: Array<Object>) {
-
-        /**
-         * Render this element only when it is inview
-         * for performance boost.
-         */
-        if (this.renderOnlyWhenInview &&
-            this.elementVisibility.state().ready &&
-            !this.elementVisibility.state().inview) {
-            return;
-        }
-
-        cssVars.forEach((cssVar) => {
-            dom.setCssVariable(this.element, cssVar['name'], cssVar['value']);
-        })
-    }
 
 
     /**

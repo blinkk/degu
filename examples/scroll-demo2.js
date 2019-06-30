@@ -63,6 +63,7 @@ export default class ScrollDemoSample2 {
         this.flowerVector = new VectorDom(this.flowerElement);
         this.flowerVector.anchorX = 0;
         this.flowerVector.anchorY = 0;
+        this.flowerVector.init();
 
         this.flowerElement2 = document.getElementById('flower2');
         this.flowerVector2 = new VectorDom(this.flowerElement2);
@@ -75,6 +76,7 @@ export default class ScrollDemoSample2 {
             this.childElement.offsetWidth / 2,
             this.childElement.offsetHeight / 2
         ));
+        this.flowerVector2.init();
 
         // Update progress immediately on load.
         this.progress =

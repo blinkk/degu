@@ -35,6 +35,7 @@ export default class ScrollDemoSample {
         this.flowerVector = new VectorDom(this.flowerElement);
         this.flowerVector.anchorX = 0;
         this.flowerVector.anchorY = 0;
+        this.flowerVector.init();
 
         // Update progress immediately on load.
         this.progress =
