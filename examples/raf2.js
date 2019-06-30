@@ -22,6 +22,10 @@ class RafSample2 {
 
         // Runs when the titleElement is in view.
         let ev = elementVisibility.inview(document.getElementById('title'));
+
+        ev.readyPromise.then(() => {
+            console.log('ev is ready');
+        });
         this.titleRaf = new Raf(() => {
             console.log('element is in view.');
         });

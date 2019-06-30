@@ -18,6 +18,11 @@ export default class VectorDomSample2 {
 
         const createBall = (id, x, y, z) => {
             let ballVector = new VectorDom(document.getElementById(id));
+
+            // By default, VectorDom will stop running when element goes
+            // out of view so we turn this feature off.
+            ballVector.renderOnlyWhenInview = false;
+
             // Rougly and manually set it to the center of the screen.
             ballVector.setOffset(new Vector(
                 800 / 2 - 100,

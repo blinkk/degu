@@ -64,7 +64,15 @@ interface RafEvent extends Event {
  * raf.runWhen(() => {
  *    return ev.state().inview;
  * });
+ *
+ * // This normally works fine but elementVisibility has a split second to
+ * // boot up.
  * raf.start();
+ *
+ * // if you want to be sure to only run RAF when ev is ready do this:
+ * ev.readyPromise.then(()=> {
+ *   raf.start();
+ * })
  *
  *
  * ```

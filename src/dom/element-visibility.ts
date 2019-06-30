@@ -1,4 +1,11 @@
+import { Defer } from '../func/defer';
 
+export interface ElementVisibilityObject {
+    observer: IntersectionObserver,
+    dispose: Function,
+    state: Function,
+    readyPromise: Promise<any>
+}
 
 /**
  * A composition around the IntersectionObserver API.
@@ -6,7 +13,6 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
  */
 export class elementVisibility {
-
 
     /**
      * Uses the interaction API to detect element visibility.
@@ -23,9 +29,15 @@ export class elementVisibility {
      *
      *
      * ```ts
+     *
      * let ev = elementVisibility.inview(element);
-     * console.log(ev.state().inview); // Is the elmeent inview now?
+     *
+     * // EV takes a moment to boot up so promise provided.
+     * ev.readyPromise.then(())=> {
+     *   console.log(ev.state().inview); // Is the elmeent inview.
+     * });
      * ev.dispose();
+     *
      * ```
      *
      *
@@ -82,7 +94,22 @@ export class elementVisibility {
      *
      * ```ts
      * let ev = elementVisibility.inview(element, {});
+     *
+     * // This could be falsy since ev takes a moment to boot up.
      * ev.inview; // True or False.
+     *
+     * // Instead
+     * if(ev.state().ready) {
+     *   ev.inview; // True or False.
+     * }
+     *
+     * // Or
+     * ev.readyPromise.then(()=> {
+     *   ev.inview; // True or False.
+     * })
+     *
+     *
+     *
      * ev.dipose(); // Dispose it.
      * ```
      *
@@ -91,11 +118,14 @@ export class elementVisibility {
      *
      *
      */
-    static inview(element: HTMLElement, options: Object = {}, callback?: Function) {
+    static inview(element: HTMLElement, options: Object = {},
+        callback?: Function): ElementVisibilityObject {
         // Cache the last known state in the closure.
         let cachedChanges: any = [];
         let cachedLastChange: any = null;
-        let cachedInview = false;
+        let cachedInview: boolean | null = null;
+        let ready: boolean = false;
+        let readyPromise: Defer = new Defer();
 
         /**
          * Get the last known state values of inview.
@@ -104,7 +134,8 @@ export class elementVisibility {
             return {
                 changes: cachedChanges,
                 lastChange: cachedLastChange,
-                inview: cachedInview
+                inview: cachedInview,
+                ready: ready
             }
         }
 
@@ -116,7 +147,8 @@ export class elementVisibility {
                     cachedChanges = entries;
                     cachedLastChange = entries.slice(-1)[0];
                     cachedInview = cachedLastChange.isIntersecting;
-                    console.log('update', cachedInview);
+                    ready = true;
+                    readyPromise.resolve();
                 }
 
                 // Callback always passes the "current" entries even if there
@@ -138,7 +170,11 @@ export class elementVisibility {
             /**
              * A method you can call to acquire the last known inview state.
              */
-            state: state
+            state: state,
+            /**
+             * A promise that resolved when the observer is ready.
+             */
+            readyPromise: readyPromise.getPromise()
         };
     }
 

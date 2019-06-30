@@ -13,6 +13,7 @@ import { HermiteCurve } from '../mathf/hermite-curve';
 import { Interpolate } from '../interpolate/interpolate';
 import { MouseTracker } from './mouse-tracker';
 import { DomWatcher } from './dom-watcher';
+import { ElementVisibilityObject, elementVisibility } from './element-visibility';
 
 interface VectorDomTimeline {
     progress: number;
@@ -184,6 +185,35 @@ interface VectorDomOptions {
  * The timeline feature would only accept css var property keys.
  *
  *
+ *
+ * #### Element Visibility
+ *
+ * Each vector dom also tracks it's visility on the page using elmeentVisiblity.
+ * You can access the element state with it.
+ *
+ * ```ts
+ *
+ * let v = new VectorDom(myElement);
+ * v.state().inview; // true or false.  The element is current inview.
+ *
+ *
+ * // Render only if this element is inview.
+ * v.state().inview && v.render();
+ *
+ * ```
+ *
+ *
+ * #### Render When in View
+ *
+ * By default, the DOM will update when the element is inview.
+ * You can turn of this feature by setting it to false which will update the
+ * DOM even when the element is out of view.
+ *
+ * ```
+ * vectorElement.renderOnlyWhenInview = false;
+ *
+ * ```
+ *
  * See more demo in /examples/vector-dom and /examples/scroll-demo
  *
  *
@@ -349,6 +379,20 @@ export class VectorDom {
      */
     private watcher: DomWatcher;
 
+
+    /**
+     * Internal instance of element visibility.
+     */
+    public elementVisibility: ElementVisibilityObject;
+
+    /**
+     * Whether to prevent DOM render updates when the element is out of view.
+     * This prevents this class from updating the element style or css variables
+     * if it is out of view.
+     * The default is true to provide performance benefits.
+     */
+    public renderOnlyWhenInview: boolean;
+
     constructor(element: HTMLElement, options?: VectorDomOptions) {
         this.element = element;
         this.offset = Vector.ZERO;
@@ -359,7 +403,6 @@ export class VectorDom {
         this.rotationMouseForce = Vector.ZERO;
         this.rotationScrollYForce = Vector.ZERO;
         this.transformOrigin = 'center center';
-        this.render_ = func.runOnceOnChange(this.render_.bind(this));
         this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
@@ -373,10 +416,15 @@ export class VectorDom {
         this.timelineCatmullRomTension = 1;
         this.mouse = documentMouseTracker;
         this.watcher = new DomWatcher();
+        this.renderOnlyWhenInview = true;
         this.gx_ = 0;
         this.gy_ = 0;
         this.cssTimelineOnly =
             func.setDefault(options && options.cssTimelineOnly, false);
+
+        // Add element visibility to the VectorDom.
+        this.elementVisibility = elementVisibility.inview(this.element);
+        console.log(this.elementVisibility.state().inview);
 
         this.watcher.add({
             element: window,
@@ -384,6 +432,9 @@ export class VectorDom {
             callback: this.calculateSize.bind(this),
             eventOptions: { passive: true }
         })
+
+        // Make sure render only runs when changes are detected.
+        this.render_ = func.runOnceOnChange(this.render_.bind(this));
 
         this.calculateSize();
         this.setTransformOrigin();
@@ -899,6 +950,17 @@ export class VectorDom {
         if (this.cssTimelineOnly) {
             return;
         }
+
+
+        /**
+         * Render this element only when it is inview for performance boost.
+         */
+        if (this.renderOnlyWhenInview &&
+            this.elementVisibility.state().ready &&
+            !this.elementVisibility.state().inview) {
+            return;
+        }
+
         this.element.style.transform = transform;
         this.element.style.opacity = alpha + '';
         this.element.style.zIndex =
@@ -912,13 +974,20 @@ export class VectorDom {
      * func.runOnceOnChange.
      */
     private setCssKeys_(cssVars: Array<Object>) {
+
+        /**
+         * Render this element only when it is inview
+         * for performance boost.
+         */
+        if (this.renderOnlyWhenInview &&
+            this.elementVisibility.state().ready &&
+            !this.elementVisibility.state().inview) {
+            return;
+        }
+
         cssVars.forEach((cssVar) => {
             dom.setCssVariable(this.element, cssVar['name'], cssVar['value']);
         })
-    }
-
-    public updateWithWave() {
-
     }
 
 
@@ -1097,6 +1166,7 @@ export class VectorDom {
 
     dispose() {
         this.watcher.dispose();
+        this.elementVisibility.dispose();
     }
 
 }
