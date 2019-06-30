@@ -115,7 +115,7 @@ export default class ScrollDemoSample4 {
                 0
             );
             vector.position.add(floatyVector);
-            vector.addMouseRotationForce(
+            vector._.force.mouseRotationForce(
                 -0.008, -0.008, 0, 0.04
             );
             vector.render();

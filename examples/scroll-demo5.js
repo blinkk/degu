@@ -89,8 +89,8 @@ export default class ScrollDemoSample5 {
 
         this.gui = new dat.GUI();
         let datFolder = this.gui.addFolder('Catmull Rom');
-        datFolder.add(this.flowerVector._.timeline, 'timelineCatmullRomMode');
-        datFolder.add(this.flowerVector._.timeline, 'timelineCatmullRomTension', -3, 3);
+        datFolder.add(this.flowerVector._.timeline, 'catmullRomMode');
+        datFolder.add(this.flowerVector._.timeline, 'catmullRomTension', -3, 3);
     }
 
 

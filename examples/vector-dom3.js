@@ -40,17 +40,17 @@ export default class VectorDomSample3 {
 
     onRaf() {
 
-        this.text.addMouseRotationForce(
+        this.text._.force.mouseRotationForce(
             -0.002, -0.002, 0, 0.04
         );
-        this.vectorBall2.addMouseRotationForce(
+        this.vectorBall2._.force.mouseRotationForce(
             -0.002, -0.002, 0, 0.04
         );
-        this.vectorBall.addScrollYRotationForce(
+        this.vectorBall._.force.scrollYRotationForce(
             -0.004,
             0
         );
-        // this.vectorBall2.addScrollYRotationForce(
+        // this.vectorBall2._.force.addScrollYRotationForce(
         //     0,
         //     -0.004
         // );

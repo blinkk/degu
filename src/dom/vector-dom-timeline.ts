@@ -28,9 +28,10 @@ export interface VectorDomTimelineObject {
 }
 
 /**
- * A class that adds and helps with timeline functionality of VectorDom.
  *
- * ### TIMELINE FEATURE #######
+ * A component class of VectorDom that adds timeline functionality to VectorDOM.
+ *
+ * #### Basic Example
  *
  * The timeline feature is a component of VectorDom to make sequential animations.
  *
@@ -96,6 +97,8 @@ export interface VectorDomTimelineObject {
  *
  * // Now update the vector to a specific "progress" in the timeline.
  * let currentProgress = 0.2; // Could be amount of scroll, range input, whatever.
+ *
+ * // At this point the internal, position, rotational vectors will get updated.
  * vector._.timeline.setTimeline(currentProgress);
  *
  * // Now render it...it will render at where the values are at 20%
@@ -107,7 +110,7 @@ export interface VectorDomTimelineObject {
  * ### Catmull Rom Mode.
  * Timeline goes step to step in your progress but this can often lead to
  * rather robotic movement.  Instead of a linear progresss, you can create a
- * spline from your points.
+ * a smoothed spline from your points.
  *
  * ```ts
  *
@@ -125,11 +128,9 @@ export interface VectorDomTimelineObject {
  *
  *
  * ### Using CSS vars Only.
- * If you want to use VectorDom only with css variables or sometimes you want to
- * manually modify the x,y,z (transform values) instead of vectorDOM taking care
- * of it you can use the css vars only mode.
+ * If you want to use VectorDom only with css variables or prevent VectorDom
+ * from updating the style properties, pass the cssOnly option.
  *
- * Update your vectorDom to not update style properties by doing:
  *
  * ```ts
  *
