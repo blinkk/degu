@@ -227,6 +227,13 @@ export class VectorDom {
     private rotationMouseForce: Vector;
 
     /**
+     * An internal rotation cache to keep track of how much scrollY force is being
+     * applied on the element.  Starts at Vector.ZERO and tied to the
+     * addScrollYRotationForce method.
+     */
+    private rotationScrollYForce: Vector;
+
+    /**
      * The total offset of this vector.  This is useful in realigning centeral
      * coordinates.
      */
@@ -350,6 +357,7 @@ export class VectorDom {
         this.velocity = Vector.ZERO;
         this.rotation = Vector.ZERO;
         this.rotationMouseForce = Vector.ZERO;
+        this.rotationScrollYForce = Vector.ZERO;
         this.transformOrigin = 'center center';
         this.render_ = func.runOnceOnChange(this.render_.bind(this));
         this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
@@ -933,18 +941,30 @@ export class VectorDom {
      *
      * let myVector = new VectorDom(element);
      *
-     *
      * new Raf(()=> {
      *
-     *   myVector.addMouseRotationPushForce();
+     *   myVector.addMouseRotationForce();
      *   myVector.render();
      *
      * }).start();
      *
      *
      * ```
+     *
+     *
+     * To pull the element towards the mouse, you can pass negative scale values.
+     *
+     * ```ts
+     *
+     * let myVector = new VectorDom(element);
+     * new Raf(()=> {
+     *   myVector.addMouseRotationForce(-0.0005, -0.0005, 0, 0.03);
+     *   myVector.render();
+     * }).start();
+     *
+     * ```
      */
-    public addMouseRotationPushForce(
+    public addMouseRotationForce(
         xScalar: number = 0.0005,
         yScalar: number = 0.0005, zScalar: number = 0.0005, lerp: number = 0.02) {
         let globalMousePosition = this.mouse.position.clone();
@@ -953,8 +973,8 @@ export class VectorDom {
 
         // Get the angle difference between the mouse and the center of this element.
         let angleDelta = Vector.getXyzRotationTo(
-            globalMousePosition,
-            this.globalElementCenterPosition
+            this.globalElementCenterPosition,
+            globalMousePosition
         )
 
         // Scale the angleDelta.
@@ -967,10 +987,6 @@ export class VectorDom {
 
         // TODO (uxder) Is rx inverted?
         targetRotation.x = -targetRotation.x;
-
-        // We want an effect where the mouse "PUSHes" away the element
-        // The getXyzRotationTo is a more pull so we negate the value.
-        targetRotation.negate();
 
         // Now in memory lerp that rotationMouseForce (an internal mouse rotation
         // only value).
@@ -988,25 +1004,96 @@ export class VectorDom {
     }
 
 
+
     /**
-     * WIP - Update with quaternions.
-     * TODO (uxder) update with quaternions
+     * Based on the center of the window, adds a rotational force to this element.
+     * Basically, when the element reaches the center of the screen, this
+     * force would be 0 and the farther it gets aways from the center, more
+     * rotatonal force is applied to the element.
+     *
+     * Since this is based only the y axis, you can apply the force in different ways.
+     *
+     *
+     * This example is a basic example in which the element gets pulls in
+     * rotationY based on its distance to the center Y of the screen.
+     *
+     * ```ts
+     *
+     * let myVector = new VectorDom(element);
+     * new Raf(()=> {
+     *   myVector.addScrollYRotationForce();
+     *   myVector.render();
+     * }).start();
+     *
+     * ```
+     *
+     *
+     *
+     * This example is a basic example in which the element gets pulls in
+     * rotationX based on its distance to the center Y of the screen.
+     *
+     * ```ts
+     *
+     * let myVector = new VectorDom(element);
+     * new Raf(()=> {
+     *   myVector.addScrollYRotationForce(-0.0004, 0);
+     *   myVector.render();
+     * }).start();
+     *
+     * ```
      */
-    public updateRotationTowardsCenterScreen() {
+    public addScrollYRotationForce(
+        xScalar: number = 0,
+        yScalar: number = 0.0005, zScalar: number = 0, lerp: number = 0.02) {
+
         let windowCenter = new Vector(
-            window.innerWidth / 2,
-            window.innerHeight / 2);
-        let delta = Vector.subtract(windowCenter,
-            this.globalElementCenterPosition.clone());
-        // Now based on the delta, create a new vector that will
-        // add or subtract.
-        delta.normalize().scale(0.3);
+            globalWindow.width / 2,
+            globalWindow.height / 2);
+
+        // Override the x and z values to the same coordinate as the element
+        // sicne we don't care about the delta between those.
+        windowCenter.x = this.globalElementCenterPosition.x;
+        windowCenter.z = this.globalElementCenterPosition.z;
+
+        // Get the angle difference between window center and the center of this element.
+        let angleDelta = Vector.getXyzRotationTo(
+            this.globalElementCenterPosition,
+            windowCenter
+        )
+
+        // Since this is adding scrollY force, the amount of force we add to
+        // the x and z is going to be the distance delta of y.
+        angleDelta[0] = angleDelta[1] * xScalar;
+        angleDelta[2] = angleDelta[2] * zScalar;
+
+        // Scale the y angleDelta.
+        angleDelta[1] = angleDelta[1] * yScalar;
+
+        // Make that into a vector.
+        let targetRotation = Vector.fromArray(angleDelta);
+
         // TODO (uxder) Is rx inverted?
-        delta.x = -delta.x;
+        targetRotation.x = -targetRotation.x;
 
-        this.rotation.lerp(delta, 0.08);
+        // We want an effect where the mouse "PUSHes" away the element
+        // The getXyzRotationTo is a more pull so we negate the value.
+        // targetRotation.negate();
 
+        // Now in memory lerp that rotationMouseForce (an internal mouse rotation
+        // only value).
+        this.rotationScrollYForce.lerp(targetRotation, lerp);
+
+        // Now get the difference between the target rotation and rotationmouseForce.
+        // and apply that to the main rotation vector.
+        // This effectively, applies the force to the main rotation vector
+        // but as the internal rotationMouseForce gets closer to the target rotation
+        // value the force will lessen.  It effectively, clamps the rotations.
+        let diffVector = Vector.subtract(
+            this.rotationScrollYForce, targetRotation);
+
+        this.rotation.add(diffVector);
     }
+
 
     dispose() {
         this.watcher.dispose();

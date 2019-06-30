@@ -9,9 +9,21 @@ class GlobalWindow {
      */
     public scrollY: number;
 
+    /**
+     * The window inner width value
+     */
+    public width: number;
+
+    /**
+     * The window inner height value
+     */
+    public height: number;
+
     constructor() {
         this.watcher = new DomWatcher();
         this.scrollY = window.scrollY;
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
         this.watcher.add({
             element: window,
             on: 'scroll',
@@ -19,6 +31,18 @@ class GlobalWindow {
             eventOptions: { passive: true }
         })
 
+        this.watcher.add({
+            element: window,
+            on: 'resize',
+            callback: this.onResize.bind(this),
+            eventOptions: { passive: true }
+        })
+    }
+
+    private onResize() {
+        this.scrollY = window.scrollY;
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
     }
 
     private onScroll() {

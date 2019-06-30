@@ -36,27 +36,14 @@ export default class VectorDomSample3 {
 
 
     onRaf() {
-        // console.log(this.tracker.mouseData.deltaX);
-        // console.log(this.vectorBall.globalPosition);
-        // this.vectorBall.updateRotationTowardsMouse();
-        // this.vectorBall2.updateRotationTowardsMouse();
-        // this.text.updateRotationTowardsMouse();
-        // this.vectorBall.updateRotationTowardsCenterScreen();
-        // this.vectorBall2.updateRotationTowardsCenterScreen();
+        this.vectorBall2.addMouseRotationForce();
 
-        this.vectorBall.addMouseRotationPushForce(
-            0.0002,
-            0.0002,
-            0.0002,
-            0.01
+        this.text.addMouseRotationForce(
+            -0.002, 0, 0, 0.04
         );
-        this.vectorBall2.addMouseRotationPushForce();
-        // this.vectorBall.rz += 0.04;
-        // this.vectorBall.ry += 0.04;
-
-        // Example of limiting to just x rotation
-        this.text.addMouseRotationPushForce(
-            0.002, 0, 0, 0.04
+        this.vectorBall.addScrollYRotationForce(
+            -0.004,
+            0
         );
 
         this.vectorBall.render();
