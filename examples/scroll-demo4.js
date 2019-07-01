@@ -63,14 +63,14 @@ export default class ScrollDemoSample4 {
                 const timeline = [
                     { progress: 0, x: -100, y: -100, rx: -40, ry: 0, rz: -360, z: 0 - 1 },
                     { progress: 0.2, z: 0 - 1 },
-                    { progress: 0.5, ry: 90 },
+                    { progress: 0.5, ry: 90, easingFunction: EASE.easeInOutQuint },
                     { progress: 0.9, x: -200, y: 0, rx: 10, ry: 0, rz: 10, z: 1 - 1 },
                 ];
                 flowerVector._.timeline.setTimeline(timeline);
             } else {
                 const timeline = [
                     { progress: 0, x: -100, y: -100, z: 1 - 1, rz: 0, alpha: 1, '--blur': 1 },
-                    { progress: 0.8, alpha: 1 },
+                    { progress: 0.8, alpha: 1, easingFunction: EASE.easeInOutQuint },
                     { progress: 0.9, x: -200, y: 0, z: 0.2 - 1, rz: -360, alpha: 0, '--blur': 0 },
                 ];
                 flowerVector._.timeline.setTimeline(timeline);

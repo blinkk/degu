@@ -522,6 +522,7 @@ export class VectorDomTimeline implements VectorDomComponent {
                 mathf.clamp01(mathf.childProgress(progress,
                     startTimeline.progress, endTimeline.progress));
 
+
             // Safe guard.
             if (is.nan(childProgress)) {
                 return;
