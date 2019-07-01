@@ -83,6 +83,12 @@ test('lerp', t => {
     t.is(mathf.lerp(100, 10, 0), 100);
     t.is(mathf.lerp(0, 100, 0.5), 50);
     t.is(mathf.lerp(25, 79, 0.2), 35.8);
+
+
+    // Check same value lerping.
+    t.is(mathf.lerp(1, 1, 0), 1);
+    t.is(mathf.lerp(1, 1, 0.5), 1);
+    t.is(mathf.lerp(1, 1, 1), 1);
 });
 
 test('smoothStep', t => {
@@ -163,6 +169,11 @@ test('ease', t => {
     t.is(mathf.ease(0, 1, 0.5, ease), 0.5);
     t.is(mathf.ease(0, 1, 1, ease), 1);
 
+
+    // Check same value easing.
+    t.is(mathf.ease(1, 1, 0, ease), 1);
+    t.is(mathf.ease(1, 1, 0.5, ease), 1);
+    t.is(mathf.ease(1, 1, 1, ease), 1);
 
 });
 
