@@ -1,3 +1,5 @@
+import { bom } from '../dom/bom';
+
 export interface DomWatcherConfig {
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
     // The default event listerner options including passive, once etc.
@@ -117,7 +119,7 @@ export interface DomWatcherConfig {
  * ```
  *
  *
- * Adding Debouncing:
+ * #### Debouncing
  *
  * ```ts
  * // Add debouncing.
@@ -127,6 +129,22 @@ export interface DomWatcherConfig {
  *         callback: func.debounce((event) => {
  *             console.log('movemove!!');
  *         }, 500),
+ *     });
+ *
+ * ```
+ *
+ * #### SmartResize
+ * How can I use this with bom.smartResize?
+ * Just use the 'smartResize' event instead.
+ *
+ * ```ts
+ *
+ *     watcher.add({
+ *         element: window,
+ *         on: 'smartResize',
+ *         callback: (event) => {
+ *             console.log('smart resizing');
+ *         },
  *     });
  *
  * ```
@@ -173,7 +191,7 @@ export class DomWatcher {
      * @param config
      */
     add(config: DomWatcherConfig) {
-        const listener = (event: any) => {
+        let listener = (event: any) => {
             if (config.runWhen) {
                 config.runWhen() && config.callback(event);
             } else {
@@ -183,20 +201,27 @@ export class DomWatcher {
 
         config.listener = listener;
 
-        // Add listening.
-        config.element.addEventListener(
-            config.on,
-            listener,
-            config.eventOptions || {}
-        )
-
-        // Generate the remover.
-        config.remover = () => {
-            config.element.removeEventListener(
+        // If the on event is smartResize, wrap it with dom.smartResize.
+        if (config.on == 'smartResize') {
+            config.remover =
+                bom.smartResize(listener, config.eventOptions || {});
+        } else {
+            // Add listening.
+            config.element.addEventListener(
                 config.on,
-                listener
-            );
+                listener,
+                config.eventOptions || {}
+            )
+
+            // Generate the remover.
+            config.remover = () => {
+                config.element.removeEventListener(
+                    config.on,
+                    listener
+                );
+            }
         }
+
 
         this.watcherConfigs.push(config);
     }

@@ -19,6 +19,15 @@ export default class DomWatcherSample {
             id: 'scrollWatch'
         });
 
+        watcher.add({
+            element: window,
+            on: 'smartResize',
+            callback: (event) => {
+                console.log('I am smart resizing');
+            },
+            eventOptions: { passive: true },
+        });
+
 
         // Add a watcher to button1 to remove the scroll watching.
         watcher.add({
