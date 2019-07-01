@@ -47,12 +47,25 @@ export default class ScrollDemoSample3 {
             { progress: 1, x: 400, y: 500, z: 5 - 1, ry: 0, rz: 0 },
         ];
 
-
-
         this.flowerVector._.timeline.setTimeline(timeline);
         // Enable smoothing.
         this.flowerVector._.timeline.catmullRomMode = true;
         this.flowerVector.init();
+
+
+        this.cityElement = document.getElementById('city');
+        this.cityVector = new VectorDom(this.cityElement);
+        this.cityVector.anchorX = 0;
+        this.cityVector.anchorY = 0;
+
+        timeline = [
+            { progress: 0, x: 0, easingFunction: EASE.easeInOutBounce },
+            { progress: 0.5, x: 500, alpha: 1 },
+            { progress: 1, alpha: 0 }
+        ];
+        this.cityVector._.timeline.setTimeline(timeline);
+        this.cityVector.init();
+
 
         // Create a second VectorDom on the parent element.
         this.parentElement = document.getElementById('parent');
@@ -126,6 +139,9 @@ export default class ScrollDemoSample3 {
 
         this.flowerVector._.timeline.updateProgress(easedProgress);
         this.flowerVector.render();
+
+        this.cityVector._.timeline.updateProgress(easedProgress);
+        this.cityVector.render();
     }
 
 

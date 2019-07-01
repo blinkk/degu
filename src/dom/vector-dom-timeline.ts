@@ -157,6 +157,55 @@ const skipKeys = ['progress', 'easingFunction'];
  * ```
  *
  *
+ * ### How the timeline is evalualted.
+ * For the timeline you declare, a storyboard is internally generated per
+ * property.  This measn that for each keyframe, you can skip certain properties
+ * and the interpolations will make the best effort correctly go between
+ * your keyframes.  If you don't declare a start (0) and end (1) progress
+ * the first and last keyframes you declare will be used in place.
+ *
+ * Easing functions are used in forward progression so there is no point in
+ * adding an easing function to your last keyframe since that is the end.
+ *
+ *
+ * Consider the following:
+ * ```ts
+ *
+ * timeline = [
+ *    { progress: 0.2, alpha: 1, x: 200, easingFunction: EASE.easeInOutCubic},
+ *    { progress: 0.5, x: 500},
+ *    { progress: 0.8, alpha: 0.2},
+ *    { progress: 1, alpha: 0, x: 100}
+ * ]
+ *
+ * ```
+ * Here x and alpha are not declared on each keyframe.  VectorDomTimeline
+ * will generate a storyboard like this for each frame.
+ *
+ * ```ts
+ *
+ * storyboard = {
+ *    alpha: [
+ *      { progress: 0.2, alpha: 1, easingFunction: EASE.easeInOutCubic},
+ *      { progress: 0.8, alpha: 0.2},
+ *      { progress: 1, alpha: 0}
+ *    ],
+ *    x: [
+ *      { progress: 0.2, x: 200, easingFunction: EASE.easeInOutCubic},
+ *      { progress: 0.5, x: 500},
+ *      { progress: 1, x: 100}
+ *    ]
+ * }
+ *
+ * ```
+ * For alpha, the alpha storyboard will be used as the final interpolation
+ * values and points.  Same goes with x.
+ *
+ *
+ * For this reason, it's best practice to try to declare 0 and 1 keyframes to
+ * make it easier to understand your storyboard.
+ *
+ *
  */
 export class VectorDomTimeline implements VectorDomComponent {
     /**
@@ -306,11 +355,11 @@ export class VectorDomTimeline implements VectorDomComponent {
      * of the timeline.
      *
      * The storyboard will also ALWAYs creates a progress 0 and 1 timeline
-     * based on the first available.  See the alpha example below.
+     * based on the first available.
      *
      * const timeline = [
      *   { progress: 0, x: 1200 },
-     *   { progress: 0.2, alpha: 0.2, x: 1500 },
+     *   { progress: 0.2, alpha: 0.2, x: 1500, ease: EASING.easeInOutBounce },
      *   { progress: 0.5, x: 1500 },
      *   { progress: 0.8, alpha: 0.6, x: 1500 },
      *   { progress: 1, x: 1500 }
@@ -320,18 +369,21 @@ export class VectorDomTimeline implements VectorDomComponent {
      * {
      *   alpha: [
      *     { progress: 0, alpha: 0.2},  // Added
-     *     { progress: 0.2, alpha: 0.2},
+     *     { progress: 0.2, alpha: 0.2, ease: EASING.easeInOutBounce},
      *     { progress: 0.8, alpha: 0.6},
      *     { progress: 1, alpha: 0.6}  // Added
      *   ],
      *   x: [
      *   { progress: 0, x: 1200},
-     *   { progress: 0.2, x: 1500},
+     *   { progress: 0.2, x: 1500, ease: EASING.easeInOutBounce},
      *   { progress: 0.5, x: 1500 },
-     *   { progress: 0.8, alpha: 0.6},
-     *   { progress: 1, alpha: 1 }
+     *   { progress: 0.8, x: 1500},
+     *   { progress: 1, x: 1500}
      *   ]
      * }
+     *
+     * This storyboard is basically then used for interporlations when
+     * the progress value is updated.
      */
     static generateStoryboard(keys: Array<string>,
         timeline: Array<VectorDomTimelineObject>): Object {
@@ -390,6 +442,29 @@ export class VectorDomTimeline implements VectorDomComponent {
      * Given a storyboard and the current progress, finds the start and end
      * timeline objects and return them.
      *
+     * ```ts
+     * let storyboard = {
+     *    alpha: [
+     *       { progress: 0, alpha: 0 },
+     *      { progress: 0.2, alpha: 0 },
+     *       { progress: 0.8, alpha: 0.6 },
+     *      { progress: 1, alpha: 0.6 }
+     *   ]
+     * }
+     *
+     * // Find the start and end points if the progress were 0.1
+     * VectorDomTimeline.getStartAndEndTimelineFromStoryboard(storyboard, 'alpha', 0.1);
+     *
+     *
+     *
+     * //Returns:
+     * //  {
+     * //      start: { progress: 0, alpha: 0 },
+     * //      end: { progress: 0.2, alpha: 0 },
+     * //  }
+     *
+     * ```
+     *
      * @param storyboard Object
      * @param key
      * @param progress
@@ -440,7 +515,7 @@ export class VectorDomTimeline implements VectorDomComponent {
             // The start and end values.
             let start = startTimeline[key];
             let end = endTimeline[key];
-            let easing = start.easeFunction;
+            let easing = startTimeline.easingFunction;
 
             // Create a child progress between the start and end.
             let childProgress =
@@ -457,7 +532,8 @@ export class VectorDomTimeline implements VectorDomComponent {
             if (is.number(start) && is.number(end)) {
                 let diff = end - start;
                 if (!this.catmullRomMode || mathf.absZero(diff) == 0) {
-                    value = mathf.ease(start, end, childProgress, easing || EASE.linear);
+                    value = mathf.ease(start, end, childProgress,
+                        easing || EASE.linear);
                 } else {
 
                     let tension = this.catmullRomTension;

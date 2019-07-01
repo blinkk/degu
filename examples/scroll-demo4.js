@@ -61,10 +61,10 @@ export default class ScrollDemoSample4 {
 
             if (i % 2 == 1) {
                 const timeline = [
-                    { progress: 0, x: -100, y: -100, rx: -40, ry: 0, rz: -360, z: 0 - 1, easingFunction: EASE.easeInOutBounce },
-                    { progress: 0.2, z: 0 - 1, easingFunction: EASE.easeInOutBounce },
+                    { progress: 0, x: -100, y: -100, rx: -40, ry: 0, rz: -360, z: 0 - 1 },
+                    { progress: 0.2, z: 0 - 1 },
                     { progress: 0.5, ry: 90 },
-                    { progress: 0.9, x: -200, y: 0, rx: 10, ry: 0, rz: 10, z: 1 - 1, easingFunction: EASE.easeInOutBounce },
+                    { progress: 0.9, x: -200, y: 0, rx: 10, ry: 0, rz: 10, z: 1 - 1 },
                 ];
                 flowerVector._.timeline.setTimeline(timeline);
             } else {
