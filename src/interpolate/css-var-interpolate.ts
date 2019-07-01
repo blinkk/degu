@@ -1,6 +1,7 @@
 
 import { mathf } from '../mathf/mathf';
 import { MultiInterpolate, multiInterpolateConfig } from './multi-interpolate';
+import { ElementVisibilityObject, elementVisibility } from '../dom/element-visibility';
 import { dom } from '../dom/dom';
 
 
@@ -25,9 +26,12 @@ import { dom } from '../dom/dom';
  *   .ball
  *      transform: translateX(calc(var(--x) * 1px)) translateY(calc(var(--y) * 1px));
  *
+ * ```
+ *
  *
  *
  * JS
+ * ```ts
  *
  *  this.ball = document.getElementById('ball');
  *  this.range = document.getElementById('range');
@@ -99,6 +103,17 @@ import { dom } from '../dom/dom';
  * ```ts
  *  this.cssVarInterpolate.setProgressRange(0.2, 0.6);
  * ```
+ *
+ *
+ * Element Visibility
+ * CssVarInterpolate by default will only update css variables when the
+ * root element is inview to performance reasons.
+ *
+ * If you want to turn this off, do the following:
+ *
+ * ```ts
+ * this.cssVarInterpolate.renderOnlyWhenInview = false;
+ * ```
  */
 export class CssVarInterpolate {
     private mainProgress: number | null;
@@ -122,6 +137,20 @@ export class CssVarInterpolate {
     private endProgress: number;
 
     /**
+     * Internal instance of element visibility.
+     */
+    public elementVisibility: ElementVisibilityObject;
+
+    /**
+     * Whether to prevent DOM render updates when the element is out of view.
+     * This prevents this class from updating the element style or css variables
+     * if it is out of view.
+     * The default is true to provide performance benefits.
+     */
+    public renderOnlyWhenInview: boolean;
+
+
+    /**
      * @param element The element to update the css variable to.
      *     This can be the body element if you want a "global" css
      *     variable or you can specific a more speicific element to
@@ -140,6 +169,10 @@ export class CssVarInterpolate {
         this.currentValues = {};
         this.multiInterpolate = new MultiInterpolate(config);
 
+        // Add element visibility to the VectorDom.
+        this.elementVisibility = elementVisibility.inview(this.element);
+        this.renderOnlyWhenInview = true;
+
         this.startProgress = 0;
         this.endProgress = 1;
     }
@@ -152,6 +185,15 @@ export class CssVarInterpolate {
         // Only make updates when progress value was updated to avoid layout
         // thrashing.
         if (progress == this.mainProgress) {
+            return;
+        }
+
+        /**
+         * Render this element only when it is inview for performance boost.
+         */
+        if (this.renderOnlyWhenInview &&
+            this.elementVisibility.state().ready &&
+            !this.elementVisibility.state().inview) {
             return;
         }
 

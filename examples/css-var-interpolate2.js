@@ -13,7 +13,7 @@ export default class CssVarInterpolateSample2 {
         this.range = document.getElementById('range');
 
         this.cssVarInterpolate = new CssVarInterpolate(
-            document.body,
+            document.getElementById('container'),
             {
                 interpolations: [
                     {

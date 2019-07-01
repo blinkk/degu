@@ -10,12 +10,15 @@
   <a href="/index.html">Back to home</a>
   <h1>Css variable interpolation</h1>
   <p> Demonstrates uses of unit and color interpolations.</p>
+  <p>Css Var Interpolate will also only update css vars when the element is inview.
+
+    Try scrolling down and you will see that when the container is out of view,
+    no updates are applied. (check the console to see if css variables are updated).
+  </p>
   <style>
-      body {
-        background-color: var(--background);
-      }
       .container {
-          position: relative;
+        position: relative;
+        background-color: var(--background);
       }
       .special_ball {
             position: absolute;
@@ -27,12 +30,17 @@
             border-radius: 50%;
             transform: translateX(calc(var(--x))) translateY(var(--y));
       }
+      #range {
+        position: fixed;
+        z-index: 100;
+      }
   </style>
 
   <input id="range" type="range" name="points" step="0.01" min="0" max="1" style="width: 500px;">
 
-  <div class="container" style="width: 500px; height: 500px;">
+  <div id="container" class="container" style="width: 500px; height: 500px;">
     <div id="ball" class="special_ball"></div>
   </div>
+  <div style="width: 500px; height: 300vh;"></div>
 </body>
 </html>
