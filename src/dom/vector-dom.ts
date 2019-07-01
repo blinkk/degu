@@ -218,6 +218,7 @@ export class VectorDom {
     protected gx_: number;
     protected gy_: number;
 
+
     /**
      * The opacity of this object.
      */
@@ -268,7 +269,6 @@ export class VectorDom {
      * try setting this to true.
      */
     public useBoundsForGlobalCalculation: boolean;
-
 
     /**
      * An option to prevent VectorDom to writing out to the "style" attribute
@@ -344,6 +344,12 @@ export class VectorDom {
         }
         // Create an alias to components.
         this._ = this.components;
+
+        // Memoize getBoundingClient .
+        this.getBoundingClient =
+            func.memoizeSimple(this.getBoundingClient.bind(this)) as any;
+        // Make sure render only runs when changes are detected.
+        this.render_ = func.runOnceOnChange(this.render_.bind(this));
     }
 
     init() {
@@ -354,9 +360,6 @@ export class VectorDom {
         for (let key in this.components) {
             this.components[key].init();
         }
-
-        // Make sure render only runs when changes are detected.
-        this.render_ = func.runOnceOnChange(this.render_.bind(this));
     }
 
 
@@ -540,10 +543,21 @@ export class VectorDom {
      * use other values since they are cached.  Consider using globalPosition instead
      * which is more optimized.
      *
-     * Since this is using getBoundingClientRect() it is the rendered width / height versus
-     * actual.
+     * Since this is using getBoundingClientRect() it is the
+     * rendered width / height versus actual.
      */
     get bounds() {
+        let bounds = this.getBoundingClient(
+            globalWindow.scrollY, globalWindow.width, globalWindow.height);
+        return bounds;
+    }
+
+    /**
+     * Gets the bounding client rect. The scrollY, window width and height are
+     * passed to memoize results and reevaluation happens when those values have
+     * changed.
+     */
+    private getBoundingClient(y: number, width: number, height: number): ClientRect {
         return this.element.getBoundingClientRect();
     }
 
