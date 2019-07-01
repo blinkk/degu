@@ -22,7 +22,7 @@ export default class VectorDomSample3 {
         this.vectorBall2.anchorX = 0.5;
         this.vectorBall2.anchorY = 0.5;
         this.vectorBall2.setPosition(new Vector(0, 0, 0.3 - 1));
-        this.vectorBall2.setOffset(new Vector(100, 200, 0));
+        this.vectorBall2.setOffset(new Vector(100, -200, 0));
         this.vectorBall2.init();
 
         this.text = new VectorDom(document.getElementById('text'));
@@ -50,6 +50,8 @@ export default class VectorDomSample3 {
             -0.004,
             0
         );
+
+        this.vectorBall2.rx += 0.003;
         // this.vectorBall2._.force.addScrollYRotationForce(
         //     0,
         //     -0.004

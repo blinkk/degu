@@ -140,6 +140,12 @@ export interface VectorDomOptions {
  *   In order to avoid layout thrashing, VectorDom internally calculates the
  *   globalPosition.  However this relies on the document.body to not have
  *   padding.
+ * - globalPosition
+ *   Global position attempts to optimize calls to getBoundClientRect.
+ *   If you are having issues with this, try setting useBoundsForGlobalCalculation
+ *   to true.
+ *
+ *
  */
 export class VectorDom {
 
@@ -250,6 +256,21 @@ export class VectorDom {
 
 
     /**
+     * Whether to use getBoundingClientRect to calculate the global position
+     * of the element.  This is turned to "false" by default and instead,
+     * the global position is calculated internally based on the amount of
+     * scroll.  However, this value can be incorrect if your VectorDom element
+     * resides inside of a position "sticky" in which case, the positioning
+     * goes off.
+     *
+     * In short, if you are using position sticky or some other crazy layouting
+     * system and having issues with globalElementCenter or globalPosition
+     * try setting this to true.
+     */
+    public useBoundsForGlobalCalculation: boolean;
+
+
+    /**
      * An option to prevent VectorDom to writing out to the "style" attribute
      * of the element.  This option maybe used when you want to just use VectorDom
      * to calculate positions and transforms in memory but not actually have
@@ -295,6 +316,7 @@ export class VectorDom {
         this.renderOnlyWhenInview = true;
         this.options = options || {};
         this.disableStyleRenders = false;
+        this.useBoundsForGlobalCalculation = false;
 
         this.gx_ = 0;
         this.gy_ = 0;
@@ -467,18 +489,26 @@ export class VectorDom {
      * If the element is in the top, left of the window, this value would
      * would return 0,0.
      *
-     * Note that this value is to the 0,0 (top left) position of the element.
-     * It doesn't account for anchorX or anchorY.
+     * This value can be incorrect if you element is in the sticky container
+     * in which case, set the useBoundForGlobalCalculation to true.
      */
     get globalPosition() {
 
+        let x = 0;
+        let y = 0;
         const anchorOffsetVector = new Vector(
             -(this.anchorX * this.width),
             -(this.anchorY * this.height),
             0
         )
-        let x = this.gx_ + this.offset.x + anchorOffsetVector.x;
-        let y = this.gy_ - globalWindow.scrollY + this.offset.y + anchorOffsetVector.y;
+        if (!this.useBoundsForGlobalCalculation) {
+            x = this.gx_ + this.offset.x + anchorOffsetVector.x;
+            y = this.gy_ - globalWindow.scrollY + this.offset.y + anchorOffsetVector.y;
+        } else {
+            x = this.bounds.left;
+            y = this.bounds.top;
+        }
+
         return new Vector(x, y);
     }
 
@@ -492,10 +522,12 @@ export class VectorDom {
      */
     get globalElementCenterPosition() {
         const g = this.globalPosition.clone();
-        // const hw = (this.width * (this.z + 1)) / 2;
-        // const hh = (this.height * (this.z + 1)) / 2;
-        const hw = this.width / 2;
-        const hh = this.height / 2;
+        let hw = this.width / 2;
+        let hh = this.height / 2;
+        if (this.useBoundsForGlobalCalculation) {
+            hw = this.bounds.width / 2;
+            hh = this.bounds.height / 2;
+        }
         const x = g.x + hw;
         const y = g.y + hh;
         return new Vector(x, y);

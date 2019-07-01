@@ -83,7 +83,7 @@ export class VectorDomForce implements VectorDomComponent {
      */
     public mouseRotationForce(
         xScalar: number = 0.0005,
-        yScalar: number = 0.0005, zScalar: number = 0.0005, lerp: number = 0.02) {
+        yScalar: number = 0.0005, zScalar: number = 0, lerp: number = 0.02) {
 
         let mouse = this.host.mouse;
         let globalElementCenterPosition = this.host.globalElementCenterPosition;
@@ -99,7 +99,7 @@ export class VectorDomForce implements VectorDomComponent {
         // Scale the angleDelta.
         angleDelta[0] = angleDelta[0] * xScalar;
         angleDelta[1] = angleDelta[1] * yScalar;
-        angleDelta[2] = angleDelta[3] * zScalar;
+        angleDelta[2] = angleDelta[2] * zScalar;
 
         // Make that into a vector.
         let targetRotation = Vector.fromArray(angleDelta);

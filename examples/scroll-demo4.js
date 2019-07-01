@@ -43,15 +43,15 @@ export default class ScrollDemoSample4 {
 
         let ww = window.innerWidth;
         let wh = window.innerHeight;
-        let columns = 4;
+        let columns = 6;
         let xIncrement = ww / columns;
-        let yIncrement = wh * 0.4;
+        let yIncrement = wh * 0.2;
         let row = 0;
         let column = 0;
         this.flowerElements.forEach((flower, i) => {
             const flowerVector = new VectorDom(flower);
-            flowerVector.anchorX = 0.5;
-            flowerVector.anchorY = 0.5;
+            flowerVector.anchorX = 0;
+            flowerVector.anchorY = 0;
 
             let x = xIncrement * column;
             let y = yIncrement * row;
@@ -61,18 +61,21 @@ export default class ScrollDemoSample4 {
 
             if (i % 2 == 1) {
                 const timeline = [
-                    { progress: 0, x: -100, y: 0, z: 0.2 - 1 },
-                    { progress: 1, x: 100, y: -500, z: 0.3 - 1 },
+                    { progress: 0, x: -100, y: 0, rx: -40, ry: 0, rz: -360, z: 0.2 - 1 },
+                    { progress: 0.5, ry: 90 },
+                    { progress: 1, x: 100, y: 0, rx: 10, ry: 0, rz: 10, z: 1 - 1 },
                 ];
                 flowerVector._.timeline.setTimeline(timeline);
             } else {
                 const timeline = [
-                    { progress: 0, rx: 0, ry: 0, rz: 0, x: -100, y: 0, z: 0.5 - 1, '--blur': 1 },
-                    { progress: 1, rx: 20, ry: 20, rz: 180, x: 100, y: -500, z: 0.8 - 1, '--blur': 0 },
+                    { progress: 0, x: -100, y: 0, z: 1 - 1, rz: 0, '--greyscale': 1 },
+                    { progress: 1, x: 100, y: 0, z: 0.2 - 1, rz: -360, '--greyscale': 0 },
                 ];
                 flowerVector._.timeline.setTimeline(timeline);
             }
 
+            flowerVector.id = i;
+            flowerVector.useBoundsForGlobalCalculation = true;
             flowerVector.waveMovementFactor = mathf.getRandomInt(2, 20);
             flowerVector.init();
 
@@ -114,10 +117,18 @@ export default class ScrollDemoSample4 {
                 (vector.waveMovementFactor * this.wave.sinWave) * invertProgress,
                 0
             );
+
             vector.position.add(floatyVector);
-            vector._.force.mouseRotationForce(
-                -0.008, -0.008, 0, 0.04
-            );
+
+            if (vector.id % 2 == 1) {
+                vector._.force.mouseRotationForce(
+                    0.05, 0.0028, 0, 0.02
+                );
+            } else {
+                vector._.force.scrollYRotationForce(
+                    0, 0.05, 0, 0.02
+                );
+            }
             vector.render();
         });
     }
