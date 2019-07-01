@@ -61,24 +61,24 @@ export default class ScrollDemoSample4 {
 
             if (i % 2 == 1) {
                 const timeline = [
-                    { progress: 0, x: -100, y: 0, rx: -40, ry: 0, rz: -360, z: 0 - 1, easingFunction: EASE.easeInOutBounce },
+                    { progress: 0, x: -100, y: -100, rx: -40, ry: 0, rz: -360, z: 0 - 1, easingFunction: EASE.easeInOutBounce },
                     { progress: 0.2, z: 0 - 1, easingFunction: EASE.easeInOutBounce },
                     { progress: 0.5, ry: 90 },
-                    { progress: 1, x: 100, y: 0, rx: 10, ry: 0, rz: 10, z: 1 - 1, easingFunction: EASE.easeInOutBounce },
+                    { progress: 0.9, x: -200, y: 0, rx: 10, ry: 0, rz: 10, z: 1 - 1, easingFunction: EASE.easeInOutBounce },
                 ];
                 flowerVector._.timeline.setTimeline(timeline);
             } else {
                 const timeline = [
-                    { progress: 0, x: -100, y: 0, z: 1 - 1, rz: 0, alpha: 1, '--blur': 1 },
-                    { progress: 0.9, alpha: 1 },
-                    { progress: 1, x: 100, y: 0, z: 0.2 - 1, rz: -360, alpha: 0, '--blur': 0 },
+                    { progress: 0, x: -100, y: -100, z: 1 - 1, rz: 0, alpha: 1, '--blur': 1 },
+                    { progress: 0.8, alpha: 1 },
+                    { progress: 0.9, x: -200, y: 0, z: 0.2 - 1, rz: -360, alpha: 0, '--blur': 0 },
                 ];
                 flowerVector._.timeline.setTimeline(timeline);
             }
 
             flowerVector.id = i;
             flowerVector.useBoundsForGlobalCalculation = true;
-            flowerVector.waveMovementFactor = mathf.getRandomInt(2, 20);
+            flowerVector.waveMovementFactor = mathf.getRandomInt(-20, 20);
             flowerVector.init();
 
 
@@ -114,7 +114,7 @@ export default class ScrollDemoSample4 {
 
             // Add a littie up and down motion.
             let floatyVector = new Vector(
-                0 * this.wave.sinWave,
+                (vector.waveMovementFactor * this.wave.sinWave) * this.easedProgress,
                 // We want the wave effect to be strong bottom and none at the top.
                 (vector.waveMovementFactor * this.wave.sinWave) * this.easedProgress,
                 0
