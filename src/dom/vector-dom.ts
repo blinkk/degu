@@ -288,6 +288,13 @@ export class VectorDom {
     public options: VectorDomOptions;
 
     /**
+     * The forced zIndex for this VectorDom.  This defaults to null where
+     * VectorDom will automatically calculate the zIndex based on the depth of the
+     * object.  Set zIndex only if you want to override this.
+     */
+    public forcedZIndex: number | null;
+
+    /**
      * VectorDom extension components that add funcitonality to the base
      * VectorDom.
      */
@@ -310,6 +317,7 @@ export class VectorDom {
         this.anchorX = 0.5;
         this.anchorY = 0.5;
         this.alpha = 1;
+        this.forcedZIndex = null;
         this.zIndexScalar = 30;
         this.mouse = documentMouseTracker;
         this.watcher = new DomWatcher();
@@ -487,6 +495,7 @@ export class VectorDom {
         this.rotation.z = value;
     }
 
+
     /**
      * Gets the global position of this element in relation to the window.
      * If the element is in the top, left of the window, this value would
@@ -568,6 +577,26 @@ export class VectorDom {
     setRotation(v: Vector) {
         this.rotation = v;
     }
+
+    /**
+     * Forces a zIndex on this VectorDom.  Normally, zIndex is auto calculated
+     * by VectorDom based on the depth of the object.  This allows you to
+     * force a given zIndex.  Pass null to release zIndex control back to
+     * VectorDom.
+     *
+     * ```ts
+     *
+     * vectorDom.forceZIndex(20);
+     * vectorDom.forceZIndex(null); // release control
+     *
+     * ```
+     *
+     * @param zIndex
+     */
+    forceZIndex(zIndex: number | null) {
+        this.forcedZIndex = zIndex;
+    }
+
 
     /**
      * Takes the current position x,y,z vector points and converts it over to
@@ -685,8 +714,12 @@ export class VectorDom {
 
         this.element.style.transform = transform;
         this.element.style.opacity = alpha + '';
-        this.element.style.zIndex =
-            (this.zIndexScalar * (this.position.z + 1) >> 0) + '';
+        if (!is.null(this.forcedZIndex)) {
+            this.element.style.zIndex = this.forcedZIndex + '';
+        } else {
+            this.element.style.zIndex =
+                (this.zIndexScalar * (this.position.z + 1) >> 0) + '';
+        }
     }
 
 

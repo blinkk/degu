@@ -124,7 +124,7 @@ export default class ScrollDemoSample4 {
 
             if (vector.id % 2 == 1) {
                 vector._.force.mouseRotationForce(
-                    0.05, 0.0028, 0, 0.02
+                    0.05, 0.05, 0, 0.02
                 );
             } else {
                 vector._.force.scrollYRotationForce(
