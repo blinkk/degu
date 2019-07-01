@@ -109,7 +109,7 @@ const skipKeys = ['progress', 'easingFunction'];
  * let currentProgress = 0.2; // Could be amount of scroll, range input, whatever.
  *
  * // At this point the internal, position, rotational vectors will get updated.
- * vector._.timeline.setTimeline(currentProgress);
+ * vector._.timeline.updateProgress(currentProgress);
  *
  * // Now render it...it will render at where the values are at 20%
  * vector.render();
