@@ -59,7 +59,7 @@ export default class ScrollDemoSample3 {
         this.cityVector.anchorY = 0;
 
         timeline = [
-            { progress: 0, x: 0, easingFunction: EASE.easeInOutBounce },
+            { progress: 0, x: 0, easingFunction: EASE.easeInElastic },
             { progress: 0.5, x: 500, alpha: 1 },
             { progress: 1, alpha: 0 }
         ];
