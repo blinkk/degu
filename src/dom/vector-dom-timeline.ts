@@ -3,7 +3,7 @@ import { dom } from '../dom/dom';
 import { EASE } from '../ease/ease';
 import { func } from '../func/func';
 import { mathf } from '../mathf/mathf';
-import { Vector } from '../mathf/Vector';
+import { Vector } from '../mathf/vector';
 import { is } from '../is/is';
 import { HermiteCurve } from '../mathf/hermite-curve';
 import { Interpolate } from '../interpolate/interpolate';
