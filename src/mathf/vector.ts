@@ -571,6 +571,19 @@ export class Vector {
     }
 
     /**
+     * Similar to lerp but uses exponential decay.   Useful to
+     * smooth out animations with damping.
+     * @param v
+     * @param progress A number between 0-1.
+     */
+    damp(v: Vector, progress: number = 0, damp: number): Vector {
+        this.x = mathf.damp(this.x, v.x, progress, damp);
+        this.y = mathf.damp(this.y, v.y, progress, damp);
+        this.z = mathf.damp(this.z, v.z, progress, damp);
+        return this;
+    }
+
+    /**
      * Ease interpolates this vector TOWARDS the provided vector.
      * @param v
      * @param progress A number between 0-1.
@@ -598,6 +611,50 @@ export class Vector {
         const y = mathf.ease(v1.y, v2.y, progress, easeFunction);
         const z = mathf.ease(v1.z, v2.z, progress, easeFunction);
         return new Vector(x, y, z);
+    }
+
+
+    /**
+     * Given vector a and vector b, takes the Math.min values of x,y,z and
+     * returns a new Vector.
+     * @param a Vector A
+     * @param b Vector B
+     */
+    static min(a: Vector, b: Vector): Vector {
+        return new Vector(
+            Math.min(a.x, b.x),
+            Math.min(a.y, b.y),
+            Math.min(a.z, b.z),
+        )
+    }
+
+    /**
+     * Given vector a and vector b, takes the Math.max values of x,y,z and
+     * returns a new Vector.
+     * @param a Vector A
+     * @param b Vector B
+     */
+    static max(a: Vector, b: Vector): Vector {
+        return new Vector(
+            Math.max(a.x, b.x),
+            Math.max(a.y, b.y),
+            Math.max(a.z, b.z),
+        )
+    }
+
+
+    /**
+     * Clamps a given vector between a min and max vector.
+     * @param min The min vector
+     * @param max The max vector
+     * @param vector The vector to clamp
+     */
+    static clamp(min: Vector, max: Vector, vector: Vector): Vector {
+        return new Vector(
+            mathf.clamp(min.x, max.x, vector.x),
+            mathf.clamp(min.y, max.y, vector.y),
+            mathf.clamp(min.z, max.z, vector.z),
+        )
     }
 
 
