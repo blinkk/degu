@@ -16,6 +16,7 @@ export class is {
         return type == trueType;
     }
 
+
     /**
      * @param value
      * @tested

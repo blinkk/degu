@@ -50,11 +50,16 @@ export class Vector {
      * The z component of this vector.
      */
     public z: number;
+    /**
+     * The w component of this vector.
+     */
+    public w: number;
 
-    constructor(x: number, y: number, z: number = 0) {
+    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 0) {
         this.x = x || 0;
         this.y = y || 0;
         this.z = z || 0;
+        this.w = w || 0;
     }
 
 
@@ -289,7 +294,6 @@ export class Vector {
         let angleZ = Math.atan(delta.z);
         return [angleX, angleY, angleZ];
     }
-
 
 
     /**
