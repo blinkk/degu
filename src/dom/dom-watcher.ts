@@ -87,6 +87,12 @@ export interface DomWatcherConfig {
  *   callback: ()=> {},
  *   id: 'abc'
  * );
+ *
+ *
+ * // Runs the callback associated with abc.  NOTE this is just dry running it
+ * // so it's not an actual browser event (hence no event data is provided).
+ * watcher.run('abc');
+ *
  * watcher.removeById('abc');
  *
  *
@@ -252,6 +258,37 @@ export class DomWatcher {
             remover && remover();
         })
         this.watcherConfigs = [];
+    }
+
+    /**
+     *
+     * Dry runs a callback by id.  This just calls the callback and isn't the
+     * actual browser event so no event data will be available when using
+     * this method.
+     *
+     * ```ts
+     * watcher.add({
+     *    element: element,
+     *    callback: ()=> {
+     *      console.log('yo');
+     *    }
+     *    on: 'click',
+     *    id: 'yo'
+     * });
+     *
+     * watcher.run('yo');
+     * ```
+     * @param id
+     */
+    run(id: string) {
+        let configsToRun = this.watcherConfigs.filter(
+            (config: DomWatcherConfig) => {
+                return config.id && config.id == id;
+            });
+
+        configsToRun.forEach((config) => {
+            config.callback() && config.callback();
+        })
     }
 
 

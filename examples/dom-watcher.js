@@ -19,6 +19,8 @@ export default class DomWatcherSample {
             id: 'scrollWatch'
         });
 
+        watcher.run('scrollWatch');
+
         watcher.add({
             element: window,
             on: 'smartResize',
