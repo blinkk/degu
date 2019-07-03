@@ -7,6 +7,10 @@ import { Vector } from './vector';
 
 /**
  * A basic quaternion class.
+ * Adapted from:
+ * @see https://github.com/toji/gl-matrix
+ * @see https://github.com/mattdesl/vecmath
+ * @see https://cubap.github.io/phaser3-docs/math_Quaternion.js.html
  */
 export class Quaternion {
 
@@ -154,7 +158,7 @@ export class Quaternion {
             this.w *= scalar;
             return this;
         } else {
-            return Vector.ZERO;
+            return Quaternion.ZERO;
         }
     }
 
@@ -170,4 +174,280 @@ export class Quaternion {
         return Math.sqrt(x * x + y * y + z * z + w * w);
     }
 
+    /**
+     * Calculates the length squared
+     */
+    lengthSquared(): number {
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
+        const w = this.w;
+        return x * x + y * y + z * z + w * w;
+    }
+
+    /**
+     * Calculates the magnitude of this quaternion.
+     * Alias of [[Quaternion.length]]
+     */
+    magnitude(): number {
+        return this.length();
+    }
+
+
+    /**
+     * Normalizes this quaternion.
+     */
+    normalize(): Quaternion {
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
+        const w = this.w;
+        let len = x * x + y * y + z * z + w * w;
+
+        if (len > 0) {
+            len = 1 / Math.sqrt(len);
+
+            this.x = x * len;
+            this.y = y * len;
+            this.z = z * len;
+            this.w = w * len;
+        }
+
+        return this;
+    }
+
+
+    /**
+     * Calculates the dot product of this Quaternion (or Vector) and the given
+     * Quaternion (or Vector)
+     * @return The dot product of this quarternion and the provided quaternion.
+     */
+    dot(q: Quaternion | Vector): number {
+        return this.x * q.x + this.y * q.y + this.z * q.z + this.w * q.w;
+    }
+
+
+    /**
+     * Linear interpolates this Quaternion towards the given quaternion or vector.
+     * @param q
+     * @param progress
+     */
+    lerp(q: Quaternion | Vector, progress: number) {
+        this.x = mathf.lerp(this.x, q.x, progress);
+        this.y = mathf.lerp(this.y, q.y, progress);
+        this.z = mathf.lerp(this.z, q.z, progress);
+        this.w = mathf.lerp(this.w, q.z, progress);
+        return this;
+    }
+
+    /**
+     * Slerps this quaternion towards the given quaternion or vector.
+     * Inspired by: https://jsperf.com/quaternion-slerp-implementations
+     * @param q
+     * @param progress
+     */
+    slerp(q: Quaternion | Vector, progress: number): Quaternion {
+        const EPSILON = 0.000001;
+        const ax = this.x;
+        const ay = this.y;
+        const az = this.z;
+        var aw = this.w;
+
+        var bx = q.x;
+        var by = q.y;
+        var bz = q.z;
+        var bw = q.w;
+
+        var cosom = ax * bx + ay * by + az * bz + aw * bw;
+
+        if (cosom < 0) {
+            cosom = -cosom;
+            bx = - bx;
+            by = - by;
+            bz = - bz;
+            bw = - bw;
+        }
+
+        let s0 = 1 - progress;
+        let s1 = progress;
+
+        if ((1 - cosom) > EPSILON) {
+            var omega = Math.acos(cosom);
+            var sinom = Math.sin(omega);
+            s0 = Math.sin((1.0 - progress) * omega) / sinom;
+            s1 = Math.sin(progress * omega) / sinom;
+        }
+
+        this.x = s0 * ax + s1 * bx;
+        this.y = s0 * ay + s1 * by;
+        this.z = s0 * az + s1 * bz;
+        this.w = s0 * aw + s1 * bw;
+
+        return this;
+    }
+
+
+    /**
+     * Inverts this quaternion.
+     */
+    invert(): Quaternion {
+        const a0 = this.x;
+        const a1 = this.y;
+        const a2 = this.z;
+        const a3 = this.w;
+
+        const dot = a0 * a0 + a1 * a1 + a2 * a2 + a3 * a3;
+        const invDot = (dot) ? 1 / dot : 0;
+        this.x = -a0 * invDot;
+        this.y = -a1 * invDot;
+        this.z = -a2 * invDot;
+        this.w = a3 * invDot;
+        return this;
+    }
+
+
+    /**
+     * RotateX the quaternion by given radian
+     * @param rad
+     */
+    rotateX(rad: number): Quaternion {
+        rad *= 0.5;
+        const ax = this.x;
+        const ay = this.y;
+        const az = this.z;
+        const aw = this.w;
+        const bx = Math.sin(rad);
+        const bw = Math.cos(rad);
+
+        this.x = ax * bw + aw * bx;
+        this.y = ay * bw + az * bx;
+        this.z = az * bw - ay * bx;
+        this.w = aw * bw - ax * bx;
+
+        return this;
+    }
+
+    /**
+     * RotateY the quaternion by given radian
+     * @param rad
+     */
+    rotateY(rad: number): Quaternion {
+        rad *= 0.5;
+
+        const ax = this.x;
+        const ay = this.y;
+        const az = this.z;
+        const aw = this.w;
+        const by = Math.sin(rad);
+        const bw = Math.cos(rad);
+
+        this.x = ax * bw - az * by;
+        this.y = ay * bw + aw * by;
+        this.z = az * bw + ax * by;
+        this.w = aw * bw - ay * by;
+
+        return this;
+    }
+
+    /**
+     * RotateZ the quaternion by given radian
+     * @param rad
+     */
+    rotateZ(rad: number): Quaternion {
+
+        rad *= 0.5;
+        const ax = this.x;
+        const ay = this.y;
+        const az = this.z;
+        const aw = this.w;
+
+        const bz = Math.sin(rad);
+        const bw = Math.cos(rad);
+
+        this.x = ax * bw + ay * bz;
+        this.y = ay * bw - ax * bz;
+        this.z = az * bw + aw * bz;
+        this.w = aw * bw - az * bz;
+
+        return this;
+    }
+
+
+    /**
+     * Conjugate this quaternion
+     */
+    conjugate(): Quaternion {
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
+        return this;
+    }
+
+
+    /**
+     * Creates a Quaternion from the given eular angle x, y, z.
+     *
+     * ```ts
+     *
+     * let quat = Quaternion.fromEuler(180, 90, -90);
+     *
+     * ```
+     * @param x x in degrees
+     * @param y y in degrees
+     * @param z z in degrees
+     */
+    static fromEuler(x: number, y: number, z: number) {
+        let halfToRad = 0.5 * Math.PI / 180.0;
+        x *= halfToRad;
+        y *= halfToRad;
+        z *= halfToRad;
+
+        let sx = Math.sin(x);
+        let cx = Math.cos(x);
+        let sy = Math.sin(y);
+        let cy = Math.cos(y);
+        let sz = Math.sin(z);
+        let cz = Math.cos(z);
+
+        const ox = sx * cy * cz - cx * sy * sz;
+        const oy = cx * sy * cz + sx * cy * sz;
+        const oz = cx * cy * sz - sx * sy * cz;
+        const ow = cx * cy * cz + sx * sy * sz;
+
+        return new Quaternion(ox, oy, oz, ow);
+    }
+
+
+    /**
+     * A static zero quaternion.
+     *
+     * ```ts
+     * let q = Quaternion.ZERO;
+     * ```
+     */
+    static get ZERO(): Quaternion {
+        return new Quaternion(0, 0, 0, 1);
+    }
+
+    /**
+     * A static identity quaternion.
+     *
+     * ```ts
+     * let q = Quaternion.IDENTITY;
+     * ```
+     */
+    static get IDENTITY(): Quaternion {
+        return new Quaternion(0, 0, 0, 1);
+    }
+
+    /**
+     * A static one quaternion.
+     *
+     * ```ts
+     * let q = Quaternion.ONE;
+     * ```
+     */
+    static get ONE(): Quaternion {
+        return new Quaternion(1, 1, 1);
+    }
 }

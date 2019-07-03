@@ -416,7 +416,7 @@ export class Vector {
      * Calculates the length squared
      */
     lengthSquared(): number {
-        return (this.x * this.x + this.y * this.y);
+        return (this.x * this.x + this.y * this.y + this.z * this.z);
     }
 
     /**
@@ -434,7 +434,7 @@ export class Vector {
         let x = this.x;
         let y = this.y;
         let z = this.z;
-        var len = x * x + y * y + z * z;
+        let len = x * x + y * y + z * z;
 
         if (len > 0) {
             len = 1 / Math.sqrt(len);
