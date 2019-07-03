@@ -446,7 +446,6 @@ export class VectorDom {
         this.velocity.z = value;
     }
 
-
     get ax(): number {
         return this.acceleration.x;
     }

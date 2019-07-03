@@ -2,6 +2,7 @@
 import globalWindow from './global-window';
 import { VectorDom, VectorDomOptions, VectorDomComponent } from './vector-dom';
 import { Vector } from '../mathf/vector';
+import { mathf } from '..';
 
 
 
@@ -90,7 +91,8 @@ export class VectorDomForce implements VectorDomComponent {
         let globalMousePosition = mouse.position.clone();
         globalMousePosition.y = globalMousePosition.y - globalWindow.scrollY;
 
-        // Get the angle difference between the mouse and the center of this element.
+
+        // Get the angle difference between target and the center of this element.
         let angleDelta = Vector.getXyzRotationTo(
             globalElementCenterPosition,
             globalMousePosition
@@ -98,8 +100,8 @@ export class VectorDomForce implements VectorDomComponent {
 
         // Scale the angleDelta.
         angleDelta[0] = angleDelta[0] * xScalar;
-        angleDelta[1] = angleDelta[1] * yScalar;
-        angleDelta[2] = angleDelta[2] * zScalar;
+        angleDelta[1] = angleDelta[1] * yScalar * 0;
+        angleDelta[2] = angleDelta[2] * zScalar * 0;
 
         // Make that into a vector.
         let targetRotation = Vector.fromArray(angleDelta);
@@ -107,19 +109,23 @@ export class VectorDomForce implements VectorDomComponent {
         // TODO (uxder) Is rx inverted?
         targetRotation.x = -targetRotation.x;
 
-        // Now in memory lerp that rotationMouseForce (an internal mouse rotation
-        // only value).
-        this.rotationMouseForce.lerp(targetRotation, lerp);
+        console.log(targetRotation.x);
+        // // Now lerp the cachec rotationMouseForce.
+        // this.rotationMouseForce.lerp(targetRotation, lerp);
 
-        // Now get the difference between the target rotation and rotationmouseForce.
-        // and apply that to the main rotation vector.
-        // This effectively, applies the force to the main rotation vector
-        // but as the internal rotationMouseForce gets closer to the target rotation
-        // value the force will lessen.  It effectively, clamps the rotations.
-        let diffVector = Vector.subtract(
-            this.rotationMouseForce, targetRotation);
 
-        this.host.rotation.add(diffVector);
+
+        // // Now figure out closest direction to reach the target rotation.
+        // // What this helps with is when the element is complmetely reverted,
+        // // it still maintains the same mouse force effect (non inverted).
+        // let xDistance = mathf.angleDistanceRadian(targetRotation.x, diff.x);
+        // let yDistance = mathf.angleDistanceRadian(targetRotation.y, diff.y);
+        // let zDistance = mathf.angleDistanceRadian(targetRotation.z, diff.z);
+
+        // let force = new Vector(xDistance, yDistance, zDistance);
+
+        this.host.rotation = this.host.rotation.clone().add(
+            targetRotation);
     }
 
 
