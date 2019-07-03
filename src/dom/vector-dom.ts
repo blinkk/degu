@@ -660,6 +660,7 @@ export class VectorDom {
         let z = mathf.clamp(-1, 10, this.position.z + 1);
 
         const scaleMatrix = new MatrixIV().scaleXyz(z, z, z);
+        scaleMatrix.value[15] = 1;
         const rotationMatrix = new MatrixIV().ypr(
             this.rotation.x, this.rotation.y, this.rotation.z);
 
@@ -670,6 +671,7 @@ export class VectorDom {
             .multiply(rotationMatrix)
             .multiply(translationMatrix)
             .multiply(offsetMatrix);
+        return rotationMatrix;
     }
 
 

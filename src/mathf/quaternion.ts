@@ -58,7 +58,7 @@ export class Quaternion {
     /**
      * Sets x, y, z, w of this quaternion.
      */
-    set(x: number = 0, y: number = 0, z: number = 0, w: number = 0) {
+    set(x: number = 0, y: number = 0, z: number = 0, w: number = 1) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -443,17 +443,17 @@ export class Quaternion {
     rotationTo(a: Vector, b: Vector) {
         var dot = a.x * b.x + a.y * b.y + a.z * b.z;
         var EPSILON = 0.000001;
-        var xUnit = new Vector(1, 0, 0);
-        var yUnit = new Vector(0, 1, 0);
-        var tempVector = Vector.ZERO;
+        var xUnitVec3 = new Vector(1, 0, 0);
+        var yUnitVec3 = new Vector(0, 1, 0);
+        var tmpvec = Vector.ZERO;
         if (dot < -0.999999) {
-            if (xUnit.clone().cross(a).length() < EPSILON) {
-                yUnit.clone().cross(a);
+            if (xUnitVec3.clone().cross(a).length() < EPSILON) {
+                yUnitVec3.clone().cross(a);
             }
 
-            tempVector.normalize();
+            tmpvec.normalize();
 
-            return this.setAxisAngle(tempVector, Math.PI);
+            return this.setAxisAngle(tmpvec, Math.PI);
 
         }
         else if (dot > 0.999999) {
@@ -467,9 +467,9 @@ export class Quaternion {
         else {
             a.clone().cross(b);
 
-            this.x = tempVector.x;
-            this.y = tempVector.y;
-            this.z = tempVector.z;
+            this.x = tmpvec.x;
+            this.y = tmpvec.y;
+            this.z = tmpvec.z;
             this.w = 1 + dot;
 
             return this.normalize();
@@ -485,7 +485,7 @@ export class Quaternion {
      * ```
      */
     static get ZERO(): Quaternion {
-        return new Quaternion(0, 0, 0, 1);
+        return new Quaternion(0, 0, 0, 0);
     }
 
     /**

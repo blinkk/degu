@@ -34,14 +34,18 @@ export default class VectorDomSample {
         projection.add(this.vectorBall.position, 'y', -180, 180);
         projection.add(this.vectorBall.position, 'z', -2, 10);
         let rotation = this.gui.addFolder('Rotation');
-        rotation.add(this.vectorBall.rotation, 'x', -1, 1);
-        rotation.add(this.vectorBall.rotation, 'y', -1, 1);
-        rotation.add(this.vectorBall.rotation, 'z', -1, 1);
+        // rotation.add(this.vectorBall.rotation, 'x', -1, 1);
+        // rotation.add(this.vectorBall.rotation, 'y', -1, 1);
+        // rotation.add(this.vectorBall.rotation, 'z', -1, 1);
+        this.progress = 0;
     }
 
 
     onRaf() {
         this.vectorBall.render();
+        this.vectorBall.rotation.slerp(new Vector(1.5, 1, 0), this.progress);
+        this.progress += 0.0001;
+        // console.log(this.vectorBall.rotation);
     }
 
 }

@@ -29,6 +29,7 @@ import { Quaternion } from './quaternion';
  * @see https://www.useragentman.com/blog/2011/01/07/css3-matrix-transform-for-the-mathematically-challenged/
  * @see https://github.com/toji/gl-matrix
  * @see https://github.com/adragonite/math3d/blob/master/src/Matrix4x4.js
+ * @see https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js
  *
  */
 export class MatrixIV {
@@ -750,27 +751,63 @@ export class MatrixIV {
 
     /**
      * Creates a new MatrixIV (rotational) from a quaternion.
+     * Based off: https://github.com/toji/gl-matrix/blob/master/src/mat4.js
      */
     static fromQuaternion(q: Quaternion) {
-        var num = q.x * 2;
-        var num2 = q.y * 2;
-        var num3 = q.z * 2;
-        var num4 = q.x * num;
-        var num5 = q.y * num2;
-        var num6 = q.z * num3;
-        var num7 = q.x * num2;
-        var num8 = q.x * num3;
-        var num9 = q.y * num3;
-        var num10 = q.w * num;
-        var num11 = q.w * num2;
-        var num12 = q.w * num3;
+        let position = Vector.ZERO;
+        let scale = Vector.ONE;
+        return MatrixIV.compose(position, q, scale);
+    }
 
-        return new MatrixIV().fromArray(new Float32Array([
-            1 - (num5 + num6), num7 - num12, num8 + num11, 0,
-            num7 + num12, 1 - (num4 + num6), num9 - num10, 0,
-            num8 - num11, num9 + num10, 1 - (num4 + num5), 0,
-            0, 0, 0, 1
-        ]));
+    /**
+     * Composes a new matrixIV from a position, rotation and scale.
+     *
+     * ```ts
+     *
+     * let mat = MatrixIV.compose(position, rotation, scale);
+     *
+     * ```
+     *
+     * Thanks to Mr. Doob:
+     * https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js
+     *
+     * @param position
+     * @param quaternion
+     * @param scale
+     */
+    static compose(position: Vector, rotation: Quaternion, scale: Vector) {
+        var out = [];
+
+        var x = rotation.x, y = rotation.y, z = rotation.z, w = rotation.w;
+        var x2 = x + x, y2 = y + y, z2 = z + z;
+        var xx = x * x2, xy = x * y2, xz = x * z2;
+        var yy = y * y2, yz = y * z2, zz = z * z2;
+        var wx = w * x2, wy = w * y2, wz = w * z2;
+
+        var sx = scale.x, sy = scale.y, sz = scale.z;
+
+        out[0] = (1 - (yy + zz)) * sx;
+        out[1] = (xy + wz) * sx;
+        out[2] = (xz - wy) * sx;
+        out[3] = 0;
+
+        out[4] = (xy - wz) * sy;
+        out[5] = (1 - (xx + zz)) * sy;
+        out[6] = (yz + wx) * sy;
+        out[7] = 0;
+
+        out[8] = (xz + wy) * sz;
+        out[9] = (yz - wx) * sz;
+        out[10] = (1 - (xx + yy)) * sz;
+        out[11] = 0;
+
+        out[12] = position.x;
+        out[13] = position.y;
+        out[14] = position.z;
+        out[15] = 1;
+
+        return new MatrixIV().fromArray(new Float32Array(out));
+
     }
 
 
