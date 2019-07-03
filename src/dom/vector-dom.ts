@@ -4,6 +4,7 @@ import { EASE } from '../ease/ease';
 import { mathf } from '../mathf/mathf';
 import { MatrixIV } from '../mathf/matrixIV';
 import { Vector } from '../mathf/vector';
+import { Quaternion } from '../mathf/quaternion';
 import { func } from '../func/func';
 import { is } from '../is/is';
 import { MouseTracker } from './mouse-tracker';
@@ -172,7 +173,7 @@ export class VectorDom {
     /**
      * The rotation of this html element.
      */
-    public rotation: Vector;
+    public rotation: Quaternion;
 
     /**
      * The total offset of this vector.  This is useful in realigning centeral
@@ -310,7 +311,7 @@ export class VectorDom {
         this.position = Vector.ZERO;
         this.acceleration = Vector.ZERO;
         this.velocity = Vector.ZERO;
-        this.rotation = Vector.ZERO;
+        this.rotation = Quaternion.ZERO;
         this.transformOrigin = 'center center';
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
@@ -573,8 +574,8 @@ export class VectorDom {
         this.offset = v;
     }
 
-    setRotation(v: Vector) {
-        this.rotation = v;
+    setRotation(q: Quaternion) {
+        this.rotation = q;
     }
 
     /**
@@ -661,6 +662,8 @@ export class VectorDom {
         const scaleMatrix = new MatrixIV().scaleXyz(z, z, z);
         const rotationMatrix = new MatrixIV().ypr(
             this.rotation.x, this.rotation.y, this.rotation.z);
+
+        // const rotationMatrix = MatrixIV.fromQuaternion(this.rotation);
 
         // Apply SRT.
         return scaleMatrix

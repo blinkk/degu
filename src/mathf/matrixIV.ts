@@ -1,4 +1,5 @@
 import { Vector } from './vector';
+import { Quaternion } from './quaternion';
 
 /**
  * A 4 four dimensional homogenous matrix class.
@@ -27,6 +28,7 @@ import { Vector } from './vector';
  * @see https://www.youtube.com/channel/UCEhBM2x5MG9-e_JSOzU068w
  * @see https://www.useragentman.com/blog/2011/01/07/css3-matrix-transform-for-the-mathematically-challenged/
  * @see https://github.com/toji/gl-matrix
+ * @see https://github.com/adragonite/math3d/blob/master/src/Matrix4x4.js
  *
  */
 export class MatrixIV {
@@ -746,12 +748,37 @@ export class MatrixIV {
         return this;
     }
 
+    /**
+     * Creates a new MatrixIV (rotational) from a quaternion.
+     */
+    static fromQuaternion(q: Quaternion) {
+        var num = q.x * 2;
+        var num2 = q.y * 2;
+        var num3 = q.z * 2;
+        var num4 = q.x * num;
+        var num5 = q.y * num2;
+        var num6 = q.z * num3;
+        var num7 = q.x * num2;
+        var num8 = q.x * num3;
+        var num9 = q.y * num3;
+        var num10 = q.w * num;
+        var num11 = q.w * num2;
+        var num12 = q.w * num3;
+
+        return new MatrixIV().fromArray(new Float32Array([
+            1 - (num5 + num6), num7 - num12, num8 + num11, 0,
+            num7 + num12, 1 - (num4 + num6), num9 - num10, 0,
+            num8 - num11, num9 + num10, 1 - (num4 + num5), 0,
+            0, 0, 0, 1
+        ]));
+    }
+
 
     /**
      * Creates and returns an identity matrix.
      *
      * ```ts
-     * let m = Matrix4.IDENTITY;
+     * let m = MatrixIV.IDENTITY;
      * ```
      * @static
      */

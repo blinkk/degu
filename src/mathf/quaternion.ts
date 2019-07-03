@@ -418,6 +418,65 @@ export class Quaternion {
     }
 
 
+    setAxisAngle(axis: Vector, rad: number) {
+        rad = rad * 0.5;
+
+        var s = Math.sin(rad);
+
+        this.x = s * axis.x;
+        this.y = s * axis.y;
+        this.z = s * axis.z;
+        this.w = Math.cos(rad);
+
+        return this;
+    }
+
+    /**
+     * Sets a quaternion to represent the shortest rotation from one vector
+     * to another.
+     *
+     * Both vectors should be unit length (normalized).
+     *
+     * @param {Vector} a The initial vector (unit length)
+     * @param {Vector} b The destination vector (unit length)
+     */
+    rotationTo(a: Vector, b: Vector) {
+        var dot = a.x * b.x + a.y * b.y + a.z * b.z;
+        var EPSILON = 0.000001;
+        var xUnit = new Vector(1, 0, 0);
+        var yUnit = new Vector(0, 1, 0);
+        var tempVector = Vector.ZERO;
+        if (dot < -0.999999) {
+            if (xUnit.clone().cross(a).length() < EPSILON) {
+                yUnit.clone().cross(a);
+            }
+
+            tempVector.normalize();
+
+            return this.setAxisAngle(tempVector, Math.PI);
+
+        }
+        else if (dot > 0.999999) {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.w = 1;
+
+            return this;
+        }
+        else {
+            a.clone().cross(b);
+
+            this.x = tempVector.x;
+            this.y = tempVector.y;
+            this.z = tempVector.z;
+            this.w = 1 + dot;
+
+            return this.normalize();
+        }
+    }
+
+
     /**
      * A static zero quaternion.
      *
