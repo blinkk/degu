@@ -118,7 +118,7 @@ import { dom } from '../dom/dom';
 export class CssVarInterpolate {
     private mainProgress: number | null;
     private currentValues: Object;
-    private multiInterpolate: MultiInterpolate;
+    private multiInterpolate: MultiInterpolate | null;
 
     /**
      * Given the mainProgress, at what progress point the interpolations
@@ -159,7 +159,7 @@ export class CssVarInterpolate {
      */
     constructor(
         private element: HTMLElement,
-        private config: multiInterpolateConfig) {
+        private config?: multiInterpolateConfig) {
 
         /**
          * Set this to initially null so that when update is first called
@@ -167,7 +167,12 @@ export class CssVarInterpolate {
          */
         this.mainProgress = null;
         this.currentValues = {};
-        this.multiInterpolate = new MultiInterpolate(config);
+
+        if (config) {
+            this.multiInterpolate = new MultiInterpolate(config);
+        } else {
+            this.multiInterpolate = null;
+        }
 
         // Add element visibility to the VectorDom.
         this.elementVisibility = elementVisibility.inview(this.element);
@@ -177,10 +182,44 @@ export class CssVarInterpolate {
         this.endProgress = 1;
     }
 
+
+    /**
+     * Updates the internal interpolations.   Use this to update your
+     * interpolations.
+     *
+     * ```ts
+     *
+     * let ci = new CssVarInterpolate(element);
+     * ci.setInterpolations({
+     *   interpolations: [
+     *       {
+     *           progress: [
+     *               { from: 0, to: 1, start: 0, end: 500 },
+     *           ],
+     *           id: '--x'
+     *
+     *       }
+     *   ]
+     * });
+     *
+     *
+     * ```
+     *
+     * @param config
+     */
+    setInterpolations(config: multiInterpolateConfig) {
+        if (config) {
+            this.multiInterpolate = new MultiInterpolate(config);
+        }
+    }
+
     /**
      * Updates the progress and updates the css variable values.
      */
     update(progress: number) {
+        if (!this.multiInterpolate) {
+            return;
+        }
 
         // Only make updates when progress value was updated to avoid layout
         // thrashing.
