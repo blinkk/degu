@@ -89,8 +89,10 @@ export default class ScrollDemoSample {
         let sin = Math.sin(easedProgress);
 
 
-        // Add some rotation
-        this.flowerVector.rz += sin * 0.01;
+
+        // Add some rotation per progress update.
+        this.flowerVector.rz += 0.1;
+        this.flowerVector.rotation.slerpEulerVector(this.flowerVector.eularRotation, 0.08);
 
 
         // Add some movement.

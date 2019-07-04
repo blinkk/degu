@@ -43,13 +43,18 @@ export default class ScrollDemoSample3 {
             { progress: 0.3, x: 100, y: 400, z: 2 - 1, rz: 180, alpha: 1 },
             { progress: 0.6, x: 0, y: 200, z: 1 - 1, ry: 180, rz: 0 },
             { progress: 0.8, x: 300, y: 800, z: 0.3 - 1, rx: 20, ry: 20, rz: 90, easingFunction: EASE.easeInOutCubic },
-            { progress: 0.9, x: 400, y: 500, z: 0.5 - 1, rx: 0, ry: 0, rz: 0 },
-            { progress: 1, x: 400, y: 500, z: 5 - 1, ry: 180, rz: 0 },
+            { progress: 1, x: 400, y: 500, z: 5 - 1, rx: 0, ry: 0, rz: 0 },
         ];
 
         this.flowerVector._.timeline.setTimeline(timeline);
         // Enable smoothing.
         this.flowerVector._.timeline.catmullRomMode = true;
+
+        // Enable this to force the flowerVectorDom to use the
+        // internal eularRotation as the rotation matrix.  You will
+        // see gimble lock.
+        // this.flowerVector.eularRotationAsRotationMatrix = true;
+
         this.flowerVector.init();
 
 
@@ -131,16 +136,16 @@ export default class ScrollDemoSample3 {
 
     render(easedProgress) {
         this.parentVector._.timeline.updateProgress(easedProgress);
-        this.parentVector.render();
+        this.parentVector.render(true);
 
         this.textVector._.timeline.updateProgress(easedProgress);
-        this.textVector.render();
+        this.textVector.render(true);
 
         this.flowerVector._.timeline.updateProgress(easedProgress);
-        this.flowerVector.render();
+        this.flowerVector.render(true);
 
         this.cityVector._.timeline.updateProgress(easedProgress);
-        this.cityVector.render();
+        this.cityVector.render(true);
     }
 
 

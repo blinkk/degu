@@ -39,7 +39,7 @@ export default class VectorDomSample2 {
 
             // This demonstrates continously adding degrees to keep rotating
             // an element.
-            ballVector.randomRotation = mathf.getRandomFloat(1, 2.5);
+            ballVector.randomRotation = mathf.getRandomFloat(-90, 90.5);
 
             ballVector.setPosition(new Vector(x, y, z));
             ballVector.init();
@@ -86,7 +86,7 @@ export default class VectorDomSample2 {
                     ballVector.rotateY * sin,
                     ballVector.rotateZ * sin, 0.25);
             } else {
-                // Keep rotation.
+                // Constant rotation rotation.
                 ballVector.rotation.addEuler(
                     ballVector.randomRotation, ballVector.randomRotation,
                     ballVector.randomRotation

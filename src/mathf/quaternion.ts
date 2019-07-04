@@ -7,7 +7,41 @@ import { Vector } from './vector';
 
 /**
  * A basic quaternion class.
+ *
+ * A good intro on quaternion is:
+ * https://github.com/NickCuso/Tutorials/blob/master/Quaternions.md
+ *
+ *
+ * Some common uses:
+ * ```ts
+ * // Slerp to a specific eular angle.
+ *  let target = Quaternion.fromEuler(90, 20, 0);
+ *  myQuat.slerp(target, this.progress);
+ *
+ * // Add rotation by 90 degrees in X and 90 degress in y.
+ * let xRadian = mathf.degreesToRadian(90);
+ * let yRadian = mathf.degreesToRadian(90);
+ * let q1 = Quaternion.IDENTITY.angleAxis(xRadian, Vector.RIGHT); // x
+ * let q2 = Quaternion.IDENTITY.angleAxis(yRadian, Vector.UP); /// y
+ * myQuat.rotation.multiply(q1).multiply(q2).multiply(q3);
+ *
+ *
+ * // Add 90 degrees in X rotation to whatever it is now.
+ * myQuat.addEular(90, 0, 0);
+ *
+ *
+ * // Create rotational matrix from Quaternion
+ * const rotationMatrix = MatrivIV.fromQuaternion(myQuat);
+ * const matrixString = rotationMatrix.toCss3dMatrix();
+ *
+ * // Apply it to a DOM element if you want
+ * // (although this would only be rotaiton, no positon or scale)
+ * this.element.style.transform = matrixString;
+ *
+ * ```
+ *
  * Adapted from:
+ * https://github.com/NickCuso/Tutorials/blob/master/Quaternions.md
  * @see https://github.com/toji/gl-matrix
  * @see https://github.com/mattdesl/vecmath
  * @see https://cubap.github.io/phaser3-docs/math_Quaternion.js.html
@@ -79,11 +113,7 @@ export class Quaternion {
      * ```
      */
     add(q: Quaternion | Vector): Quaternion {
-        this.x += q.x;
-        this.y += q.y;
-        this.z += q.z;
-        this.w += q.w;
-        return this;
+        return Quaternion.add(this.clone(), q);
     }
 
 
@@ -109,10 +139,10 @@ export class Quaternion {
 
 
     /**
-     * Adds eular degrees to the quaternion.
+     * Combines eular degrees to the quaternion.
      *
      *```ts
-
+     * // Add 30 degrees in x rotation.
      * var q = new Quaternion(0,0,0,0);
      * q.addEular(30, 0, 0);
      *
@@ -123,9 +153,12 @@ export class Quaternion {
      * @param z z in degrees
      */
     addEuler(x: number, y: number, z: number): Quaternion {
-        let v = Quaternion.toEulerVector(this.clone());
-        v.add(new Vector(x, y, z)).toEulerVector();
-        this.slerpEuler(v.x, v.y, v.z, 1);
+        x = mathf.degreeToRadian(x);
+        y = mathf.degreeToRadian(y);
+        z = mathf.degreeToRadian(z);
+
+        let q = Quaternion.fromEuler(x, y, z);
+        this.multiply(q);
         return this;
     }
 
@@ -168,6 +201,47 @@ export class Quaternion {
         const z = q1.z - q2.z;
         const w = q1.w - q2.w;
         return new Quaternion(x, y, z, w);
+    }
+
+
+    /**
+     * Multiplies two quaternions.
+     * @param a
+     * @param b
+     */
+    static multiply(a: Quaternion, b: Quaternion): Quaternion {
+
+        let ax = a.x, ay = a.y, az = a.z, aw = a.w;
+        let bx = b.x, by = b.y, bz = b.z, bw = b.w;
+
+        let out = Quaternion.IDENTITY;
+        out.x = ax * bw + aw * bx + ay * bz - az * by;
+        out.y = ay * bw + aw * by + az * bx - ax * bz;
+        out.z = az * bw + aw * bz + ax * by - ay * bx;
+        out.w = aw * bw - ax * bx - ay * by - az * bz;
+        return out;
+    }
+
+    /**
+     * Multiplies the current quaternion with provided Quaternion a.
+     *
+     *
+     * ```ts
+     *   // Given x, y, z radians, add x,y,z rotation to the current quaternion.
+     *   let q1 = Quaternion.IDENTITY.angleAxis(x, Vector.RIGHT);
+     *   let q2 = Quaternion.IDENTITY.angleAxis(y, Vector.UP);
+     *   let q3 = Quaternion.IDENTITY.angleAxis(z, Vector.FORWARD);
+     *   this.multiply(q1).multiply(q2).multiply(q3);
+     *
+     * ```
+     *
+     *
+     * @param a
+     */
+    multiply(a: Quaternion): Quaternion {
+        let n = Quaternion.multiply(this, a);
+        this.copy(n);
+        return this;
     }
 
     /**
@@ -283,6 +357,16 @@ export class Quaternion {
     }
 
     /**
+     * Slerps to a specific rotation in Eular degrees where eular is provided
+     * by a Vector
+     * @param v
+     * @param progress
+     */
+    slerpEulerVector(v: Vector, progress: number): Quaternion {
+        return this.slerpEuler(v.x, v.y, v.z, progress);
+    }
+
+    /**
      * Slerps this quaternion towards the given quaternion or vector.
      * Inspired by: https://jsperf.com/quaternion-slerp-implementations
      *
@@ -362,14 +446,9 @@ export class Quaternion {
      * @param rad
      */
     rotateX(degree: number): Quaternion {
-        // Convert the current quaternion to a eular vector.
-        let v = Quaternion.toEulerVector(this);
-        // Update the x.
-        v.x = degree;
-        // Convert it back.
-        let q = Quaternion.fromEulerVector(v);
-        this.copy(q);
-        return this;
+        let q1 = Quaternion.IDENTITY.angleAxis(mathf.degreeToRadian(degree),
+            Vector.RIGHT);
+        return this.multiply(q1);
     }
 
     /**
@@ -377,14 +456,9 @@ export class Quaternion {
      * @param rad
      */
     rotateY(degree: number): Quaternion {
-        // Convert the current quaternion to a eular vector.
-        let v = Quaternion.toEulerVector(this);
-        // Update the y.
-        v.y = degree;
-        // Convert it back.
-        let q = Quaternion.fromEulerVector(v);
-        this.copy(q);
-        return this;
+        let q1 = Quaternion.IDENTITY.angleAxis(mathf.degreeToRadian(degree),
+            Vector.UP);
+        return this.multiply(q1);
     }
 
     /**
@@ -392,14 +466,9 @@ export class Quaternion {
      * @param rad
      */
     rotateZ(degree: number): Quaternion {
-        // Convert the current quaternion to a eular vector.
-        let v = Quaternion.toEulerVector(this);
-        // Update the z.
-        v.z = degree;
-        // Convert it back.
-        let q = Quaternion.fromEulerVector(v);
-        this.copy(q);
-        return this;
+        let q1 = Quaternion.IDENTITY.angleAxis(mathf.degreeToRadian(degree),
+            Vector.FORWARD);
+        return this.multiply(q1);
     }
 
 
@@ -488,14 +557,25 @@ export class Quaternion {
      * Converts a quaternion to a EulerVector consisting of degrees.
      * YXZ Local Axes Yaw (y), Pitch (x), Roll (z)
      * Outputs XYZ ordering.
+     *
+     * Note that this method has some staring edges cases around Y calculations.
+     * Wraping the Y value between -90 and 90 can help as such:
+     *
+     *
+     * ```ts
+     *
+     * let v = myQuat.toEulerVector();
+     * v.y = mathf.wrap(this.y, -90, 90);
+     *
+     * ```
+     *
+     * This method works for most cases but it's not 100% accurate at the moment.
+     *
      * @see https://bit.ly/1TzLyaC
      * @param q
      */
     static toEulerVector(q: Quaternion): Vector {
         let result = Vector.ZERO;
-
-
-
         // // Create a rotation matrix from the quaternion.
         let matrix = MatrixIV.fromQuat(q.clone());
 
@@ -509,20 +589,16 @@ export class Quaternion {
         result.y = Math.asin(mathf.clamp(-1, 1, m13));
 
         if (Math.abs(m13) < 0.9999999) {
-            console.log('yo')
             result.x = Math.atan2(- m23, m33);
             result.z = Math.atan2(- m12, m11);
         } else {
-            console.log('ho')
             result.x = Math.atan2(m32, m22);
             result.z = 0;
         }
 
         result.x = mathf.radianToDegree(result.x);
         result.y = mathf.radianToDegree(result.y);
-        console.log(result.y);
         result.z = mathf.radianToDegree(result.z);
-
 
         return result;
     }
@@ -533,13 +609,14 @@ export class Quaternion {
      * Assumes the axis vector is normalized.
      * ```ts
      *
-     * // Rotate 23 degrees around Y axis.
+     * // Rotate 23 degrees around X and Y axis.
      * let rad = mathf.degreesToRadian(23);
      *
-     * let quat = Quaternion.ZERO;
-     * quat.angleAxis(rad, Vector.UP); // Y
-     * quat.angleAxis(rad, Vector.RIGHT); // X
-     * quat.angleAxis(rad, Vector.FORWARD); // Z
+     *
+     * let q1 = Quaternion.IDENTITY.angleAxis(rad, Vector.UP); // Y
+     * let q2 = Quaternion.IDENTITY.angleAxis(rad, Vector.RIGHT); // X
+     *
+     * myQuat.multiply(q1).multiply(q2)
      *
      * ```
      *

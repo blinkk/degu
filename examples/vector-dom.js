@@ -21,7 +21,10 @@ export default class VectorDomSample {
         this.vectorBall.setOffset(
             new Vector(800 / 2, 800 / 2, 0)
         );
+
+        this.eularRotationAsRotationMatrix = false;
         this.vectorBall.init();
+
 
 
         this.raf = new Raf(this.onRaf.bind(this));
@@ -37,16 +40,20 @@ export default class VectorDomSample {
         projection.add(this.vectorBall.position, 'z', -2, 10);
         let rotation = this.gui.addFolder('Rotation');
         rotation.add(this.vectorBall, 'rx', -360, 360);
-        rotation.add(this.vectorBall, 'ry', -180, 180);
+        rotation.add(this.vectorBall, 'ry', -360, 360);
         rotation.add(this.vectorBall, 'rz', -360, 360);
-        this.progress = 0;
+        rotation.add(this.vectorBall, 'eularRotationAsRotationMatrix');
     }
 
 
     onRaf() {
-        this.vectorBall.render();
-        this.vectorBall.rotation.addEuler(
-            0, 1, 0);
+        // this.vectorBall.rotation.addEuler(
+        //     20, 90, 30);
+
+        // this.progress += 0.04;
+        // this.vectorBall.rz = this.progress;
+        // console.log('s', this.vectorBall.rotation);
+        this.vectorBall.render(true);
     }
 
 }

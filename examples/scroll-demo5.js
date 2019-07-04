@@ -1,5 +1,6 @@
 
 import * as dat from "dat.gui";
+import { Raf } from '../lib/raf/raf';
 import { RafProgress, RAF_PROGRESS_EVENTS } from '../lib/raf/raf-progress';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 import { VectorDom } from '../lib/dom/vector-dom';
@@ -18,6 +19,7 @@ export default class ScrollDemoSample5 {
 
         // Instance of rafProgress.
         const rafProgress = new RafProgress();
+        const raf = new Raf(this.raf.bind(this));
 
         // Update the progress value per scroll.
         this.domWatcher.add({
@@ -38,11 +40,11 @@ export default class ScrollDemoSample5 {
         this.flowerVector.anchorY = 0;
 
         const timeline = [
-            { progress: 0, rz: 0, x: 0, y: 0, z: 0.5 - 1 },
-            { progress: 0.2, rz: 90, x: 200, y: 500, z: 0.2 - 1 },
-            { progress: 0.4, rz: -90, x: 400, y: 100, z: 0.5 - 1 },
+            { progress: 0, ry: 0, rz: 0, x: 0, y: 0, z: 0.5 - 1 },
+            { progress: 0.2, ry: -90, rz: 180, x: 200, y: 500, z: 0.2 - 1 },
+            { progress: 0.4, ry: 0, rz: -180, x: 400, y: 100, z: 0.5 - 1 },
             { progress: 0.6, rz: 0, x: 600, y: 400, z: 1 - 1 },
-            { progress: 0.8, rz: 0, x: 800, y: 500, z: 0.3 - 1 },
+            { progress: 0.8, rz: 90, x: 800, y: 500, z: 0.3 - 1 },
             { progress: 1, rz: 0, x: 1000, y: 200, z: 1 - 1 },
         ];
         this.flowerVector._.timeline.setTimeline(timeline);
@@ -91,6 +93,8 @@ export default class ScrollDemoSample5 {
         let datFolder = this.gui.addFolder('Catmull Rom');
         datFolder.add(this.flowerVector._.timeline, 'catmullRomMode');
         datFolder.add(this.flowerVector._.timeline, 'catmullRomTension', -3, 3);
+
+        raf.start();
     }
 
 
@@ -100,6 +104,11 @@ export default class ScrollDemoSample5 {
 
         this.cssVarInterpolate.update(easedProgress);
         this.flowerVector._.timeline.updateProgress(easedProgress);
+
+    }
+
+    raf() {
+        this.flowerVector.slerpEularRotation(0.1);
         this.flowerVector.render();
     }
 

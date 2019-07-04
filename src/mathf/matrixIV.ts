@@ -750,55 +750,16 @@ export class MatrixIV {
         return this;
     }
 
-    /**
-     * Creates a new MatrixIV (rotational) from a quaternion.
-     */
-    static fromQuaternion(q: Quaternion) {
-        let position = Vector.ZERO;
-        let scale = Vector.ONE;
-        return MatrixIV.compose(position, q, scale);
-    }
 
 
     /**
      * Same same a [[MatrixIV.fromQuaternion]] but slightly faster.
      * Based off: https://github.com/toji/gl-matrix/blob/master/src/mat4.js
      */
-    static fromQuat(q: Quaternion) {
-        let x = q.x, y = q.y, z = q.z, w = q.w;
-        let x2 = x + x;
-        let y2 = y + y;
-        let z2 = z + z;
-
-        let xx = x * x2;
-        let xy = x * y2;
-        let xz = x * z2;
-        let yy = y * y2;
-        let yz = y * z2;
-        let zz = z * z2;
-        let wx = w * x2;
-        let wy = w * y2;
-        let wz = w * z2;
-
-        var out = [];
-        out[0] = 1 - (yy + zz);
-        out[1] = xy + wz;
-        out[2] = xz - wy;
-        out[3] = 0;
-        out[4] = xy - wz;
-        out[5] = 1 - (xx + zz);
-        out[6] = yz + wx;
-        out[7] = 0;
-        out[8] = xz + wy;
-        out[9] = yz - wx;
-        out[10] = 1 - (xx + yy);
-        out[11] = 0;
-        out[12] = 0;
-        out[13] = 0;
-        out[14] = 0;
-        out[15] = 1;
-
-        return new MatrixIV().fromArray(new Float32Array(out));
+    static fromQuaternion(q: Quaternion) {
+        let position = Vector.ZERO;
+        let scale = Vector.ONE;
+        return MatrixIV.compose(position, q, scale);
     }
 
     /**
@@ -807,6 +768,13 @@ export class MatrixIV {
      * ```ts
      *
      * let mat = MatrixIV.compose(position, rotation, scale);
+     *
+     * // Create a rotation matrix from a quaternion.  Same effect as
+     * // MatrixIV.fromQuaterion.
+     * let position = Vector.ZERO;
+     * let scale = Vector.ONE;
+     * let myQuaternion = Quaternion.fromEular(90,90,90);
+     * let rotationMatrix = MatrixIV.compose(position, q, scale);
      *
      * ```
      *

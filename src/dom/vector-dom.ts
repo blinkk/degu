@@ -64,7 +64,9 @@ export interface VectorDomOptions {
  * //  z indicates scale.
  * // The z is shifted by 1.  So -1 = 0%.  0 = 100%; 1 = 200%.
  * vectorElement.setPosition( new Vector(0, 0, 0));
- * vectorElement.setRotation( new Vector(0.01, 0, 0));
+ *
+ * // Sets the Eular based rotation. See more on rotation below.
+ * vectorElement.setRotation( new Vector(30, 20, 10));
  *
  * // Optionally set the global offset.  Here we center this element to the
  * // center of the screen.
@@ -77,8 +79,9 @@ export interface VectorDomOptions {
  *
  * new Raf(()=> {
  *   // On each raf, let's rotate the element.
- *   let rotate = new Vector(0.01, 0, 0);
- *   this.vectorElement.rotation.add(rotate);
+ *   this.vectorElement.rx += 0.03;
+ *   this.vectorElement.ry += 0.03;
+ *   this.vectorElement.rz += 0.03;
  *
  *   // Move the element up 1px on each raf.
  *   let up = new Vector(1, 0, 0);
@@ -116,6 +119,140 @@ export interface VectorDomOptions {
  *
  * ```
  *
+ * #### Rotations
+ *
+ * VectorDom tries to allow two forms of rotational calculations.   Euler and
+ * quaternions.  Internal Euler rotations are cached in `eulerRotation` and
+ * the quaternion rotation is cache in `rotation`.
+ *
+ * At the core, on each render, the quaternion rotation is USED to create the
+ * rotation matrix.  This means that ultimately, VectorDOM is a quaternion
+ * based system to avoid the issues associated with Euler rotation.
+ *
+ * However, since Euler is easier to think about, Euler rotation is made
+ * available as much as possible.
+ *
+ * Calling this method, you will tell VectorDom to internally, sync the
+ * EulerRotation to the Quaternion Rotation.  The Quaternion rotation will
+ * get overridden.
+ *
+ * ```ts
+ *
+ * vectorDom.syncEularRotation();
+ * vectorDom.render();
+ *
+ * ```
+ *
+ * By using this, you can manipulate the rotation values in Euler.
+ *
+ * ```ts
+ *
+ * vectorDom.rx = 90;  // Set rotationX to 90 degrees.
+ * vectorDom.eularRotation.x = 90;  // Same as above, set rotationX to 90 degrees.
+ *
+ * // Sync it and render it.
+ * vectorDom.syncEularRotation();
+ * vectorDom.render();
+ *
+ *
+ * // Sets the euler rotation and quaternion rotation at once at anytime.
+ * vectorDom.setRotation(new Vector(180, 90, 0));
+ *
+ * ```
+ *
+ * To keep it short you can also just pass, true to the render, which will tell
+ * VectorDom that you wnat to sync on every render.
+ *
+ * ```ts
+ *
+ * vectorDom.render(true);
+ *
+ * ```
+ *
+ *
+ * Now if you prefer to use quaternions, you can access the internal rotation
+ * and NOT sync the eular rotation.
+ *
+ *
+ * ```ts
+ *
+ * // Set the X rotation to 90.
+ * let q = Quaternion.fromEuler(90, 0, 0);
+ * vectorDom.rotation = q;
+ * vectorDom.render();
+ *
+ * ```
+ *
+ * You can do more advanced things as well.
+ *
+ * ```ts
+ * // Set initial rotation.
+ * vectorDom.rotation = Quaternion.fromEular(30,30,30);
+ *
+ * // Add 90 degrees in X rotation to whatever it is now.
+ * vectorDom.rotation.addEular(90, 0, 0);
+ *
+ * // Another way to do it.
+ * // Add rotation by 90 degrees in X and 90 degress in y.
+ * let xRadian = mathf.degreesToRadian(90);
+ * let yRadian = mathf.degreesToRadian(90);
+ * let q1 = Quaternion.IDENTITY.angleAxis(xRadian, Vector.RIGHT); // x
+ * let q2 = Quaternion.IDENTITY.angleAxis(yRadian, Vector.UP); /// y
+ * vectorDOm.rotation.multiply(q1).multiply(q2).multiply(q3);
+ *
+ *
+ * // Slerp to a specific Euler degree.
+ *  let target = Quaternion.fromEuler(90, 20, 0);
+ *  myQuat.slerp(target, this.progress);
+ *
+ *
+ * // Lastely render without the sync option.
+ * vectorDom.render();
+ * ```
+ *
+ * Getting Eular values from Quaternion.  In general, it is a one way street
+ * for now in which you can convert from Euler -> Quaternion but not the other
+ * way around.  If needed, you can use the following but there are some rare
+ * accuracy issues at the moment.
+ *
+ * ```ts
+ * let eularRotation = vectorDom.rotation.toEulerVector();
+ * eularRotation.x // the x rotation in degrees
+ * eularRotation.y // the y rotation in degrees
+ * eularRotation.z // the z rotation in degrees
+ *
+ * ```
+ *
+ * Once again, the sync option overwrite the Eular rotation so doing this
+ * won't work.
+ *
+ * ```ts
+ *
+ * // Internally update the quaternion rotation.
+ *  let target = Quaternion.fromEuler(90, 20, 0);
+ *  myQuat.slerp(target, this.progress);
+ *
+ * // Now the eularRotation which was still at 0,0,0 overwrote the internal
+ * // quaternion values.
+ * this.syncEularRotation();
+ *
+ * // vectorDom will remain at 0,0,0.
+ * vectorDom.render();
+ * ```
+ *
+ *
+ * The best of both worlds is that Quaternions are good at slerping and euler
+ * is more intuitive.  You can use the internal rx, ry, rz values in degrees,
+ * then apply that to the final quaternion rotation.
+ *
+ * ```ts
+ *
+ * // Add some rotation to eularRotation and then slerp the quaternion rotation.
+ * this.flowerVector.eularRotation.x += 0.1;
+ * this.flowerVector.rotation.slerpEulerVector(this.flowerVector.eularRotation, 0.08);
+ * this.render();
+ *
+ * ```
  *
  *
  * #### Components
@@ -175,6 +312,7 @@ export class VectorDom {
      * this in Eular angles and also rx, ry, rz.
      */
     public rotation: Quaternion;
+    public eularRotation: Vector;
 
     /**
      * The total offset of this vector.  This is useful in realigning centeral
@@ -280,9 +418,22 @@ export class VectorDom {
      * VectorDomTimeline cssOnly option where the user can option to update
      * element positions via css variables.
      *
+     * A common usecase to enable this might when you want to NOT use the
+     * internal VectorDom matrix system that updates the DOM transform3d and
+     * instead just use the VectorDOM timeline feature with css variables.
+     *
      * This value defaults to false.
      */
     public disableStyleRenders: boolean;
+
+    /**
+     * An option to completely ignore the internal quaternion based rotation and
+     * instead use `eularRotation` values as the rotational matrix.  Since this
+     * forces VectorDOM to use eularRotation instead (which is not the default),
+     * this option may make certain components not work
+     * (since they need Quaternions).  Defaults to false.
+     */
+    public eularRotationAsRotationMatrix: boolean;
 
     /**
      * The list of options passed to VectorDom upon creation.
@@ -312,7 +463,8 @@ export class VectorDom {
         this.position = Vector.ZERO;
         this.acceleration = Vector.ZERO;
         this.velocity = Vector.ZERO;
-        this.rotation = Quaternion.ZERO;
+        this.rotation = Quaternion.IDENTITY;
+        this.eularRotation = Vector.ZERO;
         this.transformOrigin = 'center center';
         this.width = element.offsetWidth;
         this.height = element.offsetHeight;
@@ -327,6 +479,7 @@ export class VectorDom {
         this.options = options || {};
         this.disableStyleRenders = false;
         this.useBoundsForGlobalCalculation = false;
+        this.eularRotationAsRotationMatrix = false;
 
         this.gx_ = 0;
         this.gy_ = 0;
@@ -402,12 +555,12 @@ export class VectorDom {
         this.position = v;
     }
 
-    /**
-     * Returns the eularRotation Vector.
-     */
-    get eularRotation() {
-        return Quaternion.toEulerVector(this.rotation);
-    }
+    // /**
+    //  * Returns the eularRotation Vector.
+    //  */
+    // get eularRotation() {
+    //     return Quaternion.toEulerVector(this.rotation);
+    // }
 
 
     get x(): number {
@@ -482,27 +635,27 @@ export class VectorDom {
     }
 
     get rx(): number {
-        return Quaternion.toEulerVector(this.rotation).x;
+        return this.eularRotation.x;
     }
 
     set rx(value: number) {
-        this.rotation.rotateX(value);
+        this.eularRotation.x = value;
     }
 
     get ry(): number {
-        return Quaternion.toEulerVector(this.rotation).y;
+        return this.eularRotation.y;
     }
 
     set ry(value: number) {
-        this.rotation.rotateY(value);
+        this.eularRotation.y = value;
     }
 
     get rz(): number {
-        return Quaternion.toEulerVector(this.rotation).z;
+        return this.eularRotation.z;
     }
 
     set rz(value: number) {
-        this.rotation.rotateZ(value);
+        this.eularRotation.z = value;
     }
 
 
@@ -586,7 +739,8 @@ export class VectorDom {
 
 
     /**
-     * Set the rotation with a Eular degree vector.
+     * Set the rotation with a Eular degree vector.  Note this method will
+     * overwrite the internal Quaternion rotation.
      *
      * ```ts
      *
@@ -596,7 +750,40 @@ export class VectorDom {
      */
     setRotation(v: Vector) {
         this.rotation = Quaternion.fromEulerVector(v);
+        this.syncEularRotation();
     }
+
+
+    /**
+     * Tells VectorDom to use the eularRotation values and overrite the internal
+     * Quaternion rotation (which is ultimately used to calculate and generate
+     * the rotational matrix.)
+     */
+    syncEularRotation() {
+        this.rotation = Quaternion.fromEulerVector(this.eularRotation);
+    }
+
+
+    /**
+     * Similar to syncEularRotation, syncs and overwrites the quaternion
+     * rotation execpt does it with a slerp.  Use in place of syncEularRotation
+     * and add a slerp amount.
+     *
+     * In raf loop:
+     * ```ts
+     *
+     * vectorDom.rx += 1
+     * vectorDom.slerpEularRotation(0.08);
+     * // Note we don't pass true here since we don't want to sync.
+     * vectorDom.render();
+     *
+     * ```
+     * @param amount The amount to slerp.
+     */
+    slerpEularRotation(amount: number) {
+        this.rotation.slerpEulerVector(this.eularRotation, amount);
+    }
+
 
     /**
      * Forces a zIndex on this VectorDom.  Normally, zIndex is auto calculated
@@ -682,11 +869,16 @@ export class VectorDom {
         const scaleMatrix = new MatrixIV().scaleXyz(z, z, z);
         scaleMatrix.value[15] = 1;
 
-        // Don't use YPR Eular because of gimble lock.
-        // const rotationMatrix = new MatrixIV().ypr(
-        //     this.rotation.x, this.rotation.y, this.rotation.z);
-        const rotationMatrix = MatrixIV.fromQuat(this.rotation);
-        // const rotationMatrix = MatrixIV.fromQuaternion(this.rotation);
+        // Don't use YPR Eular because of gimble lock unless really needed.
+        let rotationMatrix;
+        if (this.eularRotationAsRotationMatrix) {
+            let radianEular = this.eularRotation.clone().degreeToRadians();
+            rotationMatrix = new MatrixIV().ypr(
+                -radianEular.y, -radianEular.x, radianEular.z);
+        } else {
+            rotationMatrix = MatrixIV.fromQuaternion(this.rotation);
+        }
+
 
         // Apply SRT.
         return scaleMatrix
@@ -703,7 +895,17 @@ export class VectorDom {
     }
 
 
-    render() {
+    /**
+     * Renders the VectorDom.
+     * @param {syncEularRotation} Whether to sync the eular rotation on each
+     *   render.  Defaults to true but turn off if you want to manipulate the
+     *   internal quaternion rotation.
+     */
+    render(syncEularRotation: boolean = false) {
+
+        if (syncEularRotation) {
+            this.syncEularRotation();
+        }
 
         // Components render out first.
         for (let key in this.components) {

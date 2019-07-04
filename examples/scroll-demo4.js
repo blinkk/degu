@@ -63,8 +63,8 @@ export default class ScrollDemoSample4 {
                 const timeline = [
                     { progress: 0, x: -100, y: -100, rx: -40, ry: 0, rz: -360, z: 0 - 1 },
                     { progress: 0.2, z: 0 - 1 },
-                    { progress: 0.5, ry: 90, easingFunction: EASE.easeInOutQuint },
-                    { progress: 0.9, x: -200, y: 0, rx: 10, ry: 0, rz: 10, z: 1 - 1 },
+                    { progress: 0.5, ry: 90 },
+                    { progress: 0.9, x: -200, y: 0, rx: 10, ry: 0, rz: -10, z: 1 - 1 },
                 ];
                 flowerVector._.timeline.setTimeline(timeline);
             } else {
@@ -122,16 +122,16 @@ export default class ScrollDemoSample4 {
 
             vector.position.add(floatyVector);
 
-            if (vector.id % 2 == 1) {
-                vector._.force.mouseRotationForce(
-                    -0.15, -0.15, 0, 0.02
-                );
-            } else {
-                vector._.force.scrollYRotationForce(
-                    0, 0.05, 0, 0.02
-                );
-            }
-            vector.render();
+            // if (vector.id % 2 == 1) {
+            //     vector._.force.mouseRotationForce(
+            //         -0.15, -0.15, 0, 0.02
+            //     );
+            // } else {
+            //     vector._.force.scrollYRotationForce(
+            //         0, 0.05, 0, 0.02
+            //     );
+            // }
+            vector.render(true);
         });
     }
 
