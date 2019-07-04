@@ -37,7 +37,7 @@ export default class VectorDomSample {
         projection.add(this.vectorBall.position, 'z', -2, 10);
         let rotation = this.gui.addFolder('Rotation');
         rotation.add(this.vectorBall, 'rx', -360, 360);
-        rotation.add(this.vectorBall, 'ry', -360, 360);
+        rotation.add(this.vectorBall, 'ry', -180, 180);
         rotation.add(this.vectorBall, 'rz', -360, 360);
         this.progress = 0;
     }
@@ -47,11 +47,6 @@ export default class VectorDomSample {
         this.vectorBall.render();
         this.vectorBall.rotation.addEuler(
             0, 1, 0);
-
-        // let q = Quaternion.fromEuler(90, 20, 0);
-        // this.vectorBall.rotation.slerp(q, this.progress);
-        // this.progress += 0.0001;
-        // console.log(this.vectorBall.rotation);
     }
 
 }

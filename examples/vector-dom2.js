@@ -16,7 +16,7 @@ export default class VectorDomSample2 {
 
         this.ballVectors = [];
 
-        const createBall = (id, x, y, z) => {
+        const createBall = (id, x, y, z, sway) => {
             let ballVector = new VectorDom(document.getElementById(id));
 
             // By default, VectorDom will stop running when element goes
@@ -35,17 +35,22 @@ export default class VectorDomSample2 {
             ballVector.rotateY = mathf.getRandomFloat(-180, 180);
             ballVector.rotateZ = mathf.getRandomFloat(-180, 180);
 
+            ballVector.sway = sway;
+
+            // This demonstrates continously adding degrees to keep rotating
+            // an element.
+            ballVector.randomRotation = mathf.getRandomFloat(1, 2.5);
 
             ballVector.setPosition(new Vector(x, y, z));
             ballVector.init();
             this.ballVectors.push(ballVector);
         };
-        createBall('ball1', -100, 100, 2);
+        createBall('ball1', -100, 100, 2, true);
         createBall('ball2', 100, 100, -0.5);
-        createBall('ball3', -100, -100, -0.2);
-        createBall('ball4', -100, -100, 1);
+        createBall('ball3', -100, -100, -0.2, true);
+        createBall('ball4', -100, -100, 1, true);
         createBall('ball5', -100, 100, 0.5);
-        createBall('ball6', 100, 100, 0.2);
+        createBall('ball6', 100, 100, 0.2, true);
         createBall('ball7', 100, -100, 0.5);
         createBall('ball8', 100, -100, 1);
 
@@ -74,11 +79,20 @@ export default class VectorDomSample2 {
             );
             ballVector.position.add(position);
 
-            // Slerp the rotatation.
-            ballVector.rotation.slerpEular(
-                ballVector.rotateX * sin,
-                ballVector.rotateY * sin,
-                ballVector.rotateZ * sin, 0.25);
+            // Slerp the rotatation. Goes back and worth.
+            if (ballVector.sway) {
+                ballVector.rotation.slerpEuler(
+                    ballVector.rotateX * sin,
+                    ballVector.rotateY * sin,
+                    ballVector.rotateZ * sin, 0.25);
+            } else {
+                // Keep rotation.
+                ballVector.rotation.addEuler(
+                    ballVector.randomRotation, ballVector.randomRotation,
+                    ballVector.randomRotation
+                );
+            }
+
 
             ballVector.render();
         });

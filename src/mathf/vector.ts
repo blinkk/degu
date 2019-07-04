@@ -666,6 +666,19 @@ export class Vector {
 
 
     /**
+     * Converts this vector to a quaternion friendly vector.
+     * Currently there is a small bug in which the y locks in,
+     * so the y value must be wrapped between -90 and 90.
+     * If using a Euler vector, running this can help fix locking
+     * issues on the y axis.
+     */
+    toEulerVector(): Vector {
+        // this.y = mathf.wrap(this.y, -90, 90);
+        return this;
+    }
+
+
+    /**
      * Clamps a given vector between a min and max vector.
      * @param min The min vector
      * @param max The max vector

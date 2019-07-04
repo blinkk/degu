@@ -39,12 +39,12 @@ export default class ScrollDemoSample3 {
         this.flowerVector.anchorY = 0.5;
 
         let timeline = [
-            { progress: 0, x: 1200, y: 600, z: 2 - 1, rx: 0, ry: 0, rz: 0, alpha: 0 },
-            { progress: 0.3, x: 100, y: 400, z: 2 - 1, rz: 100, alpha: 1 },
-            { progress: 0.6, x: 0, y: 200, z: 1 - 1, ry: 0, rz: 10 },
+            { progress: 0, x: 1200, y: 600, z: 2 - 1, rx: 180, ry: 0, rz: 0, alpha: 0 },
+            { progress: 0.3, x: 100, y: 400, z: 2 - 1, rz: 180, alpha: 1 },
+            { progress: 0.6, x: 0, y: 200, z: 1 - 1, ry: 180, rz: 0 },
             { progress: 0.8, x: 300, y: 800, z: 0.3 - 1, rx: 20, ry: 20, rz: 90, easingFunction: EASE.easeInOutCubic },
             { progress: 0.9, x: 400, y: 500, z: 0.5 - 1, rx: 0, ry: 0, rz: 0 },
-            { progress: 1, x: 400, y: 500, z: 5 - 1, ry: 0, rz: 0 },
+            { progress: 1, x: 400, y: 500, z: 5 - 1, ry: 180, rz: 0 },
         ];
 
         this.flowerVector._.timeline.setTimeline(timeline);

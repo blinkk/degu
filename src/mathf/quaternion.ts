@@ -124,9 +124,8 @@ export class Quaternion {
      */
     addEuler(x: number, y: number, z: number): Quaternion {
         let v = Quaternion.toEulerVector(this.clone());
-        v.add(new Vector(x, y, z));
-        console.log(v.y);
-        this.slerpEular(v.x, v.y, v.z, 1);
+        v.add(new Vector(x, y, z)).toEulerVector();
+        this.slerpEuler(v.x, v.y, v.z, 1);
         return this;
     }
 
@@ -266,17 +265,18 @@ export class Quaternion {
 
 
     /**
-     * Slerps to a specific rotation in Eular degrees.
+     * Slerps to a specific rotation in Euler degrees.
+     *
      * ```ts
      *
-     * myQuat.slerpEular(30, 0, 0, this.progress);
+     * myQuat.slerpEuler(30, 0, 0, this.progress);
      *
      * ```
      * @param x
      * @param y
      * @param z
      */
-    slerpEular(x: number, y: number, z: number, progress: number): Quaternion {
+    slerpEuler(x: number, y: number, z: number, progress: number): Quaternion {
         let target = Quaternion.fromEuler(x, y, z);
         this.slerp(target, progress);
         return this;
@@ -358,70 +358,63 @@ export class Quaternion {
 
 
     /**
-     * RotateX the quaternion by given radian
+     * Set rotation X of the quaternion by given degree
      * @param rad
      */
-    rotateX(rad: number): Quaternion {
-        rad *= 0.5;
-        const ax = this.x;
-        const ay = this.y;
-        const az = this.z;
-        const aw = this.w;
-        const bx = Math.sin(rad);
-        const bw = Math.cos(rad);
-
-        this.x = ax * bw + aw * bx;
-        this.y = ay * bw + az * bx;
-        this.z = az * bw - ay * bx;
-        this.w = aw * bw - ax * bx;
-
+    rotateX(degree: number): Quaternion {
+        // Convert the current quaternion to a eular vector.
+        let v = Quaternion.toEulerVector(this);
+        // Update the x.
+        v.x = degree;
+        // Convert it back.
+        let q = Quaternion.fromEulerVector(v);
+        this.copy(q);
         return this;
     }
 
     /**
-     * RotateY the quaternion by given radian
+     * Set rotation Y of the quaternion by given degree
      * @param rad
      */
-    rotateY(rad: number): Quaternion {
-        rad *= 0.5;
-
-        const ax = this.x;
-        const ay = this.y;
-        const az = this.z;
-        const aw = this.w;
-        const by = Math.sin(rad);
-        const bw = Math.cos(rad);
-
-        this.x = ax * bw - az * by;
-        this.y = ay * bw + aw * by;
-        this.z = az * bw + ax * by;
-        this.w = aw * bw - ay * by;
-
+    rotateY(degree: number): Quaternion {
+        // Convert the current quaternion to a eular vector.
+        let v = Quaternion.toEulerVector(this);
+        // Update the y.
+        v.y = degree;
+        // Convert it back.
+        let q = Quaternion.fromEulerVector(v);
+        this.copy(q);
         return this;
     }
 
     /**
-     * RotateZ the quaternion by given radian
+     * Set rotation Y of the quaternion by given degree
      * @param rad
      */
-    rotateZ(rad: number): Quaternion {
-
-        rad *= 0.5;
-        const ax = this.x;
-        const ay = this.y;
-        const az = this.z;
-        const aw = this.w;
-
-        const bz = Math.sin(rad);
-        const bw = Math.cos(rad);
-
-        this.x = ax * bw + ay * bz;
-        this.y = ay * bw - ax * bz;
-        this.z = az * bw + aw * bz;
-        this.w = aw * bw - az * bz;
-
+    rotateZ(degree: number): Quaternion {
+        // Convert the current quaternion to a eular vector.
+        let v = Quaternion.toEulerVector(this);
+        // Update the z.
+        v.z = degree;
+        // Convert it back.
+        let q = Quaternion.fromEulerVector(v);
+        this.copy(q);
         return this;
     }
+
+
+    /**
+     * Copies the content of another Quaternion into this quaterion.
+     * @param q
+     */
+    copy(q: Quaternion): Quaternion {
+        this.x = q.x;
+        this.y = q.y;
+        this.z = q.z;
+        this.w = q.w;
+        return this;
+    }
+
 
 
     /**
@@ -436,7 +429,7 @@ export class Quaternion {
 
 
     /**
-     * Creates a Quaternion from the given eular angle x, y, z.
+     * Creates a Quaternion from the given euler angle x, y, z.
      *
      * ```ts
      *
@@ -528,12 +521,13 @@ export class Quaternion {
         result.z = mathf.radianToDegree(result.z);
 
 
-        return result;
+        return result.toEulerVector();
     }
 
 
     /**
      * Creates a rotation which rotates angle degrees around axis.
+     * Assumes the axis vector is normalized.
      * ```ts
      *
      * // Rotate 23 degrees around Y axis.
@@ -561,6 +555,7 @@ export class Quaternion {
 
         return this;
     }
+
 
     /**
      * Sets a quaternion to represent the shortest rotation from one vector

@@ -316,13 +316,6 @@ export class VectorDomTimeline implements VectorDomComponent {
             // Add the keys to timelineKeys while deduping.
             this.timelineKeys = [...new Set([...this.timelineKeys, ...keys])];
 
-            // Convert rotation values to radians.
-            rotationValue.forEach((key) => {
-                if (timeline[key]) {
-                    timeline[key] = mathf.degreeToRadian(timeline[key]);
-                }
-            })
-
             return timeline;
         });
 

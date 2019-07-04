@@ -61,7 +61,7 @@ test('To EulerVector', t => {
 
 
     let test = (x: number, y: number, z: number) => {
-        let e = new Vector(x, y, z);
+        let e = new Vector(x, y, z).toEularVector();
         let q = Quaternion.fromEulerVector(e);
         let r = Quaternion.toEulerVector(q);
         let diffX = e.x - r.x;

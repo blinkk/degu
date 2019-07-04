@@ -486,10 +486,7 @@ export class VectorDom {
     }
 
     set rx(value: number) {
-        this.rotation.angleAxis(
-            mathf.degreeToRadian(value),
-            Vector.RIGHT
-        )
+        this.rotation.rotateX(value);
     }
 
     get ry(): number {
@@ -497,10 +494,7 @@ export class VectorDom {
     }
 
     set ry(value: number) {
-        this.rotation.angleAxis(
-            mathf.degreeToRadian(value),
-            Vector.UP
-        )
+        this.rotation.rotateY(value);
     }
 
     get rz(): number {
@@ -508,10 +502,7 @@ export class VectorDom {
     }
 
     set rz(value: number) {
-        this.rotation.angleAxis(
-            mathf.degreeToRadian(value),
-            Vector.FORWARD
-        )
+        this.rotation.rotateZ(value);
     }
 
 
