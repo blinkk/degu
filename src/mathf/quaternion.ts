@@ -32,7 +32,7 @@ export class Quaternion {
     public w: number;
 
 
-    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 1) {
+    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 0) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -494,8 +494,10 @@ export class Quaternion {
     static toEulerVector(q: Quaternion): Vector {
         let result = Vector.ZERO;
 
-        // Create a rotation matrix from the quaternion.
-        let matrix = MatrixIV.fromQuaternion(q.clone());
+
+
+        // // Create a rotation matrix from the quaternion.
+        let matrix = MatrixIV.fromQuat(q.clone());
 
         var te = matrix.value;
         var m11 = te[0], m12 = te[4], m13 = te[8];
@@ -504,24 +506,25 @@ export class Quaternion {
 
         // XYZ ordering
         // https://github.com/mrdoob/three.js/blob/master/src/math/Euler.js#L146
-        result.y = Math.asin(mathf.clamp(- 1, 1, m13));
+        result.y = Math.asin(mathf.clamp(-1, 1, m13));
 
-        if (Math.abs(m13) < 0.99999) {
+        if (Math.abs(m13) < 0.9999999) {
+            console.log('yo')
             result.x = Math.atan2(- m23, m33);
             result.z = Math.atan2(- m12, m11);
         } else {
+            console.log('ho')
             result.x = Math.atan2(m32, m22);
             result.z = 0;
         }
 
-
-
         result.x = mathf.radianToDegree(result.x);
         result.y = mathf.radianToDegree(result.y);
+        console.log(result.y);
         result.z = mathf.radianToDegree(result.z);
 
 
-        return result.toEulerVector();
+        return result;
     }
 
 
@@ -603,10 +606,8 @@ export class Quaternion {
     }
 
 
-
-
     /**
-     * A static zero quaternion.
+     * A static zero quaternion.  Additive identity.
      *
      * ```ts
      * let q = Quaternion.ZERO;
@@ -616,8 +617,20 @@ export class Quaternion {
         return new Quaternion(0, 0, 0, 0);
     }
 
+    static get I(): Quaternion {
+        return new Quaternion(0, 1, 0, 0);
+    }
+
+    static get J(): Quaternion {
+        return new Quaternion(0, 0, 1, 0);
+    }
+
+    static get K(): Quaternion {
+        return new Quaternion(0, 0, 0, 1);
+    }
+
     /**
-     * A static identity quaternion.
+     * A static identity quaternion.  Multiplicative identity.
      *
      * ```ts
      * let q = Quaternion.IDENTITY;

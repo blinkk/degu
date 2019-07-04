@@ -685,13 +685,15 @@ export class VectorDom {
         // Don't use YPR Eular because of gimble lock.
         // const rotationMatrix = new MatrixIV().ypr(
         //     this.rotation.x, this.rotation.y, this.rotation.z);
-        const rotationMatrix = MatrixIV.fromQuaternion(this.rotation);
+        const rotationMatrix = MatrixIV.fromQuat(this.rotation);
+        // const rotationMatrix = MatrixIV.fromQuaternion(this.rotation);
 
         // Apply SRT.
         return scaleMatrix
             .multiply(rotationMatrix)
             .multiply(translationMatrix)
             .multiply(offsetMatrix);
+
     }
 
 
