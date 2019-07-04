@@ -691,6 +691,7 @@ export class MatrixIV {
 
     /**
      * Sets the values of this matrix based on given yaw, pitch and roll.
+     * Yano uses: YXZ Local Axes Yaw (y), Pitch (x), Roll (z)
      */
     ypr(yaw: number, pitch: number, roll: number) {
         this.zero();

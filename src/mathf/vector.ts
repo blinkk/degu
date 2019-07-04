@@ -648,6 +648,24 @@ export class Vector {
 
 
     /**
+     * Given a Vector storing Euler degrees, converts it to radians.
+     *
+     * ```ts
+     * let eulerVector = new Vector(90, 180, 0);
+     * let radianVector = Vector.eulerVectorToRadians(eulerVector);
+     *
+     * ```
+     */
+    static eulerVectorToRadians(v: Vector) {
+        return new Vector(
+            mathf.degreeToRadian(v.x),
+            mathf.degreeToRadian(v.y),
+            mathf.degreeToRadian(v.z)
+        )
+    }
+
+
+    /**
      * Clamps a given vector between a min and max vector.
      * @param min The min vector
      * @param max The max vector
@@ -660,6 +678,7 @@ export class Vector {
             mathf.clamp(min.z, max.z, vector.z),
         )
     }
+
 
 
     /**

@@ -32,7 +32,7 @@ export class Quaternion {
     public w: number;
 
 
-    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 0) {
+    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 1) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -45,7 +45,7 @@ export class Quaternion {
      *
      * ```ts
      *
-     * var q = new Quaternion(0,0,0,0);
+     * var q = new Quaternion(0.4,0,0,1);
      * var clone = q.clone();
      *
      * ```
@@ -106,6 +106,30 @@ export class Quaternion {
         const w = q1.w + q2.w;
         return new Quaternion(x, y, z, w);
     }
+
+
+    /**
+     * Adds eular degrees to the quaternion.
+     *
+     *```ts
+
+     * var q = new Quaternion(0,0,0,0);
+     * q.addEular(30, 0, 0);
+     *
+     * ```
+     *
+     * @param x x in degrees
+     * @param y y in degrees
+     * @param z z in degrees
+     */
+    addEuler(x: number, y: number, z: number): Quaternion {
+        let v = Quaternion.toEulerVector(this.clone());
+        v.add(new Vector(x, y, z));
+        console.log(v.y);
+        this.slerpEular(v.x, v.y, v.z, 1);
+        return this;
+    }
+
 
     /**
      * Subtracts a given quaternion or vector to this quaternion.
@@ -240,9 +264,36 @@ export class Quaternion {
         return this;
     }
 
+
+    /**
+     * Slerps to a specific rotation in Eular degrees.
+     * ```ts
+     *
+     * myQuat.slerpEular(30, 0, 0, this.progress);
+     *
+     * ```
+     * @param x
+     * @param y
+     * @param z
+     */
+    slerpEular(x: number, y: number, z: number, progress: number): Quaternion {
+        let target = Quaternion.fromEuler(x, y, z);
+        this.slerp(target, progress);
+        return this;
+    }
+
     /**
      * Slerps this quaternion towards the given quaternion or vector.
      * Inspired by: https://jsperf.com/quaternion-slerp-implementations
+     *
+     * ```ts
+     *
+     *  let target = Quaternion.fromEuler(90, 20, 0);
+     *  myQuat.slerp(target, this.progress);
+     *
+     * ```
+     *
+     *
      * @param q
      * @param progress
      */
@@ -392,33 +443,113 @@ export class Quaternion {
      * let quat = Quaternion.fromEuler(180, 90, -90);
      *
      * ```
-     * @param x x in degrees
-     * @param y y in degrees
-     * @param z z in degrees
+     * @see https://quaternions.online/
+     * @see https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+     * @param x x
+     * @param y y
+     * @param z z
      */
-    static fromEuler(x: number, y: number, z: number) {
-        let halfToRad = 0.5 * Math.PI / 180.0;
-        x *= halfToRad;
-        y *= halfToRad;
-        z *= halfToRad;
+    static fromEuler(x: number, y: number, z: number): Quaternion {
+        x = mathf.degreeToRadian(x);
+        y = mathf.degreeToRadian(y);
+        z = mathf.degreeToRadian(z);
+        var cos = Math.cos;
+        var sin = Math.sin;
 
-        let sx = Math.sin(x);
-        let cx = Math.cos(x);
-        let sy = Math.sin(y);
-        let cy = Math.cos(y);
-        let sz = Math.sin(z);
-        let cz = Math.cos(z);
+        var c1 = cos(x / 2);
+        var c2 = cos(y / 2);
+        var c3 = cos(z / 2);
 
-        const ox = sx * cy * cz - cx * sy * sz;
-        const oy = cx * sy * cz + sx * cy * sz;
-        const oz = cx * cy * sz - sx * sy * cz;
-        const ow = cx * cy * cz + sx * sy * sz;
+        var s1 = sin(x / 2);
+        var s2 = sin(y / 2);
+        var s3 = sin(z / 2);
 
-        return new Quaternion(ox, oy, oz, ow);
+        // XYZ ordering.
+        // https://github.com/mrdoob/three.js/blob/master/src/math/Quaternion.js#L224
+        let rx = s1 * c2 * c3 + c1 * s2 * s3;
+        let ry = c1 * s2 * c3 - s1 * c2 * s3;
+        let rz = c1 * c2 * s3 + s1 * s2 * c3;
+        let rw = c1 * c2 * c3 - s1 * s2 * s3;
+
+        return new Quaternion(rx, ry, rz, rw);
     }
 
 
-    setAxisAngle(axis: Vector, rad: number) {
+    /**
+     * Converts a Euler Degree vector to a Quaternion.
+     *
+     * ```ts
+     *
+     * let eulerVector = new Vector(90, 180, 0);
+     * let quat = Quaternion.fromEulerVector(eulerVector);
+     * ```
+     *
+     * @param v
+     */
+    static fromEulerVector(v: Vector) {
+        return Quaternion.fromEuler(v.x, v.y, v.z);
+    }
+
+
+    /**
+     * Converts a quaternion to a EulerVector consisting of degrees.
+     * YXZ Local Axes Yaw (y), Pitch (x), Roll (z)
+     * Outputs XYZ ordering.
+     * @see https://bit.ly/1TzLyaC
+     * @param q
+     */
+    static toEulerVector(q: Quaternion): Vector {
+        let result = Vector.ZERO;
+
+        // Create a rotation matrix from the quaternion.
+        let matrix = MatrixIV.fromQuaternion(q.clone());
+
+        var te = matrix.value;
+        var m11 = te[0], m12 = te[4], m13 = te[8];
+        var m21 = te[1], m22 = te[5], m23 = te[9];
+        var m31 = te[2], m32 = te[6], m33 = te[10];
+
+        // XYZ ordering
+        // https://github.com/mrdoob/three.js/blob/master/src/math/Euler.js#L146
+        result.y = Math.asin(mathf.clamp(- 1, 1, m13));
+
+        if (Math.abs(m13) < 0.99999) {
+            result.x = Math.atan2(- m23, m33);
+            result.z = Math.atan2(- m12, m11);
+        } else {
+            result.x = Math.atan2(m32, m22);
+            result.z = 0;
+        }
+
+
+
+        result.x = mathf.radianToDegree(result.x);
+        result.y = mathf.radianToDegree(result.y);
+        result.z = mathf.radianToDegree(result.z);
+
+
+        return result;
+    }
+
+
+    /**
+     * Creates a rotation which rotates angle degrees around axis.
+     * ```ts
+     *
+     * // Rotate 23 degrees around Y axis.
+     * let rad = mathf.degreesToRadian(23);
+     *
+     * let quat = Quaternion.ZERO;
+     * quat.angleAxis(rad, Vector.UP); // Y
+     * quat.angleAxis(rad, Vector.RIGHT); // X
+     * quat.angleAxis(rad, Vector.FORWARD); // Z
+     *
+     * ```
+     *
+     * @param rad Angle in radians
+     * @param axis An axis vector to rotate on. Axis should be normalized.
+     */
+    angleAxis(rad: number, axis: Vector) {
         rad = rad * 0.5;
 
         var s = Math.sin(rad);
@@ -453,7 +584,7 @@ export class Quaternion {
 
             tmpvec.normalize();
 
-            return this.setAxisAngle(tmpvec, Math.PI);
+            return this.angleAxis(Math.PI, tmpvec);
 
         }
         else if (dot > 0.999999) {
@@ -475,6 +606,8 @@ export class Quaternion {
             return this.normalize();
         }
     }
+
+
 
 
     /**

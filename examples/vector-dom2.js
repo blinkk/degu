@@ -30,9 +30,10 @@ export default class VectorDomSample2 {
             ballVector.moveX = mathf.getRandomFloat(-15, 15);
             ballVector.moveY = mathf.getRandomFloat(-5, 5);
             ballVector.moveZ = mathf.getRandomFloat(-0.01, 0.01);
-            ballVector.rotateX = mathf.getRandomFloat(0, 0.05);
-            ballVector.rotateY = mathf.getRandomFloat(0, 0.05);
-            ballVector.rotateZ = mathf.getRandomFloat(0, 0.05);
+
+            ballVector.rotateX = mathf.getRandomFloat(-180, 180);
+            ballVector.rotateY = mathf.getRandomFloat(-180, 180);
+            ballVector.rotateZ = mathf.getRandomFloat(-180, 180);
 
 
             ballVector.setPosition(new Vector(x, y, z));
@@ -72,8 +73,13 @@ export default class VectorDomSample2 {
                 ballVector.moveZ * sin
             );
             ballVector.position.add(position);
-            ballVector.rotation.add(new Vector(
-                ballVector.rotateX, ballVector.rotateY, ballVector.rotateZ));
+
+            // Slerp the rotatation.
+            ballVector.rotation.slerpEular(
+                ballVector.rotateX * sin,
+                ballVector.rotateY * sin,
+                ballVector.rotateZ * sin, 0.25);
+
             ballVector.render();
         });
     }

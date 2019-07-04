@@ -171,7 +171,8 @@ export class VectorDom {
     public velocity: Vector;
 
     /**
-     * The rotation of this html element.
+     * The rotation of this VectorDom in Quaternion.  See setRotation to set
+     * this in Eular angles and also rx, ry, rz.
      */
     public rotation: Quaternion;
 
@@ -396,9 +397,18 @@ export class VectorDom {
         this.element.style.transformOrigin = 'center center';
     }
 
+
     setPosition(v: Vector) {
         this.position = v;
     }
+
+    /**
+     * Returns the eularRotation Vector.
+     */
+    get eularRotation() {
+        return Quaternion.toEulerVector(this.rotation);
+    }
+
 
     get x(): number {
         return this.position.x;
@@ -472,27 +482,36 @@ export class VectorDom {
     }
 
     get rx(): number {
-        return this.rotation.x;
+        return Quaternion.toEulerVector(this.rotation).x;
     }
 
     set rx(value: number) {
-        this.rotation.x = value;
+        this.rotation.angleAxis(
+            mathf.degreeToRadian(value),
+            Vector.RIGHT
+        )
     }
 
     get ry(): number {
-        return this.rotation.y;
+        return Quaternion.toEulerVector(this.rotation).y;
     }
 
     set ry(value: number) {
-        this.rotation.y = value;
+        this.rotation.angleAxis(
+            mathf.degreeToRadian(value),
+            Vector.UP
+        )
     }
 
     get rz(): number {
-        return this.rotation.z;
+        return Quaternion.toEulerVector(this.rotation).z;
     }
 
     set rz(value: number) {
-        this.rotation.z = value;
+        this.rotation.angleAxis(
+            mathf.degreeToRadian(value),
+            Vector.FORWARD
+        )
     }
 
 
@@ -574,8 +593,18 @@ export class VectorDom {
         this.offset = v;
     }
 
-    setRotation(q: Quaternion) {
-        this.rotation = q;
+
+    /**
+     * Set the rotation with a Eular degree vector.
+     *
+     * ```ts
+     *
+     * vectorDom.setRotation(new Vector(360, 0, 0));
+     * ```
+     * @param v
+     */
+    setRotation(v: Vector) {
+        this.rotation = Quaternion.fromEulerVector(v);
     }
 
     /**
@@ -661,17 +690,17 @@ export class VectorDom {
 
         const scaleMatrix = new MatrixIV().scaleXyz(z, z, z);
         scaleMatrix.value[15] = 1;
-        const rotationMatrix = new MatrixIV().ypr(
-            this.rotation.x, this.rotation.y, this.rotation.z);
 
-        // const rotationMatrix = MatrixIV.fromQuaternion(this.rotation);
+        // Don't use YPR Eular because of gimble lock.
+        // const rotationMatrix = new MatrixIV().ypr(
+        //     this.rotation.x, this.rotation.y, this.rotation.z);
+        const rotationMatrix = MatrixIV.fromQuaternion(this.rotation);
 
         // Apply SRT.
         return scaleMatrix
             .multiply(rotationMatrix)
             .multiply(translationMatrix)
             .multiply(offsetMatrix);
-        return rotationMatrix;
     }
 
 
