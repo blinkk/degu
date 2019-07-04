@@ -577,7 +577,7 @@ export class Quaternion {
     static toEulerVector(q: Quaternion): Vector {
         let result = Vector.ZERO;
         // // Create a rotation matrix from the quaternion.
-        let matrix = MatrixIV.fromQuat(q.clone());
+        let matrix = MatrixIV.fromQuaternion(q.clone());
 
         var te = matrix.value;
         var m11 = te[0], m12 = te[4], m13 = te[8];

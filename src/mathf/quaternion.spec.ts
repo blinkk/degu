@@ -59,9 +59,19 @@ test('To EulerVector', t => {
     t.is(Math.round(e.z), Math.round(r.z));
     t.is(Math.round(e.w), Math.round(r.w));
 
+    // TODO (uxder): This case fails.  Need to look into it.
+    // e = new Vector(90, 90, 90);
+    // q = Quaternion.fromEulerVector(e);
+    // r = Quaternion.toEulerVector(q);
+    // t.is(e, r);
+    // t.is(Math.round(e.x), Math.round(r.x));
+    // t.is(Math.round(e.y), Math.round(r.y));
+    // t.is(Math.round(e.z), Math.round(r.z));
+    // t.is(Math.round(e.w), Math.round(r.w));
+
 
     let test = (x: number, y: number, z: number) => {
-        let e = new Vector(x, y, z).toEularVector();
+        let e = new Vector(x, y, z);
         let q = Quaternion.fromEulerVector(e);
         let r = Quaternion.toEulerVector(q);
         let diffX = e.x - r.x;
