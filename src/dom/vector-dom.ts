@@ -461,8 +461,12 @@ export class VectorDom {
     /**
      * In the render loop, whether to create a project, view matrix
      * and render this VectorDom in a pseudo3dworld.
+     *
+     * This is turned on by default to assist with calculating certain
+     * methods but for most cases, you may be able to turn this off
+     * for a performance boost.
      */
-    public renderWithProjectMatrix: boolean;
+    public renderWith3dProjectMatrix: boolean;
 
     /**
      * VectorDom extension components that add funcitonality to the base
@@ -497,7 +501,7 @@ export class VectorDom {
         this.disableStyleRenders = false;
         this.useBoundsForGlobalCalculation = false;
         this.eularRotationAsRotationMatrix = false;
-        this.renderWithProjectMatrix = true;
+        this.renderWith3dProjectMatrix = true;
 
         this.gx_ = 0;
         this.gy_ = 0;
@@ -702,8 +706,10 @@ export class VectorDom {
             y = this.bounds.top;
         }
 
-        return new Vector(x, y);
+        return new Vector(x, y, this.position.z);
     }
+
+
 
     /**
      * The global element center position.  This is the x,y in relation to
@@ -723,7 +729,7 @@ export class VectorDom {
         }
         const x = g.x + hw;
         const y = g.y + hh;
-        return new Vector(x, y);
+        return new Vector(x, y, this.position.z);
     }
 
 
@@ -905,7 +911,7 @@ export class VectorDom {
             .multiply(translationMatrix)
             .multiply(offsetMatrix);
 
-        if (!this.renderWithProjectMatrix) {
+        if (!this.renderWith3dProjectMatrix) {
             return baseMatrix;
         } else {
             const projectionMatrix =
