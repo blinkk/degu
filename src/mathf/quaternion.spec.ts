@@ -1,6 +1,7 @@
 
 import { Vector } from './vector';
 import { Quaternion } from './quaternion';
+import { MatrixIV } from './matrixIV';
 import { mathf } from './mathf';
 import test from 'ava';
 
@@ -105,5 +106,38 @@ test('To EulerVector', t => {
     tests.forEach((t) => {
         test(t[0], t[1], t[2]);
     })
-
 });
+
+
+test('fromRotationMatrixIV', t => {
+    let s = new Quaternion(0, 0, 0, 1);
+    let m1 = MatrixIV.fromQuaternion(s);
+    let q = Quaternion.fromRotationMatrixIV(m1);
+    t.deepEqual(q.toFixed(1), s.toFixed(1));
+
+    const test = (x: number, y: number, z: number, w: number) => {
+        let s = new Quaternion(x, y, z, w);
+        let m1 = MatrixIV.fromQuaternion(s);
+        q = Quaternion.fromRotationMatrixIV(m1);
+        t.deepEqual(q.toFixed(1), s.toFixed(1));
+    }
+
+    let tests = [
+        [0, 0, 0, 1],
+        [1, 0, 0, 0],
+        [0.7, 0, 0, 0.7],
+        [0.5, 0.5, 0.5, 0.5],
+        [-0.5, 0.5, 0.5, 0.5],
+        [-0.5, -0.5, -0.5, -0.5],
+        [-0.25, -0.25, 0.15, 0.7],
+        [0.25, 0.25, 0.15, 0.7],
+        [0.35, 0.89, 0.15, 1],
+        [-0.35, -0.89, 0.15, 1],
+        [-0.35, 0.89, -0.15, 1],
+    ]
+
+    test(t[0], t[1], t[2], t[3]);
+})
+
+
+

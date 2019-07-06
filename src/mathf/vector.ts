@@ -297,6 +297,39 @@ export class Vector {
 
 
     /**
+     * Find the Eular rotation from one vector to another.  This will you
+     * the angle delta between the two.
+     *
+     *
+     * ```ts
+     * let eularVector = Vector.getEularRotation(origin, target);
+     * eularVector.x // degrees in x rotation
+     * eularVector.y // degrees in y rotation
+     * eularVector.z // degrees in z rotation
+     * ```
+     *
+     * @param originVector
+     * @param targetVector
+     */
+    static getEularRotationTo(originVector: Vector, targetVector: Vector):
+        Vector {
+        // Use the difference between current vector and target as the basis.
+        let delta =
+            originVector.clone().normalize()
+                .subtract(targetVector.clone().normalize());
+        let angleX = -Math.atan(delta.x);
+        let angleY = Math.atan(delta.y);
+        let angleZ = -Math.atan(delta.z);
+
+        return new Vector(
+            mathf.radianToDegree(angleX),
+            mathf.radianToDegree(angleY),
+            mathf.radianToDegree(angleZ)
+        )
+    }
+
+
+    /**
      * Adds this vector to another.
      */
     add(v: Vector): Vector {
@@ -680,6 +713,51 @@ export class Vector {
             mathf.clamp(min.y, max.y, vector.y),
             mathf.clamp(min.z, max.z, vector.z),
         )
+    }
+
+
+    /**
+     * Creates a Eular vector from a rotationalMatrix. This conversion is better
+     * avoided for different reasons.  The pitch (y) will be limited to +-90.
+     *
+     * There are also cases where accuracy suffers so use with caution.
+     *
+     * Yaw, Roll will be +-180.
+     * Pitch will be +- 90.
+     *
+     * ```ts
+     *   // Example converts a quaternion back over to euler.
+     *   let quat = new Quaternion(0.2, 0.2, 0.2, 0.1);
+     *   let matrix = MatrixIV.fromQuaternion(quat.clone());
+     *   let eularVector = Vector.fromRotationMatrixIV(matrix);
+     * ```
+     *
+     */
+    static fromRotationMatrixIV(m: MatrixIV) {
+        let result = Vector.ZERO;
+        var te = m.value;
+        var m11 = te[0], m12 = te[4], m13 = te[8];
+        var m21 = te[1], m22 = te[5], m23 = te[9];
+        var m31 = te[2], m32 = te[6], m33 = te[10];
+
+        // XYZ ordering
+        // https://github.com/mrdoob/three.js/blob/master/src/math/Euler.js#L146
+        result.y = Math.asin(mathf.clamp(-1, 1, m13));
+
+        if (Math.abs(m13) < 0.9999999) {
+            result.x = Math.atan2(- m23, m33);
+            result.z = Math.atan2(- m12, m11);
+        } else {
+            result.x = Math.atan2(m32, m22);
+            result.z = 0;
+        }
+
+        result.x = mathf.radianToDegree(result.x);
+        // result.y = mathf.wrap(mathf.radianToDegree(result.y), -89.9999, 89.9999);
+        result.y = mathf.radianToDegree(result.y);
+        result.z = mathf.radianToDegree(result.z);
+
+        return result;
     }
 
 

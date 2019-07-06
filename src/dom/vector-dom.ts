@@ -457,6 +457,13 @@ export class VectorDom {
      */
     public forcedZIndex: number | null;
 
+
+    /**
+     * In the render loop, whether to create a project, view matrix
+     * and render this VectorDom in a pseudo3dworld.
+     */
+    public renderWithProjectMatrix: boolean;
+
     /**
      * VectorDom extension components that add funcitonality to the base
      * VectorDom.
@@ -490,6 +497,7 @@ export class VectorDom {
         this.disableStyleRenders = false;
         this.useBoundsForGlobalCalculation = false;
         this.eularRotationAsRotationMatrix = false;
+        this.renderWithProjectMatrix = true;
 
         this.gx_ = 0;
         this.gy_ = 0;
@@ -891,10 +899,31 @@ export class VectorDom {
 
 
         // Apply SRT.
-        return scaleMatrix
+        let baseMatrix = MatrixIV.IDENTITY
+            .multiply(scaleMatrix)
             .multiply(rotationMatrix)
             .multiply(translationMatrix)
             .multiply(offsetMatrix);
+
+        if (!this.renderWithProjectMatrix) {
+            return baseMatrix;
+        } else {
+            const projectionMatrix =
+                new MatrixIV()
+                    .perspective(
+                        mathf.degreeToRadian(90),
+                        1,
+                        -1, 100);
+
+            const viewMatrix =
+                new MatrixIV().lookAt(
+                    new Vector(0, 0, 1),
+                    new Vector(0, 0, 0),
+                    Vector.DOWN);
+
+            return projectionMatrix
+                .multiply(viewMatrix).multiply(baseMatrix);
+        }
 
     }
 

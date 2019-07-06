@@ -81,6 +81,8 @@ export class mathf {
     return mathf.fixDigits(value, 0);
   }
 
+
+
   /**
    *
    * Takes a number and forces it to an int by simply dropping decimals.

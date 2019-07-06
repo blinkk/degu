@@ -552,7 +552,7 @@ export class MatrixIV {
      *   var eye = new Vector(0.0, 0.0, 5.0);
      *   var center = new Vector(0.0, 0.0, 0.0);
      *   var up = new Vector(0.0, 1.0, 0.0);
-     *   var martix = new Matrix().lookAt(eye, center, up);
+     *   var martix = new MatrixIV().lookAt(eye, center, up);
      * ```
      *
      * @param eye The camera position vector
@@ -750,16 +750,64 @@ export class MatrixIV {
         return this;
     }
 
+    static fromArray(values: Float32Array): MatrixIV {
+        return MatrixIV.IDENTITY.fromArray(values);
+    }
+
+
+
+
+    // static fromQuaternion(q: Quaternion): MatrixIV {
+    //     let position = Vector.ZERO;
+    //     let scale = Vector.ONE;
+    //     return MatrixIV.compose(position, q, scale);
+    // }
 
 
     /**
-     * Same same a [[MatrixIV.fromQuaternion]] but slightly faster.
+     * Creates a matrixIV from a quaternion.
      * Based off: https://github.com/toji/gl-matrix/blob/master/src/mat4.js
+     * @param q
      */
-    static fromQuaternion(q: Quaternion) {
-        let position = Vector.ZERO;
-        let scale = Vector.ONE;
-        return MatrixIV.compose(position, q, scale);
+    static fromQuaternion(q: Quaternion): MatrixIV {
+        let x = q.x, y = q.y, z = q.z, w = q.w;
+        let x2 = x + x;
+        let y2 = y + y;
+        let z2 = z + z;
+
+        let xx = x * x2;
+        let yx = y * x2;
+        let yy = y * y2;
+        let zx = z * x2;
+        let zy = z * y2;
+        let zz = z * z2;
+        let wx = w * x2;
+        let wy = w * y2;
+        let wz = w * z2;
+
+        let out = [];
+        out[0] = 1 - yy - zz;
+        out[1] = yx + wz;
+        out[2] = zx - wy;
+        out[3] = 0;
+
+        out[4] = yx - wz;
+        out[5] = 1 - xx - zz;
+        out[6] = zy + wx;
+        out[7] = 0;
+
+        out[8] = zx + wy;
+        out[9] = zy - wx;
+        out[10] = 1 - xx - yy;
+        out[11] = 0;
+
+        out[12] = 0;
+        out[13] = 0;
+        out[14] = 0;
+        out[15] = 1;
+
+        return MatrixIV.fromArray(new Float32Array(out));
+
     }
 
     /**

@@ -1,8 +1,8 @@
-
 import { EASE } from '../ease/ease';
 import { mathf } from './mathf';
 import { MatrixIV } from './matrixIV';
 import { Vector } from './vector';
+import { NUMBER_RE } from 'highlight.js';
 
 
 /**
@@ -66,7 +66,7 @@ export class Quaternion {
     public w: number;
 
 
-    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 0) {
+    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 1) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -558,18 +558,17 @@ export class Quaternion {
      * YXZ Local Axes Yaw (y), Pitch (x), Roll (z)
      * Outputs XYZ ordering.
      *
-     * Note that this method has some staring edges cases around Y calculations.
-     * Wraping the Y value between -90 and 90 can help as such:
+     * This method is best avoided because of instability.
      *
+     * Yaw, Roll will be +-180.
+     * Pitch will be +- 90.
      *
      * ```ts
      *
-     * let v = myQuat.toEulerVector();
-     * v.y = mathf.wrap(this.y, -90, 90);
+     * let quaternion = new Quaternion(2,3,4);
+     * let v = Quaternion.toEulerVector(q);
      *
      * ```
-     *
-     * This method works for most cases but it's not 100% accurate at the moment.
      *
      * @see https://bit.ly/1TzLyaC
      * @param q
@@ -578,28 +577,7 @@ export class Quaternion {
         let result = Vector.ZERO;
         // // Create a rotation matrix from the quaternion.
         let matrix = MatrixIV.fromQuaternion(q.clone());
-
-        var te = matrix.value;
-        var m11 = te[0], m12 = te[4], m13 = te[8];
-        var m21 = te[1], m22 = te[5], m23 = te[9];
-        var m31 = te[2], m32 = te[6], m33 = te[10];
-
-        // XYZ ordering
-        // https://github.com/mrdoob/three.js/blob/master/src/math/Euler.js#L146
-        result.y = Math.asin(mathf.clamp(-1, 1, m13));
-
-        if (Math.abs(m13) < 0.9999999) {
-            result.x = Math.atan2(- m23, m33);
-            result.z = Math.atan2(- m12, m11);
-        } else {
-            result.x = Math.atan2(m32, m22);
-            result.z = 0;
-        }
-
-        result.x = mathf.radianToDegree(result.x);
-        result.y = mathf.radianToDegree(result.y);
-        result.z = mathf.radianToDegree(result.z);
-
+        result = Vector.fromRotationMatrixIV(matrix);
         return result;
     }
 
@@ -638,50 +616,89 @@ export class Quaternion {
 
 
     /**
-     * Sets a quaternion to represent the shortest rotation from one vector
-     * to another.
-     *
-     * Both vectors should be unit length (normalized).
-     *
-     * @param {Vector} a The initial vector (unit length)
-     * @param {Vector} b The destination vector (unit length)
+     * Creates a quaternion from a rotation matrix.
+     * @param m
      */
-    rotationTo(a: Vector, b: Vector) {
-        var dot = a.x * b.x + a.y * b.y + a.z * b.z;
-        var EPSILON = 0.000001;
-        var xUnitVec3 = new Vector(1, 0, 0);
-        var yUnitVec3 = new Vector(0, 1, 0);
-        var tmpvec = Vector.ZERO;
-        if (dot < -0.999999) {
-            if (xUnitVec3.clone().cross(a).length() < EPSILON) {
-                yUnitVec3.clone().cross(a);
+    static fromRotationMatrixIV(m: MatrixIV) {
+        let q = Quaternion.IDENTITY;
+
+        var a00 = m.value[0];
+        var a01 = m.value[1];
+        var a02 = m.value[2];
+        var a03 = m.value[3];
+
+        var a10 = m.value[4];
+        var a11 = m.value[5];
+        var a12 = m.value[6];
+        var a13 = m.value[7];
+
+        var a20 = m.value[8];
+        var a21 = m.value[9];
+        var a22 = m.value[10];
+        var a23 = m.value[11];
+
+        var a30 = m.value[12];
+        var a31 = m.value[13];
+        var a32 = m.value[14];
+        var a33 = m.value[15];
+
+        // q.w = Math.sqrt(1.0 + a00 + a11 + a22) / 2.0;
+        // let w4 = (4.0 * q.w);
+        // q.x = -(a21 - a12) / w4;
+        // q.y = -(a02 - a20) / w4;
+        // q.z = -(a10 - a01) / w4;
+
+        let t;
+        if (a22 < 0) {
+            if (a00 > a11) {
+                t = 1 + a00 - a11 - a22;
+                q = new Quaternion(t, a01 + a10, a20 + a02, a12 - a21);
             }
-
-            tmpvec.normalize();
-
-            return this.angleAxis(Math.PI, tmpvec);
-
-        }
-        else if (dot > 0.999999) {
-            this.x = 0;
-            this.y = 0;
-            this.z = 0;
-            this.w = 1;
-
-            return this;
+            else {
+                t = 1 - a00 + a11 - a22;
+                q = new Quaternion(a01 + a10, t, a12 + a21, a20 - a02);
+            }
         }
         else {
-            a.clone().cross(b);
-
-            this.x = tmpvec.x;
-            this.y = tmpvec.y;
-            this.z = tmpvec.z;
-            this.w = 1 + dot;
-
-            return this.normalize();
+            if (a00 < -a11) {
+                t = 1 - a00 - a11 + a22;
+                q = new Quaternion(a20 + a02, a12 + a21, t, a01 - a10);
+            }
+            else {
+                t = 1 + a00 + a11 + a22;
+                q = new Quaternion(a12 - a21, a20 - a02, a01 - a10, t);
+            }
         }
+        q.scale(0.5 / Math.sqrt(t));
+
+
+        return q;
     }
 
+    /**
+     * Creates a new quat from a set of arrays.
+     *
+     * ```ts
+     * var q = Quaternion.fromArray([0,2,2,0]);
+     * ```
+     */
+    static fromArray(values: Array<number>): Quaternion {
+        return new Quaternion(values[0], values[1], values[2], values[3]);
+    }
+
+
+    /**
+     * Limits the number of decimals on each quaternion dimension.
+     * @param numberOfDecimals
+     */
+    toFixed(numberOfDecimals: number): Quaternion {
+        return new Quaternion(
+            mathf.toFixed(mathf.absZero(this.x), numberOfDecimals),
+            mathf.toFixed(mathf.absZero(this.y), numberOfDecimals),
+            mathf.toFixed(mathf.absZero(this.z), numberOfDecimals),
+            mathf.toFixed(mathf.absZero(this.w), numberOfDecimals),
+        )
+    }
 
     /**
      * A static zero quaternion.  Additive identity.

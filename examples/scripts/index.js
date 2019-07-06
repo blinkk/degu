@@ -34,6 +34,7 @@ import RayCastingSample from '../raycasting';
 import RayCasting2Sample from '../raycasting2';
 import RayCasting3Sample from '../raycasting3';
 import PerlinNoiseSample from '../perlin-noise';
+import QuaternionSample from '../quaternion';
 
 // import VideoProgressSample from '../playground/video-progress';
 
@@ -79,6 +80,7 @@ const samples = {
   'rayCastingSample': RayCastingSample,
   'rayCasting2Sample': RayCasting2Sample,
   'rayCasting3Sample': RayCasting3Sample,
+  'quaternionSample': QuaternionSample,
   'xSample': XSample,
   'x2Sample': X2Sample,
   'domWatcherSample': DomWatcherSample,
