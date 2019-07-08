@@ -29,15 +29,16 @@ export default class QuaternionSample {
             t.render();
         };
 
-        createTarget('target1', 100, 200, 0.1 - 1);
-        createTarget('target2', 700, 500, 0.5 - 1);
+        createTarget('target1', 100, 200, 1 - 1);
+        createTarget('target2', 700, 500, 1 - 1);
         createTarget('target3', 100, 400, 1 - 1);
-        createTarget('target4', 700, 0, 0.3 - 1);
+        createTarget('target4', 700, -100, 1 - 1);
+        createTarget('target5', 400, -200, 1 - 1);
 
 
         this.cube = new VectorDom(document.getElementById('ball'));
         this.cube.setPosition(
-            new Vector(0, 0, 0.5 - 1)
+            new Vector(0, 0, 1 - 1)
         );
         // We are going to offset the entire element position to the center
         // of the container.
@@ -68,7 +69,8 @@ export default class QuaternionSample {
             lookAtTarget1: false,
             lookAtTarget2: false,
             lookAtTarget3: false,
-            lookAtTarget4: false
+            lookAtTarget4: false,
+            lookAtTarget5: false
         };
 
         var folder = this.gui.addFolder("Options");
@@ -76,6 +78,7 @@ export default class QuaternionSample {
         addRadio(folder, 'lookAtTarget2');
         addRadio(folder, 'lookAtTarget3');
         addRadio(folder, 'lookAtTarget4');
+        addRadio(folder, 'lookAtTarget5');
 
     }
 
@@ -83,64 +86,73 @@ export default class QuaternionSample {
     onRaf() {
 
         if (this.parameters.lookAtTarget1) {
-            this.lookAt('target1');
-            // // Find the angle difference between the position of flower and the
-            // // target.
-            // // let eularDifference = Vector.getEularRotationTo(
-            // //     this.targets['target1'].position,
-            // //     this.cube.position
-            // // );
-            // // console.log(eularDifference);
-
-            // // // Now slerp the flower rotation quaternion to that position.
-            // // this.cube.rotation.slerpEulerVector(eularDifference, 0.3);
-
-            // let target = this.targets['target1'].position;
-            // let m1 = new MatrixIV().lookAt(
-            //     this.cube.position.clone(),
-            //     target.clone(),
-            //     Vector.UP
-            // );
-            // // Create a Eular Vector from the matrix.
-            // // let eular = Vector.fromRotationMatrixIV(m1);
-            // // console.log(eular);
-            // // // Make a quaternion.
-            // // let q = Quaternion.fromEulerVector(eular);
-            // let q = Quaternion.fromRotationMatrixIV(m1);
-
-
-            // console.log(q);
-            // this.cube.rotation.slerp(q, 0.2);
-
+            this.lookAt3('target1');
         }
-
         if (this.parameters.lookAtTarget2) {
-            this.lookAt('target2');
+            this.lookAt3('target2');
         }
-
         if (this.parameters.lookAtTarget3) {
-            this.lookAt('target3');
-
-            // let eularDifference = Vector.getEularRotationTo(
-            //     this.targets['target3'].position,
-            //     this.cube.position
-            // );
-            // console.log(eularDifference);
-            // this.cube.rotation.slerpEulerVector(eularDifference, 0.3);
+            this.lookAt3('target3');
         }
-        // this.vectorBall.rotation.addEuler(
-        //     20, 90, 30);
-
-        // this.progress += 0.04;
-        // this.vectorBall.rz = this.progress;
-        // console.log('s', this.vectorBall.rotation);
-
         if (this.parameters.lookAtTarget4) {
-            this.lookAt('target4');
+            this.lookAt3('target4');
+        }
+        if (this.parameters.lookAtTarget5) {
+            this.lookAt3('target5');
         }
 
 
         this.cube.render();
+    }
+
+
+    lookAt3(targetId) {
+        let target = this.targets[targetId];
+        let eye = this.cube;
+        target = target.position.clone()
+            .add(target.offset)
+            .add(target.anchorOffsetVector);
+        eye = eye.position.clone()
+            .add(eye.offset)
+            .add(eye.anchorOffsetVector);
+
+        let q = Quaternion.rotateTo(
+            eye.normalize(),
+            target.normalize(),
+            Vector.UP
+        );
+        this.cube.rotation.slerp(q, 0.2);
+
+    }
+
+
+    lookAt2(targetId) {
+        let target = this.targets[targetId];
+        let eye = this.cube;
+        target = target.position.clone()
+            .add(target.offset)
+            .add(target.anchorOffsetVector);
+        eye = eye.position.clone()
+            .add(eye.offset)
+            .add(eye.anchorOffsetVector);
+
+        // target = target.globalElementCenterPosition;
+        // eye = eye.globalElementCenterPosition;
+        let tc = target.clone();
+        let ec = eye.clone();
+        let eularDifference = Vector.getEularRotationTo(
+            eye.normalize(),
+            target.normalize()
+        );
+        let m1 = new MatrixIV().ypr(
+            eularDifference.z,
+            eularDifference.y,
+            eularDifference.x
+        );
+
+        let q = Quaternion.fromRotationMatrixIV(m1);
+        // let q = Quaternion.fromEulerVector(eularDifference);
+        this.cube.rotation.slerp(q, 0.2);
     }
 
 
@@ -151,32 +163,56 @@ export default class QuaternionSample {
 
         // This work.
         let target = this.targets[targetId];
-        target = target.position.clone().add(target.offset);
+        target = target.position.clone()
+            .add(target.offset)
+            .add(target.anchorOffsetVector);
         let eye = this.cube;
-        eye = eye.position.clone().add(eye.offset);
-
+        eye = eye.position.clone()
+            .add(eye.offset)
+            .add(eye.anchorOffsetVector);
         // doesnt work because it's tied to window scroll.
         // let target = this.targets[targetId].globalElementCenterPosition.clone();
         // let eye = this.cube.globalElementCenterPosition.clone();
 
-        target.z = 1 - target.z;
-        eye.z = 1 - target.z;
-        target.z *= 200;
-        eye.z *= 200;
+        // target.z = 1 - target.z;
+        // eye.z = 1 - target.z;
+        console.log('t', target.clone().normalize());
+        console.log('e', eye);
+        // target.y *= 1;
+        // eye.y *= -1;
+        let tc = target.clone();
+        let ec = eye.clone();
 
-        let m1 = new MatrixIV().lookAt(
-            // new Vector(0, 0, 1),
-            eye,
-            target,
-            // Vector.UP
-            new Vector(0, 0, 800)
-        );
+        // target.y = tc.x;
+        // target.x = tc.z;
+        // target.z = tc.y;
+        // eye.y = ec.x;
+        // eye.x = ec.z;
+        // eye.z = ec.y;
+        target.x = tc.z;
+        target.y = tc.y;
+        target.z = tc.x;
+        eye.x = ec.z;
+        eye.y = ec.y;
+        eye.z = ec.x;
+
+        target.z *= 1;
+        eye.z *= 1;
+
         // let m1 = new MatrixIV().lookAt(
         //     // new Vector(0, 0, 1),
-        //     eye.normalize(),
-        //     target.normalize(),
-        //     Vector.UP
+        //     eye,
+        //     target,
+        //     // Vector.UP
+        //     new Vector(0, 1, 0)
         // );
+        let m1 = new MatrixIV().lookAt(
+            // new Vector(0, 0, 1),
+            eye.clone().normalize(),
+            target.clone().normalize(),
+            Vector.FORWARD
+            // eye.cross(Vector.FORWARD)
+        );
         let q = Quaternion.fromRotationMatrixIV(m1);
         // console.log(Quaternion.toEulerVector(q));
         this.cube.rotation.slerp(q, 0.2);

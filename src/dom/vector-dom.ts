@@ -693,11 +693,7 @@ export class VectorDom {
 
         let x = 0;
         let y = 0;
-        const anchorOffsetVector = new Vector(
-            -(this.anchorX * this.width),
-            -(this.anchorY * this.height),
-            0
-        )
+        const anchorOffsetVector = this.anchorOffsetVector;
         if (!this.useBoundsForGlobalCalculation) {
             x = this.gx_ + this.offset.x + anchorOffsetVector.x;
             y = this.gy_ - globalWindow.scrollY + this.offset.y + anchorOffsetVector.y;
@@ -707,6 +703,20 @@ export class VectorDom {
         }
 
         return new Vector(x, y, this.position.z);
+    }
+
+
+    /**
+     * Returns the amount to offset to the center of the vectorDom
+     * based on the anchor.
+     */
+    get anchorOffsetVector(): Vector {
+        const anchorOffsetVector = new Vector(
+            -(this.anchorX * this.width),
+            -(this.anchorY * this.height),
+            0
+        )
+        return anchorOffsetVector;
     }
 
 
