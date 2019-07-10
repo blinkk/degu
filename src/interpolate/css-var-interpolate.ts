@@ -149,6 +149,19 @@ export class CssVarInterpolate {
      */
     public renderOnlyWhenInview: boolean;
 
+    /**
+     * Whether to run update once after the element
+     * goes out of view so the state of interpololations are correctly resolved
+     * to its starting state when elements come back into view.
+     * The default is true.
+     */
+    public runOnceAfterOutView: boolean;
+
+    /**
+     * Internal flag to keep track of whether the outview update was run once.
+     */
+    private ranOutViewUpdate: boolean;
+
 
     /**
      * @param element The element to update the css variable to.
@@ -176,7 +189,9 @@ export class CssVarInterpolate {
 
         // Add element visibility to the VectorDom.
         this.elementVisibility = elementVisibility.inview(this.element);
+        this.runOnceAfterOutView = true;
         this.renderOnlyWhenInview = true;
+        this.ranOutViewUpdate = false;
 
         this.startProgress = 0;
         this.endProgress = 1;
@@ -233,6 +248,32 @@ export class CssVarInterpolate {
         if (this.renderOnlyWhenInview &&
             this.elementVisibility.state().ready &&
             !this.elementVisibility.state().inview) {
+
+            // If we go out of view run interpolations atleast once so that
+            // when the element comes back into view, it correctly sits in
+            // the starting position.
+            if (this.runOnceAfterOutView && !this.ranOutViewUpdate) {
+                this.ranOutViewUpdate = true;
+                // Make a guestimation of 0 or 1 and round to 0 or 1 state.
+                // This helps fight cases in which progress might be tied to
+                // an eased scroll and user quickly scrolls out of view in which
+                // the progress is not fully resolve to the start or end state.
+                this.updateValues(progress >= 0.5 ? 1 : 0);
+            }
+            return;
+        }
+
+        // We are inview so run update normally.
+        this.ranOutViewUpdate = false;
+        this.updateValues(progress);
+    }
+
+
+    /**
+     * Updates and calculates interpolation values.
+     */
+    private updateValues(progress: number) {
+        if (!this.multiInterpolate) {
             return;
         }
 
