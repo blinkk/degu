@@ -3,6 +3,7 @@ import { Vector } from '../mathf/vector';
 
 /**
  * Very basic HTML5 canvas helper methods.
+ * @unstable
  */
 export class domCanvas {
 

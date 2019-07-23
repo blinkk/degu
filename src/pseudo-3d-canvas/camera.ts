@@ -1,6 +1,9 @@
 
 import { Vector } from '../mathf/vector';
 
+/**
+ * @unstable
+ */
 export class Camera {
     public position: Vector;
     public target: Vector;

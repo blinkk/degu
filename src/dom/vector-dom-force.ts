@@ -9,6 +9,8 @@ import { mathf } from '..';
 
 /**
  * A component class that adds external forces options to DOM vector.
+ * @unstable
+ * @hidden
  */
 export class VectorDomForce implements VectorDomComponent {
 

@@ -31,6 +31,7 @@ import { Quaternion } from './quaternion';
  * @see https://github.com/adragonite/math3d/blob/master/src/Matrix4x4.js
  * @see https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js
  *
+ * @unstable
  */
 export class MatrixIV {
 

@@ -205,7 +205,8 @@ const skipKeys = ['progress', 'easingFunction'];
  * For this reason, it's best practice to try to declare 0 and 1 keyframes to
  * make it easier to understand your storyboard.
  *
- *
+ * @unstable
+ * @hidden
  */
 export class VectorDomTimeline implements VectorDomComponent {
     /**

@@ -14,6 +14,7 @@ interface XTextConfig extends XGameObjectConfig {
 /**
  * A single text in the x-engine.
  * TODO (uxder) Add an option or alternate that is DOM based.
+ * @unstable
  */
 export class XText extends XGameObject {
     private text: string;

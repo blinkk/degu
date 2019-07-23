@@ -6,6 +6,7 @@ import { Vector } from '../mathf/vector';
 /**
  * The main pointer class for x-engine.  Use this to detect collision with
  * GameObjects and respond to the pointer.
+ * @unstable
  */
 export class XPointer {
     public position: Vector;

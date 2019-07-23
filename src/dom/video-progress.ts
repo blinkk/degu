@@ -12,6 +12,7 @@ import { WebWorker } from "./web-worker";
  * See /examples/playground video progress for a sample.
  *
  * @experimental
+ * @unstable
  * @hidden
  */
 export class VideoProgress {

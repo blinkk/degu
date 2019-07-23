@@ -114,6 +114,7 @@ import { WebWorker } from "./web-worker";
  * (draw call on context) get updated and visible.
  *
  *
+ * @unstable
  */
 export class OffScreenCanvas {
     private canvas: HTMLCanvasElement | null | any;

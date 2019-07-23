@@ -20,6 +20,7 @@ interface XConfig {
  *
  *
  * ```
+ * @unstable
  */
 export class X {
 

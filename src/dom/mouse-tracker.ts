@@ -10,6 +10,7 @@ import { DomWatcher } from './dom-watcher';
  * Class that helps with mouse tracking.
  * TODO (uxder): This is from a really old class.  I need to upgrade it.
  *      Could also still be buggy.
+ * @unstable
  * @hidden
  */
 export class MouseTracker {

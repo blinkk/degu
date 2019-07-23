@@ -26,6 +26,7 @@ interface RayCastObject {
 
 /**
  * A 2d based Raycast class which tests collisions.
+ * @unstable
  */
 export class Raycast {
 

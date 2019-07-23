@@ -4,6 +4,7 @@ import { XGameObject, XGameObjectDefaults } from './x-game-object';
 
 /**
  * Base stage class used for the x-engine.
+ * @unstable
  */
 export class XStage extends XGameObject {
     private stage: boolean;

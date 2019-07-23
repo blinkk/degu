@@ -16,6 +16,7 @@ interface XLineConfig extends XGameObjectConfig {
 
 /**
  * A single line in the x-engine.
+ * @unstable
  */
 export class XLine extends XGameObject {
     private strokeStyle: string;

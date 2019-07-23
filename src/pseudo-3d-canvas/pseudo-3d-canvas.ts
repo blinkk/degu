@@ -22,6 +22,7 @@ interface Pseudo3dCanvasConfig {
  * @see http://www.codinglabs.net/article_world_view_projection_matrix.aspx
  * @see https://solarianprogrammer.com/2013/05/22/opengl-101-matrices-projection-view-model/
  * @see https://www.3dgep.com/understanding-the-view-matrix/
+ * @unstable
  */
 export class Pseudo3dCanvas {
 

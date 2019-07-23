@@ -9,6 +9,9 @@ interface XRectangleConfig extends XGameObjectConfig {
     lineWidth?: number
 }
 
+/**
+ * @unstable
+ */
 export class XRectangle extends XGameObject {
     private fillStyle: string;
     private strokeStyle: string;

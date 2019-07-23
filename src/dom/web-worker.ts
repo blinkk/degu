@@ -75,6 +75,10 @@
  * // Kill the worker
  * worker.terminate();
  * ```
+ *
+ * @unstable
+ * @experimental
+ * @hidden
  */
 export class WebWorker {
     /**

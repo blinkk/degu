@@ -293,7 +293,8 @@ export interface VectorDomOptions {
  *   If you are having issues with this, try setting useBoundsForGlobalCalculation
  *   to true.
  *
- *
+ * @unstable
+ * @hidden
  */
 export class VectorDom {
 

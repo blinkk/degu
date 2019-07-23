@@ -105,6 +105,7 @@ import { is } from '../is/is';
  *
  * ```
  *
+ * @unstable
  */
 export class Stream {
     private observedKeys: Array<string>;

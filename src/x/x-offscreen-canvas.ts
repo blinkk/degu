@@ -8,6 +8,7 @@
  *
  * Note that since this is shared resource, there is no guarantee of state.
  * Objects using it should clean up.
+ * @unstable
  */
 export class XOffScreenCanvas {
     public canvas: HTMLCanvasElement;

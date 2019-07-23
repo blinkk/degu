@@ -45,6 +45,8 @@ import { NUMBER_RE } from 'highlight.js';
  * @see https://github.com/toji/gl-matrix
  * @see https://github.com/mattdesl/vecmath
  * @see https://cubap.github.io/phaser3-docs/math_Quaternion.js.html
+ *
+ * @unstable
  */
 export class Quaternion {
 

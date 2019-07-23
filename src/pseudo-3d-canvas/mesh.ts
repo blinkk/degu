@@ -7,6 +7,9 @@ export enum MeshTypes {
 }
 
 
+/**
+ * @unstable
+ */
 export class Mesh {
     public name: string;
     public position: Vector;

@@ -87,7 +87,7 @@ export const XGameObjectDefaults = {
  *
  *
  *
- *
+ * @unstable
  */
 export class XGameObject {
     /**
