@@ -167,5 +167,48 @@ export class dom {
         return false;
     }
 
+    /**
+     * Tests whether a given video element is playing.
+     * @param videoElement
+     */
+    static testVideoIsPlaying(video: HTMLVideoElement): boolean {
+        return !video.paused && !video.ended && video.readyState > 2;
+    }
+
+    /**
+     * Pauses all videos inside of a given element.
+     * @param element The element to search videos in for.
+     * @param reset Whether to pause and reset the video to 0 seconds (start).
+     */
+    static pauseAllVideosInElement(element: HTMLElement, reset: boolean = false) {
+        let videos = [...element.querySelectorAll('video')];
+        videos.forEach((video) => {
+            if (reset) {
+                video.currentTime = 0;
+            }
+            video.pause();
+        });
+    }
+
+    /**
+     * Plays all videos inside of a given element.
+     * @param element The element to search videos in for.
+     * @param reset Whether to start playing from currentTime 0.
+     */
+    static playAllVideosInElement(element: HTMLElement, reset: boolean = false) {
+        let videos = [...element.querySelectorAll('video')];
+        videos.forEach((video) => {
+            // try {
+            if (reset) {
+                video.currentTime = 0;
+            }
+            if (!dom.testVideoIsPlaying(video)) {
+                let playPromise = video.play();
+                playPromise.then(() => { }).catch((e) => { });
+            }
+            // } catch(e) {}
+        });
+    }
+
 
 }
