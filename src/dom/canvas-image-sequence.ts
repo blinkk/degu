@@ -11,6 +11,19 @@ import { mathf } from '../mathf/mathf';
  *
  *
  * Usage:
+ *
+ * HTML / SASS
+ * ```
+ * <div class="my-element"></div>
+ *
+ *
+ * .my-element
+ *   width: 100vw
+ *   height: 100vh
+ * ```
+ *
+ * Then in your JS:
+ *
  * ```ts
  *
  * let myImages = [
@@ -22,7 +35,9 @@ import { mathf } from '../mathf/mathf';
  *   'image-100.jpg',
  * ]
  *
- * let canvasImageSequence = new CanvasImageSequence(myElement);
+ * let canvasImageSequence = new CanvasImageSequence(
+ *   document.querySelector('.my-element')
+ * );
  * // Load
  * canvasImageSequence.load();
  *
@@ -42,6 +57,12 @@ import { mathf } from '../mathf/mathf';
  *
  *
  * ```
+ *
+ * The above would add a canvas to myElement.  The image that gets rendered
+ * in the canvas, will be fitted would an algo similar to background:contain
+ * so that the image is fully visible.  If the image different aspect ratio
+ * than the contain, the image will be both vertically and horizontally centered
+ * with contain (maximizing the scale without bleeding out).
  *
  * @unstable
  */
