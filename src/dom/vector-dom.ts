@@ -294,7 +294,6 @@ export interface VectorDomOptions {
  *   to true.
  *
  * @unstable
- * @hidden
  */
 export class VectorDom {
 
