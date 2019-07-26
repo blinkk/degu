@@ -5,6 +5,7 @@ import { ImageLoader } from '../loader/image-loader';
 import { mathf } from '../mathf/mathf';
 import { DomWatcher } from '../dom/dom-watcher';
 import { MultiInterpolate, rangedProgress } from '../interpolate/multi-interpolate';
+import { RafTimer } from '../raf/raf-timer';
 
 
 /**
@@ -75,7 +76,8 @@ import { MultiInterpolate, rangedProgress } from '../interpolate/multi-interpola
  *
  *
  * ## MultiInterpolate capabilities.
- * Canvas Image Sequennce has multiinterpolation build it to make it easier.
+ * Canvas Image Sequence has multiinterpolation built in to make it easier to
+ * manage more complex sequences.
  * Normally, you may want to map an image sequence to just play from start to
  * end.  But what if you wanted more flexiblity?  You can do things like:
  *
@@ -98,7 +100,36 @@ import { MultiInterpolate, rangedProgress } from '../interpolate/multi-interpola
  * the start.  You can define your own progress points to have full control over
  * how you want your image sequence sprite to play out.
  *
+ *
+ * ## Playback capability
+ * You can also play your canvas image sequence with a timer.
+ * The playback also provides a completion promise.
+ *
+ * ```ts
+ * // Create a complicated playback.
+ * let progressPoints = [
+ *       {
+ *         from: 0, to: 0.5, start: 0, end: 1,
+ *       },
+ *       {
+ *         from: 0.5, to: 1, start: 1, end: 0,
+ *       },
+ * ];
+ * canvasImageSequence.setMultiInterpolation(progressPoints);
+ * // Now load the images.
+ * canvasImageSequence.load().then(()=> {
+ *    // Now play the image sequence from progress 0 - 1 over a span of 3000 ms.
+ *    canvasImageSequence.play(0, 1, 3000).then(()=> {
+ *       console.log('done');
+ *    })
+ * })
+ *
+ *
+ * ```
+ *
+ *
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
+ * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence2.js
  * @unstable
  */
 export class CanvasImageSequence {
@@ -123,6 +154,13 @@ export class CanvasImageSequence {
     private readyPromise: Defer;
     private domWatcher: DomWatcher;
     private images: Object;
+    private targetFrame: number;
+    /**
+     * Allows you to lerp the frame updates.  This defaults to 1 where by
+     * update to the frames are immediate.
+     */
+    public lerp: number;
+    private rafTimer: RafTimer | null;
 
     private canvasElement: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
@@ -138,14 +176,19 @@ export class CanvasImageSequence {
         this.sources = sources;
 
 
+        // Sets the default lerp amount for target frame updates.
+        // This defaults to 1 so that there normally isn't any lerping.
+        this.lerp = 1;
+
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
         this.context = this.canvasElement.getContext('2d')!;
         this.dpr = window.devicePixelRatio || 1;
         this.width = 0;
         this.height = 0;
+        this.targetFrame = 0;
 
-
+        this.rafTimer = null;
         this.multiInterpolate = null;
 
         this.domWatcher = new DomWatcher();
@@ -256,14 +299,21 @@ export class CanvasImageSequence {
      * Renders a given frame on to the html element.
      * @param i
      */
-    renderFrame(i: number) {
+    private renderFrame(i: number) {
         // If images aren't loaded yet, skip drawing.
         if (!this.readyPromise.complete) {
             return;
         }
 
+        // We apply a lerp to the target frame.
+        // The lerp is normally set to 1 - where by there really is no
+        // lerping and the target frame would immediately update.
+        // However, this provides the option, if necessary to lerp the
+        // target frame value.
+        this.targetFrame = Math.ceil(
+            mathf.lerp(this.targetFrame, i, this.lerp));
 
-        let imageSource = this.sources[i];
+        let imageSource = this.sources[this.targetFrame];
         this.draw(imageSource)
     }
 
@@ -306,8 +356,35 @@ export class CanvasImageSequence {
         this.lastRenderSource = imageSource;
     }
 
+
+    /**
+     * Plays the canvas image sequence with a timer.
+     * @param from A number between 0 - 1
+     * @param to A number between 0 - 1
+     * @param duration The duration in ms.
+     * @return Promise A promise that completes when done.
+     */
+    play(from: number, to: number, duration: number): Promise<void> {
+        this.rafTimer = new RafTimer((progress: number) => {
+            let interpolatedProgress = mathf.interpolateRange(
+                progress, 0, 1,
+                from, to
+            );
+            this.renderByProgress(interpolatedProgress);
+        })
+        this.rafTimer.setDuration(duration);
+        let defer = new Defer();
+        this.rafTimer.onComplete(() => {
+            defer.resolve();
+            this.rafTimer!.dispose();
+        });
+        this.rafTimer.play();
+        return defer.getPromise();
+    }
+
     dispose() {
         this.domWatcher.dispose();
+        this.rafTimer && this.rafTimer.dispose();
     }
 
 }

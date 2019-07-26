@@ -15,7 +15,7 @@ import { Raf } from './raf'
  * // Box x starting value.
  * box.x = 0;
  *
- * let rafTimer = new Raf((progress)=> {
+ * let rafTimer = new RafTimer((progress)=> {
  *   // Called on each raf cycle from when start is called
  *   // for 300ms.
  *
@@ -209,4 +209,8 @@ export class RafTimer {
         this.playing = false;
     }
 
+
+    dispose() {
+        this.raf.dispose();
+    }
 }
