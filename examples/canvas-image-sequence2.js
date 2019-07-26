@@ -1,4 +1,5 @@
 
+
 import { RafProgress, RAF_PROGRESS_EVENTS } from '../lib/raf/raf-progress';
 import { CanvasImageSequence } from '../lib/dom/canvas-image-sequence';
 
@@ -8,12 +9,12 @@ import { DomWatcher } from '../lib/dom/dom-watcher';
 
 
 /**
- * This sample show the most basic uses of CanvasImageSequence which is
- * updated by the scroll position of a position sticky based container.
+ * This sample expands on canvas image sequence sample 1 and demonstrates
+ * usage of multiinterpolate.
  */
-export default class CanvasImageSequenceSample {
+export default class CanvasImageSequenceSample2 {
     constructor() {
-        console.log('canvas image sequence');
+        console.log('canvas image sequence2');
         this.domWatcher = new DomWatcher();
 
         this.canvasContainerElement = document.querySelector('.canvas-container');
@@ -54,6 +55,16 @@ export default class CanvasImageSequenceSample {
             this.canvasContainerElement,
             this.canvasImageSources
         );
+
+        let progressPoints = [
+            {
+                from: 0, to: 0.5, start: 0, end: 1,
+            },
+            {
+                from: 0.5, to: 1, start: 1, end: 0,
+            },
+        ];
+        this.canvasImageSequence.setMultiInterpolation(progressPoints);
 
         // Load the iamges.
         this.canvasImageSequence.load().then(() => {

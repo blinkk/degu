@@ -4,6 +4,7 @@ import { Defer } from '../func/defer';
 import { ImageLoader } from '../loader/image-loader';
 import { mathf } from '../mathf/mathf';
 import { DomWatcher } from '../dom/dom-watcher';
+import { MultiInterpolate, rangedProgress } from '../interpolate/multi-interpolate';
 
 
 /**
@@ -72,6 +73,31 @@ import { DomWatcher } from '../dom/dom-watcher';
  *
  * ```
  *
+ *
+ * ## MultiInterpolate capabilities.
+ * Canvas Image Sequennce has multiinterpolation build it to make it easier.
+ * Normally, you may want to map an image sequence to just play from start to
+ * end.  But what if you wanted more flexiblity?  You can do things like:
+ *
+ *
+ * ```ts
+ *
+ * let progressPoints = [
+ *       {
+ *         from: 0, to: 0.5, start: 0, end: 1,
+ *       },
+ *       {
+ *         from: 0.5, to: 1, start: 1, end: 0,
+ *       },
+ * ];
+ * canvasImageSequence.setMultiInterpolation(progressPoints);
+ * canvasImageSequence.load();
+ *
+ * ```
+ * In the above, now the image sequence will play from start to end and back to
+ * the start.  You can define your own progress points to have full control over
+ * how you want your image sequence sprite to play out.
+ *
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
  * @unstable
  */
@@ -105,6 +131,7 @@ export class CanvasImageSequence {
     private height: number;
 
     private lastRenderSource: string | null;
+    private multiInterpolate: MultiInterpolate | null;
 
     constructor(element: HTMLElement, sources: Array<string>) {
         this.element = element;
@@ -119,6 +146,7 @@ export class CanvasImageSequence {
         this.height = 0;
 
 
+        this.multiInterpolate = null;
 
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
@@ -152,6 +180,38 @@ export class CanvasImageSequence {
     }
 
 
+    /**
+     * Sets an optional multiinterpolations.  This allows you to define
+     * more complex play sequences on your image sequence.
+     *
+     * Here is an example of playing the image sequence from start to end
+     * and back to end.
+     *
+     * ```ts
+     * let progressPoints = [
+     *       {
+     *         from: 0, to: 0.5, start: 0, end: 1,
+     *       },
+     *       {
+     *         from: 0.5, to: 1, start: 1, end: 0,
+     *       },
+     * ];
+     * canvasImageSequence.setMultiInterpolation(progressPoints);
+     *
+     * ```
+     */
+    setMultiInterpolation(interpolations: Array<rangedProgress>) {
+        this.multiInterpolate = new MultiInterpolate({
+            interpolations: [
+                {
+                    id: 'sequence',
+                    progress: interpolations
+                }
+            ]
+        })
+
+    }
+
     resize() {
         this.dpr = window.devicePixelRatio || 1;
         this.canvasElement.width = this.element.offsetWidth;
@@ -178,9 +238,17 @@ export class CanvasImageSequence {
     renderByProgress(n: number) {
         let total = this.sources.length;
         let progress = mathf.clamp01(n);
+
+        // If the optional multiinterpolate is set, then use multiInterpolate
+        // to figure out what the correct frame should be.
+        if (this.multiInterpolate) {
+            let interpolateMap = this.multiInterpolate.calculate(progress);
+            progress = mathf.clamp01(interpolateMap['sequence']);
+        }
+
+
         let targetFrame = Math.ceil(
             mathf.lerp(0, total, progress));
-        console.log(targetFrame);
         this.renderFrame(targetFrame);
     }
 
@@ -204,7 +272,6 @@ export class CanvasImageSequence {
     }
 
     draw(imageSource: string): void {
-        console.log('draw attemp', imageSource);
         // Prevent invalid draws
         if (!imageSource) {
             return;
