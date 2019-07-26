@@ -326,30 +326,43 @@ export class CanvasImageSequence {
     /**
      * Renders by progress.  0 would mean the very first frame and the 1 would
      * mean the last.
+     * @param {number} n A progress value between 0 and 1.
+     * @param {noMultiInterpolate} An option to force evaluation without
+     *   multiInterpolation.  This is useful in cases where you have
+     *   multiInterpolation enabled but you want to manually update the
+     *   position of the frame without it using multiInterpolation.  Simply,
+     *   being able to say, I want to render the image sequnce at 0.9 for example.
      */
-    renderByProgress(n: number) {
-        !this.isPlaying && this.renderProgress(n);
+    renderByProgress(n: number, noMultiInterpolate: boolean = false) {
+        !this.isPlaying && this.renderProgress(n, noMultiInterpolate);
     }
 
     /**
      * Internal render by progress value.
      * @param {number} n A progress value between 0 and 1.
+     * @param {noMultiInterpolate} An option to force evaluation without
+     *   multiInterpolation.  This is useful in cases where you have
+     *   multiInterpolation enabled but you want to manually update the
+     *   position of the frame without it using multiInterpolation.  Simply,
+     *   being able to say, I want to render the image sequnce at 0.9 for example.
      */
-    private renderProgress(n: number) {
-        let total = this.sources.length;
+    private renderProgress(n: number, noMultiInterpolate: boolean = false) {
+        let total = this.sources.length - 1;
         let progress = mathf.clamp01(n);
 
         // If the optional multiinterpolate is set, then use multiInterpolate
         // to figure out what the correct frame should be.
-        if (this.multiInterpolate) {
+        if (this.multiInterpolate && !noMultiInterpolate) {
             let interpolateMap = this.multiInterpolate.calculate(progress);
             progress = mathf.clamp01(interpolateMap['sequence']);
         }
 
 
+
         // Figure out the correct frame to render based on the number of
         // frames in the sequence.
         let targetFrame = Math.ceil(mathf.lerp(0, total, progress));
+
         this.renderFrame(targetFrame);
     }
 
@@ -386,6 +399,7 @@ export class CanvasImageSequence {
         } else {
             this.currentFrame = this.targetFrame;
         }
+
 
         let imageSource = this.sources[Math.round(this.currentFrame)];
         this.draw(imageSource)
