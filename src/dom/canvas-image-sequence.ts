@@ -157,6 +157,7 @@ import { RafTimer } from '../raf/raf-timer';
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence2.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence3.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence4.js
+ * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence5.js
  * @unstable
  */
 export class CanvasImageSequence {
