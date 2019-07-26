@@ -1,5 +1,8 @@
 
-import { RafProgress, RAF_PROGRESS_EVENTS } from '../lib/raf/raf-progress';
+
+
+
+import { RafProgress } from '../lib/raf/raf-progress';
 import { CanvasImageSequence } from '../lib/dom/canvas-image-sequence';
 
 import { EASE } from '../lib/ease/ease';
@@ -8,12 +11,12 @@ import { DomWatcher } from '../lib/dom/dom-watcher';
 
 
 /**
- * This sample show the most basic uses of CanvasImageSequence which is
- * updated by the scroll position of a position sticky based container.
+ * This sample expands on canvas image sequence sample 1 and demonstrates
+ * usage of multiinterpolate.
  */
-export default class CanvasImageSequenceSample {
+export default class CanvasImageSequenceSample3 {
     constructor() {
-        console.log('canvas image sequence');
+        console.log('canvas image sequence4');
         this.domWatcher = new DomWatcher();
 
         this.canvasContainerElement = document.querySelector('.canvas-container');
@@ -55,14 +58,25 @@ export default class CanvasImageSequenceSample {
             this.canvasImageSources
         );
 
-        // this.canvasImageSequence.lerpAmount = 0.02;
+
+        // We set the lerp value.
+        this.canvasImageSequence.lerpAmount = 0.01;
 
         // Load the iamges.
         this.canvasImageSequence.load().then(() => {
-            // When ready render whatever the current easedProgress value is.
-            this.canvasImageSequence.renderByProgress(
-                this.rafProgress.currentProgress
-            );
+            // On load, play the sequence from 0 - 1.
+            this.canvasImageSequence.play(0, 1, 1000).then(() => {
+                console.log('done', this.rafProgress.currentProgress);
+                // Update the progress to the current scroll when done.
+                //
+                // At this time, the playing ends at 1 but the scroll progress
+                // could be something else so it will lerp "towards" the
+                // scroll position since we have lerp set.
+                this.canvasImageSequence.renderByProgress(
+                    this.rafProgress.currentProgress
+                );
+            });
+
         });
 
     }

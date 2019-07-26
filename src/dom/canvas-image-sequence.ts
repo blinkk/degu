@@ -8,6 +8,7 @@ import { MultiInterpolate, rangedProgress } from '../interpolate/multi-interpola
 import { RafTimer } from '../raf/raf-timer';
 
 
+
 /**
  * A class that allows you to play through an image sequence (sprite) based on
  * progress.
@@ -127,9 +128,35 @@ import { RafTimer } from '../raf/raf-timer';
  *
  * ```
  *
+ * ### Lerp Towards Capability
+ * By setting a lerp value, canvasImageSequence will automatically "lerp" towards
+ * frames if the delta between the currently rendered frame and the requested
+ * progress is large.
+ *
+ * This is useful to "smooth" out movement between frames.
+ *
+ *
+ * To use this feature, simply set the lerp value.
+ *
+ * As an exmaple we initially set the progress to 0 but immediately, change it to 1.
+ * You will see that the progress value will lerp.   Internally, this happens
+ * by running raf until the frame value delta is less than 1 and stable.
+ *
+ * ```ts
+ *  canvasImageSequence.lerpAmount = 0.12;
+ *  canvasImageSequence.renderByProgress(0);
+ *  canvasImageSequence.renderByProgress(1);
+ * ```
+ *
+ *
+ * Another usecase for setting lerp is to handle resolving state after playing
+ * a sequence. See canvas-image-sequence4 for more on this.
+ *
  *
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence2.js
+ * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence3.js
+ * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence4.js
  * @unstable
  */
 export class CanvasImageSequence {
@@ -154,13 +181,34 @@ export class CanvasImageSequence {
     private readyPromise: Defer;
     private domWatcher: DomWatcher;
     private images: Object;
+    /**
+     * The current frame that is rendered on the screen.
+     */
+    private currentFrame: number;
+    /**
+     * The target frame to be rendered.  This can have a delta between
+     * currentFrame (especially when lerp is used).
+     */
     private targetFrame: number;
     /**
      * Allows you to lerp the frame updates.  This defaults to 1 where by
      * update to the frames are immediate.
      */
-    public lerp: number;
     private rafTimer: RafTimer | null;
+
+    /**
+     * The lerp amount when there is a delta between target and current frame
+     * greater than 1.  This defaults to 1 (meaning no lerp).  Change this value
+     * if you want canvasImageSequennce to smoothly interpolate between large
+     * deltas between the target and current frames.
+     */
+    public lerpAmount = 1;
+
+    /**
+     * A flag to note whether the canvas-image-sequence is being "played" using
+     * the play method.
+     */
+    public isPlaying: boolean;
 
     private canvasElement: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
@@ -176,9 +224,7 @@ export class CanvasImageSequence {
         this.sources = sources;
 
 
-        // Sets the default lerp amount for target frame updates.
-        // This defaults to 1 so that there normally isn't any lerping.
-        this.lerp = 1;
+        this.isPlaying = false;
 
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
@@ -186,10 +232,12 @@ export class CanvasImageSequence {
         this.dpr = window.devicePixelRatio || 1;
         this.width = 0;
         this.height = 0;
+        this.currentFrame = 0;
         this.targetFrame = 0;
 
         this.rafTimer = null;
         this.multiInterpolate = null;
+
 
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
@@ -279,6 +327,14 @@ export class CanvasImageSequence {
      * mean the last.
      */
     renderByProgress(n: number) {
+        !this.isPlaying && this.renderProgress(n);
+    }
+
+    /**
+     * Internal render by progress value.
+     * @param {number} n A progress value between 0 and 1.
+     */
+    private renderProgress(n: number) {
         let total = this.sources.length;
         let progress = mathf.clamp01(n);
 
@@ -290,8 +346,9 @@ export class CanvasImageSequence {
         }
 
 
-        let targetFrame = Math.ceil(
-            mathf.lerp(0, total, progress));
+        // Figure out the correct frame to render based on the number of
+        // frames in the sequence.
+        let targetFrame = Math.ceil(mathf.lerp(0, total, progress));
         this.renderFrame(targetFrame);
     }
 
@@ -305,15 +362,31 @@ export class CanvasImageSequence {
             return;
         }
 
-        // We apply a lerp to the target frame.
-        // The lerp is normally set to 1 - where by there really is no
-        // lerping and the target frame would immediately update.
-        // However, this provides the option, if necessary to lerp the
-        // target frame value.
-        this.targetFrame = Math.ceil(
-            mathf.lerp(this.targetFrame, i, this.lerp));
+        this.targetFrame = i;
 
-        let imageSource = this.sources[this.targetFrame];
+        // If the delta between target and current frame is greater than
+        // 1 and there is a lerp value set, lerp towards the target frame.
+        // Otherwise, just set the currentFrame
+        // to the target for immediate updates.
+        // Note that by default, the lerp amount is set to 1 (meaning no lerp),
+        let diff = Math.abs(this.targetFrame - this.currentFrame);
+        if (diff > 1 && !this.isPlaying && this.lerpAmount < 1) {
+            this.currentFrame =
+                mathf.lerp(this.currentFrame, this.targetFrame, this.lerpAmount);
+
+            // If there is a delta, keep updating with RAF until it gets resolved.
+            diff = Math.abs(this.targetFrame - this.currentFrame);
+            let precision = 0.001
+            if (diff >= precision) {
+                window.requestAnimationFrame(() => {
+                    this.renderFrame(this.targetFrame);
+                });
+            }
+        } else {
+            this.currentFrame = this.targetFrame;
+        }
+
+        let imageSource = this.sources[Math.round(this.currentFrame)];
         this.draw(imageSource)
     }
 
@@ -357,8 +430,23 @@ export class CanvasImageSequence {
     }
 
 
+
     /**
-     * Plays the canvas image sequence with a timer.
+     * Plays the canvas image sequence with a timer. Playing will "hijack" the
+     * progress events while playing.   For example:
+     *
+     * ```ts
+     *    canvasImageSequence.play(0, 1, 3000).then(() => {
+     *       console.log('play complete');
+     *   });
+     * ```
+     *
+     * Here we tell the canvasImageSequence to play from start to end over
+     * a 3000ms period.  During this 3000ms period, any calls other to
+     * calls "renderByProgress" will get ignored since they can conflict with
+     * the playback.
+     *
+     *
      * @param from A number between 0 - 1
      * @param to A number between 0 - 1
      * @param duration The duration in ms.
@@ -370,15 +458,17 @@ export class CanvasImageSequence {
                 progress, 0, 1,
                 from, to
             );
-            this.renderByProgress(interpolatedProgress);
+            this.renderProgress(interpolatedProgress);
         })
         this.rafTimer.setDuration(duration);
         let defer = new Defer();
         this.rafTimer.onComplete(() => {
+            this.isPlaying = false;
             defer.resolve();
             this.rafTimer!.dispose();
         });
         this.rafTimer.play();
+        this.isPlaying = true;
         return defer.getPromise();
     }
 

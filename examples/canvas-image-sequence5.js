@@ -1,5 +1,6 @@
 
 
+
 import { CanvasImageSequence } from '../lib/dom/canvas-image-sequence';
 
 
@@ -7,8 +8,9 @@ import { CanvasImageSequence } from '../lib/dom/canvas-image-sequence';
 /**
  * CanvasImageSequence play feature.
  */
-export default class CanvasImageSequenceSample3 {
+export default class CanvasImageSequenceSample5 {
     constructor() {
+        console.log('canvasImageSequence5');
 
         this.canvasContainerElement = document.querySelector('.canvas-container');
         this.parentElement = document.getElementById("parent");
@@ -28,23 +30,14 @@ export default class CanvasImageSequenceSample3 {
             this.canvasImageSources
         );
 
-        let progressPoints = [
-            {
-                from: 0, to: 0.5, start: 0, end: 1,
-            },
-            {
-                from: 0.5, to: 1, start: 1, end: 0,
-            },
-        ];
-        this.canvasImageSequence.setMultiInterpolation(progressPoints);
-
-        // Load the iamges.
+        this.canvasImageSequence.lerpAmount = 0.01;
         this.canvasImageSequence.load().then(() => {
-            // On load, play the sequence from 0 - 1.
-            this.canvasImageSequence.play(0, 1, 3000).then(() => {
-                console.log('play complete');
-            });
+            this.canvasImageSequence.renderByProgress(0);
 
+            // Immediately set to 1.  Because we previously set it to 0 and
+            // no 1 and we have lerp set, canvasImageSequence will lerp
+            // towards that value.
+            this.canvasImageSequence.renderByProgress(1);
         });
     }
 
