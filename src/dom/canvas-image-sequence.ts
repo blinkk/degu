@@ -3,6 +3,7 @@ import { func } from '../func/func';
 import { Defer } from '../func/defer';
 import { ImageLoader } from '../loader/image-loader';
 import { mathf } from '../mathf/mathf';
+import { DomWatcher } from '../dom/dom-watcher';
 
 
 /**
@@ -71,6 +72,7 @@ import { mathf } from '../mathf/mathf';
  *
  * ```
  *
+ * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
  * @unstable
  */
 export class CanvasImageSequence {
@@ -93,8 +95,7 @@ export class CanvasImageSequence {
      * A deferred promised that completes when all images have been loaded.
      */
     private readyPromise: Defer;
-
-
+    private domWatcher: DomWatcher;
     private images: Object;
 
     private canvasElement: HTMLCanvasElement;
@@ -102,6 +103,8 @@ export class CanvasImageSequence {
     private dpr: number;
     private width: number;
     private height: number;
+
+    private lastRenderSource: string | null;
 
     constructor(element: HTMLElement, sources: Array<string>) {
         this.element = element;
@@ -114,7 +117,25 @@ export class CanvasImageSequence {
         this.dpr = window.devicePixelRatio || 1;
         this.width = 0;
         this.height = 0;
+
+
+
+        this.domWatcher = new DomWatcher();
+        this.domWatcher.add({
+            element: window,
+            on: 'smartResize',
+            callback: () => {
+                this.resize();
+                // Rerender the last known image.
+                this.draw(''); // Make a empty call to clear the memoize cache.
+                this.lastRenderSource && this.draw(this.lastRenderSource);
+            },
+            id: 'resize',
+            eventOptions: { passive: true }
+        });
         this.resize();
+        this.domWatcher.run('resize');
+
 
         this.element.appendChild(this.canvasElement);
 
@@ -123,6 +144,7 @@ export class CanvasImageSequence {
         this.imageLoader.decodeAfterFetch = true;
         // The loaded images.
         this.images = [];
+        this.lastRenderSource = null;
 
         // Cull unncessary update
         this.draw =
@@ -182,10 +204,12 @@ export class CanvasImageSequence {
     }
 
     draw(imageSource: string): void {
+        console.log('draw attemp', imageSource);
         // Prevent invalid draws
         if (!imageSource) {
             return;
         }
+
 
         this.clear();
 
@@ -210,7 +234,13 @@ export class CanvasImageSequence {
             imageBox.width * containScale,
             imageBox.height * containScale,
         );
+
+
+        this.lastRenderSource = imageSource;
     }
 
+    dispose() {
+        this.domWatcher.dispose();
+    }
 
 }
