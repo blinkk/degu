@@ -46,23 +46,30 @@ import { mathf } from '../mathf/mathf';
  *  canvasImageSequence.renderByProgress(0.5);  // Renders frame at progress 0.5
  *  canvasImageSequence.renderByProgress(1);  // Renders frame at progress 1
  *
- *
- * // Use image load promise to ensure images are ready.
- * canvasImageSequence.load().getPromise().then(()=> {
- *    // On load complete.
- *    canvasImageSequence.renderByProgress(0);  // Renders frame at progress 0.
- *    canvasImageSequence.renderByProgress(0.5);  // Renders frame at progress 0.5
- *    canvasImageSequence.renderByProgress(1);  // Renders frame at progress 1
- * })
- *
+ * // When done.
+ * canvasImageSequence.dispose();
  *
  * ```
- *
  * The above would add a canvas to myElement.  The image that gets rendered
  * in the canvas, will be fitted would an algo similar to background:contain
  * so that the image is fully visible.  If the image different aspect ratio
  * than the contain, the image will be both vertically and horizontally centered
  * with contain (maximizing the scale without bleeding out).
+ *
+ *
+ * You can also listen load completion.  Typically, loading frames takes a
+ * while so you may want to add a loading indicator and on load completion,
+ * render teh canvasImageSequence to the current frame.
+ * ```ts
+ *
+ * // Use image load promise to ensure images are ready.
+ * canvasImageSequence.load().then(()=> {
+ *    // On load complete render the frame that maps to the current progress.
+ *    canvasImageSequence.renderByProgress(myCurrentProgress);
+ * })
+ *
+ *
+ * ```
  *
  * @unstable
  */
@@ -86,6 +93,7 @@ export class CanvasImageSequence {
      * A deferred promised that completes when all images have been loaded.
      */
     private readyPromise: Defer;
+
 
     private images: Object;
 
@@ -133,12 +141,12 @@ export class CanvasImageSequence {
     /**
      * Starts loading the images.
      */
-    load(): Defer {
+    load(): Promise<any> {
         this.imageLoader.load().then((results) => {
             this.images = results;
             this.readyPromise.resolve(results);
         })
-        return this.readyPromise;
+        return this.readyPromise.getPromise();
     }
 
     /**

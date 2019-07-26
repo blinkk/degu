@@ -10,6 +10,7 @@ import MultiInterpolateSample from '../multi-interpolate';
 import CssVarInterpolateSample from '../css-var-interpolate';
 import CssVarInterpolateSample2 from '../css-var-interpolate2';
 import DomWatcherSample from '../dom-watcher';
+import CanvasImageSequenceSample from '../canvas-image-sequence';
 
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
@@ -60,6 +61,7 @@ const samples = {
   'multiInterpolateSample': MultiInterpolateSample,
   'cssVarInterpolateSample': CssVarInterpolateSample,
   'cssVarInterpolateSample2': CssVarInterpolateSample2,
+  'canvasImageSequenceSample': CanvasImageSequenceSample,
   'rafSample': RafSample,
   'rafSample2': RafSample2,
   'rafTimerSample': RafTimerSample,

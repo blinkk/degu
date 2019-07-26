@@ -1,5 +1,5 @@
 
-import { RafProgress, RAF_PROGRESS_EVENTS } from '../lib/raf/raf-progress';
+import { RafProgress } from '../lib/raf/raf-progress';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 import { VectorDom } from '../lib/dom/vector-dom';
 import { EASE } from '../lib/ease/ease';

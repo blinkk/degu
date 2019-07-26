@@ -83,7 +83,7 @@ interface RafProgressRangeWatcher {
  * this.range = document.getElementById('range');
  *
  * // Create an instance of raf progress.
- * let rafProgress = new RafProgress((easedProgress)=> {
+ * let rafProgress = new RafProgress((easedProgress, direction)=> {
  *   // DO something here like update the dom.
  *   // This is ONLY called when progress has changed in value.
  *   //..
@@ -105,7 +105,7 @@ interface RafProgressRangeWatcher {
  *
  *
  * // RafProgress is also an event emitter so you can listen to the progressEvent
- * rafProgress.addEventListener('progressChange', (easedProgress)=> {
+ * rafProgress.addEventListener('progressChange', (easedProgress, direction)=> {
  *   // Do something.
  * })
  *
@@ -140,7 +140,7 @@ interface RafProgressRangeWatcher {
  */
 export class RafProgress {
     private raf: Raf;
-    private currentProgress: number;
+    public currentProgress: number;
     private targetProgress: number;
     private easeAmount: number;
     private easingFunction: Function;
