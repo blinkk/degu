@@ -390,11 +390,11 @@ export class CanvasImageSequence {
         this.draw(imageSource)
     }
 
-    clear() {
+    private clear() {
         this.context.clearRect(0, 0, this.width, this.height);
     }
 
-    draw(imageSource: string): void {
+    private draw(imageSource: string): void {
         // Prevent invalid draws
         if (!imageSource) {
             return;
