@@ -6,7 +6,7 @@ import { mathf } from '../mathf/mathf';
 import { DomWatcher } from '../dom/dom-watcher';
 import { MultiInterpolate, rangedProgress } from '../interpolate/multi-interpolate';
 import { RafTimer } from '../raf/raf-timer';
-
+import { networkSpeed } from './network-speed';
 
 
 /**
@@ -40,7 +40,8 @@ import { RafTimer } from '../raf/raf-timer';
  * ]
  *
  * let canvasImageSequence = new CanvasImageSequence(
- *   document.querySelector('.my-element')
+ *   document.querySelector('.my-element'),
+ *   myImages
  * );
  * // Load
  * canvasImageSequence.load();
@@ -153,6 +154,44 @@ import { RafTimer } from '../raf/raf-timer';
  * a sequence. See canvas-image-sequence4 for more on this.
  *
  *
+ * ### Fallback Image Feature
+ * Since loading a series of images can take sometime, you can tell
+ * CanvasImageSequence to load a single image first and test the network speed.
+ * If the network speed is slow (based on the thresdhold you set),
+ * CanvasImageSequence will abort loading the entire set of images and simply
+ * display the single image.  When loading the image sequence is aborted,
+ * all calls to renderByProgress will simply get ignore and just your fallback
+ * image will be displayed onto the canvas.
+ *
+ * Therefore for fallback image to be effective, you really only want to use
+ * this feature if the design of your module allows for a single image fallback.
+ *
+ *
+ * Usage of fallback feature.
+ *
+ * ```ts
+ * let myImages = [
+ *   'image-1.jpg',
+ *    ...
+ *   'image-100.jpg',
+ * ]
+ * let canvasImageSequence = new CanvasImageSequence(
+ *   document.querySelector('.my-element'),
+ *   myImages
+ * );
+ *
+ * // Important - set your fallback image PRIOR to calling load.
+ * // Here we tell to fallback to image-1.jpg and use that image
+ * // if the network speed is less than 10mbsp (very roughly).
+ * canvasImageSequence.setFallback('image-1.jpg', 10);
+ *
+ * // Load
+ * canvasImageSequence.load();
+ *
+ *
+ * ```
+ *
+ *
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence2.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence3.js
@@ -220,6 +259,12 @@ export class CanvasImageSequence {
     private lastRenderSource: string | null;
     private multiInterpolate: MultiInterpolate | null;
 
+    /**
+     * An optional fallbackImageSource.
+     */
+    private fallbackImageSource: string | null;
+    private fallbackMbspCutoff: number;
+
     constructor(element: HTMLElement, sources: Array<string>) {
         this.element = element;
         this.sources = sources;
@@ -238,6 +283,8 @@ export class CanvasImageSequence {
 
         this.rafTimer = null;
         this.multiInterpolate = null;
+        this.fallbackImageSource = null;
+        this.fallbackMbspCutoff = 0;
 
 
         this.domWatcher = new DomWatcher();
@@ -304,6 +351,25 @@ export class CanvasImageSequence {
 
     }
 
+
+    /**
+     * Sets an optional fallback image source.  If the fallback image source
+     * is set, CanvasImageSequence will load it first and then attempt to
+     * determine the approximate network speed.  If the network speed falls
+     * below the threshold, CanvasImageSequence will not load the remaining
+     * images and simply display out the fallback image.
+     *
+     * @param {string} fallbackImageSource The fallback image source.
+     * @param {number} networkSpeedMbpsCutoff The cutoff network speed in
+     *     Megabytes per second.  For exmaple 10, would means if we determine
+     *     that the network speed is less than 10MBPS, fallback to the image.
+     *     Note network speed is not going to be exact and is an approximation.
+     */
+    setFallback(fallbackImageSource: string, networkSpeedMbpsCutoff: number) {
+        this.fallbackImageSource = fallbackImageSource;
+        this.fallbackMbspCutoff = networkSpeedMbpsCutoff;
+    }
+
     resize() {
         this.dpr = window.devicePixelRatio || 1;
         this.canvasElement.width = this.element.offsetWidth;
@@ -316,10 +382,36 @@ export class CanvasImageSequence {
      * Starts loading the images.
      */
     load(): Promise<any> {
-        this.imageLoader.load().then((results) => {
-            this.images = results;
-            this.readyPromise.resolve(results);
-        })
+        let loadAllImages = () => {
+            this.imageLoader.load().then((results) => {
+                this.images = results;
+                this.readyPromise.resolve(results);
+            })
+        }
+
+        if (this.fallbackImageSource) {
+            networkSpeed.test(this.fallbackImageSource)
+                .then((speed) => {
+                    // If the speed is not fast enough
+                    if (speed <= this.fallbackMbspCutoff) {
+                        // Load the fallback image and use it
+                        // as the result.
+                        let fallbackLoader = new ImageLoader(
+                            [this.fallbackImageSource!])
+                            .load().then((results) => {
+                                this.images = results;
+                                // Overrides the imageSources.
+                                this.sources = [this.fallbackImageSource!];
+                                this.readyPromise.resolve(results);
+                            })
+                    } else {
+                        loadAllImages();
+                    }
+                })
+
+        } else {
+            loadAllImages();
+        }
         return this.readyPromise.getPromise();
     }
 
@@ -365,6 +457,7 @@ export class CanvasImageSequence {
 
         this.renderFrame(targetFrame);
     }
+
 
     /**
      * Renders a given frame on to the html element.

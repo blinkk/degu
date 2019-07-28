@@ -1,5 +1,4 @@
 
-
 /**
  * A class the loads a given set of images.
  *
