@@ -35,9 +35,10 @@ export class networkSpeed {
                     let networkSpeed = sizeMb / timeToDownloadSeconds;
                     // console.log(sizeMb, timeToDownloadSeconds, networkSpeed);
 
-                    // Not sure why but network speed seem to be off by a factor
-                    // of 10.
-                    networkSpeed *= 10;
+                    // // Not sure why but network speed seem to be off by a factor
+                    // // of 10.
+                    networkSpeed *= 100;
+                    console.log(networkSpeed);
                     resolve(networkSpeed);
                 });
         });
