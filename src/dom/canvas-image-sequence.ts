@@ -8,6 +8,12 @@ import { MultiInterpolate, rangedProgress } from '../interpolate/multi-interpola
 import { RafTimer } from '../raf/raf-timer';
 import { networkSpeed } from './network-speed';
 
+export interface CanvasImageSequenceSizingOptions {
+    /**
+     * Whether the sizing should use cover insted of contain.
+     */
+    cover: boolean
+}
 
 export const canvasImageSequenceErrors = {
     NO_ELEMENT: 'An element is required for canvas image sequence',
@@ -270,17 +276,24 @@ export class CanvasImageSequence {
     private fallbackImageSource: string | null;
     private fallbackMbspCutoff: number;
 
-    constructor(element: HTMLElement, sources: Array<string>) {
+    /**
+     * Sizing options for CanvasImageSequence.
+     */
+    private sizingOptions: CanvasImageSequenceSizingOptions | undefined;
+
+    constructor(element: HTMLElement, sources: Array<string>,
+        sizingOptions?: CanvasImageSequenceSizingOptions) {
         this.element = element;
         if (!element) {
             throw new Error(canvasImageSequenceErrors.NO_ELEMENT);
         }
 
-
         this.sources = sources;
         if (!sources) {
             throw new Error(canvasImageSequenceErrors.NO_SOURCES);
         }
+
+        this.sizingOptions = sizingOptions;
 
         this.isPlaying = false;
 
@@ -533,17 +546,33 @@ export class CanvasImageSequence {
             height: this.canvasElement.offsetHeight,
         }
 
-        let containScale =
-            mathf.calculateBackgroundContain(containerBox, imageBox);
 
-        let diffX = containerBox.width - (imageBox.width * containScale);
-        let diffY = containerBox.height - (imageBox.height * containScale);
-        this.context.drawImage(
-            image,
-            diffX / 2, diffY / 2,
-            imageBox.width * containScale,
-            imageBox.height * containScale,
-        );
+        if (this.sizingOptions && this.sizingOptions.cover) {
+            // Background "cover" sizing.
+            let cover =
+                mathf.calculateBackgroundCover(containerBox, imageBox);
+            this.context.drawImage(
+                image,
+                -cover.xOffset / 2, -cover.yOffset / 2,
+                imageBox.width * cover.scalar,
+                imageBox.height * cover.scalar,
+            );
+
+        } else {
+            // Default to contain sizing algo.
+            let containScale =
+                mathf.calculateBackgroundContain(containerBox, imageBox);
+
+            let diffX = containerBox.width - (imageBox.width * containScale);
+            let diffY = containerBox.height - (imageBox.height * containScale);
+            this.context.drawImage(
+                image,
+                diffX / 2, diffY / 2,
+                imageBox.width * containScale,
+                imageBox.height * containScale,
+            );
+        }
+
 
 
         this.lastRenderSource = imageSource;
