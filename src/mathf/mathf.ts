@@ -1148,7 +1148,7 @@ export class mathf {
       (finalHeight / childBox.height));
     // Position to vertical bottom.
     const offsetHeight = mathf.absZero(
-      -Math.round((parentBox.height - finalHeight)));
+      -Math.round((parentBox.height - finalHeight) / 2));
     // Position to horizontal center.
     const offsetWidth = mathf.absZero(
       -Math.round((parentBox.width - finalWidth) / 2));
