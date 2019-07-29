@@ -480,7 +480,7 @@ test('calculateBackgroundCover', t => {
             width: 1000,
             height: 1000,
             xOffset: 0,
-            yOffset: 500,
+            yOffset: 250,
             scalar: 20
         }
     );
