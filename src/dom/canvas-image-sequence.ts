@@ -9,6 +9,11 @@ import { RafTimer } from '../raf/raf-timer';
 import { networkSpeed } from './network-speed';
 
 
+export const canvasImageSequenceErrors = {
+    NO_ELEMENT: 'An element is required for canvas image sequence',
+    NO_SOURCES: 'Image sources are required for canvas image sequence',
+}
+
 /**
  * A class that allows you to play through an image sequence (sprite) based on
  * progress.
@@ -267,8 +272,15 @@ export class CanvasImageSequence {
 
     constructor(element: HTMLElement, sources: Array<string>) {
         this.element = element;
-        this.sources = sources;
+        if (!element) {
+            throw new Error(canvasImageSequenceErrors.NO_ELEMENT);
+        }
 
+
+        this.sources = sources;
+        if (!sources) {
+            throw new Error(canvasImageSequenceErrors.NO_SOURCES);
+        }
 
         this.isPlaying = false;
 

@@ -57,7 +57,8 @@ export default class CanvasImageSequenceSample6 {
 
         // Set the first image as the fallback.
         this.canvasImageSequence.setFallback(
-            this.canvasImageSources[0],
+            // this.canvasImageSources[0],
+            "https://picsum.photos/id/700/400",
             // Require 10000 mbsp just to demo the fallback feature.
             10000
         );
