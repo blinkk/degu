@@ -553,11 +553,10 @@ export class CanvasImageSequence {
                 mathf.calculateBackgroundCover(containerBox, imageBox);
             this.context.drawImage(
                 image,
-                -cover.xOffset / 2, -cover.yOffset / 2,
+                -cover.xOffset, -cover.yOffset,
                 imageBox.width * cover.scalar,
                 imageBox.height * cover.scalar,
             );
-
         } else {
             // Default to contain sizing algo.
             let containScale =
