@@ -9,6 +9,7 @@ import InterpolateSample from '../interpolate';
 import MultiInterpolateSample from '../multi-interpolate';
 import CssVarInterpolateSample from '../css-var-interpolate';
 import CssVarInterpolateSample2 from '../css-var-interpolate2';
+import CssVarInterpolateSample3 from '../css-var-interpolate3';
 import DomWatcherSample from '../dom-watcher';
 import CanvasImageSequenceSample from '../canvas-image-sequence';
 import CanvasImageSequenceSample2 from '../canvas-image-sequence2';
@@ -67,6 +68,7 @@ const samples = {
   'multiInterpolateSample': MultiInterpolateSample,
   'cssVarInterpolateSample': CssVarInterpolateSample,
   'cssVarInterpolateSample2': CssVarInterpolateSample2,
+  'cssVarInterpolateSample3': CssVarInterpolateSample3,
   'canvasImageSequenceSample': CanvasImageSequenceSample,
   'canvasImageSequenceSample2': CanvasImageSequenceSample2,
   'canvasImageSequenceSample3': CanvasImageSequenceSample3,
