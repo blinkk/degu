@@ -577,7 +577,6 @@ export class CanvasImageSequence {
             return;
         }
 
-
         this.clear();
 
         let image = this.images[imageSource];
@@ -596,9 +595,9 @@ export class CanvasImageSequence {
                 mathf.calculateBackgroundCover(containerBox, imageBox);
             this.context.drawImage(
                 image,
-                -cover.xOffset, -cover.yOffset,
-                imageBox.width * cover.scalar,
-                imageBox.height * cover.scalar,
+                -cover.xOffset >> 0, -cover.yOffset >> 0,
+                imageBox.width * cover.scalar >> 0,
+                imageBox.height * cover.scalar >> 0,
             );
         } else {
             // Default to contain sizing algo.
@@ -609,9 +608,9 @@ export class CanvasImageSequence {
             let diffY = containerBox.height - (imageBox.height * containScale);
             this.context.drawImage(
                 image,
-                diffX / 2, diffY / 2,
-                imageBox.width * containScale,
-                imageBox.height * containScale,
+                diffX / 2 >> 0, diffY / 2 >> 0,
+                imageBox.width * containScale >> 0,
+                imageBox.height * containScale >> 0,
             );
         }
 
