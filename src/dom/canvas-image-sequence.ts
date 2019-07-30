@@ -446,6 +446,44 @@ export class CanvasImageSequence {
         return this.readyPromise.getPromise();
     }
 
+
+    /**
+     * Sets the internal images and resolves the readyPromise.  This is useful
+     * for rare cases in which you want to use canvas-image-sequence with images
+     * that have already loaded and way to bypass the internal loading mechanism
+     * and set the images yourself.
+     *
+     * Usage:
+     * ```ts
+     *
+     * // Get the list of images that are already loaded.
+     * let myImages = Array.from(document.querySelector('.myImages'));
+     *
+     * let canvasImageSequence = new CanvasImageSequence(
+     *   document.querySelector('.my-element'),
+     *   [] // Just pass an empty array.
+     * );
+     *
+     * // Set the images instead of loading
+     * canvasImageSequence.setImages(myImages);
+     *
+     * ```
+     */
+    setImages(images: Array<HTMLImageElement>) {
+        this.images = images;
+        return this.readyPromise.resolve(this.images);
+    }
+
+
+    /**
+     * Gets the internally stored images.  This could be empty if you haven't
+     * loaded images yet.
+     */
+    getImages(): any {
+        return this.images;
+    }
+
+
     /**
      * Renders by progress.  0 would mean the very first frame and the 1 would
      * mean the last.
