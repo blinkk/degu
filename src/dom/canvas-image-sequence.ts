@@ -266,6 +266,8 @@ export class CanvasImageSequence {
     private dpr: number;
     private width: number;
     private height: number;
+    private canvasWidth: number;
+    private canvasHeight: number;
 
     private lastRenderSource: string | null;
     private multiInterpolate: MultiInterpolate | null;
@@ -303,6 +305,8 @@ export class CanvasImageSequence {
         this.dpr = window.devicePixelRatio || 1;
         this.width = 0;
         this.height = 0;
+        this.canvasWidth = 0;
+        this.canvasHeight = 0;
         this.currentFrame = 0;
         this.targetFrame = 0;
 
@@ -401,6 +405,8 @@ export class CanvasImageSequence {
         this.canvasElement.height = this.element.offsetHeight;
         this.width = this.element.offsetWidth * this.dpr;
         this.height = this.element.offsetHeight * this.dpr;
+        this.canvasWidth = this.element.offsetWidth;
+        this.canvasHeight = this.element.offsetHeight;
     }
 
     /**
@@ -542,10 +548,9 @@ export class CanvasImageSequence {
             height: image.naturalHeight
         }
         let containerBox = {
-            width: this.canvasElement.offsetWidth,
-            height: this.canvasElement.offsetHeight,
+            width: this.canvasWidth,
+            height: this.canvasHeight,
         }
-
 
         if (this.sizingOptions && this.sizingOptions.cover) {
             // Background "cover" sizing.
