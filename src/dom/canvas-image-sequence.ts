@@ -41,6 +41,7 @@ export const canvasImageSequenceErrors = {
  *
  * ```ts
  *
+ * // All images are assumed to be the same dimensions.
  * let myImages = [
  *   'image-1.jpg',
  *   'image-2.jpg',
@@ -268,6 +269,8 @@ export class CanvasImageSequence {
     private height: number;
     private canvasWidth: number;
     private canvasHeight: number;
+    private imageNaturalWidth: number;
+    private imageNaturalHeight: number;
 
     private lastRenderSource: string | null;
     private multiInterpolate: MultiInterpolate | null;
@@ -307,6 +310,8 @@ export class CanvasImageSequence {
         this.height = 0;
         this.canvasWidth = 0;
         this.canvasHeight = 0;
+        this.imageNaturalHeight = 0;
+        this.imageNaturalWidth = 0;
         this.currentFrame = 0;
         this.targetFrame = 0;
 
@@ -338,6 +343,7 @@ export class CanvasImageSequence {
         this.readyPromise = new Defer();
         this.imageLoader = new ImageLoader(sources);
         this.imageLoader.decodeAfterFetch = true;
+
         // The loaded images.
         this.images = [];
         this.lastRenderSource = null;
@@ -416,6 +422,7 @@ export class CanvasImageSequence {
         let loadAllImages = () => {
             this.imageLoader.load().then((results) => {
                 this.images = results;
+                this.setImageDimensions();
                 this.readyPromise.resolve(results);
             })
         }
@@ -431,6 +438,7 @@ export class CanvasImageSequence {
                             [this.fallbackImageSource!])
                             .load().then((results) => {
                                 this.images = results;
+                                this.setImageDimensions();
                                 // Overrides the imageSources.
                                 this.sources = [this.fallbackImageSource!];
                                 this.readyPromise.resolve(results);
@@ -443,7 +451,21 @@ export class CanvasImageSequence {
         } else {
             loadAllImages();
         }
+
         return this.readyPromise.getPromise();
+    }
+
+
+    /**
+     * Sets the images dimensions used internally based on the first image.
+     * Assumes all images are uniform size.
+     */
+    private setImageDimensions() {
+        let firstKey = Object.keys(this.images)[0];
+        this.imageNaturalHeight =
+            this.images[firstKey].naturalHeight;
+        this.imageNaturalWidth =
+            this.images[firstKey].naturalWidth;
     }
 
 
@@ -471,6 +493,7 @@ export class CanvasImageSequence {
      */
     setImages(images: Array<HTMLImageElement>) {
         this.images = images;
+        this.setImageDimensions();
         return this.readyPromise.resolve(this.images);
     }
 
@@ -581,8 +604,8 @@ export class CanvasImageSequence {
 
         let image = this.images[imageSource];
         let imageBox = {
-            width: image.naturalWidth,
-            height: image.naturalHeight
+            width: this.imageNaturalWidth,
+            height: this.imageNaturalHeight
         }
         let containerBox = {
             width: this.canvasWidth,
