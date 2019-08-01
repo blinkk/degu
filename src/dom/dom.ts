@@ -210,5 +210,24 @@ export class dom {
         });
     }
 
-
+    /**
+     * Fires a event on the element.
+     *
+     * ```ts
+     * dom.event(document, 'myCustomEvent', { message: hello});
+     *
+     * // Data gets passed on the event.detail.
+     * document.addEventListener('myCustomEvent', (e)=> {
+     *   console.log(e.detail.message); // Hello
+     * }, false)
+     * ```
+     *
+     * @param element
+     * @param name
+     * @param data
+     */
+    static event(element: HTMLElement, name: string, data: any) {
+        var event = new CustomEvent(name, { detail: data });
+        element.dispatchEvent(event)
+    }
 }
