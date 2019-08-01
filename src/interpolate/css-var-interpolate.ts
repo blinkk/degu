@@ -229,16 +229,44 @@ export class CssVarInterpolate {
     }
 
     /**
-     * Updates the progress and updates the css variable values.
+     * Flushes the update cache.  By default, two consecutive calls to
+     * update with the same progress values will cull the second call
+     * for performance booosts.  However, there are rare cases where
+     * you may want to update with the same progress values and force
+     * an update to the variable.  Calling flush will flush the internal
+     * cache.
+     *
+     * ```ts
+     *
+     * cssVarInterpolate.update(0.2);
+     * cssVarInterpolate.update(0.2); // Normally gets ignored
+     *
+     * cssVarInterpolate.update(0.2);
+     * cssVarInterpolate.flush(); // Flush cache
+     * cssVarInterpolate.update(0.2); // Will update.
+     * ```
+     *
+     *
      */
-    update(progress: number) {
+    flush() {
+        this.mainProgress = null;
+    }
+
+    /**
+     * Updates the progress and updates the css variable values.
+     * @param {number} progress
+     * @param {boolean} force Allows you to bypass the cache.  By default
+     *   two consecutive calls to update WITH the same progress values will
+     *   cull the second call.  Force allows you to force it to render again.
+     */
+    update(progress: number, force: boolean = false) {
         if (!this.multiInterpolate) {
             return;
         }
 
         // Only make updates when progress value was updated to avoid layout
         // thrashing.
-        if (progress == this.mainProgress) {
+        if (!force && progress == this.mainProgress) {
             return;
         }
 
