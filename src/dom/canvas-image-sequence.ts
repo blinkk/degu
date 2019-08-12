@@ -65,7 +65,7 @@ export const canvasImageSequenceErrors = {
  *
  * let canvasImageSequence = new CanvasImageSequence(
  *   document.querySelector('.my-element'),
- *   myImages
+ *   myImages,
  * );
  * // Load
  * canvasImageSequence.load();
@@ -97,6 +97,22 @@ export const canvasImageSequenceErrors = {
  *    canvasImageSequence.renderByProgress(myCurrentProgress);
  * })
  *
+ *
+ * ```
+ *
+ * ### Sizing options.
+ * CanvasImageSequence has two render modes, contain (default) and cover.
+ * Contain will by default vertically center your image but you can offset this
+ * by providing a bottom value.
+ *
+ * ```ts
+ * let canvasImageSequence = new CanvasImageSequence(
+ *   document.querySelector('.my-element'),
+ *   myImages,
+ *   {
+ *     cover: true
+ *   }
+ * );
  *
  * ```
  *
@@ -662,6 +678,15 @@ export class CanvasImageSequence {
         }
 
         this.lastRenderSource = imageSource;
+    }
+
+
+    /**
+     * Updates the internal sizing options.
+     * @param options
+     */
+    setSizingOptions(options: CanvasImageSequenceSizingOptions) {
+        this.sizingOptions = options;
     }
 
 
