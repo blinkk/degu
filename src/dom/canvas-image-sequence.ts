@@ -1,4 +1,5 @@
 
+import { is } from '../is/is';
 import { func } from '../func/func';
 import { Defer } from '../func/defer';
 import { ImageLoader } from '../loader/image-loader';
@@ -12,7 +13,18 @@ export interface CanvasImageSequenceSizingOptions {
     /**
      * Whether the sizing should use cover insted of contain.
      */
-    cover: boolean
+    cover: boolean,
+    /**
+     * When using "contain" mode, the amount to position FROM the vertical bottom.
+     * By default, contain mode will vertically center your image.  Setting this
+     * option will adjust the vertical position of the image.
+     *
+     * Example: bottom: 0 ---> the bottom of the image should align with the
+     *                         bottom of the canvas element.
+     * Example: bottom: 20 ---> the bottom of the image should align from the
+     *                         bottom 20% of the canvas element.
+     */
+    bottom: number
 }
 
 export const canvasImageSequenceErrors = {
@@ -627,17 +639,27 @@ export class CanvasImageSequence {
             let containScale =
                 mathf.calculateBackgroundContain(containerBox, imageBox);
 
-            let diffX = containerBox.width - (imageBox.width * containScale);
-            let diffY = containerBox.height - (imageBox.height * containScale);
+            // Default center algo.
+            let diffX =
+                (containerBox.width - (imageBox.width * containScale)) / 2;
+            let diffY =
+                (containerBox.height - (imageBox.height * containScale)) / 2;
+
+            // Sizing option logic.
+            if (this.sizingOptions && is.number(this.sizingOptions.bottom)) {
+                // Bottom align it.
+                diffY = containerBox.height - (imageBox.height * containScale);
+                // Add the percentage amount specified.
+                diffY -= containerBox.height * this.sizingOptions.bottom;
+            }
+
             this.context.drawImage(
                 image,
-                diffX / 2 >> 0, diffY / 2 >> 0,
+                diffX >> 0, diffY >> 0,
                 imageBox.width * containScale >> 0,
                 imageBox.height * containScale >> 0,
             );
         }
-
-
 
         this.lastRenderSource = imageSource;
     }
