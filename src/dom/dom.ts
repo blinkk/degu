@@ -1,4 +1,6 @@
 import { mathf } from '../mathf/mathf';
+import { Defer } from '../func/defer';
+import { func } from '../func/func';
 
 /**
  * Yano DOM utility functions.
@@ -209,6 +211,42 @@ export class dom {
             // } catch(e) {}
         });
     }
+
+    /**
+     * Allows you to make sure that all videos are loaded (readyState 4) in a
+     * given element before executing callback.
+     *
+     * Note that this method executes polling in the background
+     * to check for video state so use carefully.  Defaults to timeout after
+     * 10000ms
+     *
+     * ```ts
+     * // Wait for all videos to be loaded.
+     * dom.whenVideosLoadedInElement(element).then(()=> {
+     *   // Play all videos for example.
+     *   dom.playAllVideosInElement(element);
+     * })
+     *
+     * ```
+     * @param element
+     * @param timeout The amount of time in which to give up polling.
+     * @return Promise
+     */
+    static whenVideosLoadedInElement(element: HTMLElement,
+        timeout: number = 10000): Promise<any> {
+        let videos = [...element.querySelectorAll('video')];
+        let promises: Array<Promise<any>> = [];
+        videos.forEach((video) => {
+            let defer = new Defer();
+            promises.push(defer.getPromise());
+            func.waitUntil(() => video.readyState == 4, timeout, 10).then(() => {
+                defer.resolve();
+            });
+        });
+
+        return Promise.all(promises);
+    }
+
 
     /**
      * Fires a event on the element.
