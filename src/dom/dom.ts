@@ -268,4 +268,18 @@ export class dom {
         var event = new CustomEvent(name, { detail: data });
         element.dispatchEvent(event)
     }
+
+
+    /**
+     * Creates an html element from a string.
+     * ```
+     * dom.createElementFromString("<div>Hohohoho</div>");
+     * ```
+     * @param htmlString
+     */
+    static createElementFromString(htmlString: string): HTMLElement {
+        var div = document.createElement('div');
+        div.innerHTML = htmlString.trim();
+        return div.firstChild as HTMLElement;
+    }
 }

@@ -1,0 +1,40 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Split</title>
+  <style>
+    @keyframes textIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+      }
+
+      .splitter {
+          opacity: 0;
+      }
+      .splitter.text-split-set {
+          opacity: 1;
+      }
+
+      .splitter span {
+        position: relative;
+        font-size: 20px;
+        opacity: 0;
+        animation: textIn 1.3s ease-in-out 0s 1 forwards;
+        animation-delay: calc(var(--item-index) * (1s / var(--item-total-count)))
+      }
+  </style>
+</head>
+<body init-sample="textSplitSample">
+    <div id="split1" class="splitter">New York City</div>
+    <div id="split2" class="splitter">New York City</div>
+
+</body>
+</html>
+

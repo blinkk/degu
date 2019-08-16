@@ -55,6 +55,7 @@ import ScrollDemoSample5 from '../scroll-demo5';
 import XSample from '../x';
 import X2Sample from '../x2';
 
+import TextSplitSample from '../text-split';
 import VideoProgressSample from '../video-progress';
 
 
@@ -106,6 +107,7 @@ const samples = {
   'scrollDemoSample3': ScrollDemoSample3,
   'scrollDemoSample4': ScrollDemoSample4,
   'scrollDemoSample5': ScrollDemoSample5,
+  'textSplitSample': TextSplitSample,
   'webGlSample': WebGlSample
 };
 
