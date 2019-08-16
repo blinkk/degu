@@ -24,7 +24,7 @@ export interface textSplitConfig {
  *
  * let splitter = new TextSplit({
  *   element: document.getElementById('myElement'),
- *   split: ' ' // Split by spaces,
+ *   split: ' ' // Split by spaces.  Use '' to split by character.
  * });
  *
  * // Break up the text and wrap spans around it.
