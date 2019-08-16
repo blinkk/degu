@@ -25,7 +25,6 @@ export interface textSplitConfig {
  * let splitter = new TextSplit({
  *   element: document.getElementById('myElement'),
  *   split: ' ' // Split by spaces,
- *   cssVariableName: '--item-index'
  * });
  *
  * // Break up the text and wrap spans around it.
@@ -33,7 +32,7 @@ export interface textSplitConfig {
  * ```
  *
  * This results in:
- * ```
+ * ```ts
  * <div id="myElement" class="text-split-set" style="--item-total-count:3">
  *   <span style="--item-index:0">New&nbsp;</span>
  *   <span style="--item-index:1">York&nbsp;</span>
