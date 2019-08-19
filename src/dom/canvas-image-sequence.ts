@@ -167,6 +167,9 @@ export const canvasImageSequenceErrors = {
  * })
  *
  *
+ * // Use stop if you need to stop the aniamtion.
+ * canvasImageSequence.stop();
+ *
  * ```
  *
  * ### Lerp Towards Capability
@@ -290,6 +293,12 @@ export class CanvasImageSequence {
      */
     public isPlaying: boolean;
 
+    /**
+     * When using the play feature of the canvasImageSequence the instance
+     * of defer that needs to be resolved.
+     */
+    private playDefer: Defer | null;
+
     private canvasElement: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private dpr: number;
@@ -348,6 +357,7 @@ export class CanvasImageSequence {
         this.fallbackImageSource = null;
         this.fallbackMbspCutoff = 0;
 
+        this.playDefer = null;
 
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
@@ -713,6 +723,7 @@ export class CanvasImageSequence {
      * @return Promise A promise that completes when done.
      */
     play(from: number, to: number, duration: number): Promise<void> {
+        this.stop();
         this.rafTimer = new RafTimer((progress: number) => {
             let interpolatedProgress = mathf.interpolateRange(
                 progress, 0, 1,
@@ -721,15 +732,25 @@ export class CanvasImageSequence {
             this.renderProgress(interpolatedProgress);
         })
         this.rafTimer.setDuration(duration);
-        let defer = new Defer();
+        this.playDefer = new Defer();
         this.rafTimer.onComplete(() => {
             this.isPlaying = false;
-            defer.resolve();
+            this.playDefer!.resolve();
             this.rafTimer!.dispose();
         });
         this.rafTimer.play();
         this.isPlaying = true;
-        return defer.getPromise();
+        return this.playDefer!.getPromise();
+    }
+
+    /**
+     * Immediately stops the canvas animation playing.
+     * (that happens with play method).
+     */
+    stop() {
+        this.rafTimer && this.rafTimer.pause();
+        this.rafTimer && this.rafTimer.dispose();
+        this.playDefer && this.playDefer!.resolve();
     }
 
     dispose() {
