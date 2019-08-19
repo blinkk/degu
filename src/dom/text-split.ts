@@ -83,11 +83,18 @@ export class TextSplit {
     public convertSpacesToNbsp: boolean;
 
     constructor(private config: textSplitConfig) {
+        this.convertSpacesToNbsp = this.config.split == ' ';
         this.originalText = this.config.element.textContent!;
+
+        // Convert any &nbsp to space.
+        if (this.convertSpacesToNbsp) {
+            var re = new RegExp(String.fromCharCode(160), "g");
+            this.originalText = this.originalText.replace(re, ' ');
+        }
+
         this.splits = this.originalText.trim().split(
             this.config.split
         );
-        this.convertSpacesToNbsp = this.config.split == ' ';
     }
 
     /**
