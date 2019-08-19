@@ -84,11 +84,10 @@ export class TextSplit {
 
     constructor(private config: textSplitConfig) {
         this.originalText = this.config.element.textContent!;
-        this.splits = this.originalText.split(
+        this.splits = this.originalText.trim().split(
             this.config.split
         );
         this.convertSpacesToNbsp = this.config.split == ' ';
-        console.log(this.originalText, this.splits);
     }
 
     /**
