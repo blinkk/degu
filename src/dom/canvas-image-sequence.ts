@@ -380,7 +380,7 @@ export class CanvasImageSequence {
 
         this.readyPromise = new Defer();
         this.imageLoader = new ImageLoader(sources);
-        this.imageLoader.decodeAfterFetch = true;
+        this.imageLoader.setDecodeAfterFetch(true);
 
         // The loaded images.
         this.images = [];

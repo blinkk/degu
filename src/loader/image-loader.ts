@@ -1,4 +1,6 @@
 
+import { is } from '../is/is';
+
 /**
  * A class the loads a given set of images.
  *
@@ -14,7 +16,7 @@
  * ];
  * const myImageLoader = new ImageLoader(myImages);
  * // Optional - decodes the image as well.
- * myImageLoader.decodeAfterFetch = true;
+ * myImageLoader.setDecodeAfterFetch(true);
  *
  * await results = myImageLoader.load();
  *
@@ -40,7 +42,7 @@ export class ImageLoader {
     /**
      * Whether to immediately image decode after a fetch (available to limited browsers).
      */
-    public decodeAfterFetch: boolean;
+    private decodeAfterFetch: boolean;
 
 
     constructor(imageSources: Array<string>) {
@@ -48,6 +50,15 @@ export class ImageLoader {
         this.images = {};
         this.maxRetries = 3;
         this.decodeAfterFetch = false;
+    }
+
+    /**
+     * Sets to decodeAfterFetching.  Setting true on firefox causes failures
+     * so we test for firefox.
+     * @param value
+     */
+    setDecodeAfterFetch(value: boolean) {
+        this.decodeAfterFetch = is.firefox() ? false : value;
     }
 
     /**

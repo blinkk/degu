@@ -74,7 +74,6 @@ export default class WebGlSample {
         this.raf = new Raf(this.loop.bind(this));
 
         this.imageLoader = new ImageLoader(assets);
-        this.imageLoader.decodeAfterFetch = false;
         this.imageLoader.load().then(this.onImageLoad.bind(this));
 
 
