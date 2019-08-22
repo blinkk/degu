@@ -242,6 +242,20 @@ export class MultiInterpolate {
 
     }
 
+
+    /**
+     * Returns the last know interpolations values.
+     * ```ts
+     * multiInterpolate.calculate(0.5);
+     *
+     * let results = multiInterpolate.getCalculations();
+     *
+     * ```
+     */
+    getCalculations(): Object {
+        return this.currentValues;
+    }
+
     /**
      * Sets the current progress and returns all interpolations.
      * @param {number} The current progress.

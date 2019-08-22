@@ -5,9 +5,10 @@ import { Defer } from '../func/defer';
 import { ImageLoader } from '../loader/image-loader';
 import { mathf } from '../mathf/mathf';
 import { DomWatcher } from '../dom/dom-watcher';
-import { MultiInterpolate, rangedProgress } from '../interpolate/multi-interpolate';
+import { MultiInterpolate, rangedProgress, interpolateSettings } from '../interpolate/multi-interpolate';
 import { RafTimer } from '../raf/raf-timer';
 import { networkSpeed } from './network-speed';
+import { timingSafeEqual } from 'crypto';
 
 export interface CanvasImageSequenceSizingOptions {
     /**
@@ -30,6 +31,20 @@ export interface CanvasImageSequenceSizingOptions {
 export const canvasImageSequenceErrors = {
     NO_ELEMENT: 'An element is required for canvas image sequence',
     NO_SOURCES: 'Image sources are required for canvas image sequence',
+}
+
+
+export interface CanvasImageSequenceClipInterpolationConfig {
+    type: string,
+    interpolations: Array<interpolateSettings>
+}
+
+interface rectConfig {
+    top: number,
+    bottom: number,
+    right: number,
+    left: number,
+    radius: number
 }
 
 /**
@@ -235,6 +250,46 @@ export const canvasImageSequenceErrors = {
  * ```
  *
  *
+ * ### Clipping Feature
+ * Similar to css clip-path, you can pass clip-path-ish shapes to canvasImageSequence
+ * which will then be applied when the canvas paints / renders.
+ *
+ * The clipping currently supports, inset type only.
+ *
+ * ```ts
+ *
+ * canvasImageSequence.setClipInterpolations({
+ *   type: 'inset',
+ *   interpolations: [
+ *     {
+ *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+ *       id: 'top'
+ *     },
+ *     {
+ *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+ *       id: 'right'
+ *     },
+ *     {
+ *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+ *       id: 'bottom'
+ *     },
+ *     {
+ *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+ *       id: 'left'
+ *     },
+ *     {
+ *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+ *       id: 'border-radius'
+ *     }
+ *   ]
+ * })
+ *
+ *
+ * canvasImageSequence.renderByProgress(0.5); // The clipping at 0.5 progress is rendered.
+ *
+ * ```
+ *
+ *
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence2.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence3.js
@@ -313,6 +368,16 @@ export class CanvasImageSequence {
     private multiInterpolate: MultiInterpolate | null;
 
     /**
+     * MultiInterpolations if using the clip option.
+     */
+    private clipMultiInterpolate: MultiInterpolate | null;
+
+    /**
+     * The type of clip path rendering.  Currently 'inset' or null (default).
+     */
+    private clipPathType: string | null;
+
+    /**
      * An optional fallbackImageSource.
      */
     private fallbackImageSource: string | null;
@@ -354,6 +419,8 @@ export class CanvasImageSequence {
 
         this.rafTimer = null;
         this.multiInterpolate = null;
+        this.clipMultiInterpolate = null;
+        this.clipPathType = null;
         this.fallbackImageSource = null;
         this.fallbackMbspCutoff = 0;
 
@@ -546,6 +613,52 @@ export class CanvasImageSequence {
 
 
     /**
+     * Sets an clip path type interpolation on the canvas drawing.
+     * Currently only supports inset type.
+     *
+     * ```ts
+     *
+     * canvasImageSequence.setClipInterpolations({
+     *   type: 'inset',
+     *   interpolations: [
+     *     {
+     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+     *       id: 'top'
+     *     },
+     *     {
+     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+     *       id: 'right'
+     *     },
+     *     {
+     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+     *       id: 'bottom'
+     *     },
+     *     {
+     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+     *       id: 'left'
+     *     },
+     *     {
+     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+     *       id: 'border-radius'
+     *     }
+     *   ]
+     * })
+     *
+     *
+     * canvasImageSequence.renderByProgress(0.5); // The clipping at 0.5 progress is rendered.
+     *
+     * ```
+     *
+     */
+    setClipInterpolations(config: CanvasImageSequenceClipInterpolationConfig) {
+        this.clipPathType = config.type;
+        this.clipMultiInterpolate = new MultiInterpolate({
+            interpolations: config.interpolations
+        })
+    }
+
+
+    /**
      * Renders by progress.  0 would mean the very first frame and the 1 would
      * mean the last.
      * @param {number} n A progress value between 0 and 1.
@@ -579,11 +692,20 @@ export class CanvasImageSequence {
             progress = mathf.clamp01(interpolateMap['sequence']);
         }
 
-
+        // Update clip path multli interpolate.
+        if (this.clipMultiInterpolate) {
+            this.clipMultiInterpolate.calculate(progress);
+        }
 
         // Figure out the correct frame to render based on the number of
         // frames in the sequence.
         let targetFrame = Math.ceil(mathf.lerp(0, total, progress));
+
+        // Flush cache if progress is 0 or 1 to ensure final frame is always
+        // played.
+        if (progress >= 0.95 || progress <= 0.05) {
+            this.flush();
+        }
 
         this.renderFrame(targetFrame);
     }
@@ -598,6 +720,7 @@ export class CanvasImageSequence {
         if (!this.readyPromise.complete) {
             return;
         }
+
 
         this.targetFrame = i;
 
@@ -625,20 +748,104 @@ export class CanvasImageSequence {
 
 
         let imageSource = this.sources[Math.round(this.currentFrame)];
-        this.draw(imageSource)
+        this.draw(imageSource);
+    }
+
+    /**
+     * Flush the draw cache.
+     */
+    flush() {
+        this.draw(null);
+    }
+
+    /**
+     * Draws a rectangle on the canvas.
+     */
+    private drawRectangle(config: rectConfig) {
+        // let radiusPercent = config.radius;
+        // let height = config.top - config.bottom;
+        // let width = config.left - config.right;
+        // Calculate border radius as a percentage.
+        let radius = {
+            tl: config.radius,
+            tr: config.radius,
+            br: config.radius,
+            bl: config.radius,
+        };
+
+        this.context.beginPath();
+        this.context.moveTo(config.left + radius.tl, config.top);
+        this.context.lineTo(config.right - radius.tr, config.top);
+        this.context.quadraticCurveTo(config.right,
+            config.top, config.right, config.top + radius.tr);
+
+        this.context.lineTo(config.right, config.bottom - radius.br);
+        this.context.quadraticCurveTo(config.right,
+            config.bottom,
+            config.right - radius.br,
+            config.bottom);
+
+        this.context.lineTo(config.left + radius.bl, config.bottom);
+        this.context.quadraticCurveTo(
+            config.left, config.bottom, config.left, config.bottom - radius.bl);
+
+        this.context.lineTo(config.left, config.top + radius.tl);
+        this.context.quadraticCurveTo(
+            config.left, config.top, config.left + radius.tl, config.top);
+        this.context.closePath();
+        this.context.fill();
+    }
+
+    /**
+     * Applies clipping to the canvas prior to drawing.
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/Path2D
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip
+     */
+    private applyCanvasClipping() {
+        let context = this.context;
+
+        // Make a similar algo as inset done in css clip-path.
+        //
+        // clip-path: inset(var(--clip-top) var(--clip-right) var(--clip-bottom) var(--clip-left) round var(--clip-radius))
+        //
+        // Since it's an inset algo, 0% would mean it is fully show.
+        // - top: 50% would mean the top half is missing
+        // - bottom: 50% would mean the bottom half is missing
+        // - right: 50% would mean the right half is missing
+        // - left: 50% would mean the left half is missing
+        if (this.clipPathType == 'inset') {
+            let results = this.clipMultiInterpolate!.getCalculations() || {};
+            let top = results['top'] || 0;
+            let bottom = results['bottom'] || 0;
+            let left = results['left'] || 0;
+            let right = results['right'] || 0;
+            let borderRadius = results['border-radius'] || 0;
+            this.drawRectangle({
+                top: this.canvasHeight - ((1 - top) * this.canvasHeight),
+                left: this.canvasWidth - ((1 - left) * this.canvasWidth),
+                right: (1 - right) * this.canvasWidth,
+                bottom: (1 - bottom) * this.canvasHeight,
+                radius: borderRadius,
+            });
+            this.context.clip();
+        }
     }
 
     private clear() {
-        this.context.clearRect(0, 0, this.width, this.height);
+        this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
-    private draw(imageSource: string): void {
+    private draw(imageSource: string | null): void {
         // Prevent invalid draws
         if (!imageSource) {
             return;
         }
 
         this.clear();
+        this.context.save();
+        if (!is.null(this.clipPathType)) {
+            this.applyCanvasClipping();
+        }
 
         let image = this.images[imageSource];
         let imageBox = {
@@ -687,6 +894,7 @@ export class CanvasImageSequence {
             );
         }
 
+        this.context.restore();
         this.lastRenderSource = imageSource;
     }
 
