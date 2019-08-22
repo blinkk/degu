@@ -81,9 +81,22 @@ export class TextSplit {
     public originalText: string;
     public splits: Array<string>;
     public convertSpacesToNbsp: boolean;
+    private sups: Array<HTMLElement> | null;
 
     constructor(private config: textSplitConfig) {
         this.convertSpacesToNbsp = this.config.split == ' ';
+
+        // Patch to get around <sup> at the end of sentances for now.
+        // This is rather hacky and assumes all <sup> in the text
+        // are at the end of sentances.
+        this.sups = Array.from(this.config.element.querySelectorAll('sup'));
+
+        // Remove sups.
+        this.sups.forEach((sup) => {
+            dom.removeElement(sup);
+        })
+
+        // this.originalText = this.config.element.textContent!;
         this.originalText = this.config.element.textContent!;
 
         // Convert any &nbsp to space.
@@ -113,6 +126,16 @@ export class TextSplit {
             )
             dom.setCssVariable(element, '--item-index', i + '');
             this.config.element.appendChild(element);
+        })
+
+        // Futher append any sups.
+        this.sups && this.sups.forEach((sup, i) => {
+            let span = dom.createElementFromString(
+                `<span></span>`
+            )
+            dom.setCssVariable(span, '--item-index', this.splits.length + i + '');
+            span.appendChild(sup);
+            this.config.element.appendChild(span);
         })
 
         // Add total count to root element.

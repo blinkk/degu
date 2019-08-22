@@ -282,4 +282,13 @@ export class dom {
         div.innerHTML = htmlString.trim();
         return div.firstChild as HTMLElement;
     }
+
+
+    /**
+     * Removes an element from the dom.
+     * @param element
+     */
+    static removeElement(element: HTMLElement) {
+        element.parentNode!.removeChild(element);
+    }
 }
