@@ -25,7 +25,32 @@ export interface CanvasImageSequenceSizingOptions {
      * Example: bottom: 0.2 ---> the bottom of the image should align from the
      *                         bottom 20% of the canvas element.
      */
-    bottom: number
+    bottom: number,
+
+    /**
+     * When calculating the bottom, whether to allow the image clip.   Basically,
+     * says, move this from the top from 0-1 without clipping the image and
+     * alters the position algo.
+     *
+     * By default, position calculation will allow clipping and the specified
+     * percentage is based on the size of the canvas.  Using this option,
+     * will alter the values to never clip.
+     *
+     * Use by setting to false.
+     * bottomClipping: false
+     *
+     * Example: bottom: 0 ---> the bottom of the image should align to the
+     *                         bottom of the canvas.
+     * Example: bottom: 0.5 ---> the bottom of the image should move up 50%
+     *                         from the bottom without clipping the top of the
+     *                         image.
+     * Example: bottom: 1 ---> the bottom of the image should move up 100%
+     *                         from the bottom without clipping the top of the
+     *                         image.
+     */
+    bottomNoClip: boolean,
+
+
     /**
      * When using "contain" mode, the amount to position FROM the vertical top.
      * By default, contain mode will vertically center your image.  Setting this
@@ -36,7 +61,96 @@ export interface CanvasImageSequenceSizingOptions {
      * Example: top: 0.2 ---> the top of the image should align from the
      *                         top 20% of the canvas element.
      */
-    top: number
+    top: number,
+
+    /**
+     * When calculating the top, whether to allow the image clip.   Basically,
+     * says, move this from the top from 0-1 without clipping the image and
+     * alters the position algo.
+     *
+     * By default, position calculation will allow clipping and the specified
+     * percentage is based on the size of the canvas.  Using this option,
+     * will alter the values to never clip.
+     *
+     *
+     * Example: top: 0 ---> the top of the image should align to the
+     *                         top of the canvas.
+     * Example: top: 0.5 ---> the bottom of the image should move up 50%
+     *                         from the bottom without clipping the top of the
+     *                         image.
+     * Example: top: 1 ---> the top of the image should move down 100%
+     *                         from the top without clipping the bottom of the
+     *                         image.
+     */
+    topNoClip: boolean,
+
+    /**
+     * When using "contain" mode, the amount to position FROM the horizontal left.
+     * By default, contain mode will horizontall center your image.  Setting this
+     * option will adjust the horizontal position of the image.
+     *
+     * Example: left: 0 ---> the left of the image should align with the
+     *                         left of the canvas element.
+     * Example: left: 0.2 ---> the left of the image should align from the
+     *                         top left% of the canvas element.
+     */
+    left: number,
+
+    /**
+     * When calculating the left, whether to allow the image clip.   Basically,
+     * says, move this from the left from 0-1 without clipping the image and
+     * alters the position algo.
+     *
+     * By default, position calculation will allow clipping and the specified
+     * percentage is based on the size of the canvas.  Using this option,
+     * will alter the values to never clip.
+     *
+     *
+     * Example: left: 0 ---> the left of the image should align to the
+     *                         left of the canvas.
+     * Example: left: 0.5 ---> the left of the image should move right 50%
+     *                         from the left without clipping the right of the
+     *                         image.
+     * Example: left: 1 ---> the left of the image should move right 100%
+     *                         from the left without clipping the right of the
+     *                         image.
+     */
+    leftNoClip: boolean,
+
+
+    /**
+     * When using "contain" mode, the amount to position FROM the horizontal right.
+     * By default, contain mode will horizontall center your image.  Setting this
+     * option will adjust the horizontal position of the image.
+     *
+     * Example: right: 0 ---> the right of the image should align with the
+     *                         right of the canvas element.
+     * Example: right: 0.2 ---> the right of the image should align from the
+     *                         top right% of the canvas element.
+     */
+    right: number
+
+    /**
+     * When calculating the right, whether to allow the image clip.   Basically,
+     * says, move this from the right from 0-1 without clipping the image and
+     * alters the position algo.
+     *
+     * By default, position calculation will allow clipping and the specified
+     * percentage is based on the size of the canvas.  Using this option,
+     * will alter the values to never clip.
+     *
+     *
+     * Example: right: 0 ---> the right of the image should align to the
+     *                         left of the canvas.
+     * Example: right: 0.5 ---> the right of the image should move right 50%
+     *                         from the right without clipping the left of the
+     *                         image.
+     * Example: right: 1 ---> the right of the image should move right 100%
+     *                         from the right without clipping the left of the
+     *                         image.
+     */
+    rightNoClip: boolean,
+
 }
 
 export const canvasImageSequenceErrors = {
@@ -92,6 +206,13 @@ interface rectConfig {
  * let canvasImageSequence = new CanvasImageSequence(
  *   document.querySelector('.my-element'),
  *   myImages,
+ *    // Optional sizing.
+ *   {
+ *      cover: false, // Use cover mode.  Defaults to false.
+ *      bottom: 0 // Align to the bottom.
+ *      left: 0.2 // Align to the left
+ *      leftNoClip: true // When aligning to left, use the no clip algo.
+ *   }
  * );
  * // Load
  * canvasImageSequence.load();
@@ -899,15 +1020,68 @@ export class CanvasImageSequence {
             if (this.sizingOptions && is.number(this.sizingOptions.bottom)) {
                 // Bottom align it.
                 diffY = containerBox.height - (imageBox.height * this.containScale);
-                // Add the percentage amount specified.
-                diffY -= containerBox.height * this.sizingOptions.bottom;
+
+                // Easy way to test this is to set bottom: 1 and
+                // bottomClipping: false which would top align the image.
+                if (this.sizingOptions.bottomNoClip) {
+                    diffY -=
+                        (containerBox.height - (imageBox.height * this.containScale))
+                        * this.sizingOptions.bottom
+                } else {
+                    // Clipping Bottom algo.
+                    // Add the percentage amount specified.
+                    diffY -= containerBox.height * this.sizingOptions.bottom;
+                }
+            }
+
+            if (this.sizingOptions && is.number(this.sizingOptions.right)) {
+                // Right align it.
+                diffX = containerBox.width - (imageBox.width * this.containScale);
+
+                // Easy way to test this is to set right: 1 and
+                // rightClipping: false which would left align the image.
+                if (this.sizingOptions.rightNoClip) {
+                    diffX -=
+                        (containerBox.width - (imageBox.width * this.containScale))
+                        * this.sizingOptions.right
+                } else {
+                    // Clipping right algo.
+                    // Add the percentage amount specified.
+                    diffX -= containerBox.width * this.sizingOptions.right;
+                }
             }
 
             if (this.sizingOptions && is.number(this.sizingOptions.top)) {
                 // Top align it.
                 diffY = 0;
-                // Add the percentage amount specified.
-                diffY += this.sizingOptions.top * containerBox.height
+                // Easy way to test this is to set top: 1 and
+                // topClipping: false which would bottom aligned the image.
+                if (this.sizingOptions.topNoClip) {
+                    diffY =
+                        (containerBox.height - (imageBox.height * this.containScale))
+                        * this.sizingOptions.top
+                } else {
+                    // Clipping Top algo.
+                    // Add the percentage amount specified.
+                    diffY += this.sizingOptions.top * containerBox.height
+                }
+            }
+
+
+            if (this.sizingOptions && is.number(this.sizingOptions.left)) {
+                // Left align it.
+                diffX = 0;
+                // Easy way to test this is to set left: 1 and
+                // leftClipping: false which would right aligned the image.
+                if (this.sizingOptions.leftNoClip) {
+                    diffX =
+                        (containerBox.width - (imageBox.width * this.containScale))
+                        * this.sizingOptions.left
+                } else {
+                    // Clipping left algo.
+                    // Add the percentage amount specified.
+                    diffX += this.sizingOptions.left * containerBox.width
+                }
             }
 
 
