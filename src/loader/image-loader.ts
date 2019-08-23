@@ -18,6 +18,8 @@ import { is } from '../is/is';
  * // Optional - decodes the image as well.
  * myImageLoader.setDecodeAfterFetch(true);
  *
+ *
+ * // Loads images.
  * await results = myImageLoader.load();
  *
  * // The source of the image is the key.
@@ -25,12 +27,26 @@ import { is } from '../is/is';
  * results['http://mydomain.com/cat.png']; // Cat HTML Image element.
  *
  * ```
+ *
+ *
+ * You can alternatively fetch for just blobs.
+ * ```ts
+ * const myImages = [
+ *  'http://mydomain.com/dog.png',
+ *  'http://mydomain.com/cat.png'
+ *  'http://mydomain.com/cow.jpg'
+ * ];
+ * const myImageLoader = new ImageLoader(myImages);
+ *
+ * await results = myImageLoader.loadBlobs();
+ * results['http://mydomain.com/dog.png']; // DOG image blob.
+ * ```
  */
 export class ImageLoader {
     private imageSources: Array<string>;
+
     /**
-     * An object with the key as the URL of the image and the loaded
-     * image element.
+     * An object with the key as the URL of the image or blob.
      */
     private images: Object;
 
@@ -135,4 +151,46 @@ export class ImageLoader {
         })
     }
 
+    /**
+     * Begins loading blobs. Alternate to load method.
+     */
+    loadBlobs() {
+        console.log('loading blobs');
+        return new Promise(resolve => {
+            const promises = this.imageSources.map((source) => {
+                return this.fetchBlob(source);
+            })
+
+            Promise.all(promises).then(() => {
+                resolve(this.images);
+            })
+        });
+    }
+
+
+    /**
+     * Fetches a single blog.
+     */
+    fetchBlob(source: string, retryCount: number = 0): Promise<void> {
+        return new Promise(resolve => {
+            fetch(source)
+                .then((response) => {
+                    // If status was not okay retry.
+                    if (!response.ok) {
+                        retryCount++;
+                        if (retryCount >= this.maxRetries) {
+                            resolve();
+                        } else {
+                            this.fetchBlob(source, retryCount);
+                        }
+                    }
+                    return response.blob();
+                })
+                .then((response) => {
+                    const blob = response;
+                    this.images[source] = blob;
+                    resolve();
+                });
+        })
+    }
 }
