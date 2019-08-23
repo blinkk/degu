@@ -43,7 +43,7 @@ import { is } from '../is/is';
  * ```
  */
 export class ImageLoader {
-    private imageSources: Array<string>;
+    public imageSources: Array<string>;
 
     /**
      * An object with the key as the URL of the image or blob.
@@ -151,14 +151,15 @@ export class ImageLoader {
         })
     }
 
+
     /**
-     * Begins loading blobs. Alternate to load method.
+     * Begins loading imageBitMaps. Alternate to load method but ImageBitmap
+     * has only partial support at the moment.
      */
-    loadBlobs() {
-        console.log('loading blobs');
+    loadImageBitmaps() {
         return new Promise(resolve => {
             const promises = this.imageSources.map((source) => {
-                return this.fetchBlob(source);
+                return this.fetchImageBitmap(source);
             })
 
             Promise.all(promises).then(() => {
@@ -169,9 +170,14 @@ export class ImageLoader {
 
 
     /**
-     * Fetches a single blog.
+     * Fetches image bitmap.   Image bitmaps are faster in rendering images on
+     * canvas because they don't do image decoding on each draw.  However,
+     * they are not fully supported across all browsers so use wisely.
+     *
+     * @see https://aerotwist.com/blog/the-hack-is-back/
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap
      */
-    fetchBlob(source: string, retryCount: number = 0): Promise<void> {
+    fetchImageBitmap(source: string, retryCount: number = 0): Promise<void> {
         return new Promise(resolve => {
             fetch(source)
                 .then((response) => {
@@ -181,16 +187,37 @@ export class ImageLoader {
                         if (retryCount >= this.maxRetries) {
                             resolve();
                         } else {
-                            this.fetchBlob(source, retryCount);
+                            this.fetchImageBitmap(source, retryCount);
                         }
                     }
                     return response.blob();
                 })
+                .then(blobData => createImageBitmap(blobData))
                 .then((response) => {
                     const blob = response;
                     this.images[source] = blob;
                     resolve();
                 });
         })
+    }
+
+
+    /**
+     * Loads bitmap or image.   If browser supports bitmaps, it will
+     * load bitmaps instead of an image.
+     */
+    loadBitmapOrImage() {
+        return is.supportingCreateImageBitmap() ?
+            this.loadImageBitmaps() : this.load();
+    }
+
+
+    dispose() {
+        for (var key in this.images) {
+            let image = this.images[key];
+            // If we loaded bitmaps and we can dispose.
+            // https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap/close
+            image.close && image.close();
+        }
     }
 }

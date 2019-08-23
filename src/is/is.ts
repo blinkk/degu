@@ -251,6 +251,15 @@ export class is {
 
 
     /**
+     * Whether createImageBitMap is supported or not.
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap;
+     */
+    static supportingCreateImageBitmap(): boolean {
+        return !!window['createImageBitmap'] as any;
+    }
+
+
+    /**
      * A string value that appears to be a css hex.
      *
      * ```

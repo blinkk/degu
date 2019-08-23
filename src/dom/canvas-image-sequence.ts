@@ -515,6 +515,14 @@ export class CanvasImageSequence {
     private clipPathType: string | null;
 
     /**
+     * If possible, ImageBitmaps are loaded for faster speed.  This flag
+     * notes whether imageBitmaps were loaded or not.  If could be null,
+     * at which point, the state is undetermined because loaded hasn't started
+     * yet.
+     */
+    private imageBitmapsLoaded: boolean | null;
+
+    /**
      * An optional fallbackImageSource.
      */
     private fallbackImageSource: string | null;
@@ -524,6 +532,11 @@ export class CanvasImageSequence {
      * Sizing options for CanvasImageSequence.
      */
     private sizingOptions: CanvasImageSequenceSizingOptions | undefined;
+
+    /**
+     * Whether the instance has been disposed or not.
+     */
+    private disposed: boolean;
 
     constructor(element: HTMLElement, sources: Array<string>,
         sizingOptions?: CanvasImageSequenceSizingOptions) {
@@ -540,6 +553,7 @@ export class CanvasImageSequence {
         this.sizingOptions = sizingOptions;
 
         this.isPlaying = false;
+        this.imageBitmapsLoaded = null;
 
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
@@ -554,6 +568,7 @@ export class CanvasImageSequence {
         this.currentFrame = 0;
         this.targetFrame = 0;
         this.containScale = null;
+        this.disposed = false;
 
         this.rafTimer = null;
         this.multiInterpolate = null;
@@ -662,9 +677,18 @@ export class CanvasImageSequence {
      * Starts loading the images.
      */
     load(): Promise<any> {
+
         let loadAllImages = () => {
-            this.imageLoader.load().then((results) => {
+            // Load the first image to acquire dimensions.
+            this.imageLoader.loadBitmapOrImage().then((results: any) => {
                 this.images = results;
+
+                // Check the first image to see if it is an image or bitmap.
+                // We make this determinations by checking for the naturalWidth
+                // property which is not available on ImageBitmpas.
+                let firstKey = Object.keys(this.images)[0];
+                let image = this.images[firstKey];
+                this.imageBitmapsLoaded = !image.naturalWidth;
                 this.setImageDimensions();
                 this.readyPromise.resolve(results);
             })
@@ -705,10 +729,11 @@ export class CanvasImageSequence {
      */
     private setImageDimensions() {
         let firstKey = Object.keys(this.images)[0];
+        let image = this.images[firstKey];
         this.imageNaturalHeight =
-            this.images[firstKey].naturalHeight;
+            this.imageBitmapsLoaded ? image.height : image.naturalHeight;
         this.imageNaturalWidth =
-            this.images[firstKey].naturalWidth;
+            this.imageBitmapsLoaded ? image.width : image.naturalWidth;
     }
 
 
@@ -975,7 +1000,7 @@ export class CanvasImageSequence {
 
     private draw(imageSource: string | null): void {
         // Prevent invalid draws
-        if (!imageSource) {
+        if (!imageSource || this.disposed) {
             return;
         }
 
@@ -1161,8 +1186,11 @@ export class CanvasImageSequence {
     }
 
     dispose() {
+        this.disposed = true;
+        this.stop();
         this.domWatcher.dispose();
         this.rafTimer && this.rafTimer.dispose();
+        this.imageLoader.dispose();
     }
 
 }
