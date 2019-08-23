@@ -22,10 +22,21 @@ export interface CanvasImageSequenceSizingOptions {
      *
      * Example: bottom: 0 ---> the bottom of the image should align with the
      *                         bottom of the canvas element.
-     * Example: bottom: 20 ---> the bottom of the image should align from the
+     * Example: bottom: 0.2 ---> the bottom of the image should align from the
      *                         bottom 20% of the canvas element.
      */
     bottom: number
+    /**
+     * When using "contain" mode, the amount to position FROM the vertical top.
+     * By default, contain mode will vertically center your image.  Setting this
+     * option will adjust the vertical position of the image.
+     *
+     * Example: top: 0 ---> the top of the image should align with the
+     *                         top of the canvas element.
+     * Example: top: 0.2 ---> the top of the image should align from the
+     *                         top 20% of the canvas element.
+     */
+    top: number
 }
 
 export const canvasImageSequenceErrors = {
@@ -191,8 +202,7 @@ interface rectConfig {
  * By setting a lerp value, canvasImageSequence will automatically "lerp" towards
  * frames if the delta between the currently rendered frame and the requested
  * progress is large.
- *
- * This is useful to "smooth" out movement between frames.
+ * * This is useful to "smooth" out movement between frames.
  *
  *
  * To use this feature, simply set the lerp value.
@@ -364,6 +374,12 @@ export class CanvasImageSequence {
     private imageNaturalWidth: number;
     private imageNaturalHeight: number;
 
+    /**
+     * When using contain mode, the amount of scale that
+     * was applied to the image in order to make it fit.
+     */
+    private containScale: number | null;
+
     private lastRenderSource: string | null;
     private multiInterpolate: MultiInterpolate | null;
 
@@ -416,6 +432,7 @@ export class CanvasImageSequence {
         this.imageNaturalWidth = 0;
         this.currentFrame = 0;
         this.targetFrame = 0;
+        this.containScale = null;
 
         this.rafTimer = null;
         this.multiInterpolate = null;
@@ -869,28 +886,36 @@ export class CanvasImageSequence {
             );
         } else {
             // Default to contain sizing algo.
-            let containScale =
+            this.containScale =
                 mathf.calculateBackgroundContain(containerBox, imageBox);
 
             // Default center algo.
             let diffX =
-                (containerBox.width - (imageBox.width * containScale)) / 2;
+                (containerBox.width - (imageBox.width * this.containScale)) / 2;
             let diffY =
-                (containerBox.height - (imageBox.height * containScale)) / 2;
+                (containerBox.height - (imageBox.height * this.containScale)) / 2;
 
             // Sizing option logic.
             if (this.sizingOptions && is.number(this.sizingOptions.bottom)) {
                 // Bottom align it.
-                diffY = containerBox.height - (imageBox.height * containScale);
+                diffY = containerBox.height - (imageBox.height * this.containScale);
                 // Add the percentage amount specified.
                 diffY -= containerBox.height * this.sizingOptions.bottom;
             }
 
+            if (this.sizingOptions && is.number(this.sizingOptions.top)) {
+                // Top align it.
+                diffY = 0;
+                // Add the percentage amount specified.
+                diffY += this.sizingOptions.top * containerBox.height
+            }
+
+
             this.context.drawImage(
                 image,
                 diffX >> 0, diffY >> 0,
-                imageBox.width * containScale >> 0,
-                imageBox.height * containScale >> 0,
+                imageBox.width * this.containScale >> 0,
+                imageBox.height * this.containScale >> 0,
             );
         }
 
@@ -949,6 +974,15 @@ export class CanvasImageSequence {
         this.rafTimer.play();
         this.isPlaying = true;
         return this.playDefer!.getPromise();
+    }
+
+    /**
+     * Gets the contain scale which is the scalar used to calculate how much the
+     * provided image had to be scaled down to fit the canvas. Returns null if
+     * using cover mode.
+     */
+    getContainScale(): number | null {
+        return this.containScale;
     }
 
     /**
