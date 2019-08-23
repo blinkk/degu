@@ -3,6 +3,8 @@ import { mathf } from '../mathf/mathf';
 import { MultiInterpolate, multiInterpolateConfig } from './multi-interpolate';
 import { ElementVisibilityObject, elementVisibility } from '../dom/element-visibility';
 import { dom } from '../dom/dom';
+import { is } from '../is/is';
+import { cssUnit } from '../string/css-unit';
 
 
 /**
@@ -162,6 +164,12 @@ export class CssVarInterpolate {
      */
     private ranOutViewUpdate: boolean;
 
+    /**
+     * Whether to disallow subpixel rendering.  This option will make any
+     * pixel value interpolations into round whole number. Defaults to false.
+     */
+    private renderSubPixels: boolean;
+
 
     /**
      * @param element The element to update the css variable to.
@@ -180,6 +188,8 @@ export class CssVarInterpolate {
          */
         this.mainProgress = null;
         this.currentValues = {};
+
+        this.renderSubPixels = false;
 
         if (config) {
             this.multiInterpolate = new MultiInterpolate(config);
@@ -245,11 +255,18 @@ export class CssVarInterpolate {
      * cssVarInterpolate.flush(); // Flush cache
      * cssVarInterpolate.update(0.2); // Will update.
      * ```
-     *
-     *
      */
     flush() {
         this.mainProgress = null;
+    }
+
+    /**
+     * Turns subpixel rendering on.  By default, css var will turn off subpixel
+     * rendering where by 'px' value interpolations will be turned into whole
+     * numbers.  You can turn this on by using this option.
+     */
+    useSubPixelRendering(value: boolean) {
+        this.renderSubPixels = value;
     }
 
     /**
@@ -314,6 +331,14 @@ export class CssVarInterpolate {
             this.multiInterpolate.calculate(this.mainProgress);
 
         for (var key in this.currentValues) {
+            if (!this.renderSubPixels && is.string(this.currentValues[key])) {
+                let cssUnitValue = cssUnit.parse(this.currentValues[key]);
+                if (cssUnitValue.unit == 'px') {
+                    this.currentValues[key] =
+                        (cssUnitValue.value as number >> 0) + 'px';
+                }
+            }
+
             dom.setCssVariable(this.element, key, this.currentValues[key]);
         }
     }
