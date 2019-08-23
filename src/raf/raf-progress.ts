@@ -208,6 +208,14 @@ export class RafProgress {
 
 
     /**
+     * Sets the FPS of the internal raf loop.
+     */
+    setFps(fps: number) {
+        this.raf.setFps(fps);
+    }
+
+
+    /**
      * Run calculations.  Normally. you would call easeTo to set the latest
      * current progress, you may want to call this if forced stopped and want
      * to restart the raf loop manually.
