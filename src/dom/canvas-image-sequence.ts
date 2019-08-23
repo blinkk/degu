@@ -1151,15 +1151,6 @@ export class CanvasImageSequence {
     }
 
     /**
-     * Gets the contain scale which is the scalar used to calculate how much the
-     * provided image had to be scaled down to fit the canvas. Returns null if
-     * using cover mode.
-     */
-    getContainScale(): number | null {
-        return this.containScale;
-    }
-
-    /**
      * Immediately stops the canvas animation playing.
      * (that happens with play method).
      */
