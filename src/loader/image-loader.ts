@@ -123,7 +123,7 @@ export class ImageLoader {
                             this.images[source] = img;
                             resolve();
                         }).catch((error) => {
-                            console.log('error', Error);
+                            // console.log('error', Error);
                             // throw new Error(error);
                             // Usually when there is an error thrown it's
                             // because this image couldn't be decoded
