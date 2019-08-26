@@ -120,17 +120,16 @@ export class ImageLoader {
                         img.src = URL.createObjectURL(blob);
                         img.decoding = 'async';
                         img.decode().then(() => {
-                            URL.revokeObjectURL(img.src);
                             this.images[source] = img;
                             resolve();
                         }).catch((error) => {
+                            console.log('error', Error);
                             // throw new Error(error);
                             // Usually when there is an error thrown it's
                             // because this image couldn't be decoded
                             // in a regular manner so we fall back again
                             // to loading it normally.
                             img.onload = () => {
-                                URL.revokeObjectURL(img.src);
                                 this.images[source] = img;
                                 resolve();
                             }
@@ -138,7 +137,6 @@ export class ImageLoader {
                         })
                     } else {
                         img.onload = () => {
-                            URL.revokeObjectURL(img.src);
                             this.images[source] = img;
                             resolve();
                         }
@@ -217,7 +215,12 @@ export class ImageLoader {
             let image = this.images[key];
             // If we loaded bitmaps and we can dispose.
             // https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap/close
-            image.close && image.close();
+            if (image.close) {
+                image.close();
+            } else {
+                // Dispose url.
+                URL.revokeObjectURL(image.src);
+            }
         }
     }
 }
