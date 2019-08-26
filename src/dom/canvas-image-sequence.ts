@@ -421,6 +421,36 @@ interface rectConfig {
  * ```
  *
  *
+ * ## Loading mobile versus desktop images.
+ *
+ *
+ * ````
+ *
+ * let myImages = [
+ *   'image-1.jpg',
+ *    ...
+ *   'image-100.jpg',
+ * ];
+ *
+ * let myMobileImages = [
+ *   'image-mobile-1.jpg',
+ *   'image-mobile-100.jpg',
+ * ];
+ *  let canvasImageSequence = new CanvasImageSequence(
+ *   document.querySelector('.my-element'),
+ *   [{
+ *     when: window.innerWidth >= 769,
+ *     images: myImages
+ *   },
+ *   {
+ *     when: window.innerWidth >= 769,
+ *     images: myImages
+ *   }]
+ * );
+ *
+ * ````
+ *
+ *
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence2.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence3.js
@@ -488,8 +518,6 @@ export class CanvasImageSequence {
     private canvasElement: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private dpr: number;
-    private width: number;
-    private height: number;
     private canvasWidth: number;
     private canvasHeight: number;
     private imageNaturalWidth: number;
@@ -545,10 +573,10 @@ export class CanvasImageSequence {
             throw new Error(canvasImageSequenceErrors.NO_ELEMENT);
         }
 
-        this.sources = sources;
         if (!sources) {
             throw new Error(canvasImageSequenceErrors.NO_SOURCES);
         }
+        this.sources = sources;
 
         this.sizingOptions = sizingOptions;
 
@@ -559,8 +587,6 @@ export class CanvasImageSequence {
         this.canvasElement = document.createElement('canvas');
         this.context = this.canvasElement.getContext('2d')!;
         this.dpr = window.devicePixelRatio || 1;
-        this.width = 0;
-        this.height = 0;
         this.canvasWidth = 0;
         this.canvasHeight = 0;
         this.imageNaturalHeight = 0;
@@ -599,8 +625,8 @@ export class CanvasImageSequence {
         this.element.appendChild(this.canvasElement);
 
         this.readyPromise = new Defer();
-        this.imageLoader = new ImageLoader(sources);
-        this.imageLoader.setDecodeAfterFetch(true);
+
+        this.loadNewSet(sources);
 
         // The loaded images.
         this.images = [];
@@ -667,8 +693,6 @@ export class CanvasImageSequence {
         this.dpr = window.devicePixelRatio || 1;
         this.canvasElement.width = this.element.offsetWidth;
         this.canvasElement.height = this.element.offsetHeight;
-        this.width = this.element.offsetWidth * this.dpr;
-        this.height = this.element.offsetHeight * this.dpr;
         this.canvasWidth = this.element.offsetWidth;
         this.canvasHeight = this.element.offsetHeight;
     }
@@ -724,6 +748,64 @@ export class CanvasImageSequence {
 
 
     /**
+     * Allows you to set a new set of image frames after initial load.
+     * A common case for this might be if you want to load mobile or desktop
+     * images as the user resizes.
+     *
+     * @param imageSource
+     *
+     *
+     * Example using DomWatcher
+     * ```ts
+     *   const mobileImages = [...];
+     *   const desktopImages = [...];
+     *   const lastUsedImages = null;
+     *
+     *   this.domWatcher.add({
+     *       element: window,
+     *       on: 'smartResize',
+     *       callback: ()=> {
+     *          // On each resize event determine which images should be loaded.
+     *          let imageToUse = window.innerWidth < 769 ?
+     *                mobileImage : desktopImages;
+     *
+     *          // Check to see we if already using the current set in which case
+     *          // don't load it.
+     *          if(imageToUse == lastUsedImages) {
+     *             return;
+     *          }
+     *
+     *          // Set that.
+     *          canvasImageSequence.loadNewSet(imageToUse);
+     *          // Now load it, it'll render once loaded.
+     *          canvasImageSequence.load();
+     *
+     *          // Cache the current image set.
+     *          lastUsedImages = imageToUse;
+     *       },
+     *       eventOptions: { passive: true },
+     *       id: 'resize',
+     *   });
+     *
+     *
+     * ```
+     */
+    loadNewSet(imageSource: Array<string>) {
+        // Release memory of current set.
+        this.imageLoader && this.imageLoader.dispose();
+
+        // Set the new image source.
+        this.sources = imageSource;
+        this.imageLoader = new ImageLoader(this.sources);
+        this.imageLoader.setDecodeAfterFetch(true);
+        this.images = [];
+        this.lastRenderSource = null;
+        // Reset the readyPromise.
+        this.readyPromise = new Defer();
+    }
+
+
+    /**
      * Sets the images dimensions used internally based on the first image.
      * Assumes all images are uniform size.
      */
@@ -740,8 +822,8 @@ export class CanvasImageSequence {
     /**
      * Sets the internal images and resolves the readyPromise.  This is useful
      * for rare cases in which you want to use canvas-image-sequence with images
-     * that have already loaded and way to bypass the internal loading mechanism
-     * and set the images yourself.
+     * that have already loaded (perhaps in a different module) and way to bypass
+     * the internal loading mechanism and set the images yourself.
      *
      * Usage:
      * ```ts
