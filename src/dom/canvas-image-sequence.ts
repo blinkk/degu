@@ -472,7 +472,7 @@ export class CanvasImageSequence {
     /**
      * Internal instance of ImageLoader.
      */
-    private imageLoader: ImageLoader;
+    private imageLoader: ImageLoader | null;
 
     /**
      * A deferred promised that completes when all images have been loaded.
@@ -602,6 +602,7 @@ export class CanvasImageSequence {
         this.clipPathType = null;
         this.fallbackImageSource = null;
         this.fallbackMbspCutoff = 0;
+        this.imageLoader = null;
 
         this.playDefer = null;
 
@@ -704,7 +705,7 @@ export class CanvasImageSequence {
 
         let loadAllImages = () => {
             // Load the first image to acquire dimensions.
-            this.imageLoader.loadBitmapOrImage().then((results: any) => {
+            this.imageLoader!.loadBitmapOrImage().then((results: any) => {
                 this.images = results;
 
                 // Check the first image to see if it is an image or bitmap.
@@ -1272,7 +1273,7 @@ export class CanvasImageSequence {
         this.stop();
         this.domWatcher.dispose();
         this.rafTimer && this.rafTimer.dispose();
-        this.imageLoader.dispose();
+        this.imageLoader && this.imageLoader.dispose();
     }
 
 }
