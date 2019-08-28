@@ -523,6 +523,7 @@ export class CanvasImageSequence {
     private imageNaturalWidth: number;
     private imageNaturalHeight: number;
 
+
     /**
      * When using contain mode, the amount of scale that
      * was applied to the image in order to make it fit.
@@ -549,6 +550,13 @@ export class CanvasImageSequence {
      * yet.
      */
     private imageBitmapsLoaded: boolean | null;
+
+    /**
+     * Whether to use BitmapImage if possible.  This helps with loading
+     * faster since it is already decoded but turning this to false,
+     * will load an image normally.  Defaults to true.
+     */
+    private useBitmapImageIfPossible: boolean;
 
     /**
      * An optional fallbackImageSource.
@@ -582,6 +590,7 @@ export class CanvasImageSequence {
 
         this.isPlaying = false;
         this.imageBitmapsLoaded = null;
+        this.useBitmapImageIfPossible = true;
 
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
@@ -673,6 +682,19 @@ export class CanvasImageSequence {
 
 
     /**
+     * Sets whether to try to load bitmapImages if possible.  BitmapImages
+     * are faster but you can optionally turn this off.  Note that
+     * bitMapImages are not supported in browsers like Safari
+     * and calling this method will only affect browers like
+     * Chrome that support BitmapImages.  By default this is already turned
+     * on.
+     */
+    useBitmapImages(value: boolean) {
+        this.useBitmapImageIfPossible = value;
+    }
+
+
+    /**
      * Sets an optional fallback image source.  If the fallback image source
      * is set, CanvasImageSequence will load it first and then attempt to
      * determine the approximate network speed.  If the network speed falls
@@ -704,8 +726,10 @@ export class CanvasImageSequence {
     load(): Promise<any> {
 
         let loadAllImages = () => {
-            // Load the first image to acquire dimensions.
-            this.imageLoader!.loadBitmapOrImage().then((results: any) => {
+            let loadMethod = this.useBitmapImageIfPossible ?
+                this.imageLoader!.loadBitmapOrImage :
+                this.imageLoader!.load;
+            loadMethod.apply(this.imageLoader!).then((results: any) => {
                 this.images = results;
 
                 // Check the first image to see if it is an image or bitmap.
