@@ -171,7 +171,6 @@ export const canvasImageSequenceErrors = {
     NO_ELEMENT: 'An element is required for canvas image sequence',
     NO_IMAGE_SETS: 'Image sets are required for canvas image sequence',
     NO_IMAGES: 'There are no images defined in your canvas image sequence image set',
-    NO_MATCHING_IMAGE_SET: 'No image set matched the current condition.  This may happen if you have image set conditions that return no results.'
 }
 
 
@@ -471,6 +470,23 @@ interface rectConfig {
  *
  * ````
  *
+ * Can I have imageSets for only desktop or mobile?  Yes you can!
+ *
+ * ```
+ *  let canvasImageSequence = new CanvasImageSequence(
+ *   document.querySelector('.my-element'),
+ *   [
+ *   {
+ *     when: ()=> { return window.innerWidth < 768},
+ *     images: myMobileImages
+ *   }]
+ * );
+ *
+ * ```
+ * Here we specify canvasImageSequence with an imageSet for only mobile.  This
+ * means the images will only load on mobile and canvasImageSequence won't
+ * do anything on desktop (nothing will show since there are no images).
+ *
  *
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence2.js
@@ -489,6 +505,11 @@ export class CanvasImageSequence {
      * A list canvas image sets.
      */
     private imageSets: Array<CanvasImageSequenceImageSet>;
+
+    /**
+     * The last known progress value passed to renderByProgress
+     */
+    private progress: number | null;
 
     /**
      * The currently loaded / active image set.
@@ -643,6 +664,7 @@ export class CanvasImageSequence {
         this.fallbackImageSource = null;
         this.fallbackMbspCutoff = 0;
         this.imageLoader = null;
+        this.progress = null;
 
         this.playDefer = null;
 
@@ -669,16 +691,14 @@ export class CanvasImageSequence {
             element: window,
             on: 'smartResize',
             callback: () => {
+                console.log('yoyo');
                 // Evaluate if we need to load a different image set.
                 let newSet = this.getSourceThatShouldLoad(this.imageSets);
-                if (newSet !== this.activeImageSet && this.activeImageSet) {
-                    // Calculate the current progress.
-                    let progress = this.currentFrame / this.activeImageSet!.images.length;
-
-                    this.loadNewSet(imageSets);
+                if (newSet !== this.activeImageSet) {
+                    this.loadNewSet(this.imageSets);
                     // Autoload the content.
                     this.load().then(() => {
-                        this.renderByProgress(progress);
+                        this.renderByProgress(this.progress || 0);
                     })
                 }
             },
@@ -790,6 +810,15 @@ export class CanvasImageSequence {
      */
     load(): Promise<any> {
 
+        // If there is no matching imageSet there is nothing to load.
+        if (!this.imageLoader || !this.activeImageSet) {
+            // Defer resolution.
+            window.setTimeout(() => {
+                this.readyPromise.resolve();
+            })
+            return this.readyPromise.getPromise();
+        }
+
         let loadAllImages = () => {
             let loadMethod = this.useBitmapImageIfPossible ?
                 this.imageLoader!.loadBitmapOrImage :
@@ -892,17 +921,18 @@ export class CanvasImageSequence {
         this.imageSets = imageSets;
         this.activeImageSet = this.getSourceThatShouldLoad(this.imageSets);
 
-
-        if (!this.activeImageSet.images) {
-            throw new Error(canvasImageSequenceErrors.NO_MATCHING_IMAGE_SET);
-        }
-        if (!is.array(this.activeImageSet.images)) {
+        if (this.activeImageSet && !is.array(this.activeImageSet.images)) {
             throw new Error(canvasImageSequenceErrors.NO_IMAGES);
         }
 
-        // Set the active image set.
-        this.imageLoader = new ImageLoader(this.activeImageSet.images);
-        this.imageLoader.setDecodeAfterFetch(true);
+        // Set the active image set if one is available.
+        if (this.activeImageSet) {
+            this.imageLoader = new ImageLoader(this.activeImageSet.images);
+            this.imageLoader.setDecodeAfterFetch(true);
+        } else {
+            this.imageLoader = null;
+        }
+
         this.images = [];
         this.lastRenderSource = null;
         // Reset the readyPromise.
@@ -1041,6 +1071,7 @@ export class CanvasImageSequence {
      *   being able to say, I want to render the image sequnce at 0.9 for example.
      */
     renderByProgress(n: number, noMultiInterpolate: boolean = false) {
+        this.progress = mathf.clamp01(n);
         !this.isPlaying && this.renderProgress(n, noMultiInterpolate);
     }
 
