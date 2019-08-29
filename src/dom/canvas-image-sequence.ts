@@ -170,6 +170,8 @@ export interface CanvasImageSequenceSizingOptions {
 export const canvasImageSequenceErrors = {
     NO_ELEMENT: 'An element is required for canvas image sequence',
     NO_IMAGE_SETS: 'Image sets are required for canvas image sequence',
+    NO_IMAGES: 'There are no images defined in your canvas image sequence image set',
+    NO_MATCHING_IMAGE_SET: 'No image set matched the current condition.  This may happen if you have image set conditions that return no results.'
 }
 
 
@@ -870,13 +872,22 @@ export class CanvasImageSequence {
      *
      * ```
      */
-    loadNewSet(imageSources: Array<CanvasImageSequenceImageSet>) {
+    loadNewSet(imageSets: Array<CanvasImageSequenceImageSet>) {
         // Release memory of current set.
         this.imageLoader && this.imageLoader.dispose();
 
+
         // Save the image sources.
-        this.imageSets = imageSources;
+        this.imageSets = imageSets;
         this.activeImageSet = this.getSourceThatShouldLoad(this.imageSets);
+
+
+        if (!this.activeImageSet.images) {
+            throw new Error(canvasImageSequenceErrors.NO_MATCHING_IMAGE_SET);
+        }
+        if (!is.array(this.activeImageSet.images)) {
+            throw new Error(canvasImageSequenceErrors.NO_IMAGES);
+        }
 
         // Set the active image set.
         this.imageLoader = new ImageLoader(this.activeImageSet.images);
