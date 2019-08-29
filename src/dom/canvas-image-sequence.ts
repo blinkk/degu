@@ -877,7 +877,6 @@ export class CanvasImageSequence {
         // Save the image sources.
         this.imageSets = imageSources;
         this.activeImageSet = this.getSourceThatShouldLoad(this.imageSets);
-        console.log('loading image set', this.activeImageSet);
 
         // Set the active image set.
         this.imageLoader = new ImageLoader(this.activeImageSet.images);
