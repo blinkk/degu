@@ -669,7 +669,7 @@ export class CanvasImageSequence {
             callback: () => {
                 // Evaluate if we need to load a different image set.
                 let newSet = this.getSourceThatShouldLoad(this.imageSets);
-                if (newSet !== this.activeImageSet) {
+                if (newSet !== this.activeImageSet && this.activeImageSet) {
                     // Calculate the current progress.
                     let progress = this.currentFrame / this.activeImageSet!.images.length;
 
@@ -1032,7 +1032,6 @@ export class CanvasImageSequence {
      *   being able to say, I want to render the image sequnce at 0.9 for example.
      */
     private renderProgress(n: number, noMultiInterpolate: boolean = false) {
-        let total = this.activeImageSet!.images.length - 1;
         let progress = mathf.clamp01(n);
 
         // If the optional multiinterpolate is set, then use multiInterpolate
@@ -1047,17 +1046,19 @@ export class CanvasImageSequence {
             this.clipMultiInterpolate.calculate(progress);
         }
 
-        // Figure out the correct frame to render based on the number of
-        // frames in the sequence.
-        let targetFrame = Math.ceil(mathf.lerp(0, total, progress));
-
         // Flush cache if progress is 0 or 1 to ensure final frame is always
         // played.
         if (progress >= 0.95 || progress <= 0.05) {
             this.flush();
         }
 
-        this.renderFrame(targetFrame);
+        // Figure out the correct frame to render based on the number of
+        // frames in the sequence.
+        if (this.activeImageSet) {
+            const total = this.activeImageSet.images.length - 1;
+            const targetFrame = Math.ceil(mathf.lerp(0, total, progress));
+            this.renderFrame(targetFrame);
+        }
     }
 
 
