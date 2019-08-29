@@ -768,10 +768,21 @@ export class CanvasImageSequence {
 
     resize() {
         this.dpr = window.devicePixelRatio || 1;
-        this.canvasElement.width = this.element.offsetWidth;
-        this.canvasElement.height = this.element.offsetHeight;
+
+
         this.canvasWidth = this.element.offsetWidth;
         this.canvasHeight = this.element.offsetHeight;
+
+        // Set canvas to high dpr, the actual width to the size.
+        // @see https://gist.github.com/callumlocke/cc258a193839691f60dd
+        // for inspiration.
+        this.canvasElement.width = this.element.offsetWidth * this.dpr;
+        this.canvasElement.height = this.element.offsetHeight * this.dpr;
+        this.canvasElement.style.width = this.canvasWidth + 'px';
+        this.canvasElement.style.height = this.canvasHeight + 'px';
+
+        // Scale up the canvas to compensate DPR.
+        this.context.scale(this.dpr, this.dpr);
     }
 
     /**
