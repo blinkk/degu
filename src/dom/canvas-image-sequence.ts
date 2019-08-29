@@ -870,47 +870,9 @@ export class CanvasImageSequence {
 
 
     /**
-     * Allows you to set a new set of image frames after initial load.
-     * A common case for this might be if you want to load mobile or desktop
-     * images as the user resizes.
+     * Allows you to set new imageSets.
      *
      * @param imageSource
-     *
-     *
-     * Example using DomWatcher
-     * ```ts
-     *   const mobileImages = [...];
-     *   const desktopImages = [...];
-     *   const lastUsedImages = null;
-     *
-     *   this.domWatcher.add({
-     *       element: window,
-     *       on: 'smartResize',
-     *       callback: ()=> {
-     *          // On each resize event determine which images should be loaded.
-     *          let imageToUse = window.innerWidth < 769 ?
-     *                mobileImage : desktopImages;
-     *
-     *          // Check to see we if already using the current set in which case
-     *          // don't load it.
-     *          if(imageToUse == lastUsedImages) {
-     *             return;
-     *          }
-     *
-     *          // Set that.
-     *          canvasImageSequence.loadNewSet(imageToUse);
-     *          // Now load it, it'll render once loaded.
-     *          canvasImageSequence.load();
-     *
-     *          // Cache the current image set.
-     *          lastUsedImages = imageToUse;
-     *       },
-     *       eventOptions: { passive: true },
-     *       id: 'resize',
-     *   });
-     *
-     *
-     * ```
      */
     loadNewSet(imageSets: Array<CanvasImageSequenceImageSet>) {
         // Release memory of current set.
