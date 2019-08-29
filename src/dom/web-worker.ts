@@ -78,7 +78,6 @@
  *
  * @unstable
  * @experimental
- * @hidden
  */
 export class WebWorker {
     /**
