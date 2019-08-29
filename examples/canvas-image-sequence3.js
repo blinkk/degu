@@ -25,7 +25,7 @@ export default class CanvasImageSequenceSample3 {
         // Create Canvas Image Sequenece
         this.canvasImageSequence = new CanvasImageSequence(
             this.canvasContainerElement,
-            this.canvasImageSources
+            [{ images: this.canvasImageSources }]
         );
 
         let progressPoints = [

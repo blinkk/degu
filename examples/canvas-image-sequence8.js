@@ -52,7 +52,7 @@ export default class CanvasImageSequenceSample8 {
         // Create Canvas Image Sequenece
         this.canvasImageSequence = new CanvasImageSequence(
             this.canvasContainerElement,
-            this.canvasImageSources,
+            [{ images: this.canvasImageSources }],
             {
                 cover: true
             }

@@ -10,6 +10,20 @@ import { RafTimer } from '../raf/raf-timer';
 import { networkSpeed } from './network-speed';
 import { timingSafeEqual } from 'crypto';
 
+
+export interface CanvasImageSequenceImageSet {
+    /**
+     * A list of image sources.
+     */
+    images: Array<string>,
+
+    /**
+     * An optional condition for when this image set should be loaded.
+     * Note that this only gets evaluated when the window resizes.
+     */
+    when?: Function
+}
+
 export interface CanvasImageSequenceSizingOptions {
     /**
      * Whether the sizing should use cover insted of contain.
@@ -155,7 +169,7 @@ export interface CanvasImageSequenceSizingOptions {
 
 export const canvasImageSequenceErrors = {
     NO_ELEMENT: 'An element is required for canvas image sequence',
-    NO_SOURCES: 'Image sources are required for canvas image sequence',
+    NO_IMAGE_SETS: 'Image sets are required for canvas image sequence',
 }
 
 
@@ -205,7 +219,8 @@ interface rectConfig {
  *
  * let canvasImageSequence = new CanvasImageSequence(
  *   document.querySelector('.my-element'),
- *   myImages,
+ *   // Pass in your imageSet.  You can specific multiple (see below).
+ *   [{images: myImages}],
  *    // Optional sizing.
  *   {
  *      cover: false, // Use cover mode.  Defaults to false.
@@ -214,7 +229,7 @@ interface rectConfig {
  *      leftNoClip: true // When aligning to left, use the no clip algo.
  *   }
  * );
- * // Load
+ * // Loads the images.
  * canvasImageSequence.load();
  *
  * // At a later time.  If images aren't loaded yet, render will get ignored.
@@ -255,7 +270,7 @@ interface rectConfig {
  * ```ts
  * let canvasImageSequence = new CanvasImageSequence(
  *   document.querySelector('.my-element'),
- *   myImages,
+ *   [{images: myImages}],
  *   {
  *     cover: true
  *   }
@@ -366,7 +381,7 @@ interface rectConfig {
  * ]
  * let canvasImageSequence = new CanvasImageSequence(
  *   document.querySelector('.my-element'),
- *   myImages
+ *   [{images: myImages}],
  * );
  *
  * // Important - set your fallback image PRIOR to calling load.
@@ -421,8 +436,12 @@ interface rectConfig {
  * ```
  *
  *
- * ## Loading mobile versus desktop images.
+ * ## Selectively loading different sets of images.
  *
+ * You can pass different sets of images to use.   Use the when condition
+ * to modify your set.   Note that the when condition is only evaluated
+ * upon resize.  If a new image set is matched, loading of that image
+ * set will automatically happen in the background and render when complete.
  *
  * ````
  *
@@ -439,12 +458,12 @@ interface rectConfig {
  *  let canvasImageSequence = new CanvasImageSequence(
  *   document.querySelector('.my-element'),
  *   [{
- *     when: window.innerWidth >= 769,
+ *     when: ()=> { return window.innerWidth >= 768},
  *     images: myImages
  *   },
  *   {
- *     when: window.innerWidth >= 769,
- *     images: myImages
+ *     when: ()=> { return window.innerWidth < 768},
+ *     images: myMobileImages
  *   }]
  * );
  *
@@ -465,9 +484,14 @@ export class CanvasImageSequence {
     private element: HTMLElement;
 
     /**
-     * A list of image URLS to load.
+     * A list canvas image sets.
      */
-    private sources: Array<string>;
+    private imageSets: Array<CanvasImageSequenceImageSet>;
+
+    /**
+     * The currently loaded / active image set.
+     */
+    private activeImageSet: CanvasImageSequenceImageSet | null;
 
     /**
      * Internal instance of ImageLoader.
@@ -489,10 +513,11 @@ export class CanvasImageSequence {
      * currentFrame (especially when lerp is used).
      */
     private targetFrame: number;
+
     /**
-     * Allows you to lerp the frame updates.  This defaults to 1 where by
-     * update to the frames are immediate.
-     */
+       * Allows you to lerp the frame updates.  This defaults to 1 where by
+       * update to the frames are immediate.
+       */
     private rafTimer: RafTimer | null;
 
     /**
@@ -574,17 +599,21 @@ export class CanvasImageSequence {
      */
     private disposed: boolean;
 
-    constructor(element: HTMLElement, sources: Array<string>,
+    constructor(element: HTMLElement,
+        imageSets: Array<CanvasImageSequenceImageSet>,
         sizingOptions?: CanvasImageSequenceSizingOptions) {
         this.element = element;
         if (!element) {
             throw new Error(canvasImageSequenceErrors.NO_ELEMENT);
         }
 
-        if (!sources) {
-            throw new Error(canvasImageSequenceErrors.NO_SOURCES);
+        if (!imageSets) {
+            throw new Error(canvasImageSequenceErrors.NO_IMAGE_SETS);
         }
-        this.sources = sources;
+
+
+        this.imageSets = imageSets;
+        this.activeImageSet = null;
 
         this.sizingOptions = sizingOptions;
 
@@ -621,6 +650,7 @@ export class CanvasImageSequence {
             on: 'smartResize',
             callback: () => {
                 this.resize();
+
                 // Rerender the last known image.
                 this.draw(''); // Make a empty call to clear the memoize cache.
                 this.lastRenderSource && this.draw(this.lastRenderSource);
@@ -631,12 +661,34 @@ export class CanvasImageSequence {
         this.resize();
         this.domWatcher.run('resize');
 
+        // Another resize watcher dedicated to checking to checking if a new
+        // image set should be loaded.
+        this.domWatcher.add({
+            element: window,
+            on: 'smartResize',
+            callback: () => {
+                // Evaluate if we need to load a different image set.
+                let newSet = this.getSourceThatShouldLoad(this.imageSets);
+                if (newSet !== this.activeImageSet) {
+                    // Calculate the current progress.
+                    let progress = this.currentFrame / this.activeImageSet!.images.length;
+
+                    this.loadNewSet(imageSets);
+                    // Autoload the content.
+                    this.load().then(() => {
+                        this.renderByProgress(progress);
+                    })
+                }
+            },
+            id: 'image-set-resize',
+            eventOptions: { passive: true }
+        });
 
         this.element.appendChild(this.canvasElement);
 
         this.readyPromise = new Defer();
 
-        this.loadNewSet(sources);
+        this.loadNewSet(imageSets);
 
         // The loaded images.
         this.images = [];
@@ -755,8 +807,11 @@ export class CanvasImageSequence {
                             .load().then((results) => {
                                 this.images = results;
                                 this.setImageDimensions();
-                                // Overrides the imageSources.
-                                this.sources = [this.fallbackImageSource!];
+                                // Overrides the activeImageSet
+                                this.activeImageSet = {
+                                    images:
+                                        [this.fallbackImageSource!]
+                                };
                                 this.readyPromise.resolve(results);
                             })
                     } else {
@@ -815,18 +870,44 @@ export class CanvasImageSequence {
      *
      * ```
      */
-    loadNewSet(imageSource: Array<string>) {
+    loadNewSet(imageSources: Array<CanvasImageSequenceImageSet>) {
         // Release memory of current set.
         this.imageLoader && this.imageLoader.dispose();
 
-        // Set the new image source.
-        this.sources = imageSource;
-        this.imageLoader = new ImageLoader(this.sources);
+        // Save the image sources.
+        this.imageSets = imageSources;
+        this.activeImageSet = this.getSourceThatShouldLoad(this.imageSets);
+        console.log('loading image set', this.activeImageSet);
+
+        // Set the active image set.
+        this.imageLoader = new ImageLoader(this.activeImageSet.images);
         this.imageLoader.setDecodeAfterFetch(true);
         this.images = [];
         this.lastRenderSource = null;
         // Reset the readyPromise.
         this.readyPromise = new Defer();
+    }
+
+
+    /**
+     * Given a list of CanvasImageSequenceImageSets evaluates which set should
+     * be used to load into the canvas.  The criteria is that any
+     * imageSet without when is used or if when condition is specified the
+     * when condition is evaluated and if true, it is used.  If multiple imageSets
+     * are found, the the first one is used.
+     */
+    private getSourceThatShouldLoad(sources: Array<CanvasImageSequenceImageSet>):
+        CanvasImageSequenceImageSet {
+        let matchingSouces: Array<CanvasImageSequenceImageSet> = [];
+        sources.forEach((source) => {
+            if (!source.when) {
+                matchingSouces.push(source);
+            } else {
+                source.when() && matchingSouces.push(source);
+            }
+        })
+
+        return matchingSouces[0];
     }
 
 
@@ -952,7 +1033,7 @@ export class CanvasImageSequence {
      *   being able to say, I want to render the image sequnce at 0.9 for example.
      */
     private renderProgress(n: number, noMultiInterpolate: boolean = false) {
-        let total = this.sources.length - 1;
+        let total = this.activeImageSet!.images.length - 1;
         let progress = mathf.clamp01(n);
 
         // If the optional multiinterpolate is set, then use multiInterpolate
@@ -1017,7 +1098,7 @@ export class CanvasImageSequence {
         }
 
 
-        let imageSource = this.sources[Math.round(this.currentFrame)];
+        let imageSource = this.activeImageSet!.images[Math.round(this.currentFrame)];
         this.draw(imageSource);
     }
 

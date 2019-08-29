@@ -52,7 +52,7 @@ export default class CanvasImageSequenceSample6 {
         // Create Canvas Image Sequenece
         this.canvasImageSequence = new CanvasImageSequence(
             this.canvasContainerElement,
-            this.canvasImageSources
+            [{ images: this.canvasImageSources }]
         );
 
         // Set the first image as the fallback.
@@ -60,7 +60,7 @@ export default class CanvasImageSequenceSample6 {
             // this.canvasImageSources[0],
             "https://picsum.photos/id/700/400",
             // Require 10000 mbsp just to demo the fallback feature.
-            10000
+            100000
         );
 
         // Load the iamges.
