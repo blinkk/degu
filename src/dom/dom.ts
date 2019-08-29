@@ -1,6 +1,7 @@
 import { mathf } from '../mathf/mathf';
 import { Defer } from '../func/defer';
 import { func } from '../func/func';
+import { is } from '../is/is';
 
 /**
  * Yano DOM utility functions.
@@ -291,4 +292,29 @@ export class dom {
     static removeElement(element: HTMLElement) {
         element.parentNode!.removeChild(element);
     }
+
+
+    /**
+     * Executes a callback after window has loaded.
+     * This isn't a simple window load event listening but
+     * first makes a check if the window has already loaded.
+     * If it has, the callback will immediately get executed,
+     * otherwise, it will wait until the load event completes.
+     * @param callback
+     */
+    static runAfterWindowLoad(callback: Function) {
+        // Make sure we are at the bottom of the event
+        // stack (hence setTimeout) - this avoids
+        // edge cases in which windowLoaded is misevaluated.
+        window.setTimeout(() => {
+            if (is.windowLoaded()) {
+                callback();
+            } else {
+                window.addEventListener('load', () => {
+                    callback();
+                }, { once: true });
+            }
+        })
+    }
+
 }

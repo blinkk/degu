@@ -319,4 +319,14 @@ export class is {
         var a = parseInt(value, 16);
         return is.string(value) && (a.toString(16) === value.toLowerCase())
     }
+
+
+    /**
+     * Whether if the window load event has fired.
+     * @see https://stackoverflow.com/questions/13364613/how-to-know-if-window-load-event-was-fired-already
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/PerformanceTiming/loadEventEnd
+     */
+    static windowLoaded(): boolean {
+        return performance.timing.loadEventEnd !== 0;
+    }
 }
