@@ -380,6 +380,13 @@ export class RafProgress {
         this.raf.start(true);
     }
 
+    /**
+     * Gets the lerp delta - the difference between the current ease and the
+     * targetEase (where it should be if it caught up).
+     */
+    public getLerpDelta() {
+        return this.targetProgress - this.currentProgress;
+    }
 
     dispose() {
         this.raf.dispose();
