@@ -41,7 +41,7 @@ import { Raf } from './raf'
  *
  *
  * // If you want, slow down the FPS.
- * rafTimer.setDuration(10);
+ * rafTimer.setFps(10);
  *
  * // Pause if you want.
  * window.setTimeout(()=> {
