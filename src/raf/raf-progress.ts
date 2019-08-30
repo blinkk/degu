@@ -346,8 +346,9 @@ export class RafProgress {
      * Sets the current progress.  This forces an immediate update to
      * the passed progress.
      */
-    setCurrentProgress(progress: number) {
-        this.currentProgress = mathf.clampAsProgress(progress);
+    setCurrentProgress(progress: number, noClamp: boolean = true) {
+        this.currentProgress = noClamp ? progress :
+            mathf.clampAsProgress(progress);
         this.targetProgress = this.currentProgress;
         this.easeAmount = 1;
         // Run the raf loop once.
@@ -365,11 +366,15 @@ export class RafProgress {
      *     no ease. 0.1 would mean a lot of ease.
      * @param {Function} easingFunction An optional easing funciton.  Defaults to
      *     linear.
+     * @param {boolean} noClamp Prevent progress clamping.  Allows values outside
+     *      range of 0-1.
+     *
      */
     easeTo(targetProgress: number, easeAmount: number,
-        easingFunction: Function = EASE.linear) {
+        easingFunction: Function = EASE.linear,
+        noClamp: boolean = false) {
 
-        this.targetProgress = mathf.clampAsProgress(targetProgress);
+        this.targetProgress = noClamp ? targetProgress : mathf.clampAsProgress(targetProgress);
         this.easeAmount = mathf.clampAsPercent(easeAmount);
         this.easingFunction = easingFunction;
 

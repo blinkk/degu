@@ -108,12 +108,16 @@ export class dom {
      *     the element.  Can be positive or negative values.  Think of this,
      *     shortening or growing your element virually.  Changing this value
      *     will affect the point at which your progress hits 1 (ends).
+     * @param {boolean} Optionally remove percent clamping.  This means it can return
+     *     values outside 0-1.
      * @return {number} percent The amount in percentage that the user has scrolled
      *     in the element.
+     *
      */
     static getElementScrolledPercent(element: HTMLElement,
         startOffset: number = 0,
-        heightOffset: number = 0): number {
+        heightOffset: number = 0,
+        noClamp: boolean = false): number {
         const box = element.getBoundingClientRect();
         const wh = window.innerHeight;
         // We need to calculate this so that we start the 0% when the element comes
@@ -121,7 +125,7 @@ export class dom {
         // of the element passes the bottom of the screen.
         const current = wh - (box.top + startOffset);
         const percent = current / (box.height - startOffset + heightOffset);
-        return mathf.clampAsPercent(percent);
+        return noClamp ? percent : mathf.clampAsPercent(percent);
     }
 
 
