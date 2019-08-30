@@ -691,7 +691,6 @@ export class CanvasImageSequence {
             element: window,
             on: 'smartResize',
             callback: () => {
-                console.log('yoyo');
                 // Evaluate if we need to load a different image set.
                 let newSet = this.getSourceThatShouldLoad(this.imageSets);
                 if (newSet !== this.activeImageSet) {
