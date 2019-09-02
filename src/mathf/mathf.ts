@@ -791,7 +791,7 @@ export class mathf {
    *    mathf.getProgressInRangeByValue(10, 0, 10) // 1
    *    mathf.getProgressInRangeByValue(7, 2, 12) // 0.5
    *
-   * ``
+   * ```
    *
    * @param {number} value The value to determine the progress.
    * @param {number} min The low end of the range.
