@@ -321,4 +321,27 @@ export class dom {
         })
     }
 
+
+    /**
+     * Executes a callback as soon as the user is not at the top of the screen.
+     *
+     * If the user is at the top of the screen when this is called, it will
+     * wait until the user has scrolled down to execute.  If the user is already
+     * not at the top of the screen, the callback will immediately execute.
+     *
+     * Note that if your document is less than 100vh, your callback will
+     * never get executed because the user can't scroll and will always be at
+     * the top of the screen.
+     *
+     * @param callback
+     */
+    static runAfterNotTopOfScreen(callback: Function) {
+        if (window.scrollY !== 0) {
+            callback();
+        } else {
+            window.addEventListener('scroll', () => {
+                callback();
+            }, { once: true, passive: true });
+        }
+    }
 }

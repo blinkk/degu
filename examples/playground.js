@@ -1,4 +1,5 @@
 
+import { dom } from '../lib/dom/dom';
 import { WebWorker } from '../lib/dom/web-worker';
 import { func } from '../lib/func/func';
 import { mathf } from '../lib/mathf/mathf';
@@ -17,11 +18,17 @@ export default class Playgroundsmaple {
         // this.testFuncMemoizeSimple();
         // this.testFuncMemoize();
         // this.testFuncRunOnceOnChange();
+        this.testDomRunAfterNotTopOfScreen();
 
         // DOM Stuff
-        this.testWebWorker();
+        // this.testWebWorker();
+    }
 
 
+    testDomRunAfterNotTopOfScreen() {
+        dom.runAfterNotTopOfScreen(() => {
+            console.log('running');
+        });
     }
 
 
