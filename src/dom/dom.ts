@@ -240,6 +240,31 @@ export class dom {
     static whenVideosLoadedInElement(element: HTMLElement,
         timeout: number = 10000): Promise<any> {
         let videos = [...element.querySelectorAll('video')];
+        return this.whenVideosLoaded(videos);
+    }
+
+    /**
+     * Allows you to make sure that all videos are loaded (readyState 4)
+     * before executing callback.
+     *
+     * Note that this method executes polling in the background
+     * to check for video state so use carefully.  Defaults to timeout after
+     * 10000ms
+     *
+     * ```ts
+     * // Wait for all videos to be loaded.
+     * const videos = [videoElement1, videoElement2];
+     * dom.whenVideosLoaded(videos).then(()=> {
+     *   //
+     * })
+     *
+     * ```
+     * @param element
+     * @param timeout The amount of time in which to give up polling.
+     * @return Promise
+     */
+    static whenVideosLoaded(videos: Array<HTMLVideoElement>,
+        timeout: number = 10000): Promise<any> {
         let promises: Array<Promise<any>> = [];
         videos.forEach((video) => {
             let defer = new Defer();
