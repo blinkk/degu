@@ -236,6 +236,14 @@ export class is {
             canvasSupported = true;
         }
 
+        // Test for Edge fails above but as of version 18, Edge supports
+        // webp.
+        if (is.edge()
+          && +navigator.userAgent.match(/Edge\/(.*)/)![1] >= 18
+        ) {
+            canvasSupported = true;
+        }
+
 
         return canvasSupported;
     }
