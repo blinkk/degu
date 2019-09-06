@@ -177,11 +177,16 @@ export class is {
     }
 
     static chrome(): boolean {
-        return navigator.userAgent.indexOf('Chrome') != -1;
+        return navigator.userAgent.indexOf('Chrome') != -1 &&
+            !is.edge();
     }
 
     static safari(): boolean {
         return !is.chrome() && navigator.userAgent.indexOf('Safari') != -1;
+    }
+
+    static edge(): boolean {
+        return navigator.userAgent.indexOf('Edge') != -1;
     }
 
     static firefox(): boolean {
@@ -211,6 +216,7 @@ export class is {
         return !!window['OffscreenCanvas'];
     }
 
+
     /**
      * Detects support for webp images
      */
@@ -221,6 +227,16 @@ export class is {
             canvasSupported =
                 elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
         }
+
+        // Test for firefox fails in the above but as of version 65 FF
+        // supports webp.
+        if (is.firefox()
+          && +navigator.userAgent.match(/Firefox\/(.*)/)![1] >= 65
+        ) {
+            canvasSupported = true;
+        }
+
+
         return canvasSupported;
     }
 
@@ -255,7 +271,7 @@ export class is {
      * @see https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap;
      */
     static supportingCreateImageBitmap(): boolean {
-        return !!window['createImageBitmap'] as any;
+        return !!window['createImageBitmap'] as any && !is.firefox();
     }
 
 
