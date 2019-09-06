@@ -112,7 +112,7 @@ const samples = {
   'scrollDemoSample4': ScrollDemoSample4,
   'scrollDemoSample5': ScrollDemoSample5,
   'textSplitSample': TextSplitSample,
-  'webGlSample': WebGlSample
+  'webGlSample': WebGlSample,
 };
 
 class Main {
@@ -132,9 +132,7 @@ class Main {
       console.log('Instantiating', className);
       new samples[className]();
     }
-
   }
-
 }
 
 
