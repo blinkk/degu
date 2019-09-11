@@ -1,4 +1,5 @@
 import { Vector } from '../mathf/vector';
+import { color, ColorRGB } from '../mathf/color';
 
 
 /**
@@ -82,5 +83,39 @@ export class domCanvas {
         })
         context.closePath();
         context.fill();
+    }
+
+
+    /**
+     * Acquires the pixel color of given coordinates on the canvas.
+     */
+    static getColorAtPointAsRgb(
+        context: CanvasRenderingContext2D,
+        coords: Vector): ColorRGB {
+
+      var pixelData = context.getImageData(coords.x, coords.y, 1, 1).data;
+      const rgb = {
+          r: pixelData[0],
+          g: pixelData[1],
+          b: pixelData[2]
+      }
+
+      return rgb;
+    }
+
+
+    /**
+     * Acquires the pixel color of given coordinates on the canvas
+     * as returns it as a hex value.
+     */
+    static getColorAtPointAsHex(
+        context: CanvasRenderingContext2D,
+        coords: Vector): string {
+
+        const rgb = domCanvas.getColorAtPointAsRgb(
+            context, coords
+        );
+
+        return color.rgbToHex(rgb);
     }
 }
