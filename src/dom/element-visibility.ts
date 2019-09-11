@@ -1,7 +1,7 @@
 import { Defer } from '../func/defer';
 
 export interface ElementVisibilityObject {
-    observer: IntersectionObserver,
+    observer: IntersectionObserver | null,
     dispose: Function,
     state: Function,
     readyPromise: Promise<any>
@@ -120,12 +120,15 @@ export class elementVisibility {
      */
     static inview(element: HTMLElement, options: Object = {},
         callback?: Function): ElementVisibilityObject {
+
         // Cache the last known state in the closure.
         let cachedChanges: any = [];
         let cachedLastChange: any = null;
         let cachedInview: boolean | null = null;
         let ready: boolean = false;
         let readyPromise: Defer = new Defer();
+
+
 
         /**
          * Get the last known state values of inview.
@@ -156,12 +159,42 @@ export class elementVisibility {
                 callback && callback(element, entries.slice(-1)[0], dispose)
             };
 
+
+        /**
+         * If evBypass=true is the url parameter, we allow IntersectionObserver
+         * to be bypassed and we immediately return true for inview.  This is
+         * useful for automated testing.
+         */
+        const inviewBypassParam = window.location.search.split('evBypass=')[1];
+        if (inviewBypassParam && inviewBypassParam == 'true') {
+            window.setTimeout(()=> {
+                callback && callback(element, {
+                    isIntersecting: true,
+                    isVisible: true
+                }, ()=>{})
+                readyPromise.resolve();
+            })
+            return {
+                observer: null,
+                dispose: ()=> {},
+                state: ()=> {
+                    return {
+                      ready: true,
+                      inview: true
+                    }
+                },
+                readyPromise: readyPromise.getPromise()
+            };
+        }
+
         let dispose = () => {
-            observer.unobserve(element);
-            observer.disconnect();
+            observer && observer.unobserve(element);
+            observer && observer.disconnect();
             cachedChanges = [];
             cachedLastChange = null;
         };
+
+
         let observer = new IntersectionObserver(onChange as any, options);
         observer.observe(element);
         return {
