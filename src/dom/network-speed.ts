@@ -7,15 +7,20 @@ export class networkSpeed {
 
     static mbsp: number;
 
-    // /**
-    //  * Measures the time the root document (HTML) took to be sent from server.
-    //  * This is fairly consistent across each reload of a given page (assuming)
-    //  * your server is stable.
-    //  *
-    //  * @see https://stackoverflow.com/questions/16808486/explanation-of-window-performance-javascript
-    //  * @see https://w3c.github.io/navigation-timing/
-    //  * @see https://stackoverflow.com/questions/16808486/explanation-of-window-performance-javascript
-    //  */
+
+    /**
+     * Measures the time the root document (HTML) took to be sent from server.
+     * This is fairly consistent across each reload of a given page (assuming)
+     * your server is stable.
+     *
+     * LIMITED SUPPORT:
+     * Note that this method does not work on Safari since safari doesn't return
+     * data size info.
+     *
+     * @see https://stackoverflow.com/questions/16808486/explanation-of-window-performance-javascript
+     * @see https://w3c.github.io/navigation-timing/
+     * @see https://stackoverflow.com/questions/16808486/explanation-of-window-performance-javascript
+     */
     static getMbsp() {
         // Run just once.
         if (networkSpeed.mbsp) {
@@ -36,6 +41,9 @@ export class networkSpeed {
 
     /**
      * Gets the total amount of transferred resources on the page.
+     * LIMITED SUPPORT:
+     * Note that this method does not work on Safari since safari doesn't return
+     * data size info.
      */
     static getDataTransfer() {
         let entries = performance.getEntriesByType('resource');
