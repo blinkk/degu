@@ -672,7 +672,7 @@ export class CanvasImageSequence {
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             element: window,
-            on: 'smartResize',
+            on: 'resize',
             callback: () => {
                 this.resize();
 
