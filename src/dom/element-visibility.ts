@@ -165,8 +165,9 @@ export class elementVisibility {
          * to be bypassed and we immediately return true for inview.  This is
          * useful for automated testing.
          */
-        const inviewBypassParam = window.location.search.split('evBypass=')[1];
-        if (inviewBypassParam && inviewBypassParam == 'true') {
+        let inviewBypassParam = window.location.search.split('evBypass=')[1];
+        inviewBypassParam = inviewBypassParam && inviewBypassParam.split('&')[0];
+        if (inviewBypassParam == 'true') {
             window.setTimeout(()=> {
                 callback && callback(element, {
                     isIntersecting: true,
