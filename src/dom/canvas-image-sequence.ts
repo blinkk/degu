@@ -838,28 +838,26 @@ export class CanvasImageSequence {
         }
 
         if (this.fallbackImageSource) {
-            networkSpeed.test(this.fallbackImageSource)
-                .then((speed) => {
-                    // If the speed is not fast enough
-                    if (speed <= this.fallbackMbspCutoff) {
-                        // Load the fallback image and use it
-                        // as the result.
-                        let fallbackLoader = new ImageLoader(
-                            [this.fallbackImageSource!])
-                            .load().then((results) => {
-                                this.images = results;
-                                this.setImageDimensions();
-                                // Overrides the activeImageSet
-                                this.activeImageSet = {
-                                    images:
-                                        [this.fallbackImageSource!]
-                                };
-                                this.readyPromise.resolve(results);
-                            })
-                    } else {
-                        loadAllImages();
-                    }
-                })
+            const speed = networkSpeed.getMbsp();
+            // If the speed is not fast enough
+            if (speed <= this.fallbackMbspCutoff) {
+                // Load the fallback image and use it
+                // as the result.
+                let fallbackLoader = new ImageLoader(
+                    [this.fallbackImageSource!])
+                    .load().then((results) => {
+                        this.images = results;
+                        this.setImageDimensions();
+                        // Overrides the activeImageSet
+                        this.activeImageSet = {
+                            images:
+                                [this.fallbackImageSource!]
+                        };
+                        this.readyPromise.resolve(results);
+                    })
+            } else {
+                loadAllImages();
+            }
 
         } else {
             loadAllImages();
@@ -1383,7 +1381,7 @@ export class CanvasImageSequence {
      * renders at the moment.
      * @param coords
      */
-    getHexColorAtPoint(coords:Vector) {
+    getHexColorAtPoint(coords: Vector) {
         return domCanvas.getColorAtPointAsHex(this.context, coords);
     }
 

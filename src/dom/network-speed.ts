@@ -1,46 +1,48 @@
+import { func } from '../func/func';
+
 /**
  * A class that helps with determining network speed.
  */
 export class networkSpeed {
 
-    /**
-     * Runs a network speed test by loading an image and checking
-     * the amount of time it took.
-     *
-     * ```ts
-     *
-     * networkSpeed.test('myimage.jpg').then((speed)=> {
-     *   console.log(speed); // The network speed in mbsp.
-     * })
-     *
-     * ```
-     * @param testImageSource An image to load to test network speed.
-     * @return {Promise} A promise with the estimated network speed in Mbsp.
-     */
-    static test(testImageSource: string): Promise<number> {
-        return new Promise(resolve => {
-            // First load the fallback image and approximate the
-            // network speed.
-            let startTime = Date.now();
-            fetch(testImageSource)
-                .then(function (response) {
-                    return response.blob()
-                })
-                .then(function (blob) {
-                    let endTime = Date.now();
-                    let timeToDownloadMs = endTime - startTime;
-                    let timeToDownloadSeconds = timeToDownloadMs / 1000;
-                    //  Calculation the blob size in MB.
-                    let sizeMb = blob.size / 1000000;
-                    let networkSpeed = sizeMb / timeToDownloadSeconds;
-                    // console.log(sizeMb, timeToDownloadSeconds, networkSpeed);
+    static mbsp: number;
 
-                    // // Not sure why but network speed seem to be off by a factor
-                    // // of 10.
-                    networkSpeed *= 100;
-                    console.log(networkSpeed);
-                    resolve(networkSpeed);
-                });
+    // /**
+    //  * Measures the time the root document (HTML) took to be sent from server.
+    //  * This is fairly consistent across each reload of a given page (assuming)
+    //  * your server is stable.
+    //  *
+    //  * @see https://stackoverflow.com/questions/16808486/explanation-of-window-performance-javascript
+    //  * @see https://w3c.github.io/navigation-timing/
+    //  * @see https://stackoverflow.com/questions/16808486/explanation-of-window-performance-javascript
+    //  */
+    static getMbsp() {
+        // Run just once.
+        if (networkSpeed.mbsp) {
+            return networkSpeed.mbsp;
+        }
+        const responseTime = (performance.timing.domContentLoadedEventStart - performance.timing.requestStart);
+        const duration = responseTime;
+        const durationSeconds = duration / 1000;
+        const amountOfDataMb = networkSpeed.getDataTransfer() / 1000000;
+        let approxSpeed = amountOfDataMb / durationSeconds;
+        // Account for being off by a factor of 10 for some reason.
+        approxSpeed *= 10;
+        // Save results.
+        networkSpeed.mbsp = approxSpeed;
+        return approxSpeed;
+    }
+
+
+    /**
+     * Gets the total amount of transferred resources on the page.
+     */
+    static getDataTransfer() {
+        let entries = performance.getEntriesByType('resource');
+        let size = 0;
+        entries.forEach((entry) => {
+            size += entry['transferSize'];
         });
+        return size;
     }
 }
