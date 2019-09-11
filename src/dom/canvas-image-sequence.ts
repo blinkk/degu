@@ -8,7 +8,8 @@ import { DomWatcher } from '../dom/dom-watcher';
 import { MultiInterpolate, rangedProgress, interpolateSettings } from '../interpolate/multi-interpolate';
 import { RafTimer } from '../raf/raf-timer';
 import { networkSpeed } from './network-speed';
-import { timingSafeEqual } from 'crypto';
+import { domCanvas } from '../dom/dom-canvas';
+import { Vector } from '../mathf/vector';
 
 
 export interface CanvasImageSequenceImageSet {
@@ -1375,6 +1376,15 @@ export class CanvasImageSequence {
         this.rafTimer.play();
         this.isPlaying = true;
         return this.playDefer!.getPromise();
+    }
+
+    /**
+     * Gets the hex color at the given coordinates of the canvas as it is
+     * renders at the moment.
+     * @param coords
+     */
+    getHexColorAtPoint(coords:Vector) {
+        return domCanvas.getColorAtPointAsHex(this.context, coords);
     }
 
     /**

@@ -11,6 +11,7 @@ import CssVarInterpolateSample from '../css-var-interpolate';
 import CssVarInterpolateSample2 from '../css-var-interpolate2';
 import CssVarInterpolateSample3 from '../css-var-interpolate3';
 import DomWatcherSample from '../dom-watcher';
+import DomCanvasSample from '../dom-canvas';
 import CanvasImageSequenceSample from '../canvas-image-sequence';
 import CanvasImageSequenceSample2 from '../canvas-image-sequence2';
 import CanvasImageSequenceSample3 from '../canvas-image-sequence3';
@@ -20,6 +21,7 @@ import CanvasImageSequenceSample6 from '../canvas-image-sequence6';
 import CanvasImageSequenceSample7 from '../canvas-image-sequence7';
 import CanvasImageSequenceSample8 from '../canvas-image-sequence8';
 import CanvasImageSequenceSample9 from '../canvas-image-sequence9';
+import CanvasImageSequenceSample10 from '../canvas-image-sequence10';
 
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
@@ -81,6 +83,7 @@ const samples = {
   'canvasImageSequenceSample7': CanvasImageSequenceSample7,
   'canvasImageSequenceSample8': CanvasImageSequenceSample8,
   'canvasImageSequenceSample9': CanvasImageSequenceSample9,
+  'canvasImageSequenceSample10': CanvasImageSequenceSample10,
   'rafSample': RafSample,
   'rafSample2': RafSample2,
   'rafTimerSample': RafTimerSample,
@@ -105,6 +108,7 @@ const samples = {
   'xSample': XSample,
   'x2Sample': X2Sample,
   'domWatcherSample': DomWatcherSample,
+  'domCanvasSample': DomCanvasSample,
   'perlinNoiseSample': PerlinNoiseSample,
   'scrollDemoSample': ScrollDemoSample,
   'scrollDemoSample2': ScrollDemoSample2,
