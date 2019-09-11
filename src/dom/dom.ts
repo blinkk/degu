@@ -369,4 +369,14 @@ export class dom {
             }, { once: true, passive: true });
         }
     }
+
+    /**
+     * Gets the current browser aspect ratio.
+     * 2 --> wide rectangle
+     * 1 --> squre
+     * 0.5 --> tall rectangle
+     */
+    static aspect() {
+        return window.innerWidth / window.innerHeight;
+    }
 }
