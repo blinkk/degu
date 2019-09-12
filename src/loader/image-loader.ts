@@ -60,13 +60,56 @@ export class ImageLoader {
      */
     private decodeAfterFetch: boolean;
 
+    /**
+     * An optional callback for each load event.
+     */
+    private onEachImageLoaded: Function | null;
+
 
     constructor(imageSources: Array<string>) {
         this.imageSources = imageSources;
         this.images = {};
         this.maxRetries = 3;
         this.decodeAfterFetch = false;
+        this.onEachImageLoaded = null;
     }
+
+
+    /**
+     * Allows you to hook into each load event of image.
+     * This should be called prior to calling load.
+     *
+     * ```
+     * const myImages = [
+     *  'http://mydomain.com/dog.png',
+     *  'http://mydomain.com/cat.png'
+     *  'http://mydomain.com/cow.jpg'
+     * ];
+     * const myImageLoader = new ImageLoader(myImages);
+     *
+     * myImageLoader.loadCallback((source, img)=> {
+     *   console.log(source) // The image url that was just loaded.
+     *   console.log(img); // The image itself.
+     * })
+     *
+     * // Loads images.
+     * await results = myImageLoader.load();
+     *
+     * ```
+     * @param value
+     */
+    setLoadCallback(callback:Function) {
+        this.onEachImageLoaded = callback;
+    }
+
+
+    /**
+     * Gets the internal cached images.
+     */
+    getImages():Object {
+        return this.images;
+    }
+
 
     /**
      * Sets to decodeAfterFetching.  Setting true on firefox causes failures
@@ -121,6 +164,7 @@ export class ImageLoader {
                         img.decoding = 'async';
                         img.decode().then(() => {
                             this.images[source] = img;
+                            this.onEachImageLoaded && this.onEachImageLoaded(source, img);
                             resolve();
                         }).catch((error) => {
                             // console.log('error', Error);
@@ -131,6 +175,7 @@ export class ImageLoader {
                             // to loading it normally.
                             img.onload = () => {
                                 this.images[source] = img;
+                                this.onEachImageLoaded && this.onEachImageLoaded(source, img);
                                 resolve();
                             }
                             img.src = URL.createObjectURL(blob);
@@ -138,6 +183,7 @@ export class ImageLoader {
                     } else {
                         img.onload = () => {
                             this.images[source] = img;
+                            this.onEachImageLoaded && this.onEachImageLoaded(source, img);
                             resolve();
                         }
                         img.src = URL.createObjectURL(blob);
@@ -194,6 +240,7 @@ export class ImageLoader {
                 .then((response) => {
                     const blob = response;
                     this.images[source] = blob;
+                    this.onEachImageLoaded && this.onEachImageLoaded(source, blob);
                     resolve();
                 });
         })
