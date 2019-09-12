@@ -379,4 +379,14 @@ export class dom {
     static aspect() {
         return window.innerWidth / window.innerHeight;
     }
+
+
+    /**
+     * Gets the computed style of a given element .
+     * @param element
+     * @return CSSStyleDeclartion
+     */
+    static getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
+        return window.getComputedStyle(element);
+    }
 }
