@@ -838,7 +838,18 @@ export class CanvasImageSequence {
         }
 
         if (this.fallbackImageSource) {
-            const speed = networkSpeed.getMbsp();
+            // Get the network speed.
+            let speed = networkSpeed.getMbsp();
+
+            // If the speed returned null because it couldn't be determined
+            // as cases like Safari, canvas-image-sequence will assume
+            // the fallback should NOT be used and instead load the
+            // full set.  We manually set the speed to just over the
+            // fallback cutoff so that the full image set is loaded.
+            if(speed == null) {
+              speed = this.fallbackMbspCutoff + 1;
+            }
+
             // If the speed is not fast enough
             if (speed <= this.fallbackMbspCutoff) {
                 // Load the fallback image and use it
@@ -858,7 +869,6 @@ export class CanvasImageSequence {
             } else {
                 loadAllImages();
             }
-
         } else {
             loadAllImages();
         }
