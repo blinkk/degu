@@ -1222,6 +1222,11 @@ export class CanvasImageSequence {
         }
 
         let image = this.images[imageSource];
+
+        if (!image) {
+            return;
+        }
+
         let imageBox = {
             width: this.imageNaturalWidth,
             height: this.imageNaturalHeight
