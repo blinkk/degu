@@ -60,10 +60,12 @@ export const multiInterpolateHelper = {
     checkInvalidRangedProgresses: (progresses: Array<rangedProgress>) => {
         progresses.forEach((progress) => {
             if (progress.from == progress.to) {
+                console.error(progress);
                 throw new Error(multiInterpolateHelper.errors.FROM_TO_EQUAL)
             }
 
             if (progress.from > progress.to) {
+                console.error(progress);
                 throw new Error(multiInterpolateHelper.errors.FROM_GREATER)
             }
         });
