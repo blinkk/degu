@@ -166,7 +166,7 @@ export class CssVarInterpolate {
 
     /**
      * Whether to disallow subpixel rendering.  This option will make any
-     * pixel value interpolations into round whole number. Defaults to false.
+     * pixel value interpolations into round whole number. Defaults to true.
      */
     private renderSubPixels: boolean;
 
@@ -189,7 +189,7 @@ export class CssVarInterpolate {
         this.mainProgress = null;
         this.currentValues = {};
 
-        this.renderSubPixels = false;
+        this.renderSubPixels = true;
 
         if (config) {
             this.multiInterpolate = new MultiInterpolate(config);
@@ -261,9 +261,10 @@ export class CssVarInterpolate {
     }
 
     /**
-     * Turns subpixel rendering on.  By default, css var will turn off subpixel
-     * rendering where by 'px' value interpolations will be turned into whole
-     * numbers.  You can turn this on by using this option.
+     * Toggles subpixel rendering. When subpixel rendering is turned off,
+     * 'px' value interpolations will be turned into whole
+     * numbers.  Subpixel rendering is turned on by default but can be
+     * turned off for performance boosts.
      */
     useSubPixelRendering(value: boolean) {
         this.renderSubPixels = value;
