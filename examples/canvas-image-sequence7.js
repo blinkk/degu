@@ -54,6 +54,8 @@ export default class CanvasImageSequenceSample7 {
         [{images: this.canvasImageSources}],
         {
           cover: true,
+          // top: 0,
+          // left: 0
         }
     );
 

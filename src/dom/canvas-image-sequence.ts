@@ -31,9 +31,11 @@ export interface CanvasImageSequenceSizingOptions {
      */
     cover: boolean,
     /**
-     * When using "contain" mode, the amount to position FROM the vertical bottom.
+     * When using "contain" or "cover" mode, the amount to position FROM the vertical bottom.
      * By default, contain mode will vertically center your image.  Setting this
      * option will adjust the vertical position of the image.
+     *
+     * This is designed to mimic behavior of background-position as much as possible.
      *
      * Example: bottom: 0 ---> the bottom of the image should align with the
      *                         bottom of the canvas element.
@@ -50,6 +52,8 @@ export interface CanvasImageSequenceSizingOptions {
      * By default, position calculation will allow clipping and the specified
      * percentage is based on the size of the canvas.  Using this option,
      * will alter the values to never clip.
+     *
+     * This option is NOT available when using cover mode.
      *
      * Use by setting to false.
      * bottomClipping: false
@@ -87,6 +91,7 @@ export interface CanvasImageSequenceSizingOptions {
      * percentage is based on the size of the canvas.  Using this option,
      * will alter the values to never clip.
      *
+     * This option is NOT available when using cover mode.
      *
      * Example: top: 0 ---> the top of the image should align to the
      *                         top of the canvas.
@@ -120,6 +125,7 @@ export interface CanvasImageSequenceSizingOptions {
      * percentage is based on the size of the canvas.  Using this option,
      * will alter the values to never clip.
      *
+     * This option is NOT available when using cover mode.
      *
      * Example: left: 0 ---> the left of the image should align to the
      *                         left of the canvas.
@@ -154,6 +160,7 @@ export interface CanvasImageSequenceSizingOptions {
      * percentage is based on the size of the canvas.  Using this option,
      * will alter the values to never clip.
      *
+     * This option is NOT available when using cover mode.
      *
      * Example: right: 0 ---> the right of the image should align to the
      *                         left of the canvas.
@@ -846,8 +853,8 @@ export class CanvasImageSequence {
             // the fallback should NOT be used and instead load the
             // full set.  We manually set the speed to just over the
             // fallback cutoff so that the full image set is loaded.
-            if(speed == null) {
-              speed = this.fallbackMbspCutoff + 1;
+            if (speed == null) {
+                speed = this.fallbackMbspCutoff + 1;
             }
 
             // If the speed is not fast enough
@@ -1236,10 +1243,38 @@ export class CanvasImageSequence {
             height: this.canvasHeight,
         }
 
+        // Background "cover" sizing.
+        // Defaults to center.
         if (this.sizingOptions && this.sizingOptions.cover) {
-            // Background "cover" sizing.
             let cover =
                 mathf.calculateBackgroundCover(containerBox, imageBox);
+
+            if (this.sizingOptions && is.number(this.sizingOptions.left)) {
+                cover.xOffset =
+                   (containerBox.width - (imageBox.width * cover.scalar)) * -this.sizingOptions.left;
+            }
+
+            if (this.sizingOptions && is.number(this.sizingOptions.right)) {
+                // Right align first.
+                cover.xOffset = -(containerBox.width - (imageBox.width * cover.scalar));
+                cover.xOffset +=
+                   (containerBox.width - (imageBox.width * cover.scalar)) * this.sizingOptions.right;
+            }
+
+            if (this.sizingOptions && is.number(this.sizingOptions.bottom)) {
+                // Set to bottom.
+                cover.yOffset = -(containerBox.height - (imageBox.height * cover.scalar));
+                // Clipping Bottom algo.
+                // Add the percentage amount specified.
+                cover.yOffset +=
+                   (containerBox.height - (imageBox.height * cover.scalar)) * this.sizingOptions.bottom;
+            }
+
+            if (this.sizingOptions && is.number(this.sizingOptions.top)) {
+                cover.yOffset =
+                   (containerBox.height - (imageBox.height * cover.scalar)) * -this.sizingOptions.top;
+            }
+
             this.context.drawImage(
                 image,
                 -cover.xOffset >> 0, -cover.yOffset >> 0,
@@ -1300,7 +1335,6 @@ export class CanvasImageSequence {
                 if (this.sizingOptions.topNoClip) {
                     diffY =
                         (containerBox.height - (imageBox.height * this.containScale))
-                        * this.sizingOptions.top
                 } else {
                     // Clipping Top algo.
                     // Add the percentage amount specified.
