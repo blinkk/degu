@@ -1251,14 +1251,14 @@ export class CanvasImageSequence {
 
             if (this.sizingOptions && is.number(this.sizingOptions.left)) {
                 cover.xOffset =
-                   (containerBox.width - (imageBox.width * cover.scalar)) * -this.sizingOptions.left;
+                    (containerBox.width - (imageBox.width * cover.scalar)) * -this.sizingOptions.left;
             }
 
             if (this.sizingOptions && is.number(this.sizingOptions.right)) {
                 // Right align first.
                 cover.xOffset = -(containerBox.width - (imageBox.width * cover.scalar));
                 cover.xOffset +=
-                   (containerBox.width - (imageBox.width * cover.scalar)) * this.sizingOptions.right;
+                    (containerBox.width - (imageBox.width * cover.scalar)) * this.sizingOptions.right;
             }
 
             if (this.sizingOptions && is.number(this.sizingOptions.bottom)) {
@@ -1267,12 +1267,12 @@ export class CanvasImageSequence {
                 // Clipping Bottom algo.
                 // Add the percentage amount specified.
                 cover.yOffset +=
-                   (containerBox.height - (imageBox.height * cover.scalar)) * this.sizingOptions.bottom;
+                    (containerBox.height - (imageBox.height * cover.scalar)) * this.sizingOptions.bottom;
             }
 
             if (this.sizingOptions && is.number(this.sizingOptions.top)) {
                 cover.yOffset =
-                   (containerBox.height - (imageBox.height * cover.scalar)) * -this.sizingOptions.top;
+                    (containerBox.height - (imageBox.height * cover.scalar)) * -this.sizingOptions.top;
             }
 
             this.context.drawImage(
@@ -1302,7 +1302,7 @@ export class CanvasImageSequence {
                 if (this.sizingOptions.bottomNoClip) {
                     diffY -=
                         (containerBox.height - (imageBox.height * this.containScale))
-                        * this.sizingOptions.bottom
+                        * this.sizingOptions.bottom;
                 } else {
                     // Clipping Bottom algo.
                     // Add the percentage amount specified.
@@ -1319,7 +1319,7 @@ export class CanvasImageSequence {
                 if (this.sizingOptions.rightNoClip) {
                     diffX -=
                         (containerBox.width - (imageBox.width * this.containScale))
-                        * this.sizingOptions.right
+                        * this.sizingOptions.right;
                 } else {
                     // Clipping right algo.
                     // Add the percentage amount specified.
@@ -1335,10 +1335,11 @@ export class CanvasImageSequence {
                 if (this.sizingOptions.topNoClip) {
                     diffY =
                         (containerBox.height - (imageBox.height * this.containScale))
+                        * this.sizingOptions.top;
                 } else {
                     // Clipping Top algo.
                     // Add the percentage amount specified.
-                    diffY += this.sizingOptions.top * containerBox.height
+                    diffY += this.sizingOptions.top * containerBox.height;
                 }
             }
 
@@ -1351,11 +1352,11 @@ export class CanvasImageSequence {
                 if (this.sizingOptions.leftNoClip) {
                     diffX =
                         (containerBox.width - (imageBox.width * this.containScale))
-                        * this.sizingOptions.left
+                        * this.sizingOptions.left;
                 } else {
                     // Clipping left algo.
                     // Add the percentage amount specified.
-                    diffX += this.sizingOptions.left * containerBox.width
+                    diffX += this.sizingOptions.left * containerBox.width;
                 }
             }
 
