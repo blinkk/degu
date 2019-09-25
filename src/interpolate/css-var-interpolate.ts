@@ -238,6 +238,7 @@ export class CssVarInterpolate {
         }
     }
 
+
     /**
      * Flushes the update cache.  By default, two consecutive calls to
      * update with the same progress values will cull the second call
@@ -357,5 +358,14 @@ export class CssVarInterpolate {
         this.endProgress = end;
     }
 
+
+    /**
+     * Gets the last set of calculated values.  This will return an empty
+     * object if no updates / calculations have been run.  If updates have
+     * been executed, it will return an object with each css-var property value.
+     */
+    getValues(): Object {
+        return this.currentValues;
+    }
 
 }
