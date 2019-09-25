@@ -183,6 +183,17 @@ export class dom {
     }
 
     /**
+     * Resets all videos inside of a given element.
+     * @param element The element to search videos in for.
+     */
+    static resetAllVideosInElement(element: HTMLElement) {
+        let videos = [...element.querySelectorAll('video')];
+        videos.forEach((video) => {
+           video.currentTime = 0;
+        });
+    }
+
+    /**
      * Pauses all videos inside of a given element.
      * @param element The element to search videos in for.
      * @param reset Whether to pause and reset the video to 0 seconds (start).
