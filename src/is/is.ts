@@ -185,6 +185,10 @@ export class is {
         return !is.chrome() && navigator.userAgent.indexOf('Safari') != -1;
     }
 
+    static ipad():boolean {
+        return navigator.userAgent.match(/iPad/i) != null;
+    }
+
     static edge(): boolean {
         return navigator.userAgent.indexOf('Edge') != -1;
     }
