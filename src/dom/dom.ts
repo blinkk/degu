@@ -145,6 +145,25 @@ export class dom {
 
 
     /**
+     * Given a set of styles, add it to an element.
+     *
+     * ```ts
+     * dom.addStyles(element, { left: "200px", '--mycssvariable': '20px'});
+     * ```
+     * @param element
+     * @param style
+     */
+    static addStyles(element: HTMLElement, styles: Object) {
+        for (var key in styles) {
+            if(key.startsWith('--')) {
+                dom.setCssVariable(element, key, styles[key]);
+            }
+        }
+        Object.assign(element.style, styles);
+    }
+
+
+    /**
      * Tests whether a given element is a descendant of another elemenet.
      *
      * Examples:
