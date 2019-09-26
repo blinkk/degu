@@ -1,5 +1,7 @@
 import '../styles/index.sass';
 
+import 'intersection-observer';
+
 // Examples.
 
 import EaserDisableRafSample from '../easer-disable-raf';
