@@ -41,7 +41,7 @@ export default class CssVarInterpolateSample {
     });
 
 
-    rafProgress.setCurrentProgress(this.range.value);
+    rafProgress.setCurrentProgress(+this.range.value);
 
     // Update rafProgress each time the value of range changes.
     this.range.addEventListener('input', () => {
