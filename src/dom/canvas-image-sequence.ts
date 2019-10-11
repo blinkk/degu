@@ -236,7 +236,8 @@ interface rectConfig {
  *      bottom: 0 // Align to the bottom.
  *      left: 0.2 // Align to the left
  *      leftNoClip: true // When aligning to left, use the no clip algo.
- *   }
+ *   },
+ *   is.ipad() : 1 : undefined // Force dpr 1 on ipad that has less memory.
  * );
  * // Loads the images.
  * canvasImageSequence.load();
@@ -632,7 +633,8 @@ export class CanvasImageSequence {
 
     constructor(element: HTMLElement,
         imageSets: Array<CanvasImageSequenceImageSet>,
-        sizingOptions?: CanvasImageSequenceSizingOptions) {
+        sizingOptions?: CanvasImageSequenceSizingOptions,
+        dpr?: number) {
         this.element = element;
         if (!element) {
             throw new Error(canvasImageSequenceErrors.NO_ELEMENT);
@@ -655,7 +657,7 @@ export class CanvasImageSequence {
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
         this.context = this.canvasElement.getContext('2d')!;
-        this.dpr = window.devicePixelRatio || 1;
+        this.dpr = func.setDefault(dpr, window.devicePixelRatio || 1);
         this.canvasWidth = 0;
         this.canvasHeight = 0;
         this.imageNaturalHeight = 0;
@@ -794,9 +796,6 @@ export class CanvasImageSequence {
     }
 
     resize() {
-        this.dpr = window.devicePixelRatio || 1;
-
-
         this.canvasWidth = this.element.offsetWidth;
         this.canvasHeight = this.element.offsetHeight;
 
