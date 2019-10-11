@@ -60,7 +60,7 @@ import { cssUnit } from '../string/css-unit';
  *          // You can use simple unit values.  See interpolate for more.
  *          {
  *            progress: [
- *              { from: '10px', to: '20px', start: 0, end: 500 },
+ *              { from: 0, to: 0.3, start: '10px', end: '30px' },
  *            ],
  *            id: '--z'
  *          },
