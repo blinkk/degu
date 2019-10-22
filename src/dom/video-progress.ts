@@ -51,12 +51,12 @@ export class VideoProgress {
 
     setProgress(progress: number) {
         let interpolatedTime = mathf.lerp(0, this.video.duration, progress);
-        this.video.pause();
-        if (this.video['fastSeek']) {
-            this.video['fastSeek'](interpolatedTime);
-        } else {
+        // this.video.pause();
+        // if (this.video['fastSeek']) {
+            // this.video['fastSeek'](interpolatedTime);
+        // } else {
             this.video.currentTime = interpolatedTime;
-        }
+        // }
     }
 
 
