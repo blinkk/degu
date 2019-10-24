@@ -10,7 +10,6 @@ import { MultiInterpolate, rangedProgress, interpolateSettings } from '../interp
 import { RafTimer } from '../raf/raf-timer';
 import { domCanvas } from '../dom/dom-canvas';
 import { Vector } from '../mathf/vector';
-import { threadId } from 'worker_threads';
 
 export interface CanvasImageSequenceDrawQueueItem {
     /**
