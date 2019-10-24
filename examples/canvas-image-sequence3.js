@@ -2,6 +2,12 @@
 
 import {CanvasImageSequence} from '../lib/dom/canvas-image-sequence';
 
+const NO_CACHE = ()=> {
+  let param = window.location.search.split('no-cache=')[1];
+  param = param && param.split('&')[0];
+  return param == 'true';
+};
+
 
 /**
  * CanvasImageSequence play feature.
@@ -25,6 +31,11 @@ export default class CanvasImageSequenceSample3 {
         this.canvasContainerElement,
         [{images: this.canvasImageSources}]
     );
+
+    if (NO_CACHE()){
+      console.log('no cache version');
+      this.canvasImageSequence.storeInMemory(false);
+    }
 
     let progressPoints = [
       {

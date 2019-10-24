@@ -6,6 +6,11 @@ import {EASE} from '../lib/ease/ease';
 import {dom} from '../lib/dom/dom';
 import {DomWatcher} from '../lib/dom/dom-watcher';
 
+const NO_CACHE = ()=> {
+  let param = window.location.search.split('no-cache=')[1];
+  param = param && param.split('&')[0];
+  return param == 'true';
+};
 
 /**
  * This sample show loading multiple image sets
@@ -68,6 +73,10 @@ export default class CanvasImageSequenceSample9 {
           }},
         ]
     );
+    if (NO_CACHE()){
+      console.log('no cache version');
+      this.canvasImageSequence.storeInMemory(false);
+    }
 
     // this.canvasImageSequence.lerpAmount = 0.02;
 

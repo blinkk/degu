@@ -10,6 +10,7 @@ import { MultiInterpolate, rangedProgress, interpolateSettings } from '../interp
 import { RafTimer } from '../raf/raf-timer';
 import { domCanvas } from '../dom/dom-canvas';
 import { Vector } from '../mathf/vector';
+import { threadId } from 'worker_threads';
 
 export interface CanvasImageSequenceDrawQueueItem {
     /**
@@ -287,10 +288,10 @@ interface rectConfig {
  * rendering and memory has to be considered.
  *
  * By default, CanvasImageSequence will fetch the images and store all images
- * in memory and only release them when dispose is called.  This has an advantage
- * of each image already being decoded and near instantly being rendered
- * to screen without due latency.  However, storing images in memory means
- * it will consume a high amount of RAM.
+ * as image cache and only release them when dispose is called.  This means
+ * that your image-cache can become pretty large as all images are stored
+ * in cache.  (You can view this by going to Chrome -> task manager and seeing
+ * the image cache section).
  *
  * You can opt out of this setting by running:
  *
@@ -303,11 +304,22 @@ interface rectConfig {
  * gets released from memory.  In this mode, the imageCache will not usually
  * climb to more than a few images as it gets released from memory quickly.
  *
+ * ### ImageBitmap support
+ * For browsers supporting ImageBitmaps (https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap)
+ * it is possible to requrest ImageBitmaps instead of a regular <image>.
  *
- * In short:
- * Default - High native memory consumption, instant rendering
- * StoreInMemory(false) - low memory consumption, high paint / CPU times due to
- *     decoding time.
+ * This has an advantage of entirely bypassing the image decode time per draw
+ * call.
+ *
+ * However, imageBitmaps gets stored in native memory so if you have a high
+ * image count with heavy images, it is not recommended to use this option.
+ *
+ * To opt into ImageBitmap, do:
+ *
+ * ```
+ * canvasImageSequence.useBitmapImages(true);
+ * ```
+ *
  *
  * ### Sizing options.
  * CanvasImageSequence has two render modes, contain (default) and cover.
@@ -712,7 +724,7 @@ export class CanvasImageSequence {
                 this.resize();
 
                 // Rerender the last known image.
-                this.draw(''); // Make a empty call to clear the memoize cache.
+                this.flush(); // Make a empty call to clear the memoize cache.
                 this.lastRenderSource && this.draw(this.lastRenderSource);
             },
             id: 'resize',
@@ -733,6 +745,8 @@ export class CanvasImageSequence {
                     this.loadNewSet(this.imageSets);
                     // Autoload the content.
                     this.load().then(() => {
+                        this.collectImageGarbage();
+                        this.drawQueue = []; // Ensure draw clear is clear.
                         this.renderByProgress(this.progress || 0);
                     })
                 }
@@ -750,6 +764,10 @@ export class CanvasImageSequence {
         // The previously rendered image source.
         this.lastRenderSource = null;
         this.lastDrawSource = null;
+
+         // Cull unncessary update
+         this.draw =
+           func.runOnceOnChange(this.draw.bind(this));
     }
 
     /**
@@ -949,6 +967,9 @@ export class CanvasImageSequence {
         }
 
         this.imageCache = {};
+        this.flush();
+        this.collectImageGarbage();
+        this.drawQueue = [];
         this.lastRenderSource = null;
         // Reset the readyPromise.
         this.readyPromise = new Defer();
@@ -1183,7 +1204,9 @@ export class CanvasImageSequence {
      * Flush the draw cache.
      */
     flush() {
+        this.draw(''); // Make a empty call to clear the memoize cache.
         this.draw(null);
+        this.lastDrawSource = null;
     }
 
     /**
@@ -1274,7 +1297,6 @@ export class CanvasImageSequence {
         }
 
         this.lastDrawSource = imageSource;
-
 
         // Add this to the draw queue so everything is rendered.
         // This image needs to be registered to the queue PRIOR to creating the
@@ -1512,7 +1534,7 @@ export class CanvasImageSequence {
      * not needed in the draw queue.
      */
     collectImageGarbage() {
-        if(this.storeAllImagesInMemory) {
+        if (this.storeAllImagesInMemory) {
             return;
         }
 
@@ -1615,7 +1637,7 @@ export class CanvasImageSequence {
         this.imageLoader && this.imageLoader.dispose();
         this.element = null;
         for (var key in this.imageCache) {
-            if(this.imageCache[key]) {
+            if (this.imageCache[key]) {
                 if (this.imageCache[key].close) {
                     this.imageCache[key].close();
                 } else {
