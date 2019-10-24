@@ -722,8 +722,8 @@ export class CanvasImageSequence {
             callback: () => {
                 this.resize();
 
-                // Rerender the last known image.
                 this.flush(); // Make a empty call to clear the memoize cache.
+                // Rerender the last known image.
                 this.lastRenderSource && this.draw(this.lastRenderSource);
             },
             id: 'resize',
@@ -744,8 +744,7 @@ export class CanvasImageSequence {
                     this.loadNewSet(this.imageSets);
                     // Autoload the content.
                     this.load().then(() => {
-                        this.collectImageGarbage();
-                        this.drawQueue = []; // Ensure draw clear is clear.
+                        this.flushDrawQueue();
                         this.renderByProgress(this.progress || 0);
                     })
                 }
@@ -1208,6 +1207,12 @@ export class CanvasImageSequence {
         this.lastDrawSource = null;
     }
 
+    private flushDrawQueue() {
+        this.collectImageGarbage();
+        this.drawQueue = [];
+        this.lastDrawSource = null;
+    }
+
     /**
      * Draws a rectangle on the canvas.
      */
@@ -1626,6 +1631,19 @@ export class CanvasImageSequence {
         this.rafTimer && this.rafTimer.pause();
         this.rafTimer && this.rafTimer.dispose();
         this.playDefer && this.playDefer!.resolve();
+    }
+
+
+    /**
+     * Returns the image dimension that were fetched.  This is based
+     * on the "first" image in the sequence.
+     * The sizes will benull if called prior to loading images.
+     */
+    getImageSize():Object {
+        return {
+            width: this.imageNaturalWidth,
+            height: this.imageNaturalHeight,
+        }
     }
 
     dispose() {
