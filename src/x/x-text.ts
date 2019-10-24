@@ -1,6 +1,6 @@
 import { func } from '../func/func';
 import { XGameObject, XGameObjectConfig } from './x-game-object';
-import { xOffScreenCanvas } from './x-offscreen-canvas';
+import { XOffScreenCanvas } from './x-offscreen-canvas';
 
 
 interface XTextConfig extends XGameObjectConfig {
@@ -22,6 +22,7 @@ export class XText extends XGameObject {
     private fillStyle: string;
     private textBaseline: CanvasTextBaseline;
     private textAlign: CanvasTextAlign;
+    private offScreenCanvas: XOffScreenCanvas;
 
     constructor(config: XTextConfig) {
         super(config);
@@ -30,6 +31,7 @@ export class XText extends XGameObject {
         this.textAlign = func.setDefault(config.textAlign, 'left');
         this.fillStyle = func.setDefault(config.fillStyle, 'red');
         this.textBaseline = func.setDefault(config.textBaseline, 'top');
+        this.offScreenCanvas = new XOffScreenCanvas();
     }
 
     /**
@@ -38,10 +40,10 @@ export class XText extends XGameObject {
      */
     get width(): number {
         let width = 0;
-        xOffScreenCanvas.context.font = this.font;
-        xOffScreenCanvas.context.textAlign = this.textAlign;
-        xOffScreenCanvas.context.textBaseline = this.textBaseline;
-        width = xOffScreenCanvas.context.measureText(this.text).width;
+        this.offScreenCanvas.context.font = this.font;
+        this.offScreenCanvas.context.textAlign = this.textAlign;
+        this.offScreenCanvas.context.textBaseline = this.textBaseline;
+        width = this.offScreenCanvas.context.measureText(this.text).width;
         return width || 0;
     }
 
@@ -54,10 +56,10 @@ export class XText extends XGameObject {
      */
     get height(): number {
         let height = 0;
-        xOffScreenCanvas.context.font = this.font;
-        xOffScreenCanvas.context.textAlign = this.textAlign;
-        xOffScreenCanvas.context.textBaseline = this.textBaseline;
-        let width = xOffScreenCanvas.context.measureText('w').width
+        this.offScreenCanvas.context.font = this.font;
+        this.offScreenCanvas.context.textAlign = this.textAlign;
+        this.offScreenCanvas.context.textBaseline = this.textBaseline;
+        let width = this.offScreenCanvas.context.measureText('w').width
         return width * 1.2;
     }
 

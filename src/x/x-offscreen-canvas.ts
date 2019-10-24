@@ -22,5 +22,3 @@ export class XOffScreenCanvas {
         this.canvas.height = 1000 * this.dpr;
     }
 }
-
-export const xOffScreenCanvas = new XOffScreenCanvas();

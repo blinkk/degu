@@ -98,7 +98,7 @@ export class ImageLoader {
      * ```
      * @param value
      */
-    setLoadCallback(callback:Function) {
+    setLoadCallback(callback: Function) {
         this.onEachImageLoaded = callback;
     }
 
@@ -106,7 +106,7 @@ export class ImageLoader {
     /**
      * Gets the internal cached images.
      */
-    getImages():Object {
+    getImages(): Object {
         return this.images;
     }
 
@@ -137,6 +137,83 @@ export class ImageLoader {
 
 
     /**
+     * Pings / Fetches all images.   This can be used as an alternative
+     * to load().  Unlike load that ends up storing ImageBitmap or images
+     * in memory (resulting in higher RAM usage),
+     * this will simply make an XHR request so the response is
+     * help in browser cache.
+     *
+     * Once cached, you can pair this with dom.fetchAndMakeImage and dom.deleteImage
+     * to give you better control of releasing image memory from RAM.
+     *
+     * ```
+     *  const myImages = [
+     *  'http://mydomain.com/dog.png',
+     *  'http://mydomain.com/cat.png'
+     *  'http://mydomain.com/cow.jpg'
+     * ];
+     *  const imageLoader = new ImageLoader();
+     *
+     *  // Ping images.
+     * await results = myImageLoader.ping();
+     *
+     * // Images have been fetched and are in browser memory.
+     * // You can construct it now.
+     * const image = dom.fetchAndMakeImage(results[0]);
+     *
+     * // Do something with the image.
+     * canvas.drawImage(image);
+     *
+     * // Now manually delete it when you don't need it.
+     * dom.deleteImage(image);
+     *
+     *
+     *
+     * ```
+     *
+     * @param source
+     * @param retryCount
+     */
+    ping(): Promise<Array<string>> {
+        return new Promise(resolve => {
+            const promises = this.imageSources.map((source) => {
+                return this.pingSource(source);
+            })
+
+            Promise.all(promises).then(() => {
+                resolve(this.imageSources);
+            })
+        });
+    }
+
+
+    /**
+     * Only fetches images without generating it.
+     * This is useful for cases in which you want to
+     * "preload" images into the browser cache but not hold the image data in
+     * memory.
+     */
+    pingSource(source: string, retryCount: number = 0): Promise<string> {
+        return new Promise(resolve => {
+            fetch(source)
+                .then((response) => {
+                    // If status was not okay retry.
+                    if (!response.ok) {
+                        retryCount++;
+                        if (retryCount >= this.maxRetries) {
+                            resolve();
+                        } else {
+                            this.pingSource(source, retryCount);
+                        }
+                    } else {
+                        resolve(source);
+                    }
+                })
+        });
+    }
+
+
+    /**
      * Fetches and creates an image element when successful.
      * @param source The image source
      * @param retryCount The current retry count.
@@ -159,35 +236,54 @@ export class ImageLoader {
                 .then((response) => {
                     const blob = response;
                     const img = document.createElement('img');
-                    if (this.decodeAfterFetch && 'decode' in img) {
-                        img.src = URL.createObjectURL(blob);
-                        img.decoding = 'async';
-                        img.decode().then(() => {
-                            this.images[source] = img;
-                            this.onEachImageLoaded && this.onEachImageLoaded(source, img);
-                            resolve();
-                        }).catch((error) => {
-                            // console.log('error', Error);
-                            // throw new Error(error);
-                            // Usually when there is an error thrown it's
-                            // because this image couldn't be decoded
-                            // in a regular manner so we fall back again
-                            // to loading it normally.
-                            img.onload = () => {
-                                this.images[source] = img;
-                                this.onEachImageLoaded && this.onEachImageLoaded(source, img);
-                                resolve();
-                            }
-                            img.src = URL.createObjectURL(blob);
-                        })
-                    } else {
-                        img.onload = () => {
-                            this.images[source] = img;
-                            this.onEachImageLoaded && this.onEachImageLoaded(source, img);
-                            resolve();
-                        }
-                        img.src = URL.createObjectURL(blob);
+
+                    img.onload = () => {
+                        this.images[source] = img;
+                        this.onEachImageLoaded && this.onEachImageLoaded(source, img);
+                        resolve();
                     }
+                    img.src = URL.createObjectURL(blob);
+
+
+                    //
+                    // Disabled for now since we want to avoid using image.decode()
+                    // which causes memory pressure.
+                    //
+                    // Currently as far as I can observe, calling image.decode()
+                    // add this the decoded data to native memory but later
+                    // there isn't a way to release that.
+                    // Therefore, decode() is not preferred since it adds
+                    // to native memory and can't be released.
+                    //
+                    // if (this.decodeAfterFetch && 'decode' in img) {
+                    //     img.src = URL.createObjectURL(blob);
+                    //     img.decoding = 'async';
+                    //     img.decode().then(() => {
+                    //         this.images[source] = img;
+                    //         this.onEachImageLoaded && this.onEachImageLoaded(source, img);
+                    //         resolve();
+                    //     }).catch((error) => {
+                    //         // console.log('error', Error);, then later,
+                    //         // throw new Error(error);
+                    //         // Usually when there is an error thrown it's
+                    //         // because this image couldn't be decoded
+                    //         // in a regular manner so we fall back again
+                    //         // to loading it normally.
+                    //         img.onload = () => {
+                    //             this.images[source] = img;
+                    //             this.onEachImageLoaded && this.onEachImageLoaded(source, img);
+                    //             resolve();
+                    //         }
+                    //         img.src = URL.createObjectURL(blob);
+                    //     })
+                    // } else {
+                    //     img.onload = () => {
+                    //         this.images[source] = img;
+                    //         this.onEachImageLoaded && this.onEachImageLoaded(source, img);
+                    //         resolve();
+                    //     }
+                    //     img.src = URL.createObjectURL(blob);
+                    // }
 
                 });
 
@@ -218,10 +314,14 @@ export class ImageLoader {
      * canvas because they don't do image decoding on each draw.  However,
      * they are not fully supported across all browsers so use wisely.
      *
+     * Also note that at the current time usage of ImageBitmap seems to bloat the
+     * native memory that can't be released.
+     *
      * @see https://aerotwist.com/blog/the-hack-is-back/
      * @see https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap
      */
     fetchImageBitmap(source: string, retryCount: number = 0): Promise<void> {
+        console.log('fetch bitmap');
         return new Promise(resolve => {
             fetch(source)
                 .then((response) => {
@@ -259,15 +359,17 @@ export class ImageLoader {
 
     dispose() {
         for (var key in this.images) {
-            let image = this.images[key];
             // If we loaded bitmaps and we can dispose.
             // https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap/close
-            if (image.close) {
-                image.close();
+            if (this.images[key].close) {
+                this.images[key].close();
             } else {
                 // Dispose url.
-                URL.revokeObjectURL(image.src);
+                URL.revokeObjectURL(this.images[key]);
+                this.images[key] = null;
             }
         }
+
+        this.images = null;
     }
 }

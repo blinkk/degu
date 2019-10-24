@@ -419,4 +419,76 @@ export class dom {
     static getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
         return window.getComputedStyle(element);
     }
+
+
+    /**
+     * Creates an image in memory that is later deletable so it can
+     * be released from memory.
+     *
+     * This method can be paired with deleteImage.
+     *
+     * // This doesn't seem to fully release the image from native memory
+     * new Image();
+     * image.src = '';
+     * image.decode().then(()=> {
+     *   myCanvas.drawImage(image);
+     *   image = null;
+     * })
+     *
+     * if you do image.decode(), then later,
+     * image = null doesn't seem to alway clear it from native memory.
+     * https://bugs.webkit.org/show_bug.cgi?id=31253
+     *
+     *
+     * The solution is to use createObjectURL and later revoke that
+     * so memory can be released.
+     *
+     * ```
+     * const imageSource = '/public/image/cat.jpg';
+     * const loader = new ImageLoader([imagesource]);
+     *
+     * // Cache the image in browser memory.
+     * loader.ping().then(()=> {
+     *    const image = dom.fetchAndMakeImage(imageSource).then(()=> {
+     *
+     *       // Do something with image.
+     *       myCanvas.drawImage(image);
+     *
+     *       // Delete from memory.
+     *       dom.deleteImage(image);
+     *    })
+     * })
+     *
+     * ```
+     */
+    static fetchAndMakeImage(source: string): Promise<HTMLImageElement> {
+        return new Promise(resolve => {
+            fetch(source)
+            .then((response) => {
+                return response.blob();
+            })
+            .then((response) => {
+                const blob = response;
+                const img = document.createElement('img');
+                img.decoding = 'async';
+                img.onload = () => {
+                    resolve(img);
+                }
+                img.src = URL.createObjectURL(blob);
+            });
+        });
+    }
+
+
+    /**
+     * Deletes an image from memory.
+     */
+    static deleteImage(image: HTMLImageElement) {
+        if(image) {
+            if (image.src && image.src.startsWith('blob:')) {
+              URL.revokeObjectURL(image.src);
+            }
+            image = null;
+        }
+    }
 }

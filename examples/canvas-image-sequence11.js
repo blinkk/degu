@@ -1,5 +1,4 @@
 
-
 import {RafProgress, RAF_PROGRESS_EVENTS} from '../lib/raf/raf-progress';
 import {CanvasImageSequence} from '../lib/dom/canvas-image-sequence';
 
@@ -9,11 +8,12 @@ import {DomWatcher} from '../lib/dom/dom-watcher';
 
 
 /**
- * This sample demonstrates the fallback feature of CanvasIMageSequence.
+ * This sample show the most basic uses of CanvasImageSequence which is
+ * updated by the scroll position of a position sticky based container.
  */
-export default class CanvasImageSequenceSample6 {
+export default class CanvasImageSequenceSample11 {
   constructor() {
-    console.log('canvas image sequence6');
+    console.log('canvas image sequence');
     this.domWatcher = new DomWatcher();
 
     this.canvasContainerElement = document.querySelector('.canvas-container');
@@ -55,13 +55,9 @@ export default class CanvasImageSequenceSample6 {
         [{images: this.canvasImageSources}]
     );
 
-    // Set the first image as the fallback.
-    this.canvasImageSequence.setFallback(
-        // this.canvasImageSources[0],
-        'https://picsum.photos/id/700/400',
-        // Require 10000 mbsp just to demo the fallback feature.
-        100000
-    );
+    // Don't store image in memory to lowe RAM usage (but higher CPU)
+    this.canvasImageSequence.storeInMemory(false);
+
 
     // Load the iamges.
     this.canvasImageSequence.load().then(() => {

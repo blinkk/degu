@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Sequence test</title>
+  <script>
+
+    class App  {
+        constructor() {
+
+            this.range = document.getElementById('range');
+            this.canvasWrapperElement = document.getElementById('canvas-wrapper');
+            this.canvasElement = document.getElementById('canvas');
+            this.context = this.canvasElement.getContext('2d');
+            this.drp = window.devicePixelRatio;
+
+
+            const width = this.canvasWrapperElement.offsetWidth;
+            const height = this.canvasWrapperElement.offsetHeight;
+            this.canvasElement.style.width = width + 'px';
+            this.canvasElement.style.height = height + 'px';
+            this.context.scale(this.dpr, this.dpr);
+
+
+            this.canvasImageSources = [];
+            for (let i = 1; i <= 120; i++) {
+              let value = i + '';
+              value = value.padStart(4, '0');
+              this.canvasImageSources.push('/images/thumb' + value + '.jpg');
+            }
+
+            this.range.addEventListener('input', () => {
+                const targetFrame = this.lerp(0, this.canvasImageSources.length - 1, +this.range.value) >> 0;
+                this.drawFrame(targetFrame);
+            });
+        }
+
+        lerp(n1, n2, progress) {
+          return n1 + (n2 - n1) * progress;
+        }
+
+
+        drawFrame(number) {
+            let image = new Image();
+            const frameSource = this.canvasImageSources[number];
+            image.src = frameSource;
+            console.log(number);
+            image.decode().then(()=> {
+                console.log(image);
+                this.context.drawImage(image, 0, 0);
+                image = null;
+            })
+        }
+
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=> new App(), { once: true});
+
+  </script>
+</head>
+<body>
+  <h1>Image Sequence Test</h1>
+  <style>
+      .parent {
+          position: relative;
+          height: 800vh;
+      }
+      .child {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0px;
+          height: 100vh;
+          background-color: blue;
+      }
+      .container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+      }
+      .canvas-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 1000px;
+        width: 1000px;
+      }
+
+      canvas {
+          width: 100%;
+          height: 100%;
+      }
+  </style>
+
+  <input id="range" type="range" name="points" step="0.01" min="0" max="1" style="width: 500px;">
+  <div class="parent" id="parent">
+      <div class="child" id="child">
+        <div class="container">
+          <div class="canvas-container" id="canvas-wrapper">
+              <canvas id="canvas"></canvas>
+          </div>
+        </div>
+      </div>
+  </div>
+</body>
+</html>
