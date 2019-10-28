@@ -796,8 +796,10 @@ export class CanvasImageSequence {
         this.targetFrame = 0;
         this.containScale = null;
         this.disposed = false;
-        // Set FPS to 30 to limit computation.
-        this.fps = new Fps(30);
+        // Set FPS to 30 for Safari to limit computation.  Safari takes a lot
+        // more time to decode images so this prevents high CPU usage crashes
+        // in Safari.
+        this.fps = new Fps(is.safari() ? 30 : 60);
         this.cacheImage = new Image();
 
         this.rafTimer = null;
