@@ -25,9 +25,42 @@ import { time } from '../time/time';
  *        }
  *
  *    }
- *
  * }
  * ```
+ *
+ * The above works but it is a simple gating a call to run at a set rate.
+ * Here is a slightly more complex usage where you can "schedule" the last call.
+ *
+ * This will also draw at 30FPS but the difference is that it is debounced
+ * so your very last call to draw is guaranteed to run when the drawing stops.
+ *
+ * ```ts
+ *
+ * class myClass {
+ *    contructor() {
+ *       this.fps = new Fps(30);
+ *       this.index = 0;
+ *       draw(1);
+ *       draw(2);
+ *       draw(3);  // This last one gets executed in this example.
+ *    }
+ *
+ *    draw(index) {
+ *        // If this call came too quickly between 30FPS, schedule it to run.
+ *        if(!this.fps.canRun()) {
+ *          this.fps.schedule(()=> {
+ *             this.draw(index);
+ *          });
+ *          return;
+ *        }
+ *
+ *        // Do something expensive here.
+ *    }
+ * }
+ * ```
+ *
+ *
+ *
  */
 export class Fps {
 
@@ -47,6 +80,12 @@ export class Fps {
      * The time measurement used to measure internal fps.
      */
     private lastUpdateTime: number;
+
+    /**
+     * A timeout that is used for scheduling.
+     */
+    private scheduleTimeout: number;
+
 
     constructor(fps:number) {
         this.fps = fps;
@@ -93,6 +132,28 @@ export class Fps {
         this.locked = lock;
     }
 
+    /**
+     * Schedules a callback to force run after a set period.
+     */
+    schedule(callback:Function) {
+        this.cancelSchedule();
+        this.scheduleTimeout = window.setTimeout(()=> {
+            this.locked = false;
+            callback();
+            this.locked = true;
+        }, 1000 / this.fps + 1);
+    }
+
+
+    /**
+     * Clears the schdule timeout.
+     */
+    cancelSchedule() {
+        if(this.scheduleTimeout) {
+            window.clearTimeout(this.scheduleTimeout);
+        }
+    }
+
 
     /**
      * Checks the lastUpdateTime and checks if it is within the threshold
@@ -100,8 +161,10 @@ export class Fps {
      * to run but return false a call should be culled.
      */
     canRun():boolean {
+        this.cancelSchedule();
+
         // If the FPS is unlocked always return true.
-        if(!this.locked) {
+        if (!this.locked) {
             return true;
         }
 

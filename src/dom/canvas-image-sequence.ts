@@ -864,6 +864,10 @@ export class CanvasImageSequence {
         // The previously rendered image source.
         this.lastRenderSource = null;
         this.lastDrawSource = null;
+
+        // Cull unncessary update
+        this.draw =
+            func.runOnceOnChange(this.draw.bind(this));
     }
 
 
@@ -1299,6 +1303,12 @@ export class CanvasImageSequence {
 
         // If this was called at a rate exceeding the fps limit.
         if(!this.fps.canRun()) {
+            this.fps.schedule(()=> {
+                // Force a draw.  This ensures that even with FPS limiting,
+                // the very last draw call is always rendered.
+                this.lastDrawSource = null;
+                this.draw(imageSource);
+            })
             return;
         }
 
