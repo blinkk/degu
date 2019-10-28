@@ -32,7 +32,7 @@ import { time } from '../time/time';
  * Here is a slightly more complex usage where you can "schedule" the last call.
  *
  * This will also draw at 30FPS but the difference is that it is debounced
- * so your very last call to draw is guaranteed to run when the drawing stops.
+ * so your very last call to draw is guaranteed to run when the drawing goes idle.
  *
  * ```ts
  *
