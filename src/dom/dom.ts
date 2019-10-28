@@ -155,7 +155,7 @@ export class dom {
      */
     static addStyles(element: HTMLElement, styles: Object) {
         for (var key in styles) {
-            if(key.startsWith('--')) {
+            if (key.startsWith('--')) {
                 dom.setCssVariable(element, key, styles[key]);
             }
         }
@@ -208,7 +208,7 @@ export class dom {
     static resetAllVideosInElement(element: HTMLElement) {
         let videos = [...element.querySelectorAll('video')];
         videos.forEach((video) => {
-           video.currentTime = 0;
+            video.currentTime = 0;
         });
     }
 
@@ -423,20 +423,31 @@ export class dom {
 
     /**
      * Creates an image in memory that is later deletable so it can
-     * be released from memory.
+     * be released from native memory AND image cache.
      *
      * This method can be paired with deleteImage.
      *
-     * // This doesn't seem to fully release the image from native memory
+     * // Consider the following:
      * new Image();
-     * image.src = '';
+     * image.src = 'hohoho.jpg';
      * image.decode().then(()=> {
+     *   // Do something.
      *   myCanvas.drawImage(image);
      *   image = null;
      * })
      *
-     * if you do image.decode(), then later,
-     * image = null doesn't seem to alway clear it from native memory.
+     * This does appear to get GCed and removed from image cache but it is
+     * never flushed from native memory.
+     *
+     * You can observe this by going to Chrome -> Task manager.  Make sure
+     * you have the Memory and also the Image Cache columns.
+     *
+     * Theefore, usage of image.decode() for now, can lead to memory leaks that
+     * can't be cured with image=null.
+     *
+     * The same is observed with ImageBitmaps.
+     *
+     * Related.
      * https://bugs.webkit.org/show_bug.cgi?id=31253
      *
      *
@@ -448,8 +459,7 @@ export class dom {
      * const loader = new ImageLoader([imagesource]);
      *
      * // Cache the image in browser memory.
-     * loader.ping().then(()=> {
-     *    const image = dom.fetchAndMakeImage(imageSource).then(()=> {
+     *    dom.fetchAndMakeImage(imageSource).then(()=> {
      *
      *       // Do something with image.
      *       myCanvas.drawImage(image);
@@ -457,25 +467,81 @@ export class dom {
      *       // Delete from memory.
      *       dom.deleteImage(image);
      *    })
-     * })
      *
      * ```
      */
     static fetchAndMakeImage(source: string): Promise<HTMLImageElement> {
         return new Promise(resolve => {
             fetch(source)
-            .then((response) => {
-                return response.blob();
-            })
-            .then((response) => {
-                const blob = response;
+                .then((response) => {
+                    return response.blob();
+                })
+                .then((response) => {
+                    const blob = response;
+                    const img = document.createElement('img');
+                    img.decoding = 'async';
+                    img.onload = () => {
+                        resolve(img);
+                    }
+                    img.src = URL.createObjectURL(blob);
+                });
+        });
+    }
+
+
+    /**
+     * Makes images from a blob source.  Can be coupled with
+     * delete image to quickly release memory.
+     * @param blob
+     */
+    static makeImageFromBlob(blob: Blob): Promise<HTMLImageElement> {
+        return new Promise(resolve => {
+            const img = document.createElement('img');
+            img.decoding = 'async';
+            img.onload = () => {
+                img.onload = null;
+                resolve(img);
+            }
+            img.src = URL.createObjectURL(blob);
+        });
+    }
+
+
+    /**
+     * Makes an image from a blob source.  This is an alternative to
+     * URL.createObjectURL is to convert a Blob into a base64-encoded string.
+     *
+     *
+     * Return somethig like:
+     * <img src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAA">
+     *
+     * @param blob
+     */
+    static makeBase64ImageFromBlob(blob: Blob): Promise<HTMLImageElement> {
+        return new Promise(resolve => {
+            let reader = new FileReader();
+            reader.readAsDataURL(blob); // converts the blob to base64 and calls onload
+
+            reader.addEventListener("load", () => {
                 const img = document.createElement('img');
-                img.decoding = 'async';
+                img.src = reader.result as string;
                 img.onload = () => {
+                    img.onload = null;
                     resolve(img);
                 }
-                img.src = URL.createObjectURL(blob);
-            });
+            }, { once: true });
+        });
+    }
+
+
+    static copyBase64Image(image: HTMLImageElement): Promise<HTMLImageElement> {
+        return new Promise(resolve => {
+            const img = document.createElement('img');
+            img.src = image.src;
+            img.onload = () => {
+                img.onload = null;
+                resolve(img);
+            }
         });
     }
 
@@ -484,9 +550,11 @@ export class dom {
      * Deletes an image from memory.
      */
     static deleteImage(image: HTMLImageElement) {
-        if(image) {
-            if (image.src && image.src.startsWith('blob:')) {
-              URL.revokeObjectURL(image.src);
+        if (image) {
+            // Delete ObjectURLs or base64
+            if (image.src && (image.src.startsWith('blob:') || image.src.startsWith('data:'))) {
+                URL.revokeObjectURL(image.src);
+                image.src = '';
             }
             image = null;
         }

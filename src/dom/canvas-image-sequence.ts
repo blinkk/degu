@@ -3,24 +3,14 @@ import { dom } from '../dom/dom';
 import { is } from '../is/is';
 import { func } from '../func/func';
 import { Defer } from '../func/defer';
-import { ImageLoader } from '../loader/image-loader';
+import { BlobLoader } from '../loader/blob-loader';
 import { mathf } from '../mathf/mathf';
 import { DomWatcher } from '../dom/dom-watcher';
 import { MultiInterpolate, rangedProgress, interpolateSettings } from '../interpolate/multi-interpolate';
 import { RafTimer } from '../raf/raf-timer';
+import { Fps } from '../time/fps';
 import { domCanvas } from '../dom/dom-canvas';
 import { Vector } from '../mathf/vector';
-
-export interface CanvasImageSequenceDrawQueueItem {
-    /**
-     * The image source.
-     */
-    source: string,
-    /**
-     * The draw call.  This is the draw to the canvas element.
-     */
-    callback: Function | null
-}
 
 export interface CanvasImageSequenceImageSet {
     /**
@@ -249,6 +239,7 @@ interface rectConfig {
  *   },
  *   is.ipad() : 1 : undefined // Force dpr 1 on ipad that has less memory.
  * );
+ *
  * // Loads the images.
  * canvasImageSequence.load();
  *
@@ -282,26 +273,6 @@ interface rectConfig {
  *
  * ```
  *
- * ### Managing Memory.
- * This type of image sequence can be very memory heavy.  A trade off between
- * rendering and memory has to be considered.
- *
- * By default, CanvasImageSequence will fetch the images and store all images
- * as image cache and only release them when dispose is called.  This means
- * that your image-cache can become pretty large as all images are stored
- * in cache.  (You can view this by going to Chrome -> task manager and seeing
- * the image cache section).
- *
- * You can opt out of this setting by running:
- *
- * ```
- * canvasImageSequence.storeInMemory(false);
- * ```
- * In this mode, images are first fetched via XHR.  Then on each draw call,
- * the image is fetched from the browser cache and then decoded and drawn
- * to screen.  Once the image is determined to not be needed anymore, it
- * gets released from memory.  In this mode, the imageCache will not usually
- * climb to more than a few images as it gets released from memory quickly.
  *
  * ### ImageBitmap support
  * For browsers supporting ImageBitmaps (https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap)
@@ -489,11 +460,11 @@ interface rectConfig {
  *   }]
  * );
  *
- * ````
+ * ```
  *
  * Can I have imageSets for only desktop or mobile?  Yes you can!
  *
- * ```
+ * ```ts
  *  let canvasImageSequence = new CanvasImageSequence(
  *   document.querySelector('.my-element'),
  *   [
@@ -507,6 +478,149 @@ interface rectConfig {
  * Here we specify canvasImageSequence with an imageSet for only mobile.  This
  * means the images will only load on mobile and canvasImageSequence won't
  * do anything on desktop (nothing will show since there are no images).
+ *
+ *
+ *
+ * ############# Dev Notes ####################
+ *
+ * # Memory management (dev notes)
+ * When working on this class, you have to be very careful about memory management
+ * since we are dealing with a lot of images.
+ *
+ * There is native memory and image cache that need to be particularly looked at.
+ * You can go to Chrome -> Task manager and monitor the usage.
+ * Make sure to enable the memory footprint and image cache columns.
+ *
+ * For Safari, the best place is to open Activity Monitor. Open safari and
+ * open the site.  Within Activity Monitor, look for your process (it will be the
+ * name of the page).  Double click on it to get real memory usage.  You can
+ * also use the Safari WebTools memory and CPU profile.
+ *
+ *
+ * 1) image.decode() and ImageBitmaps
+ * If you run image.decode() or load ImageBitmaps, this data appears to get stored
+ * over in native memory.  canvas.drawImage stores in image cache which is
+ * separate.
+ *
+ * The issue is the when you run image.decode() or use ImageBitmaps, the native
+ * memory space they occupy, won't get flushed.  It seems to get flushed only
+ * when the canvas or document is unloaded.
+ *
+ * For example:
+ *
+ * ```
+ * const image = new Image();
+ * image.src = 'hohoho.jpg';
+ * image.decode(()=> { // This pushes it to native memory.
+ *   image = null; // This won't get removed even with GC.
+ * })
+ * ```
+ *
+ * This removes the reference to the image but even with GC won't flush the native
+ * memory.
+ *
+ * It's best to avoid this and instead just load images normally OR
+ * use ObjectUrl to make a local blob.
+ *
+ *
+ * 2) Problem 2
+ * canvas.drawImage(image) memory issues and also Safari DataURI (base64)
+ *
+ * canvas.drawImage, essentially copies the decoded image data over to the image cache.
+ * Therefore, even doing:
+ *
+ * ```
+ * canvas.drawImage(image);  // decoded copy stored to image cache.
+ * canvas.drawImage(image);  // decoded copy stored to image cache
+ * canvas.drawImage(image);  // decoded copy stored to image cache.
+ * ```
+ * Quickly results in the imageCache growing.  While this is usually fine since
+ * the image cache gets cleared pretty quickly, with a class like this, if you have
+ * 100 images, that cache with that data decoded ends up being very large.
+ *
+ * To avoid this, you need to delete the image from reference.
+ *
+ * ```
+ * canvas.drawImage(image);  // decoded copy stored to image cache.
+ * image.src = null; // reference removed.  image cache gets cleared.
+ * image = null;
+ * ```
+ *
+ * This essentially means, that if we don't want the image cache to grow, we
+ * need to delete the image that was just drawn after the draw call.
+ *
+ *
+ * 3) Problem 3
+ * Safari Canvas Issues:
+ * Note that Safari also has some issues with memory management.
+ * In general, Safari doesn't do a great job offloading base64 images from cache.
+ *
+ * The best way to manage is:
+ * 1) don't use base64Images and draw to canvas (since Safari doesn't release memory)
+ * 2) delete image data to offload memory after drawImage calls.
+ *
+ *
+ * Overall best practice:
+ * The solution take to avoid these problems are:
+ * - don't use image.decode()
+ * - don't use ImageBitmaps
+ * - don't use base64uri image Safari can't offload them.
+ * - always remove the image after using drawImage().  Best way to do this is
+ *   to use a temporary image and assign it a local objectURI.
+ * - when you resize a canvas it clears it out.  You need to resize with smartResize
+ *   to avoid flashes on ios mobile where the document height changes as you resize
+ *   firing resize events.
+ *
+ *
+ * Approach to solving the above:
+ * 1) Make XHR calls to all image urls and save the blobs in memory (blobCache).
+ * 2) Create a single cacheImage (Image) that will temporarily hold data while it gets
+ *    drawn to canvas (cacheImage)
+ * 3) On each draw call, use ObjectURIs to locally generate a temporary blob image.
+ *    Set that to the cacheImage then canvas.drawImage(cacheImage) and following that
+ *    then revoke the ObjectURI (to release it from memory).
+ *
+ * This can be roughly illustrated as:
+ * ```ts
+ *
+ * this.blobCache = xxx.getBlobsDataFromServer();
+ *
+ * // Create an image that will temporarily hold data.
+ * this.cacheImage = new Image();
+ *
+ * draw(source) {
+ *
+ *   img.onload = () => {
+ *     this.drawImage(this.cacheImage);
+ *     // Remove it from memory.
+ *     URL.revokeObjectURL(image.src);
+ *   }
+ *
+ *    // Create a local objectURI and apply it as the image source.
+ *    this.cacheImage.src = URL.createObjectURL(this.blobCache[source]);
+ * }
+ *
+ * dispose() {
+ *   // Delete all blobs help in memory.
+ *   this.blobCache = null;
+ * }
+ *
+ * ```
+ *
+ * With the solution above, generally, the encoded size of all images are stored
+ * in native memory + one decoded image in memory cache at any given time.  If you
+ * are working with pngs, this can still mean a huge memory hoge so watch out.
+ *
+ *
+ * 4) FPS - ipad CPU
+ * Since we need to decode per drawFrame, this has a higher CPU cost.
+ *
+ * To lower the CPU usage, internally we manage an fps rate limiter.
+ * This is set to 30, which is the maximum we really need to get a smooth
+ * perceived animation.
+ *
+ *
+ *
  *
  *
  * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
@@ -538,9 +652,9 @@ export class CanvasImageSequence {
     private activeImageSet: CanvasImageSequenceImageSet | null;
 
     /**
-     * Internal instance of ImageLoader.
+     * Internal instance of BlobLoader.
      */
-    private imageLoader: ImageLoader | null;
+    private blobLoader: BlobLoader | null;
 
     /**
      * A deferred promised that completes when all images have been loaded.
@@ -548,11 +662,11 @@ export class CanvasImageSequence {
     private readyPromise: Defer;
     private domWatcher: DomWatcher;
 
-
     /**
-     * The storeImagesInMemory is used, images are stored to this dictionary..
+     * Blobs are stored to this dictionary.  These are
+     * held in memory.
      */
-    private imageCache: Object;
+    private blobCache: Object;
 
     /**
      * The current frame that is rendered on the screen.
@@ -606,14 +720,19 @@ export class CanvasImageSequence {
     private containScale: number | null;
 
     /**
+     * An fps rate limiter.
+     */
+    private fps: Fps;
+
+    /**
      *  The previously rendered image source.
      */
     private lastRenderSource: string | null;
 
     /**
-     *  The last draw call image source.
+     *  The last known request to draw an specific image.
      */
-    private lastDrawSource: string | null;
+    private lastFrame: number | null;
 
     private multiInterpolate: MultiInterpolate | null;
 
@@ -628,45 +747,22 @@ export class CanvasImageSequence {
     private clipPathType: string | null;
 
     /**
-     * Whether to use BitmapImage if possible.  This helps with loading
-     * faster since it is already decoded but turning this to false,
-     * will load an image normally.  Defaults to false.
-     */
-    private useBitmapImageIfPossible: boolean;
-
-    /**
-     * A drawing queue.
-     */
-    private drawQueue: Array<CanvasImageSequenceDrawQueueItem> = [];
-
-
-    /**
      * Sizing options for CanvasImageSequence.
      */
     private sizingOptions: CanvasImageSequenceSizingOptions | undefined;
-
-    /**
-     * Whether images should be store in memory.
-     */
-    private storeAllImagesInMemory: boolean;
 
     /**
      * Whether the instance has been disposed or not.
      */
     private disposed: boolean;
 
-
-    /**
-     * Internal counts to ensure drawQueue system isn't creating detached images
-     * that are leading to memory leaks.
-     */
-    private createCount: number;
-    private deleteCount: number;
+    private cacheImage: HTMLImageElement;
 
     constructor(element: HTMLElement,
         imageSets: Array<CanvasImageSequenceImageSet>,
         sizingOptions?: CanvasImageSequenceSizingOptions,
         dpr?: number) {
+
 
         this.element = element;
         if (!element) {
@@ -677,18 +773,14 @@ export class CanvasImageSequence {
             throw new Error(canvasImageSequenceErrors.NO_IMAGE_SETS);
         }
 
-
         this.imageSets = imageSets;
         this.activeImageSet = null;
-        this.imageCache = {};
+        this.blobCache = {};
 
         this.sizingOptions = sizingOptions;
 
-        // Default mode for canvas-image-sequence is to store data in memory.
-        this.storeAllImagesInMemory = true;
-
         this.isPlaying = false;
-        this.useBitmapImageIfPossible = false;
+        // this.useBitmapImageIfPossible = false;
 
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
@@ -699,26 +791,28 @@ export class CanvasImageSequence {
         this.imageNaturalHeight = 0;
         this.imageNaturalWidth = 0;
         this.currentFrame = 0;
+        this.lastFrame = null;
         this.targetFrame = 0;
         this.containScale = null;
         this.disposed = false;
+        // Set FPS to 30 to limit computation.
+        this.fps = new Fps(30);
+        this.cacheImage = new Image();
 
         this.rafTimer = null;
         this.multiInterpolate = null;
         this.clipMultiInterpolate = null;
         this.clipPathType = null;
-        this.imageLoader = null;
+        this.blobLoader = null;
         this.progress = null;
-
-        this.createCount = 0;
-        this.deleteCount = 0;
-
         this.playDefer = null;
 
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             element: window,
-            on: 'resize',
+            // Ensure we use smart resize here because resizing canvas will make
+            // it flash (due to clearing the canvas).
+            on: 'smartResize',
             callback: () => {
                 this.resize();
 
@@ -729,6 +823,7 @@ export class CanvasImageSequence {
             id: 'resize',
             eventOptions: { passive: true }
         });
+
         this.resize();
         this.domWatcher.run('resize');
 
@@ -744,7 +839,8 @@ export class CanvasImageSequence {
                     this.loadNewSet(this.imageSets);
                     // Autoload the content.
                     this.load().then(() => {
-                        this.flushDrawQueue();
+                        // Set last frame to null to allow redrawing.
+                        this.lastFrame = null;
                         this.renderByProgress(this.progress || 0);
                     })
                 }
@@ -761,59 +857,10 @@ export class CanvasImageSequence {
 
         // The previously rendered image source.
         this.lastRenderSource = null;
-        this.lastDrawSource = null;
 
-         // Cull unncessary update
-         this.draw =
-           func.runOnceOnChange(this.draw.bind(this));
-    }
-
-    /**
-     * Sets the internal images and resolves the readyPromise.  This is useful
-     * for rare cases in which you want to use canvas-image-sequence with images
-     * that have already loaded (perhaps in a different module) and way to bypass
-     * the internal loading mechanism and set the images yourself.
-     *
-     * This only works if you opted to store images in memory.
-     *
-     * Usage:
-     * ```ts
-     *
-     *
-     * let canvasImageSequence = new CanvasImageSequence(
-     *   document.querySelector('.my-element'),
-     *   [] // Just pass an empty array.
-     * );
-     *
-     * // Set the images instead of loading
-     * canvasImageSequence.setImages({
-     *   'hohoho.jpg': document.getElementById('#hohohoImage')
-     * });
-     *
-     * ```
-     */
-    setImages(images: Array<HTMLImageElement>) {
-        if (this.storeAllImagesInMemory) {
-            this.imageCache = images;
-            this.setImageDimensions();
-        }
-        return this.readyPromise.resolve(this.imageCache);
-    }
-
-
-    /**
-     * Gets the internally stored images.  This could be empty if you haven't
-     * loaded images yet or if you have disabled internal image caching.
-     */
-    getImageCache(): Object {
-        return this.imageCache;
-    }
-
-    /**
-     * Alias of getImageCache.  Here for backwards compatability
-     */
-    getImages(): Object {
-        return this.imageCache;
+        // Cull unncessary update
+        this.draw =
+            func.runOnceOnChange(this.draw.bind(this));
     }
 
 
@@ -846,40 +893,8 @@ export class CanvasImageSequence {
                 }
             ]
         })
-
     }
 
-    /**
-     * Stores decoded image data in memory for quick access and rendering.
-     * By default, in page memory is enabled but this can result in high RAM usage
-     * with the payoff of lower CPU usage.
-     *
-     * You can turn off in-page memory by this to false prior to the load call.
-     * ```
-     * canvasImageSequence.storeInMemory(false);
-     * canvasImageSequence.load();
-     * ```
-     * and on each draw cycle, canvasImageSequence will now fetch images from
-     * in-browser cache but will have to decode the image prior to drawing
-     * resulting in lower RAM but higher CPU usage.
-     */
-    storeInMemory(value: boolean) {
-        this.storeAllImagesInMemory = value;
-    }
-
-
-    /**
-     * Sets whether to try to load bitmapImages if possible.  BitmapImages
-     * are faster but you can optionally turn this off.  Note that
-     * bitMapImages are not supported in browsers like Safari
-     * and calling this method will only affect browers like
-     * Chrome that support BitmapImages.  By default this is already turned
-     * off.
-     * @experimental
-     */
-    useBitmapImages(value: boolean) {
-        this.useBitmapImageIfPossible = value;
-    }
 
 
     resize() {
@@ -903,9 +918,8 @@ export class CanvasImageSequence {
      * Starts loading the images.
      */
     load(): Promise<any> {
-
         // If there is no matching imageSet there is nothing to load.
-        if (!this.imageLoader || !this.activeImageSet) {
+        if (!this.blobLoader || !this.activeImageSet) {
             // Defer resolution.
             window.setTimeout(() => {
                 this.readyPromise.resolve();
@@ -913,27 +927,18 @@ export class CanvasImageSequence {
             return this.readyPromise.getPromise();
         }
 
-        let loadAllImages = () => {
-            let loadMethod = this.useBitmapImageIfPossible ?
-                this.imageLoader!.loadBitmapOrImage :
-                this.imageLoader!.load;
-
-            if (!this.storeAllImagesInMemory) {
-                loadMethod = this.imageLoader!.ping;
-            }
-
-
-            loadMethod.apply(this.imageLoader!).then((results: any) => {
-                if (this.storeAllImagesInMemory) {
-                    this.imageCache = results;
-                }
+        let loadAllBlobs = () => {
+            this.blobLoader.load().then((results) => {
+                this.blobCache = results;
                 this.setImageDimensions().then(() => {
+                    this.blobLoader.dispose();
                     this.readyPromise.resolve(results);
                 });
             })
+
         }
 
-        loadAllImages();
+        loadAllBlobs();
 
         return this.readyPromise.getPromise();
     }
@@ -946,7 +951,7 @@ export class CanvasImageSequence {
      */
     loadNewSet(imageSets: Array<CanvasImageSequenceImageSet>) {
         // Release memory of current set.
-        this.imageLoader && this.imageLoader.dispose();
+        this.blobLoader && this.blobLoader.dispose();
 
         // Save the image sources.
         this.imageSets = imageSets;
@@ -958,16 +963,13 @@ export class CanvasImageSequence {
 
         // Set the active image set if one is available.
         if (this.activeImageSet) {
-            this.imageLoader = new ImageLoader(this.activeImageSet.images);
-            this.imageLoader.setDecodeAfterFetch(true);
+            this.blobLoader = new BlobLoader(this.activeImageSet.images);
         } else {
-            this.imageLoader = null;
+            this.blobLoader = null;
         }
 
-        this.imageCache = {};
+        this.blobCache = {};
         this.flush();
-        this.collectImageGarbage();
-        this.drawQueue = [];
         this.lastRenderSource = null;
         // Reset the readyPromise.
         this.readyPromise = new Defer();
@@ -991,39 +993,29 @@ export class CanvasImageSequence {
                 source.when() && matchingSouces.push(source);
             }
         })
-
         return matchingSouces[0];
     }
 
+
     /**
-     * Gets or makes an image.
+     * Makes a deletable image clone.
      */
-    getImage(source: string): Promise<HTMLImageElement> {
+    makeImage(source: string): Promise<HTMLImageElement | null> {
         return new Promise(resolve => {
-            // if (this.imageCache && this.imageCache.hasOwnProperty(source)) {
-            if (this.imageCache && this.imageCache[source]) {
-                resolve(this.imageCache[source]);
-            } else {
-                dom.fetchAndMakeImage(source).then((image) => {
-                    this.createCount++;
-                    // Save it to the image cache.
-                    this.imageCache[source] = image;
-                    resolve(image);
-                })
+            if (!source || !this.blobCache[source]) {
+                resolve(null);
+                return;
             }
+
+            // Remove the objectURL Blob from locale cache.
+            URL.revokeObjectURL(this.cacheImage.src);
+            this.cacheImage.onload = () => {
+               resolve(this.cacheImage);
+            }
+
+            // Create a new temporary ObjectURl to store.
+            this.cacheImage.src = URL.createObjectURL(this.blobCache[source]);
         });
-    }
-
-
-
-
-    // Deletes an image if we are not don't allow in page memory storage.
-    deleteImage(image: HTMLImageElement, source: string) {
-        if (!this.storeAllImagesInMemory && image) {
-            this.deleteCount++;
-            this.imageCache[source] = null;
-            dom.deleteImage(image);
-        }
     }
 
 
@@ -1033,18 +1025,22 @@ export class CanvasImageSequence {
      */
     private setImageDimensions(): Promise<void> {
         return new Promise(resolve => {
-            let source = this.activeImageSet.images[0];
+            const source = this.activeImageSet.images[0];
+            const blob = this.blobCache[source];
 
-            this.getImage(source).then((image) => {
+            // Generate an image from teh first blob.
+            dom.makeImageFromBlob(blob).then((image) => {
                 const bitMapsLoaded = !image.naturalWidth;
                 this.imageNaturalHeight =
                     bitMapsLoaded ? image.height : image.naturalHeight;
                 this.imageNaturalWidth =
                     bitMapsLoaded ? image.width : image.naturalWidth;
 
-                this.deleteImage(image, source);
+                // Release it from memory.
+                dom.deleteImage(image);
+                image = null;
                 resolve();
-            });
+            })
         });
     }
 
@@ -1163,10 +1159,16 @@ export class CanvasImageSequence {
      * @param i
      */
     private renderFrame(i: number) {
+
         // If images aren't loaded yet, skip drawing.
         if (!this.readyPromise.complete) {
             return;
         }
+
+        if (i == this.lastFrame) {
+            return;
+        }
+        this.lastFrame = i;
 
 
         this.targetFrame = i;
@@ -1204,13 +1206,6 @@ export class CanvasImageSequence {
     flush() {
         this.draw(''); // Make a empty call to clear the memoize cache.
         this.draw(null);
-        this.lastDrawSource = null;
-    }
-
-    private flushDrawQueue() {
-        this.collectImageGarbage();
-        this.drawQueue = [];
-        this.lastDrawSource = null;
     }
 
     /**
@@ -1290,35 +1285,27 @@ export class CanvasImageSequence {
         this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     }
 
+
+
     private async draw(imageSource: string | null) {
+
         // Prevent invalid draws
         if (!imageSource || this.disposed) {
             return;
         }
-        // Prevent unnecessary calls to the queue.
-        if (this.lastDrawSource == imageSource) {
+
+        // If this was called at a rate exceeding the fps limit.
+        if(!this.fps.canRun()) {
             return;
         }
 
-        this.lastDrawSource = imageSource;
+        let image = await this.makeImage(imageSource);
 
-        // Add this to the draw queue so everything is rendered.
-        // This image needs to be registered to the queue PRIOR to creating the
-        // image so the order is correctly maintained.
-        const queueItem: CanvasImageSequenceDrawQueueItem = {
-            source: imageSource,
-            callback: null
-        }
-        this.drawQueue.push(queueItem);
-
-        let image = await this.getImage(imageSource);
-        // Decoding images in this way, we see a huge memory jump.
+        // Decoding images in this way, we see a huge memory jump.  Avoid for now.
         // await image.decode();
 
-        // If an image couldn't be generated.
+        // If an image couldn't be generated for some reason.
         if (!image) {
-            // Remove from queue.
-            this.drawQueue = this.drawQueue.filter(item => item !== queueItem);
             return;
         }
 
@@ -1331,8 +1318,12 @@ export class CanvasImageSequence {
             height: this.canvasHeight,
         }
 
+        this.clear();
 
-        let drawCall = () => { };
+        if (!is.null(this.clipPathType)) {
+            this.applyCanvasClipping();
+            this.context.save();
+        }
 
         // Background "cover" sizing.
         // Defaults to center.
@@ -1366,30 +1357,12 @@ export class CanvasImageSequence {
                     (containerBox.height - (imageBox.height * cover.scalar)) * -this.sizingOptions.top;
             }
 
-            // Only delete this image if it is not in the queue
-            // further down the line and we don't need it.
-            drawCall = () => {
-                if (image) {
-                    this.clear();
-                    this.context.save();
-                    if (!is.null(this.clipPathType)) {
-                        this.applyCanvasClipping();
-                    }
-                    this.context.drawImage(
-                        image,
-                        -cover.xOffset >> 0, -cover.yOffset >> 0,
-                        imageBox.width * cover.scalar >> 0,
-                        imageBox.height * cover.scalar >> 0,
-                    );
-
-                    // Remove reference for memory release.
-                    this.deleteImage(image, imageSource);
-                    image = null;
-
-                    this.context.restore();
-                    this.lastRenderSource = imageSource;
-                }
-            }
+            this.context.drawImage(
+                image,
+                -cover.xOffset >> 0, -cover.yOffset >> 0,
+                imageBox.width * cover.scalar >> 0,
+                imageBox.height * cover.scalar >> 0,
+            );
 
         } else {
             // Default to contain sizing algo.
@@ -1470,96 +1443,23 @@ export class CanvasImageSequence {
                 }
             }
 
-            drawCall = () => {
-                if (image) {
-                    this.clear();
-                    this.context.save();
-                    if (!is.null(this.clipPathType)) {
-                        this.applyCanvasClipping();
-                    }
-                    this.context.drawImage(
-                        image,
-                        diffX >> 0, diffY >> 0,
-                        imageBox.width * this.containScale >> 0,
-                        imageBox.height * this.containScale >> 0,
-                    );
 
-                    // Remove reference for memory release.
-                    this.deleteImage(image, imageSource);
-                    image = null;
+            this.context.drawImage(
+                image,
+                diffX >> 0, diffY >> 0,
+                imageBox.width * this.containScale >> 0,
+                imageBox.height * this.containScale >> 0,
+            );
 
-                    this.context.restore();
-                    this.lastRenderSource = imageSource;
-                }
-            }
         }
 
-
-        // Now update the drawQueue so that this gets drawn.
-        this.drawQueue.forEach((queueItem: any) => {
-            if (queueItem.source == imageSource) {
-                queueItem.callback = drawCall;
-            }
-        })
-
-        this.renderDrawQueue();
-    }
-
-    /**
-     * Continually tries to draw draw o
-     */
-    renderDrawQueue() {
-        if (this.drawQueue.length >= 1) {
-            const queueItem = this.drawQueue[0];
-            // If the callback is set, it is ready to be drawn.
-            if (queueItem.callback) {
-                window.setTimeout(() => {
-                    // Draw it.
-                    queueItem.callback();
-
-                    // Remove this item from the queue now.
-                    this.drawQueue.shift();
-
-                    this.collectImageGarbage();
-
-                    requestAnimationFrame(this.renderDrawQueue.bind(this));
-                })
-            } else {
-                // Wait until the next animation frame to try again.
-                requestAnimationFrame(this.renderDrawQueue.bind(this));
-            }
-        }
-        this.collectImageGarbage();
-    }
-
-
-    /**
-     * Makes a check against all images in the cache and delete it if it is
-     * not needed in the draw queue.
-     */
-    collectImageGarbage() {
-        if (this.storeAllImagesInMemory) {
-            return;
+        if (!is.null(this.clipPathType)) {
+            this.context.restore();
         }
 
-        for (var key in this.imageCache) {
-            if (this.imageCountInDrawQueue(key) < 1) {
-                this.deleteImage(this.imageCache[key], key);
-                this.imageCache[key] = null;
-                delete this.imageCache[key];
-            }
-        }
+        this.lastRenderSource = imageSource;
     }
 
-    /**
-     * Returns the number of drawQueue items in the drawQueue that contain
-     * a given source.
-     */
-    imageCountInDrawQueue(imageSource: string) {
-        return this.drawQueue.filter((item) => {
-            return item.source == imageSource;
-        }).length;
-    }
 
 
     /**
@@ -1614,6 +1514,7 @@ export class CanvasImageSequence {
         return this.playDefer!.getPromise();
     }
 
+
     /**
      * Gets the hex color at the given coordinates of the canvas as it is
      * renders at the moment.
@@ -1622,6 +1523,7 @@ export class CanvasImageSequence {
     getHexColorAtPoint(coords: Vector) {
         return domCanvas.getColorAtPointAsHex(this.context, coords);
     }
+
 
     /**
      * Immediately stops the canvas animation playing.
@@ -1637,9 +1539,9 @@ export class CanvasImageSequence {
     /**
      * Returns the image dimension that were fetched.  This is based
      * on the "first" image in the sequence.
-     * The sizes will benull if called prior to loading images.
+     * The sizes will be null if called prior to loading images.
      */
-    getImageSize():Object {
+    getImageSize(): Object {
         return {
             width: this.imageNaturalWidth,
             height: this.imageNaturalHeight,
@@ -1651,21 +1553,12 @@ export class CanvasImageSequence {
         this.stop();
         this.domWatcher.dispose();
         this.rafTimer && this.rafTimer.dispose();
-        this.imageLoader && this.imageLoader.dispose();
+        this.blobLoader && this.blobLoader.dispose();
         this.element = null;
-        for (var key in this.imageCache) {
-            if (this.imageCache[key]) {
-                if (this.imageCache[key].close) {
-                    this.imageCache[key].close();
-                } else {
-                    // Dispose url.
-                    dom.deleteImage(this.imageCache[key]);
-                    this.imageCache[key] = null;
-                }
-            }
-        }
-        this.imageCache = null;
+        this.blobCache = null;
         this.canvasElement = null;
+        dom.deleteImage(this.cacheImage);
+        this.cacheImage = null;
         this.context = null;
     }
 

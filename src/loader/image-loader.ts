@@ -1,5 +1,6 @@
 
 import { is } from '../is/is';
+import { dom } from '..';
 
 /**
  * A class the loads a given set of images.
@@ -15,7 +16,13 @@ import { is } from '../is/is';
  *  'http://mydomain.com/cow.jpg'
  * ];
  * const myImageLoader = new ImageLoader(myImages);
+ *
  * // Optional - decodes the image as well.
+ * // However, this uses image.decode() which will move the image memory
+ * // to native memory.  It is not recommended unless you know what you are
+ * // doing.
+ * // @see dom.fetchAndMakeImage for more on the issues around
+ * // image.decode().
  * myImageLoader.setDecodeAfterFetch(true);
  *
  *
@@ -144,7 +151,8 @@ export class ImageLoader {
      * help in browser cache.
      *
      * Once cached, you can pair this with dom.fetchAndMakeImage and dom.deleteImage
-     * to give you better control of releasing image memory from RAM.
+     * to give you better control of releasing image memory from RAM on a per image
+     * basis.
      *
      * ```
      *  const myImages = [
@@ -193,7 +201,7 @@ export class ImageLoader {
      * "preload" images into the browser cache but not hold the image data in
      * memory.
      */
-    pingSource(source: string, retryCount: number = 0): Promise<string> {
+    pingSource(source: string, retryCount: number = 0): Promise<string|undefined> {
         return new Promise(resolve => {
             fetch(source)
                 .then((response) => {
@@ -237,53 +245,38 @@ export class ImageLoader {
                     const blob = response;
                     const img = document.createElement('img');
 
-                    img.onload = () => {
-                        this.images[source] = img;
-                        this.onEachImageLoaded && this.onEachImageLoaded(source, img);
-                        resolve();
+                    // Note watch out with using image.decode();
+                    // image.decode() images are moved to native memory where
+                    // it can't be flushed even with image = null;
+                    if (this.decodeAfterFetch && 'decode' in img) {
+                        img.src = URL.createObjectURL(blob);
+                        img.decoding = 'async';
+                        img.decode().then(() => {
+                            this.images[source] = img;
+                            this.onEachImageLoaded && this.onEachImageLoaded(source, img);
+                            resolve();
+                        }).catch((error) => {
+                            // console.log('error', Error);, then later,
+                            // throw new Error(error);
+                            // Usually when there is an error thrown it's
+                            // because this image couldn't be decoded
+                            // in a regular manner so we fall back again
+                            // to loading it normally.
+                            img.onload = () => {
+                                this.images[source] = img;
+                                this.onEachImageLoaded && this.onEachImageLoaded(source, img);
+                                resolve();
+                            }
+                            img.src = URL.createObjectURL(blob);
+                        })
+                    } else {
+                        img.onload = () => {
+                            this.images[source] = img;
+                            this.onEachImageLoaded && this.onEachImageLoaded(source, img);
+                            resolve();
+                        }
+                        img.src = URL.createObjectURL(blob);
                     }
-                    img.src = URL.createObjectURL(blob);
-
-
-                    //
-                    // Disabled for now since we want to avoid using image.decode()
-                    // which causes memory pressure.
-                    //
-                    // Currently as far as I can observe, calling image.decode()
-                    // add this the decoded data to native memory but later
-                    // there isn't a way to release that.
-                    // Therefore, decode() is not preferred since it adds
-                    // to native memory and can't be released.
-                    //
-                    // if (this.decodeAfterFetch && 'decode' in img) {
-                    //     img.src = URL.createObjectURL(blob);
-                    //     img.decoding = 'async';
-                    //     img.decode().then(() => {
-                    //         this.images[source] = img;
-                    //         this.onEachImageLoaded && this.onEachImageLoaded(source, img);
-                    //         resolve();
-                    //     }).catch((error) => {
-                    //         // console.log('error', Error);, then later,
-                    //         // throw new Error(error);
-                    //         // Usually when there is an error thrown it's
-                    //         // because this image couldn't be decoded
-                    //         // in a regular manner so we fall back again
-                    //         // to loading it normally.
-                    //         img.onload = () => {
-                    //             this.images[source] = img;
-                    //             this.onEachImageLoaded && this.onEachImageLoaded(source, img);
-                    //             resolve();
-                    //         }
-                    //         img.src = URL.createObjectURL(blob);
-                    //     })
-                    // } else {
-                    //     img.onload = () => {
-                    //         this.images[source] = img;
-                    //         this.onEachImageLoaded && this.onEachImageLoaded(source, img);
-                    //         resolve();
-                    //     }
-                    //     img.src = URL.createObjectURL(blob);
-                    // }
 
                 });
 
@@ -321,7 +314,6 @@ export class ImageLoader {
      * @see https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap
      */
     fetchImageBitmap(source: string, retryCount: number = 0): Promise<void> {
-        console.log('fetch bitmap');
         return new Promise(resolve => {
             fetch(source)
                 .then((response) => {
@@ -359,6 +351,10 @@ export class ImageLoader {
 
     dispose() {
         for (var key in this.images) {
+            if(!this.images[key]) {
+                return;
+            }
+
             // If we loaded bitmaps and we can dispose.
             // https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap/close
             if (this.images[key].close) {
@@ -366,6 +362,7 @@ export class ImageLoader {
             } else {
                 // Dispose url.
                 URL.revokeObjectURL(this.images[key]);
+                dom.deleteImage(this.images[key]);
                 this.images[key] = null;
             }
         }
