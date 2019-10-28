@@ -23,7 +23,6 @@ import CanvasImageSequenceSample7 from '../canvas-image-sequence7';
 import CanvasImageSequenceSample8 from '../canvas-image-sequence8';
 import CanvasImageSequenceSample9 from '../canvas-image-sequence9';
 import CanvasImageSequenceSample10 from '../canvas-image-sequence10';
-import CanvasImageSequenceSample11 from '../canvas-image-sequence11';
 
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
@@ -85,7 +84,6 @@ const samples = {
   'canvasImageSequenceSample8': CanvasImageSequenceSample8,
   'canvasImageSequenceSample9': CanvasImageSequenceSample9,
   'canvasImageSequenceSample10': CanvasImageSequenceSample10,
-  'canvasImageSequenceSample11': CanvasImageSequenceSample11,
   'rafSample': RafSample,
   'rafSample2': RafSample2,
   'rafTimerSample': RafTimerSample,
