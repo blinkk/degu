@@ -730,9 +730,10 @@ export class CanvasImageSequence {
     private lastRenderSource: string | null;
 
     /**
-     *  The last known request to draw an specific image.
+     * The last known request to draw a specific image.  Different from
+     * lastRenderSource in that, this image may not have been drawn.
      */
-    private lastFrame: number | null;
+    private lastDrawSource: string | null;
 
     private multiInterpolate: MultiInterpolate | null;
 
@@ -791,7 +792,7 @@ export class CanvasImageSequence {
         this.imageNaturalHeight = 0;
         this.imageNaturalWidth = 0;
         this.currentFrame = 0;
-        this.lastFrame = null;
+        this.lastDrawSource = null;
         this.targetFrame = 0;
         this.containScale = null;
         this.disposed = false;
@@ -818,7 +819,10 @@ export class CanvasImageSequence {
 
                 this.flush(); // Make a empty call to clear the memoize cache.
                 // Rerender the last known image.
+                this.lastDrawSource = null;
+                this.fps.lock(false);
                 this.lastRenderSource && this.draw(this.lastRenderSource);
+                this.fps.lock(true);
             },
             id: 'resize',
             eventOptions: { passive: true }
@@ -840,8 +844,10 @@ export class CanvasImageSequence {
                     // Autoload the content.
                     this.load().then(() => {
                         // Set last frame to null to allow redrawing.
-                        this.lastFrame = null;
+                        this.lastDrawSource = null;
+                        this.fps.lock(false);
                         this.renderByProgress(this.progress || 0);
+                        this.fps.lock(true);
                     })
                 }
             },
@@ -857,10 +863,7 @@ export class CanvasImageSequence {
 
         // The previously rendered image source.
         this.lastRenderSource = null;
-
-        // Cull unncessary update
-        this.draw =
-            func.runOnceOnChange(this.draw.bind(this));
+        this.lastDrawSource = null;
     }
 
 
@@ -1165,12 +1168,6 @@ export class CanvasImageSequence {
             return;
         }
 
-        if (i == this.lastFrame) {
-            return;
-        }
-        this.lastFrame = i;
-
-
         this.targetFrame = i;
 
         // If the delta between target and current frame is greater than
@@ -1294,6 +1291,12 @@ export class CanvasImageSequence {
             return;
         }
 
+        if (imageSource == this.lastDrawSource) {
+            return;
+        }
+        this.lastDrawSource = imageSource;
+
+
         // If this was called at a rate exceeding the fps limit.
         if(!this.fps.canRun()) {
             return;
@@ -1321,8 +1324,8 @@ export class CanvasImageSequence {
         this.clear();
 
         if (!is.null(this.clipPathType)) {
-            this.applyCanvasClipping();
             this.context.save();
+            this.applyCanvasClipping();
         }
 
         // Background "cover" sizing.
