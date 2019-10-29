@@ -1,6 +1,6 @@
 
 
-import {CanvasImageSequence} from '../lib/dom/canvas-image-sequence';
+import {WebGlImageSequence} from '../lib/dom/webgl-image-sequence';
 
 
 /**
@@ -23,20 +23,19 @@ export default class CanvasImageSequenceSample5 {
     }
 
     // Create Canvas Image Sequenece
-    this.canvasImageSequence = new CanvasImageSequence(
+    this.sequence = new WebGlImageSequence(
         this.canvasContainerElement,
         [{images: this.canvasImageSources}]
     );
 
-
-    this.canvasImageSequence.lerpAmount = 0.01;
-    this.canvasImageSequence.load().then(() => {
-      this.canvasImageSequence.renderByProgress(0);
+    this.sequence.lerpAmount = 0.01;
+    this.sequence.load().then(() => {
+      this.sequence.renderByProgress(0);
 
       // Immediately set to 1.  Because we previously set it to 0 and
       // no 1 and we have lerp set, canvasImageSequence will lerp
       // towards that value.
-      this.canvasImageSequence.renderByProgress(1);
+      this.sequence.renderByProgress(1);
     });
   }
 }

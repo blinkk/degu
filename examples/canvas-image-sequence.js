@@ -7,12 +7,6 @@ import {dom} from '../lib/dom/dom';
 import {DomWatcher} from '../lib/dom/dom-watcher';
 
 
-const NO_CACHE = ()=> {
-    let param = window.location.search.split('no-cache=')[1];
-    param = param && param.split('&')[0];
-    return param == 'true';
-};
-
 /**
  * This sample show the most basic uses of CanvasImageSequence which is
  * updated by the scroll position of a position sticky based container.
@@ -60,11 +54,6 @@ export default class CanvasImageSequenceSample {
         this.canvasContainerElement,
         [{images: this.canvasImageSources}]
     );
-
-    if (NO_CACHE()){
-      console.log('no cache version');
-      this.canvasImageSequence.storeInMemory(false);
-    }
 
     // this.canvasImageSequence.lerpAmount = 0.02;
 

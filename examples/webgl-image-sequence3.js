@@ -1,7 +1,6 @@
 
 
-import {CanvasImageSequence} from '../lib/dom/canvas-image-sequence';
-
+import {WebGlImageSequence} from '../lib/dom/webgl-image-sequence';
 
 
 /**
@@ -14,18 +13,19 @@ export default class CanvasImageSequenceSample3 {
 
 
     // Generate image sources.
-    this.canvasImageSources = [];
+    this.sources = [];
     for (let i = 1; i <= 153; i++) {
       let value = i + '';
       value = value.padStart(4, '0');
-      this.canvasImageSources.push('/public/frames/thumb' + value + '.jpg');
+      this.sources.push('/public/frames/thumb' + value + '.jpg');
     }
 
     // Create Canvas Image Sequenece
-    this.canvasImageSequence = new CanvasImageSequence(
+    this.sequence = new WebGlImageSequence(
         this.canvasContainerElement,
-        [{images: this.canvasImageSources}]
+        [{images: this.sources}]
     );
+
 
     let progressPoints = [
       {
@@ -35,12 +35,12 @@ export default class CanvasImageSequenceSample3 {
         from: 0.5, to: 1, start: 1, end: 0,
       },
     ];
-    this.canvasImageSequence.setMultiInterpolation(progressPoints);
+    this.sequence.setMultiInterpolation(progressPoints);
 
     // Load the iamges.
-    this.canvasImageSequence.load().then(() => {
+    this.sequence.load().then(() => {
       // On load, play the sequence from 0 - 1.
-      this.canvasImageSequence.play(0, 1, 3000).then(() => {
+      this.sequence.play(0, 1, 3000).then(() => {
         console.log('play complete');
       });
     });

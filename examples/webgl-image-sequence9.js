@@ -1,7 +1,6 @@
 
-
-import {RafProgress} from '../lib/raf/raf-progress';
-import {CanvasImageSequence} from '../lib/dom/canvas-image-sequence';
+import {RafProgress, RAF_PROGRESS_EVENTS} from '../lib/raf/raf-progress';
+import {WebGlImageSequence} from '../lib/dom/webgl-image-sequence';
 
 import {EASE} from '../lib/ease/ease';
 import {dom} from '../lib/dom/dom';
@@ -9,12 +8,11 @@ import {DomWatcher} from '../lib/dom/dom-watcher';
 
 
 /**
- * This sample expands on canvas image sequence sample 1 and demonstrates
- * usage of multiinterpolate.
+ * This sample show loading multiple image sets
  */
-export default class CanvasImageSequenceSample3 {
+export default class CanvasImageSequenceSample9 {
   constructor() {
-    console.log('canvas image sequence4');
+    console.log('canvas image sequence');
     this.domWatcher = new DomWatcher();
 
     this.canvasContainerElement = document.querySelector('.canvas-container');
@@ -43,40 +41,46 @@ export default class CanvasImageSequenceSample3 {
 
 
     // Generate image sources.
-    this.canvasImageSources = [];
+    this.sources = [];
     for (let i = 1; i <= 153; i++) {
       let value = i + '';
       value = value.padStart(4, '0');
-      this.canvasImageSources.push('/public/frames/thumb' + value + '.jpg');
+      this.sources.push('/public/frames/thumb' + value + '.jpg');
+    }
+
+    // Generate a second "mobile" image sources.
+    this.mobileImageSources = [];
+    for (let i = 1; i <= 120; i++) {
+      let value = i + '';
+      value = value.padStart(4, '0');
+      this.mobileImageSources.push('/public/frames2/thumb' + value + '.jpg');
     }
 
     // Create Canvas Image Sequenece
-    this.canvasImageSequence = new CanvasImageSequence(
+    this.sequence = new WebGlImageSequence(
         this.canvasContainerElement,
-        [{images: this.canvasImageSources}]
+        [
+          {images: this.sources, when: () => {
+            return window.innerWidth >= 768;
+          }},
+          {images: this.mobileImageSources, when: () => {
+            return window.innerWidth < 768;
+          }},
+        ]
     );
 
-    // We set the lerp value.
-    this.canvasImageSequence.lerpAmount = 0.01;
+    // this.canvasImageSequence.lerpAmount = 0.02;
 
     // Load the iamges.
-    this.canvasImageSequence.load().then(() => {
-      // On load, play the sequence from 0 - 1.
-      this.canvasImageSequence.play(0, 1, 1000).then(() => {
-        console.log('done', this.rafProgress.currentProgress);
-        // Update the progress to the current scroll when done.
-        //
-        // At this time, the playing ends at 1 but the scroll progress
-        // could be something else so it will lerp "towards" the
-        // scroll position since we have lerp set.
-        this.canvasImageSequence.renderByProgress(
-            this.rafProgress.currentProgress
-        );
-      });
+    this.sequence.load().then(() => {
+      // When ready render whatever the current easedProgress value is.
+      this.sequence.renderByProgress(
+          this.rafProgress.currentProgress
+      );
     });
   }
 
   onProgressUpdate(easedProgress, direction) {
-    this.canvasImageSequence.renderByProgress(easedProgress);
+    this.sequence.renderByProgress(easedProgress);
   }
 }

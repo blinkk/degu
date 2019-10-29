@@ -23,6 +23,13 @@ import CanvasImageSequenceSample7 from '../canvas-image-sequence7';
 import CanvasImageSequenceSample8 from '../canvas-image-sequence8';
 import CanvasImageSequenceSample9 from '../canvas-image-sequence9';
 import CanvasImageSequenceSample10 from '../canvas-image-sequence10';
+import WebGlImageSequenceSample from '../webgl-image-sequence';
+import WebGlImageSequenceSample2 from '../webgl-image-sequence2';
+import WebGlImageSequenceSample3 from '../webgl-image-sequence3';
+import WebGlImageSequenceSample4 from '../webgl-image-sequence4';
+import WebGlImageSequenceSample5 from '../webgl-image-sequence5';
+import WebGlImageSequenceSample7 from '../webgl-image-sequence7';
+import WebGlImageSequenceSample9 from '../webgl-image-sequence9';
 
 import MathfEaseSample from '../mathf-ease';
 import RafSample from '../raf';
@@ -84,6 +91,13 @@ const samples = {
   'canvasImageSequenceSample8': CanvasImageSequenceSample8,
   'canvasImageSequenceSample9': CanvasImageSequenceSample9,
   'canvasImageSequenceSample10': CanvasImageSequenceSample10,
+  'webglImageSequenceSample': WebGlImageSequenceSample,
+  'webglImageSequenceSample2': WebGlImageSequenceSample2,
+  'webglImageSequenceSample3': WebGlImageSequenceSample3,
+  'webglImageSequenceSample4': WebGlImageSequenceSample4,
+  'webglImageSequenceSample5': WebGlImageSequenceSample5,
+  'webglImageSequenceSample7': WebGlImageSequenceSample7,
+  'webglImageSequenceSample9': WebGlImageSequenceSample9,
   'rafSample': RafSample,
   'rafSample2': RafSample2,
   'rafTimerSample': RafTimerSample,

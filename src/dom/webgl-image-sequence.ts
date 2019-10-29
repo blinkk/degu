@@ -1,4 +1,3 @@
-
 import { dom } from '../dom/dom';
 import { is } from '../is/is';
 import { func } from '../func/func';
@@ -9,10 +8,31 @@ import { DomWatcher } from '../dom/dom-watcher';
 import { MultiInterpolate, rangedProgress, interpolateSettings } from '../interpolate/multi-interpolate';
 import { RafTimer } from '../raf/raf-timer';
 import { Fps } from '../time/fps';
-import { domCanvas } from '../dom/dom-canvas';
-import { Vector } from '../mathf/vector';
+import { webgl } from '../dom/webgl';
 
-export interface CanvasImageSequenceImageSet {
+
+export const fragShader = `
+    precision mediump float;
+    uniform sampler2D u_image;
+    // texCoords passed in from the vertex shader.
+    varying vec2 v_texCoord;
+    void main() {
+      gl_FragColor = texture2D(u_image, v_texCoord);
+    }
+`;
+
+export const vertShader = `
+    attribute vec2 a_position;
+    uniform mat3 u_matrix;
+    varying vec2 v_texCoord;
+    void main() {
+      gl_Position = vec4(u_matrix * vec3(a_position, 1), 1);
+      v_texCoord = a_position;
+    }
+`;
+
+
+export interface WebGlImageSequenceImageSet {
     /**
      * A list of image sources.
      */
@@ -25,7 +45,7 @@ export interface CanvasImageSequenceImageSet {
     when?: Function
 }
 
-export interface CanvasImageSequenceSizingOptions {
+export interface WebGlImageSequenceSizingOptions {
     /**
      * Whether the sizing should use cover insted of contain.
      */
@@ -175,29 +195,24 @@ export interface CanvasImageSequenceSizingOptions {
 
 }
 
-export const canvasImageSequenceErrors = {
-    NO_ELEMENT: 'An element is required for canvas image sequence',
-    NO_IMAGE_SETS: 'Image sets are required for canvas image sequence',
-    NO_IMAGES: 'There are no images defined in your canvas image sequence image set',
+export const WebGlImageSequenceErrors = {
+    NO_ELEMENT: 'An element is required for webgl image sequence',
+    NO_IMAGE_SETS: 'Image sets are required for webgl image sequence',
+    NO_IMAGES: 'There are no images defined in your webgl image sequence image set',
 }
 
 
-export interface CanvasImageSequenceClipInterpolationConfig {
+export interface WebGlImageSequenceClipInterpolationConfig {
     type: string,
     interpolations: Array<interpolateSettings>
 }
 
-interface rectConfig {
-    top: number,
-    bottom: number,
-    right: number,
-    left: number,
-    radius: number
-}
 
 /**
  * A class that allows you to play through an image sequence (sprite) based on
- * progress.
+ * progress.  This class is similar to canvas-image-sequence but only implements
+ * a subset of the features in preferences for better memory management.
+ * Compared to canvas-image-sequence, this class has better VRAM management.
  *
  *
  * Usage:
@@ -226,7 +241,7 @@ interface rectConfig {
  *   'image-100.jpg',
  * ]
  *
- * let canvasImageSequence = new CanvasImageSequence(
+ * let sequence = new WebGlImageSequence(
  *   document.querySelector('.my-element'),
  *   // Pass in your imageSet.  You can specific multiple (see below).
  *   [{images: myImages}],
@@ -241,48 +256,26 @@ interface rectConfig {
  * );
  *
  * // Loads the images.
- * canvasImageSequence.load();
+ * sequence.load();
  *
  * // At a later time.  If images aren't loaded yet, render will get ignored.
- *  canvasImageSequence.renderByProgress(0);  // Renders frame at progress 0.
- *  canvasImageSequence.renderByProgress(0.5);  // Renders frame at progress 0.5
- *  canvasImageSequence.renderByProgress(1);  // Renders frame at progress 1
+ * sequence.renderByProgress(0);  // Renders frame at progress 0.
+ * sequence.renderByProgress(0.5);  // Renders frame at progress 0.5
+ * sequence.renderByProgress(1);  // Renders frame at progress 1
  *
  * // When done.
- * canvasImageSequence.dispose();
+ * sequence.dispose();
  *
  * ```
- * The above would add a canvas to myElement.  The image that gets rendered
- * in the canvas, will be fitted would an algo similar to background:contain
- * so that the image is fully visible.  If the image different aspect ratio
- * than the contain, the image will be both vertically and horizontally centered
- * with contain (maximizing the scale without bleeding out).
- *
- *
- * You can also listen load completion.  Typically, loading frames takes a
- * while so you may want to add a loading indicator and on load completion,
- * render teh canvasImageSequence to the current frame.
- * ```ts
- *
- * // Use image load promise to ensure images are ready.
- * canvasImageSequence.load().then(()=> {
- *    // On load complete render the frame that maps to the current progress.
- *    canvasImageSequence.renderByProgress(myCurrentProgress);
- * })
- *
- *
- * ```
- *
- *
  *
  * ### Sizing options.
- * CanvasImageSequence has two render modes, contain (default) and cover.
+ * WebGlImageSequence has two render modes, contain (default) and cover.
  * Contain will by default vertically center your image but you can offset this
  * by providing a bottom value.
  *
  *
  * ```ts
- * let canvasImageSequence = new CanvasImageSequence(
+ * let sequence = new WebGlImageSequence(
  *   document.querySelector('.my-element'),
  *   [{images: myImages}],
  *   {
@@ -294,7 +287,7 @@ interface rectConfig {
  *
  *
  * ## MultiInterpolate capabilities.
- * Canvas Image Sequence has multiinterpolation built in to make it easier to
+ * WebGL Image Sequence has multiinterpolation built in to make it easier to
  * manage more complex sequences.
  * Normally, you may want to map an image sequence to just play from start to
  * end.  But what if you wanted more flexiblity?  You can do things like:
@@ -310,8 +303,8 @@ interface rectConfig {
  *         from: 0.5, to: 1, start: 1, end: 0,
  *       },
  * ];
- * canvasImageSequence.setMultiInterpolation(progressPoints);
- * canvasImageSequence.load();
+ * sequence.setMultiInterpolation(progressPoints);
+ * sequence.load();
  *
  * ```
  * In the above, now the image sequence will play from start to end and back to
@@ -333,23 +326,23 @@ interface rectConfig {
  *         from: 0.5, to: 1, start: 1, end: 0,
  *       },
  * ];
- * canvasImageSequence.setMultiInterpolation(progressPoints);
+ * sequence.setMultiInterpolation(progressPoints);
  * // Now load the images.
- * canvasImageSequence.load().then(()=> {
+ * sequence.load().then(()=> {
  *    // Now play the image sequence from progress 0 - 1 over a span of 3000 ms.
- *    canvasImageSequence.play(0, 1, 3000).then(()=> {
+ *    sequence.play(0, 1, 3000).then(()=> {
  *       console.log('done');
  *    })
  * })
  *
  *
- * // Use stop if you need to stop the aniamtion.
- * canvasImageSequence.stop();
+ * // Use stop if you need to stop the animation.
+ * sequence.stop();
  *
  * ```
  *
  * ### Lerp Towards Capability
- * By setting a lerp value, canvasImageSequence will automatically "lerp" towards
+ * By setting a lerp value, webGlImageSequence will automatically "lerp" towards
  * frames if the delta between the currently rendered frame and the requested
  * progress is large.
  * * This is useful to "smooth" out movement between frames.
@@ -362,55 +355,15 @@ interface rectConfig {
  * by running raf until the frame value delta is less than 1 and stable.
  *
  * ```ts
- *  canvasImageSequence.lerpAmount = 0.12;
- *  canvasImageSequence.renderByProgress(0);
- *  canvasImageSequence.renderByProgress(1);
+ *  sequence.lerpAmount = 0.12;
+ *  sequence.renderByProgress(0);
+ *  sequence.renderByProgress(1);
  * ```
  *
  *
  * Another usecase for setting lerp is to handle resolving state after playing
- * a sequence. See canvas-image-sequence4 for more on this.
+ * a sequence. See webgl-image-sequence4 for more on this.
  *
- *
- *
- * ### Clipping Feature
- * Similar to css clip-path, you can pass clip-path-ish shapes to canvasImageSequence
- * which will then be applied when the canvas paints / renders.
- *
- * The clipping currently supports, inset type only.
- *
- * ```ts
- *
- * canvasImageSequence.setClipInterpolations({
- *   type: 'inset',
- *   interpolations: [
- *     {
- *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
- *       id: 'top'
- *     },
- *     {
- *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
- *       id: 'right'
- *     },
- *     {
- *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
- *       id: 'bottom'
- *     },
- *     {
- *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
- *       id: 'left'
- *     },
- *     {
- *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
- *       id: 'border-radius'
- *     }
- *   ]
- * })
- *
- *
- * canvasImageSequence.renderByProgress(0.5); // The clipping at 0.5 progress is rendered.
- *
- * ```
  *
  *
  * ## Selectively loading different sets of images.
@@ -432,7 +385,7 @@ interface rectConfig {
  *   'image-mobile-1.jpg',
  *   'image-mobile-100.jpg',
  * ];
- *  let canvasImageSequence = new CanvasImageSequence(
+ *  let sequence = new WebGlImageSequence(
  *   document.querySelector('.my-element'),
  *   [{
  *     when: ()=> { return window.innerWidth >= 768},
@@ -449,7 +402,7 @@ interface rectConfig {
  * Can I have imageSets for only desktop or mobile?  Yes you can!
  *
  * ```ts
- *  let canvasImageSequence = new CanvasImageSequence(
+ *  let sequence = new WebGLImageSequence(
  *   document.querySelector('.my-element'),
  *   [
  *   {
@@ -459,166 +412,40 @@ interface rectConfig {
  * );
  *
  * ```
- * Here we specify canvasImageSequence with an imageSet for only mobile.  This
+ * Here we specify WebGLImageSequence with an imageSet for only mobile.  This
  * means the images will only load on mobile and canvasImageSequence won't
  * do anything on desktop (nothing will show since there are no images).
  *
  *
  *
  * ############# Dev Notes ####################
+ * Read the Dev Notes in canvas-image-sequence as this class has the same
+ * foundation as canvas-image-sequence.  The primary difference is that
+ * this class implements webGL instead of canvas2D as the renderer.
  *
- * # Memory management (dev notes)
- * When working on this class, you have to be very careful about memory management
- * since we are dealing with a lot of images.
+ * In order to keep image-cache down, we still want to utilize the
+ * cacheImage technique and generate objectURL and revoke them per drawCall.
+ * You also want to avoid image.decode and imageBitmaps (for now).
  *
- * There is native memory and image cache that need to be particularly looked at.
- * You can go to Chrome -> Task manager and monitor the usage.
- * Make sure to enable the memory footprint and image cache columns.
- *
- * For Safari, the best place is to open Activity Monitor. Open safari and
- * open the site.  Within Activity Monitor, look for your process (it will be the
- * name of the page).  Double click on it to get real memory usage.  You can
- * also use the Safari WebTools memory and CPU profile.
- *
- *
- * 1) image.decode() and ImageBitmaps
- * If you run image.decode() or load ImageBitmaps, this data appears to get stored
- * over in native memory.  canvas.drawImage stores in image cache which is
- * separate.
- *
- * The issue is the when you run image.decode() or use ImageBitmaps, the native
- * memory space they occupy, won't get flushed.  It seems to get flushed only
- * when the canvas or document is unloaded.
- *
- * For example:
+ * WebGL is primary is better over the canvas2d version because in the
+ * canvas2D version, the VRAM (gpu memory) gets very large as it each image
+ * gets composited.  The same thing happens in webGL but there is finer
+ * control over the memory since we can destory textures.
  *
  * ```
- * const image = new Image();
- * image.src = 'hohoho.jpg';
- * image.decode(()=> { // This pushes it to native memory.
- *   image = null; // This won't get removed even with GC.
- * })
- * ```
+ *   var texture = webgl.createTextureFromImage(gl, image);
+ *   // Draw out
+ *   ...
  *
- * This removes the reference to the image but even with GC won't flush the native
- * memory.
- *
- * It's best to avoid this and instead just load images normally OR
- * use ObjectUrl to make a local blob.
- *
- *
- * 2) Problem 2
- * canvas.drawImage(image) memory issues and also Safari DataURI (base64)
- *
- * canvas.drawImage, essentially copies the decoded image data over to the image cache.
- * Therefore, even doing:
- *
- * ```
- * canvas.drawImage(image);  // decoded copy stored to image cache.
- * canvas.drawImage(image);  // decoded copy stored to image cache
- * canvas.drawImage(image);  // decoded copy stored to image cache.
- * ```
- * Quickly results in the imageCache growing.  While this is usually fine since
- * the image cache gets cleared pretty quickly, with a class like this, if you have
- * 100 images, that cache with that data decoded ends up being very large.
- *
- * To avoid this, you need to delete the image from reference.
- *
- * ```
- * canvas.drawImage(image);  // decoded copy stored to image cache.
- * image.src = null; // reference removed.  image cache gets cleared.
- * image = null;
- * ```
- *
- * This essentially means, that if we don't want the image cache to grow, we
- * need to delete the image that was just drawn after the draw call.
- *
- *
- * 3) Problem 3
- * Safari Canvas Issues:
- * Note that Safari also has some issues with memory management.
- * In general, Safari doesn't do a great job offloading base64 images from cache.
- *
- * The best way to manage is:
- * 1) don't use base64Images and draw to canvas (since Safari doesn't release memory)
- * 2) delete image data to offload memory after drawImage calls.
- *
- *
- * Overall best practice:
- * The solution take to avoid these problems are:
- * - don't use image.decode()
- * - don't use ImageBitmaps
- * - don't use base64uri image Safari can't offload them.
- * - always remove the image after using drawImage().  Best way to do this is
- *   to use a temporary image and assign it a local objectURI.
- * - when you resize a canvas it clears it out.  You need to resize with smartResize
- *   to avoid flashes on ios mobile where the document height changes as you resize
- *   firing resize events.
- *
- *
- * Approach to solving the above:
- * 1) Make XHR calls to all image urls and save the blobs in memory (blobCache).
- * 2) Create a single cacheImage (Image) that will temporarily hold data while it gets
- *    drawn to canvas (cacheImage)
- * 3) On each draw call, use ObjectURIs to locally generate a temporary blob image.
- *    Set that to the cacheImage then canvas.drawImage(cacheImage) and following that
- *    then revoke the ObjectURI (to release it from memory).
- *
- * This can be roughly illustrated as:
- * ```ts
- *
- * this.blobCache = xxx.getBlobsDataFromServer();
- *
- * // Create an image that will temporarily hold data.
- * this.cacheImage = new Image();
- *
- * draw(source) {
- *
- *   img.onload = () => {
- *     this.drawImage(this.cacheImage);
- *     // Remove it from memory.
- *     URL.revokeObjectURL(image.src);
- *   }
- *
- *    // Create a local objectURI and apply it as the image source.
- *    this.cacheImage.src = URL.createObjectURL(this.blobCache[source]);
- * }
- *
- * dispose() {
- *   // Delete all blobs help in memory.
- *   this.blobCache = null;
- * }
+ *   // Clear VRAM memory by deleting the texture after render.
+ *   webgl.deleteTexture(gl, texture);
  *
  * ```
  *
- * With the solution above, generally, the encoded size of all images are stored
- * in native memory + one decoded image in memory cache at any given time.  If you
- * are working with pngs, this can still mean a huge memory hoge so watch out.
  *
- *
- * 4) FPS - ipad CPU
- * Since we need to decode per drawFrame, this has a higher CPU cost.
- *
- * To lower the CPU usage, internally we manage an fps rate limiter.
- * This is set to 30, which is the maximum we really need to get a smooth
- * perceived animation.
- *
- * 5) Even with the optimizations above, VRAM (GPU memory) can can be relatively
- *    high. If you just need basic features, consider webgl-image-canvas
- *    as an alternative which is more performant.
- *
- *
- *
- *
- *
- * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence.js
- * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence2.js
- * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence3.js
- * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence4.js
- * @see https://github.com/uxder/yano-js/blob/master/examples/canvas-image-sequence5.js
  * @unstable
  */
-export class CanvasImageSequence {
+export class WebGlImageSequence {
     /**
      * The main element to add canvas to.
      */
@@ -627,7 +454,7 @@ export class CanvasImageSequence {
     /**
      * A list canvas image sets.
      */
-    private imageSets: Array<CanvasImageSequenceImageSet>;
+    private imageSets: Array<WebGlImageSequenceImageSet>;
 
     /**
      * The last known progress value passed to renderByProgress
@@ -637,7 +464,7 @@ export class CanvasImageSequence {
     /**
      * The currently loaded / active image set.
      */
-    private activeImageSet: CanvasImageSequenceImageSet | null;
+    private activeImageSet: WebGlImageSequenceImageSet | null;
 
     /**
      * Internal instance of BlobLoader.
@@ -693,7 +520,8 @@ export class CanvasImageSequence {
     private playDefer: Defer | null;
 
     private canvasElement: HTMLCanvasElement;
-    private context: CanvasRenderingContext2D;
+    private gl: WebGLRenderingContext;
+    private program: WebGLProgram;
     private dpr: number;
     private canvasWidth: number;
     private canvasHeight: number;
@@ -731,14 +559,9 @@ export class CanvasImageSequence {
     private clipMultiInterpolate: MultiInterpolate | null;
 
     /**
-     * The type of clip path rendering.  Currently 'inset' or null (default).
-     */
-    private clipPathType: string | null;
-
-    /**
      * Sizing options for CanvasImageSequence.
      */
-    private sizingOptions: CanvasImageSequenceSizingOptions | undefined;
+    private sizingOptions: WebGlImageSequenceSizingOptions | undefined;
 
     /**
      * Whether the instance has been disposed or not.
@@ -748,18 +571,17 @@ export class CanvasImageSequence {
     private cacheImage: HTMLImageElement;
 
     constructor(element: HTMLElement,
-        imageSets: Array<CanvasImageSequenceImageSet>,
-        sizingOptions?: CanvasImageSequenceSizingOptions,
+        imageSets: Array<WebGlImageSequenceImageSet>,
+        sizingOptions?: WebGlImageSequenceSizingOptions,
         dpr?: number) {
-
 
         this.element = element;
         if (!element) {
-            throw new Error(canvasImageSequenceErrors.NO_ELEMENT);
+            throw new Error(WebGlImageSequenceErrors.NO_ELEMENT);
         }
 
         if (!imageSets) {
-            throw new Error(canvasImageSequenceErrors.NO_IMAGE_SETS);
+            throw new Error(WebGlImageSequenceErrors.NO_IMAGE_SETS);
         }
 
         this.imageSets = imageSets;
@@ -773,7 +595,9 @@ export class CanvasImageSequence {
 
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
-        this.context = this.canvasElement.getContext('2d')!;
+        this.gl = this.canvasElement.getContext('webgl');
+        this.program = webgl.createProgram(this.gl, vertShader, fragShader);
+
         this.dpr = func.setDefault(dpr, window.devicePixelRatio || 1);
         this.canvasWidth = 0;
         this.canvasHeight = 0;
@@ -897,17 +721,12 @@ export class CanvasImageSequence {
     resize() {
         this.canvasWidth = this.element.offsetWidth;
         this.canvasHeight = this.element.offsetHeight;
-
-        // Set canvas to high dpr, the actual width to the size.
-        // @see https://gist.github.com/callumlocke/cc258a193839691f60dd
-        // for inspiration.
         this.canvasElement.width = this.element.offsetWidth * this.dpr;
         this.canvasElement.height = this.element.offsetHeight * this.dpr;
-        this.canvasElement.style.width = this.canvasWidth + 'px';
-        this.canvasElement.style.height = this.canvasHeight + 'px';
-
-        // Scale up the canvas to compensate DPR.
-        this.context.scale(this.dpr, this.dpr);
+        this.canvasElement.style.width =
+            (this.canvasElement.width / this.dpr) + "px";
+        this.canvasElement.style.height =
+            (this.canvasElement.height / this.dpr) + "px";
     }
 
 
@@ -946,7 +765,7 @@ export class CanvasImageSequence {
      *
      * @param imageSource
      */
-    loadNewSet(imageSets: Array<CanvasImageSequenceImageSet>) {
+    loadNewSet(imageSets: Array<WebGlImageSequenceImageSet>) {
         // Release memory of current set.
         this.blobLoader && this.blobLoader.dispose();
 
@@ -955,7 +774,7 @@ export class CanvasImageSequence {
         this.activeImageSet = this.getSourceThatShouldLoad(this.imageSets);
 
         if (this.activeImageSet && !is.array(this.activeImageSet.images)) {
-            throw new Error(canvasImageSequenceErrors.NO_IMAGES);
+            throw new Error(WebGlImageSequenceErrors.NO_IMAGES);
         }
 
         // Set the active image set if one is available.
@@ -980,9 +799,9 @@ export class CanvasImageSequence {
      * when condition is evaluated and if true, it is used.  If multiple imageSets
      * are found, the the first one is used.
      */
-    private getSourceThatShouldLoad(sources: Array<CanvasImageSequenceImageSet>):
-        CanvasImageSequenceImageSet {
-        let matchingSouces: Array<CanvasImageSequenceImageSet> = [];
+    private getSourceThatShouldLoad(sources: Array<WebGlImageSequenceImageSet>):
+        WebGlImageSequenceImageSet {
+        let matchingSouces: Array<WebGlImageSequenceImageSet> = [];
         sources.forEach((source) => {
             if (!source.when) {
                 matchingSouces.push(source);
@@ -1007,7 +826,7 @@ export class CanvasImageSequence {
             // Remove the objectURL Blob from locale cache.
             URL.revokeObjectURL(this.cacheImage.src);
             this.cacheImage.onload = () => {
-               resolve(this.cacheImage);
+                resolve(this.cacheImage);
             }
 
             // Create a new temporary ObjectURl to store.
@@ -1049,51 +868,6 @@ export class CanvasImageSequence {
         return this.activeImageSet.images;
     }
 
-
-    /**
-     * Sets an clip path type interpolation on the canvas drawing.
-     * Currently only supports inset type.
-     *
-     * ```ts
-     *
-     * canvasImageSequence.setClipInterpolations({
-     *   type: 'inset',
-     *   interpolations: [
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'top'
-     *     },
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'right'
-     *     },
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'bottom'
-     *     },
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'left'
-     *     },
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'border-radius'
-     *     }
-     *   ]
-     * })
-     *
-     *
-     * canvasImageSequence.renderByProgress(0.5); // The clipping at 0.5 progress is rendered.
-     *
-     * ```
-     *
-     */
-    setClipInterpolations(config: CanvasImageSequenceClipInterpolationConfig) {
-        this.clipPathType = config.type;
-        this.clipMultiInterpolate = new MultiInterpolate({
-            interpolations: config.interpolations
-        })
-    }
 
 
     /**
@@ -1199,83 +973,6 @@ export class CanvasImageSequence {
         this.draw(null);
     }
 
-    /**
-     * Draws a rectangle on the canvas.
-     */
-    private drawRectangle(config: rectConfig) {
-        // let radiusPercent = config.radius;
-        // let height = config.top - config.bottom;
-        // let width = config.left - config.right;
-        // Calculate border radius as a percentage.
-        let radius = {
-            tl: config.radius,
-            tr: config.radius,
-            br: config.radius,
-            bl: config.radius,
-        };
-
-        this.context.beginPath();
-        this.context.moveTo(config.left + radius.tl, config.top);
-        this.context.lineTo(config.right - radius.tr, config.top);
-        this.context.quadraticCurveTo(config.right,
-            config.top, config.right, config.top + radius.tr);
-
-        this.context.lineTo(config.right, config.bottom - radius.br);
-        this.context.quadraticCurveTo(config.right,
-            config.bottom,
-            config.right - radius.br,
-            config.bottom);
-
-        this.context.lineTo(config.left + radius.bl, config.bottom);
-        this.context.quadraticCurveTo(
-            config.left, config.bottom, config.left, config.bottom - radius.bl);
-
-        this.context.lineTo(config.left, config.top + radius.tl);
-        this.context.quadraticCurveTo(
-            config.left, config.top, config.left + radius.tl, config.top);
-        this.context.closePath();
-        this.context.fill();
-    }
-
-    /**
-     * Applies clipping to the canvas prior to drawing.
-     * @see https://developer.mozilla.org/en-US/docs/Web/API/Path2D
-     * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip
-     */
-    private applyCanvasClipping() {
-        let context = this.context;
-
-        // Make a similar algo as inset done in css clip-path.
-        //
-        // clip-path: inset(var(--clip-top) var(--clip-right) var(--clip-bottom) var(--clip-left) round var(--clip-radius))
-        //
-        // Since it's an inset algo, 0% would mean it is fully show.
-        // - top: 50% would mean the top half is missing
-        // - bottom: 50% would mean the bottom half is missing
-        // - right: 50% would mean the right half is missing
-        // - left: 50% would mean the left half is missing
-        if (this.clipPathType == 'inset') {
-            let results = this.clipMultiInterpolate!.getCalculations() || {};
-            let top = results['top'] || 0;
-            let bottom = results['bottom'] || 0;
-            let left = results['left'] || 0;
-            let right = results['right'] || 0;
-            let borderRadius = results['border-radius'] || 0;
-            this.drawRectangle({
-                top: this.canvasHeight - ((1 - top) * this.canvasHeight),
-                left: this.canvasWidth - ((1 - left) * this.canvasWidth),
-                right: (1 - right) * this.canvasWidth,
-                bottom: (1 - bottom) * this.canvasHeight,
-                radius: borderRadius,
-            });
-            this.context.clip();
-        }
-    }
-
-    private clear() {
-        this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-    }
-
 
 
     private async draw(imageSource: string | null) {
@@ -1292,8 +989,8 @@ export class CanvasImageSequence {
 
 
         // If this was called at a rate exceeding the fps limit.
-        if(!this.fps.canRun()) {
-            this.fps.schedule(()=> {
+        if (!this.fps.canRun()) {
+            this.fps.schedule(() => {
                 // Force a draw.  This ensures that even with FPS limiting,
                 // the very last draw call is always rendered.
                 this.lastDrawSource = null;
@@ -1321,12 +1018,11 @@ export class CanvasImageSequence {
             height: this.canvasHeight,
         }
 
-        this.clear();
+        let x;
+        let y;
+        let width;
+        let height;
 
-        if (!is.null(this.clipPathType)) {
-            this.context.save();
-            this.applyCanvasClipping();
-        }
 
         // Background "cover" sizing.
         // Defaults to center.
@@ -1360,12 +1056,10 @@ export class CanvasImageSequence {
                     (containerBox.height - (imageBox.height * cover.scalar)) * -this.sizingOptions.top;
             }
 
-            this.context.drawImage(
-                image,
-                -cover.xOffset >> 0, -cover.yOffset >> 0,
-                imageBox.width * cover.scalar >> 0,
-                imageBox.height * cover.scalar >> 0,
-            );
+            x = -cover.xOffset >> 0;
+            y = -cover.yOffset >> 0;
+            width = imageBox.width * cover.scalar >> 0;
+            height = imageBox.height * cover.scalar >> 0;
 
         } else {
             // Default to contain sizing algo.
@@ -1447,18 +1141,59 @@ export class CanvasImageSequence {
             }
 
 
-            this.context.drawImage(
-                image,
-                diffX >> 0, diffY >> 0,
-                imageBox.width * this.containScale >> 0,
-                imageBox.height * this.containScale >> 0,
-            );
-
+            x = diffX >> 0;
+            y = diffY >> 0;
+            width = imageBox.width * this.containScale >> 0;
+            height = imageBox.height * this.containScale >> 0;
         }
 
-        if (!is.null(this.clipPathType)) {
-            this.context.restore();
-        }
+
+        // WebGL Draw.
+        const gl = this.gl;
+        const program = this.program;
+
+        var aPosition = gl.getAttribLocation(program, "a_position");
+        var uMatrix = gl.getUniformLocation(program, "u_matrix")
+
+        gl.useProgram(this.program);
+        gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
+
+        // gl.enable(gl.BLEND);
+        // gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+        webgl.createVbo(gl,
+           [
+             0.0, 0.0,
+             1.0, 0.0,
+             0.0, 1.0,
+             0.0, 1.0,
+             1.0, 0.0,
+             1.0, 1.0
+           ])
+        gl.enableVertexAttribArray(aPosition);
+        gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
+
+        var texture = webgl.createTextureFromImage(gl, image);
+
+        // Convert pixel coords to gl coords based on the x, y, width and height
+        // values calculated above.
+        var clipX = x / gl.canvas.width * 2 - 1;
+        var clipY = y / gl.canvas.height * -2 + 1;
+        var clipWidth = width / this.canvasWidth * 2;
+        var clipHeight = height / this.canvasHeight * -2;
+
+        // Stretch out unit quad.
+        gl.uniformMatrix3fv(uMatrix, false, [
+            clipWidth, 0, 0,
+            0, clipHeight, 0,
+            clipX, clipY, 1,
+        ]);
+
+        // Draw the rectangle.
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        // Clear VRAM memory by deleting the texture after render.
+        webgl.deleteTexture(gl, texture);
 
         this.lastRenderSource = imageSource;
     }
@@ -1469,7 +1204,7 @@ export class CanvasImageSequence {
      * Updates the internal sizing options.
      * @param options
      */
-    setSizingOptions(options: CanvasImageSequenceSizingOptions) {
+    setSizingOptions(options: WebGlImageSequenceSizingOptions) {
         this.sizingOptions = options;
     }
 
@@ -1519,16 +1254,6 @@ export class CanvasImageSequence {
 
 
     /**
-     * Gets the hex color at the given coordinates of the canvas as it is
-     * renders at the moment.
-     * @param coords
-     */
-    getHexColorAtPoint(coords: Vector) {
-        return domCanvas.getColorAtPointAsHex(this.context, coords);
-    }
-
-
-    /**
      * Immediately stops the canvas animation playing.
      * (that happens with play method).
      */
@@ -1562,7 +1287,7 @@ export class CanvasImageSequence {
         this.canvasElement = null;
         dom.deleteImage(this.cacheImage);
         this.cacheImage = null;
-        this.context = null;
+        this.gl = null;
     }
 
 }
