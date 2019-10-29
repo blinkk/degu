@@ -421,6 +421,7 @@ export class dom {
     }
 
 
+
     /**
      * Creates an image in memory that is later deletable so it can
      * be released from native memory AND image cache.
@@ -558,5 +559,103 @@ export class dom {
             }
             image = null;
         }
+    }
+
+
+    /**
+     * Flushes all video sources in a given element.  This allow the VRAM to
+     * flush.  Use unflushVideos to put it back.
+     *
+     * This is particularly useful to combine with inview.
+     * Where normally, it would take Chrome a couple of seconds
+     * to flush memory of an outview video, this would do it
+     * explicitly release memory much quicker.
+     *
+     *
+     * Current will only work with video with <source> not video with
+     * src.
+     *  <video>
+     *    <source src="xxx.mp4"></source>
+     *    <source src="xxx.webm"></source>
+     * </video>
+     *
+     * Basically, this works by removig the src attribute from each video
+     * and then force reloading it - flushing it from memory.
+     *
+     * ```ts
+     *    let ev = elementVisibility.inview(
+     *       el, {rootMargin: '100px 100px 100px 100px'}, () => {
+     *       if (ev.state().ready) {
+     *         if (ev.state().inview) {
+     *           dom.unflushVideos(el);
+     *         } else {
+     *           dom.flushVideos(el);
+     *         }
+     *       }
+     *     });
+     *
+     * ```
+     *
+     *
+     * You may also have a case where you are lazyloading videos as such:
+     *
+     * <video>
+     *    <source lazyvideo-src="xxx.mp4"></source>
+     * </video>
+     *
+     * In this case, you can use the source attribute to specify the data-attritube
+     * that contains the path to the source.
+     *
+     * ```ts
+     *     dom.flushVideos(el, 'lazyvideo-src');
+     * ```
+     *
+     * https://html.spec.whatwg.org/multipage/media.html#best-practices-for-authors-using-media-elements
+     *
+     * @param el The html element to search
+     * @param sourceAttribute An optional attribute value to acquire the
+     *   video source from.
+     */
+    static flushVideos(el: HTMLElement, sourceAttribute:string = '') {
+        let videos = [...el.querySelectorAll('video')];
+        videos.forEach((video) => {
+            let sources = [...video.querySelectorAll('source')];
+            sources.forEach((source) => {
+              const src = source.getAttribute(sourceAttribute) || source.src;
+              source.setAttribute('data-video-src', src);
+              source.removeAttribute('src');
+            });
+
+            sources = null;
+            video.load();
+        });
+
+        videos = null;
+    }
+
+
+    /**
+     * Puts back video sources and undoes the effect of dom.flushVideos.
+     */
+    static unflushVideos(el: HTMLElement) {
+        let videos = [...el.querySelectorAll('video')];
+        videos.forEach((video) => {
+            let sources = [...video.querySelectorAll('source')];
+            sources.forEach((source) => {
+              if(!source.hasAttribute('data-video-src')) {
+                  return;
+              }
+              const src = source.getAttribute('data-video-src');
+              source.setAttribute('src', src);
+            });
+
+            sources = null;
+
+            video.load();
+        });
+
+        videos = null;
+
+        dom.playAllVideosInElement(el);
     }
 }
