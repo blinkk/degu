@@ -442,6 +442,8 @@ export interface WebGlImageSequenceClipInterpolationConfig {
  *
  * ```
  *
+ * TODO (uxder): Possibly upgrade to compressed textures.
+ *           https://blog.playcanvas.com/webgl-texture-compression-made-easy/
  *
  * @unstable
  */
