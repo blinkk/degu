@@ -1152,7 +1152,7 @@ export class WebGlImageSequence {
         var uMatrix = gl.getUniformLocation(program, "u_matrix")
 
         gl.useProgram(this.program);
-        gl.viewport(0, 0, this.canvasWidth, this.canvasHeight);
+        gl.viewport(0, 0, this.canvasWidth * this.dpr, this.canvasHeight * this.dpr);
 
         // gl.enable(gl.BLEND);
         // gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -1173,8 +1173,8 @@ export class WebGlImageSequence {
 
         // Convert pixel coords to gl coords based on the x, y, width and height
         // values calculated above.
-        var clipX = x / gl.canvas.width * 2 - 1;
-        var clipY = y / gl.canvas.height * -2 + 1;
+        var clipX = x / this.canvasWidth * 2 - 1;
+        var clipY = y / this.canvasHeight * -2 + 1;
         var clipWidth = width / this.canvasWidth * 2;
         var clipHeight = height / this.canvasHeight * -2;
 
