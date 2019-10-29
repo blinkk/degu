@@ -619,7 +619,6 @@ export class WebGlImageSequence {
         this.rafTimer = null;
         this.multiInterpolate = null;
         this.clipMultiInterpolate = null;
-        this.clipPathType = null;
         this.blobLoader = null;
         this.progress = null;
         this.playDefer = null;
@@ -904,11 +903,6 @@ export class WebGlImageSequence {
         if (this.multiInterpolate && !noMultiInterpolate) {
             let interpolateMap = this.multiInterpolate.calculate(progress);
             progress = mathf.clamp01(interpolateMap['sequence']);
-        }
-
-        // Update clip path multli interpolate.
-        if (this.clipMultiInterpolate) {
-            this.clipMultiInterpolate.calculate(progress);
         }
 
         // Flush cache if progress is 0 or 1 to ensure final frame is always
