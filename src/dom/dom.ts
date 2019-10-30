@@ -624,6 +624,7 @@ export class dom {
               const src = source.getAttribute(sourceAttribute) || source.src;
               source.setAttribute('data-video-src', src);
               source.removeAttribute('src');
+              source = null;
             });
 
             sources = null;
