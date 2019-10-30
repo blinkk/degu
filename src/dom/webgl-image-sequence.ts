@@ -556,11 +556,6 @@ export class WebGlImageSequence {
     private multiInterpolate: MultiInterpolate | null;
 
     /**
-     * MultiInterpolations if using the clip option.
-     */
-    private clipMultiInterpolate: MultiInterpolate | null;
-
-    /**
      * Sizing options for CanvasImageSequence.
      */
     private sizingOptions: WebGlImageSequenceSizingOptions | undefined;
@@ -597,7 +592,10 @@ export class WebGlImageSequence {
 
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
-        this.gl = this.canvasElement.getContext('webgl');
+        this.gl = this.canvasElement.getContext('webgl', {
+            antialias: false,
+            depth: false
+        });
         this.program = webgl.createProgram(this.gl, vertShader, fragShader);
 
         this.dpr = func.setDefault(dpr, window.devicePixelRatio || 1);
@@ -618,7 +616,6 @@ export class WebGlImageSequence {
 
         this.rafTimer = null;
         this.multiInterpolate = null;
-        this.clipMultiInterpolate = null;
         this.blobLoader = null;
         this.progress = null;
         this.playDefer = null;
@@ -643,7 +640,6 @@ export class WebGlImageSequence {
             eventOptions: { passive: true }
         });
 
-        this.resize();
         this.domWatcher.run('resize');
 
         // Another resize watcher dedicated to checking to checking if a new
