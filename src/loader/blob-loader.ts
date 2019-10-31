@@ -59,6 +59,9 @@ export class BlobLoader {
 
     load(): Promise<Object> {
         return new Promise((resolve) => {
+            if (!this.imageSources) {
+                resolve(this.blobs);
+            }
             const promises = this.imageSources.map((source) => {
                 return this.loadBlob(source);
             })
