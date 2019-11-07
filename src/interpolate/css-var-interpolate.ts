@@ -67,6 +67,9 @@ import { cssUnit } from '../string/css-unit';
  *      ]}
  *  )
  *
+ * // A feature introduced since v0.0.103 and recommended.
+ * this.cssVarInterpolate.batchUpdate(true);
+ *
  *  // Set the progress to the range value.
  *  this.progress = +this.range.value;
  *
@@ -170,6 +173,12 @@ export class CssVarInterpolate {
      */
     private renderSubPixels: boolean;
 
+    /**
+     * Whether to batch update css styles.  This is generally recommended but set
+     * as false by default for backward compatability.
+     */
+    private batchUpdate: boolean;
+
 
     /**
      * @param element The element to update the css variable to.
@@ -202,6 +211,7 @@ export class CssVarInterpolate {
         this.runOnceAfterOutView = true;
         this.renderOnlyWhenInview = true;
         this.ranOutViewUpdate = false;
+        this.batchUpdate = false;
 
         this.startProgress = 0;
         this.endProgress = 1;
@@ -269,6 +279,15 @@ export class CssVarInterpolate {
      */
     useSubPixelRendering(value: boolean) {
         this.renderSubPixels = value;
+    }
+
+
+    /**
+     * Allows batch update of css variables.  Recommend for improved
+     * performance.
+     */
+    useBatchUpdate(value: boolean) {
+        this.batchUpdate = value;
     }
 
     /**
@@ -341,7 +360,14 @@ export class CssVarInterpolate {
                 }
             }
 
-            dom.setCssVariable(this.element, key, this.currentValues[key]);
+            if (!this.batchUpdate) {
+              dom.setCssVariable(this.element, key, this.currentValues[key]);
+            }
+        }
+
+        // Update values in batch.
+        if (this.batchUpdate) {
+          dom.setCssVariables(this.element, this.currentValues);
         }
     }
 

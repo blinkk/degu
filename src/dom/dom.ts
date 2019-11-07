@@ -145,6 +145,26 @@ export class dom {
 
 
     /**
+     * Batch update css variables on an element.  This updates style in a
+     * destructive manner and will override any other style elements.
+     *
+     * ```ts
+     * dom.addVariables(element, { '--height': "200px", '--mycssvariable': '20px'});
+     * ```
+     * @param element
+     * @param style
+     */
+    static setCssVariables(element:HTMLElement, variables:Object) {
+        let style = '';
+        for (var key in variables) {
+            style += key + ':' + variables[key] + ';';
+        }
+        element.style.cssText = style;
+    }
+
+
+
+    /**
      * Given a set of styles, add it to an element.
      *
      * ```ts
