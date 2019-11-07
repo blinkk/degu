@@ -89,6 +89,7 @@ export class Raf {
     private isPlaying: boolean;
     private callbacks: Array<Function>;
     private runCondition: Function | null;
+    private isRunningRaf: boolean;
 
     /**
      * @param {Function} rafLoop  Optional function to be called on each
@@ -129,6 +130,10 @@ export class Raf {
          */
         this.isPlaying = false;
 
+        /**
+         * Whether we are already running raf.
+         */
+        this.isRunningRaf = false;
 
         /**
          * A collection of callbacks to be called on raf.
@@ -204,6 +209,7 @@ export class Raf {
     stop() {
         this.isPlaying = false;
         window.cancelAnimationFrame(this.raf_);
+        this.isRunningRaf = false;
     }
 
     dispose() {
@@ -215,10 +221,17 @@ export class Raf {
      * The internal animation loop.
      */
     private animationLoop_() {
+        if (this.isRunningRaf) {
+            return;
+        }
+
         this.raf_ = window.requestAnimationFrame((frame: number) => {
             this.frame = frame;
+            this.isRunningRaf = false;
             this.animationLoop_();
         });
+
+        this.isRunningRaf = true;
 
         if (this.lastUpdateTime) {
             const current = time.now();
