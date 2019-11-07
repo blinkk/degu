@@ -1,14 +1,6 @@
 import { time } from '../time/time';
 
 
-interface RafEvent extends Event {
-    readonly frame: string;
-    readonly lastUpdateTime: string;
-    readonly elapsed: number;
-    readonly stop: Function;
-}
-
-
 
 /**
  * A class that creates a RAF loop and calls a specific callback.  Setting the
