@@ -5,6 +5,7 @@ import { ElementVisibilityObject, elementVisibility } from '../dom/element-visib
 import { dom } from '../dom/dom';
 import { is } from '../is/is';
 import { cssUnit } from '../string/css-unit';
+import { objectf } from '../objectf/objectf';
 
 
 /**
@@ -117,7 +118,7 @@ import { cssUnit } from '../string/css-unit';
  * If you want to turn this off, do the following:
  *
  * ```ts
- * this.cssVarInterpolate.renderOnlyWhenInview = false;
+ * this.cssVarInterpolate.renderOutview(true);
  * ```
  */
 export class CssVarInterpolate {
@@ -174,6 +175,11 @@ export class CssVarInterpolate {
     private renderSubPixels: boolean;
 
     /**
+     * The number of decimals that should be used when evaluating progress.
+     */
+    private precision:number;
+
+    /**
      * Whether to batch update css styles.  This is generally recommended but set
      * as false by default for backward compatability.
      */
@@ -212,6 +218,7 @@ export class CssVarInterpolate {
         this.renderOnlyWhenInview = true;
         this.ranOutViewUpdate = false;
         this.batchUpdate = false;
+        this.precision = 4;
 
         this.startProgress = 0;
         this.endProgress = 1;
@@ -246,6 +253,17 @@ export class CssVarInterpolate {
         if (config) {
             this.multiInterpolate = new MultiInterpolate(config);
         }
+    }
+
+
+    /**
+     * Sets the internal precision.  Precision is used to evaluate how many
+     * decimals should be valuated on progress.  Lower precision means, 0.8888
+     * and 0.88888 would be same.    Enter the number of decimals you want to
+     * account for.  Lower precision will have slight performance benefits.
+     */
+    setPrecision(numberOfDecimals:number) {
+        this.precision = numberOfDecimals;
     }
 
 
@@ -289,6 +307,14 @@ export class CssVarInterpolate {
     useBatchUpdate(value: boolean) {
         this.batchUpdate = value;
     }
+
+    /**
+     * Sets css var interpolate to render even when out of view.
+     */
+    renderOutview(value: boolean) {
+        this.renderOnlyWhenInview = !value;
+    }
+
 
     /**
      * Updates the progress and updates the css variable values.
@@ -343,13 +369,28 @@ export class CssVarInterpolate {
             return;
         }
 
+        const roundedPrecision = mathf.toFixed(progress, this.precision);
+
+        // Cull if progress hasn't changed.
+        if (this.mainProgress == roundedPrecision) {
+            return;
+        }
+
         // Create a child progress so that the range in which this interpolation
         // reacts can be scoped.
-        this.mainProgress = mathf.childProgress(progress,
+        this.mainProgress = mathf.childProgress(
+            roundedPrecision,
             this.startProgress, this.endProgress);
 
+        const previousValues = objectf.jsonCopy(this.currentValues);
         this.currentValues =
             this.multiInterpolate.calculate(this.mainProgress);
+
+        // Check if the previous values and current values are exactly the same
+        // in which case we can avoid an unncessary update.
+        if(objectf.areEqual(previousValues, this.currentValues)) {
+            return;
+        }
 
         for (var key in this.currentValues) {
             if (!this.renderSubPixels && is.string(this.currentValues[key])) {
