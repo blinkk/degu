@@ -594,10 +594,12 @@ export class dom {
      *
      * Current will only work with video with <source> not video with
      * src.
+     * ```
      *  <video>
      *    <source src="xxx.mp4"></source>
      *    <source src="xxx.webm"></source>
      * </video>
+     * ```
      *
      * Basically, this works by removig the src attribute from each video
      * and then force reloading it - flushing it from memory.
@@ -619,9 +621,11 @@ export class dom {
      *
      * You may also have a case where you are lazyloading videos as such:
      *
+     * ```
      * <video>
      *    <source lazyvideo-src="xxx.mp4"></source>
      * </video>
+     * ```
      *
      * In this case, you can use the source attribute to specify the data-attritube
      * that contains the path to the source.
@@ -657,8 +661,11 @@ export class dom {
 
     /**
      * Puts back video sources and undoes the effect of dom.flushVideos.
+     * @param el The root element.
+     * @param noPlay Whether to suppress autoplaying of videos when videos are
+     *   unflushed.
      */
-    static unflushVideos(el: HTMLElement) {
+    static unflushVideos(el: HTMLElement, noPlay: boolean = false) {
         let videos = [...el.querySelectorAll('video')];
         videos.forEach((video) => {
             let sources = [...video.querySelectorAll('source')];
@@ -677,6 +684,8 @@ export class dom {
 
         videos = null;
 
-        dom.playAllVideosInElement(el);
+        if(!noPlay) {
+          dom.playAllVideosInElement(el);
+        }
     }
 }
