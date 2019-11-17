@@ -56,6 +56,17 @@ import { dom } from 'yano-js/lib/dom/dom/'
 ```
 
 
+## ThreeJS deps
+Classes under threef require three.js deps.  Currently supports r110.
+
+In your project do:
+```
+npm install --save-dev three@0.110.0
+npm install --save-dev @types/three@0.103.2
+
+```
+
+
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/uxder/yano-js/blob/master/CONTRIBUTING.md)
 on how to develop for yano-js.

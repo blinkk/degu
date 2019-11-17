@@ -3,8 +3,6 @@ import * as dat from 'dat.gui';
 import {VectorDom} from '../lib/dom/vector-dom';
 import {Raf} from '../lib/raf/raf';
 import {Vector} from '../lib/mathf/vector';
-import {Quad} from 'pixi.js';
-import {Quaternion} from '../lib/mathf/quaternion';
 
 export default class VectorDomSample {
   constructor() {

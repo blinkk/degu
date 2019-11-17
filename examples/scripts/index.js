@@ -4,17 +4,10 @@ import 'intersection-observer';
 
 // Examples.
 
-import EaserDisableRafSample from '../easer-disable-raf';
-import EaserSample from '../easer';
-
-import InterpolateSample from '../interpolate';
-import MultiInterpolateSample from '../multi-interpolate';
-import CssVarInterpolateSample from '../css-var-interpolate';
-import CssVarInterpolateSample2 from '../css-var-interpolate2';
-import CssVarInterpolateSample3 from '../css-var-interpolate3';
-import DomWatcherSample from '../dom-watcher';
-import DomCanvasSample from '../dom-canvas';
+// import VideoProgressSample from '../playground/video-progress';
+import BezierCurveSample from '../bezier-curve';
 import CanvasImageSequenceSample from '../canvas-image-sequence';
+import CanvasImageSequenceSample10 from '../canvas-image-sequence10';
 import CanvasImageSequenceSample2 from '../canvas-image-sequence2';
 import CanvasImageSequenceSample3 from '../canvas-image-sequence3';
 import CanvasImageSequenceSample4 from '../canvas-image-sequence4';
@@ -22,7 +15,45 @@ import CanvasImageSequenceSample5 from '../canvas-image-sequence5';
 import CanvasImageSequenceSample7 from '../canvas-image-sequence7';
 import CanvasImageSequenceSample8 from '../canvas-image-sequence8';
 import CanvasImageSequenceSample9 from '../canvas-image-sequence9';
-import CanvasImageSequenceSample10 from '../canvas-image-sequence10';
+import CatmullRomSample from '../catmull-rom';
+import CssVarInterpolateSample from '../css-var-interpolate';
+import CssVarInterpolateSample2 from '../css-var-interpolate2';
+import CssVarInterpolateSample3 from '../css-var-interpolate3';
+import DomCanvasSample from '../dom-canvas';
+import DomWatcherSample from '../dom-watcher';
+import EaserDisableRafSample from '../easer-disable-raf';
+import EaserSample from '../easer';
+import HermiteCurveSample from '../hermite-curve';
+import InterpolateSample from '../interpolate';
+import MathfEaseSample from '../mathf-ease';
+import MatrixIVSample from '../matrixIV';
+import MatrixIVSample2 from '../matrixIV2';
+import MatrixIVSample3 from '../matrixIV3';
+import MultiInterpolateSample from '../multi-interpolate';
+import OffScreenCanvasSample from '../off-screen-canvas';
+import PerlinNoiseSample from '../perlin-noise';
+import PlaygroundSample from '../playground';
+import Pseudo3dCanvasSample from '../pseudo-3d-canvas';
+import QuaternionSample from '../quaternion';
+import RafProgressSample from '../raf-progress';
+import RafSample from '../raf';
+import RafSample2 from '../raf2';
+import RafTimerSample from '../raf-timer';
+import RayCasting2Sample from '../raycasting2';
+import RayCasting3Sample from '../raycasting3';
+import RayCastingSample from '../raycasting';
+import ScrollDemoSample from '../scroll-demo';
+import ScrollDemoSample2 from '../scroll-demo2';
+import ScrollDemoSample3 from '../scroll-demo3';
+import ScrollDemoSample4 from '../scroll-demo4';
+import ScrollDemoSample5 from '../scroll-demo5';
+import ThreeObjectViewer from '../three-object-viewer';
+import ThreeObjectViewer2 from '../three-object-viewer2';
+import TextSplitSample from '../text-split';
+import VectorDomSample from '../vector-dom';
+import VectorDomSample2 from '../vector-dom2';
+import VectorDomSample3 from '../vector-dom3';
+import VideoProgressSample from '../video-progress';
 import WebGlImageSequenceSample from '../webgl-image-sequence';
 import WebGlImageSequenceSample2 from '../webgl-image-sequence2';
 import WebGlImageSequenceSample3 from '../webgl-image-sequence3';
@@ -30,45 +61,9 @@ import WebGlImageSequenceSample4 from '../webgl-image-sequence4';
 import WebGlImageSequenceSample5 from '../webgl-image-sequence5';
 import WebGlImageSequenceSample7 from '../webgl-image-sequence7';
 import WebGlImageSequenceSample9 from '../webgl-image-sequence9';
-
-import MathfEaseSample from '../mathf-ease';
-import RafSample from '../raf';
-import RafSample2 from '../raf2';
-import RafTimerSample from '../raf-timer';
-import RafProgressSample from '../raf-progress';
-
-import PlaygroundSample from '../playground';
-import OffScreenCanvasSample from '../off-screen-canvas';
-
-import CatmullRomSample from '../catmull-rom';
-import HermiteCurveSample from '../hermite-curve';
-import BezierCurveSample from '../bezier-curve';
-import MatrixIVSample from '../matrixIV';
-import MatrixIVSample2 from '../matrixIV2';
-import MatrixIVSample3 from '../matrixIV3';
-import Pseudo3dCanvasSample from '../pseudo-3d-canvas';
-import VectorDomSample from '../vector-dom';
-import VectorDomSample2 from '../vector-dom2';
-import VectorDomSample3 from '../vector-dom3';
-import RayCastingSample from '../raycasting';
-import RayCasting2Sample from '../raycasting2';
-import RayCasting3Sample from '../raycasting3';
-import PerlinNoiseSample from '../perlin-noise';
-import QuaternionSample from '../quaternion';
-
-// import VideoProgressSample from '../playground/video-progress';
-
-import ScrollDemoSample from '../scroll-demo';
-import ScrollDemoSample2 from '../scroll-demo2';
-import ScrollDemoSample3 from '../scroll-demo3';
-import ScrollDemoSample4 from '../scroll-demo4';
-import ScrollDemoSample5 from '../scroll-demo5';
-
-import XSample from '../x';
 import X2Sample from '../x2';
+import XSample from '../x';
 
-import TextSplitSample from '../text-split';
-import VideoProgressSample from '../video-progress';
 
 
 import WebGlSample from '../webgl';
@@ -129,6 +124,8 @@ const samples = {
   'scrollDemoSample3': ScrollDemoSample3,
   'scrollDemoSample4': ScrollDemoSample4,
   'scrollDemoSample5': ScrollDemoSample5,
+  'threeObjectViewer': ThreeObjectViewer,
+  'threeObjectViewer2': ThreeObjectViewer2,
   'textSplitSample': TextSplitSample,
   'webGlSample': WebGlSample,
 };
