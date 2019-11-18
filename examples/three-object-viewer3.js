@@ -19,6 +19,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
 import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 
 
 // import { Raf } from '../lib/raf/raf';
@@ -82,16 +84,17 @@ export default class ThreeObjectViewer3 {
             console.log(this.mixer);
 
 
+
             // http://learningthreejs.com/blog/2012/01/20/casting-shadows/
             this.scene.traverse((child) => {
                 if(child instanceof THREE.Light) {
                     child.castShadow = true;
 
                     // Debugging light positions.
-                    child.shadowCameraVisible = true;
+                    child.shadowCameraVisible = false;
 
                     // Adjust shadow bias.
-                    child.shadow.bias = -0.005;
+                    child.shadow.bias = -0.002;
                     // Remove the rigged looking shadows.
                     child.shadow.mapSize.width = 1024;
                     child.shadow.mapSize.height = 1024;
@@ -101,7 +104,7 @@ export default class ThreeObjectViewer3 {
 
                     // Lights come off a bit stronger compared to Eevee, so
                     // lower the intensity. Stronger = less shadows.
-                    child.intensity = child.intensity * 0.4;
+                    child.intensity = child.intensity * 0.3;
 
 
                     // var helper = new THREE.CameraHelper( child.shadow.camera );
@@ -110,7 +113,6 @@ export default class ThreeObjectViewer3 {
                 else if(child instanceof THREE.Mesh) {
                     child.castShadow = true;
                     child.receiveShadow = true;
-                    console.log('receive', child);
                     // child.geometry.computeVertexNormals(true);
 
 
@@ -126,9 +128,9 @@ export default class ThreeObjectViewer3 {
                 //     child.receiveShadow = true;
                 // }
                 // Fix eyes
-                if(child.name.startsWith('Cube006')) {
+                if(child.name.startsWith('Cylinder')) {
                     child.castShadow = false;
-                    child.receiveShadow = false;
+                    child.receiveShadow = true;
                 }
             });
 
@@ -138,15 +140,19 @@ export default class ThreeObjectViewer3 {
             this.camera = gltf.cameras[0];
             console.log(this.camera);
 
+
             this.resize();
         }, undefined, (error) => {
             console.error(error);
         });
 
+
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             // precision: 'highp'
+            autoSize: true
         });
+        this.composer = new EffectComposer(this.renderer);
         this.canvasContainer.appendChild(this.renderer.domElement);
 
         window.addEventListener('resize', this.resize.bind(this), false);
@@ -169,15 +175,15 @@ export default class ThreeObjectViewer3 {
         this.renderer.physicallyCorrectLights = true;
 
         // Background as black.
-        this.renderer.setClearColor(0x568BA2);
-        // this.renderer.setClearColor(0xFFFFFF, 1.0);
+        this.renderer.setClearColor(0x4287f5);
+        // this.renderer.setClearColor(0xE7E7E7, 1.0);
 
         // Affects how strongly lights come exposed.
         // this.renderer.toneMappingExposure = 0.4;
 
         // https://threejs.org/examples/#webgl_tonemapping
-        this.renderer.toneMappingExposure = 0.4;
-        // this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 0.35;
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
 
         // Enable shadows.
@@ -190,14 +196,20 @@ export default class ThreeObjectViewer3 {
         this.renderer.gammaFactor = 2.2;
 
         // Post processing
-        this.composer = new EffectComposer(this.renderer);
+        this.composer.setSize( this.width, this.height);
+        const fxaaPass = new ShaderPass( FXAAShader );
+        fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( this.width * window.devicePixelRatio);
+        fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( this.height * window.devicePixelRatio);
+        this.composer.addPass(fxaaPass);
         this.composer.addPass(new RenderPass(this.scene, this.camera));
-        // var bloomPass = new UnrealBloomPass(10, 25, 5, 256);
+
+        // var bloomPass = new UnrealBloomPass(1, 25, 5, 256);
         // this.composer.addPass(bloomPass);
 
         // The camera aspect goes off since it could be exported at a different
         // ratio.  Force update the aspect ratio.
-        // this.camera.fov = this.width / this.height;
+        // this.camera.fov = 25; // Update FOV.
+        this.camera.zoom = 1; // Update FOV.
         this.camera.aspect = this.width / this.height;
         this.camera.updateProjectionMatrix();
 
