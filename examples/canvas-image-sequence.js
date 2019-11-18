@@ -52,7 +52,8 @@ export default class CanvasImageSequenceSample {
     // Create Canvas Image Sequenece
     this.canvasImageSequence = new CanvasImageSequence(
         this.canvasContainerElement,
-        [{images: this.canvasImageSources}]
+        [{images: this.canvasImageSources}],
+        { ariaLabel: 'Aria label test'}
     );
 
     // this.canvasImageSequence.lerpAmount = 0.02;

@@ -25,7 +25,7 @@ export interface CanvasImageSequenceImageSet {
     when?: Function
 }
 
-export interface CanvasImageSequenceSizingOptions {
+export interface CanvasImageSequenceOptions {
     /**
      * Whether the sizing should use cover insted of contain.
      */
@@ -172,6 +172,11 @@ export interface CanvasImageSequenceSizingOptions {
      *                         image.
      */
     rightNoClip: boolean,
+
+    /**
+     * Optional aria label to add to the generated canvas.
+     */
+    ariaLabel: string
 
 }
 
@@ -738,7 +743,7 @@ export class CanvasImageSequence {
     /**
      * Sizing options for CanvasImageSequence.
      */
-    private sizingOptions: CanvasImageSequenceSizingOptions | undefined;
+    private options: CanvasImageSequenceOptions | undefined;
 
     /**
      * Whether the instance has been disposed or not.
@@ -749,7 +754,7 @@ export class CanvasImageSequence {
 
     constructor(element: HTMLElement,
         imageSets: Array<CanvasImageSequenceImageSet>,
-        sizingOptions?: CanvasImageSequenceSizingOptions,
+        options?: CanvasImageSequenceOptions,
         dpr?: number) {
 
 
@@ -766,13 +771,23 @@ export class CanvasImageSequence {
         this.activeImageSet = null;
         this.blobCache = {};
 
-        this.sizingOptions = sizingOptions;
+        this.options = options;
 
         this.isPlaying = false;
         // this.useBitmapImageIfPossible = false;
 
         // Create canvas.
         this.canvasElement = document.createElement('canvas');
+
+        // Add aria label if available.
+        if (this.options && this.options.ariaLabel) {
+            this.canvasElement.setAttribute('aria-label', this.options.ariaLabel);
+            this.canvasElement.setAttribute('role', 'img');
+        } else {
+            this.canvasElement.setAttribute('aria-hidden', 'true');
+        }
+
+
         this.context = this.canvasElement.getContext('2d')!;
         this.dpr = func.setDefault(dpr, window.devicePixelRatio || 1);
         this.canvasWidth = 0;
@@ -1007,7 +1022,7 @@ export class CanvasImageSequence {
             // Remove the objectURL Blob from locale cache.
             URL.revokeObjectURL(this.cacheImage.src);
             this.cacheImage.onload = () => {
-               resolve(this.cacheImage);
+                resolve(this.cacheImage);
             }
 
             // Create a new temporary ObjectURl to store.
@@ -1292,8 +1307,8 @@ export class CanvasImageSequence {
 
 
         // If this was called at a rate exceeding the fps limit.
-        if(!this.fps.canRun()) {
-            this.fps.schedule(()=> {
+        if (!this.fps.canRun()) {
+            this.fps.schedule(() => {
                 // Force a draw.  This ensures that even with FPS limiting,
                 // the very last draw call is always rendered.
                 this.lastDrawSource = null;
@@ -1330,34 +1345,34 @@ export class CanvasImageSequence {
 
         // Background "cover" sizing.
         // Defaults to center.
-        if (this.sizingOptions && this.sizingOptions.cover) {
+        if (this.options && this.options.cover) {
             let cover =
                 mathf.calculateBackgroundCover(containerBox, imageBox);
 
-            if (this.sizingOptions && is.number(this.sizingOptions.left)) {
+            if (this.options && is.number(this.options.left)) {
                 cover.xOffset =
-                    (containerBox.width - (imageBox.width * cover.scalar)) * -this.sizingOptions.left;
+                    (containerBox.width - (imageBox.width * cover.scalar)) * -this.options.left;
             }
 
-            if (this.sizingOptions && is.number(this.sizingOptions.right)) {
+            if (this.options && is.number(this.options.right)) {
                 // Right align first.
                 cover.xOffset = -(containerBox.width - (imageBox.width * cover.scalar));
                 cover.xOffset +=
-                    (containerBox.width - (imageBox.width * cover.scalar)) * this.sizingOptions.right;
+                    (containerBox.width - (imageBox.width * cover.scalar)) * this.options.right;
             }
 
-            if (this.sizingOptions && is.number(this.sizingOptions.bottom)) {
+            if (this.options && is.number(this.options.bottom)) {
                 // Set to bottom.
                 cover.yOffset = -(containerBox.height - (imageBox.height * cover.scalar));
                 // Clipping Bottom algo.
                 // Add the percentage amount specified.
                 cover.yOffset +=
-                    (containerBox.height - (imageBox.height * cover.scalar)) * this.sizingOptions.bottom;
+                    (containerBox.height - (imageBox.height * cover.scalar)) * this.options.bottom;
             }
 
-            if (this.sizingOptions && is.number(this.sizingOptions.top)) {
+            if (this.options && is.number(this.options.top)) {
                 cover.yOffset =
-                    (containerBox.height - (imageBox.height * cover.scalar)) * -this.sizingOptions.top;
+                    (containerBox.height - (imageBox.height * cover.scalar)) * -this.options.top;
             }
 
             this.context.drawImage(
@@ -1379,70 +1394,70 @@ export class CanvasImageSequence {
                 (containerBox.height - (imageBox.height * this.containScale)) / 2;
 
             // Sizing option logic.
-            if (this.sizingOptions && is.number(this.sizingOptions.bottom)) {
+            if (this.options && is.number(this.options.bottom)) {
                 // Bottom align it.
                 diffY = containerBox.height - (imageBox.height * this.containScale);
 
                 // Easy way to test this is to set bottom: 1 and
                 // bottomClipping: false which would top align the image.
-                if (this.sizingOptions.bottomNoClip) {
+                if (this.options.bottomNoClip) {
                     diffY -=
                         (containerBox.height - (imageBox.height * this.containScale))
-                        * this.sizingOptions.bottom;
+                        * this.options.bottom;
                 } else {
                     // Clipping Bottom algo.
                     // Add the percentage amount specified.
-                    diffY -= containerBox.height * this.sizingOptions.bottom;
+                    diffY -= containerBox.height * this.options.bottom;
                 }
             }
 
-            if (this.sizingOptions && is.number(this.sizingOptions.right)) {
+            if (this.options && is.number(this.options.right)) {
                 // Right align it.
                 diffX = containerBox.width - (imageBox.width * this.containScale);
 
                 // Easy way to test this is to set right: 1 and
                 // rightClipping: false which would left align the image.
-                if (this.sizingOptions.rightNoClip) {
+                if (this.options.rightNoClip) {
                     diffX -=
                         (containerBox.width - (imageBox.width * this.containScale))
-                        * this.sizingOptions.right;
+                        * this.options.right;
                 } else {
                     // Clipping right algo.
                     // Add the percentage amount specified.
-                    diffX -= containerBox.width * this.sizingOptions.right;
+                    diffX -= containerBox.width * this.options.right;
                 }
             }
 
-            if (this.sizingOptions && is.number(this.sizingOptions.top)) {
+            if (this.options && is.number(this.options.top)) {
                 // Top align it.
                 diffY = 0;
                 // Easy way to test this is to set top: 1 and
                 // topClipping: false which would bottom aligned the image.
-                if (this.sizingOptions.topNoClip) {
+                if (this.options.topNoClip) {
                     diffY =
                         (containerBox.height - (imageBox.height * this.containScale))
-                        * this.sizingOptions.top;
+                        * this.options.top;
                 } else {
                     // Clipping Top algo.
                     // Add the percentage amount specified.
-                    diffY += this.sizingOptions.top * containerBox.height;
+                    diffY += this.options.top * containerBox.height;
                 }
             }
 
 
-            if (this.sizingOptions && is.number(this.sizingOptions.left)) {
+            if (this.options && is.number(this.options.left)) {
                 // Left align it.
                 diffX = 0;
                 // Easy way to test this is to set left: 1 and
                 // leftClipping: false which would right aligned the image.
-                if (this.sizingOptions.leftNoClip) {
+                if (this.options.leftNoClip) {
                     diffX =
                         (containerBox.width - (imageBox.width * this.containScale))
-                        * this.sizingOptions.left;
+                        * this.options.left;
                 } else {
                     // Clipping left algo.
                     // Add the percentage amount specified.
-                    diffX += this.sizingOptions.left * containerBox.width;
+                    diffX += this.options.left * containerBox.width;
                 }
             }
 
@@ -1469,8 +1484,8 @@ export class CanvasImageSequence {
      * Updates the internal sizing options.
      * @param options
      */
-    setSizingOptions(options: CanvasImageSequenceSizingOptions) {
-        this.sizingOptions = options;
+    setSizingOptions(options: CanvasImageSequenceOptions) {
+        this.options = options;
     }
 
 
