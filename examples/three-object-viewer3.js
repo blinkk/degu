@@ -1,3 +1,4 @@
+
 // https://threejs.org/docs/#manual/en/introduction/Loading-3D-models
 // https://threejs.org/examples/#webgl_loader_gltf
 // https://gist.github.com/bellbind/c4f8c502fcacbe29422e5ac315273858
@@ -7,6 +8,7 @@
 // https://www.pentacreation.com/blog/2019/09/190916.html
 // https://www.pentacreation.com/blog/2019/10/191016.html
 
+// https://docs.blender.org/manual/ja/latest/addons/io_scene_gltf2.html
 // https://gltf-viewer.donmccurdy.com/
 // https://github.com/donmccurdy/three-gltf-viewer
 
@@ -14,79 +16,49 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
+import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
-import { Raf } from '../lib/raf/raf';
 
-/**
- * Just a crude example of adding a gltf object file in three.js.
- *
- * Basic steps.
- * Take your blender file and export it out as a gtlf and set it the path
- *    in the code below.
- *
- * https://docs.blender.org/manual/ja/latest/addons/io_scene_gltf2.html
- *
- * To export, in Blender 2.8 to go:
- * File -> Export glTF2.0 -> save your file.
- * Make sure you have the following checked under the export settings.
- * - General -> Apply Modifiers
- * - General -> +Y up
- * - Meshes -> Uvs, Normals, Vertex Colors, Materials
- * - Objects -> Cameras, Punctual Lights
- * - Animations -> Animations, Limit Playback Range, Always Sample Animations, SKinning, Shape Keys, Shape Keys Normals.
- *
- * Save file as glb.
- *
- *
- * Lights
- * - Area lights don't seem to export correctly out of blender.
- *
- *
- * Materials
- * - Seems like just Princpled BSDF is the main supported (okay with images)
- *
- *
- * Camera Movement.  If you are exporting camera movement, note the following.
- * - You can't use path animation since even if you bake the animations,
- *  they don't get included.  This means that beizer-curve path animations
- *  like done here: https://www.youtube.com/watch?v=-2dd_qK54pg
- *  won't work.
- * - Instead, you have to animate the camera.  Prior to exporting as gltf,
- *  you MUST, bake the animation.  To do this, go to the Camera,
- *  Object -> Animation -> Bake Action.  Make sure the "Clear Constraints"
- *  and "Clear Parents" options are selected.
- *  @see /examples/public/blender-three/baking-instructions.mov for
- *  further insturctions.
- *
- *
- *
- */
-export default class ThreeObjectViewer {
+// import { Raf } from '../lib/raf/raf';
+import {DomWatcher} from '../lib/dom/dom-watcher';
+import { RafProgress } from '../lib/raf/raf-progress';
+import {dom} from '../lib/dom/dom';
+import {EASE} from '../lib/ease/ease';
+
+export default class ThreeObjectViewer3 {
     constructor() {
         console.log('ThreeJS Object Viewer Demo');
-        this.raf = new Raf(this.onRaf.bind(this));
 
+        this.parentElement = document.getElementById('parent');
         this.canvasContainer = document.getElementById('canvas-container');
 
-        // Noraml camera.
-        // this.camera = new THREE.PerspectiveCamera(45, this.width / this.height, 0.25, 1000);
-        // this.camera.position.set( - 50, 10, 2.7 );
+        this.domWatcher = new DomWatcher();
+        this.rafProgress = new RafProgress();
+        this.rafProgress.watch(this.onProgressUpdate.bind(this));
+
+        this.domWatcher.add({
+            element: window,
+            on: 'scroll',
+            callback: (event) => {
+              this.progress =
+                          dom.getElementScrolledPercent(this.parentElement, window.innerHeight);
+            //   this.rafProgress.easeTo(this.progress, 0.26, EASE.easeInOutExpo);
+            //   this.rafProgress.easeTo(this.progress, 0.08, EASE.linear);
+              this.rafProgress.easeTo(this.progress, 0.18, EASE.easeInOutQuad);
+            },
+            eventOptions: {passive: true},
+          });
 
         this.scene = new THREE.Scene();
 
-        // var ambient = new THREE.AmbientLight(0x222222);
-        // this.scene.add(ambient);
-        // this.scene.background = new THREE.Color(0x222222);
-        // this.scene.add(new THREE.AmbientLight(0xFFFFFF));
-
-        // var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-        // this.scene.add( light );
 
 
         var loader = new GLTFLoader();
         // const path = 'https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf';
         // const path = '/public/dude.glb';
-        const path = '/public/monster-scene3.glb';
+        const path = '/public/phone/phone.glb';
         loader.load(path, (gltf) => {
             this.clock = new THREE.Clock();
             const scene = gltf.scenes[0];
@@ -103,14 +75,6 @@ export default class ThreeObjectViewer {
                 //Animation Actionを生成
                 var action = this.mixer.clipAction(animation);
                 console.log('added', animation);
-
-                // //ループ設定（1回のみ）
-                // action.setLoop(THREE.LoopOnce);
-
-                // //アニメーションの最後のフレームでアニメーションが終了
-                // action.clampWhenFinished = true;
-
-                //アニメーションを再生
                 action.play();
             }
 
@@ -118,25 +82,26 @@ export default class ThreeObjectViewer {
             console.log(this.mixer);
 
 
-
             // http://learningthreejs.com/blog/2012/01/20/casting-shadows/
             this.scene.traverse((child) => {
                 if(child instanceof THREE.Light) {
                     child.castShadow = true;
-                    console.log('cast', child);
 
                     // Debugging light positions.
                     child.shadowCameraVisible = true;
 
                     // Adjust shadow bias.
-                    child.shadowBias = -0.005;
-                    child.shadowDarkness = 0.1;
+                    child.shadow.bias = -0.005;
+                    // Remove the rigged looking shadows.
+                    child.shadow.mapSize.width = 1024;
+                    child.shadow.mapSize.height = 1024;
+                    // child.shadowDarkness = 0.5;
                     // child.shadow.camera.near = 0;
                     // child.shadow.camera.far = 1000;
 
                     // Lights come off a bit stronger compared to Eevee, so
-                    // lower the intensity.
-                    child.intensity = child.intensity * 0.2;
+                    // lower the intensity. Stronger = less shadows.
+                    child.intensity = child.intensity * 0.4;
 
 
                     // var helper = new THREE.CameraHelper( child.shadow.camera );
@@ -146,8 +111,15 @@ export default class ThreeObjectViewer {
                     child.castShadow = true;
                     child.receiveShadow = true;
                     console.log('receive', child);
+                    // child.geometry.computeVertexNormals(true);
+
+
+                    // Get the image mappings.
+                    // if(child.material && child.material.map) {
+                    //   child.material.map.needsUpdate = true;
+                    // }
+
                 } else {
-                    console.log('nothing', child);
                 }
 
                 // if(child.name.startsWith('Cube003')) {
@@ -167,41 +139,61 @@ export default class ThreeObjectViewer {
             console.log(this.camera);
 
             this.resize();
-
-            this.raf.start();
-
         }, undefined, (error) => {
             console.error(error);
         });
 
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            // precision: 'highp'
+        });
         this.canvasContainer.appendChild(this.renderer.domElement);
 
         window.addEventListener('resize', this.resize.bind(this), false);
     }
 
     resize() {
+        this.progress =
+          dom.getElementScrolledPercent(this.parentElement, window.innerHeight);
+        this.rafProgress.easeTo(this.progress, 1, EASE.Linear);
 
         this.width = this.canvasContainer.parentElement.offsetWidth;
         this.height = this.canvasContainer.parentElement.offsetHeight;
 
-        console.log('resizing', this.width);
 
         // https://github.com/donmccurdy/three-gltf-viewer/blob/master/src/viewer.js
+        // https://threejs.org/docs/#api/en/constants/Renderer
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(this.width, this.height);
         // Important to get the correct colors.
         this.renderer.physicallyCorrectLights = true;
 
-        this.renderer.setClearColor(0x000000);
+        // Background as black.
+        this.renderer.setClearColor(0x568BA2);
         // this.renderer.setClearColor(0xFFFFFF, 1.0);
 
         // Affects how strongly lights come exposed.
         // this.renderer.toneMappingExposure = 0.4;
+
+        // https://threejs.org/examples/#webgl_tonemapping
+        this.renderer.toneMappingExposure = 0.4;
+        // this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+
+        // Enable shadows.
+        // https://threejs.org/docs/#api/en/constants/Renderer
         this.renderer.shadowMap.enabled = true;
+        // To antialias the shadow
+        this.renderer.shadowMapType = THREE.PCFSoftShadowMap;
+
         this.renderer.gammaOutput = true;
         this.renderer.gammaFactor = 2.2;
 
+        // Post processing
+        this.composer = new EffectComposer(this.renderer);
+        this.composer.addPass(new RenderPass(this.scene, this.camera));
+        // var bloomPass = new UnrealBloomPass(10, 25, 5, 256);
+        // this.composer.addPass(bloomPass);
 
         // The camera aspect goes off since it could be exported at a different
         // ratio.  Force update the aspect ratio.
@@ -226,40 +218,27 @@ export default class ThreeObjectViewer {
     }
 
 
-    onRaf() {
+    onProgressUpdate(progress) {
 
         //Animation Mixerを実行
         if (this.mixer) {
-            this.mixer.update(this.clock.getDelta());
+            // We need to find out how long the animation is.
+            // The mixer appears to have no knowledge oft this so we need to
+            // look up a specific animation and get the duration to
+            // get the total duration of the animation.
+            const cameraAnimation = this.getAnimationByName('CubeAction');
+            const duration = cameraAnimation.duration;
+
+            // When duration hits it's max, animationMixer seems to hit the first
+            // frame so next allow it to reach the max value.
+            this.mixer.setTime(Math.min(duration * progress, duration - 0.001));
         }
 
 
 
-        // const cameraAnimation = this.getAnimationByName('camera-action');
-        // const animationAction = this.mixer.clipAction(cameraAnimation);
-        // console.log(animationAction);
 
-        // console.log(this.mixer);
-        // const camera = this.getObjectByName('Camera');
-        // console.log(camera.position);
-        // const camera = this.camera.parent;
-        // if(cameraPosition) {
-        //   this.camera.position.set(this.camera.parent.position);
-        //   this.camera.scale.set(camera.scale);
-        //   this.camera.setRotationFromEuler(this.camera.rotation);
-        // }
-
-        // Make camera follow target object.
-        // const cameraTarget = this.getObjectByName('camera-target');
-        // if (cameraTarget) {
-        //     this.camera.lookAt(cameraTarget.position);
-        // }
-
-        // this.camera.scale.set(this.camera.parent.scale);
-        // console.log(this.camera.position);
-
-
-        this.renderer.render(this.scene, this.camera);
+        // this.renderer.render(this.scene, this.camera);
+        this.composer.render();
     }
 
 }
