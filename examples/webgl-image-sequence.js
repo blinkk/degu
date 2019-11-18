@@ -49,7 +49,10 @@ export default class WebGlImageSequenceSample {
     // Create Canvas Image Sequenece
     this.webglImageSequence = new WebGlImageSequence(
         this.canvasContainerElement,
-        [{images: this.imageSources}]
+        [{images: this.imageSources}],
+        {
+          ariaLabel: 'Aria Label Test'
+        }
     );
 
 
