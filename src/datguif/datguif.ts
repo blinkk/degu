@@ -116,7 +116,13 @@ export class Datguif {
         //@see https://github.com/dataarts/dat.gui/blob/master/API.md#new_GUI_new
         guiParams: dat.GUIParams
        ) {
-        this.gui = new dat.GUI(guiParams);
+
+        let options = guiParams;
+        if(!options) {
+            options.load = JSON;
+        }
+
+        this.gui = new dat.GUI(options);
         this.folders = [];
         this.updateCallbacks = [];
     }
@@ -239,6 +245,7 @@ export class Datguif {
 
     addObjectToFolder(folderName: string, obj: Object, mapping: Array<guiDisplayConfig>) {
         const folder = this.getFolder(folderName);
+        this.gui.remember(obj);
         for (let key in obj) {
             // Check if this key should be displayed.
             const config = mapping.filter((c) => {
