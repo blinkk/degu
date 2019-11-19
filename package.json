@@ -67,7 +67,7 @@
     "concurrently": "4.1.0",
     "copy-webpack-plugin": "5.0.2",
     "css-loader": "2.1.1",
-    "dat.gui": "0.7.6",
+    "dat.gui": "^0.7.6",
     "eslint": "5.16.0",
     "eslint-config-google": "0.10.0",
     "eslint-loader": "2.1.2",

@@ -44,6 +44,19 @@ export class color {
 
 
     /**
+     * Converts a colorRGB to an rgb array.
+     */
+    static colorRgbToRgb(colorRgb: ColorRGB): Array<number> {
+        return [
+            colorRgb.r,
+            colorRgb.g,
+            colorRgb.b
+        ]
+    }
+
+
+
+    /**
      * Converts normalized rgb values back out to hex.
      * ```ts
      * color.normalizedRgbToHex([1,1,1]) // >> 0xFFFFFF
@@ -53,6 +66,42 @@ export class color {
     static normalizedRgbToHex(rgb: Array<number>) {
         return (((rgb[0] * 255) << 16) + ((rgb[1] * 255) << 8) + (rgb[2] * 255 | 0));
     }
+
+
+    /**
+     * Converts rgb to normalized rgb.
+     * ```ts
+     * color.rgbToNormalizedRgb([255,255,255]) // >> [1,1,1]
+     * color.rgbToNormalizedRgb([0,0,0]) // >> [0,0,0]
+     * ```
+     *
+     * @param rgb
+     */
+    static rgbToNormalizedRgb(rgb: Array<number>) : Array<number> {
+        return [
+            rgb[0] * 255,
+            rgb[1] * 255,
+            rgb[2] * 255,
+        ];
+    }
+
+    /**
+     * Converts normalized rgb to rgb.
+     * ```ts
+     * color.rgbToNormalizedRgb([1,1,1]) // >> [255,255,255]
+     * color.rgbToNormalizedRgb([0,0,0]) // >> [0,0,0]
+     * ```
+     *
+     * @param rgb
+     */
+    static normalizedRgbToRgb(rgb: Array<number>) : Array<number> {
+        return [
+            rgb[0] * 255 >> 0,
+            rgb[1] * 255 >> 0,
+            rgb[2] * 255 >> 0,
+        ];
+    }
+
 
 
     /**
