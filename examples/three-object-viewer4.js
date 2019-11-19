@@ -120,6 +120,7 @@ export default class ThreeObjectViewer4 {
             // http://learningthreejs.com/blog/2012/01/20/casting-shadows/
             this.scene.traverse((child) => {
                 if (child instanceof THREE.Light) {
+                    console.log(child);
                     child.castShadow = true;
 
                     // Debugging light positions.
@@ -139,8 +140,8 @@ export default class ThreeObjectViewer4 {
                     // child.intensity = child.intensity * 0.3;
 
 
-                    // var helper = new THREE.CameraHelper( child.shadow.camera );
-                    // scene.add( helper );
+                    var helper = new THREE.CameraHelper( child.shadow.camera );
+                    scene.add( helper );
 
 
 
