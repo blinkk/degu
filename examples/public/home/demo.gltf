@@ -386,8 +386,8 @@
         },
         {
             "mimeType" : "image/png",
-            "name" : "Ground2",
-            "uri" : "Ground2.png"
+            "name" : "ground-shadow",
+            "uri" : "ground-shadow.png"
         }
     ],
     "accessors" : [
