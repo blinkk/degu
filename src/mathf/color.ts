@@ -79,17 +79,17 @@ export class color {
      */
     static rgbToNormalizedRgb(rgb: Array<number>) : Array<number> {
         return [
-            rgb[0] * 255,
-            rgb[1] * 255,
-            rgb[2] * 255,
+            rgb[0] / 255,
+            rgb[1] / 255,
+            rgb[2] / 255,
         ];
     }
 
     /**
      * Converts normalized rgb to rgb.
      * ```ts
-     * color.rgbToNormalizedRgb([1,1,1]) // >> [255,255,255]
-     * color.rgbToNormalizedRgb([0,0,0]) // >> [0,0,0]
+     * color.normalizedRgbToRgb([1,1,1]) // >> [255,255,255]
+     * color.normalizedRgbToRgb([0,0,0]) // >> [0,0,0]
      * ```
      *
      * @param rgb

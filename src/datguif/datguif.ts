@@ -128,6 +128,11 @@ export class Datguif {
     }
 
 
+    getGui(): dat.GUI {
+        return this.gui;
+    }
+
+
     /**
      * Adds an update callback.
      */
@@ -143,6 +148,15 @@ export class Datguif {
     }
 
 
+    // Adds a to level button
+    addButton(label:string, callback:Function) {
+        const id = label.replace(' ', '_');
+        const obj = {};
+        obj[id] = callback;
+        this.gui.add(obj, label.replace(' ', '_'));
+    }
+
+
     /**
      *
      * Add a folder to the datguif system.
@@ -152,6 +166,10 @@ export class Datguif {
      */
     addFolder(folderName: string, parentFolderName?: string): dat.GUI {
         let folder;
+        if(this.folderExists(folderName)) {
+            throw new Error('Folder names must be unique');
+        }
+
         if (parentFolderName) {
             const parentFolder: dat.GUI = this.getFolder(parentFolderName).gui;
             folder = parentFolder.addFolder(folderName);
@@ -163,6 +181,18 @@ export class Datguif {
             gui: folder
         });
         return folder;
+    }
+
+
+    /**
+     * Checks if a folder of a given name already exists.
+     */
+    folderExists(folderName: string): boolean {
+        const folder = this.folders.filter((f) => {
+            return f.name == folderName;
+        })[0];
+
+        return !!folder;
     }
 
     getFolder(folderName: string): DatGuifFolder {
@@ -189,7 +219,7 @@ export class Datguif {
         const folder = this.getFolder(folderName);
         const value = obj[config.keyName];
 
-        if(!value) {
+        if(!is.defined(value)) {
             return;
         }
 
@@ -203,18 +233,34 @@ export class Datguif {
 
             folder.gui.addColor(colorObj, config.keyName)
                 .onChange(()=> {
-                    // // Convert it back.
-                    obj[config.keyName] = {
-                        r: colorObj[config.keyName][0],
-                        g: colorObj[config.keyName][1],
-                        b: colorObj[config.keyName][2],
-                    };
 
+                    // // Convert it back.
+                    const converted =  {
+                        r: color.rgbToNormalizedRgb(colorObj[config.keyName])[0],
+                        g: color.rgbToNormalizedRgb(colorObj[config.keyName])[1],
+                        b: color.rgbToNormalizedRgb(colorObj[config.keyName])[2],
+                    }
+                    obj[config.keyName] = converted;
+
+                    config.callback && config.callback();
                     this.runUpdate();
                 });
 
             return;
         }
+
+
+        // Support for #FFFFFF type colors.
+        if(is.cssHex(value)) {
+            folder.gui.addColor(obj, config.keyName)
+                .onChange(()=> {
+                    config.callback && config.callback();
+                    this.runUpdate();
+                });
+            return;
+        }
+
+
 
         if(is.defined(config.options)) {
             folder.gui.add(obj, config.keyName, config.options)

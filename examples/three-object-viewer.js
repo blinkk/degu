@@ -25,6 +25,7 @@ import { Raf } from '../lib/raf/raf';
  *    in the code below.
  *
  * https://docs.blender.org/manual/ja/latest/addons/io_scene_gltf2.html
+ * https://github.com/KhronosGroup/glTF-Blender-Exporter/blob/master/docs/user.md#pbr-materials
  *
  * To export, in Blender 2.8 to go:
  * File -> Export glTF2.0 -> save your file.
@@ -40,6 +41,19 @@ import { Raf } from '../lib/raf/raf';
  *
  * Lights
  * - Area lights don't seem to export correctly out of blender.
+ * - Sun lights turn into directional lights.  This means, if there is an object
+ *   obstructing, in three.js it will block the light.
+ *   https://threejs.org/docs/#api/en/lights/RectAreaLight could be an alternative option
+ *
+ * - Shadows
+ * Light shadow values are not respected in three.js
+ *
+ * - It's easier if you don't have an HDRI.
+ * - Also in Shading to go background set color strength to 0.
+ *
+ *
+ * Renderer Specifics
+ * - Things like bloom in eevee won't carry over.
  *
  *
  * Materials
@@ -59,7 +73,8 @@ import { Raf } from '../lib/raf/raf';
  *  further insturctions.
  *
  *
- *
+ * More limitations:
+ * https://github.com/KhronosGroup/glTF-Blender-Exporter/blob/master/docs/user.md#pbr-materials*
  */
 export default class ThreeObjectViewer {
     constructor() {
