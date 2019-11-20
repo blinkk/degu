@@ -51,6 +51,7 @@ import ThreeObjectViewer from '../three-object-viewer';
 import ThreeObjectViewer2 from '../three-object-viewer2';
 import ThreeObjectViewer3 from '../three-object-viewer3';
 import ThreeObjectViewer4 from '../three-object-viewer4';
+import ThreeObjectViewer5 from '../three-object-viewer5';
 import TextSplitSample from '../text-split';
 import VectorDomSample from '../vector-dom';
 import VectorDomSample2 from '../vector-dom2';
@@ -130,6 +131,7 @@ const samples = {
   'threeObjectViewer2': ThreeObjectViewer2,
   'threeObjectViewer3': ThreeObjectViewer3,
   'threeObjectViewer4': ThreeObjectViewer4,
+  'threeObjectViewer5': ThreeObjectViewer5,
   'textSplitSample': TextSplitSample,
   'webGlSample': WebGlSample,
 };

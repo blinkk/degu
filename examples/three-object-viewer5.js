@@ -31,7 +31,7 @@ import { RafProgress } from '../lib/raf/raf-progress';
 import { dom } from '../lib/dom/dom';
 import { EASE } from '../lib/ease/ease';
 
-export default class ThreeObjectViewer4 {
+export default class ThreeObjectViewer5 {
     constructor() {
         console.log('ThreeJS Object Viewer Demo');
 
@@ -97,9 +97,7 @@ export default class ThreeObjectViewer4 {
 
 
         var loader = new GLTFLoader();
-        // const path = 'https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf';
-        // const path = '/public/dude.glb';
-        const path = '/public/home/home3.gltf';
+        const path = '/public/home/demo.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 
@@ -109,7 +107,7 @@ export default class ThreeObjectViewer4 {
                 })[0];
             };
 
-            console.log(gltfData);
+            console.log('gltf data', gltfData);
 
             this.clock = new THREE.Clock();
             const scene = gltf.scenes[0];
@@ -130,21 +128,23 @@ export default class ThreeObjectViewer4 {
             }
 
             this.scene.add(scene);
-            console.log(this.mixer);
+            console.log('scene', scene);
+            console.log('mixer', this.mixer);
 
 
 
             // http://learningthreejs.com/blog/2012/01/20/casting-shadows/
             this.scene.traverse((child) => {
                 if (child instanceof THREE.Light) {
-                    child.castShadow = false;
-                    console.log('light', child);
+                    // child.castShadow = false;
+                    // console.log('light', child);
 
 
                     const shadowEnabledLights = [
                         'Point013_Orientation',
                         'Point003_Orientation'
                     ];
+
                     if(~shadowEnabledLights.indexOf(child.name)) {
                       child.castShadow = true;
                     }
@@ -154,10 +154,10 @@ export default class ThreeObjectViewer4 {
 
                     if(child.shadow) {
                         // Adjust shadow bias.
-                        child.shadow.bias = -0.002;
+                        // child.shadow.bias = -0.002;
                         // Remove the rigged looking shadows.
-                        child.shadow.mapSize.width = 1024;
-                        child.shadow.mapSize.height = 1024;
+                        // child.shadow.mapSize.width = 1024;
+                        // child.shadow.mapSize.height = 1024;
                         // child.shadowDarkness = 0.5;
                         // child.shadow.camera.near = 0;
                         // child.shadow.camera.far = 1000;
@@ -175,6 +175,10 @@ export default class ThreeObjectViewer4 {
                         child.intensity = child.intensity * 0.001;
                     }
 
+
+                    // No lights.
+                    child.intensity = 0;
+
                     this.gui.addFolder(child.name, 'Lights');
                     this.gui.addObjectToFolder(
                         child.name,
@@ -188,7 +192,7 @@ export default class ThreeObjectViewer4 {
 
                     if(child.shadow) {
                         const shadowFolderId = child.name + ' shadow';
-                        console.log(child.shadow);
+                        // console.log(child.shadow);
                         this.gui.addFolder(shadowFolderId, child.name);
                         this.gui.addObjectToFolder(
                             shadowFolderId,
@@ -203,9 +207,11 @@ export default class ThreeObjectViewer4 {
 
                 }
                 else if (child instanceof THREE.Mesh) {
-                    child.castShadow = true;
+                    // child.castShadow = true;
                     // child.receiveShadow = true;
                     // child.geometry.computeVertexNormals(true);
+                    console.log('mesh', child);
+
 
                     this.gui.addFolder(child.name, 'Objects');
                     this.gui.addObjectToFolder(
@@ -217,6 +223,17 @@ export default class ThreeObjectViewer4 {
                         ]
                     );
 
+                    if(child.material) {
+                        const materialId = child.name + ' material';
+                        this.gui.addFolder(materialId, child.name);
+                        this.gui.addObjectToFolder(
+                            materialId,
+                            child.material,
+                            [
+                                { keyName: 'emissiveIntensity', min: 0, max: 1 },
+                            ]
+                        );
+                    }
 
                     // Get the image mappings.
                     // if(child.material && child.material.map) {
@@ -224,23 +241,16 @@ export default class ThreeObjectViewer4 {
                     // }
 
                 } else {
+                    console.log('other', child);
                 }
 
-                // if(child.name.startsWith('Cube003')) {
-                //     child.receiveShadow = true;
-                // }
-                // Fix eyes
-                if (child.name.startsWith('Plane')) {
-                    child.castShadow = false;
-                    child.receiveShadow = true;
-                }
             });
 
 
             // Set the camera exported in gltf.
             // Requires camera to be exported for gltf.
             this.camera = gltf.cameras[0];
-            console.log(this.camera);
+            console.log('camera', this.camera);
 
 
 
@@ -254,15 +264,15 @@ export default class ThreeObjectViewer4 {
 
             // Enable shadows.
             // https://threejs.org/docs/#api/en/constants/Renderer
-            this.renderer.shadowMap.enabled = true;
+            // this.renderer.shadowMap.enabled = true;
             // To antialias the shadow
-            this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
             this.renderer.gammaOutput = true;
             this.renderer.gammaFactor = 2.2;
 
             // Important to get the correct colors.
-            this.renderer.physicallyCorrectLights = true;
+            // this.renderer.physicallyCorrectLights = true;
 
             // Background as black.
             // this.renderer.setClearColor(0x4287f5);
@@ -270,7 +280,8 @@ export default class ThreeObjectViewer4 {
 
             // Affects how strongly lights come exposed.
             // https://threejs.org/examples/#webgl_tonemapping
-            this.renderer.toneMappingExposure = 1;
+            // this.renderer.toneMappingExposure = 1;
+            // this.renderer.toneMappingExposure = 0.6;
             // this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
 
@@ -315,11 +326,13 @@ export default class ThreeObjectViewer4 {
 
             this.generalLightConfig = {
                 ambientLightColor: '#FFFFFF',
-                ambientLightAlpha: 1.2,
+                ambientLightAlpha: 1,
             };
+
             // Additional lighting outside the blender.
             // var light = new THREE.HemisphereLight( 0xffffbb, 0xffffff, 1 );
             // this.scene.add( light );
+
             this.ambientLight = new THREE.AmbientLight(this.generalLightConfig.ambientLightColor);
             this.ambientLight.intensity = this.generalLightConfig.ambientLightAlpha;
             scene.add(this.ambientLight);
@@ -336,16 +349,16 @@ export default class ThreeObjectViewer4 {
                 ]
             );
 
-            var width = 50;
-            var height = 50;
-            var intensity = 0;
-            var rectLight = new THREE.RectAreaLight('#FFFFFF', intensity,  width, height );
-            rectLight.position.set( 0, 0, 25 );
-            // rectLight.lookAt( 0, 0, 0 );
-            this.scene.add( rectLight );
+            // var width = 50;
+            // var height = 50;
+            // var intensity = 0;
+            // var rectLight = new THREE.RectAreaLight('#FFFFFF', intensity,  width, height );
+            // rectLight.position.set( 0, 0, 25 );
+            // // rectLight.lookAt( 0, 0, 0 );
+            // this.scene.add( rectLight );
 
-            rectLightHelper = new THREE.RectAreaLightHelper( rectLight );
-            rectLight.add( rectLightHelper );
+            // rectLightHelper = new THREE.RectAreaLightHelper( rectLight );
+            // rectLight.add( rectLightHelper );
 
 
             this.gui.addButton('Refresh', this.refresh.bind(this));

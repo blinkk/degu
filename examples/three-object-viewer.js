@@ -59,6 +59,11 @@ import { Raf } from '../lib/raf/raf';
  * Materials
  * - Seems like just Princpled BSDF is the main supported (okay with images)
  *
+ * UV Editing and Baking
+ * - https://www.youtube.com/watch?v=c2ut0Trcdi0
+ * - https://www.youtube.com/watch?v=ejSVHuHOb7U
+ *
+ *
  *
  * Camera Movement.  If you are exporting camera movement, note the following.
  * - You can't use path animation since even if you bake the animations,
