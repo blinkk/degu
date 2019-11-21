@@ -231,8 +231,21 @@ export default class ThreeObjectViewer5 {
                             child.material,
                             [
                                 { keyName: 'emissiveIntensity', min: 0, max: 1 },
+                                { keyName: 'flatShading', callback: ()=> {
+                                   child.material.needsUpdate = true;
+                                } },
+                                { keyName: 'wireframe', callback: ()=> {
+                                   child.material.needsUpdate = true;
+                                } },
                             ]
                         );
+
+                        // Enable smooth shading.
+                        // child.material.flatShading = false;
+                        // child.material.wireframe = false;
+                        // child.material.needsUpdate = true;
+                        // child.geometry.computeFaceNormals();
+                        // child.geometry.computeVertexNormals(true);
                     }
 
                     // Get the image mappings.

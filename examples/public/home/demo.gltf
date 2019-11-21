@@ -18,37 +18,17 @@
                         1,
                         1
                     ],
-                    "intensity" : 5000,
+                    "intensity" : 1000,
                     "type" : "point",
                     "name" : "light1.002"
                 },
                 {
                     "color" : [
                         1,
-                        0.8515785336494446,
-                        0.8253245949745178
-                    ],
-                    "intensity" : 5000,
-                    "type" : "point",
-                    "name" : "Point.006"
-                },
-                {
-                    "color" : [
-                        1,
                         1,
                         1
                     ],
-                    "intensity" : 500,
-                    "type" : "point",
-                    "name" : "Point.007"
-                },
-                {
-                    "color" : [
-                        1,
-                        1,
-                        1
-                    ],
-                    "intensity" : 2,
+                    "intensity" : 0.800000011920929,
                     "type" : "directional",
                     "name" : "Sun"
                 }
@@ -64,9 +44,7 @@
                 2,
                 3,
                 5,
-                7,
-                9,
-                11
+                7
             ]
         }
     ],
@@ -116,9 +94,9 @@
             "mesh" : 1,
             "name" : "Plane",
             "scale" : [
-                22.75143814086914,
-                10.71629810333252,
-                13.184638977050781
+                6.066163063049316,
+                6.647451877593994,
+                9.34117317199707
             ],
             "translation" : [
                 0,
@@ -146,65 +124,15 @@
             ],
             "name" : "Point.002",
             "translation" : [
-                -5.41894006729126,
-                5.014706134796143,
-                -4.719587802886963
+                -2.4443230628967285,
+                5.178097724914551,
+                0.5545763969421387
             ]
         },
         {
             "extensions" : {
                 "KHR_lights_punctual" : {
                     "light" : 1
-                }
-            },
-            "name" : "Point.013_Orientation",
-            "rotation" : [
-                -0.7071067690849304,
-                0,
-                0,
-                0.7071067690849304
-            ]
-        },
-        {
-            "children" : [
-                6
-            ],
-            "name" : "Point.013",
-            "translation" : [
-                -0.9180365800857544,
-                4.089905738830566,
-                10.353527069091797
-            ]
-        },
-        {
-            "extensions" : {
-                "KHR_lights_punctual" : {
-                    "light" : 2
-                }
-            },
-            "name" : "Point.000_Orientation",
-            "rotation" : [
-                -0.7071067690849304,
-                0,
-                0,
-                0.7071067690849304
-            ]
-        },
-        {
-            "children" : [
-                8
-            ],
-            "name" : "Point.000",
-            "translation" : [
-                -1.4746267795562744,
-                -1.556847095489502,
-                1.524198293685913
-            ]
-        },
-        {
-            "extensions" : {
-                "KHR_lights_punctual" : {
-                    "light" : 3
                 }
             },
             "name" : "Sun_Orientation",
@@ -217,7 +145,7 @@
         },
         {
             "children" : [
-                10
+                6
             ],
             "name" : "Sun",
             "rotation" : [
@@ -227,9 +155,9 @@
                 0.998659074306488
             ],
             "translation" : [
-                -6.117408752441406,
-                6.473110198974609,
-                -0.8552646636962891
+                1.1361684799194336,
+                6.832460403442383,
+                -2.615356922149658
             ]
         }
     ],
@@ -381,8 +309,8 @@
     "images" : [
         {
             "mimeType" : "image/png",
-            "name" : "Bake1",
-            "uri" : "Bake1.png"
+            "name" : "HomeBake",
+            "uri" : "HomeBake.png"
         },
         {
             "mimeType" : "image/png",
