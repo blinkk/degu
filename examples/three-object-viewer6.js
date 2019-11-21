@@ -46,7 +46,7 @@ export default class ThreeObjectViewer6 {
         this.scrollEase = 'easeInQuad';
 
         this.rendererConfig = {
-            clearColor: '#FFFFFF',
+            clearColor: '#EAE8E7',
             backgroundAlpha: 1.0
         };
 
@@ -97,7 +97,7 @@ export default class ThreeObjectViewer6 {
 
 
         var loader = new GLTFLoader();
-        const path = '/public/home/demo4.gltf';
+        const path = '/public/home/demo5.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 
@@ -271,18 +271,18 @@ export default class ThreeObjectViewer6 {
 
 
             // Use fog to cover far distances.
-            const color = 0xFFFFFF;
-            this.scene.fog = new THREE.Fog(color, 20, 24);
+            const color = 0xEAE8E7;
+            this.scene.fog = new THREE.Fog(color, 5, 10);
 
 
             // Enable shadows.
             // https://threejs.org/docs/#api/en/constants/Renderer
-            // this.renderer.shadowMap.enabled = true;
+            this.renderer.shadowMap.enabled = true;
             // To antialias the shadow
-            // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
             this.renderer.gammaOutput = true;
-            // this.renderer.gammaFactor = 2.2;
+            this.renderer.gammaFactor = 3;
 
             // Important to get the correct colors.
             // this.renderer.physicallyCorrectLigts = true;
@@ -295,7 +295,7 @@ export default class ThreeObjectViewer6 {
             // https://threejs.org/examples/#webgl_tonemapping
             this.renderer.toneMappingExposure = 1;
             // this.renderer.toneMappingExposure = 0.6;
-            // this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
 
 
@@ -304,6 +304,7 @@ export default class ThreeObjectViewer6 {
                 this.renderer,
                 [
                     { keyName: 'toneMappingExposure', min: 0, max: 5, step: 0.01 },
+                    { keyName: 'gammaFactor', min: 0, max: 10, step: 0.01 },
                 ]
             );
 
@@ -339,7 +340,7 @@ export default class ThreeObjectViewer6 {
 
             this.generalLightConfig = {
                 ambientLightColor: '#FFFFFF',
-                ambientLightAlpha: 1,
+                ambientLightAlpha: 0,
             };
 
             // Additional lighting outside the blender.
@@ -454,7 +455,7 @@ export default class ThreeObjectViewer6 {
             // The mixer appears to have no knowledge oft this so we need to
             // look up a specific animation and get the duration to
             // get the total duration of the animation.
-            const cameraAnimation = this.getAnimationByName('Action.002');
+            const cameraAnimation = this.getAnimationByName('Action.001');
             const duration = cameraAnimation.duration;
 
             // When duration hits it's max, animationMixer seems to hit the first

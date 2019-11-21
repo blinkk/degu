@@ -1,6 +1,6 @@
 {
     "asset" : {
-        "generator" : "Khronos glTF Blender I/O v0.9.36",
+        "generator" : "Khronos glTF Blender I/O v1.0.5",
         "version" : "2.0"
     },
     "extensionsUsed" : [
@@ -15,12 +15,12 @@
                 {
                     "color" : [
                         1,
-                        1,
-                        1
+                        0.6797518730163574,
+                        0.3502700626850128
                     ],
-                    "intensity" : 3000,
-                    "type" : "point",
-                    "name" : "light1.002"
+                    "intensity" : 1,
+                    "type" : "directional",
+                    "name" : "Sun.001"
                 },
                 {
                     "color" : [
@@ -28,9 +28,13 @@
                         1,
                         1
                     ],
-                    "intensity" : 1.46999990940094,
-                    "type" : "directional",
-                    "name" : "Sun"
+                    "intensity" : 3000,
+                    "spot" : {
+                        "innerConeAngle" : 0.591915108583148,
+                        "outerConeAngle" : 0.6963707208633423
+                    },
+                    "type" : "spot",
+                    "name" : "Spot"
                 }
             ]
         }
@@ -41,15 +45,40 @@
             "name" : "Scene",
             "nodes" : [
                 1,
-                2,
                 3,
                 4,
+                5,
                 6,
                 8
             ]
         }
     ],
     "nodes" : [
+        {
+            "extensions" : {
+                "KHR_lights_punctual" : {
+                    "light" : 0
+                }
+            },
+            "name" : "Sun_Orientation",
+            "rotation" : [
+                -0.7071067690849304,
+                0,
+                0,
+                0.7071067690849304
+            ]
+        },
+        {
+            "children" : [
+                0
+            ],
+            "name" : "Sun",
+            "translation" : [
+                -10.58608627319336,
+                7.790434837341309,
+                2.945358991622925
+            ]
+        },
         {
             "camera" : 0,
             "name" : "Camera_Orientation",
@@ -62,7 +91,7 @@
         },
         {
             "children" : [
-                0
+                2
             ],
             "name" : "Camera",
             "rotation" : [
@@ -98,35 +127,15 @@
         {
             "mesh" : 2,
             "name" : "Plane.002",
-            "translation" : [
-                -0.461759090423584,
-                -1.1762681007385254,
-                -0.31438976526260376
-            ]
-        },
-        {
-            "extensions" : {
-                "KHR_lights_punctual" : {
-                    "light" : 0
-                }
-            },
-            "name" : "Point.002_Orientation",
-            "rotation" : [
-                -0.7071067690849304,
-                0,
-                0,
-                0.7071067690849304
-            ]
-        },
-        {
-            "children" : [
-                5
+            "scale" : [
+                2.576503038406372,
+                1,
+                2.576503038406372
             ],
-            "name" : "Point.002",
             "translation" : [
-                -2.4443230628967285,
-                1.1296197175979614,
-                0.5545763969421387
+                3.041294813156128,
+                -1.1762681007385254,
+                -0.40657541155815125
             ]
         },
         {
@@ -135,7 +144,7 @@
                     "light" : 1
                 }
             },
-            "name" : "Sun_Orientation",
+            "name" : "Spot_Orientation",
             "rotation" : [
                 -0.7071067690849304,
                 0,
@@ -147,17 +156,17 @@
             "children" : [
                 7
             ],
-            "name" : "Sun",
+            "name" : "Spot",
             "rotation" : [
-                0.047640666365623474,
-                0,
-                0.02025872841477394,
-                0.998659074306488
+                -0.15991435945034027,
+                -0.04557284340262413,
+                0.2643805742263794,
+                0.9499754905700684
             ],
             "translation" : [
-                1.1361684799194336,
-                6.832460403442383,
-                -2.615356922149658
+                -11.8859281539917,
+                9.175178527832031,
+                -5.465380668640137
             ]
         }
     ],
@@ -178,21 +187,21 @@
                 {
                     "sampler" : 0,
                     "target" : {
-                        "node" : 1,
+                        "node" : 3,
                         "path" : "translation"
                     }
                 },
                 {
                     "sampler" : 1,
                     "target" : {
-                        "node" : 1,
+                        "node" : 3,
                         "path" : "rotation"
                     }
                 },
                 {
                     "sampler" : 2,
                     "target" : {
-                        "node" : 1,
+                        "node" : 3,
                         "path" : "scale"
                     }
                 }
@@ -220,42 +229,71 @@
     "materials" : [
         {
             "doubleSided" : true,
+            "emissiveFactor" : [
+                1,
+                1,
+                1
+            ],
+            "emissiveTexture" : {
+                "index" : 0,
+                "texCoord" : 0
+            },
             "name" : "white.001",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
-                    0.46213868260383606,
-                    0.32110217213630676,
-                    0.35568198561668396,
+                    0.9120253324508667,
+                    0.9120248556137085,
+                    0.9120248556137085,
                     1
                 ],
-                "metallicFactor" : 0.48636364936828613,
-                "roughnessFactor" : 0.8500000238418579
+                "metallicFactor" : 0.17548280954360962,
+                "roughnessFactor" : 1
             }
         },
         {
             "doubleSided" : true,
+            "emissiveFactor" : [
+                1,
+                1,
+                1
+            ],
+            "emissiveTexture" : {
+                "index" : 1,
+                "texCoord" : 0
+            },
             "name" : "purple",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
-                    0.16597580909729004,
-                    0.024172808974981308,
-                    0.2597852647304535,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
                     1
                 ],
-                "metallicFactor" : 0.4590911865234375,
-                "roughnessFactor" : 0.3454545736312866
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
             }
         },
         {
             "doubleSided" : true,
+            "emissiveFactor" : [
+                1,
+                1,
+                1
+            ],
+            "emissiveTexture" : {
+                "index" : 2,
+                "texCoord" : 0
+            },
             "name" : "ground",
             "pbrMetallicRoughness" : {
-                "baseColorTexture" : {
-                    "index" : 0,
-                    "texCoord" : 0
-                },
+                "baseColorFactor" : [
+                    1,
+                    1,
+                    1,
+                    1
+                ],
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.5
+                "roughnessFactor" : 0.6818181872367859
             }
         }
     ],
@@ -307,13 +345,29 @@
     "textures" : [
         {
             "source" : 0
+        },
+        {
+            "source" : 1
+        },
+        {
+            "source" : 2
         }
     ],
     "images" : [
         {
-            "mimeType" : "image/png",
+            "mimeType" : "image/jpeg",
+            "name" : "s-white",
+            "uri" : "s-white.jpg"
+        },
+        {
+            "mimeType" : "image/jpeg",
+            "name" : "s-purple5",
+            "uri" : "s-purple5.jpg"
+        },
+        {
+            "mimeType" : "image/jpeg",
             "name" : "s-ground2",
-            "uri" : "s-ground2.png"
+            "uri" : "s-ground2.jpg"
         }
     ],
     "accessors" : [

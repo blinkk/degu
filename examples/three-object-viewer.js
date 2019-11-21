@@ -60,13 +60,40 @@ import { Raf } from '../lib/raf/raf';
  * - Seems like just Princpled BSDF is the main supported (okay with images)
  *
  * UV Editing and Baking
+ * https://docs.blender.org/manual/en/latest/render/cycles/baking.html
+ * Blender Baking Three.js (Part 1)
+ * https://www.youtube.com/watch?v=yqF77-M3RVY
  *
- * - https://www.youtube.com/watch?v=663WAmKhPKQ
+ * Blender Baking Three.js (Part 2)
+ * https://youtu.be/X39iQ6P3CQw
+ *
  * - https://www.youtube.com/watch?v=c2ut0Trcdi0
  * - https://www.youtube.com/watch?v=ejSVHuHOb7U
  *
  * To smooth out lines, you need to select all vertices.  Select the object -> tab (edit mdoe) ->
  * mesh -> shading --> smooth edges and smooth vertices.
+ *
+ * 1) Create UV Map
+ * 2) Add image node to material and add the map (not hooked up)
+ * 3) Make sure that when you turn off all lights, the world is dark (so the render is exact)
+ * 4) Bake
+ * 5) Go back to material and add Emission.  Hook image node -> emmission -> Material output Surfact
+ * 6) Now your object will be using the baked material.
+ * 7) Export out.
+ *
+ * IMPORTANT:
+ * If shadows are not showing up or lighting is off, it's possible because you have emission on the ground
+ * or the world contains emits color (white is up to strength 1) which doens't get included in the bake.
+ * In other words, if lighting is too strong it won't work.   Test it by turning all lights off.
+ * If it is correct, your world will be pitch dark.        If you see like, that
+ * could be a source of shadows and lighting going off.
+ *
+ *
+ * Using Shadow Catchers:
+ * https://blender.stackexchange.com/questions/47569/render-shadows-over-a-transparent-background-in-cycles
+ * - go to object and under visibility -> check shadow catcher
+ * - under cycles ensure film -> transparent is enabled.
+ *
  *
  *
  *
