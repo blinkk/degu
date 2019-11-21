@@ -60,8 +60,13 @@ import { Raf } from '../lib/raf/raf';
  * - Seems like just Princpled BSDF is the main supported (okay with images)
  *
  * UV Editing and Baking
+ *
+ * - https://www.youtube.com/watch?v=663WAmKhPKQ
  * - https://www.youtube.com/watch?v=c2ut0Trcdi0
  * - https://www.youtube.com/watch?v=ejSVHuHOb7U
+ *
+ * To smooth out lines, you need to select all vertices.  Select the object -> tab (edit mdoe) ->
+ * mesh -> shading --> smooth edges and smooth vertices.
  *
  *
  *
