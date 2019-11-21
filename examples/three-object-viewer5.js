@@ -293,7 +293,7 @@ export default class ThreeObjectViewer5 {
 
             // Affects how strongly lights come exposed.
             // https://threejs.org/examples/#webgl_tonemapping
-            // this.renderer.toneMappingExposure = 1;
+            this.renderer.toneMappingExposure = 1.7;
             // this.renderer.toneMappingExposure = 0.6;
             // this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
