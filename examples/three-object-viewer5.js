@@ -454,7 +454,7 @@ export default class ThreeObjectViewer5 {
             // The mixer appears to have no knowledge oft this so we need to
             // look up a specific animation and get the duration to
             // get the total duration of the animation.
-            const cameraAnimation = this.getAnimationByName('Action');
+            const cameraAnimation = this.getAnimationByName('Action.001');
             const duration = cameraAnimation.duration;
 
             // When duration hits it's max, animationMixer seems to hit the first
