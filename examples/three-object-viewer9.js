@@ -442,7 +442,6 @@ export default class ThreeObjectViewer9 {
         this.draw();
     }
 
-
     getAnimationByName(name) {
         return this.animations.filter((animationClip) => {
             return animationClip.name == name;
@@ -465,7 +464,7 @@ export default class ThreeObjectViewer9 {
             // The mixer appears to have no knowledge oft this so we need to
             // look up a specific animation and get the duration to
             // get the total duration of the animation.
-            const cameraAnimation = this.getAnimationByName('Action.005');
+            const cameraAnimation = this.getAnimationByName('CameraAction.004');
             const duration = cameraAnimation.duration;
 
             // When duration hits it's max, animationMixer seems to hit the first
