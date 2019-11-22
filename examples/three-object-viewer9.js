@@ -349,7 +349,7 @@ export default class ThreeObjectViewer9 {
             this.gui.addFolder('General Lights');
 
             this.generalLightConfig = {
-                ambientLightColor: '##7395b3',
+                ambientLightColor: '#7395b3',
                 ambientLightAlpha: 0,
             };
 
