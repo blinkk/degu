@@ -33,7 +33,7 @@ import { RafProgress } from '../lib/raf/raf-progress';
 import { dom } from '../lib/dom/dom';
 import { EASE } from '../lib/ease/ease';
 
-export default class ThreeObjectViewer8 {
+export default class ThreeObjectViewer9 {
     constructor() {
         console.log('ThreeJS Object Viewer Demo');
 
@@ -48,7 +48,7 @@ export default class ThreeObjectViewer8 {
         this.scrollEase = 'easeInQuad';
 
         this.rendererConfig = {
-            clearColor: '#000000',
+            clearColor: '#C7C5B8',
             backgroundAlpha: 1.0
         };
 
@@ -99,7 +99,7 @@ export default class ThreeObjectViewer8 {
 
 
         var loader = new GLTFLoader();
-        const path = '/public/home/demo9.gltf';
+        const path = '/public/home/demo10.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 
@@ -158,6 +158,7 @@ export default class ThreeObjectViewer8 {
                     //     // var helper = new THREE.CameraHelper( child.shadow.camera );
                     //     // scene.add( helper );
                     // }
+                    child.layers.set(1);
 
                     // // Point lights are defined in watts which goes waay off in three.js
                     if (child instanceof THREE.PointLight) {
@@ -171,9 +172,9 @@ export default class ThreeObjectViewer8 {
 
                     // child.intensity = 0;
 
-                    if(child.name == 'Point003_Orientation') {
+                    if(child.name == 'Point_Orientation') {
                         // child.castShadow = true;
-                        child.intensity = 0.6;
+                        child.intensity = 4.6;
                     }
 
 
@@ -208,15 +209,15 @@ export default class ThreeObjectViewer8 {
                     // child.castShadow = true;
                     // child.receiveShadow = true;
                     // child.geometry.computeVertexNormals(true);
-                //    const lightEnabled = [
-                //         'p4-super-sm',
-                //         'p4-super-sm001',
-                //         'p4-super-sm002',
-                //     ];
+                   const lightEnabled = [
+                        'p4-super-sm',
+                        'p4-super-sm001',
+                        'p4-super-sm002',
+                    ];
 
-                //     if(~lightEnabled.indexOf(child.name)) {
-                //         child.layers.set(1);
-                //     }
+                    if(~lightEnabled.indexOf(child.name)) {
+                        child.layers.set(1);
+                    }
 
 
                     this.gui.addFolder(child.name, 'Objects');
@@ -349,7 +350,7 @@ export default class ThreeObjectViewer8 {
 
             this.generalLightConfig = {
                 ambientLightColor: '##7395b3',
-                ambientLightAlpha: 1.3,
+                ambientLightAlpha: 0,
             };
 
             // Additional lighting outside the blender.
@@ -464,7 +465,7 @@ export default class ThreeObjectViewer8 {
             // The mixer appears to have no knowledge oft this so we need to
             // look up a specific animation and get the duration to
             // get the total duration of the animation.
-            const cameraAnimation = this.getAnimationByName('Action.003');
+            const cameraAnimation = this.getAnimationByName('Action.005');
             const duration = cameraAnimation.duration;
 
             // When duration hits it's max, animationMixer seems to hit the first
@@ -481,6 +482,11 @@ export default class ThreeObjectViewer8 {
     }
 
     draw() {
+        this.renderer.autoClear = true;
+        this.camera.layers.set(0);
+        this.renderer.render(this.scene, this.camera);
+        this.renderer.autoClear = false; // Don't clear
+        this.camera.layers.set(1);
         this.renderer.render(this.scene, this.camera);
     }
 
