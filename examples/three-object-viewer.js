@@ -61,12 +61,14 @@ import { Raf } from '../lib/raf/raf';
  *
  * UV Editing and Baking
  * https://docs.blender.org/manual/en/latest/render/cycles/baking.html
- * Blender Baking Three.js (Part 1)
+ * Blender Baking Three.js
  * https://www.youtube.com/watch?v=yqF77-M3RVY
- *
- * Blender Baking Three.js (Part 2)
  * https://youtu.be/X39iQ6P3CQw
+ * https://youtu.be/R2YkbzObdB0 (high rez to low poly normal maps)
+ * https://youtu.be/Atz4vT3UYAQ
  *
+ * - https://www.youtube.com/watch?v=sB09T--_ZvU&t=193s
+ * - https://www.youtube.com/watch?v=o568T79egTs
  * - https://www.youtube.com/watch?v=c2ut0Trcdi0
  * - https://www.youtube.com/watch?v=ejSVHuHOb7U
  *
@@ -82,11 +84,13 @@ import { Raf } from '../lib/raf/raf';
  * 7) Export out.
  *
  * IMPORTANT:
- * If shadows are not showing up or lighting is off, it's possible because you have emission on the ground
+ * - If shadows are not showing up or lighting is off, it's possible because you have emission on the ground
  * or the world contains emits color (white is up to strength 1) which doens't get included in the bake.
  * In other words, if lighting is too strong it won't work.   Test it by turning all lights off.
  * If it is correct, your world will be pitch dark.        If you see like, that
  * could be a source of shadows and lighting going off.
+ *
+ * - If you see banding, it's likely you need more margins in the UV map.  0.5 or even 1 worked in tests.
  *
  *
  * Using Shadow Catchers:

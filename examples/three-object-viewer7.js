@@ -47,7 +47,7 @@ export default class ThreeObjectViewer7 {
         this.scrollEase = 'easeInQuad';
 
         this.rendererConfig = {
-            clearColor: '#EAE8E7',
+            clearColor: '#000000',
             backgroundAlpha: 1.0
         };
 
@@ -98,7 +98,7 @@ export default class ThreeObjectViewer7 {
 
 
         var loader = new GLTFLoader();
-        const path = '/public/home/demo5.gltf';
+        const path = '/public/home/demo7.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 
@@ -140,45 +140,42 @@ export default class ThreeObjectViewer7 {
                     // child.castShadow = false;
                     // console.log('light', child);
 
+                    // Set all lights to layer 1.
+                    child.layers.set(1);
 
-                    const shadowEnabledLights = [
-                        'Point013_Orientation',
-                        'Point003_Orientation'
-                    ];
-
-                    if(~shadowEnabledLights.indexOf(child.name)) {
-                      child.castShadow = true;
-                    }
 
                     // Debugging light positions.
                     // child.shadowCameraVisible = false;
 
-                    if(child.shadow) {
-                        // Adjust shadow bias.
-                        // child.shadow.bias = -0.002;
-                        // Remove the rigged looking shadows.
-                        // child.shadow.mapSize.width = 1024;
-                        // child.shadow.mapSize.height = 1024;
-                        // child.shadowDarkness = 0.5;
-                        // child.shadow.camera.near = 0;
-                        // child.shadow.camera.far = 1000;
-                        // var helper = new THREE.CameraHelper( child.shadow.camera );
-                        // scene.add( helper );
-                    }
+                    // if(child.shadow) {
+                    //     // Adjust shadow bias.
+                    //     // child.shadow.bias = -0.002;
+                    //     // Remove the rigged looking shadows.
+                    //     // child.shadow.mapSize.width = 1024;
+                    //     // child.shadow.mapSize.height = 1024;
+                    //     // child.shadowDarkness = 0.5;
+                    //     // child.shadow.camera.near = 0;
+                    //     // child.shadow.camera.far = 1000;
+                    //     // var helper = new THREE.CameraHelper( child.shadow.camera );
+                    //     // scene.add( helper );
+                    // }
 
-                    // Point lights are defined in watts which goes waay off in three.js
-                    if (child instanceof THREE.PointLight) {
-                        child.intensity = child.intensity * 0.01;
-                    }
+                    // // Point lights are defined in watts which goes waay off in three.js
+                    // if (child instanceof THREE.PointLight) {
+                    //     child.intensity = child.intensity * 0.01;
+                    // }
 
-                    // If it's a spot light, it needs to go down even more.
-                    if (child.type == "SpotLight") {
-                        child.intensity = child.intensity * 0.001;
-                    }
+                    // // If it's a spot light, it needs to go down even more.
+                    // if (child.type == "SpotLight") {
+                    //     child.intensity = child.intensity * 0.001;
+                    // }
 
-
-                    // No lights.
                     child.intensity = 0;
+
+                    if(child.name == 'Point004_Orientation') {
+                        child.intensity = 1.3;
+                    }
+
 
                     this.gui.addFolder(child.name, 'Lights');
                     this.gui.addObjectToFolder(
@@ -212,6 +209,15 @@ export default class ThreeObjectViewer7 {
                     // child.receiveShadow = true;
                     // child.geometry.computeVertexNormals(true);
                     console.log('mesh', child);
+                   const lightEnabled = [
+                        'p4-super-sm',
+                        'p4-super-sm001',
+                        'p4-super-sm002',
+                    ];
+
+                    if(~lightEnabled.indexOf(child.name)) {
+                        child.layers.set(1);
+                    }
 
 
                     this.gui.addFolder(child.name, 'Objects');
@@ -272,8 +278,8 @@ export default class ThreeObjectViewer7 {
 
 
             // Use fog to cover far distances.
-            const color = 0xEAE8E7;
-            this.scene.fog = new THREE.Fog(color, 5, 10);
+            const color = 0x00000;
+            this.scene.fog = new THREE.Fog(color, 5, 8);
 
 
             // Enable shadows.
@@ -473,6 +479,11 @@ export default class ThreeObjectViewer7 {
     }
 
     draw() {
+        this.renderer.autoClear = true;
+        this.camera.layers.set(0);
+        this.renderer.render(this.scene, this.camera);
+        this.renderer.autoClear = false; // Don't clear
+        this.camera.layers.set(1);
         this.renderer.render(this.scene, this.camera);
     }
 
