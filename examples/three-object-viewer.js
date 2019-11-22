@@ -63,6 +63,7 @@ import { Raf } from '../lib/raf/raf';
  * https://docs.blender.org/manual/en/latest/render/cycles/baking.html
  * Blender Baking Three.js
  * https://www.youtube.com/watch?v=yqF77-M3RVY
+ * https://www.youtube.com/watch?v=XI-pZshRp8g (PBR)
  * https://youtu.be/X39iQ6P3CQw
  * https://youtu.be/R2YkbzObdB0 (high rez to low poly normal maps)
  * https://youtu.be/Atz4vT3UYAQ
