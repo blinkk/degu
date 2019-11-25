@@ -31,6 +31,7 @@ import { RafProgress } from '../lib/raf/raf-progress';
 import { dom } from '../lib/dom/dom';
 import { EASE } from '../lib/ease/ease';
 import { mathf } from '../lib/mathf/mathf';
+import { threef } from '../lib/threef/threef';
 
 export default class ThreeObjectViewer10 {
     constructor() {
@@ -45,6 +46,10 @@ export default class ThreeObjectViewer10 {
 
         this.scrollLerp = 0.38;
         this.scrollEase = 'easeInQuad';
+
+
+        this.textMarker1 = document.getElementById('text-marker1');
+        this.textMarkers = [];
 
         this.rendererConfig = {
             clearColor: '#000000',
@@ -204,6 +209,15 @@ export default class ThreeObjectViewer10 {
                     console.log('mesh', child);
 
 
+                    // If an object starts with 'text-' by convension, it will
+                    // be considered a marker.
+                    if(child.name.startsWith('text')) {
+                        // Hide the marker
+                        // child.visible = false;
+                        this.textMarkers.push(child);
+                    }
+
+
                     this.gui.addFolder(child.name, 'Objects');
                     this.gui.addObjectToFolder(
                         child.name,
@@ -214,10 +228,6 @@ export default class ThreeObjectViewer10 {
                         ]
                     );
 
-                    if(child.name == 'Sphere') {
-                        // child.castShadow = true;
-                        // child.receiveShadow = true;
-                    }
 
                     if(child.material) {
                         console.log('material', child.material);
@@ -411,7 +421,6 @@ export default class ThreeObjectViewer10 {
             sphere.position.y = mathf.getRandomInt(-5, 5);
             sphere.position.z = mathf.getRandomInt(-5, 5);
             sphere.scale.x = sphere.scale.y = sphere.scale.z = 0.01;
-            console.log('add starts');
             scene.add( sphere );
         }
 }
@@ -486,6 +495,15 @@ export default class ThreeObjectViewer10 {
         }
 
 
+        const marker = this.textMarkers[0];
+        console.log(marker);
+
+        const domCoordinates = threef.toDomCoordinates(
+            marker, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
+        const x = domCoordinates.x;
+        const y = domCoordinates.y;
+        this.textMarker1.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;
 
 
         this.draw();

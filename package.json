@@ -59,6 +59,7 @@
     "@babel/preset-env": "7.4.2",
     "@types/dat-gui": "0.6.3",
     "@types/dat.gui": "^0.7.5",
+    "@types/offscreencanvas": "^2019.6.0",
     "@types/three": "0.103.2",
     "ava": "1.4.1",
     "babel-loader": "8.0.5",
