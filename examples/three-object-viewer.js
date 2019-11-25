@@ -10,7 +10,13 @@
 // https://gltf-viewer.donmccurdy.com/
 // https://github.com/donmccurdy/three-gltf-viewer
 
+// https://qiita.com/adrs2002/items/dc6416d6fd2389c75ab5
+// https://qiita.com/cx20/items/2b86cb5052cd7c36038a
 
+// https://discoverthreejs.com/book/first-steps/load-models/
+
+// The glTF format does not allow bump maps.  Use normal maps.
+// https://discourse.threejs.org/t/three-js-gltf-model-exported-from-editor-bump-map-not-rendering/10835
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -58,6 +64,7 @@ import { Raf } from '../lib/raf/raf';
  *
  * Materials
  * - Seems like just Princpled BSDF is the main supported (okay with images)
+ * - No support for bump maps (although you could maybe convert or load it on three.js side and apply a bump map)
  *
  * UV Editing and Baking
  * https://docs.blender.org/manual/en/latest/render/cycles/baking.html
