@@ -503,7 +503,6 @@ export default class ThreeObjectViewer11 {
             marker4, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
         threef.applyVectorToDom(this.textMarker4, domCoordinates4, domRotation4);
-        console.log('???', this.textMarker4);
 
 
         // Text marker1.

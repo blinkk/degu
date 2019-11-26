@@ -90,7 +90,7 @@ export class threef {
 
 
     static setFov(element: HTMLElement, camera: THREE.Camera) {
-        const fov = 0.5 / Math.tan(camera.fov * Math.PI / 360) * element.offsetHeight;
+        // const fov = 0.5 / Math.tan(camera.fov * Math.PI / 360) * element.offsetHeight;
         element.style.perspectiveOrigin = "50% 50%";
         element.style.perspective = fov + 'px';
     }
@@ -129,17 +129,7 @@ export class threef {
         euler.setFromQuaternion(cq.normalize());
         //   Euler.RotationOrders = [ 'XYZ', 'YZX', 'ZXY', 'XZY', 'YXZ', 'ZYX' ];
         // euler.reorder("ZYX")
-        if(object.userData.name == 'text-marker3') {
-            console.log('------------------------------');
-            console.log('d', new THREE.Euler().setFromQuaternion(q.normalize());
-            console.log('e', euler);
-            console.log('------------------------------');
-        }
 
-        // euler.setFromRotationMatrix(objectMatrix);
-        // euler.reorder("ZYX")
-
-        // Convert quaternion over to Eular.
         return euler;
     }
 
