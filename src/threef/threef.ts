@@ -48,6 +48,8 @@ export class threef {
      * - https://stackoverflow.com/questions/27409074/converting-3d-position-to-2d-screen-position-r69
      * - https://stackoverflow.com/questions/46667395/three-js-vector3-to-2d-screen-coordinate-with-rotated-scene
      * - https://gist.github.com/ChiChou/a671a0bbe514364255f9
+     * - https://github.com/mrdoob/three.js/blob/master/examples/js/renderers/CSS3DRenderer.js#L6-L31
+     * - https://github.com/mrdoob/three.js/blob/master/examples/js/renderers/CSS3DRenderer.js#L254
      */
     static toDomCoordinates(object: THREE.Object3D, camera: THREE.Camera, width: number, height: number): THREE.Vector3 {
         const v = new THREE.Vector3();
@@ -96,56 +98,43 @@ export class threef {
 
     static toDomRotation(object: THREE.Object3D, camera: THREE.Camera, width: number, height: number): THREE.Euler {
 
-          const convertCoordinateSystem = (q:THREE.Quaternion):THREE.Quaternion => {
-            q = q.clone();
-            return new THREE.Quaternion(
-                q.x,
-                -q.y,
-                q.z,
-                q.w
-            );
-          }
 
-        if(object.userData.name == 'text-marker4') {
-            console.log('------------------------------');
-            console.log(object.rotation);
-            console.log('------------------------------');
-        }
-
-        // Get the object rotation.
+        // Get the local transform values.
         let q = new THREE.Quaternion();
-        q = convertCoordinateSystem(object.quaternion);
-        q.normalize();
-
-        // object.updateWorldMatrix(true, true);
-        // object.getWorldQuaternion(q);
-        // var position = new THREE.Vector3();
-        // var scale = new THREE.Vector3();
-        // object.matrixWorld.decompose(position, q, scale);
-
-        // let objectMatrix = object.matrix.clone();
-        // let camMatrix = camera.matrixWorld.clone();
-        // let combined = objectMatrix.multiply(camMatrix);
-
+        object.getWorldQuaternion(q);
+        q.x = -q.x;
+        q.y = q.y;
+        q.z = -q.z;
 
 
         // Get the camera rotation (world)
         let cq = new THREE.Quaternion();
-        camera.updateWorldMatrix(true, false);
+        // camera.updateWorldMatrix(true, false);
         camera.getWorldQuaternion(cq);
-        cq.normalize();
 
 
         //   // Multiply the two rotations
-        // cq.multiply(q.normalize());
+        cq.x = cq.x;
+        cq.y = -cq.y;
+        cq.z = cq.z;
+        cq.multiply(q);
+        // q = convertCoordinateSystem(q);
+        // q.multiply(cq.inverse());
+        // q = convertCoordinateSystem(q);
 
-        cq = convertCoordinateSystem(cq);
+
 
 
         const euler = new THREE.Euler();
         euler.setFromQuaternion(cq.normalize());
         //   Euler.RotationOrders = [ 'XYZ', 'YZX', 'ZXY', 'XZY', 'YXZ', 'ZYX' ];
         // euler.reorder("ZYX")
+        if(object.userData.name == 'text-marker3') {
+            console.log('------------------------------');
+            console.log('d', new THREE.Euler().setFromQuaternion(q.normalize());
+            console.log('e', euler);
+            console.log('------------------------------');
+        }
 
         // euler.setFromRotationMatrix(objectMatrix);
         // euler.reorder("ZYX")

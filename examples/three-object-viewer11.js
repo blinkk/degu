@@ -54,6 +54,7 @@ export default class ThreeObjectViewer11 {
         this.textMarker1 = document.getElementById('text-marker1');
         this.textMarker2 = document.getElementById('text-marker2');
         this.textMarker3 = document.getElementById('text-marker3');
+        this.textMarker4 = document.getElementById('text-marker4');
         this.textMarkers = [];
 
         this.rendererConfig = {
@@ -493,16 +494,16 @@ export default class ThreeObjectViewer11 {
             })[0];
         };
 
-        // const camRotation = threef.toDomRotation(
-        //     this.camera, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
-        // );
-        // console.log(camRotation);
-        // threef.applyVectorToDom(this.domCamera, null, camRotation);
 
         const marker4 = getMarkerByName('text-marker4');
+        const domCoordinates4 = threef.toDomCoordinates(
+            marker4, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
         const domRotation4 = threef.toDomRotation(
             marker4, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
+        threef.applyVectorToDom(this.textMarker4, domCoordinates4, domRotation4);
+        console.log('???', this.textMarker4);
 
 
         // Text marker1.
@@ -535,7 +536,6 @@ export default class ThreeObjectViewer11 {
         const domRotation3 = threef.toDomRotation(
             marker3, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
-        console.log(domRotation3);
         threef.applyVectorToDom(this.textMarker3, domCoordinates3, domRotation3);
 
 

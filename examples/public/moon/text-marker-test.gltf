@@ -124,10 +124,16 @@
         {
             "mesh" : 3,
             "name" : "text-marker4",
+            "rotation" : [
+                -0.13305990397930145,
+                0.0807521790266037,
+                0.08264473080635071,
+                0.9843495488166809
+            ],
             "translation" : [
+                -6.809144973754883,
                 0,
-                0,
-                7.994248390197754
+                -5.560715675354004
             ]
         },
         {
@@ -316,6 +322,49 @@
                     "output" : 37
                 }
             ]
+        },
+        {
+            "channels" : [
+                {
+                    "sampler" : 0,
+                    "target" : {
+                        "node" : 7,
+                        "path" : "translation"
+                    }
+                },
+                {
+                    "sampler" : 1,
+                    "target" : {
+                        "node" : 7,
+                        "path" : "rotation"
+                    }
+                },
+                {
+                    "sampler" : 2,
+                    "target" : {
+                        "node" : 7,
+                        "path" : "scale"
+                    }
+                }
+            ],
+            "name" : "text-marker4Action",
+            "samplers" : [
+                {
+                    "input" : 38,
+                    "interpolation" : "LINEAR",
+                    "output" : 39
+                },
+                {
+                    "input" : 38,
+                    "interpolation" : "LINEAR",
+                    "output" : 40
+                },
+                {
+                    "input" : 38,
+                    "interpolation" : "LINEAR",
+                    "output" : 41
+                }
+            ]
         }
     ],
     "materials" : [
@@ -363,16 +412,16 @@
         },
         {
             "doubleSided" : true,
-            "name" : "Material",
+            "name" : "Material.005",
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
-                    0.800000011920929,
-                    0.800000011920929,
-                    0.800000011920929,
+                    0.007395213469862938,
+                    0.8000000715255737,
+                    0.4298963248729706,
                     1
                 ],
                 "metallicFactor" : 0,
-                "roughnessFactor" : 0.4000000059604645
+                "roughnessFactor" : 0.5
             }
         },
         {
@@ -775,6 +824,36 @@
             "componentType" : 5126,
             "count" : 1,
             "type" : "VEC3"
+        },
+        {
+            "bufferView" : 38,
+            "componentType" : 5126,
+            "count" : 140,
+            "max" : [
+                5.791666666666667
+            ],
+            "min" : [
+                0
+            ],
+            "type" : "SCALAR"
+        },
+        {
+            "bufferView" : 39,
+            "componentType" : 5126,
+            "count" : 140,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 40,
+            "componentType" : 5126,
+            "count" : 140,
+            "type" : "VEC4"
+        },
+        {
+            "bufferView" : 41,
+            "componentType" : 5126,
+            "count" : 140,
+            "type" : "VEC3"
         }
     ],
     "bufferViews" : [
@@ -967,11 +1046,31 @@
             "buffer" : 0,
             "byteLength" : 12,
             "byteOffset" : 18928
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 560,
+            "byteOffset" : 18940
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 1680,
+            "byteOffset" : 19500
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 2240,
+            "byteOffset" : 21180
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 1680,
+            "byteOffset" : 23420
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 18940,
+            "byteLength" : 25100,
             "uri" : "text-marker-test.bin"
         }
     ]
