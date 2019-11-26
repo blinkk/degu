@@ -11,30 +11,10 @@ export class threef {
 
     /**
      * Given a three.js Mesh / Object3d, calculates the current position and maps that to the
-     * DOM x, y position and considers camera position.
+     * DOM x, y, z position and considers camera position.
      *
-     * For this to work, generally, you need your DOM element to be absolutely positioned.
-     *
-     *
-     * Given:
-     *```
-     * .text {
-     *   position: absolute;
-     * }
-     * <div style="position: relative; height: 100vh; width: 100vw">
-     *   <canvas></canvas>
-     *   <div class="text">Hello hello</div>
-     * </div>
-     * ```
-     *
-     * You would do:
-     *
-     * ```
-     *     const domCoordinates = threef.toDomCoordinates(
-     *         marker, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
-     *     );
-     *     threef.applyVectorToDom(this.textMarker1, domCoordinates);
-     * ```
+     * The returning x,y values are in pixels.
+     * x / canvasWidth or y / canvasHeight would give you the percentage values.
      *
      * @see three-object-viewer10.html in examples for billboard, scaled versions.
      *
@@ -73,8 +53,6 @@ export class threef {
         //   scale.project(camera);
 
 
-
-
         // Another crude scaling.
         // const max = 5;
         // const cv = new THREE.Vector3();
@@ -89,19 +67,22 @@ export class threef {
     }
 
 
-    static setFov(element: HTMLElement, camera: THREE.Camera) {
-        const fov = 0.5 / Math.tan(camera['fov'] * Math.PI / 360) * element.offsetHeight;
-        element.style.perspectiveOrigin = "50% 50%";
-        element.style.perspective = fov + 'px';
-    }
 
-
+    /**
+     * Given a three.js object, calculates the euler rotation over to values that can
+     * be applied via css.  Note this return euler rotations in radians (THREE.Euler).
+     * @param object
+     * @param camera
+     * @param width
+     * @param height
+     */
     static toDomRotation(object: THREE.Object3D, camera: THREE.Camera, width: number, height: number): THREE.Euler {
-
 
         // Get the local transform values.
         let q = new THREE.Quaternion();
+        // object.updateWorldMatrix(true, false);
         object.getWorldQuaternion(q);
+        // Convert coordinate system.
         q.x = -q.x;
         q.y = q.y;
         q.z = -q.z;
@@ -113,16 +94,13 @@ export class threef {
         camera.getWorldQuaternion(cq);
 
 
-        //   // Multiply the two rotations
+        // Convert coordinate system.
         cq.x = cq.x;
         cq.y = -cq.y;
         cq.z = cq.z;
+
+        // Combine the camera and object rotation
         cq.multiply(q);
-        // q = convertCoordinateSystem(q);
-        // q.multiply(cq.inverse());
-        // q = convertCoordinateSystem(q);
-
-
 
 
         const euler = new THREE.Euler();
@@ -135,28 +113,69 @@ export class threef {
 
 
     /**
+     * Sets the FOV as camera on a DOM element.
+     * @param element
+     * @param camera
+     */
+    static setFov(element: HTMLElement, camera: THREE.Camera) {
+        const fov = 0.5 / Math.tan(camera['fov'] * Math.PI / 360) * element.offsetHeight;
+        element.style.perspectiveOrigin = "50% 50%";
+        element.style.perspective = fov + 'px';
+    }
+
+
+
+    /**
+     * Given vector and euler rotations, applies transforms to an html element.
+     * This works if your dom element is absolutely positions with the canvas.
      *
+     * Given:
+     *```
+     * .text {
+     *   position: absolute;
+     * }
+     * <div style="position: relative; height: 100vh; width: 100vw">
+     *   <canvas></canvas>
+     *   <div class="text">Hello hello</div>
+     * </div>
+     * ```
+     *
+     * You would do:
+     *
+     * ```
+     *   const domCoordinates = threef.toDomCoordinates(
+     *       threeObject, threeCamara, canvasWidth, canvasHeight
+     *   );
+     *   const domRotation = threef.toDomRotation(
+     *      threeObject, threeCamera, canvasWidth, canvasHeight
+     *   );
+     *
+     *   // Set the position and rotation of myDomElement to match the threeObject
+     *   threef.applyVectorToDom(myDomElement, domCoordinates, domRotation);
+     *
+     *   // Set the position only of myDomElement to match the threeObject
+     *   // This results in a billboarding effect.
+     *   threef.applyVectorToDom(myDomElement, domCoordinates);
+     * ```
      */
     static applyVectorToDom(element: HTMLElement, v?: THREE.Vector3, euler?: THREE.Euler) {
-        const deg = {
-            x: mathf.radianToDegree(euler.x),
-            y: mathf.radianToDegree(euler.y),
-            z: mathf.radianToDegree(euler.z),
-        }
-        if (v && euler) {
-            element.style.transform = `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) rotateX(${deg.x}deg) rotateY(${deg.y}deg) rotateZ(${deg.z}deg) scale(${v.z})`;
-        } else if (v && !euler) {
-            element.style.transform = `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) scale(${v.z})`;
+        if (euler) {
+            const deg = {
+                x: mathf.radianToDegree(euler.x),
+                y: mathf.radianToDegree(euler.y),
+                z: mathf.radianToDegree(euler.z),
+            }
+            if(v) {
+              element.style.transform = `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) rotateX(${deg.x}deg) rotateY(${deg.y}deg) rotateZ(${deg.z}deg) scale(${v.z})`;
+            } else {
+              element.style.transform = `rotateX(${deg.x}deg) rotateY(${deg.y}deg) rotateZ(${deg.z}deg)`;
+            }
         } else {
-            element.style.transform = `rotateX(${deg.x}deg) rotateY(${deg.y}deg) rotateZ(${deg.z}deg)`;
+            element.style.transform = `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) scale(${v.z})`;
         }
     }
 
 
-    /**
-     * Given a 3d object, "attempts" to calculate the x,y,z (vector) and the width
-     * and height of the object.
-     */
     static toDomGetBoundingRect() {
 
     }

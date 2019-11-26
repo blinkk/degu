@@ -18,6 +18,9 @@
 // The glTF format does not allow bump maps.  Use normal maps.
 // https://discourse.threejs.org/t/three-js-gltf-model-exported-from-editor-bump-map-not-rendering/10835
 
+// PBR Exporting in blender
+// https://www.youtube.com/watch?v=wWyBXt565eE&t=318s
+
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 

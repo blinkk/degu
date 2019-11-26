@@ -215,7 +215,9 @@ export default class ThreeObjectViewer10 {
                     // be considered a marker.
                     if(child.name.startsWith('text')) {
                         // Hide the marker
-                        // child.visible = false;
+                        // This is important
+                        child.visible = false;
+
                         this.textMarkers.push(child);
                     }
 
@@ -510,7 +512,7 @@ export default class ThreeObjectViewer10 {
         );
         // Billboarded and not scaling.
         domCoordinates.z = 1;
-        threef.applyVectorToDom(this.textMarker1, domCoordinates);
+        threef.applyVectorToDom(this.textMarker1, domCoordinates, null);
 
         // Text marker2.
         const marker2 = getMarkerByName('text-marker2');
@@ -522,7 +524,6 @@ export default class ThreeObjectViewer10 {
         const domRotation2 = threef.toDomRotation(
             marker2, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
-        console.log(domRotation2);
         threef.applyVectorToDom(this.textMarker2, domCoordinates2, domRotation2);
         this.draw();
     }
