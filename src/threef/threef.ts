@@ -90,7 +90,7 @@ export class threef {
 
 
     static setFov(element: HTMLElement, camera: THREE.Camera) {
-        // const fov = 0.5 / Math.tan(camera.fov * Math.PI / 360) * element.offsetHeight;
+        const fov = 0.5 / Math.tan(camera['fov'] * Math.PI / 360) * element.offsetHeight;
         element.style.perspectiveOrigin = "50% 50%";
         element.style.perspective = fov + 'px';
     }
