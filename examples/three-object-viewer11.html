@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Three Object Viewer Test</title>
 </head>
-<body init-sample="threeObjectViewer10">
+<body init-sample="threeObjectViewer11">
   <style>
       body {
           padding: 0;
@@ -45,8 +45,7 @@
           width: 100%;
           outline: none;
       }
-      #text-marker1,
-      #text-marker2 {
+      .text {
           color: white;
           position: absolute;
       }
@@ -56,8 +55,11 @@
       <div class="child" id="child">
         <div class="container">
           <div id="canvas-container" class="canvas-container"></div>
-          <div id="text-marker1">Billboarded text</div>
-          <div id="text-marker2">Scaled text</div>
+          <div id="canvas-dom-camera" class="canvas-container">
+            <div class="text" id="text-marker1">Blender RX</div>
+            <div class="text" id="text-marker2">Blender RZ</div>
+            <div class="text" id="text-marker3">Blender RY</div>
+          </div>
         </div>
       </div>
   </div>

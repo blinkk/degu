@@ -1,3 +1,4 @@
+
 // https://svs.gsfc.nasa.gov/4720
 // https://threejs.org/docs/#api/en/materials/MeshStandardMaterial
 
@@ -34,7 +35,7 @@ import { mathf } from '../lib/mathf/mathf';
 import { threef } from '../lib/threef/threef';
 import { makeRe } from 'minimatch';
 
-export default class ThreeObjectViewer10 {
+export default class ThreeObjectViewer11 {
     constructor() {
         console.log('ThreeJS Object Viewer Demo');
 
@@ -49,8 +50,10 @@ export default class ThreeObjectViewer10 {
         this.scrollEase = 'easeInQuad';
 
 
+        this.domCamera = document.getElementById('canvas-dom-camera');
         this.textMarker1 = document.getElementById('text-marker1');
         this.textMarker2 = document.getElementById('text-marker2');
+        this.textMarker3 = document.getElementById('text-marker3');
         this.textMarkers = [];
 
         this.rendererConfig = {
@@ -105,7 +108,7 @@ export default class ThreeObjectViewer10 {
 
 
         var loader = new GLTFLoader();
-        const path = '/public/moon/moon1.gltf';
+        const path = '/public/moon/text-marker-test.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 
@@ -357,8 +360,8 @@ export default class ThreeObjectViewer10 {
             this.gui.addFolder('General Lights');
 
             this.generalLightConfig = {
-                ambientLightColor: '#7395b3',
-                ambientLightAlpha: 0,
+                ambientLightColor: '#FFFFFF',
+                ambientLightAlpha: 1,
             };
 
             // Additional lighting outside the blender.
@@ -381,22 +384,8 @@ export default class ThreeObjectViewer10 {
                 ]
             );
 
-            // var width = 50;
-            // var height = 50;
-            // var intensity = 0;
-            // var rectLight = new THREE.RectAreaLight('#FFFFFF', intensity,  width, height );
-            // rectLight.position.set( 0, 0, 25 );
-            // // rectLight.lookAt( 0, 0, 0 );
-            // this.scene.add( rectLight );
-
-            // rectLightHelper = new THREE.RectAreaLightHelper( rectLight );
-            // rectLight.add( rectLightHelper );
-
 
             this.gui.addButton('Refresh', this.refresh.bind(this));
-
-
-            this.addStars(scene);
 
         }, undefined, (error) => {
             console.error(error);
@@ -458,6 +447,8 @@ export default class ThreeObjectViewer10 {
         this.camera.aspect = this.width / this.height;
         this.camera.updateProjectionMatrix();
 
+        threef.setFov(this.domCamera, this.camera);
+
     }
 
     refresh() {
@@ -488,12 +479,12 @@ export default class ThreeObjectViewer10 {
             // The mixer appears to have no knowledge oft this so we need to
             // look up a specific animation and get the duration to
             // get the total duration of the animation.
-            const cameraAnimation = this.getAnimationByName('CameraAction');
+            const cameraAnimation = this.getAnimationByName('CameraAction.001');
             const duration = cameraAnimation.duration;
 
             // When duration hits it's max, animationMixer seems to hit the first
             // frame so next allow it to reach the max value.
-            this.mixer.setTime(Math.min(duration * progress, duration - 1));
+            this.mixer.setTime(Math.min(duration * progress, duration - 0.01));
         }
 
         const getMarkerByName = (name)=> {
@@ -502,6 +493,13 @@ export default class ThreeObjectViewer10 {
             })[0];
         };
 
+        // const camRotation = threef.toDomRotation(
+        //     this.camera, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        // );
+        // console.log(camRotation);
+        // threef.applyVectorToDom(this.domCamera, null, camRotation);
+
+
 
         // Text marker1.
         const marker = getMarkerByName('text-marker1');
@@ -509,21 +507,35 @@ export default class ThreeObjectViewer10 {
             marker, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
         // Billboarded and not scaling.
-        domCoordinates.z = 1;
-        threef.applyVectorToDom(this.textMarker1, domCoordinates);
+        const domRotation = threef.toDomRotation(
+            marker, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
+        threef.applyVectorToDom(this.textMarker1, domCoordinates, domRotation);
 
         // Text marker2.
         const marker2 = getMarkerByName('text-marker2');
         const domCoordinates2 = threef.toDomCoordinates(
             marker2, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
-        // Billboarded and not scaling.
-        domCoordinates2.z = 1;
         const domRotation2 = threef.toDomRotation(
             marker2, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
         console.log(domRotation2);
         threef.applyVectorToDom(this.textMarker2, domCoordinates2, domRotation2);
+
+
+        // Text marker3.
+        const marker3 = getMarkerByName('text-marker3');
+        const domCoordinates3 = threef.toDomCoordinates(
+            marker3, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
+        const domRotation3 = threef.toDomRotation(
+            marker3, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
+        console.log(domRotation3);
+        threef.applyVectorToDom(this.textMarker3, domCoordinates3, domRotation3);
+
+
         this.draw();
     }
 
