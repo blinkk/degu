@@ -499,6 +499,10 @@ export default class ThreeObjectViewer11 {
         // console.log(camRotation);
         // threef.applyVectorToDom(this.domCamera, null, camRotation);
 
+        const marker4 = getMarkerByName('text-marker4');
+        const domRotation4 = threef.toDomRotation(
+            marker4, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
 
 
         // Text marker1.
@@ -520,7 +524,6 @@ export default class ThreeObjectViewer11 {
         const domRotation2 = threef.toDomRotation(
             marker2, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
-        console.log(domRotation2);
         threef.applyVectorToDom(this.textMarker2, domCoordinates2, domRotation2);
 
 

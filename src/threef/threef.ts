@@ -106,31 +106,48 @@ export class threef {
             );
           }
 
+        if(object.userData.name == 'text-marker4') {
+            console.log('------------------------------');
+            console.log(object.rotation);
+            console.log('------------------------------');
+        }
+
         // Get the object rotation.
         let q = new THREE.Quaternion();
-        object.updateWorldMatrix(true, false);
-        object.getWorldQuaternion(q);
+        q = convertCoordinateSystem(object.quaternion);
+        q.normalize();
+
+        // object.updateWorldMatrix(true, true);
+        // object.getWorldQuaternion(q);
         // var position = new THREE.Vector3();
         // var scale = new THREE.Vector3();
         // object.matrixWorld.decompose(position, q, scale);
-        // q = convertCoordinateSystem(q);
+
+        // let objectMatrix = object.matrix.clone();
+        // let camMatrix = camera.matrixWorld.clone();
+        // let combined = objectMatrix.multiply(camMatrix);
 
 
-        //   // Get the camera rotation
+
+        // Get the camera rotation (world)
         let cq = new THREE.Quaternion();
         camera.updateWorldMatrix(true, false);
         camera.getWorldQuaternion(cq);
-        cq = convertCoordinateSystem(cq);
+        cq.normalize();
 
 
         //   // Multiply the two rotations
-        //   q.multiply(cq);
-        //   cq = convertCoordinateSystem(cq);
+        // cq.multiply(q.normalize());
+
+        cq = convertCoordinateSystem(cq);
 
 
         const euler = new THREE.Euler();
         euler.setFromQuaternion(cq.normalize());
         //   Euler.RotationOrders = [ 'XYZ', 'YZX', 'ZXY', 'XZY', 'YXZ', 'ZYX' ];
+        // euler.reorder("ZYX")
+
+        // euler.setFromRotationMatrix(objectMatrix);
         // euler.reorder("ZYX")
 
         // Convert quaternion over to Eular.
