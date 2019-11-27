@@ -1,3 +1,4 @@
+// https://github.com/KhronosGroup/glTF-Blender-Exporter/blob/master/docs/user.md
 // https://threejs.org/docs/#manual/en/introduction/Loading-3D-models
 // https://threejs.org/examples/#webgl_loader_gltf
 // https://gist.github.com/bellbind/c4f8c502fcacbe29422e5ac315273858
@@ -64,6 +65,9 @@ import { Raf } from '../lib/raf/raf';
  * Renderer Specifics
  * - Things like bloom in eevee won't carry over.
  *
+ *
+ * Multi UV mapping
+ * - not supported?
  *
  * Materials
  * - Seems like just Princpled BSDF is the main supported (okay with images)
