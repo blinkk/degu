@@ -69,7 +69,7 @@ import { objectf } from '../objectf/objectf';
  *  )
  *
  * // A feature introduced since v0.0.103 and recommended.
- * this.cssVarInterpolate.batchUpdate(true);
+ * this.cssVarInterpolate.useBatchUpdate(true);
  *
  *  // Set the progress to the range value.
  *  this.progress = +this.range.value;

@@ -55,6 +55,8 @@ export default class ThreeObjectViewer11 {
         this.textMarker2 = document.getElementById('text-marker2');
         this.textMarker3 = document.getElementById('text-marker3');
         this.textMarker4 = document.getElementById('text-marker4');
+        this.textMarker5 = document.getElementById('text-marker5');
+        this.textMarker6 = document.getElementById('text-marker6');
         this.textMarkers = [];
 
         this.rendererConfig = {
@@ -109,7 +111,7 @@ export default class ThreeObjectViewer11 {
 
 
         var loader = new GLTFLoader();
-        const path = '/public/moon/text-marker-test.gltf';
+        const path = '/public/moon/three-object-viewer11.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 
@@ -404,18 +406,6 @@ export default class ThreeObjectViewer11 {
         window.addEventListener('resize', this.resize.bind(this), false);
     }
 
-    addStars(scene){
-        for ( var i = 0; i < 300; i++) {
-            var geometry   = new THREE.SphereGeometry(0.5, 32, 32);
-            var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
-            var sphere = new THREE.Mesh(geometry, material);
-            sphere.position.x = mathf.getRandomInt(-5, 5);
-            sphere.position.y = mathf.getRandomInt(-5, 5);
-            sphere.position.z = mathf.getRandomInt(-5, 5);
-            sphere.scale.x = sphere.scale.y = sphere.scale.z = 0.01;
-            scene.add( sphere );
-        }
-}
 
     resize() {
         this.progress =
@@ -480,7 +470,7 @@ export default class ThreeObjectViewer11 {
             // The mixer appears to have no knowledge oft this so we need to
             // look up a specific animation and get the duration to
             // get the total duration of the animation.
-            const cameraAnimation = this.getAnimationByName('CameraAction.001');
+            const cameraAnimation = this.getAnimationByName('CameraAction');
             const duration = cameraAnimation.duration;
 
             // When duration hits it's max, animationMixer seems to hit the first
@@ -494,15 +484,6 @@ export default class ThreeObjectViewer11 {
             })[0];
         };
 
-
-        const marker4 = getMarkerByName('text-marker4');
-        const domCoordinates4 = threef.toDomCoordinates(
-            marker4, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
-        );
-        const domRotation4 = threef.toDomRotation(
-            marker4, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
-        );
-        threef.applyVectorToDom(this.textMarker4, domCoordinates4, domRotation4);
 
 
         // Text marker1.
@@ -536,6 +517,33 @@ export default class ThreeObjectViewer11 {
             marker3, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
         threef.applyVectorToDom(this.textMarker3, domCoordinates3, domRotation3);
+
+        const marker4 = getMarkerByName('text-marker4');
+        const domCoordinates4 = threef.toDomCoordinates(
+            marker4, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight, 0.3
+        );
+        const domRotation4 = threef.toDomRotation(
+            marker4, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
+        threef.applyVectorToDom(this.textMarker4, domCoordinates4, domRotation4);
+
+        const marker5 = getMarkerByName('text-marker5');
+        const domCoordinates5 = threef.toDomCoordinates(
+            marker5, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight, 0.3
+        );
+        const domRotation5 = threef.toDomRotation(
+            marker5, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
+        threef.applyVectorToDom(this.textMarker5, domCoordinates5, domRotation5);
+
+        // Billboarding sample.
+        // Notice how rotation is not applied.
+        // domCoodinates also don't pass a scale value so the text maintains it's original scale.
+        const marker6 = getMarkerByName('text-marker6');
+        const domCoordinates6 = threef.toDomCoordinates(
+            marker6, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
+        threef.applyVectorToDom(this.textMarker6, domCoordinates6);
 
 
         this.draw();

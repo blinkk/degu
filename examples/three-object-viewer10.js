@@ -19,10 +19,6 @@ import { Datguif } from '../lib/datguif/datguif';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 
 
 // import { Raf } from '../lib/raf/raf';
@@ -32,7 +28,6 @@ import { dom } from '../lib/dom/dom';
 import { EASE } from '../lib/ease/ease';
 import { mathf } from '../lib/mathf/mathf';
 import { threef } from '../lib/threef/threef';
-import { makeRe } from 'minimatch';
 
 export default class ThreeObjectViewer10 {
     constructor() {

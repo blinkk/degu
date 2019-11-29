@@ -50,3 +50,30 @@ https://youtu.be/ENVfvfSxNEA
   For your island principle bsdf, tie it to a separate material
   ouput to cycles. See material-ouput.jpg in this folder for an
   example of this setup.
+- Ensure Y up is enbaled since threef relies on the correct orientation.
+
+
+# Text Markers
+- By convention, text markers should be named with 'text-markerX'
+- Don't use multimaterials on text markers because three.js created multiple Objects out of it
+- Best practice is to use a plane geomery that is square.  You can have one material.
+- Getting rotation right.
+  This is a bit tricky at first.
+  1) To do it right, first set your camera to rotation(90,0,0) (x 90)
+  2) Next add plane.
+  3) Rotate that plane by x90.  So the rotation should be 90,0,0.
+  4) Now do apply scale and rotation (not transform).
+     So your rotation should now be 0,0,0 and scale at 1,1,1.
+  5) Now add your animations as needed.
+  This best way to imagine this is that your rotations get calculated from a set space and orientation.
+  In this case, we assume that all rotation calculations start from the camera rotation 90,0,0
+  and text markers face the camera with that rotation being 0,0,0.
+
+
+# Animating Alpha
+- https://blender.stackexchange.com/questions/81851/does-transparency-work-in-eevee
+- Render -> Screen Space Reflections ON
+- Render -> Screen Space Reflections -> Refraction ON
+- Material → Principled BSDF → Transmission 1.000
+- Material → Settings → Blend Mode Alpha Blend
+- Material → Settings → Screen Space Refraction ON
