@@ -5,6 +5,7 @@ import 'intersection-observer';
 // Examples.
 
 // import VideoProgressSample from '../playground/video-progress';
+
 import BezierCurveSample from '../bezier-curve';
 import CanvasImageSequenceSample from '../canvas-image-sequence';
 import CanvasImageSequenceSample10 from '../canvas-image-sequence10';
@@ -23,6 +24,31 @@ import DomCanvasSample from '../dom-canvas';
 import DomWatcherSample from '../dom-watcher';
 import EaserDisableRafSample from '../easer-disable-raf';
 import EaserSample from '../easer';
+import GlslPlayground from '../glsl-playground';
+import GlslPlayground2 from '../glsl-playground2';
+import GlslPlayground3 from '../glsl-playground3';
+import GlslPlayground4 from '../glsl-playground4';
+import GlslPlayground5 from '../glsl-playground5';
+import GlslPlayground6 from '../glsl-playground6';
+import GlslPlayground7 from '../glsl-playground7';
+import GlslPlayground8 from '../glsl-playground8';
+import GlslPlayground9 from '../glsl-playground9';
+import GlslPlayground10 from '../glsl-playground10';
+import GlslPlayground11 from '../glsl-playground11';
+import GlslPlayground12 from '../glsl-playground12';
+import GlslPlayground13 from '../glsl-playground13';
+import GlslPlayground14 from '../glsl-playground14';
+import GlslPlayground15 from '../glsl-playground15';
+import GlslPlayground16 from '../glsl-playground16';
+import GlslPlayground17 from '../glsl-playground17';
+import GlslPlayground18 from '../glsl-playground18';
+import GlslPlayground19 from '../glsl-playground19';
+import GlslPlayground20 from '../glsl-playground20';
+import GlslPlayground21 from '../glsl-playground21';
+import GlslPlayground22 from '../glsl-playground22';
+import GlslPlayground23 from '../glsl-playground23';
+import GlslPlayground24 from '../glsl-playground24';
+import GlslPlayground25 from '../glsl-playground25';
 import HermiteCurveSample from '../hermite-curve';
 import InterpolateSample from '../interpolate';
 import MathfEaseSample from '../mathf-ease';
@@ -47,7 +73,10 @@ import ScrollDemoSample2 from '../scroll-demo2';
 import ScrollDemoSample3 from '../scroll-demo3';
 import ScrollDemoSample4 from '../scroll-demo4';
 import ScrollDemoSample5 from '../scroll-demo5';
+import TextSplitSample from '../text-split';
 import ThreeObjectViewer from '../three-object-viewer';
+import ThreeObjectViewer10 from '../three-object-viewer10';
+import ThreeObjectViewer11 from '../three-object-viewer11';
 import ThreeObjectViewer2 from '../three-object-viewer2';
 import ThreeObjectViewer3 from '../three-object-viewer3';
 import ThreeObjectViewer4 from '../three-object-viewer4';
@@ -56,9 +85,6 @@ import ThreeObjectViewer6 from '../three-object-viewer6';
 import ThreeObjectViewer7 from '../three-object-viewer7';
 import ThreeObjectViewer8 from '../three-object-viewer8';
 import ThreeObjectViewer9 from '../three-object-viewer9';
-import ThreeObjectViewer10 from '../three-object-viewer10';
-import ThreeObjectViewer11 from '../three-object-viewer11';
-import TextSplitSample from '../text-split';
 import VectorDomSample from '../vector-dom';
 import VectorDomSample2 from '../vector-dom2';
 import VectorDomSample3 from '../vector-dom3';
@@ -72,6 +98,7 @@ import WebGlImageSequenceSample7 from '../webgl-image-sequence7';
 import WebGlImageSequenceSample9 from '../webgl-image-sequence9';
 import X2Sample from '../x2';
 import XSample from '../x';
+
 
 
 
@@ -146,6 +173,31 @@ const samples = {
   'threeObjectViewer11': ThreeObjectViewer11,
   'textSplitSample': TextSplitSample,
   'webGlSample': WebGlSample,
+  'glslPlayground': GlslPlayground,
+  'glslPlayground2': GlslPlayground2,
+  'glslPlayground3': GlslPlayground3,
+  'glslPlayground4': GlslPlayground4,
+  'glslPlayground5': GlslPlayground5,
+  'glslPlayground6': GlslPlayground6,
+  'glslPlayground7': GlslPlayground7,
+  'glslPlayground8': GlslPlayground8,
+  'glslPlayground9': GlslPlayground9,
+  'glslPlayground10': GlslPlayground10,
+  'glslPlayground11': GlslPlayground11,
+  'glslPlayground12': GlslPlayground12,
+  'glslPlayground13': GlslPlayground13,
+  'glslPlayground14': GlslPlayground14,
+  'glslPlayground15': GlslPlayground15,
+  'glslPlayground16': GlslPlayground16,
+  'glslPlayground17': GlslPlayground17,
+  'glslPlayground18': GlslPlayground18,
+  'glslPlayground19': GlslPlayground19,
+  'glslPlayground20': GlslPlayground20,
+  'glslPlayground21': GlslPlayground21,
+  'glslPlayground22': GlslPlayground22,
+  'glslPlayground23': GlslPlayground23,
+  'glslPlayground24': GlslPlayground24,
+  'glslPlayground25': GlslPlayground25,
 };
 
 class Main {

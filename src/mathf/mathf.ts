@@ -857,6 +857,44 @@ export class mathf {
 
 
   /**
+   * Another linear interpolation option.   Same as mathf.lerp but different algo
+   * with no hard clamping.
+   *
+   * ```ts
+   * mathf.mix(a, b, 0.0) ---> a
+   * mathf.mix(a, b, 1.0) ---> b
+   * mathf.mix(a, b, 0.5) ---> between x and y, blended values.
+   * ```
+   * @param a
+   * @param b
+   * @param blend
+   * @untested
+   */
+  static mix(a:number, b:number, blend:number) {
+   return a * (1 - blend) + b * blend;
+  }
+
+
+  /**
+   * Step method.  Will  return 0 or 1.
+   * If n is greater than edge, 1
+   * If n is less than edge, 0
+   *
+   * ```ts
+   * mathf.step(1, 2) ---> 1
+   * mathf.step(1, 0.2) ---> 0
+   * mathf.step(1, 1.1) ---> 1
+   * ```
+   */
+  static step(edge:number, n:number) {
+    if(n > edge) {
+      return 1.0;
+    } else {
+      return 0.0;
+    }
+  }
+
+  /**
    * Performs smoothstep from min to max using the given value using Hermite
    * interpolation.
    *

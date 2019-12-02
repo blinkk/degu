@@ -28,6 +28,16 @@ import { time } from '../time/time';
  * raf.watch(onRaf);
  * raf.unwatch(onRaf);
  *
+ * // Clock functions: Delta and elapsed time.
+ * var raf2 = new Raf((frame, lastUpdateTime, stop)=> {
+ *   // Gets the time when raf started.
+ *   const startTime = raf.getStartTime();
+ *   // Gets the delta between the last update
+ *   const delta = raf.getDelta();
+ *   // Time elapsed
+ *   const elapsedTime = raf.getElapsedTime();
+ * }).start();
+ *
  * ```
  *
  * RunWhen option.
@@ -77,11 +87,14 @@ export class Raf {
     private raf_: any;
     private frame: number | null;
     private lastUpdateTime: number;
+    private delta: number;
     private fps: number;
     private isPlaying: boolean;
     private callbacks: Array<Function>;
     private runCondition: Function | null;
     private isRunningRaf: boolean;
+    private elaspedTime: number;
+    private startTime: number;
 
     /**
      * @param {Function} rafLoop  Optional function to be called on each
@@ -140,6 +153,21 @@ export class Raf {
          */
         this.runCondition = null;
 
+        /**
+         * The delta time in ms between the last frame update.
+         */
+        this.delta = 0;
+
+        /**
+         * The elapsed time instantiation.  This serves as a clock.
+         * Note this is based on seconds not ms.
+         */
+        this.elaspedTime = 0;
+
+        /**
+         * The last known start time of raf.
+         */
+        this.startTime = 0;
 
         if (rafLoop) {
             this.watch(rafLoop);
@@ -191,6 +219,7 @@ export class Raf {
         if (!force && this.isPlaying) {
             return;
         }
+        this.startTime = ( typeof performance === 'undefined' ? Date : performance ).now();
         this.animationLoop_();
         this.isPlaying = true;
     }
@@ -206,6 +235,34 @@ export class Raf {
 
     dispose() {
         this.stop();
+    }
+
+    /**
+     * Gets the delta in ms between the last executed raf update.
+     * @param inSeconds Whether to acquire the delta time in seconds.  Defaults
+     *   to ms.
+     */
+    getDelta(inSeconds:boolean) {
+        if(inSeconds) {
+          return this.delta / 1000;
+        } else {
+          return this.delta;
+        }
+    }
+
+    /**
+     * Gets the elasped time since raf started.
+     */
+    getElapsedTime() {
+        return this.elaspedTime;
+    }
+
+
+    /**
+     * Gets the time (Date) when raf started.
+     */
+    getStartTime() {
+        return this.startTime;
     }
 
 
@@ -228,6 +285,8 @@ export class Raf {
         if (this.lastUpdateTime) {
             const current = time.now();
             const elapsed = current - this.lastUpdateTime;
+            this.delta = elapsed;
+            this.elaspedTime += elapsed / 1000;
             const fps = this.fps == 0 ? 0 : 1000 / this.fps;
             if (elapsed > fps) {
                 this.callbacks.forEach((callback) => {

@@ -285,7 +285,6 @@ export class Datguif {
                config.callback && config.callback();
                this.runUpdate();
             });
-
     }
 
 
