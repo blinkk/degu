@@ -83,7 +83,7 @@ window.addEventListener('mousemove', function(e) {
   - see v_uv, v_position below.
 
 # Vertex Shader
-  - Vertex should set the vec4 gl_Position.
+  - Vertex should set the vec4 gl_Position which is in clip coordinates
   - Applied per vertices of the mesh geometry.
 
   The position needs to condiser the model view projection.
@@ -101,6 +101,9 @@ window.addEventListener('mousemove', function(e) {
 
  resulting in a default vertex shader of:
  gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );
+
+
+
 
 
 
@@ -124,6 +127,16 @@ UV
     @see glsl-playground4.js for simple example.
 
     vec2 uv = gl_FragCoord.xy / u_resolution; // Which multiplies the xy of fragCoord with xy of u_resolution.
+
+normal
+  normal is available in the vert shader made available by three.js.
+  normal is a vector that extends outwards from the vertex used for
+  lighting calculations.
+
+  Also see @glsl-playground30.js for example of manual calcuations of normal lighting reflections.
+
+
+
 
 
 v_uv, v_position
@@ -206,6 +219,10 @@ v_uv, v_position
         for instance, you want to draw a line of 10px.
 
 
+Getting World positions in frag shader.
+  @see glsl-playground.28.js
+  We pass the modelMatrix as a varying over to the frag shader.
+
 Normalizing Sin / Cos
     Sin returns values between -1 and 1 and we want 0-1.
     So we first do sin(time) + 1.0 which gives us a value between 0 and 2.
@@ -233,6 +250,12 @@ Sin / Cos with Radians
    270 sin(3π/2) = -1, cos(π) = 0
    360 sin(2π) = -1, cos(π) = 1
 
+
+
+SampleCube - Cube Textures
+https://www.udemy.com/course/learn-glsl-shaders-from-scratch/learn/lecture/13739244#questions/8753186
+- takes 6 images.  1 for negative and positive of each x,y,z
+- THREE.CubeTextureLoader(); (https://threejs.org/docs/#api/en/loaders/CubeTextureLoader)
 
 # Functions
 @see http://www.shaderific.com/glsl-functions
@@ -275,6 +298,15 @@ smoothstep(edge0, edge1, n) --> creates smooth edges.
 
 dot(a,b)  ----> dot product of two vectors
   - dot(a,b) = a.x * b.x + a.y * b.y;
+  - https://www.udemy.com/course/learn-glsl-shaders-from-scratch/learn/lecture/13739214 (3:50)
+  - https://www.udemy.com/course/learn-glsl-shaders-from-scratch/learn/lecture/13739236#questions/8753186 (first two minutes)
+  - https://betterexplained.com/articles/vector-calculus-understanding-the-dot-product/
+  - multiplying the common parts of the vectors.  Looking at the similarities.
+  - directional multiplication.  Howe much overlap is there.
+  - solar panel example.  Closer to 90 degrees - 1 max power.  Parallel - 0.
+    (if dealing with normalized unit vectors)
+  - mario-kart speed boost
+
 
 atan(d.y, d.x) ---> returns the angle of vector
   vec2 a = vec2(0.5, 0.2);
@@ -308,6 +340,28 @@ texture2D(texture, uv)
 
 
 
+# Three integrations
+Three.jsのさまざまなマテリアル
+https://ics.media/tutorial-three/material_variation/
+
+ThreejsでGLSLをいじるための基礎知識
+https://qiita.com/kitasenjudesign/items/1657d9556591284a43c8
+
+
+Three Shader Locations
+https://github.com/mrdoob/three.js/tree/master/src/renderers/shaders
+
+Materials
+https://github.com/mrdoob/three.js/blob/master/src/renderers/shaders/ShaderLib.js
+
+https://github.com/mrdoob/three.js/blob/master/src/renderers/shaders/ShaderLib/meshphysical_vert.glsl.js
+
+https://github.com/mrdoob/three.js/blob/master/src/renderers/shaders/ShaderLib/meshphysical_frag.glsl.js
+
+
+Extending Materials
+https://discourse.threejs.org/t/function-to-extend-materials/7882
+view-source:https://threejs.org/examples/webgl_buffergeometry_instancing_lambert
 
 
 # Three Shader Chunk
@@ -326,15 +380,58 @@ then in your shader just do:
 
 ```
 #include <noise>;
+#include <yanoMathf>;
 ```
 
 @see glsl-playground19.js for an example of this.
 
 
+# Shader Frog
+
+説明
+https://www.udemy.com/course/learn-glsl-shaders-from-scratch/learn/lecture/13739244#questions/8753186
+
+
+Sample
+https://codepen.io/nik-lever/pen/JzjwmW
+
+
+https://shaderfrog.com/
+
+
+# Inspiration
+http://glslsandbox.com/
 
 
 # Refs
-Images - https://qiita.com/cx20/items/15e9ac23fe8ee821387d
-j
 
-https://qiita.com/7CIT/items/2c69351b96743b6ae0e1
+thisbookofshaders.com
+
+
+glsl トラブルまとめ
+https://alteredqualia.com/tmp/webgl-maxparams-test/
+
+Random Issue
+http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+
+GLSL による画像フィルタを色々試してみた
+https://qiita.com/cx20/items/15e9ac23fe8ee821387d
+
+
+glslで良く作られるユーティリティ関数 (Random)
+https://qiita.com/7CI fnoiseT/items/2c69351b96743b6ae0e1
+
+WebGLのシェーダーGLSLでの画像処理の作り方（モノクロ、セピア、モザイク、渦巻き）
+https://ics.media/entry/5535/
+
+GLSLを使ってワンランク上の表現を！ Three.jsでのぷるぷるシェーダーの作り方
+https://ics.media/entry/3228/
+
+エフェクト作成入門講座 Three.js編 ゲーム演出に役立つマグマ表現の作り方
+https://ics.media/entry/13973/
+
+エフェクト作成入門講座 Three.js編 RPGのセーブポイント風の魔法陣
+https://ics.media/entry/11401/
+
+Performance
+https://ics.media/entry/12930/

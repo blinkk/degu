@@ -70,6 +70,7 @@ export class threef {
      *
      *
      * Inspired by:
+     * - https://ics.media/tutorial-three/position_project/
      * - https://threejsfundamentals.org/threejs/lessons/threejs-align-html-elements-to-3d.html
      * - https://stackoverflow.com/questions/27409074/converting-3d-position-to-2d-screen-position-r69
      * - https://stackoverflow.com/questions/46667395/three-js-vector3-to-2d-screen-coordinate-with-rotated-scene

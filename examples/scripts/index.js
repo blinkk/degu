@@ -49,6 +49,11 @@ import GlslPlayground22 from '../glsl-playground22';
 import GlslPlayground23 from '../glsl-playground23';
 import GlslPlayground24 from '../glsl-playground24';
 import GlslPlayground25 from '../glsl-playground25';
+import GlslPlayground26 from '../glsl-playground26';
+import GlslPlayground27 from '../glsl-playground27';
+import GlslPlayground28 from '../glsl-playground28';
+import GlslPlayground29 from '../glsl-playground29';
+import GlslPlayground30 from '../glsl-playground30';
 import HermiteCurveSample from '../hermite-curve';
 import InterpolateSample from '../interpolate';
 import MathfEaseSample from '../mathf-ease';
@@ -198,6 +203,11 @@ const samples = {
   'glslPlayground23': GlslPlayground23,
   'glslPlayground24': GlslPlayground24,
   'glslPlayground25': GlslPlayground25,
+  'glslPlayground26': GlslPlayground26,
+  'glslPlayground27': GlslPlayground27,
+  'glslPlayground28': GlslPlayground28,
+  'glslPlayground29': GlslPlayground29,
+  'glslPlayground30': GlslPlayground30,
 };
 
 class Main {

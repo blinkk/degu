@@ -795,5 +795,11 @@ export const noise = ()=> {
       float d = perlin(x, y) * 800.0;
       return dperlin(x + d, y + d);
   }
+
+
+  float random( vec3 pt, float seed ){
+    vec3 scale = vec3( 12.9898, 78.233, 151.7182 );
+    return fract( sin( dot( pt + seed, scale ) ) * 43758.5453 + seed ) ;
+  }
 `;
 }
