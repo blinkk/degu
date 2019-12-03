@@ -303,7 +303,7 @@ dot(a,b)  ----> dot product of two vectors
   - https://betterexplained.com/articles/vector-calculus-understanding-the-dot-product/
   - multiplying the common parts of the vectors.  Looking at the similarities.
   - directional multiplication.  Howe much overlap is there.
-  - solar panel example.  Closer to 90 degrees - 1 max power.  Parallel - 0.
+  - solar panel example.  Closer to 90 degrees - 0 max power.  Parallel - 1.
     (if dealing with normalized unit vectors)
   - mario-kart speed boost
 

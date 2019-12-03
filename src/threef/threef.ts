@@ -108,6 +108,54 @@ export class threef {
     }
 
 
+    /**
+     * Converts from the blender coordinate system over to three (XYZ).
+     * This assumes that within blender, you are using the XYZ Euler rotation
+     * settings.
+     *
+     * If your settings are off, it's likely the object your exported
+     * has rotations.  Select your object to Apply -> Rotation & Scale
+     * in blender.
+     *
+     * Example:
+     * ```
+     *  threef.blenderToThreeCoordinates({
+     *     x: mathf.degreeToRadian(51.9),
+     *     y: mathf.degreeToRadian(192),
+     *     z: mathf.degreeToRadian(200)
+     * }),
+     * ```
+     * @param object Object contains x,y,z
+     */
+    static blenderToThreeEuler(euler:any) {
+        return {
+           x: -euler.x,
+           y: euler.z,
+           z: -euler.y,
+        }
+    }
+
+    /**
+     * Converts blender coords to three.js
+     * ```
+     * targetPosition = threef.blenderToThreeVec3({
+     *   // Specify in blender coords
+     *   x: 0,
+     *   y: 0,
+     *   z: 1.0,
+     * });
+     *
+     * ```
+     * @param vec3
+     */
+    static blenderToThreeVec3(vec3:any) {
+        return {
+           x: -vec3.x,
+           y: vec3.z,
+           z: -vec3.y,
+        }
+    }
+
 
     /**
      * Given a three.js object, calculates the euler rotation over to values that can
