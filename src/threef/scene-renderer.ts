@@ -30,10 +30,11 @@ export interface SceneRendererConfig {
     rendererOptions?: Object;
 
     /**
-     * Whether to use fixed positioning ofr the master canvas.
+     * Whether to use absolute positioning of the master canvas.
      * Defaults to false.
+     * This can have performance benefits but as of now, it is experimental.
      */
-    useFixedPositioning?: boolean;
+    useAbsolutePositioning?: boolean;
 }
 
 
@@ -110,9 +111,9 @@ export class SceneRenderer {
     private zIndex: number;
 
     /**
-     * Whether to use fixed position on the root canvas or no.
+     * Whether to use absolute position on the root canvas or no.
      */
-    private useFixedPositioning: boolean;
+    private useAbsolutePositioning: boolean;
 
 
     constructor(config: SceneRendererConfig) {
@@ -126,7 +127,7 @@ export class SceneRenderer {
             on: 'smartResize',
          });
 
-        this.useFixedPositioning = !!config.useFixedPositioning;
+        this.useAbsolutePositioning = !!config.useAbsolutePositioning;
 
 
         this.rootElement = config.rootElement || document.body;
@@ -137,10 +138,10 @@ export class SceneRenderer {
         this.zIndex = 1;
         this.canvas = document.createElement('canvas');
         this.canvas.style.pointerEvents = 'none';
-        if(this.useFixedPositioning) {
-          this.canvas.style.position = 'fixed';
-        } else {
+        if(this.useAbsolutePositioning) {
           this.canvas.style.position = 'absolute';
+        } else {
+          this.canvas.style.position = 'fixed';
         }
         this.canvas.style.left = '0px';
         this.canvas.style.top = '0px';
@@ -243,7 +244,7 @@ export class SceneRenderer {
 
         // See note on: https://stackoverflow.com/questions/30608723/is-it-possible-to-enable-unbounded-number-of-renderers-in-three-js/30633132#30633132
         // Rather than using fixed, this keeps the canvas in sync.
-        if(!this.useFixedPositioning) {
+        if(this.useAbsolutePositioning) {
           this.canvas.style.transform = `translateY(${window.scrollY}px)`;
         }
 

@@ -11,9 +11,7 @@ export default class ThreeSceneRenderer {
         console.log('scene renderer test.');
 
         this.raf = new Raf(this.onRaf.bind(this));
-        this.sceneRenderer = new SceneRenderer({
-            useFixedPositioning: true
-        });
+        this.sceneRenderer = new SceneRenderer({});
 
         this.boxElements = [
             document.getElementById('box-1'),
