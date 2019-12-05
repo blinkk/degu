@@ -29,6 +29,11 @@ export interface SceneRendererConfig {
      */
     rendererOptions?: Object;
 
+    /**
+     * Whether to use fixed positioning ofr the master canvas.
+     * Defaults to false.
+     */
+    useFixedPositioning?: boolean;
 }
 
 
@@ -104,6 +109,11 @@ export class SceneRenderer {
      */
     private zIndex: number;
 
+    /**
+     * Whether to use fixed position on the root canvas or no.
+     */
+    private useFixedPositioning: boolean;
+
 
     constructor(config: SceneRendererConfig) {
         console.log('scene renderer');
@@ -116,6 +126,8 @@ export class SceneRenderer {
             on: 'smartResize',
          });
 
+        this.useFixedPositioning = !!config.useFixedPositioning;
+
 
         this.rootElement = config.rootElement || document.body;
         this.dpr = window.devicePixelRatio || 1;
@@ -125,7 +137,11 @@ export class SceneRenderer {
         this.zIndex = 1;
         this.canvas = document.createElement('canvas');
         this.canvas.style.pointerEvents = 'none';
-        this.canvas.style.position = 'absolute';
+        if(this.useFixedPositioning) {
+          this.canvas.style.position = 'fixed';
+        } else {
+          this.canvas.style.position = 'absolute';
+        }
         this.canvas.style.left = '0px';
         this.canvas.style.top = '0px';
 
@@ -227,7 +243,9 @@ export class SceneRenderer {
 
         // See note on: https://stackoverflow.com/questions/30608723/is-it-possible-to-enable-unbounded-number-of-renderers-in-three-js/30633132#30633132
         // Rather than using fixed, this keeps the canvas in sync.
-        this.canvas.style.transform = `translateY(${window.scrollY}px)`;
+        if(!this.useFixedPositioning) {
+          this.canvas.style.transform = `translateY(${window.scrollY}px)`;
+        }
 
         this.renderer.setScissorTest(false);
         this.renderer.clear();
