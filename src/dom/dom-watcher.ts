@@ -52,7 +52,7 @@ export interface DomWatcherConfig {
  *
  * Basic Usage
  * ```ts
- * let new watcher = new DomWatcher();
+ * let watcher = new DomWatcher();
  *
  * var scrollCallback = (event, done)=> {
  *   // on scroll events.
