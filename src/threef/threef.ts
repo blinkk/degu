@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { mathf } from '../mathf/mathf';
 import { is } from '..';
+import { Defer } from '../func/defer';
 
 export interface threefGltfLoader {
     gltfPath: string,
@@ -56,19 +57,39 @@ export class threef {
      * @see https://github.com/mrdoob/three.js/tree/dev/examples/js/libs/draco#readme
      */
     static loadGltf(config: threefGltfLoader) {
-        return new Promise(resolve => {
+        let defer = new Defer();
+
+        // Start loading gltf.
+        let gltfData = {};
+        const gltfFetch = new Promise(resolve => {
+            config.gltfLoader.load(config.gltfPath, (gltf:any) => {
+                gltfData = gltf;
+                resolve();
+            });
+        });
+
+
+        let animationMarkerData = {};
+        const markerFetch = new Promise(resolve => {
             // Load the animation export
             fetch(config.animationMarkerPath)
                 .then(function (response) {
                     return response.json();
                 })
-                .then(function (animationMarkerData) {
-                    config.gltfLoader.load(config.gltfPath, (gltf:any) => {
-                        gltf['animationMarkers'] = animationMarkerData;
-                        resolve(gltf);
-                    });
+                .then(function (markerData:any) {
+                    animationMarkerData = markerData;
+                    resolve();
                 });
         });
+
+
+        // Merge out the data.
+        Promise.all([gltfFetch, markerFetch]).then(()=> {
+            gltfData['animationMarkers'] = animationMarkerData;
+            defer.resolve(gltfData);
+        });
+
+        return defer.getPromise();
     }
 
 
