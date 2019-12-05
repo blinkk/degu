@@ -21,15 +21,39 @@ export class threef {
      *
      * ```
      * import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+     * import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader';
+     *
+     *   // Create instance of three glft loader.
+     *   const gltfLoader = new GLTFLoader();
+     *
+     *   // Optional: Provide a DRACOLoader instance to decode compressed mesh data
+     *   var dracoLoader = new THREE.DRACOLoader();
+     *   dracoLoader.setDecoderPath( '/examples/js/libs/draco/' );
+     *   loader.setDRACOLoader( dracoLoader );
+     *
+     *
      *   threef.load({
      *     gltfPath: '/public/dev/gltf/test1.gltf',
      *     animationMarkerPath: '/public/dev/gltf/test1.gltf',
-     *     gltfLoader: GLTFLoader
+     *     gltfLoader: gltfLoader
+     *   }).then((gltf) => {
+     *       // gltf.animationMarkers is available.
+     *       // Everything else works the same as the three gltf loader.
+     *   });
+     *
+     *   // Call again to load something else with the same loader.
+     *   threef.load({
+     *     gltfPath: '/public/dev/gltf/test2.gltf',
+     *     animationMarkerPath: '/public/dev/gltf/test2.gltf',
+     *     gltfLoader: gltfLoader
      *   }).then((gltf) => {
      *       // gltf.animationMarkers is available.
      *       // Everything else works the same as the three gltf loader.
      *   });
      * ```
+     *
+     * @see https://threejs.org/docs/#examples/en/loaders/GLTFLoader
+     * @see https://github.com/mrdoob/three.js/tree/dev/examples/js/libs/draco#readme
      */
     static loadGltf(config: threefGltfLoader) {
         return new Promise(resolve => {
@@ -39,8 +63,7 @@ export class threef {
                     return response.json();
                 })
                 .then(function (animationMarkerData) {
-                    let loader = new config['gltfLoader']();
-                    loader.load(config.gltfPath, (gltf:any) => {
+                    config.gltfLoader.load(config.gltfPath, (gltf:any) => {
                         gltf['animationMarkers'] = animationMarkerData;
                         resolve(gltf);
                     });
