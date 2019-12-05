@@ -145,6 +145,7 @@ export class threef {
             // Since the canvas scales based on height, use that as the basis.
             z = (v.z * -0.5 + 0.5) * height;
             z *= scalar;
+            z *= camera['zoom'] || 1.0;
         }
 
 

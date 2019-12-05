@@ -3,14 +3,87 @@ import * as THREE from 'three';
 import { elementVisibility } from '../dom/element-visibility';
 import { DomWatcher } from '../dom/dom-watcher';
 
+export enum SceneResizingAlgo {
+    /**
+     * This is most commonly used three.js aspect ratio based resizing.
+     *
+     * Basically doing:
+     *  camera.aspect = aspect;
+     *  camera.updateProjectionMatrix();
+     *
+     * Basically, the camera will project out objects to the aspect ratio
+     * of the dom element.  It contains Y but clips X.
+     *
+     * Thinking in terms of css, you can think of this similar to a
+     * background-size: contain for height only and background-cover for width.
+     *
+     * Using this, as you resize your scene, the tops and bottom will never be
+     * clipped but the sides can be clipped.  All of this is relative to
+     * how you setup your scene as well (camera position, object positions etc)
+     *
+     * Nuthsell:
+     * - If you resize the height, your object will go down in size.
+     * - If you resize the width, your objects will not change in size.
+     * - Resizing is based on a NDC 0,0 coordinates.
+     */
+    standardAspect = 'standardAspect',
+
+    /**
+     * An algo that attempts to recreate a similar effect as background: contain
+     * but it's based on zoom.  This require you to pass the resizeScalar value
+     * which in this case would be used to multiply the zoom value.
+     *
+     * Nuthsell:
+     * - If you resize the height, your object will go down in size.
+     * - If you resize the width, your objects will go down in size by changing
+     *   the camera zoom.
+     * - Resizing is based on a NDC 0,0 coordinates.
+     * - resizingScalar can be passed to adust the zoom levels.
+     */
+    resizeWithZoom = 'resizeWithZoom',
+
+
+    /**
+     * Indicates that scene-renders should not attempt to resize and fix
+     * camera aspect on resizing.  This will be handled manually.  Scene
+     * defaults to manual if nothing is specified for resizingAlgo.
+     *
+     *
+     * An example of manually handing the resizing.
+     * ```
+     *
+     *       this.sceneRenderer.addScene({
+     *           resizingAlgo: 'manual',
+     *           scene: scene,
+     *           camera: camera,
+     *           domElement: element,
+     *           onResize() {
+     *               camera.aspect = element.offsetWidth / element.offsetHeight;
+     *               camera.updateProjectionMatrix();
+     *           }
+     *       });
+     *
+     * ```
+     */
+    manual = 'manual',
+}
+
 export interface SceneConfig {
     scene: THREE.Scene,
     camera: THREE.Camera,
     domElement: HTMLElement,
     // A callback to execute prior to this scene being renders.
-    onBeforeRender?: Function
+    onBeforeRender?: Function,
     // A callback to executed on each resize event.
-    onResize?: Function
+    onResize?: Function,
+    // A callback to executed on each dispose
+    onDipose?: Function,
+
+    // The type of resizing that should be used.
+    resizingAlgo: string,
+    // A scalar value used to control resizing when an applicable resizingAlgo
+    // is specified.
+    resizingScalar?: number
 }
 
 
@@ -35,6 +108,11 @@ export interface SceneRendererConfig {
      * This can have performance benefits but as of now, it is experimental.
      */
     useAbsolutePositioning?: boolean;
+
+    /**
+     * Resizing algo. @see SceneResizingAlgo.
+     */
+    resizingAlgo: SceneResizingAlgo
 }
 
 
@@ -125,7 +203,7 @@ export class SceneRenderer {
             callback: this.onResize.bind(this),
             eventOptions: { passive: true },
             on: 'smartResize',
-         });
+        });
 
         this.useAbsolutePositioning = !!config.useAbsolutePositioning;
 
@@ -138,10 +216,10 @@ export class SceneRenderer {
         this.zIndex = 1;
         this.canvas = document.createElement('canvas');
         this.canvas.style.pointerEvents = 'none';
-        if(this.useAbsolutePositioning) {
-          this.canvas.style.position = 'absolute';
+        if (this.useAbsolutePositioning) {
+            this.canvas.style.position = 'absolute';
         } else {
-          this.canvas.style.position = 'fixed';
+            this.canvas.style.position = 'fixed';
         }
         this.canvas.style.left = '0px';
         this.canvas.style.top = '0px';
@@ -166,15 +244,83 @@ export class SceneRenderer {
         this.onResize();
     }
 
+    public resize() {
+        this.onResize();
+    }
+
 
     onResize() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        this.renderer.setSize(this.width, this.height);
+        const aspectRatio = this.width / this.height;
+
         this.scenes.forEach((scene: THREE.Scene) => {
+            const element = scene.userData.domElement;
+
+
+            // Now for each, figure out the right resizing strategy.
+            const camera = scene.userData.camera;
+
+            // let width, height;
+            // if (aspectRatio >= 1) {
+            //     width = 1;
+            //     height = (window.innerHeight / window.innerWidth) * width;
+            // } else {
+            //     width = aspectRatio;
+            //     height = 1;
+            // }
+            // camera.left = -width;
+            // camera.right = width;
+            // camera.top = height;
+            // camera.bottom = -height;
+            // camera.updateProjectionMatrix();
+
+
+            // Cover on X, Contain on Y
+            // camera.aspect = element.offsetWidth / element.offsetHeight;
+            // camera.updateProjectionMatrix();
+
+            // Contain
+            const h = element.offsetHeight;
+            const w = element.offsetWidth;
+            const aspect = w / h;
+            // let width, height;
+            // if (aspect >= 1) {
+            //     width = 1;
+            //     height = aspect;
+            // } else {
+            //     width = aspect;
+            //     height = 1;
+            // }
+            // camera.left = -width / 2;
+            // camera.right = width / 2;
+            // camera.top = height / 2;
+            // camera.bottom = -height / 2;
+
+            // Contain zoom algo.
+            if (scene.userData.resizingAlgo == SceneResizingAlgo.resizeWithZoom) {
+                const scalar = scene.userData.resizingScalar || 1.0;
+                if (aspect <= 1) {
+                    camera.zoom = aspect * scalar;
+                } else {
+                    camera.zoom = 1;
+                }
+                camera.aspect = aspect;
+                camera.updateProjectionMatrix();
+            }
+
+            // Standard Aspect algo
+            if (scene.userData.resizingAlgo == SceneResizingAlgo.standardAspect) {
+                camera.aspect = aspect;
+                camera.updateProjectionMatrix();
+            }
+
+
+
             scene.userData.onResize && scene.userData.onResize();
         });
 
+        this.renderer.setSize(this.width, this.height);
         this.render();
     }
 
@@ -209,20 +355,13 @@ export class SceneRenderer {
         }
 
         const scene = sceneConfig.scene;
-        // By convention, we save the domElement of the scene to the scene itself.
-        scene.userData.element = sceneConfig.domElement;
 
-        // Save the camera.
-        scene.userData.camera = sceneConfig.camera;
+        // Set the scene config data to the scene.
+        scene.userData = sceneConfig;
 
-        // Each scene will also contain element visibility as well to
-        // be able to later check if the associated domElement is visible
+        // Add ev to able to later check if the associated domElement is visible
         // in the viewport.
         scene.userData.ev = elementVisibility.inview(sceneConfig.domElement);
-
-        scene.userData.onBeforeRender = sceneConfig.onBeforeRender;
-        scene.userData.onResize = sceneConfig.onResize;
-
 
 
         this.scenes.push(scene);
@@ -244,8 +383,8 @@ export class SceneRenderer {
 
         // See note on: https://stackoverflow.com/questions/30608723/is-it-possible-to-enable-unbounded-number-of-renderers-in-three-js/30633132#30633132
         // Rather than using fixed, this keeps the canvas in sync.
-        if(this.useAbsolutePositioning) {
-          this.canvas.style.transform = `translateY(${window.scrollY}px)`;
+        if (this.useAbsolutePositioning) {
+            this.canvas.style.transform = `translateY(${window.scrollY}px)`;
         }
 
         this.renderer.setScissorTest(false);
@@ -262,7 +401,7 @@ export class SceneRenderer {
                 return;
             }
 
-            const element = scene.userData.element;
+            const element = scene.userData.domElement;
             // Get the element position relative to the page's viewport
             var rect = element.getBoundingClientRect();
             // set the viewport
@@ -294,6 +433,8 @@ export class SceneRenderer {
 
             // Remove dom association.
             scene.userData.element = null;
+
+            scene.userData.onDispose && scene.userData.onDispose();
         });
 
         // Remove canvas from rootElement.

@@ -30,6 +30,9 @@ export default class ThreeSceneRenderer {
         ];
 
         this.generateScenes();
+
+        this.sceneRenderer.resize();
+
         this.raf.start();
     }
 
@@ -74,6 +77,7 @@ export default class ThreeSceneRenderer {
             // Register this to the sceneRenderer.
             const textElement = element.querySelector('.text');
             this.sceneRenderer.addScene({
+                resizingAlgo: 'resizeWithZoom',
                 scene: scene,
                 camera: camera,
                 domElement: element,
@@ -87,7 +91,8 @@ export default class ThreeSceneRenderer {
                     // used to calculate positions.
                     const domCoordinates = threef.toDomCoordinates(
                         scene.children[0],
-                        camera, element.offsetWidth, element.offsetHeight
+                        camera, element.offsetWidth, element.offsetHeight,
+                       0.008
                     );
                     const domRotation = threef.toDomRotation(
                         scene.children[0],
