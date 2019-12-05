@@ -64,11 +64,11 @@ export default class ThreeSceneRenderer {
             light.position.set( 1, 1, 1 );
             scene.add( light );
 
-            var controls = new OrbitControls( camera, element);
-            controls.minDistance = 2;
-            controls.maxDistance = 5;
-            controls.enablePan = false;
-            controls.enableZoom = false;
+            // var controls = new OrbitControls( camera, element);
+            // controls.minDistance = 2;
+            // controls.maxDistance = 5;
+            // controls.enablePan = false;
+            // controls.enableZoom = false;
 
 
             // Register this to the sceneRenderer.
@@ -79,7 +79,7 @@ export default class ThreeSceneRenderer {
                 domElement: element,
                 // On each render update, update the controls.
                 onBeforeRender: ()=> {
-                    controls.update();
+                    // controls.update();
                     scene.children[ 0 ].rotation.y = Date.now() * 0.001;
 
                     // Example of moving DOM text with the scene.
