@@ -44,6 +44,68 @@ export enum SceneResizingAlgo {
 
 
     /**
+     * This algo can be useful because it calculates the FOV
+     * based on a scalar value.
+     *
+     * This is useful in two scenerios.
+     * 1) You want to force an absolute size for your objects.
+     *    By passing a resizingScalar that doesn't change,
+     *    the projection will always be of a consistent size regardless
+     *    of the canvas size.
+     *
+     *    The easiest way to describe this is to image a window in your house.
+     *    The window would be the canvas size (scene size).  By using a resizingScalar,
+     *    you can basically create a scene where your house window size might
+     *    change but what is project out the window is exaclty the same size.
+     *    It more like peaking into another world without the world changing.
+     *
+     *    To use this, set your resizingAlgo to 'resizeWithFov' and also pass
+     *    a resizingScalar (something like 200 or 1000).  When you do this,
+     *    you'll notice that your objects are always the same size.
+     *
+     * 2) Make a responsive scene by changing adjusting the resizingScalar.
+     *    The basis of how it scales can change depending on how you want to
+     *    adjust the scalar.
+     *
+     *    This provides you with the ability to resize the scene objects based on
+     *    axis
+     *    - x (element.offsetWidth)
+     *    - y (element.offsetHeight)
+     *    - x or y (Math.min(element.offsetWidth, element.offsetHeight))
+     *
+     * ```ts
+     *  const scene = new THREE.Scene();
+     *  const element = document.getElementById('my-element');
+     *  sceneRenderer.addScene({
+     *    resizingAlgo: 'resizingWithFov',
+     *    domElement: element,
+     *    // Update the scalar prior to resizing.
+     *    onBeforeResize: ()=> {
+     *     // Resizing the objects in your scene based on the current width of the
+     *     // dom element.
+     *     // If you do this, the objects will get smaller as you narrow your browser.
+     *     // (or the element width gets smaller)
+     *     scene.userData.resizingScalar = element.offsetWidth * 0.2
+     *
+     *
+     *     // Resizing the objects in your scene based on the current height of the
+     *     // dom element.
+     *     // If you do this, the objects will get smaller as you shorten your browser
+     *     // (or the element height gets smaller).
+     *     scene.userData.resizingScalar = element.offsetHeight * 0.2;
+     *
+     *
+     *     // Resize both in x and y scales.
+     *     scene.userData.resizingScalar = Math.min(element.offsetHeight, element.offsetWidth) * 0.2;
+     *   }
+     * })
+     *
+     * ```
+     */
+    resizeWithFov = 'resizeWithFov',
+
+
+    /**
      * Indicates that scene-renders should not attempt to resize and fix
      * camera aspect on resizing.  This will be handled manually.  Scene
      * defaults to manual if nothing is specified for resizingAlgo.
@@ -74,6 +136,8 @@ export interface SceneConfig {
     domElement: HTMLElement,
     // A callback to execute prior to this scene being renders.
     onBeforeRender?: Function,
+    // A callback to executed on each resize event.
+    onBeforeResize?: Function,
     // A callback to executed on each resize event.
     onResize?: Function,
     // A callback to executed on each dispose
@@ -257,6 +321,7 @@ export class SceneRenderer {
         this.scenes.forEach((scene: THREE.Scene) => {
             const element = scene.userData.domElement;
 
+            scene.userData.onBeforeResize && scene.userData.onBeforeResize();
 
             // Now for each, figure out the right resizing strategy.
             const camera = scene.userData.camera;
@@ -315,6 +380,13 @@ export class SceneRenderer {
                 camera.updateProjectionMatrix();
             }
 
+            // Resize with FOV
+            if (scene.userData.resizingAlgo == SceneResizingAlgo.resizeWithFov) {
+                const z = scene.userData.resizingScalar || 1.0;
+                camera.fov = Math.atan(h / 2 / z) * 2 * THREE.Math.RAD2DEG;
+                camera.aspect = aspect;
+                camera.updateProjectionMatrix();
+            }
 
 
             scene.userData.onResize && scene.userData.onResize();

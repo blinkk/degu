@@ -77,7 +77,8 @@ export default class ThreeSceneRenderer {
             // Register this to the sceneRenderer.
             const textElement = element.querySelector('.text');
             this.sceneRenderer.addScene({
-                resizingAlgo: 'resizeWithZoom',
+                resizingAlgo: 'resizeWithFov',
+                resizingScalar: 1.0,
                 scene: scene,
                 camera: camera,
                 domElement: element,
@@ -89,16 +90,31 @@ export default class ThreeSceneRenderer {
                     // Example of moving DOM text with the scene.
                     // The element (not the scene renderer) size needs to be
                     // used to calculate positions.
+                    console.log((scene.userData.resizingScalar));
+
+                    // Because we are using FOV based resizing, we need to
+                    // consider the resizingScalar and pass that over as a
+                    // textScalar.
+                    const textScalar = scene.userData.resizingScalar * 0.00003;
+
                     const domCoordinates = threef.toDomCoordinates(
                         scene.children[0],
                         camera, element.offsetWidth, element.offsetHeight,
-                       0.008
+                        textScalar
                     );
+
                     const domRotation = threef.toDomRotation(
                         scene.children[0],
                         camera, element.offsetWidth, element.offsetHeight
                     );
                    threef.applyVectorToDom(textElement, domCoordinates, domRotation);
+                },
+                onBeforeResize: ()=> {
+                    // scene.userData.resizingScalar = element.offsetHeight * 0.5;
+                    scene.userData.resizingScalar = Math.min(
+                        element.offsetHeight,
+                        element.offsetWidth
+                    );
                 },
                 onResize() {
                     console.log('updating');
