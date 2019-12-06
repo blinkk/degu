@@ -63,6 +63,10 @@ export enum SceneResizingAlgo {
      *    a resizingScalar (something like 200 or 1000).  When you do this,
      *    you'll notice that your objects are always the same size.
      *
+     *    If you have breakpoints in your project, could could change the
+     *    resizingScalar based on your breakpoints and the objects in your scene,
+     *    will nicely resizing and you have control over how it looks.
+     *
      * 2) Make a responsive scene by changing adjusting the resizingScalar.
      *    The basis of how it scales can change depending on how you want to
      *    adjust the scalar.
