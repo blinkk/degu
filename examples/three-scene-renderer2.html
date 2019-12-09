@@ -16,7 +16,7 @@
     }
     .parent {
         position: relative;
-        height: 300vh;
+        height: 100vh;
     }
     .child {
         position: -webkit-sticky;
@@ -27,7 +27,9 @@
         background-color: white;
     }
 
-    .box-1 {
+    .box-1,
+    .box-2,
+    .box-3 {
       width: 100vw;
       height: 100vh;
       border: 1px solid red;
@@ -41,16 +43,33 @@
   </style>
 
   <div class="root">
-    <h1>This is a test of various settings for resizing strategies using three-scene-renderer.</h1>
+    <h1>
+      This is a test of various settings for resizing strategies using three-scene-renderer.
+      It also serves as a demo of how scene-render can use a single canvas to serve
+      multiple scenes.
+    </h1>
 
-    <h1>Test 1: Full bleed Sticky Fixed</h1>
+    <h1>Contain (minimal)</h1>
+    <p> Try resizing and you'll see the image area is contained.  This resizes to a center center position</p>
     <div class="parent" id="parent">
         <div class="child" id="child">
             <div class="box box-1" id="box-1"></div>
         </div>
     </div>
 
-    <h1>Test 2: Fixed Height Modules</h1>
+    <h1>Contain (top aligned)</h1>
+    <div class="parent" id="parent">
+        <div class="child" id="child">
+            <div class="box box-2" id="box-2"></div>
+        </div>
+    </div>
+
+    <h1>Contain (bottom / left aligned)</h1>
+    <div class="parent" id="parent">
+        <div class="child" id="child">
+            <div class="box box-3" id="box-3"></div>
+        </div>
+    </div>
 
   </div>
 

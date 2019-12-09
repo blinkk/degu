@@ -2,12 +2,9 @@ import * as THREE from 'three';
 
 import { elementVisibility } from '../dom/element-visibility';
 import { DomWatcher } from '../dom/dom-watcher';
-import { mathf } from '../mathf/mathf';
-import { threef } from './threef';
-import { Vector3 } from 'three';
+import { is } from '..';
 
 export enum SceneResizingAlgo {
-
 
 
     /**
@@ -118,6 +115,8 @@ export enum SceneResizingAlgo {
 
     /**
      * An algo that "attempts" to recreate contain type effects.
+     * Read below on the Resizing Algo section for more information on
+     * this algo.
      */
     contain = 'contain',
 
@@ -244,9 +243,21 @@ export interface SceneRendererConfig {
  *           // Add some animations or whatever you need on render.
  *           scene.children[ 0 ].rotation.y = Date.now() * 0.001;
  *      },
- *      onAfterRender: (renderer)=> {}
- *      onBeforeResize: (renderer)=> {},
- *      onResize(renderer) {}
+ *      onAfterRender: (renderer)=> {
+ *          // This is used for clean up.  For example, you may
+ *          // have had a need to alter the settings of the renderer.
+ *          // You would clean up here.
+ *      }
+ *      onBeforeResize: (renderer)=> {
+ *         // Gets fired prior to resizing algo gets calculated.
+ *      },
+ *      onResize(renderer) {
+ *         // Gets fired after resizing algo gets calculated.
+ *         // Depending on the algo you use, the camera.fov and aspect
+ *         // would have been altered by this stage.
+ *         // If you need access to pre alter values, then use
+ *         // onBeforeResize
+ *      }
  *     });
  *  });
  *
@@ -257,6 +268,73 @@ export interface SceneRendererConfig {
  * this.sceneRenderer.dispose();
  *
  * ```
+ *
+ *
+ * ## Resizing Algos
+ * There are various resizing algos available.  The current recommendation is
+ * to use 'contain' where possible as this has been designed to most closely
+ * reflect how css background-contain would work.
+ *
+ * Using 'Contain' algo
+ * The resizingAlgo contain accepts a few parameters.  Because in a 3d scene,
+ * size is really relative to the current camera position and object sizes,
+ * it is up to you to define the "bounds" of which should be contained in
+ * your scene.  This is different per project but is specified in webGL world
+ * scale.
+ *
+ * Contain requires the following resizing options:
+ * - scalarX - a float representing the horizontal scale of the bounding box
+ * - scalarY - a float representing the vertical scalar of the bounding box.
+ *
+ * The easiest way to figure out what values to use is to imagine
+ * a box with an image on your screen and basically, you are defining
+ * that box size and telling the scene-renderer to never crop that image (contain).
+ *
+ * Start with the shape you want to draw.  If you say wanted a
+ * tall image, perhaps it's like 1200x1800 pixels.  Try using
+ * those values but reducing it by a factor of 1000 (for example).
+ *
+ * scaleX: 1200 / 1000
+ * scaleY: 1800 / 1000
+ *
+ * The actual values of scaleX and scaleY will depend on your scene
+ * object sizes and what you need.  What scaleX and scaleY define
+ * are the relative size of the area that should be contained.
+ *
+ * As a side note you can also achieve a quick "contain" effect
+ * by using the 'resizeWithFov' option and passing a single resizingScalar.
+ *
+ *
+ * Alignment options:
+ * By default, without any alignment options, your scene
+ * will scale at center / center point.  However, you
+ * can define it so that it scales aligned to top, bottom,
+ * left or right similar to how it would work in css.
+ *
+ * top - a value between 0-1 to note the vertical position of the final box
+ * bottom - a value between 0-1 to note the vertical position of the final box
+ * left - a value between 0-1 to note the horizontal position of the final box
+ * right - a value between 0-1 to note the horizontal position of the final box
+ *
+ * top / bottom can't exist together
+ * left / right can't exist together
+ *
+ * An example of using 'contain' algo
+ *
+ * ```ts
+ *  this.sceneRenderer.addScene({
+ *      // The resizing algo.
+ *      resizingAlgo: 'contain',
+ *      resizingOptions: {
+ *           scalarX: 2.6,
+ *           scalarY: 3.8,
+ *           top: 0 // Align this to the top
+ *           left: 0 // Align this to the left
+ *      },
+ *     });
+ *  });
+ * ```
+ * @see examples/three-scene-renderer2.html for examples of the resizign strategies.
  *
  *
  * @see https://stackoverflow.com/questions/41919341/is-there-a-limit-to-the-number-of-three-webglrenderer-instances-in-a-page
@@ -394,41 +472,10 @@ export class SceneRenderer {
             // Now for each, figure out the right resizing strategy.
             const camera = scene.userData.camera;
 
-            // let width, height;
-            // if (aspectRatio >= 1) {
-            //     width = 1;
-            //     height = (window.innerHeight / window.innerWidth) * width;
-            // } else {
-            //     width = aspectRatio;
-            //     height = 1;
-            // }
-            // camera.left = -width;
-            // camera.right = width;
-            // camera.top = height;
-            // camera.bottom = -height;
-            // camera.updateProjectionMatrix();
 
-
-            // Cover on X, Contain on Y
-            // camera.aspect = element.offsetWidth / element.offsetHeight;
-            // camera.updateProjectionMatrix();
-
-            // Contain
             let h = element.offsetHeight;
             let w = element.offsetWidth;
             const aspect = w / h;
-            // let width, height;
-            // if (aspect >= 1) {
-            //     width = 1;
-            //     height = aspect;
-            // } else {
-            //     width = aspect;
-            //     height = 1;
-            // }
-            // camera.left = -width / 2;
-            // camera.right = width / 2;
-            // camera.top = height / 2;
-            // camera.bottom = -height / 2;
 
             // Contain zoom algo.
             if (scene.userData.resizingAlgo == SceneResizingAlgo.resizeWithZoom) {
@@ -449,6 +496,7 @@ export class SceneRenderer {
             }
 
             // Resize with FOV
+            // Uses resizingScalar.
             if (scene.userData.resizingAlgo == SceneResizingAlgo.resizeWithFov) {
                 const z = scene.userData.resizingScalar || 1.0;
                 camera.fov = Math.atan(h / 2 / z) * 2 * THREE.Math.RAD2DEG;
@@ -457,39 +505,100 @@ export class SceneRenderer {
             }
 
 
-            // If contain type algo.
+            // "Contain"  Algo.
+            // Uses resizingOptions
             if (scene.userData.resizingAlgo == SceneResizingAlgo.contain) {
+
+                if(!scene.userData.resizingOptions
+                    || !scene.userData.resizingOptions.scalarX
+                    || !scene.userData.resizingOptions.scalarY
+                 ) {
+                    throw new Error('You requested contain algo without the correct resizing options');
+                    return;
+                }
 
                 // Fake contain.  Control the x,y scalar values to control
                 // resize points.
-                const scalarX = 3.8;
-                const scalarY = 2.6;
+                const scalarX = scene.userData.resizingOptions.scalarX;
+                const scalarY = scene.userData.resizingOptions.scalarY;
 
-                // Cover-ish
-                // const scalarX = 8;
-                // const scalarY = 8;
-                const hFov = Math.atan(h / 2 / (w * scalarX)) * 2 * THREE.Math.RAD2DEG;
-                const vFov = Math.atan(h / 2 / (h * scalarY)) * 2 * THREE.Math.RAD2DEG;
+                // Based on the provided scalars, implement a basic
+                // contain algo adjusting FOV.  Now this box area will
+                // be contained.
+                const hFov = Math.atan(h / 2 / (w * scalarY)) * 2 * THREE.Math.RAD2DEG;
+                const vFov = Math.atan(h / 2 / (h * scalarX)) * 2 * THREE.Math.RAD2DEG;
                 camera.fov = Math.max(vFov, hFov);
 
-                if(hFov > vFov) {
-                    // Top bottom bleeds
-                    console.log('yo');
 
-                } else {
-                    // Side bleeds
+                // Calculate the virtual aspect ratio.
+                let virtualBox;
+                const virtualBoxAspect = scalarY / scalarX;
 
-                    console.log('yo2');
+                // Default Camera offsets in pixels.
+                let xOffset = 0;
+                let yOffset = 0;
+
+
+                // Offset options
+                let top = scene.userData.resizingOptions.top;
+                let bottom = scene.userData.resizingOptions.bottom;
+                let left = scene.userData.resizingOptions.left;
+                let right = scene.userData.resizingOptions.right;
+
+                // Vertical offset calculations
+                if(is.defined(top) || is.defined(bottom)) {
+                    // Create a virtual box based on the provided aspects.
+                    virtualBox = {
+                        width: w,
+                        height: w * virtualBoxAspect
+                    }
+
+
+                    const diffY = Math.max(0, (h - virtualBox.height) / 2);
+
+                    if(is.defined(top)) {
+                      // A top value ranging from 0-1 would actually
+                      // be an offset from the top of the scene to
+                      // the vertical center of the scene.  In order
+                      // to make this work more like a traditional css format
+                      // where 0 is the top and 1 is fully put the bounding
+                      // box a the bottom, we double the value.
+                      top *= 2;
+                      yOffset = diffY * (1 - top);
+                    }
+
+                    if(is.defined(bottom)) {
+                      bottom *= 2;
+                      yOffset = -diffY * (1 - bottom);
+                    }
+                }
+
+                // Horizontal offset calculations
+                if(is.defined(left) || is.defined(right)) {
+                    // Create a virtual box based on the provided aspects.
+                    virtualBox = {
+                        width: h / virtualBoxAspect,
+                        height: h
+                    }
+
+
+                    const diffX = Math.max(0, (w - virtualBox.width) / 2);
+                    if(is.defined(left)) {
+                      left *= 2;
+                      xOffset = diffX * (1 - left);
+                    }
+
+                    if(is.defined(right)) {
+                      right *= 2;
+                      xOffset = -diffX * (1 - right);
+                    }
                 }
 
 
-
-                // Create an offset
-                const xOffset = 0 * w;
-                const yOffset = 0.1 * h;
-
+                // Apply camera offsets
                 camera.setViewOffset(w, h, xOffset, yOffset, w, h);
 
+                // Update camera aspect
                 camera.aspect = aspect;
                 camera.updateProjectionMatrix();
             }
@@ -632,7 +741,7 @@ export class SceneRenderer {
         });
 
         // Remove canvas from rootElement.
-
+        this.rootElement.parentElement.removeChild(this.rootElement);
     }
 
 }

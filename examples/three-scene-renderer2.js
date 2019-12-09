@@ -15,23 +15,59 @@ export default class ThreeSceneRenderer2 {
 
         this.boxElements = {
             box1: document.getElementById('box-1'),
+            box2: document.getElementById('box-2'),
+            box3: document.getElementById('box-3'),
         };
 
 
+        // Create first scene1.
         this.createGltfScene(
              this.boxElements.box1,
-             'public/scene-size-test.gltf',
+             'public/scene-size-test2.gltf',
             {
-                resizingAlgo: 'standardAspect'
+                resizingAlgo: 'contain',
+                resizingOptions: {
+                    scalarX: 2.6,
+                    scalarY: 3.8,
+                },
             }
         );
 
+        // Create second scene.
+        this.createGltfScene(
+             this.boxElements.box2,
+             'public/scene-size-test2.gltf',
+            {
+                resizingAlgo: 'contain',
+                resizingOptions: {
+                    scalarX: 2.6,
+                    scalarY: 3.8,
+                    top: 0
+                },
+            }
+        );
+
+
+        // Create third scene.
+        this.createGltfScene(
+             this.boxElements.box3,
+             'public/scene-size-test2.gltf',
+            {
+                resizingAlgo: 'contain',
+                resizingOptions: {
+                    scalarX: 2.6,
+                    scalarY: 3.8,
+                    bottom: 0,
+                    left: 0
+                },
+            }
+        );
         this.sceneRenderer.resize();
 
         this.raf.start();
     }
 
-    createGltfScene(domElement, gltfPath) {
+    createGltfScene(domElement, gltfPath, options) {
         const gltfLoader = new GLTFLoader();
         threef.loadGltf({
           gltfPath: gltfPath,
@@ -39,11 +75,12 @@ export default class ThreeSceneRenderer2 {
         }).then((gltf) => {
             // Add some lights.
             const ambientLight = new THREE.AmbientLight('#FFFFFF');
-            ambientLight.intensity = 1.0;
+            ambientLight.intensity = options.ambientLightIntensity || 1.0;
             // Add the light to the scene.
             gltf.scene.add(ambientLight);
             this.sceneRenderer.addScene({
-                resizingAlgo: 'contain',
+                resizingAlgo: options.resizingAlgo,
+                resizingOptions: options.resizingOptions,
                 domElement: domElement,
                 scene: gltf.scene,
                 camera: gltf.cameras[0],
@@ -56,12 +93,6 @@ export default class ThreeSceneRenderer2 {
         });
 
     }
-
-
-    setupScene1() {
-
-    };
-
 
     onRaf() {
         console.log('raf starated');

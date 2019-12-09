@@ -77,8 +77,13 @@ export default class ThreeSceneRenderer {
             // Register this to the sceneRenderer.
             const textElement = element.querySelector('.text');
             this.sceneRenderer.addScene({
-                resizingAlgo: 'resizeWithFov',
-                resizingScalar: 1.0,
+                // resizingAlgo: 'resizeWithFov',
+                // resizingScalar: 1.0,
+                resizingAlgo: 'contain',
+                resizingOptions: {
+                    scalarX: 1.0,
+                    scalarY: 1.0,
+                },
                 scene: scene,
                 camera: camera,
                 domElement: element,
