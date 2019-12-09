@@ -17,6 +17,9 @@ export default class ThreeSceneRenderer2 {
             box1: document.getElementById('box-1'),
             box2: document.getElementById('box-2'),
             box3: document.getElementById('box-3'),
+            box4: document.getElementById('box-4'),
+            box5: document.getElementById('box-5'),
+            box6: document.getElementById('box-6'),
         };
 
 
@@ -62,7 +65,50 @@ export default class ThreeSceneRenderer2 {
                 },
             }
         );
+
+        this.createGltfScene(
+             this.boxElements.box4,
+             'public/scene-size-test2.gltf',
+            {
+                resizingAlgo: 'cover',
+                resizingOptions: {
+                    scalarX: 2.6,
+                    scalarY: 3.8,
+                },
+            }
+        );
+
+
+        this.createGltfScene(
+             this.boxElements.box5,
+             'public/scene-size-test2.gltf',
+            {
+                resizingAlgo: 'cover',
+                resizingOptions: {
+                    scalarX: 2.6,
+                    scalarY: 3.8,
+                    top: 0
+                },
+            }
+        );
+
+        this.createGltfScene(
+             this.boxElements.box6,
+             'public/scene-size-test2.gltf',
+            {
+                resizingAlgo: 'cover',
+                resizingOptions: {
+                    scalarX: 2.6,
+                    scalarY: 3.8,
+                    bottom: 0,
+                    left: 0
+                    // right: 1
+                },
+            }
+        );
+
         this.sceneRenderer.resize();
+
 
         this.raf.start();
     }
@@ -95,7 +141,6 @@ export default class ThreeSceneRenderer2 {
     }
 
     onRaf() {
-        console.log('raf starated');
         this.sceneRenderer.render();
     }
 

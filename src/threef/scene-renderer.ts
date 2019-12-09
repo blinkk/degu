@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 import { elementVisibility } from '../dom/element-visibility';
 import { DomWatcher } from '../dom/dom-watcher';
-import { is } from '..';
+import { is, mathf } from '..';
 
 export enum SceneResizingAlgo {
 
@@ -36,6 +36,8 @@ export enum SceneResizingAlgo {
      * An algo that attempts to recreate a similar effect as background: contain
      * but it's based on zoom.  This require you to pass the resizeScalar value
      * which in this case would be used to multiply the zoom value.
+     *
+     * This is a less preferred method so consider using 'contain' instead.
      *
      * Nuthsell:
      * - If you resize the height, your object will go down in size.
@@ -119,6 +121,13 @@ export enum SceneResizingAlgo {
      * this algo.
      */
     contain = 'contain',
+
+    /**
+     * An algo that "attempts" to recreate cover type effects.
+     * Read below on the Resizing Algo section for more information on
+     * this algo.
+     */
+    cover = 'cover',
 
     /**
      * Indicates that scene-renders should not attempt to resize and fix
@@ -272,8 +281,11 @@ export interface SceneRendererConfig {
  *
  * ## Resizing Algos
  * There are various resizing algos available.  The current recommendation is
- * to use 'contain' where possible as this has been designed to most closely
+ * to use 'contain' or 'cover' where possible as this has been designed to most closely
  * reflect how css background-contain would work.
+ *
+ * You can also specify your own logic by setting resizingAlgo to 'manual'.
+ *
  *
  * Using 'Contain' algo
  * The resizingAlgo contain accepts a few parameters.  Because in a 3d scene,
@@ -334,6 +346,30 @@ export interface SceneRendererConfig {
  *     });
  *  });
  * ```
+ *
+ *
+ * Using 'Cover' algo
+ * Cover works in a very similar way to contain, you need to specify your
+ * scalarX and scalarY values to tell scene-renderer to respect that box to
+ * calculate the cover values.  You can specify top, bottom, left and right
+ * values to cover scale from the specific axis.
+ *
+ * ```ts
+ *  this.sceneRenderer.addScene({
+ *      // The resizing algo.
+ *      resizingAlgo: 'cover',
+ *      resizingOptions: {
+ *           scalarX: 2.6,
+ *           scalarY: 3.8,
+ *           top: 0 // Align this to the top
+ *           left: 0 // Align this to the left
+ *      },
+ *     });
+ *  });
+ * ```
+ *
+ *
+ *
  * @see examples/three-scene-renderer2.html for examples of the resizign strategies.
  *
  *
@@ -509,11 +545,11 @@ export class SceneRenderer {
             // Uses resizingOptions
             if (scene.userData.resizingAlgo == SceneResizingAlgo.contain) {
 
-                if(!scene.userData.resizingOptions
+                if (!scene.userData.resizingOptions
                     || !scene.userData.resizingOptions.scalarX
                     || !scene.userData.resizingOptions.scalarY
-                 ) {
-                    throw new Error('You requested contain algo without the correct resizing options');
+                ) {
+                    throw new Error('Requested contain algo without the correct resizing options');
                     return;
                 }
 
@@ -546,7 +582,7 @@ export class SceneRenderer {
                 let right = scene.userData.resizingOptions.right;
 
                 // Vertical offset calculations
-                if(is.defined(top) || is.defined(bottom)) {
+                if (is.defined(top) || is.defined(bottom)) {
                     // Create a virtual box based on the provided aspects.
                     virtualBox = {
                         width: w,
@@ -556,25 +592,25 @@ export class SceneRenderer {
 
                     const diffY = Math.max(0, (h - virtualBox.height) / 2);
 
-                    if(is.defined(top)) {
-                      // A top value ranging from 0-1 would actually
-                      // be an offset from the top of the scene to
-                      // the vertical center of the scene.  In order
-                      // to make this work more like a traditional css format
-                      // where 0 is the top and 1 is fully put the bounding
-                      // box a the bottom, we double the value.
-                      top *= 2;
-                      yOffset = diffY * (1 - top);
+                    if (is.defined(top)) {
+                        // A top value ranging from 0-1 would actually
+                        // be an offset from the top of the scene to
+                        // the vertical center of the scene.  In order
+                        // to make this work more like a traditional css format
+                        // where 0 is the top and 1 is fully put the bounding
+                        // box a the bottom, we double the value.
+                        top *= 2;
+                        yOffset = diffY * (1 - top);
                     }
 
-                    if(is.defined(bottom)) {
-                      bottom *= 2;
-                      yOffset = -diffY * (1 - bottom);
+                    if (is.defined(bottom)) {
+                        bottom *= 2;
+                        yOffset = -diffY * (1 - bottom);
                     }
                 }
 
                 // Horizontal offset calculations
-                if(is.defined(left) || is.defined(right)) {
+                if (is.defined(left) || is.defined(right)) {
                     // Create a virtual box based on the provided aspects.
                     virtualBox = {
                         width: h / virtualBoxAspect,
@@ -583,14 +619,14 @@ export class SceneRenderer {
 
 
                     const diffX = Math.max(0, (w - virtualBox.width) / 2);
-                    if(is.defined(left)) {
-                      left *= 2;
-                      xOffset = diffX * (1 - left);
+                    if (is.defined(left)) {
+                        left *= 2;
+                        xOffset = diffX * (1 - left);
                     }
 
-                    if(is.defined(right)) {
-                      right *= 2;
-                      xOffset = -diffX * (1 - right);
+                    if (is.defined(right)) {
+                        right *= 2;
+                        xOffset = -diffX * (1 - right);
                     }
                 }
 
@@ -604,7 +640,100 @@ export class SceneRenderer {
             }
 
 
+            // "Cover"  Algo.
+            // Uses resizingOptions
+            if (scene.userData.resizingAlgo == SceneResizingAlgo.cover) {
 
+                if (!scene.userData.resizingOptions
+                    || !scene.userData.resizingOptions.scalarX
+                    || !scene.userData.resizingOptions.scalarY
+                ) {
+                    throw new Error('Requested cover algo without the correct resizing options');
+                    return;
+                }
+
+                const scalarX = scene.userData.resizingOptions.scalarX;
+                const scalarY = scene.userData.resizingOptions.scalarY;
+                let virtualBox;
+                const virtualBoxAspect = scalarY / scalarX;
+
+                // Based on the provided scalars, implement a basic
+                // cover algo adjusting FOV.  Now this box area will
+                // be cover with center / center.
+                const hFov = Math.atan(h / 2 / (w * scalarY)) * 2 * THREE.Math.RAD2DEG;
+                const vFov = Math.atan(h / 2 / (h * scalarX)) * 2 * THREE.Math.RAD2DEG;
+                camera.fov = Math.min(vFov, hFov);
+
+                // Offset options
+                let xOffset = 0;
+                let yOffset = 0;
+                let top = scene.userData.resizingOptions.top;
+                let bottom = scene.userData.resizingOptions.bottom;
+                let left = scene.userData.resizingOptions.left;
+                let right = scene.userData.resizingOptions.right
+                // Vertical offset calculations
+                if (is.defined(top) || is.defined(bottom)) {
+                    // Create a virtual box based on the provided aspects.
+                    virtualBox = {
+                        width: h / virtualBoxAspect,
+                        height: h
+                    }
+
+                    // Calculate the approximate virutal box cover box scale.
+                    const coverBox = mathf.calculateBackgroundCover(
+                        { width: w, height: h },
+                        virtualBox
+                    )
+                    console.log('scalar', coverBox);
+
+
+                    const diffY = Math.max(0, (coverBox.height - h) / 2);
+
+                    console.log(diffY);
+
+                    if (is.defined(top)) {
+                        top *= 2;
+                        yOffset = -diffY * (1 - top);
+                    }
+
+                    if (is.defined(bottom)) {
+                        bottom *= 2;
+                        yOffset = diffY * (1 - bottom);
+                    }
+
+                    console.log(yOffset);
+                }
+
+                // Horizontal offset calculations
+                if (is.defined(left) || is.defined(right)) {
+                    // Create a virtual box based on the provided aspects.
+                    virtualBox = {
+                        width: w,
+                        height: w * virtualBoxAspect
+                    }
+
+                    const coverBox = mathf.calculateBackgroundCover(
+                        { width: w, height: h },
+                        virtualBox
+                    )
+
+                    const diffX = Math.max(0, (coverBox.width - w) / 2);
+                    if (is.defined(left)) {
+                        left *= 2;
+                        xOffset = -diffX * (1 - left);
+                    }
+
+                    if (is.defined(right)) {
+                        right *= 2;
+                        xOffset = diffX * (1 - right);
+                    }
+                }
+
+
+                camera.setViewOffset(w, h, xOffset, yOffset, w, h);
+                camera.aspect = aspect;
+                camera.updateProjectionMatrix();
+            }
 
             scene.userData.onResize && scene.userData.onResize(this.getRenderer());
         });
