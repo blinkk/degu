@@ -80,6 +80,7 @@ import ScrollDemoSample4 from '../scroll-demo4';
 import ScrollDemoSample5 from '../scroll-demo5';
 import TextSplitSample from '../text-split';
 import ThreeSceneRenderer from '../three-scene-renderer';
+import ThreeSceneRenderer2 from '../three-scene-renderer2';
 import ThreeObjectViewer from '../three-object-viewer';
 import ThreeObjectViewer10 from '../three-object-viewer10';
 import ThreeObjectViewer11 from '../three-object-viewer11';
@@ -167,6 +168,7 @@ const samples = {
   'scrollDemoSample4': ScrollDemoSample4,
   'scrollDemoSample5': ScrollDemoSample5,
   'threeSceneRenderer': ThreeSceneRenderer,
+  'threeSceneRenderer2': ThreeSceneRenderer2,
   'threeObjectViewer': ThreeObjectViewer,
   'threeObjectViewer2': ThreeObjectViewer2,
   'threeObjectViewer3': ThreeObjectViewer3,

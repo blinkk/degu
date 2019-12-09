@@ -30,11 +30,12 @@ export class threef {
      *   // Optional: Provide a DRACOLoader instance to decode compressed mesh data
      *   var dracoLoader = new THREE.DRACOLoader();
      *   dracoLoader.setDecoderPath( '/examples/js/libs/draco/' );
-     *   loader.setDRACOLoader( dracoLoader );
+     *   gltfLoader.setDRACOLoader( dracoLoader );
      *
      *
      *   threef.load({
      *     gltfPath: '/public/dev/gltf/test1.gltf',
+     *     // Optional animation marker path.
      *     animationMarkerPath: '/public/dev/gltf/test1.gltf',
      *     gltfLoader: gltfLoader
      *   }).then((gltf) => {
@@ -62,7 +63,7 @@ export class threef {
         // Start loading gltf.
         let gltfData = {};
         const gltfFetch = new Promise(resolve => {
-            config.gltfLoader.load(config.gltfPath, (gltf:any) => {
+            config.gltfLoader.load(config.gltfPath, (gltf: any) => {
                 gltfData = gltf;
                 resolve();
             });
@@ -71,20 +72,25 @@ export class threef {
 
         let animationMarkerData = {};
         const markerFetch = new Promise(resolve => {
-            // Load the animation export
-            fetch(config.animationMarkerPath)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (markerData:any) {
-                    animationMarkerData = markerData;
-                    resolve();
-                });
+            if (!config.animationMarkerPath) {
+                animationMarkerData = {};
+                resolve();
+            } else {
+                // Load the animation export
+                fetch(config.animationMarkerPath)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (markerData: any) {
+                        animationMarkerData = markerData;
+                        resolve();
+                    });
+            }
         });
 
 
         // Merge out the data.
-        Promise.all([gltfFetch, markerFetch]).then(()=> {
+        Promise.all([gltfFetch, markerFetch]).then(() => {
             gltfData['animationMarkers'] = animationMarkerData;
             defer.resolve(gltfData);
         });
@@ -153,6 +159,104 @@ export class threef {
     }
 
 
+
+    /**
+     * Gets the bounding rect in pixel values of a given object.
+     *
+     * This includes the projects corners of the object along with the width and height values.
+     *
+     * In comparison to toDomCoordinates which centers to an element, this
+     * gives you more precision control of getting corners and the width, height
+     * of the projected element.
+     *
+     * ```
+     *   const domBoundingRect = threef.toDomBoundingRect(
+     *       myObject, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+     *   );
+     *
+     *
+     *   // The myelement to the bottomLeft corner of myObject.
+     *   threef.applyVectorToDom(myElement, {
+     *       x: domBoundingRect.bottomLeft.x,
+     *       y: domBoundingRect.bottomLeft.y,
+     *       z: 1.0,
+     *   });
+     *
+     *
+     *   // Get the pixel width and height of myObject.
+     *   console.log(domBoundingRect.width, domBoundingRect.height);
+     * ```
+     */
+    static toDomBoundingRect(object: THREE.Object3D,
+        camera: THREE.Camera, width: number, height: number,
+        scalar?: number
+    ): any {
+
+        const box = new THREE.Box3().setFromObject(object);
+        const size = new THREE.Vector3();
+        box.getSize(size);
+
+        object.updateWorldMatrix(true, false);
+
+        const getOffset = (xOffset: number, yOffset: number) => {
+            let v = new THREE.Vector3();
+            let currentPosition = object.position.clone();
+            let newPosition = object.position.clone();
+            // const worldMatrix = object.matrixWorld;
+            newPosition = newPosition.add(
+                new THREE.Vector3(
+                    size.x * xOffset,
+                    size.y * yOffset, 0
+                )
+            )
+
+            object.position.set(newPosition.x, newPosition.y, newPosition.z);
+            object.getWorldPosition(v);
+            v.project(camera);
+
+            // Now acquire the x, y position.
+            const x = (v.x * 0.5 + 0.5) * width;
+            const y = (v.y * -0.5 + 0.5) * height;
+
+
+            // Move it back to original position
+            object.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
+
+            let z = 1;
+            if (is.defined(scalar)) {
+                // Since the canvas scales based on height, use that as the basis.
+                z = (v.z * -0.5 + 0.5) * height;
+                z *= scalar;
+                z *= camera['zoom'] || 1.0;
+            }
+
+            return new THREE.Vector3(x, y, z);
+        };
+
+
+        /**
+         * Note this doesn't really account for a 3d perspective.
+         * It's more like flattening a cube into a square and
+         * returning those pixel coords.
+         */
+        const topLeft = getOffset(-0.5, 0.5);
+        const topRight = getOffset(0.5, 0.5);
+        const center = getOffset(0, 0);
+        const bottomLeft = getOffset(-0.5, -0.5);
+        const bottomRight = getOffset(0.5, -0.5);
+        return {
+            size: size,
+            topLeft: topLeft,
+            topRight: topRight,
+            center: center,
+            bottomLeft: bottomLeft,
+            bottomRight: bottomRight,
+            width: topRight.x - topLeft.x,
+            height: bottomLeft.y - topLeft.y,
+        }
+    }
+
+
     /**
      * Converts from the blender coordinate system over to three (XYZ).
      * This assumes that within blender, you are using the XYZ Euler rotation
@@ -172,11 +276,11 @@ export class threef {
      * ```
      * @param object Object contains x,y,z
      */
-    static blenderToThreeEuler(euler:any) {
+    static blenderToThreeEuler(euler: any) {
         return {
-           x: -euler.x,
-           y: euler.z,
-           z: -euler.y,
+            x: -euler.x,
+            y: euler.z,
+            z: -euler.y,
         }
     }
 
@@ -193,11 +297,11 @@ export class threef {
      * ```
      * @param vec3
      */
-    static blenderToThreeVec3(vec3:any) {
+    static blenderToThreeVec3(vec3: any) {
         return {
-           x: -vec3.x,
-           y: vec3.z,
-           z: -vec3.y,
+            x: -vec3.x,
+            y: vec3.z,
+            z: -vec3.y,
         }
     }
 
@@ -244,6 +348,90 @@ export class threef {
 
         return euler;
     }
+
+
+    /**
+     * Gets the visible height at a specific depth given a three.js camera.
+     *
+     * Example:
+     * You have a 100x100x100 cube and want to know the "pixel" size it is
+     * rendered at when it's at a depth of 200.
+     * ```
+     * // Add 50 to account for size from the center of cube.
+     * const depth = (cube.position.z + 50) - camera.position.z;
+     *
+     * const visibleSize = threef.getVisibleHeightAndWidthAtDepth(depth, camera);
+     *
+     * // So relative to the height, how much does the cube take up.
+     * const heightScalar = 100 / visibleSize.height;
+     *
+     * // Now normalize that to the size in pixels.
+     * const heightInPixels = canvasSize.height * heightScalar;
+     * ```
+     * @untested
+     * @experimental
+     * @dontuse
+     * @hidden
+     */
+    /*
+    static getVisibleHeightAndWidthAtDepth(distance: number, camera: THREE.Camera): any {
+        var vFOV = camera['fov'] * Math.PI / 180;
+        var height = 2 * Math.tan(vFOV / 2) * distance;
+        var width = height * camera['aspect'];
+        return {
+            width: width,
+            height: height,
+        };
+    }
+    */
+
+
+    /**
+     * Given a known size of an object, calculate the actual size it is rendered
+     * on the screen (pixel).
+     *
+     * ```
+     * const pixelSize = threef.convertObjectSizeToPixel(
+     *    cube.geometry.parameters.width,
+     *    cube.geometry.parameters.height,
+     *    cube.geometry.parameters.depth,
+     *    camera,
+     *    canvasWidth, canvasHeight
+     * );
+     *
+     * console.log(pixelSize.width); // The actual rendered size of the cube in pixels
+     * console.log(pixelSize.height); // The actual rendered size of the cube in pixels.
+     *
+     * ```
+     *
+     * @untested
+     * @experimental
+     * @dontuse
+     * @hidden
+     */
+    /*
+    static convertObjectSizeToPixels(
+        width: number, height: number, depth: number, zPosition: number,
+        camera: THREE.Camera,
+        sceneWidth: number, sceneHeight: number): any {
+
+        // First calculate the z distance from the cam to object considering the
+        // depth (z size) of the object.
+        const zDepth = (zPosition + depth) - camera.position.z;
+        const visibleSize = threef.getVisibleHeightAndWidthAtDepth(zDepth, camera);
+        const heightScalar = height / visibleSize.height;
+        const heightInPixels = sceneHeight * heightScalar;
+        const widthScalar = width / visibleSize.height;
+        const widthInPixels = sceneWidth * widthScalar;
+
+        return {
+            width: widthInPixels,
+            height: heightInPixels,
+        }
+    }
+    */
+
+
 
 
     /**

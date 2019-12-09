@@ -540,10 +540,20 @@ export default class ThreeObjectViewer11 {
         // Notice how rotation is not applied.
         // domCoodinates also don't pass a scale value so the text maintains it's original scale.
         const marker6 = getMarkerByName('text-marker6');
+        const domBoundingRect = threef.toDomBoundingRect(
+            marker6, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+        );
         const domCoordinates6 = threef.toDomCoordinates(
             marker6, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
-        threef.applyVectorToDom(this.textMarker6, domCoordinates6);
+
+        // Set to the topLeft corne of an element.
+        threef.applyVectorToDom(this.textMarker6, {
+            x: domBoundingRect.bottomLeft.x,
+            y: domBoundingRect.bottomLeft.y,
+            z: 1.0,
+        });
+
 
 
         this.draw();

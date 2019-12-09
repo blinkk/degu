@@ -1,0 +1,58 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Three Mobile Resizing Tests</title>
+</head>
+<body init-sample="threeSceneRenderer2">
+  <a href="/index.html">Back to home</a>
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+    .parent {
+        position: relative;
+        height: 300vh;
+    }
+    .child {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0px;
+        height: 100vh;
+        width: 100%;
+        background-color: white;
+    }
+
+    .box-1 {
+      width: 100vw;
+      height: 100vh;
+      border: 1px solid red;
+      background-color: blue;
+      position: relative;
+    }
+    .text {
+      position: absolute;
+      z-index: 2;
+    }
+  </style>
+
+  <div class="root">
+    <h1>This is a test of various settings for resizing strategies using three-scene-renderer.</h1>
+
+    <h1>Test 1: Full bleed Sticky Fixed</h1>
+    <div class="parent" id="parent">
+        <div class="child" id="child">
+            <div class="box box-1" id="box-1"></div>
+        </div>
+    </div>
+
+    <h1>Test 2: Fixed Height Modules</h1>
+
+  </div>
+
+</body>
+</html>

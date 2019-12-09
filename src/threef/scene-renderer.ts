@@ -2,10 +2,17 @@ import * as THREE from 'three';
 
 import { elementVisibility } from '../dom/element-visibility';
 import { DomWatcher } from '../dom/dom-watcher';
+import { mathf } from '../mathf/mathf';
+import { threef } from './threef';
+import { Vector3 } from 'three';
 
 export enum SceneResizingAlgo {
+
+
+
     /**
-     * This is most commonly used three.js aspect ratio based resizing.
+     * This is most commonly used three.js aspect ratio based resizing but
+     * doesn't really work great on mobile if you are using the full viewport.
      *
      * Basically doing:
      *  camera.aspect = aspect;
@@ -56,7 +63,7 @@ export enum SceneResizingAlgo {
      *    The easiest way to describe this is to image a window in your house.
      *    The window would be the canvas size (scene size).  By using a resizingScalar,
      *    you can basically create a scene where your house window size might
-     *    change but what is project out the window is exaclty the same size.
+     *    change but what is projected out the window is exaclty the same size.
      *    It more like peaking into another world without the world changing.
      *
      *    To use this, set your resizingAlgo to 'resizeWithFov' and also pass
@@ -67,7 +74,8 @@ export enum SceneResizingAlgo {
      *    resizingScalar based on your breakpoints and the objects in your scene,
      *    will nicely resizing and you have control over how it looks.
      *
-     * 2) Make a responsive scene by changing adjusting the resizingScalar.
+     * 2) Knowing the characteristics described in 1,
+     *    you can make a responsive scene by changing adjusting the resizingScalar.
      *    The basis of how it scales can change depending on how you want to
      *    adjust the scalar.
      *
@@ -108,6 +116,10 @@ export enum SceneResizingAlgo {
      */
     resizeWithFov = 'resizeWithFov',
 
+    /**
+     * An algo that "attempts" to recreate contain type effects.
+     */
+    contain = 'contain',
 
     /**
      * Indicates that scene-renders should not attempt to resize and fix
@@ -140,6 +152,12 @@ export interface SceneConfig {
     domElement: HTMLElement,
     // A callback to execute prior to this scene being renders.
     onBeforeRender?: Function,
+    // A callback to execute after this scene gets renders.
+    // This can be considered a clean up of actions that maybe done during
+    // onBeforeRender.  For example, a scene may alter the renderer temporarily
+    // in onBeforeRender (such as adding gammaOutput).  Each scene should clean up
+    // after itself so that it undoes any actions.
+    onAfterRender?: Function,
     // A callback to executed on each resize event.
     onBeforeResize?: Function,
     // A callback to executed on each resize event.
@@ -152,6 +170,8 @@ export interface SceneConfig {
     // A scalar value used to control resizing when an applicable resizingAlgo
     // is specified.
     resizingScalar?: number
+    // Optional object that can be passed to certain resizing
+    resizingOptions?: object
 }
 
 
@@ -176,11 +196,6 @@ export interface SceneRendererConfig {
      * This can have performance benefits but as of now, it is experimental.
      */
     useAbsolutePositioning?: boolean;
-
-    /**
-     * Resizing algo. @see SceneResizingAlgo.
-     */
-    resizingAlgo: SceneResizingAlgo
 }
 
 
@@ -193,7 +208,7 @@ export interface SceneRendererConfig {
  * resources.   So on pages where you might want to have like multiple webGL
  * canvases, you hit a road block.
  *
- * The solution here is to have a single canvas that covers the entire page.
+ * The solution here is to have a single canvas that covers the entire page (100vw x 100vh)
  * This single renderer would accept three.js scenes, which each define
  * a root html element to indicate the size and position to render.
  *
@@ -201,8 +216,49 @@ export interface SceneRendererConfig {
  * sceneRenderer, will check the location of each registered scene dom element
  * and render it at the right place.
  *
+ * This means that you could potentially export out a single gltf file with
+ * multiple scenes and load it once to render on various DOM elements allowing
+ * you to recycle geometry and avoid the webGL context limitations.
  *
- * @see /examples/three
+ * For example usage, see:
+ * @see /examples/three-scene-renderer.js
+ * @see /examples/three-scene-renderer2.js
+ *
+ *
+ * A high level example:
+ *
+ * ```
+ * // Create an instance of SceneRenderer
+ * this.sceneRenderer = new SceneRenderer({});
+ *
+ * // Add as many scenes as you like.
+ *  this.sceneRenderer.addScene({
+ *      // The resizing algo.
+ *      resizingAlgo: 'resizeWithFov',
+ *      resizingScalar: 1.0,
+ *      scene: scene,
+ *      camera: camera,
+ *      // The dom element that this scene should render and size to.
+ *      domElement: document.getElementById('my-element'),
+ *      onBeforeRender: (renderer)=> {
+ *           // Add some animations or whatever you need on render.
+ *           scene.children[ 0 ].rotation.y = Date.now() * 0.001;
+ *      },
+ *      onAfterRender: (renderer)=> {}
+ *      onBeforeResize: (renderer)=> {},
+ *      onResize(renderer) {}
+ *     });
+ *  });
+ *
+ * // Whereever you have RAF setup,
+ * this.sceneRenderer.render();
+ *
+ * // Later dispose to clean up.
+ * this.sceneRenderer.dispose();
+ *
+ * ```
+ *
+ *
  * @see https://stackoverflow.com/questions/41919341/is-there-a-limit-to-the-number-of-three-webglrenderer-instances-in-a-page
  * @see https://stackoverflow.com/questions/30608723/is-it-possible-to-enable-unbounded-number-of-renderers-in-three-js/30633132#30633132
  * @see https://threejs.org/examples/webgl_multiple_elements.html
@@ -261,7 +317,6 @@ export class SceneRenderer {
      */
     private useAbsolutePositioning: boolean;
 
-
     constructor(config: SceneRendererConfig) {
         console.log('scene renderer');
         this.watcher = new DomWatcher();
@@ -312,12 +367,19 @@ export class SceneRenderer {
         this.onResize();
     }
 
+
+    /**
+     * Forces a resize event on the scene-renderer.
+     */
     public resize() {
         this.onResize();
     }
 
 
-    onResize() {
+    /**
+     * Handles resizing events.
+     */
+    private onResize() {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         const aspectRatio = this.width / this.height;
@@ -325,7 +387,9 @@ export class SceneRenderer {
         this.scenes.forEach((scene: THREE.Scene) => {
             const element = scene.userData.domElement;
 
-            scene.userData.onBeforeResize && scene.userData.onBeforeResize();
+            scene.userData.onBeforeResize && scene.userData.onBeforeResize(
+                this.getRenderer()
+            );
 
             // Now for each, figure out the right resizing strategy.
             const camera = scene.userData.camera;
@@ -350,8 +414,8 @@ export class SceneRenderer {
             // camera.updateProjectionMatrix();
 
             // Contain
-            const h = element.offsetHeight;
-            const w = element.offsetWidth;
+            let h = element.offsetHeight;
+            let w = element.offsetWidth;
             const aspect = w / h;
             // let width, height;
             // if (aspect >= 1) {
@@ -393,7 +457,25 @@ export class SceneRenderer {
             }
 
 
-            scene.userData.onResize && scene.userData.onResize();
+            // If contain type algo.
+            if (scene.userData.resizingAlgo == SceneResizingAlgo.contain) {
+
+                // Fake contain.  Control the x,y scalar values to control
+                // resize points.
+                const scalarX = 3.8;
+                const scalarY = 2.6;
+                const hFov = Math.atan(h / 2 / (w * scalarX)) * 2 * THREE.Math.RAD2DEG;
+                const vFov = Math.atan(h / 2 / (h * scalarY)) * 2 * THREE.Math.RAD2DEG;
+                camera.fov = Math.max(vFov, hFov);
+
+                camera.aspect = aspect;
+                camera.updateProjectionMatrix();
+            }
+
+
+
+
+            scene.userData.onResize && scene.userData.onResize(this.getRenderer());
         });
 
         this.renderer.setSize(this.width, this.height);
@@ -401,7 +483,7 @@ export class SceneRenderer {
     }
 
     /**
-     * Updtes the z-index of the main renderer canvas.
+     * Updates the z-index of the main renderer canvas.
      */
     public setZIndex(zIndex: number) {
         this.zIndex = zIndex;
@@ -410,7 +492,8 @@ export class SceneRenderer {
 
 
     /**
-     * Returns the last known size of root canvas.  Usually thsi is teh window size.
+     * Returns the last known size of root canvas.  Usually this is usually the window size
+     * since the main renderer canvas covers the whole page.
      */
     public getSize() {
         return {
@@ -424,7 +507,7 @@ export class SceneRenderer {
      * Add a THREE.Scene to be rendered when the given domElement is visible
      * in the scene.
      */
-    public addScene(sceneConfig: SceneConfig) {
+    public addScene(sceneConfig: SceneConfig, forceResize: boolean = false) {
         if (!sceneConfig.domElement || !sceneConfig.scene || !sceneConfig.camera) {
             console.warn(`SceneRenderer could not register scene.  It is missing either the scene, camere or domElement`);
             return;
@@ -441,7 +524,15 @@ export class SceneRenderer {
 
 
         this.scenes.push(scene);
+
+        if (forceResize) {
+            window.setTimeout(() => {
+                console.log('forced resize');
+                this.resize();
+            })
+        }
     }
+
 
 
     /**
@@ -490,12 +581,13 @@ export class SceneRenderer {
             this.renderer.setScissor(left, bottom, width, height);
 
 
-            // Now run the render function associated with the scene.
-            scene.userData.onBeforeRender && scene.userData.onBeforeRender();
-
-            // Now render it out.
+            scene.userData.onBeforeRender && scene.userData.onBeforeRender(
+                this.getRenderer()
+            );
             this.renderer.render(scene, scene.userData.camera);
-
+            scene.userData.onAfterRender && scene.userData.onAfterRender(
+                this.getRenderer()
+            );
         });
 
     }

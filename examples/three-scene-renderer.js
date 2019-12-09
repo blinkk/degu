@@ -90,13 +90,10 @@ export default class ThreeSceneRenderer {
                     // Example of moving DOM text with the scene.
                     // The element (not the scene renderer) size needs to be
                     // used to calculate positions.
-                    console.log((scene.userData.resizingScalar));
-
                     // Because we are using FOV based resizing, we need to
                     // consider the resizingScalar and pass that over as a
                     // textScalar.
                     const textScalar = scene.userData.resizingScalar * 0.00003;
-
                     const domCoordinates = threef.toDomCoordinates(
                         scene.children[0],
                         camera, element.offsetWidth, element.offsetHeight,
