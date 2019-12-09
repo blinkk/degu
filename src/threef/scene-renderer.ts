@@ -464,9 +464,31 @@ export class SceneRenderer {
                 // resize points.
                 const scalarX = 3.8;
                 const scalarY = 2.6;
+
+                // Cover-ish
+                // const scalarX = 8;
+                // const scalarY = 8;
                 const hFov = Math.atan(h / 2 / (w * scalarX)) * 2 * THREE.Math.RAD2DEG;
                 const vFov = Math.atan(h / 2 / (h * scalarY)) * 2 * THREE.Math.RAD2DEG;
                 camera.fov = Math.max(vFov, hFov);
+
+                if(hFov > vFov) {
+                    // Top bottom bleeds
+                    console.log('yo');
+
+                } else {
+                    // Side bleeds
+
+                    console.log('yo2');
+                }
+
+
+
+                // Create an offset
+                const xOffset = 0 * w;
+                const yOffset = 0.1 * h;
+
+                camera.setViewOffset(w, h, xOffset, yOffset, w, h);
 
                 camera.aspect = aspect;
                 camera.updateProjectionMatrix();
@@ -584,10 +606,14 @@ export class SceneRenderer {
             scene.userData.onBeforeRender && scene.userData.onBeforeRender(
                 this.getRenderer()
             );
+
+
             this.renderer.render(scene, scene.userData.camera);
+
             scene.userData.onAfterRender && scene.userData.onAfterRender(
                 this.getRenderer()
             );
+
         });
 
     }
