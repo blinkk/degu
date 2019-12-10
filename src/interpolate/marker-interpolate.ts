@@ -38,7 +38,6 @@ export class MarkerInterpolate {
 
   constructor(markers: Array<MarkersInterpolateMarkers>, totalDuration:number) {
       this.markers = markers;
-      console.log('m', this.markers);
       this.totalDuration = totalDuration;
   }
 

@@ -586,7 +586,6 @@ export class threef {
             materials: <Array<THREE.Material>>[],
             lights: <Array<THREE.Light>>[],
             pointLights: <Array<THREE.PointLight>>[]
-
         }
 
         scene.traverse((child) => {
@@ -596,17 +595,20 @@ export class threef {
                dictionary.textMarkers.push(child);
             }
 
-            if (child instanceof THREE.Mesh) {
-                dictionary.mesh.push(child);
-                if (child.material) {
-                    dictionary.materials.push(child.material as THREE.Material);
+            if (child.constructor.name == 'Mesh') {
+                const c = child as THREE.Mesh;
+                dictionary.mesh.push(c);
+                if (c.material) {
+                    dictionary.materials.push(c.material as THREE.Material);
                 }
             }
-            if (child instanceof THREE.Light) {
-                dictionary.lights.push(child);
+            if (child.constructor.name == 'Light') {
+                const c = child as THREE.Light;
+                dictionary.lights.push(c);
             }
-            if (child instanceof THREE.PointLight) {
-                dictionary.pointLights.push(child);
+            if (child.constructor.name == 'PointLight') {
+                const c = child as THREE.PointLight;
+                dictionary.pointLights.push(c);
             }
         });
 

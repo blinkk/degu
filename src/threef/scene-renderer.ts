@@ -366,6 +366,19 @@ export interface SceneRendererConfig {
  *      },
  *     });
  *  });
+ *
+ * ### Applying Yano Shader Chunks
+ *
+ * You can apply shader chunks as follows:
+ * ```
+ *import {yanoShape2d} from
+ * 'yano-js/lib/shaders/three-shader-chunks/yano-shape2d';
+ *import {yanoMathf} from
+ * 'yano-js/lib/shaders/three-shader-chunks/yano-mathf';
+ *   // Apply shader chunks.
+ *   yanoMathf(this.sceneRenderer.getThree());
+ *   yanoShape2d(this.sceneRenderer.getThree());
+ *
  * ```
  *
  *
@@ -449,7 +462,7 @@ export class SceneRenderer {
         this.scenes = [];
 
         // Generate canvas.
-        this.zIndex = 1;
+        this.zIndex = 0;
         this.canvas = document.createElement('canvas');
         this.canvas.style.pointerEvents = 'none';
         if (this.useAbsolutePositioning) {
@@ -690,12 +703,8 @@ export class SceneRenderer {
                         { width: w, height: h },
                         virtualBox
                     )
-                    console.log('scalar', coverBox);
-
 
                     const diffY = Math.max(0, (coverBox.height - h) / 2);
-
-                    console.log(diffY);
 
                     if (is.defined(top)) {
                         top *= 2;
@@ -706,8 +715,6 @@ export class SceneRenderer {
                         bottom *= 2;
                         yOffset = diffY * (1 - bottom);
                     }
-
-                    console.log(yOffset);
                 }
 
                 // Horizontal offset calculations
@@ -793,7 +800,6 @@ export class SceneRenderer {
 
         if (forceResize) {
             window.setTimeout(() => {
-                console.log('forced resize');
                 this.resize();
             })
         }
