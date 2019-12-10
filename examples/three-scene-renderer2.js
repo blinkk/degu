@@ -32,6 +32,7 @@ export default class ThreeSceneRenderer2 {
                 resizingOptions: {
                     scalarX: 2.6,
                     scalarY: 3.8,
+                    useFov: false
                 },
             }
         );
@@ -45,7 +46,8 @@ export default class ThreeSceneRenderer2 {
                 resizingOptions: {
                     scalarX: 2.6,
                     scalarY: 3.8,
-                    top: 0
+                    top: 0,
+                    useFov: false
                 },
             }
         );
@@ -61,7 +63,8 @@ export default class ThreeSceneRenderer2 {
                     scalarX: 2.6,
                     scalarY: 3.8,
                     bottom: 0,
-                    left: 0
+                    left: 0,
+                    useFov: false
                 },
             }
         );
@@ -74,6 +77,7 @@ export default class ThreeSceneRenderer2 {
                 resizingOptions: {
                     scalarX: 2.6,
                     scalarY: 3.8,
+                    useFov: false
                 },
             }
         );
@@ -87,7 +91,8 @@ export default class ThreeSceneRenderer2 {
                 resizingOptions: {
                     scalarX: 2.6,
                     scalarY: 3.8,
-                    top: 0
+                    top: 0,
+                    useFov: false
                 },
             }
         );
@@ -101,8 +106,9 @@ export default class ThreeSceneRenderer2 {
                     scalarX: 2.6,
                     scalarY: 3.8,
                     bottom: 0,
-                    left: 0
+                    left: 0,
                     // right: 1
+                    useFov: false
                 },
             }
         );

@@ -54,7 +54,6 @@ export class MarkerInterpolate {
 
   getProgressByMarker(name:string):number {
       const marker = this.getMarkerByName(name);
-      console.log(marker);
       return marker.time / this.totalDuration;
   }
 }

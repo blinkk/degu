@@ -248,19 +248,22 @@ export interface SceneRendererConfig {
  *      camera: camera,
  *      // The dom element that this scene should render and size to.
  *      domElement: document.getElementById('my-element'),
- *      onBeforeRender: (renderer)=> {
+ *      onBeforeRender: (renderer, scene, camera)=> {
  *           // Add some animations or whatever you need on render.
  *           scene.children[ 0 ].rotation.y = Date.now() * 0.001;
  *      },
- *      onAfterRender: (renderer)=> {
+ *      onAfterRender: (renderer, scene, camera)=> {
  *          // This is used for clean up.  For example, you may
  *          // have had a need to alter the settings of the renderer.
  *          // You would clean up here.
  *      }
- *      onBeforeResize: (renderer)=> {
+ *      onBeforeResize: (renderer, scene, camera)=> {
  *         // Gets fired prior to resizing algo gets calculated.
+ *
+ *         // Update any of your scene options.
+ *         scene.userData.resizingScalar = 2.0;
  *      },
- *      onResize(renderer) {
+ *      onResize(renderer, scene, camera) {
  *         // Gets fired after resizing algo gets calculated.
  *         // Depending on the algo you use, the camera.fov and aspect
  *         // would have been altered by this stage.
@@ -316,6 +319,16 @@ export interface SceneRendererConfig {
  * As a side note you can also achieve a quick "contain" effect
  * by using the 'resizeWithFov' option and passing a single resizingScalar.
  *
+ * useFov
+ * By default, size adjustments are performed by changing the camera zoom level.
+ * This has an added benefit of correctly resizing text if you are calculating
+ * text scale using threef.toDomCoordinates method.  It also doesn't skew
+ * perspective.
+ *
+ * If you don't want to adjust zoom for some reason, you can opt to change
+ * scene size by alterning the useFov to a true value.  This will adjust the
+ * camera FOV as needed.  If your scene is orthographic or 2d based, you won't
+ * see a difference but in 3d scene it will alter and skew perspective.
  *
  * Alignment options:
  * By default, without any alignment options, your scene
@@ -338,6 +351,7 @@ export interface SceneRendererConfig {
  *      // The resizing algo.
  *      resizingAlgo: 'contain',
  *      resizingOptions: {
+ *           useFov: false, // Whether to use FOV instead of zoom
  *           scalarX: 2.6,
  *           scalarY: 3.8,
  *           top: 0 // Align this to the top
@@ -359,6 +373,7 @@ export interface SceneRendererConfig {
  *      // The resizing algo.
  *      resizingAlgo: 'cover',
  *      resizingOptions: {
+ *           useFov: false, // Whether to use FOV instead of zoom
  *           scalarX: 2.6,
  *           scalarY: 3.8,
  *           top: 0 // Align this to the top
@@ -366,6 +381,41 @@ export interface SceneRendererConfig {
  *      },
  *     });
  *  });
+ *
+ *
+ * Advanced Resizing
+ *
+ *
+ * Here is an example of changing scalar and aspect ratio,
+ * based on your mobile versus desktop layout.
+ *
+ * ```ts
+ *
+ *  const sizeScalar = 0.2;
+ *  this.sceneRenderer.addScene({
+ *      // The resizing algo.
+ *      resizingAlgo: 'cover',
+ *      // Required - you should define the resizing options.
+ *      resizingOptions: {
+ *         scalarX: null,
+ *         scalarY: null,
+ *         top: null,
+ *      },
+ *      onBeforeResize: (renderer, scene, camera)=> {
+ *         if(window.innerWidth < 800) {
+ *             scene.userData.resizingOptions.scalarX = 400 * sizeScalar;
+ *             scene.userData.resizingOptions.scalarY = 800 * sizeScalar;
+ *             scene.userData.resizingOptions.top = 0;
+ *         } else {
+ *             scene.userData.resizingOptions.scalarX = 1920 * sizeScalar;
+ *             scene.userData.resizingOptions.scalarY = 1080 * sizeScalar;
+ *             scene.userData.resizingOptions.top = 0.5;
+ *         }
+ *      },
+ *     });
+ *  });
+ *
+ * ```
  *
  * ### Applying Yano Shader Chunks
  *
@@ -521,7 +571,7 @@ export class SceneRenderer {
             const element = scene.userData.domElement;
 
             scene.userData.onBeforeResize && scene.userData.onBeforeResize(
-                this.getRenderer()
+                this.getRenderer(), scene, scene.userData.camera
             );
 
             // Now for each, figure out the right resizing strategy.
@@ -549,6 +599,7 @@ export class SceneRenderer {
                 camera.aspect = aspect;
                 camera.updateProjectionMatrix();
             }
+
 
             // Resize with FOV
             // Uses resizingScalar.
@@ -582,8 +633,15 @@ export class SceneRenderer {
                 // be contained.
                 const hFov = Math.atan(h / 2 / (w * scalarY)) * 2 * THREE.Math.RAD2DEG;
                 const vFov = Math.atan(h / 2 / (h * scalarX)) * 2 * THREE.Math.RAD2DEG;
-                camera.fov = Math.max(vFov, hFov);
+                const virtualFov = Math.max(vFov, hFov);
 
+                // Use Fov
+                if (scene.userData.resizingOptions.useFov) {
+                    camera.fov = virtualFov;
+                } else {
+                    // Use zoom
+                    camera.zoom = camera.fov / virtualFov;
+                }
 
                 // Calculate the virtual aspect ratio.
                 let virtualBox;
@@ -681,7 +739,15 @@ export class SceneRenderer {
                 // be cover with center / center.
                 const hFov = Math.atan(h / 2 / (w * scalarY)) * 2 * THREE.Math.RAD2DEG;
                 const vFov = Math.atan(h / 2 / (h * scalarX)) * 2 * THREE.Math.RAD2DEG;
-                camera.fov = Math.min(vFov, hFov);
+                const virtualFov = Math.min(vFov, hFov);
+
+                // Use Fov
+                if (scene.userData.resizingOptions.useFov) {
+                    camera.fov = virtualFov;
+                } else {
+                    // Use zoom
+                    camera.zoom = camera.fov / virtualFov;
+                }
 
                 // Offset options
                 let xOffset = 0;
@@ -748,7 +814,9 @@ export class SceneRenderer {
                 camera.updateProjectionMatrix();
             }
 
-            scene.userData.onResize && scene.userData.onResize(this.getRenderer());
+            scene.userData.onResize && scene.userData.onResize(
+                this.getRenderer(), scene, scene.userData.camera
+            );
         });
 
         this.renderer.setSize(this.width, this.height);
@@ -854,14 +922,14 @@ export class SceneRenderer {
 
 
             scene.userData.onBeforeRender && scene.userData.onBeforeRender(
-                this.getRenderer()
+                this.getRenderer(), scene, scene.userData.camera
             );
 
 
             this.renderer.render(scene, scene.userData.camera);
 
             scene.userData.onAfterRender && scene.userData.onAfterRender(
-                this.getRenderer()
+                this.getRenderer(), scene, scene.userData.camera
             );
 
         });
