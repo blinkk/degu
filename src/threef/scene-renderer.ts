@@ -950,7 +950,7 @@ export class SceneRenderer {
         });
 
         // Remove canvas from rootElement.
-        this.rootElement.parentElement.removeChild(this.rootElement);
+        this.canvas.parentElement.removeChild(this.canvas);
     }
 
 }
