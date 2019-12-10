@@ -500,4 +500,117 @@ export class threef {
             element.style.transform = `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) scale(${v.z})`;
         }
     }
+
+
+    /**
+     * Given an array THREE.AnimationClips, does a search for an animation
+     * clip of the given name.
+     */
+    static getAnimationByName(name: string, animationClips: Array<THREE.AnimationClip>) {
+        return animationClips.filter((animationClip: THREE.AnimationClip) => {
+            return animationClip.name == name;
+        })[0];
+    }
+
+
+    /**
+     * Traverses the current scene checking for match conditions.
+     *
+     * ```ts
+     * // Look for any meshes that are of the name 'hohoho' or 'hohoho2'.
+     * // and change the anistropy to 100.
+     *
+     * threef.traverseSceneFor(
+     *   // Test condition
+     *   (threeObject)=> {
+     *      return
+     *         (threeObject instance of THREE.MESH) &&
+     *         ~['hohoho', 'hohoho2'].indexOf(threeObject.name)
+     *   },
+     *   (threeObject)=> {
+     *      threeObject.material.map.anistropy = 100;
+     *      threeObject.material.needsUpdate = true;
+     *   },
+     *   myScene
+     * )
+     *
+     *
+     * ```
+     */
+    static traverseSceneFor(
+        matchCondition: Function,
+        execution: Function,
+        scene: THREE.Scene) {
+        scene.traverse((child) => {
+            if (matchCondition(child)) {
+                execution(child);
+            }
+        });
+
+    }
+
+
+    /**
+     * Given a list of names, looks through the objects in the scenes
+     * and returns a dictionary of them so they can be quickly accessed
+     * at a later time.
+     *
+     * ```ts
+     * const objectDictionary = threef.makeObjectDictionaryFromScene(
+     *   scene
+     * );
+     *
+     * objectDictionary.byName['myObject1']; // Your THREE object
+     * objectDictionary.byName['myPointlight1']; // Your THREE pointlight.
+     *
+     * objectDictionary.mesh; // All your meshes
+     * objectDictionary.materials; // All your materials
+     * objectDictionary.lights; // All your lights
+     *
+     * // All text markers.
+     * // By convention, text markers are any object that starts with the
+     * // naming 'text-marker' (IE: text-marker1, text-marker2 etc.)
+     * objectDictionary.textMarkers;
+     * ```
+     *
+     * @param name
+     * @param THREE.Scene
+     */
+    static createObjectDictionaryFromScene(scene: THREE.Scene): Object {
+
+        const dictionary = {
+            // Stores objects by name.
+            byName: {},
+            textMarkers: <Array<THREE.Object3D>>[],
+            mesh: <Array<THREE.Mesh>>[],
+            materials: <Array<THREE.Material>>[],
+            lights: <Array<THREE.Light>>[],
+            pointLights: <Array<THREE.PointLight>>[]
+
+        }
+
+        scene.traverse((child) => {
+            dictionary.byName[child.name] = child;
+
+            if(child.name.startsWith('text-')) {
+               dictionary.textMarkers.push(child);
+            }
+
+            if (child instanceof THREE.Mesh) {
+                dictionary.mesh.push(child);
+                if (child.material) {
+                    dictionary.materials.push(child.material as THREE.Material);
+                }
+            }
+            if (child instanceof THREE.Light) {
+                dictionary.lights.push(child);
+            }
+            if (child instanceof THREE.PointLight) {
+                dictionary.pointLights.push(child);
+            }
+        });
+
+        return dictionary;
+    }
+
 }

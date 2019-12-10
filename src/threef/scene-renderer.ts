@@ -432,7 +432,6 @@ export class SceneRenderer {
     private useAbsolutePositioning: boolean;
 
     constructor(config: SceneRendererConfig) {
-        console.log('scene renderer');
         this.watcher = new DomWatcher();
 
         this.watcher.add({
@@ -481,6 +480,13 @@ export class SceneRenderer {
         this.onResize();
     }
 
+
+    /**
+     * Gets the THREE object.
+     */
+    public getThree() {
+        return THREE;
+    }
 
     /**
      * Forces a resize event on the scene-renderer.
