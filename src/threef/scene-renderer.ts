@@ -173,6 +173,9 @@ export interface SceneConfig {
     // A callback to executed on each dispose
     onDipose?: Function,
 
+    // Add debugging to the scene.
+    debug?: Boolean,
+
     // The type of resizing that should be used.
     resizingAlgo: string,
     // A scalar value used to control resizing when an applicable resizingAlgo
@@ -700,7 +703,6 @@ export class SceneRenderer {
                         left *= 2;
                         xOffset = diffX * (1 - left);
                     }
-
                     if (is.defined(right)) {
                         right *= 2;
                         xOffset = -diffX * (1 - right);
@@ -855,6 +857,11 @@ export class SceneRenderer {
         }
 
         const scene = sceneConfig.scene;
+
+        if(sceneConfig.debug) {
+           var axesHelper = new THREE.AxesHelper( 50 );
+           scene.add( axesHelper );
+        }
 
         // Set the scene config data to the scene.
         scene.userData = sceneConfig;

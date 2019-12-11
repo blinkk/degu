@@ -438,7 +438,6 @@ export default class ThreeObjectViewer11 {
         this.camera.aspect = this.width / this.height;
         this.camera.updateProjectionMatrix();
 
-        threef.setFov(this.domCamera, this.camera);
 
     }
 
@@ -483,6 +482,7 @@ export default class ThreeObjectViewer11 {
                 return marker.userData.name == name;
             })[0];
         };
+        this.draw();
 
 
 
@@ -541,22 +541,25 @@ export default class ThreeObjectViewer11 {
         // domCoodinates also don't pass a scale value so the text maintains it's original scale.
         const marker6 = getMarkerByName('text-marker6');
         const domBoundingRect = threef.toDomBoundingRect(
-            marker6, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
+            marker6,
+            this.camera,
+            this.canvasContainer.offsetWidth,
+            this.canvasContainer.offsetHeight
         );
         const domCoordinates6 = threef.toDomCoordinates(
             marker6, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
         );
 
-        // Set to the topLeft corne of an element.
+        // Set to the topRight corner of an element.
         threef.applyVectorToDom(this.textMarker6, {
-            x: domBoundingRect.bottomLeft.x,
-            y: domBoundingRect.bottomLeft.y,
+            x: domBoundingRect.topRight.x,
+            y: domBoundingRect.topRight.y,
             z: 1.0,
         });
+        console.log(domBoundingRect);
 
 
 
-        this.draw();
     }
 
     draw() {

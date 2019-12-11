@@ -14,6 +14,8 @@ export interface threefGltfLoader {
  */
 export class threef {
 
+    public static yanoThreefTempBoxHelper: any;
+
     /**
      * GLTF + Animation Marker Export loader.
      *
@@ -159,100 +161,191 @@ export class threef {
     }
 
 
+    /**
+     * Converts a Three local Vec3 position to exact screen coordinates.
+     * @param position
+     * @param camera
+     * @param width
+     * @param height
+     */
+    static toScreenXY(position: THREE.Vector3, camera: THREE.Camera, width: number, height: number) {
+        var pos = position.clone();
+        const mat4 = new THREE.Matrix4();
+        mat4.multiply(camera.projectionMatrix);
+        mat4.multiply(camera.matrixWorldInverse);
+        // mat4.multiplyVector3(pos);
+        pos.applyMatrix4(mat4)
+        return {
+            x: (pos.x + 1) * width / 2,
+            y: (- pos.y + 1) * height / 2,
+            z: pos.z
+        };
+    }
+
 
     /**
      * Gets the bounding rect in pixel values of a given object.
+     * This basically, allows you to calculate the width / height of a given
+     * object in screen space.  It will also get you x,y coordinates of the bounding
+     * box around your object.
      *
-     * This includes the projects corners of the object along with the width and height values.
+     * Imagine a cube on your screen
+     * and you want to know the pixel width and height it occupies on the screen.
+     * This makes sense if you are looking head on but what happens if the
+     * camera is at an angle or the object is rotated.
+     * Or you might want the approximate width and height of a sphere or
+     * actual screen height and width of a human model when the camera is looking from a
+     * top angle.
      *
-     * In comparison to toDomCoordinates which centers to an element, this
-     * gives you more precision control of getting corners and the width, height
-     * of the projected element.
+     * This method will allow you to do that.
+     *
+     * It will start by drawing a Box3d cube (boundingBox) around the object.
+     * It will then convert the Box3d into a square of 2d coordinate.
+     * Using that square, it will then calculate the screenXY coordinates of each
+     * corner of the cube.
+     * It will then calculate the width and height this object occupies on
+     * the screen based on these values.
+     *
+     *
+     * If working on this method, since calculations can be involved, it is helpful
+     * to pass in the current working scene to debug the corners.
+     * ```
+     *
+     * const box = three.toDomBoudingRect(
+     *   myObject, camera, canvas.offsetWidth, canvas.offsetHeight,
+     *   {
+     *     scalar: 1, // For z scaling factor
+     *     scene: scene, // Pass in your scene to debug the corner.
+     *   }
+     * )
+     *
+     * box.width --> The pixel width on the screen.
+     * box.height --> The pixel height on the screen.
+     * box.topLeft --> The top left corner of the bounding box.
      *
      * ```
-     *   const domBoundingRect = threef.toDomBoundingRect(
-     *       myObject, this.camera, this.canvasContainer.offsetWidth, this.canvasContainer.offsetHeight
-     *   );
      *
-     *
-     *   // The myelement to the bottomLeft corner of myObject.
-     *   threef.applyVectorToDom(myElement, {
-     *       x: domBoundingRect.bottomLeft.x,
-     *       y: domBoundingRect.bottomLeft.y,
-     *       z: 1.0,
-     *   });
-     *
-     *
-     *   // Get the pixel width and height of myObject.
-     *   console.log(domBoundingRect.width, domBoundingRect.height);
-     * ```
      */
-    static toDomBoundingRect(object: THREE.Object3D,
+    static toDomBoundingRect(object: THREE.Mesh,
         camera: THREE.Camera, width: number, height: number,
-        scalar?: number
+        options?: any,
     ): any {
 
         const box = new THREE.Box3().setFromObject(object);
-        const size = new THREE.Vector3();
-        box.getSize(size);
 
-        object.updateWorldMatrix(true, false);
-
-        const getOffset = (xOffset: number, yOffset: number) => {
-            let v = new THREE.Vector3();
-            let currentPosition = object.position.clone();
-            let newPosition = object.position.clone();
-            // const worldMatrix = object.matrixWorld;
-            newPosition = newPosition.add(
-                new THREE.Vector3(
-                    size.x * xOffset,
-                    size.y * yOffset, 0
-                )
-            )
-
-            object.position.set(newPosition.x, newPosition.y, newPosition.z);
-            object.getWorldPosition(v);
-            v.project(camera);
-
-            // Now acquire the x, y position.
-            const x = (v.x * 0.5 + 0.5) * width;
-            const y = (v.y * -0.5 + 0.5) * height;
-
-
-            // Move it back to original position
-            object.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
-
-            let z = 1;
-            if (is.defined(scalar)) {
-                // Since the canvas scales based on height, use that as the basis.
-                z = (v.z * -0.5 + 0.5) * height;
-                z *= scalar;
-                z *= camera['zoom'] || 1.0;
+        // Get box corners.
+        const corners = {
+            '000': {
+                color: 0xFFFFFF, // White
+                vec: new THREE.Vector3().set(box.min.x, box.min.y, box.min.z), // 000
+            },
+            '001': {
+                color: 0x0FFF00, // Lime Green
+                vec: new THREE.Vector3().set(box.min.x, box.min.y, box.max.z), // 001
+            },
+            '010': {
+                color: 0xFF00F7, // Purple
+                vec: new THREE.Vector3().set(box.min.x, box.max.y, box.min.z), // 010
+            },
+            '011': {
+                color: 0x9D9D9D, // Grey
+                vec: new THREE.Vector3().set(box.min.x, box.max.y, box.max.z), // 011
+            },
+            '100': {
+                color: 0x003EFF,  // Blue
+                vec: new THREE.Vector3().set(box.max.x, box.min.y, box.min.z), // 100
+            },
+            '101': {
+                color: 0xF3FF00, // Yellow
+                vec: new THREE.Vector3().set(box.max.x, box.min.y, box.max.z), // 101
+            },
+            '110': {
+                color: 0xFF0000, // Red
+                vec: new THREE.Vector3().set(box.max.x, box.max.y, box.min.z), // 110
+            },
+            '111': {
+                color: 0x000000, // Black
+                vec: new THREE.Vector3().set(box.max.x, box.max.y, box.max.z)  // 111
             }
-
-            return new THREE.Vector3(x, y, z);
         };
 
 
-        /**
-         * Note this doesn't really account for a 3d perspective.
-         * It's more like flattening a cube into a square and
-         * returning those pixel coords.
-         */
-        const topLeft = getOffset(-0.5, 0.5);
-        const topRight = getOffset(0.5, 0.5);
-        const center = getOffset(0, 0);
-        const bottomLeft = getOffset(-0.5, -0.5);
-        const bottomRight = getOffset(0.5, -0.5);
+        // Generate an array of the XY screen coordinate of every single corner
+        // of the box3d.
+        const cornerPositions = [];
+        for (const key of Object.keys(corners)) {
+            const corner = corners[key];
+            const xy = threef.toScreenXY(corner.vec, camera, width, height);
+            cornerPositions.push(xy);
+        }
+
+        const center = threef.toScreenXY(object.position, camera, width, height);
+        const xs = cornerPositions.map((xy) => {
+            return xy.x;
+        })
+        const ys = cornerPositions.map((xy) => {
+            return xy.y;
+        })
+
+        const scene = options && options.scene;
+        const scalar = options && options.scalar;
+
+        // This is our virtual 2d square from the 3d cube.  This is a square
+        // drawn over the box3d bounding box, representing the space
+        // this object takes up on the screen.
+        const minX = Math.min(...xs);
+        const maxX = Math.max(...xs);
+        const minY = Math.min(...ys);
+        const maxY = Math.max(...ys);
+
+        // Based on there, we can calculate the size.
+        const finalSize = {
+            width: maxX - minX,
+            height: maxY - minY,
+        }
+
+        // Calculate relative depth (z)
+        let z = 1;
+        if (scalar) {
+            const v = new THREE.Vector3();
+            object.updateWorldMatrix(true, false);
+            object.getWorldPosition(v);
+            v.project(camera);
+            // Since the canvas scales based on height, use that as the basis.
+            z = (v.z * -0.5 + 0.5) * height;
+            z *= scalar;
+            z *= camera['zoom'] || 1.0;
+        }
+
+        // Calcualte the corners of the box from top left clockwise.
+        center.z = z;
+        const corner1 = new THREE.Vector3(minX, minY, z);
+        const corner2 = new THREE.Vector3(maxX, minY, z);
+        const corner3 = new THREE.Vector3(minX, maxY, z);
+        const corner4 = new THREE.Vector3(minX, maxY, z);
+
+        // If a scene has been passed, add
+        if (scene) {
+            object.visible = false;
+            object['alwaysInvisible'] = true;
+            for (const key of Object.keys(corners)) {
+                const corner = corners[key];
+                var geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+                var material = new THREE.MeshBasicMaterial({ color: corner.color });
+                var cube = new THREE.Mesh(geometry, material);
+                cube.position.set(corner.vec.x, corner.vec.y, corner.vec.z);
+                scene.add(cube);
+            }
+        }
+
         return {
-            size: size,
-            topLeft: topLeft,
-            topRight: topRight,
+            topLeft: corner1,
+            topRight: corner2,
             center: center,
-            bottomLeft: bottomLeft,
-            bottomRight: bottomRight,
-            width: topRight.x - topLeft.x,
-            height: bottomLeft.y - topLeft.y,
+            bottomLeft: corner3,
+            bottomRight: corner4,
+            width: finalSize.width,
+            height: finalSize.height,
         }
     }
 
@@ -433,6 +526,48 @@ export class threef {
 
 
 
+    /**
+     * Provides the ability to convert a vec3 into another coordinate system
+     * as needed given the mapping.
+     *
+     * Mapping supports the following strings: x,y,z,-x,-y,-z
+     *
+     * Example:
+     * ```
+     * threef.convertCoordinateSystem(
+     *    new THREE.Vector3(1, 2, 3),
+     *   ['-y', 'z', 'x']
+     * );  // x -> -2, y -> 3, z -> 1
+     *
+     * This internally converts the Vector3 using this logic:
+     *  x -> -y, y -> z, z-> x
+     * ```
+     *
+     * @param vec3
+     * @param orientation
+     */
+    static convertCoordinateSystem(vec3: THREE.Vector3, map: Array<string>) {
+        const x = map[0].toLowerCase().split('');
+        const xFactor = x[0] == '-' ? -1 : 1;
+        const xValue = x[0] == '-' ? x[1] : x[0];
+
+        const y = map[1].toLowerCase().split('');
+        const yFactor = y[0] == '-' ? -1 : 1;
+        const yValue = y[0] == '-' ? y[1] : y[0];
+
+        const z = map[2].toLowerCase().split('');
+        const zFactor = z[0] == '-' ? -1 : 1;
+        const zValue = z[0] == '-' ? z[1] : z[0];
+
+        return new THREE.Vector3(
+            vec3[xValue] * xFactor,
+            vec3[yValue] * yFactor,
+            vec3[zValue] * zFactor
+        );
+    }
+
+
+
 
     /**
      * Sets the FOV as camera on a DOM element.
@@ -591,8 +726,8 @@ export class threef {
         scene.traverse((child) => {
             dictionary.byName[child.name] = child;
 
-            if(child.name.startsWith('text-')) {
-               dictionary.textMarkers.push(child);
+            if (child.name.startsWith('text-')) {
+                dictionary.textMarkers.push(child);
             }
 
             if (child.constructor.name == 'Mesh') {
