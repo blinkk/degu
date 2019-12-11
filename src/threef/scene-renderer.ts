@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ThreeInspector} from './three-inspector';
 
 import { elementVisibility } from '../dom/element-visibility';
 import { DomWatcher } from '../dom/dom-watcher';
@@ -859,8 +860,7 @@ export class SceneRenderer {
         const scene = sceneConfig.scene;
 
         if(sceneConfig.debug) {
-           var axesHelper = new THREE.AxesHelper( 50 );
-           scene.add( axesHelper );
+            this.setupDebugging(sceneConfig);
         }
 
         // Set the scene config data to the scene.
@@ -880,6 +880,23 @@ export class SceneRenderer {
         }
     }
 
+
+    /**
+     * Sets up debugging via GUIF.
+     * @param scene
+     */
+    private setupDebugging(sceneConfig:SceneConfig) {
+        const scene = sceneConfig.scene;
+        var axesHelper = new THREE.AxesHelper( 50 );
+        scene.add( axesHelper );
+
+        new ThreeInspector(
+            sceneConfig.domElement,
+            sceneConfig.scene,
+            sceneConfig.camera,
+        )
+
+    }
 
 
     /**

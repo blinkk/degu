@@ -691,36 +691,58 @@ export class threef {
      * at a later time.
      *
      * ```ts
+     * // Specify the types of objects you want.
+     * const typeMap = {
+     *     // Normally just pass a string for the "object" type
+     *     mesh: 'Mesh',
+     *     // Pass array for multiple
+     *     myStuff: ['Mesh', 'PointLight'],
+     *     // Custom search logic.
+     *     materials: (object, type) => {
+     *         return object.material
+     *     },
+     *     lights: (object, type)=> {
+     *         return ~type.toLowerCase().indexOf('light');
+     *      }
+     *     pointLight: 'PointLight',
+     * }
      * const objectDictionary = threef.makeObjectDictionaryFromScene(
-     *   scene
+     *   scene, typeMap
      * );
      *
+     * ```
+     *
+     * Based on your typemap, a dictionary is returns with that type of
+     * object contained.
+     *
+     * ```
      * objectDictionary.byName['myObject1']; // Your THREE object
      * objectDictionary.byName['myPointlight1']; // Your THREE pointlight.
-     *
-     * objectDictionary.mesh; // All your meshes
-     * objectDictionary.materials; // All your materials
-     * objectDictionary.lights; // All your lights
      *
      * // All text markers.
      * // By convention, text markers are any object that starts with the
      * // naming 'text-marker' (IE: text-marker1, text-marker2 etc.)
      * objectDictionary.textMarkers;
+     *
+     * objectDictionary.mesh; // All your meshes
+     * objectDictionary.materials; // All your materials
+     * objectDictionary.lights; // All your lights
+     *
      * ```
      *
      * @param name
      * @param THREE.Scene
      */
-    static createObjectDictionaryFromScene(scene: THREE.Scene): Object {
+    static createObjectDictionaryFromScene(scene: THREE.Scene, mapping: Object): Object {
 
         const dictionary = {
             // Stores objects by name.
             byName: {},
             textMarkers: <Array<THREE.Object3D>>[],
-            mesh: <Array<THREE.Mesh>>[],
-            materials: <Array<THREE.Material>>[],
-            lights: <Array<THREE.Light>>[],
-            pointLights: <Array<THREE.PointLight>>[]
+        }
+
+        for (const key of Object.keys(mapping)) {
+            dictionary[key] = [];
         }
 
         scene.traverse((child) => {
@@ -730,20 +752,24 @@ export class threef {
                 dictionary.textMarkers.push(child);
             }
 
-            if (child.constructor.name == 'Mesh') {
-                const c = child as THREE.Mesh;
-                dictionary.mesh.push(c);
-                if (c.material) {
-                    dictionary.materials.push(c.material as THREE.Material);
+            // Check if this object matches a specific mapping.
+            for (const key of Object.keys(mapping)) {
+                const value = mapping[key];
+                if (is.string(value)) {
+                    if (child.type == value) {
+                        dictionary[key].push(child);
+                    }
                 }
-            }
-            if (child.constructor.name == 'Light') {
-                const c = child as THREE.Light;
-                dictionary.lights.push(c);
-            }
-            if (child.constructor.name == 'PointLight') {
-                const c = child as THREE.PointLight;
-                dictionary.pointLights.push(c);
+                if (is.array(value)) {
+                    if (~value.indexOf(child.type)) {
+                        dictionary[key].push(child);
+                    }
+                }
+                if (is.function(value)) {
+                    if (value(child, child.type)) {
+                        dictionary[key].push(child);
+                    }
+                }
             }
         });
 
