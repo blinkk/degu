@@ -52,6 +52,13 @@ https://youtu.be/ENVfvfSxNEA
   example of this setup.
 - Ensure Y up is enbaled since threef relies on the correct orientation.
 
+- When exporting a multiple scenes in one, gltf combines cameras and animations
+  into arrays.  When importing, we don't have a way to know, which animation
+  is associated with which scene.
+  This problem is solved by naming convention.  PREFIX all your cameras, animations
+  by  something unique to the scene. "scene1-camera", "scene1-camera-animation"
+  etc.  We can then use that as a basis to filter animations per scene.
+
 
 # Text Markers
 - By convention, text markers should be named with 'text-markerX'

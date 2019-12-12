@@ -279,7 +279,10 @@ export class threef {
             cornerPositions.push(xy);
         }
 
-        const center = threef.toScreenXY(object.position, camera, width, height);
+        const center = threef.toScreenXY(
+            object.position, camera, width, height);
+
+        // console.log(object.position, camera);
         const xs = cornerPositions.map((xy) => {
             return xy.x;
         })
@@ -705,6 +708,7 @@ export class threef {
      *         return ~type.toLowerCase().indexOf('light');
      *      }
      *     pointLight: 'PointLight',
+     *     cameras: 'PerspectiveCamera',
      * }
      * const objectDictionary = threef.makeObjectDictionaryFromScene(
      *   scene, typeMap
@@ -776,4 +780,13 @@ export class threef {
         return dictionary;
     }
 
+
+
+    static findSceneByName(name:string, scenes:Array<THREE.Scene>) {
+      const scene = scenes.filter((scene) => {
+        return scene.name == name;
+      })[0];
+
+      return scene;
+    }
 }
