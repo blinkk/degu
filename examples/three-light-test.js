@@ -333,10 +333,15 @@ export default class ThreeLightTest {
         const group = new THREE.Group();
         for (var i = 0; i < 12; i++) {
             var geometry = new THREE.SphereBufferGeometry(
-                mathf.getRandomFloat(0.1, 0.5),
+                0.3,
                 mathf.getRandomInt(10, 50),
                 mathf.getRandomInt(10, 50));
-            var material = new THREE.MeshPhongMaterial({ color: Math.random() * 0xffffff });
+            var material;
+            if(i % 2 == 0) {
+              material = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff });
+            } else {
+              material = new THREE.MeshPhongMaterial({ color: Math.random() * 0xffffff });
+            }
             var sphere = new THREE.Mesh(geometry, material);
             sphere.position.x = Math.random() - 0.5;
             sphere.position.z = Math.random() - 0.5;
