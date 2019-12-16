@@ -1,0 +1,62 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Three Mobile Resizing Tests</title>
+</head>
+<body init-sample="threeLightTest">
+  <a href="/index.html">Back to home</a>
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+    .parent {
+        position: relative;
+        height: 100vh;
+    }
+    .child {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0px;
+        height: 100vh;
+        width: 100%;
+        background-color: white;
+    }
+
+    .box-1 {
+      width: 100vw;
+      height: 100vh;
+      border: 1px solid red;
+      background-color: white;
+      position: relative;
+    }
+    .box-1:hover {
+        cursor: grab;
+    }
+    .text {
+      position: absolute;
+      z-index: 2;
+    }
+  </style>
+
+  <div class="root">
+    <h1>
+        Lighting tests with Three.js
+    </h1>
+
+    <h1>Percent closer soft shadow (PCSS) experiement 1</h1>
+    <div class="parent" id="parent">
+        <div class="child" id="child">
+            <div class="box box-1" id="box-1"></div>
+        </div>
+    </div>
+
+
+  </div>
+
+</body>
+</html>

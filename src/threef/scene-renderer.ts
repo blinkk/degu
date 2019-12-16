@@ -159,6 +159,8 @@ export interface SceneConfig {
     scene: THREE.Scene,
     camera: THREE.Camera,
     domElement: HTMLElement,
+    // A onetime callback executed when module is added to the renderer.
+    onInit?: Function,
     // A callback to execute prior to this scene being renders.
     onBeforeRender?: Function,
     // A callback to execute after this scene gets renders.
@@ -872,6 +874,11 @@ export class SceneRenderer {
 
 
         this.scenes.push(scene);
+
+        // Run init.
+        scene.userData.onInit && scene.userData.onInit(
+            this.getRenderer(), scene, scene.userData.camera
+        );
 
         if (forceResize) {
             window.setTimeout(() => {
