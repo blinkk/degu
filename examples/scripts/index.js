@@ -82,6 +82,7 @@ import TextSplitSample from '../text-split';
 import ThreeSceneRenderer from '../three-scene-renderer';
 import ThreeSceneRenderer2 from '../three-scene-renderer2';
 import ThreeLightTest from '../three-light-test';
+import ThreeLightTest2 from '../three-light-test2';
 import ThreeObjectViewer from '../three-object-viewer';
 import ThreeObjectViewer10 from '../three-object-viewer10';
 import ThreeObjectViewer11 from '../three-object-viewer11';
@@ -171,6 +172,7 @@ const samples = {
   'threeSceneRenderer': ThreeSceneRenderer,
   'threeSceneRenderer2': ThreeSceneRenderer2,
   'threeLightTest': ThreeLightTest,
+  'threeLightTest2': ThreeLightTest2,
   'threeObjectViewer': ThreeObjectViewer,
   'threeObjectViewer2': ThreeObjectViewer2,
   'threeObjectViewer3': ThreeObjectViewer3,

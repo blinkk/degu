@@ -139,6 +139,30 @@ const normalizedSin = `
 
 
 /**
+ * Raycast algo.
+ * @see  http://blog.ruofeidu.com/tutorial-of-ray-casting-ray-tracing-and-ray-marching/
+ */
+const castRay = `
+bool castRay( const vec3 & ro, const vec3 & rd, float & resT )
+{
+    const float delt = 0.01f;
+    const float mint = 0.001f;
+    const float maxt = 10.0f;
+    for( float t = mint; t < maxt; t += delt )
+    {
+        const vec3 p = ro + rd*t;
+        if( p.y < f( p.x, p.z ) )
+        {
+            resT = t - 0.5f*delt;
+            return true;
+        }
+    }
+    return false;
+}
+`
+
+
+/**
  * Common custom math functions for glsl.
  */
 export const yanoMathf = (three:any)=> {
