@@ -856,6 +856,20 @@ export class mathf {
   }
 
 
+
+
+  /**
+   * Inverse lerp function
+   * @param a Start value
+   * @param b End value
+   * @param value  Value beteen start and end.
+   * @return {number} A normalized value between 0-1
+   */
+  static inverseLerp(a:number, b:number, value:number):number {
+    return mathf.clamp01((value - a) / (b - a));
+  }
+
+
   /**
    * Another linear interpolation option.   Same as mathf.lerp but different algo
    * with no hard clamping.

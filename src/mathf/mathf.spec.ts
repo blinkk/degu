@@ -91,6 +91,18 @@ test('lerp', t => {
     t.is(mathf.lerp(1, 1, 1), 1);
 });
 
+
+test('inverseLerp', t => {
+    // Check basic lineaer interopolate.
+    t.is(mathf.inverseLerp(0, 1, 0), 0);
+    t.is(mathf.inverseLerp(0, 1, 0.1), 0.1);
+    t.is(mathf.inverseLerp(0, 100, 10), 0.1);
+    t.is(mathf.inverseLerp(0, 100, 20), 0.2);
+    t.is(mathf.inverseLerp(200, 300, 210), 0.1);
+    t.is(mathf.inverseLerp(200, 300, 250), 0.5);
+});
+
+
 test('smoothStep', t => {
     t.is(mathf.smoothStep(0, 10, 0), 0);
     t.is(mathf.smoothStep(100, 200, 150), 0.5);
