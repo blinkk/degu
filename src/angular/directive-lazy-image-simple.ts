@@ -1,10 +1,11 @@
 import { DomWatcher } from '../dom/dom-watcher';
 import {is} from '../is/is';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
+import {INgDisposable} from './i-ng-disposable';
 
-export class LazyImageSimple {
+export class LazyImageSimple implements INgDisposable {
     static get $inject() {
-        return ['$element', '$attrs'];
+        return ['$scope', '$element', '$attrs'];
     }
 
     private el: HTMLElement;
@@ -24,7 +25,7 @@ export class LazyImageSimple {
     // the current fold.
     private forwardLoadScalar:number;
 
-    constructor($element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
         this.url = $attrs.lazyImageSimple;
         this.setAsBackgroundImage = !!$attrs.lazyImageSimpleAsBackground;
@@ -44,6 +45,10 @@ export class LazyImageSimple {
             rootMargin: window.innerHeight * this.forwardLoadScalar + 'px'
         }, ()=> {
           this.paint();
+        });
+
+        $scope.$on('$destroy', () => {
+            this.dispose();
         });
     }
 
@@ -119,6 +124,11 @@ export class LazyImageSimple {
         return style != 'none';
     }
 
+
+    dispose() {
+        this.ev.dispose();
+        this.watcher.dispose();
+    }
 }
 
 
