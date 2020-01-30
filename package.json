@@ -57,6 +57,7 @@
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/polyfill": "7.4.0",
     "@babel/preset-env": "7.4.2",
+    "@types/angular": "1.6.57",
     "@types/dat-gui": "0.6.3",
     "@types/dat.gui": "^0.7.5",
     "@types/offscreencanvas": "^2019.6.0",
