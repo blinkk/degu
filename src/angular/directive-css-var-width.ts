@@ -27,7 +27,7 @@ export class CssVarWidth implements INgDisposable {
     }
 
     paint() {
-        dom.setCssVariable(this.el, '--width', this.el.offsetWidth + 'px');
+        dom.setCssVariable(this.el, '--width', String(this.el.offsetWidth));
     }
 
     dispose() {
