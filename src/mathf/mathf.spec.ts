@@ -120,7 +120,7 @@ test('lerpEase', t => {
     t.is(mathf.lerpEase(0, 1, 0.3, ease), 0.0078125);
     t.is(mathf.lerpEase(0, 1, 0.5, ease), 0.03125);
     t.is(mathf.lerpEase(0, 1, 0.9, ease), 0.5000000000000001);
-    t.is(mathf.lerpEase(0, 1, 0.95, ease), 0.7071067811865474);
+    t.is(mathf.roundToPrecision(mathf.lerpEase(0, 1, 0.95, ease), 3), 0.707);
     t.is(mathf.lerpEase(0, 1, 1, ease), 1);
 
     ease = EASE.easeInOutSine;
