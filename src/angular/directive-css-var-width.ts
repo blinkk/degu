@@ -9,10 +9,15 @@ export class CssVarWidth implements INgDisposable {
 
     private el: HTMLElement;
     private watcher: DomWatcher;
+    private scalar:number;
+    private margin:number;
 
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
         this.watcher = new DomWatcher();
+
+        this.scalar = $attrs.cssVarWidthScalar || 1;
+        this.margin = $attrs.cssVarWidthMargin || 0;
         this.watcher.add({
             element: window,
             on: 'smartResize',
@@ -27,7 +32,10 @@ export class CssVarWidth implements INgDisposable {
     }
 
     paint() {
-        dom.setCssVariable(this.el, '--width', String(this.el.offsetWidth));
+        let width = this.el.offsetWidth;
+        width *= this.scalar;
+        width -= (this.margin * 2);
+        dom.setCssVariable(this.el, '--width', String(width));
     }
 
     dispose() {
@@ -37,6 +45,23 @@ export class CssVarWidth implements INgDisposable {
 
 
 
+/*
+ Usage:
+
+  ngApp.directive('cssVarwidth', cssVarWidthDirective);
+
+
+  <div css-var-width></div>
+
+  Results in:
+  <div style="--width: 1302;"></div>
+
+  // Optionally, add a scalar (percentage).
+  <div css-var-width css-var-width-scalar="0.93"></div>
+  // Optionally, add a margin in px.  Px margin is doubled to account for left and right side.
+  <div css-var-width css-var-width-margin="20"></div>
+
+ */
 export const cssVarWidthDirective = function () {
     return {
         restrict: 'A',

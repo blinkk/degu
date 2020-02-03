@@ -59,7 +59,6 @@ export class LazyImageSimple implements INgDisposable {
      */
     paint() {
         if (this.isPaintedOnScreen() && !this.imageSet && this.ev.state().inview) {
-            console.log("painting this out.");
             this.imageSet = true;
             this.watcher.dispose();
             this.ev.dispose();
