@@ -161,24 +161,32 @@ export class LazyImageSimple implements INgDisposable {
  *
  * Now use it.
  * This will load the image:
+ * ```
  * <div lazy-image-simple="{{url}}"></div>
+ * ```
  *
  * After render will turn into:
+ * ```
  * <img src="{{url}}">
+ * ```
  *
  * This will load the image as a background image:
  * <div lazy-image-simple="{{url}}" lazy-image-simple-as-background="true"></div>
  *
  * After render will turn into:
+ * ```
  * <div style="backgroundImage: url({{url}})"></div>
+ * ```
  *
  * This will load only when on mobile.  The directive runs a test to see if the
  * directive element has display: none as a style.  If so, it will not run.
+ * ```
  * .only-mobile
  *   +md
  *     display: none
  *
  * <div lazy-image-simple="{{url}}" style="only-mobile"></div>
+ * ```
  *
  *
  * The directive lazy loads images.   By default, it will load 100vh below
