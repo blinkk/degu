@@ -4,6 +4,7 @@ import { func } from '../func/func';
 /**
  * Equalizes the heights of a set of html elements.
  *
+ * ```
  * <div id="myDiv">
  *   <div data-equalize-heights>...</div>
  *   <div data-equalize-heights>...</div>
@@ -17,6 +18,7 @@ import { func } from '../func/func';
  *
  * // Apply equalize height based on shortest.
  * new EqualizeHeights(root, '[data-equalize-heights]', true, '>760');
+ * ```
  */
 export class EqualizeHeights {
 
