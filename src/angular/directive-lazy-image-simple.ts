@@ -1,7 +1,8 @@
 import { DomWatcher } from '../dom/dom-watcher';
-import {is} from '../is/is';
+import { dom } from '../dom/dom';
+import { is } from '../is/is';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
-import {INgDisposable} from './i-ng-disposable';
+import { INgDisposable } from './i-ng-disposable';
 
 export class LazyImageSimple implements INgDisposable {
     static get $inject() {
@@ -23,7 +24,7 @@ export class LazyImageSimple implements INgDisposable {
     // Defaults to 1.
     // Set to higher values if you want to load more images that are below
     // the current fold.
-    private forwardLoadScalar:number;
+    private forwardLoadScalar: number;
 
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
@@ -31,7 +32,7 @@ export class LazyImageSimple implements INgDisposable {
         this.setAsBackgroundImage = !!$attrs.lazyImageSimpleAsBackground;
         this.forwardLoadScalar =
             is.defined($attrs.lazyImageForwardLoadScalar) ?
-             +$attrs.lazyImageForwardLoadScalar : 1;
+                +$attrs.lazyImageForwardLoadScalar : 1;
         this.imageSet = false;
 
         this.watcher = new DomWatcher();
@@ -43,8 +44,17 @@ export class LazyImageSimple implements INgDisposable {
 
         this.ev = elementVisibility.inview(this.el, {
             rootMargin: window.innerHeight * this.forwardLoadScalar + 'px'
-        }, ()=> {
-          this.paint();
+        }, () => {
+            this.paint();
+        });
+
+        this.watcher.add({
+            element: this.el,
+            on: 'force-lazy-load',
+            callback: () => {
+                console.log('force lazy laodign');
+                this.startLoad();
+            }
         });
 
         $scope.$on('$destroy', () => {
@@ -59,13 +69,20 @@ export class LazyImageSimple implements INgDisposable {
      */
     paint() {
         if (this.isPaintedOnScreen() && !this.imageSet && this.ev.state().inview) {
-            this.imageSet = true;
-            this.watcher.dispose();
-            this.ev.dispose();
-            this.loadImage();
+            this.startLoad();
         }
     }
 
+    private startLoad() {
+        this.imageSet = true;
+        this.watcher.dispose();
+        this.ev.dispose();
+        this.loadImage().then(()=> {
+            dom.event(document.documentElement, 'lazy-image-simple-loaded',  {
+                element: this.el
+            });
+        })
+    }
 
     loadImage() {
         return new Promise((resolve, reject) => {
@@ -82,11 +99,11 @@ export class LazyImageSimple implements INgDisposable {
             // If this is a new image to be replaced.
             let imageLoader = new Image();
             let onLoad = () => {
-                    // Add loaded class.
-                    imageLoader.classList.add('loaded');
-                    // Swap out the div with the new image.
-                    element.parentNode &&
-                        element.parentNode.replaceChild(imageLoader, element);
+                // Add loaded class.
+                imageLoader.classList.add('loaded');
+                // Swap out the div with the new image.
+                element.parentNode &&
+                    element.parentNode.replaceChild(imageLoader, element);
                 resolve();
             }
 
