@@ -1,6 +1,7 @@
 import { DomWatcher } from '../dom/dom-watcher';
 import { INgDisposable } from './i-ng-disposable';
 import { dom } from '../dom/dom';
+import { func } from '../func/func';
 
 export class CssVarWidth implements INgDisposable {
     static get $inject() {
@@ -11,6 +12,7 @@ export class CssVarWidth implements INgDisposable {
     private watcher: DomWatcher;
     private scalar:number;
     private margin:number;
+    private max: number|null;
 
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
@@ -18,6 +20,7 @@ export class CssVarWidth implements INgDisposable {
 
         this.scalar = $attrs.cssVarWidthScalar || 1;
         this.margin = $attrs.cssVarWidthMargin || 0;
+        this.max = func.setDefault($attrs.cssVarWidthMax, null);
         this.watcher.add({
             element: window,
             on: 'smartResize',
@@ -35,6 +38,9 @@ export class CssVarWidth implements INgDisposable {
         let width = this.el.offsetWidth;
         width *= this.scalar;
         width -= (this.margin * 2);
+        if(this.max) {
+            width = Math.min(width, this.max);
+        }
         dom.setCssVariable(this.el, '--width', String(width));
     }
 
@@ -60,6 +66,8 @@ export class CssVarWidth implements INgDisposable {
   <div css-var-width css-var-width-scalar="0.93"></div>
   // Optionally, add a margin in px.  Px margin is doubled to account for left and right side.
   <div css-var-width css-var-width-margin="20"></div>
+  // Optionally add a max value
+  <div css-var-width css-var-width-max="1000"></div>
 
  */
 export const cssVarWidthDirective = function () {
