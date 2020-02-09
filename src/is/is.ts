@@ -185,7 +185,7 @@ export class is {
         return !is.chrome() && navigator.userAgent.indexOf('Safari') != -1;
     }
 
-    static ipad():boolean {
+    static ipad(): boolean {
         return navigator.userAgent.match(/iPad/i) != null;
     }
 
@@ -235,7 +235,7 @@ export class is {
         // Test for firefox fails in the above but as of version 65 FF
         // supports webp.
         if (is.firefox()
-          && +navigator.userAgent.match(/Firefox\/(.*)/)![1] >= 65
+            && +navigator.userAgent.match(/Firefox\/(.*)/)![1] >= 65
         ) {
             canvasSupported = true;
         }
@@ -243,7 +243,7 @@ export class is {
         // Test for Edge fails above but as of version 18, Edge supports
         // webp.
         if (is.edge()
-          && +navigator.userAgent.match(/Edge\/(.*)/)![1] >= 18
+            && +navigator.userAgent.match(/Edge\/(.*)/)![1] >= 18
         ) {
             canvasSupported = true;
         }
@@ -276,6 +276,15 @@ export class is {
     static supportingDeviceOrientation(): boolean {
         return !!window['DeviceOrientationEvent'] as any;
     }
+
+
+    /**
+     * Whether FILE Apis are supported.
+     */
+    static supportingFileApis():boolean {
+        return !!(window['File'] && window['FileReader'] && window['FileList'] && window['Blob'])
+    }
+
 
 
     /**
