@@ -3,8 +3,9 @@ import { dom } from '../dom/dom';
 import { is } from '../is/is';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
 import { INgDisposable } from './i-ng-disposable';
+import { func } from '../func/func';
 
-export class LazyImageSimple implements INgDisposable {
+export class LazyImage implements INgDisposable {
     static get $inject() {
         return ['$scope', '$element', '$attrs'];
     }
@@ -26,20 +27,36 @@ export class LazyImageSimple implements INgDisposable {
     // the current fold.
     private forwardLoadScalar: number;
 
+
+    // Whether the current browser environment supports webp.
+    private isWebpSupported: boolean;
+
+    // Whether we should try to append 'rw' to the url to serve webp.
+    private useGoogleImageTryWebp: boolean;
+    // Whether we should tyr to add width parameters to the google image.
+    private useGoogleImageAutosize: boolean;
+
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
-        this.url = $attrs.lazyImageSimple;
-        this.setAsBackgroundImage = !!$attrs.lazyImageSimpleAsBackground;
+        this.url = $attrs.lazyImage;
+        this.setAsBackgroundImage = !!$attrs.lazyImageAsBackground;
         this.forwardLoadScalar =
-            is.defined($attrs.lazyImageSimpleForwardLoadScalar) ?
-                +$attrs.lazyImageSimpleForwardLoadScalar : 1;
+            is.defined($attrs.lazyImageForwardLoadScalar) ?
+                +$attrs.lazyImageForwardLoadScalar : 1;
+
+        this.useGoogleImageAutosize = $attrs.lazyImageGoogleImageAutosize == 'true';
+        this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp == 'true';
+
         this.imageSet = false;
+
+        // Cache this value since is.supportingWebp can be computationally expensive.
+        this.isWebpSupported = is.supportingWebp();
 
         this.watcher = new DomWatcher();
         this.watcher.add({
             element: window,
             on: 'smartResize',
-            callback: this.paint.bind(this)
+            callback: this.resize.bind(this)
         });
 
         this.ev = elementVisibility.inview(this.el, {
@@ -61,6 +78,14 @@ export class LazyImageSimple implements INgDisposable {
         });
     }
 
+    resize() {
+        if (this.imageSet) {
+            this.updateLoadedImage();
+        } else {
+            this.paint();
+        }
+    }
+
 
 
     /**
@@ -72,12 +97,41 @@ export class LazyImageSimple implements INgDisposable {
         }
     }
 
+    /**
+     * Handles redrawing / updating an image that has already been loaded.
+     * This mainly gets called during window resize.
+     */
+    updateLoadedImage() {
+        if (!this.imageSet) {
+            return;
+        }
+
+        // If we have already set the google image but thereafter, resized the
+        // browser, we want to resize the loaded imge.
+        if (this.autosizeGoogleImage) {
+            this.url = this.autosizeGoogleImage(this.url);
+
+            if (this.setAsBackgroundImage) {
+                this.el.style.backgroundImage = `url(${this.url})`;
+            } else {
+                this.el['src'] = this.url;
+            }
+        }
+    }
+
+
+
     private startLoad() {
         this.imageSet = true;
-        this.watcher.dispose();
+
+        // Get rid of watchers unless we need resize processing.
+        if(!this.useGoogleImageAutosize) {
+          this.watcher.dispose();
+        }
+
         this.ev.dispose();
-        this.loadImage().then(()=> {
-            dom.event(document.documentElement, 'lazy-image-simple-loaded',  {
+        this.loadImage().then(() => {
+            dom.event(document.documentElement, 'lazy-image-loaded', {
                 element: this.el
             });
         })
@@ -85,6 +139,13 @@ export class LazyImageSimple implements INgDisposable {
 
     loadImage() {
         return new Promise((resolve, reject) => {
+            if (this.useGoogleImageTryWebp) {
+                this.url = this.appendGoogleImageWebpParamToUrl(this.url);
+            }
+            if (this.useGoogleImageAutosize) {
+                this.url = this.autosizeGoogleImage(this.url);
+            }
+
             let element = this.el;
 
             // If this is to be a background image.
@@ -140,6 +201,39 @@ export class LazyImageSimple implements INgDisposable {
     }
 
 
+    private appendGoogleImageWebpParamToUrl(url: string): string {
+        if (!this.isWebpSupported || !is.isGoogleCloudLikeUrl(url)) {
+            return url;
+        }
+        return url + '-rw';
+    }
+
+    private autosizeGoogleImage(url: string): string {
+        if (!is.isGoogleCloudLikeUrl(url)) {
+            return url;
+        }
+
+        // Get the width to use.
+        let width = Math.ceil(this.el.offsetWidth * window.devicePixelRatio);
+
+
+        // If a width can't be determined, give up and just serve the image.
+        if (!width) {
+            return url;
+        }
+
+        if (url.match(/\=w\d+/)) {
+            url = url.replace(/=w\d+/, '=w' + width);
+        } else if (url.match(/-w\d+/)) {
+            url = url.replace(/-w\d+/, '-w' + width);
+        } else {
+            url += '-w' + width;
+        }
+
+        return url;
+    }
+
+
     dispose() {
         this.ev.dispose();
         this.watcher.dispose();
@@ -153,15 +247,15 @@ export class LazyImageSimple implements INgDisposable {
  * is currently visible on the screen.  The basis of whether it is visible
  * is determined based on if the dislay is NOT set to none.
  *
- * Name your directive as lazyImageSimple.
+ * Name your directive as lazyImage.
  *
- *     ngApp.directive('lazyImageSimple', lazyImageSimpleDirective);
+ *     ngApp.directive('lazyImage', lazyImageDirective);
  *
  *
  * Now use it.
  * This will load the image:
  * ```
- * <div lazy-image-simple="{{url}}"></div>
+ * <div lazy-image="{{url}}"></div>
  * ```
  *
  * After render will turn into:
@@ -172,7 +266,7 @@ export class LazyImageSimple implements INgDisposable {
  *
  * ## As background image
  * This will load the image as a background image:
- * <div lazy-image-simple="{{url}}" lazy-image-simple-as-background="true"></div>
+ * <div lazy-image="{{url}}" lazy-image-as-background="true"></div>
  *
  * After render will turn into:
  * ```
@@ -187,7 +281,7 @@ export class LazyImageSimple implements INgDisposable {
  *   +md
  *     display: none
  *
- * <div lazy-image-simple="{{url}}" style="only-mobile"></div>
+ * <div lazy-image="{{url}}" style="only-mobile"></div>
  * ```
  *
  *
@@ -195,15 +289,24 @@ export class LazyImageSimple implements INgDisposable {
  * The directive lazy loads images.   By default, it will load 100vh below
  * the current fold.  You can adjust this value, by passing the lazyImageForwardLoadScalar.
  *
- * <div lazy-image-simple="{{url}}" lazy-image-simple-forward-load-scalar="2"></div>
+ * <div lazy-image="{{url}}" lazy-image-forward-load-scalar="2"></div>
  *
  * // Zero means no foward load
- * <div lazy-image-simple="{{url}}" lazy-image-simple-forward-load-scalar="0"></div>
+ * <div lazy-image="{{url}}" lazy-image-forward-load-scalar="0"></div>
+ *
+ *
+ * ## Google Images support.
+ * You can enable google images support.  The options are:
+ * lazy-image-google-image-try-webp="true"
+ *    Lazy-image will append a -rw flag to the url if webp is supported.
+ * lazy-image-google-image-autosize="true"
+ *    Lazy-image will append a -wXXX (width) param based on the size of the current element
+ *
  */
-export const lazyImageSimpleDirective = function () {
+export const lazyImageDirective = function () {
     return {
         restrict: 'A',
-        controller: LazyImageSimple,
+        controller: LazyImage,
     };
 }
 

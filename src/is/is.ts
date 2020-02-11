@@ -366,4 +366,13 @@ export class is {
     static windowLoaded(): boolean {
         return performance.timing.loadEventEnd !== 0;
     }
+
+
+    /**
+     * Whether this URL looks like a google cloudish url.
+     * @param url
+     */
+    static isGoogleCloudLikeUrl(url:string):boolean {
+        return url.includes('googleusercontent.com');
+    }
 }
