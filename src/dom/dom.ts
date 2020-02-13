@@ -688,4 +688,18 @@ export class dom {
           dom.playAllVideosInElement(el);
         }
     }
+
+
+    /**
+     * Gets the Y distance of the element from the top of the document.
+     *
+     * ```ts
+     *   const top = dom.getScrollTop(el);
+     *   window.scroll(0, top);
+     * ```
+     *
+     */
+    static getScrollTop(el:HTMLElement):number {
+        return el.getBoundingClientRect().top + window.scrollY;
+    }
 }

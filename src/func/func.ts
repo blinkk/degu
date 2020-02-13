@@ -160,6 +160,60 @@ export class func {
     }
 
 
+
+    /**
+     * Similar to waitUntil but will repeatedly perform an
+     * action until a condition is met.
+     * @param condition
+     * @param action
+     * @param timeout
+     * @param interval
+     *
+     *
+     * ```
+     * let someValue = 0;
+     * func.repeatUntil(
+     *  ()=> {return someValue == 5},
+     *  ()=> { somevalue++; }
+     * ).then(()=> {
+     *   console.log('some value is 5!!!');
+     * })
+     * ```
+     */
+    static repeatUntil(condition: Function,
+        // The action that should be performed
+        action: Function,
+        timeout = 0,
+        interval = 100): Promise<void> {
+        const startTime = time.now();
+        let resolvePromise: Function;
+        let rejectPromise: Function;
+        const returnPromise = new Promise<void>((resolve, reject) => {
+            resolvePromise = resolve;
+            rejectPromise = reject;
+        });
+
+
+        let evaluateCondition = () => {
+            const elapsed = time.timeDiffMs(startTime, time.now());
+            // If the condition resolves.
+            if (condition()) {
+                resolvePromise();
+            }
+            else if (timeout && elapsed > timeout) {
+                rejectPromise('Wait until timed out');
+            } else {
+                action();
+                setTimeout(evaluateCondition, interval);
+            }
+        }
+        // Start it up.
+        evaluateCondition();
+
+        return returnPromise;
+    }
+
+
     /**
      * Memoizes a function with just a one time memory.   This memoize
      * conserves RAM (probably :))
