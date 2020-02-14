@@ -15,6 +15,18 @@ export enum DebugLevel  {
  * // Now suppress console.log for prod environment.
  * debug.setDebugLevel(DebugLevel.NONE);
  * ```
+ *
+ * You could also use urlParams or set other conditions to display logs.
+ *
+ * ```
+ * import { debug, DebugLevel } from 'yano-js/debug/debug';
+ * import {urlParams} from 'yano-js/lib/dom/url-params';
+ * if(urlParams.isTrue('debug')) {
+ *   debug.setDebugLevel(DebugLevel.ALL);
+ *  } else {
+ *   debug.setDebugLevel(DebugLevel.NONE);
+ *  }
+ * ```
  */
 export class debug {
 
