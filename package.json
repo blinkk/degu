@@ -124,5 +124,8 @@
     "lint": "tslint -c tslint.json \"src/**/*.ts\"",
     "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
   },
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "save-dev": "0.0.1-security"
+  }
 }
