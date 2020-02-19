@@ -302,7 +302,7 @@ export class func {
      * class MyClass {
      *
      *     constructor() {
-     *        this.calculate = func.memoize(this.calculate.bind(this));
+     *        this.calculate = func.memoize(this.calculate.bind(this)) as any;
      *     }
      *
      *     calculate(a, b) {

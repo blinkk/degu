@@ -1,3 +1,4 @@
+import { arrayf } from '../arrayf/arrayf';
 
 /**
  * A class that helps with objects.
@@ -5,12 +6,21 @@
 export class objectf {
 
     /**
+     * Deep copies an object by looping through it.
+     * @alias arrayf.deepcopy.
+     */
+    static deepCopy(input: Array<any> | Object):Array<any>|Object {
+        return arrayf.deepCopy(input);
+    }
+
+
+    /**
      * A quick JSON parse, stringify based copy.
      * This is fast but will destroy functions, Date etc so
      * has limited usage.
      * @param object
      */
-    static jsonCopy(obj: Object): Object {
+    static jsonCopy(obj: Object|Array<any>): Object|Array<any> {
         return JSON.parse(JSON.stringify(obj));
     }
 
