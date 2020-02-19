@@ -52,6 +52,6 @@ export class ToggleController {
     }
 
     public close():void {
-       this.expanded = true;
+       this.expanded = false;
     }
 }
