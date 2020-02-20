@@ -15,6 +15,7 @@ export class LazyImage implements INgDisposable {
     private url: string;
     // Whether this directive has finished setting the background image.
     private imageSet: boolean;
+    private foucImage: HTMLImageElement;
     private setAsBackgroundImage: boolean;
     private watcher: DomWatcher;
     private ev: ElementVisibilityObject;
@@ -36,6 +37,10 @@ export class LazyImage implements INgDisposable {
     // Whether we should tyr to add width parameters to the google image.
     private useGoogleImageAutosize: boolean;
 
+
+    private foucWidth: number;
+    private foucHeight: number;
+
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
         this.url = $attrs.lazyImage;
@@ -46,6 +51,17 @@ export class LazyImage implements INgDisposable {
 
         this.useGoogleImageAutosize = $attrs.lazyImageGoogleImageAutosize == 'true';
         this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp == 'true';
+
+        this.foucWidth = +$attrs.lazyImageFoucWidth || 0;
+        this.foucHeight = +$attrs.lazyImageFoucHeight || 0;
+
+        if(!!this.foucWidth && !!this.foucHeight) {
+            this.setFoucImage();
+        }
+
+        if($attrs.lazyImageFoucDebug == 'true') {
+          return;
+        }
 
         this.imageSet = false;
 
@@ -234,6 +250,30 @@ export class LazyImage implements INgDisposable {
     }
 
 
+    /**
+     * Sets a FOUC image inside the root element.
+     */
+    private setFoucImage():void {
+        this.foucImage = new Image();
+        const width = this.foucWidth;
+        const height = this.foucHeight;
+        const src:string = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"%3E%3C/svg%3E`;
+        this.foucImage.src = src;
+        this.foucImage.classList.add('fouc-image');
+        const offsetWidth = this.el.offsetWidth;
+        let attributes = Array.prototype.slice.call(this.el.attributes).concat();
+        // Transfer all attributes on the div to the new image.
+        attributes.forEach((attr) => {
+            if(attr.name.startsWith('lazy-image')) {
+                return;
+            }
+            this.foucImage.setAttribute(attr.name, attr.value);
+        })
+        this.foucImage.style.width = !!offsetWidth ? offsetWidth + 'px' : '100%';
+        this.el.append(this.foucImage);
+    }
+
+
     dispose() {
         this.ev.dispose();
         this.watcher.dispose();
@@ -249,10 +289,13 @@ export class LazyImage implements INgDisposable {
  *
  * Name your directive as lazyImage.
  *
+ * ```
  *     ngApp.directive('lazyImage', lazyImageDirective);
+ * ```
  *
  *
  * Now use it.
+ *
  * This will load the image:
  * ```
  * <div lazy-image="{{url}}"></div>
@@ -269,6 +312,7 @@ export class LazyImage implements INgDisposable {
  * <div lazy-image="{{url}}" lazy-image-as-background="true"></div>
  *
  * After render will turn into:
+ *
  * ```
  * <div style="backgroundImage: url({{url}})"></div>
  * ```
@@ -276,6 +320,7 @@ export class LazyImage implements INgDisposable {
  * ## Conditional loading based on element visibility
  * This will load only when on mobile.  The directive runs a test to see if the
  * directive element has display: none as a style.  If so, it will not run.
+ *
  * ```
  * .only-mobile
  *   +md
@@ -289,18 +334,42 @@ export class LazyImage implements INgDisposable {
  * The directive lazy loads images.   By default, it will load 100vh below
  * the current fold.  You can adjust this value, by passing the lazyImageForwardLoadScalar.
  *
+ * ```
  * <div lazy-image="{{url}}" lazy-image-forward-load-scalar="2"></div>
  *
  * // Zero means no foward load
  * <div lazy-image="{{url}}" lazy-image-forward-load-scalar="0"></div>
+ * ```
  *
  *
  * ## Google Images support.
  * You can enable google images support.  The options are:
+ * ```
  * lazy-image-google-image-try-webp="true"
  *    Lazy-image will append a -rw flag to the url if webp is supported.
  * lazy-image-google-image-autosize="true"
  *    Lazy-image will append a -wXXX (width) param based on the size of the current element
+ * ```
+ *
+ *
+ * ## FOUC guarding
+ * Since image sizes are unknown until they are actually fetched, FOUC is an
+ * issue with lazy loading images.
+ *
+ * This directive adds support to guard against by optionally adding a
+ * base-64 svg image prior to actuallyl loading your image (only available).
+ *
+ * To use this, you'll want to set the following:
+ *
+ * ```
+ * lazy-image-fouc-width="true"
+ * lazy-image-fouc-height="true"
+ * ```
+ *
+ * To debug fouc-image.  This will stop from the fouc-image to be replaced.
+ * ```
+ * lazy-image-fouc-debug="true"
+ * ```
  *
  */
 export const lazyImageDirective = function () {
