@@ -1,3 +1,4 @@
+import { objectf } from '../objectf/objectf';
 
 /**
  * Utility classes for url manipulation.
@@ -19,7 +20,7 @@ export class urlParams {
      * // http://mydomain.com?sup=false --> false
      * ```
      */
-    static isTrue(paramName:string):boolean {
+    static isTrue(paramName: string): boolean {
         let param = window.location.search.split(paramName + '=')[1];
         param = param && param.split('&')[0];
         return param == 'true';
@@ -38,7 +39,7 @@ export class urlParams {
      * // http://mydomain.com?sup --> null
      * ```
      */
-    static getValue(paramName:string):string {
+    static getValue(paramName: string): string {
         let param = window.location.search.split(paramName + '=')[1];
         param = param && param.split('&')[0];
         return param || null;
@@ -58,20 +59,51 @@ export class urlParams {
      * ```
      * @param callback
      */
-    static asObject(url:string):Object  {
+    static asObject(url: string): Object {
         const query = url.substr(1);
         let result = {};
-        query.split("&").forEach((section:any)=> {
-          let item = section.split("=");
+        query.split("&").forEach((section: any) => {
+            let item = section.split("=");
 
-          if(item[0] == "") {
-              return;
-          }
+            if (item[0] == "") {
+                return;
+            }
 
-          result[item[0]] = decodeURIComponent(item[1]);
+            result[item[0]] = decodeURIComponent(item[1]);
         });
 
         return result;
+    }
+
+
+
+    /**
+     * Appends the current url params to the href values of a list
+     * of anchor elements.
+     *
+     *
+     * ```
+     *   urlParams.appendUrlParamsToLinks(
+     *     Array.from(document.querySelectorAll('a'))
+     *   )
+     * ```
+     * @param elements
+     */
+    static appendUrlParamsToLinks(elements: Array<HTMLAnchorElement>) {
+        if ('URLSearchParams' in window) {
+            const params = urlParams.asObject(window.location.search);
+            elements.forEach((el:HTMLAnchorElement) => {
+                let url = new URL(el.href);
+                objectf.forEach(params, (key: string, value: string) => {
+                    let params = new URLSearchParams(url.search.slice(1));
+                    // Only append if it doesn't exist.
+                    if (!url.searchParams.has(key)) {
+                        url.searchParams.append(key, value);
+                    }
+                })
+                el.href = url.toString();
+            })
+        }
     }
 
 }
