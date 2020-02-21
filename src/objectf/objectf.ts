@@ -9,7 +9,7 @@ export class objectf {
      * Deep copies an object by looping through it.
      * @alias arrayf.deepcopy.
      */
-    static deepCopy(input: Array<any> | Object):Array<any>|Object {
+    static deepCopy(input: Array<any> | Object): Array<any> | Object {
         return arrayf.deepCopy(input);
     }
 
@@ -20,7 +20,7 @@ export class objectf {
      * has limited usage.
      * @param object
      */
-    static jsonCopy(obj: Object|Array<any>): Object|Array<any> {
+    static jsonCopy(obj: Object | Array<any>): Object | Array<any> {
         return JSON.parse(JSON.stringify(obj));
     }
 
@@ -55,6 +55,22 @@ export class objectf {
      */
     static copy(obj: Object): Object {
         return Object.assign({}, obj);
+    }
+
+
+    /**
+     *
+     * ```
+     * objectf.forEach(myObject, (key:string, value:any)=> {
+     *
+     * })
+     * ```
+     * @param callback
+     */
+    static forEach(obj: Object, callback: Function) {
+        Object.entries(obj).forEach(([key, value]) => {
+            callback(key, value);
+        })
     }
 
 }

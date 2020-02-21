@@ -44,4 +44,34 @@ export class urlParams {
         return param || null;
     }
 
+
+    /**
+     * Allows you to loop through each url param.
+     *
+     * ```
+     * Given: mydomain.com?name=scott&location=mars
+     *
+     * const params = urlParams.asObject(window.location.search);
+     *
+     * console.log(params); // { name: "scott", location: "mars"}
+     *
+     * ```
+     * @param callback
+     */
+    static asObject(url:string):Object  {
+        const query = url.substr(1);
+        let result = {};
+        query.split("&").forEach((section:any)=> {
+          let item = section.split("=");
+
+          if(item[0] == "") {
+              return;
+          }
+
+          result[item[0]] = decodeURIComponent(item[1]);
+        });
+
+        return result;
+    }
+
 }
