@@ -93,6 +93,12 @@ export class urlParams {
         if ('URLSearchParams' in window) {
             const params = urlParams.asObject(window.location.search);
             elements.forEach((el:HTMLAnchorElement) => {
+
+                // Don't process for links with href.
+                if(!el.href) {
+                    return;
+                }
+
                 let url = new URL(el.href);
                 objectf.forEach(params, (key: string, value: string) => {
                     let params = new URLSearchParams(url.search.slice(1));

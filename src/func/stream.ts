@@ -108,10 +108,10 @@ import { is } from '../is/is';
  * @unstable
  */
 export class Stream {
-    private observedKeys: Array<string>;
-    private watchSubscribers: Object;
-    private changeSubscribers: Array<Function>;
-    private changedKeysDuringFreeze: Set<string>;
+    protected observedKeys: Array<string>;
+    protected watchSubscribers: Object;
+    protected changeSubscribers: Array<Function>;
+    protected changedKeysDuringFreeze: Set<string>;
     public isFrozen: boolean;
 
     constructor() {
