@@ -47,6 +47,46 @@ export class urlParams {
 
 
     /**
+     * Updates the current URL params with the provided value.
+     * Uses history.replaceState.
+     *
+     * ```
+     * // http://mydomain.com/mypage/
+     * urlParams.setValue('name', 'Scott');
+     * // http://mydomain.com/mypage/?name=Scott
+     * ```
+     */
+    static setValue(paramName:string, value:string) {
+        var url = new URL(window.location.href);
+        console.log(window.location.href);
+        url.searchParams.set(paramName, value);
+        if(window.history.replaceState) {
+          window.history.replaceState({}, null, url.toString());
+        }
+    }
+
+
+
+    /**
+     * Updates the current URL params and removes a parameter.
+     * Uses history.replaceState.
+     *
+     * ```
+     * // http://mydomain.com/mypage/?name=Scott
+     * urlParams.removeParam('name');
+     * // http://mydomain.com/mypage/
+     * ```
+     */
+    static removeParam(paramName:string) {
+        var url = new URL(window.location.href);
+        url.searchParams.delete(paramName);
+        if(window.history.replaceState) {
+          window.history.replaceState({}, null, url.toString());
+        }
+    }
+
+
+    /**
      * Allows you to loop through each url param.
      *
      * ```
