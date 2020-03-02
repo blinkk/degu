@@ -126,10 +126,18 @@ export class urlParams {
      *   urlParams.appendUrlParamsToLinks(
      *     Array.from(document.querySelectorAll('a'))
      *   )
+     *
+     *  // Prevent specific url params from gettings carried over to links.
+     *   urlParams.appendUrlParamsToLinks(
+     *     Array.from(document.querySelectorAll('a')),
+     *     [ 'modal', 'email']
+     *   )
      * ```
      * @param elements
      */
-    static appendUrlParamsToLinks(elements: Array<HTMLAnchorElement>) {
+    static appendUrlParamsToLinks(
+        elements: Array<HTMLAnchorElement>,
+        blackListKeys: Array<string> = []) {
         if ('URLSearchParams' in window) {
             const params = urlParams.asObject(window.location.search);
             elements.forEach((el:HTMLAnchorElement) => {
@@ -144,7 +152,9 @@ export class urlParams {
                     let params = new URLSearchParams(url.search.slice(1));
                     // Only append if it doesn't exist.
                     if (!url.searchParams.has(key)) {
-                        url.searchParams.append(key, value);
+                        if(!~blackListKeys.indexOf(key)) {
+                          url.searchParams.append(key, value);
+                        }
                     }
                 })
                 el.href = url.toString();
