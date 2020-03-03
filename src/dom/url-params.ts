@@ -56,12 +56,12 @@ export class urlParams {
      * // http://mydomain.com/mypage/?name=Scott
      * ```
      */
-    static setValue(paramName:string, value:string) {
+    static setValue(paramName: string, value: string) {
         var url = new URL(window.location.href);
         console.log(window.location.href);
         url.searchParams.set(paramName, value);
-        if(window.history.replaceState) {
-          window.history.replaceState({}, null, url.toString());
+        if (window.history.replaceState) {
+            window.history.replaceState({}, null, url.toString());
         }
     }
 
@@ -77,11 +77,11 @@ export class urlParams {
      * // http://mydomain.com/mypage/
      * ```
      */
-    static removeParam(paramName:string) {
+    static removeParam(paramName: string) {
         var url = new URL(window.location.href);
         url.searchParams.delete(paramName);
-        if(window.history.replaceState) {
-          window.history.replaceState({}, null, url.toString());
+        if (window.history.replaceState) {
+            window.history.replaceState({}, null, url.toString());
         }
     }
 
@@ -127,33 +127,51 @@ export class urlParams {
      *     Array.from(document.querySelectorAll('a'))
      *   )
      *
-     *  // Prevent specific url params from gettings carried over to links.
+     *  // Blacklist / Prevent specific url params from gettings carried over to links.
      *   urlParams.appendUrlParamsToLinks(
      *     Array.from(document.querySelectorAll('a')),
      *     [ 'modal', 'email']
+     *   )
+     *
+     *  // Whitelist specific url params.
+     *   urlParams.appendUrlParamsToLinks(
+     *     Array.from(document.querySelectorAll('a')),
+     *     null,
+     *     ['gtm']
      *   )
      * ```
      * @param elements
      */
     static appendUrlParamsToLinks(
         elements: Array<HTMLAnchorElement>,
-        blackListKeys: Array<string> = []) {
+        blackListKeys: Array<string> = [],
+        whiteListKeys: Array<string> = [],
+    ) {
         if ('URLSearchParams' in window) {
             const params = urlParams.asObject(window.location.search);
-            elements.forEach((el:HTMLAnchorElement) => {
+            elements.forEach((el: HTMLAnchorElement) => {
 
                 // Don't process for links with href.
-                if(!el.href) {
+                if (!el.href) {
                     return;
                 }
 
                 let url = new URL(el.href);
                 objectf.forEach(params, (key: string, value: string) => {
                     let params = new URLSearchParams(url.search.slice(1));
-                    // Only append if it doesn't exist.
                     if (!url.searchParams.has(key)) {
-                        if(!~blackListKeys.indexOf(key)) {
-                          url.searchParams.append(key, value);
+                        if (whiteListKeys && whiteListKeys.length >= 1) {
+                            if (~whiteListKeys.indexOf(key)) {
+                                url.searchParams.append(key, value);
+                            }
+                        } else {
+                            if (blackListKeys && blackListKeys.length >= 1) {
+                                if (!~blackListKeys.indexOf(key)) {
+                                    url.searchParams.append(key, value);
+                                }
+                            } else {
+                                url.searchParams.append(key, value);
+                            }
                         }
                     }
                 })
