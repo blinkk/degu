@@ -52,11 +52,11 @@ export class urlParams {
      *
      * ```
      * // http://mydomain.com/mypage/
-     * urlParams.setValue('name', 'Scott');
+     * urlParams.addParamNow('name', 'Scott');
      * // http://mydomain.com/mypage/?name=Scott
      * ```
      */
-    static setValue(paramName: string, value: string) {
+    static addParamNow(paramName: string, value: string) {
         var url = new URL(window.location.href);
         console.log(window.location.href);
         url.searchParams.set(paramName, value);
@@ -77,7 +77,7 @@ export class urlParams {
      * // http://mydomain.com/mypage/
      * ```
      */
-    static removeParam(paramName: string) {
+    static removeParamNow(paramName: string) {
         var url = new URL(window.location.href);
         url.searchParams.delete(paramName);
         if (window.history.replaceState) {
