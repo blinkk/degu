@@ -9,7 +9,7 @@ import { mathf } from './mathf';
  * @static
  */
 export class latlong {
-    public static pythagorasEquiRectangular(lat1: number, lon1: number, lat2: number, lon2: number) {
+    public static getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
         lat1 = mathf.degreeToRadian(lat1);
         lat2 = mathf.degreeToRadian(lat2);
         lon1 = mathf.degreeToRadian(lon1);
@@ -33,7 +33,7 @@ export class latlong {
      *   [lat, long],
      * ];
      *
-     * var result = logLong.nearestLatLong(myLat, myLong, location);
+     * var result = logLong.nearestLatLong(myLat, myLong, locations);
      *
      * console.log(result.closetIndex);
      * console.log(result.closestLocation);
@@ -48,7 +48,7 @@ export class latlong {
         var closest;
 
         for (var i = 0; i < locations.length; ++i) {
-            var diff = latlong.pythagorasEquiRectangular(latitude, longitude, locations[i][0], locations[i][1]);
+            var diff = latlong.getDistance(latitude, longitude, locations[i][0], locations[i][1]);
             if (diff < thres) {
                 closest = i;
                 thres = diff;
@@ -59,5 +59,50 @@ export class latlong {
             closestLocation: locations[closest],
             closestIndex: closest
         }
+    }
+
+
+
+    /**
+     * Given your current location and  a list of lat/longs, finds the distance of each.
+     *
+     * ```ts
+     *
+     * var locations = [
+     *   [lat, long],
+     *   [lat, long],
+     *   [lat, long],
+     *   [lat, long],
+     * ];
+     *
+     * var result = logLong.getDistanceToLatLongs(myLat, myLong, locations);
+     *
+     * console.log(result);
+     *
+     * //  [
+     *         {
+     *             'lat' : xxx,
+     *             'long': xxx,
+     *             'distanceKm': x (number)
+     *             'distanceMiles': x (number)
+     *         }
+     *         ...
+     *     ]
+     * ```
+     */
+    public static getDistanceToLatLongs(lat:number, long: number, locations:Array<Array<number>>):Array<Object> {
+        let result:Array<Object> = [];
+        for (var i = 0; i < locations.length; ++i) {
+            var diff = latlong.getDistance(lat, long, locations[i][0], locations[i][1]);
+            const latLongInfo = {
+                lat: locations[i][0],
+                long: locations[i][1],
+                distanceKm: diff,
+                distanceMiles: diff * 0.621371
+            }
+            result.push(latLongInfo);
+        }
+
+        return result;
     }
 }
