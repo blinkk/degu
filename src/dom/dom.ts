@@ -130,9 +130,15 @@ export class dom {
 
 
     /**
-     * Sets a css variable to an element
+     * Sets a css variable to an element.
+     *
+     * ```ts
+     *   dom.setCssVariable(
+     *       myElement, '--chapter-height', '100px');
+     * ```
+     *
      * @param element The element to set the css variable.
-     * @param name The name of the css variable.
+     * @param name The name of the css variable.  Should start with --.  Exampe: --height
      * @param value The value to set.
      */
     static setCssVariable(element: HTMLElement, name: string, value: string) {
