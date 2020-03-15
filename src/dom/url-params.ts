@@ -180,4 +180,33 @@ export class urlParams {
         }
     }
 
+
+
+    /**
+     * Adds a hisotry push state with hash.  Use with removeUrlHistoryHash.
+     *
+     * ```
+     * // Update the URL hash with #test.
+     * open() {
+     *      urlParams.addHistoryHash('modal', 'test');
+     *      window.addEventListener('popstate', this.close.bind(this), { once: true});
+     * }
+     *
+     * // Removes the hash and pop state.
+     * close() {
+     *      urlParams.removeHistoryHash('modal');
+     * }
+     *
+     * ```
+     */
+    static addHistoryHash(name: string, value: string) {
+        window.history.pushState({ name: value }, '', '#' + value);
+    }
+
+    /**
+     * Removes a previously set popstate url hash.
+     */
+    static removeHistoryHash(name: string) {
+        window.history.pushState({name: null}, '', window.location.pathname);
+    }
 }
