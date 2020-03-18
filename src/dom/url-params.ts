@@ -209,4 +209,25 @@ export class urlParams {
     static removeHistoryHash(name: string) {
         window.history.pushState({name: null}, '', window.location.pathname);
     }
+
+
+    /**
+     * Extracts the hostname from a given url.
+     * @param url
+     */
+    static getHostName(url:string) {
+       var hostname = (new URL(url)).hostname;
+       return hostname;
+    }
+
+
+    /**
+     * Checks whether if the last page the user was on, was on this current site.
+     */
+    static lastPageWasSameHost() {
+        return (document.referrer &&
+             urlParams.getHostName(document.referrer) ==
+             urlParams.getHostName(window.location.href));
+    }
+
 }
