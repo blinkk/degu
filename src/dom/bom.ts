@@ -57,4 +57,38 @@ export class bom {
             window.removeEventListener('resize', handler);
         }
     }
+
+
+
+    /**
+     * Checks the current browser and appends a css class name to the element.
+     *
+     * ```
+     * // Now this element would receive a class name of the current browser such
+     * // as 'safari', 'ios'
+     * bom.appendBrowserNameToElement(element);
+     * ```
+     * @param element
+     */
+    static appendBrowserNameToElement(element: HTMLElement) {
+        const checks = {
+            'ieOrEdge': is.ieOrEdge,
+            'edge': is.edge,
+            'ie': is.ie,
+            'mobile': is.mobile,
+            'safari': is.safari,
+            'chrome': is.chrome,
+            'chromeOs': is.chrome,
+            'firefox': is.firefox,
+            'ios': is.ios,
+            'ipad': is.ipad,
+        }
+
+
+        for (const key in checks) {
+            if(checks[key]()) {
+                element.classList.add(key);
+            }
+        }
+    }
 }
