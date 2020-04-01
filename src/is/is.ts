@@ -182,7 +182,7 @@ export class is {
     }
 
     static safari(): boolean {
-        return !is.chrome() && navigator.userAgent.indexOf('Safari') != -1;
+        return !is.chrome() && navigator.userAgent.indexOf('Safari') != -1 && !is.edge();
     }
 
     static ipad(): boolean {
