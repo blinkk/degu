@@ -483,10 +483,9 @@ export class dom {
      *
      * ```
      * const imageSource = '/public/image/cat.jpg';
-     * const loader = new ImageLoader([imagesource]);
      *
      * // Cache the image in browser memory.
-     *    dom.fetchAndMakeImage(imageSource).then(()=> {
+     *    dom.fetchAndMakeImage(imageSource).then((image)=> {
      *
      *       // Do something with image.
      *       myCanvas.drawImage(image);
@@ -574,7 +573,8 @@ export class dom {
 
 
     /**
-     * Deletes an image from memory.
+     * Deletes an image from memory.  Inverse action of
+     * dom.makeBase64ImageFromBlob or dom.makeImageFromBlob.
      */
     static deleteImage(image: HTMLImageElement) {
         if (image) {
