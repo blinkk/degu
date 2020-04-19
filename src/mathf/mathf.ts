@@ -1270,4 +1270,37 @@ export class mathf {
     return scale;
   }
 
+
+
+  /**
+   * Implements asympotic average which is an additive average.
+   * Basically says, given the current value, catch up to the target by X% every
+   * frame.
+   *
+   * This is similar to lerp but respects the last given amount the most which
+   * results in a smooth response to sudden jumps in the difference between
+   * current and target.
+   *
+   * This can be used for things like camera movement or scroll movement where
+   * sudden jerks in movement can happen.
+   *
+   * ```
+   * onRaf() {
+   *    // Update target value.
+   *    targetValue = this.value + (this.mouseInputX * 30);
+   *    // Update the current value to the target value by 30%.
+   *    this.value = mathf.asymptoticAverage(this.value, targetValue, 0.3);
+   * }
+   * ```
+   *
+   * @param current
+   * @param target
+   * @param amount
+   */
+  static asymptoticAverage(current:number, target:number, amount:number):number {
+    return current += (target - current) * amount;
+  }
+
+
+
 }
