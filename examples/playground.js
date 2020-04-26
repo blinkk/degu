@@ -18,10 +18,31 @@ export default class Playgroundsmaple {
     // this.testFuncMemoizeSimple();
     // this.testFuncMemoize();
     // this.testFuncRunOnceOnChange();
-    this.testDomRunAfterNotTopOfScreen();
+    // this.testDomRunAfterNotTopOfScreen();
+    this.testDomForceFocus();
 
     // DOM Stuff
     // this.testWebWorker();
+  }
+
+
+  testDomForceFocus() {
+    dom.forceFocus(document.getElementById('hello'));
+    window.setTimeout(()=> {
+      dom.forceFocus(document.getElementById('hello2'));
+      window.setTimeout(()=> {
+        dom.forceFocus(document.getElementById('hello3'));
+        window.setTimeout(()=> {
+          dom.forceFocus(document.getElementById('hello4'));
+            window.setTimeout(()=> {
+              dom.forceFocus(document.getElementById('hello5'));
+              window.setTimeout(()=> {
+                this.testDomForceFocus();
+              }, 2000);
+            }, 2000);
+        }, 2000);
+      }, 2000);
+    }, 2000);
   }
 
 

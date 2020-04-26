@@ -708,4 +708,63 @@ export class dom {
     static getScrollTop(el:HTMLElement):number {
         return el.getBoundingClientRect().top + window.scrollY;
     }
+
+
+
+    /**
+     * An attempt at override VO focus.
+     * Requires the element to have a tabindex="-1" and then focusing.
+     * To fully reinstante the original state prior to running force focus,
+     * run resetForceFocus().
+     *
+     *
+     * ---
+     *
+     * dom.forceFocus(myElement);
+     *
+     * window.setTimeout(()=> {
+     *
+     *   dom.forceFocus(myElement2);
+     *
+     * }, 2000)
+     *
+     *
+     *
+     * //  Some given time later, undo everything if needed.
+     * dom.resetForceFocus();
+     * ---
+     */
+    static forceFocus(el:HTMLElement) {
+        // Check if we previously forced focused element in which case,
+        // revert that to it's previously state.
+        dom.resetForceFocus();
+
+        const currentIndex = el.getAttribute('tabindex');
+        if(is.defined(currentIndex) && !is.null(currentIndex)) {
+            el.setAttribute('forcetabindex', currentIndex);
+        } else {
+            el.setAttribute('forcetabindex', 'none');
+        }
+
+        el.setAttribute('tabindex', '-1');
+        el.focus();
+    }
+
+
+    /**
+     * Undos the effects of forceFocus which overrides the tabindex of focused
+     * elements.
+     */
+    static resetForceFocus() {
+        const previouslyFocusedElement = Array.from(document.querySelectorAll('[forcetabindex]'));
+        previouslyFocusedElement.forEach((element)=> {
+            const tabIndex = element.getAttribute('forcetabindex');
+            if(is.defined(tabIndex) && !is.null(tabIndex) && tabIndex !== 'none') {
+                element.setAttribute('tabindex', tabIndex);
+            } else {
+                element.removeAttribute('tabindex');
+            }
+            element.removeAttribute('forcetabindex');
+        });
+    }
 }
