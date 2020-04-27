@@ -767,4 +767,20 @@ export class dom {
             element.removeAttribute('forcetabindex');
         });
     }
+
+
+    /**
+     * Gets the current styles on a given element.
+     *
+     * ```
+     * var style = dom.getStyle(el);
+     *
+     * style.marginTop;
+     * style.paddingLeft;
+     *
+     * ```
+     */
+    static getStyle(el:Element):CSSStyleDeclaration {
+        return el['currentStyle'] || window.getComputedStyle(el);
+    }
 }

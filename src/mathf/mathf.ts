@@ -1302,5 +1302,51 @@ export class mathf {
   }
 
 
+  /**
+   * Implements basic smooth start.  See EASE for more.
+   */
+  static smoothStart2(t: number): number {
+    return t * t;
+  }
+
+
+  /**
+   * Implements basic smooth stop.  See EASE for more.
+   */
+  public static smoothStop2(t: number): number {
+    return 1 - ((1 - t) * (1 - t));
+  }
+
+
+  /**
+   * Implements basic smooth start.  See EASE for more.
+   */
+  static smoothStart3(t: number): number {
+    return t * t * t;
+  }
+
+
+  /**
+   * Implements basic smooth stop.  See EASE for more.
+   */
+  public static smoothStop3(t: number): number {
+    return 1 - ((1 - t) * (1 - t) * (1 - t));
+  }
+
+
+  /**
+   * Basic smooth step2 allowing you to specify the gradient between
+   * smoothstart and smoothstop with mix value.
+   * @param value
+   * @param mix
+   * @param t
+   */
+  public static smoothStep2(value:number, mix:number, t:number):number {
+    return mathf.lerp(
+      mathf.smoothStart2(value),
+      mathf.smoothStop2(value),
+      mix) * t;
+  }
+
 
 }

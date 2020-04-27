@@ -375,4 +375,20 @@ export class is {
     static isGoogleCloudLikeUrl(url:string):boolean {
         return url.includes('googleusercontent.com');
     }
+
+
+    /**
+     * Whether the current viewport is landscape or not.   Includes 1x1 aspect.
+     */
+    static isLandscape():boolean {
+        return window.innerWidth >= window.innerHeight;
+    }
+
+
+    /**
+     * Whether the current viewport is portrait or not.   Excludes 1x1 aspect.
+     */
+    static isPortrait():boolean {
+        return window.innerWidth < window.innerHeight;
+    }
 }
