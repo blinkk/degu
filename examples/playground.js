@@ -19,7 +19,7 @@ export default class Playgroundsmaple {
     // this.testFuncMemoize();
     // this.testFuncRunOnceOnChange();
     // this.testDomRunAfterNotTopOfScreen();
-    this.testDomForceFocus();
+    // this.testDomForceFocus();
 
     // DOM Stuff
     // this.testWebWorker();
