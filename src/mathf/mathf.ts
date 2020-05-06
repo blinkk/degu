@@ -865,7 +865,7 @@ export class mathf {
    * @param value  Value beteen start and end.
    * @return {number} A normalized value between 0-1
    */
-  static inverseLerp(a:number, b:number, value:number):number {
+  static inverseLerp(a: number, b: number, value: number): number {
     return mathf.clamp01((value - a) / (b - a));
   }
 
@@ -884,8 +884,8 @@ export class mathf {
    * @param blend
    * @untested
    */
-  static mix(a:number, b:number, blend:number) {
-   return a * (1 - blend) + b * blend;
+  static mix(a: number, b: number, blend: number) {
+    return a * (1 - blend) + b * blend;
   }
 
 
@@ -900,8 +900,8 @@ export class mathf {
    * mathf.step(1, 1.1) ---> 1
    * ```
    */
-  static step(edge:number, n:number) {
-    if(n > edge) {
+  static step(edge: number, n: number) {
+    if (n > edge) {
       return 1.0;
     } else {
       return 0.0;
@@ -1297,7 +1297,7 @@ export class mathf {
    * @param target
    * @param amount
    */
-  static asymptoticAverage(current:number, target:number, amount:number):number {
+  static asymptoticAverage(current: number, target: number, amount: number): number {
     return current += (target - current) * amount;
   }
 
@@ -1341,12 +1341,27 @@ export class mathf {
    * @param mix
    * @param t
    */
-  public static smoothStep2(value:number, mix:number, t:number):number {
+  public static smoothStep2(value: number, mix: number, t: number): number {
     return mathf.lerp(
       mathf.smoothStart2(value),
       mathf.smoothStop2(value),
       mix) * t;
   }
 
+
+  /**
+   Creates a basic remap.
+
+   Let's say you want to make a color bar go from 20, 50
+   when your health goes from 0, 100.
+
+  ```
+   mathf.remap(20, 50, 0, 100, health);  --> output a value between 20-50 based on health.
+   ```
+   */
+  public static remap(minA: number, maxA: number, minB: number, maxB: number, valueB: number): number {
+    const t = mathf.inverseLerp(minB, maxB, valueB);
+    return mathf.lerp(minA, maxA, t);
+  }
 
 }
