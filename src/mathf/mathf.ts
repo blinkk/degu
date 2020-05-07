@@ -1340,6 +1340,10 @@ export class mathf {
    * @param value
    * @param mix
    * @param t
+   *
+   * ```
+   *   value = mathf.smoothStep2(value, 0.5, t);
+   * ```
    */
   public static smoothStep2(value: number, mix: number, t: number): number {
     return mathf.lerp(
@@ -1347,6 +1351,21 @@ export class mathf {
       mathf.smoothStop2(value),
       mix) * t;
   }
+
+
+  /**
+   * Basic sigmoid function with option to move the mix value.
+   * Mix value of 0 mixes to smoothstart. 1 mixes to smoothstop.
+   * A clean sigmoidish curve woud be 0.5.
+   *
+   * Based on smoothStep2 curves.
+   * @param value
+   * @param mix
+   */
+  public static sigmoid(value: number, mix: number) {
+    return this.smoothStep2(value, mix, value);
+  }
+
 
 
   /**
