@@ -160,7 +160,7 @@ export class dom {
      * @param element
      * @param style
      */
-    static setCssVariables(element:HTMLElement, variables:Object) {
+    static setCssVariables(element: HTMLElement, variables: Object) {
         let style = '';
         for (var key in variables) {
             style += key + ':' + variables[key] + ';';
@@ -646,15 +646,15 @@ export class dom {
      * @param sourceAttribute An optional attribute value to acquire the
      *   video source from.
      */
-    static flushVideos(el: HTMLElement, sourceAttribute:string = '') {
+    static flushVideos(el: HTMLElement, sourceAttribute: string = '') {
         let videos = [...el.querySelectorAll('video')];
         videos.forEach((video) => {
             let sources = [...video.querySelectorAll('source')];
             sources.forEach((source) => {
-              const src = source.getAttribute(sourceAttribute) || source.src;
-              source.setAttribute('data-video-src', src);
-              source.removeAttribute('src');
-              source = null;
+                const src = source.getAttribute(sourceAttribute) || source.src;
+                source.setAttribute('data-video-src', src);
+                source.removeAttribute('src');
+                source = null;
             });
 
             sources = null;
@@ -676,11 +676,11 @@ export class dom {
         videos.forEach((video) => {
             let sources = [...video.querySelectorAll('source')];
             sources.forEach((source) => {
-              if(!source.hasAttribute('data-video-src')) {
-                  return;
-              }
-              const src = source.getAttribute('data-video-src');
-              source.setAttribute('src', src);
+                if (!source.hasAttribute('data-video-src')) {
+                    return;
+                }
+                const src = source.getAttribute('data-video-src');
+                source.setAttribute('src', src);
             });
 
             sources = null;
@@ -690,8 +690,8 @@ export class dom {
 
         videos = null;
 
-        if(!noPlay) {
-          dom.playAllVideosInElement(el);
+        if (!noPlay) {
+            dom.playAllVideosInElement(el);
         }
     }
 
@@ -705,7 +705,7 @@ export class dom {
      * ```
      *
      */
-    static getScrollTop(el:HTMLElement):number {
+    static getScrollTop(el: HTMLElement): number {
         return el.getBoundingClientRect().top + window.scrollY;
     }
 
@@ -734,13 +734,13 @@ export class dom {
      * dom.resetForceFocus();
      * ---
      */
-    static forceFocus(el:HTMLElement) {
+    static forceFocus(el: HTMLElement) {
         // Check if we previously forced focused element in which case,
         // revert that to it's previously state.
         dom.resetForceFocus();
 
         const currentIndex = el.getAttribute('tabindex');
-        if(is.defined(currentIndex) && !is.null(currentIndex)) {
+        if (is.defined(currentIndex) && !is.null(currentIndex)) {
             el.setAttribute('forcetabindex', currentIndex);
         } else {
             el.setAttribute('forcetabindex', 'none');
@@ -757,9 +757,9 @@ export class dom {
      */
     static resetForceFocus() {
         const previouslyFocusedElement = Array.from(document.querySelectorAll('[forcetabindex]'));
-        previouslyFocusedElement.forEach((element)=> {
+        previouslyFocusedElement.forEach((element) => {
             const tabIndex = element.getAttribute('forcetabindex');
-            if(is.defined(tabIndex) && !is.null(tabIndex) && tabIndex !== 'none') {
+            if (is.defined(tabIndex) && !is.null(tabIndex) && tabIndex !== 'none') {
                 element.setAttribute('tabindex', tabIndex);
             } else {
                 element.removeAttribute('tabindex');
@@ -767,6 +767,32 @@ export class dom {
             element.removeAttribute('forcetabindex');
         });
     }
+
+
+
+    /**
+     * Apart from .forceFocus, another alternative workaround for
+     * implementing forces VO focus.
+     * Thank you to: https://silvantroxler.ch/2016/setting-voiceover-focus-with-javascript/
+     * @param el
+     */
+    static forceVOFocus(element: HTMLElement, interval: number = 10, repetition:number = 10) {
+        var focusInterval = interval; // ms, time between function calls
+        var focusTotalRepetitions = repetition; // number of repetitions
+
+        element.setAttribute('tabindex', '0');
+        element.blur();
+
+        var focusRepetitions = 0;
+        var interval = window.setInterval(function () {
+            element.focus();
+            focusRepetitions++;
+            if (focusRepetitions >= focusTotalRepetitions) {
+                window.clearInterval(interval);
+            }
+        }, focusInterval);
+    }
+
 
 
     /**
@@ -780,7 +806,7 @@ export class dom {
      *
      * ```
      */
-    static getStyle(el:Element):CSSStyleDeclaration {
+    static getStyle(el: Element): CSSStyleDeclaration {
         return el['currentStyle'] || window.getComputedStyle(el);
     }
 }
