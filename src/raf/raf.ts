@@ -10,6 +10,8 @@ import { time } from '../time/time';
  * ```ts
  * var raf = new Raf((frame, lastUpdateTime, stop)=> {
  *   console.log('this runs on request animation frame');
+ *   // The current FPS.
+ *   console.log(raf.getCurrentFps());
  * });
  * raf.start();
  *
@@ -89,6 +91,7 @@ export class Raf {
     private lastUpdateTime: number;
     private delta: number;
     private fps: number;
+    private currentFps: number;
     private isPlaying: boolean;
     private callbacks: Array<Function>;
     private runCondition: Function | null;
@@ -128,6 +131,12 @@ export class Raf {
          * @type {number}
          */
         this.fps = 0;
+
+        /**
+         * The current frame rate.
+         * @type {number}
+         */
+        this.currentFps = 0;
 
         /**
          * Whether raf is looping.
@@ -267,6 +276,14 @@ export class Raf {
 
 
     /**
+     * Gets the current frame rate that raf is running at.  Useful for debugging.
+     */
+    getCurrentFps() {
+        return this.currentFps;
+    }
+
+
+    /**
      * The internal animation loop.
      */
     private animationLoop_() {
@@ -288,6 +305,7 @@ export class Raf {
             this.delta = elapsed;
             this.elaspedTime += elapsed / 1000;
             const fps = this.fps == 0 ? 0 : 1000 / this.fps;
+            this.currentFps = 1000 / elapsed;
             if (elapsed > fps) {
                 this.callbacks.forEach((callback) => {
                     const callCallback = () => {
