@@ -252,6 +252,38 @@ export class is {
         return canvasSupported;
     }
 
+
+    /**
+     * The is.supportWebp has some performance costs due to the use of toDataUrl.
+     * This allows you to avoid that.
+     *
+     * Note that technically it is async but it is going to resolve almost
+     * instantly.
+     *
+     * ```
+     * is.supportingWebpAsync().then((supports)=> {
+     *    if(supports) {
+     *      ...supported
+     *    }
+     * });
+     *
+     * ```
+     */
+    static supportingWebpAsync(): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            var img = new Image();
+            img.onload = function () {
+                var result = (img.width > 0) && (img.height > 0);
+                resolve(result);
+            };
+            img.onerror = ()=> {
+                resolve(false);
+            };
+            img.src = "data:image/webp;base64," + "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==";
+        });
+    }
+
+
     /**
      * Whether the browser can handle more advanced css calc.
      * @see https://css-tricks.com/making-custom-properties-css-variables-dynamic/

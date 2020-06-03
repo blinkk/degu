@@ -66,28 +66,31 @@ export class LazyImage implements INgDisposable {
         this.imageSet = false;
 
         // Cache this value since is.supportingWebp can be computationally expensive.
-        this.isWebpSupported = is.supportingWebp();
+        is.supportingWebpAsync().then((supporting)=> {
+            this.isWebpSupported = supporting;
 
-        this.watcher = new DomWatcher();
-        this.watcher.add({
-            element: window,
-            on: 'smartResize',
-            callback: this.resize.bind(this)
+            this.watcher = new DomWatcher();
+            this.watcher.add({
+                element: window,
+                on: 'smartResize',
+                callback: this.resize.bind(this)
+            });
+
+            this.ev = elementVisibility.inview(this.el, {
+                rootMargin: window.innerHeight * this.forwardLoadScalar + 'px'
+            }, () => {
+                this.paint();
+            });
+
+            this.watcher.add({
+                element: this.el,
+                on: 'force-lazy-load',
+                callback: () => {
+                    this.startLoad();
+                }
+            });
         });
 
-        this.ev = elementVisibility.inview(this.el, {
-            rootMargin: window.innerHeight * this.forwardLoadScalar + 'px'
-        }, () => {
-            this.paint();
-        });
-
-        this.watcher.add({
-            element: this.el,
-            on: 'force-lazy-load',
-            callback: () => {
-                this.startLoad();
-            }
-        });
 
         $scope.$on('$destroy', () => {
             this.dispose();
