@@ -150,6 +150,10 @@ export class LazyImage implements INgDisposable {
 
         this.ev.dispose();
         this.loadImage().then(() => {
+            dom.event(this.el, 'lazy-image-loaded', {
+                element: this.el
+            });
+
             dom.event(document.documentElement, 'lazy-image-loaded', {
                 element: this.el
             });
