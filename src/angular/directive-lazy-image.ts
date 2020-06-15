@@ -127,7 +127,7 @@ export class LazyImage implements INgDisposable {
 
         // If we have already set the google image but thereafter, resized the
         // browser, we want to resize the loaded imge.
-        if (this.autosizeGoogleImage) {
+        if (this.useGoogleImageAutosize) {
             this.url = this.autosizeGoogleImage(this.url);
 
             if (this.setAsBackgroundImage) {
@@ -187,6 +187,8 @@ export class LazyImage implements INgDisposable {
                 // Swap out the div with the new image.
                 element.parentNode &&
                     element.parentNode.replaceChild(imageLoader, element);
+
+                this.el = imageLoader;
                 resolve();
             }
 
