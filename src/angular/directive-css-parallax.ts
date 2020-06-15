@@ -14,7 +14,8 @@ export interface CssParallaxSettings {
     bottom: string,
     // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
     lerp: number,
-    clamp: boolean
+    clamp: boolean,
+    precision: number
 }
 
 export interface CssParallaxConfig {
@@ -38,7 +39,6 @@ export class CssParallaxController {
 
 
     private currentProgress: number = 0;
-
 
     /**
      * The top offset for progress
@@ -73,7 +73,7 @@ export class CssParallaxController {
                 top: '0px',
                 bottom: '0px',
                 lerp: 1,
-                damp: 0
+                precision: 3
             },
             ...this.parallaxData['settings'] || {}
         };
@@ -151,7 +151,13 @@ export class CssParallaxController {
 
     protected onRaf(): void {
         this.updateProgress();
-        this.interpolator.update(this.currentProgress);
+        // Use a rounded progress to pass to css var interpolate which
+        // will cull updates that are repetitive.
+        const roundedProgress =
+             mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
+        this.interpolator.update(
+            roundedProgress
+        );
     }
 
 
@@ -194,6 +200,7 @@ export class CssParallaxController {
  *     bottom: '0px' (string) A css number to offset the progress ends.  Accepts %, px, vh.
  *     lerp: 0.18 Optional lerp.  Defaults to 1 assuming no asymptotic averaging.
  *     clamp: false (boolean)  Defaults to true where by progress is clamped to 0 and 1.
+ *     precision: (number) Defaults to 3.  Lower precision means less dom updates but less accuracy.
  *
  *   interpolations:
  *     - id: '--x'
