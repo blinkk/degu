@@ -82,6 +82,66 @@ export class time {
 
 
     /**
+     * Create a local timezone date string.  This is mainly here to normalize
+     * browser differences.  Safari creates a new date in utc whereas
+     * other browsers create the date based on the users timezone.
+     *
+     * By using this method, you are guaranteed that the created date is adjusted
+     * to the current users computer time.
+     * ---
+     *
+     * const myDate = time.createLocalTimeZoneDate('2021-06-20T03:45:00');
+     * const myDate2 = time.createLocalTimeZoneDate('2021-06-20 03:45:00');
+     *
+     * ---
+     *
+     * The localTimeDate would be the localtime on the users computer.
+     *
+     * ---
+     * const myDate = time.createLocalTimeZoneDate('2021-06-20T03:45:00');
+     * ---
+     */
+    static createLocalTimeZoneDate(localTimeDate:string): Date {
+        if(is.safari()) {
+            const utcDate = new Date (localTimeDate);
+            var timeOffsetInMS: number = utcDate.getTimezoneOffset() * 60000;
+            // Add it since safari creates it in UTC.
+            return new Date(utcDate.getTime() + timeOffsetInMS);
+        } else {
+            return new Date(localTimeDate);
+        }
+    }
+
+
+    /**
+     * Converts a pacific time over to utc.
+     *
+     * ---
+     * const myPacificTime = '2020-12-12 03:34:00';
+     * time.pacificTimeToLocalTimeDate(myPacificTime);
+     *
+     * ---
+     *
+     */
+    static pacificTimeToLocalTimeDate(pacificTime:string): Date {
+        // First create the time locally.
+        var timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
+        // 8 Hour diff.
+        var pacificOffset: number = 420 * 60000;
+        var offset = timeOffsetInMS - pacificOffset;
+
+
+        // UTC
+        const utc =
+             new Date(new Date(pacificTime).getTime() + pacificOffset)
+
+        return time.utcDateToLocalTimeZone(utc);
+    }
+
+
+
+
+    /**
      * Use to calculate the countdown to a given time.  Note that the
      * currentTime and endTime should both be in the same local timezone.
      *
