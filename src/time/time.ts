@@ -126,7 +126,7 @@ export class time {
     static pacificTimeToLocalTimeDate(pacificTime:string): Date {
         // First create the time locally.
         var timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
-        // 8 Hour diff.
+        // 7 Hour diff.
         var pacificOffset: number = 420 * 60000;
         var offset = timeOffsetInMS - pacificOffset;
 
@@ -139,6 +139,29 @@ export class time {
     }
 
 
+    /**
+     * Converts a pacific time over to utc.
+     *
+     * ---
+     * const myEastTime = '2020-12-12 03:34:00';
+     * time.easternTimeToLocalTimeDate(myEastern);
+     *
+     * ---
+     *
+     */
+    static easternTimeToLocalTimeDate(pacificTime:string): Date {
+        // First create the time locally.
+        var timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
+        // 4 Hour diff.
+        var pacificOffset: number = 240 * 60000;
+        var offset = timeOffsetInMS - pacificOffset;
+
+        // UTC
+        const utc =
+             new Date(new Date(pacificTime).getTime() + pacificOffset)
+
+        return time.utcDateToLocalTimeZone(utc);
+    }
 
 
     /**
