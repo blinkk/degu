@@ -99,19 +99,19 @@ export class CssParallaxController {
         );
         this.interpolator.useBatchUpdate(true);
 
-
         // On load, we need to initially, bring the animation to
         // start position.
-        this.updateProgress(1);
-        this.interpolator.update(
-            this.currentProgress
-        );
+        this.updateImmediately();
+
 
 
         // Start and stop raf when the element comes into view.
         this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
             (element: any, changes: any) => {
-                changes.isIntersecting ? this.raf.start() : this.raf.stop();
+                changes.isIntersecting ? this.raf.start() : ()=> {
+                    this.raf.stop();
+                    this.updateImmediately();
+                }
             });
 
         $scope.$on('$destroy', () => {
@@ -165,6 +165,17 @@ export class CssParallaxController {
         }
 
         return this.currentProgress;
+    }
+
+
+    /**
+     * Updates the current progress immediately.
+     */
+    protected updateImmediately() {
+        this.updateProgress(1);
+        this.interpolator.update(
+            this.currentProgress
+        );
     }
 
 
