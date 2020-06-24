@@ -14,8 +14,14 @@ export interface CssParallaxSettings {
     bottom: string,
     // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
     lerp: number,
+    // Whether to force clamp the progress to 0-1 range.  Defaults to true.
     clamp: boolean,
-    precision: number
+
+    // The precision rounding on the lerp.  Used to cull / avoid layout thrashes.
+    precision: number,
+
+    // The rafEvOptions so that you can add rootMargin etc to the base raf.
+    rafEvOptions: Object
 }
 
 export interface CssParallaxConfig {
@@ -73,7 +79,8 @@ export class CssParallaxController {
                 top: '0px',
                 bottom: '0px',
                 lerp: 1,
-                precision: 3
+                precision: 3,
+                rafEvOptions: {}
             },
             ...this.parallaxData['settings'] || {}
         };
@@ -90,8 +97,17 @@ export class CssParallaxController {
         );
         this.interpolator.useBatchUpdate(true);
 
+
+        // On load, we need to initially, bring the animation to
+        // start position.
+        this.updateProgress(1);
+        this.interpolator.update(
+            this.currentProgress
+        );
+
+
         // Start and stop raf when the element comes into view.
-        this.rafEv = elementVisibility.inview(this.element, {},
+        this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
             (element: any, changes: any) => {
                 changes.isIntersecting ? this.raf.start() : this.raf.stop();
             });
@@ -125,15 +141,16 @@ export class CssParallaxController {
     }
 
 
+
     /**
      * Calculates the current progress and returns a value between 0-1.
      */
-    protected updateProgress(): number {
+    protected updateProgress(lerp:number): number {
         this.currentProgress =
             mathf.lerp(
                 this.currentProgress,
                 dom.getElementScrolledPercent(this.element, this.topOffset, this.bottomOffset, true),
-                this.settingsData.lerp
+                lerp
             );
 
         if (this.settingsData.clamp) {
@@ -150,7 +167,7 @@ export class CssParallaxController {
 
 
     protected onRaf(): void {
-        this.updateProgress();
+        this.updateProgress(this.settingsData.lerp);
         // Use a rounded progress to pass to css var interpolate which
         // will cull updates that are repetitive.
         const roundedProgress =
@@ -201,6 +218,11 @@ export class CssParallaxController {
  *     lerp: 0.18 Optional lerp.  Defaults to 1 assuming no asymptotic averaging.
  *     clamp: false (boolean)  Defaults to true where by progress is clamped to 0 and 1.
  *     precision: (number) Defaults to 3.  Lower precision means less dom updates but less accuracy.
+ *
+ *     // Allows you to pass through option to intersection observer controlling
+ *     // start and stop of raf.
+ *     rafEvOptions:
+ *         rootMargin: '0px 0px 0px 0px'
  *
  *   interpolations:
  *     - id: '--x'
