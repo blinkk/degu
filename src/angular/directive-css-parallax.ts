@@ -80,7 +80,9 @@ export class CssParallaxController {
                 bottom: '0px',
                 lerp: 1,
                 precision: 3,
-                rafEvOptions: {}
+                rafEvOptions: {
+                    rootMargin: '300px 0px 300px 0px'
+                }
             },
             ...this.parallaxData['settings'] || {}
         };
