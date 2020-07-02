@@ -476,7 +476,7 @@ export class LottieController {
  *   +md-lt
  *     display: none
  * .mymodule__lottie--mobile
- *   +md-lt
+ *   +md
  *     display: none
  *
  *   <div class="mymodule" {% if partial.lottie_scrolls %} lottie-scroll="{{partial.lottie_scrolls|jsonify}}{% endif %">
