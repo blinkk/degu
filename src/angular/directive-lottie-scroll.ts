@@ -412,12 +412,12 @@ export class LottieController {
  *           end: '20px'
  *       - id: '--opacity'
  *         progress:
- *         - fromFrame: 0
- *           toFrame: 0.5
+ *         - fromFrame: 200
+ *           toFrame: 300
  *           start: 0
  *           end: 1
- *         - fromFrame: 0.5
- *           toFrame: 1
+ *         - fromFrame: 300
+ *           toFrame: 500
  *           start: 1
  *           end: 0
  * ```
