@@ -46,8 +46,15 @@ export interface LottieObject {
     // The end frame.
     endFrame: number,
 
+    // Css var interpolations associated with this lottie scroll.
+    interpolations: Array<interpolateSettings>,
+
     // The lottie instance added once it is created.
     lottieInstance: any,
+
+    // Instance of css var interpolate associated.  This is added once
+    // lottie is created.
+    cssInterpolatorInstance: CssVarInterpolate
 }
 
 
@@ -67,9 +74,6 @@ export default class LottieController {
     // The top and bottom offsets in pixel number values.
     private progressTopOffset: number;
     private progressBottomOffset: number;
-
-    private interpolator: CssVarInterpolate;
-    private interpolationsData: Array<interpolateSettings>;
 
 
 
@@ -109,16 +113,6 @@ export default class LottieController {
             ...settings
         }
 
-        this.interpolationsData = configData.interpolations || [];
-        this.interpolator = new CssVarInterpolate(
-            this.element,
-            {
-                interpolations: this.interpolationsData,
-            }
-        );
-        this.interpolator.useBatchUpdate(true);
-
-
         if (configData.lotties) {
             configData.lotties.forEach((settings: LottieObject) => {
                 const data = {
@@ -150,6 +144,8 @@ export default class LottieController {
             this.dispose();
         });
     }
+
+
 
     /**
      * Takes a css string declaration such as '100px', '100vh' or '100%'
@@ -211,6 +207,41 @@ export default class LottieController {
                     this.lottieObjects[i].endFrame = lottieInstance.totalFrames;
                 }
 
+                // If there are interpolations associated with this lottie scroll
+                // then create it.
+                if (this.lottieObjects[i].interpolations) {
+                    // First run through the interpolations and convert the
+                    // fromFrame and endFrame to progress values.
+                    this.lottieObjects[i].interpolations.map((interpolation) => {
+                        const startFrame = this.lottieObjects[i].startFrame;
+                        const endFrame = this.lottieObjects[i].endFrame;
+                        interpolation.progress.map((progress) => {
+                            // TODO (uxder): Technically this a type violation.
+                            if (progress['fromFrame']) {
+                                progress.from = mathf.inverseLerp(startFrame, endFrame, progress['fromFrame']);
+                            }
+                            if (progress['toFrame']) {
+                                progress.to = mathf.inverseLerp(startFrame, endFrame, progress['toFrame']);
+                            }
+
+                            return progress;
+                        })
+
+
+                        return interpolation;
+                    })
+
+
+                    // Create the css var interpolation.
+                    this.lottieObjects[i].cssInterpolatorInstance = new CssVarInterpolate(
+                        this.element,
+                        {
+                            interpolations: this.lottieObjects[i].interpolations,
+                        }
+                    );
+                    this.lottieObjects[i].cssInterpolatorInstance.useBatchUpdate(true);
+                }
+
                 // Update and render immediately after it loads.
                 this.immediateUpdate();
             }, { once: true });
@@ -247,7 +278,12 @@ export default class LottieController {
         })
 
 
-        this.interpolator.update(easedProgress);
+        // Update css var interpolations.
+        this.lottieObjects.forEach((lottieInstance) => {
+            lottieInstance.cssInterpolatorInstance &&
+              lottieInstance.cssInterpolatorInstance.update(easedProgress);
+        })
+
     }
 
 
@@ -255,7 +291,10 @@ export default class LottieController {
         // Set the immediate progress at load.
         const percent = this.getPercent();
         this.rafProgress.setCurrentProgress(percent);
-        this.interpolator.update(percent);
+        this.lottieObjects.forEach((lottieInstance) => {
+            lottieInstance.cssInterpolatorInstance &&
+              lottieInstance.cssInterpolatorInstance.update(percent);
+        })
     }
 
 
@@ -269,7 +308,8 @@ export default class LottieController {
     protected dispose(): void {
         this.lottieObjects.forEach((lottieInstance) => {
             lottieInstance.lottieInstance.destroy();
-        })
+            lottieInstance.cssInterpolatorInstance = null;
+        });
         this.domWatcher.dispose();
         this.rafProgress.dispose();
     }
@@ -340,24 +380,26 @@ export default class LottieController {
  *       # Optional - boolean
  *       debugFrame: false
  *
- *    # Css interpolations synchronized with the lottie scroll.
- *    interpolations:
- *     - id: '--x'
- *       progress:
- *       - from: 0.5
- *         to: 1
- *         start: '0px'
- *         end: '20px'
- *     - id: '--opacity'
- *       progress:
- *       - from: 0
- *         to: 0.5
- *         start: 0
- *         end: 1
- *       - from: 0.5
- *         to: 1
- *         start: 1
- *         end: 0
+ *       # Css interpolations synchronized with the lottie scroll.
+ *       # Note that you can use fromFrame, toFrame and declare interpolations
+ *       # based on your lottie frame.
+ *       interpolations:
+ *       - id: '--x'
+ *         progress:
+ *         - from: 0.5
+ *           to: 1
+ *           start: '0px'
+ *           end: '20px'
+ *       - id: '--opacity'
+ *         progress:
+ *         - fromFrame: 0
+ *           toFrame: 0.5
+ *           start: 0
+ *           end: 1
+ *         - fromFrame: 0.5
+ *           toFrame: 1
+ *           start: 1
+ *           end: 0
  * ```
  *
  * In your app:
@@ -383,6 +425,7 @@ export default class LottieController {
  *       <div class="mymodule__lottie" lottie-desktop></div>
  *   </div>
  * ```
+ *
  */
 export const lottieScrollDirective = function () {
     return {
