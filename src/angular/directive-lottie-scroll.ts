@@ -66,6 +66,12 @@ export interface LottieObject {
     // Instance of css var interpolate associated.  This is added once
     // lottie is created.
     cssInterpolatorInstance: CssVarInterpolate
+
+    // Whether the lottie container associated to this LottieObject is
+    // currently on the screen.  This is determined based on whether the
+    // container or it's ancestors has "display: none".  By adding
+    // display: none you can cull paints.
+    isOnScreen: boolean
 }
 
 
@@ -188,6 +194,15 @@ export class LottieController {
         this.progressBottomOffset = func.setDefault(
             this.getPixelValue(this.lottieScrollSettings.bottom), 0
         )
+
+
+        // On each window resize, test if the root lottie element is visible.
+        // If not, mark the lottieScroll to not render or paint.
+        this.lottieObjects.map((lottieObject, i) => {
+            const container = this.element.querySelector(lottieObject.container_selector);
+            lottieObject.isOnScreen = !dom.isDisplayNoneWithAncestors(container);
+            return lottieObject;
+        });
     }
 
 
@@ -283,6 +298,13 @@ export class LottieController {
         this.currentProgress = easedProgress;
 
         this.lottieObjects.forEach((lottieObject) => {
+            if (!lottieObject.isOnScreen) {
+                if (lottieObject.debugFrame) {
+                    console.log("lottie is not on screen");
+                }
+                return;
+            }
+
             if (lottieObject.lottieInstance && lottieObject.lottieInstance.isLoaded) {
                 let frame = mathf.lerp(
                     lottieObject.startFrame,
@@ -300,8 +322,12 @@ export class LottieController {
 
         // Update css var interpolations.
         this.lottieObjects.forEach((lottieInstance) => {
+            if (!lottieInstance.isOnScreen) {
+                return;
+            }
+
             lottieInstance.cssInterpolatorInstance &&
-              lottieInstance.cssInterpolatorInstance.update(easedProgress);
+                lottieInstance.cssInterpolatorInstance.update(easedProgress);
         })
 
     }
@@ -312,8 +338,11 @@ export class LottieController {
         const percent = this.getPercent();
         this.rafProgress.setCurrentProgress(percent);
         this.lottieObjects.forEach((lottieInstance) => {
+            if (!lottieInstance.isOnScreen) {
+                return;
+            }
             lottieInstance.cssInterpolatorInstance &&
-              lottieInstance.cssInterpolatorInstance.update(percent);
+                lottieInstance.cssInterpolatorInstance.update(percent);
         })
     }
 
@@ -433,6 +462,9 @@ export class LottieController {
  *
  * In the module, you want to use do the following.
  *
+ * Note how we have can have two lottie instances.  By adding display: none, this
+ * lottie directive will automatically cull frame updates.
+ *
  * ```
  * .mymodule
  *    height: 300vh
@@ -440,9 +472,16 @@ export class LottieController {
  *    position: sticky
  *    height: 300vh
  *    top: 0px
+ * .mymodule__lottie--desktop
+ *   +md-lt
+ *     display: none
+ * .mymodule__lottie--mobile
+ *   +md-lt
+ *     display: none
  *
  *   <div class="mymodule" {% if partial.lottie_scrolls %} lottie-scroll="{{partial.lottie_scrolls|jsonify}}{% endif %">
- *       <div class="mymodule__lottie" lottie-desktop></div>
+ *       <div class="mymodule__lottie mymodule__lottie--desktop" lottie-desktop></div>
+ *       <div class="mymodule__lottie mymodule__lottie--mobile" lottie-mobile></div>
  *   </div>
  * ```
  *

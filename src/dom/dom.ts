@@ -809,4 +809,34 @@ export class dom {
     static getStyle(el: Element): CSSStyleDeclaration {
         return el['currentStyle'] || window.getComputedStyle(el);
     }
+
+
+    /**
+     * Tests whether the provided element is set to display none.
+     */
+    static isDisplayNone(el:Element):boolean {
+        let style = window.getComputedStyle(el, null).display;
+        return style == 'none';
+    }
+
+
+    /**
+     * Tests whether a given element and it's ancestors have
+     * a display:none.  This is useful to see if a given element
+     * is on the screen (based on whether if the element or it's ancestors have
+     * display none.)
+     *
+     * ```
+     * const elementIsVisibleOnScreen = !dom.isDisplayNoneWithAncestors(element);
+     * ```
+     */
+    static isDisplayNoneWithAncestors(el:Element):boolean {
+        let isDisplayNone = dom.isDisplayNone(el);
+        while(el = el.parentElement) {
+            if(!isDisplayNone) {
+                isDisplayNone = dom.isDisplayNone(el);
+            }
+        }
+        return isDisplayNone;
+    }
 }
