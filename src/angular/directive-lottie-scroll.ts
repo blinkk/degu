@@ -6,6 +6,8 @@ import { dom } from '../dom/dom';
 import { mathf } from '../mathf/mathf';
 import { func } from '../func/func';
 import { cssUnit, CssUnitObject } from '../string/css-unit';
+import { interpolateSettings } from '../interpolate/multi-interpolate';
+import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 
 
 export interface LottieScrollSettings {
@@ -66,6 +68,9 @@ export default class LottieController {
     private progressTopOffset: number;
     private progressBottomOffset: number;
 
+    private interpolator: CssVarInterpolate;
+    private interpolationsData: Array<interpolateSettings>;
+
 
 
     constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
@@ -104,6 +109,15 @@ export default class LottieController {
             ...settings
         }
 
+        this.interpolationsData = configData.interpolations || [];
+        this.interpolator = new CssVarInterpolate(
+            this.element,
+            {
+                interpolations: this.interpolationsData,
+            }
+        );
+        this.interpolator.useBatchUpdate(true);
+
 
         if (configData.lotties) {
             configData.lotties.forEach((settings: LottieObject) => {
@@ -130,9 +144,6 @@ export default class LottieController {
 
         // Run window resize once.
         this.onWindowResize();
-
-        // Set the immediate progress at load.
-        this.rafProgress.setCurrentProgress(this.getPercent());
 
 
         $scope.$on('$destroy', () => {
@@ -199,6 +210,9 @@ export default class LottieController {
                 if (this.lottieObjects[i].endFrame == 0) {
                     this.lottieObjects[i].endFrame = lottieInstance.totalFrames;
                 }
+
+                // Update and render immediately after it loads.
+                this.immediateUpdate();
             }, { once: true });
         })
     }
@@ -224,13 +238,24 @@ export default class LottieController {
                     lottieObject.endFrame, easedProgress);
 
                 if (lottieObject.debugFrame) {
-                    console.log("Frame", frame);
+                    console.log("Frame", frame, easedProgress);
                 }
 
 
                 lottieObject.lottieInstance['goToAndStop'](frame, true);
             }
         })
+
+
+        this.interpolator.update(easedProgress);
+    }
+
+
+    protected immediateUpdate() {
+        // Set the immediate progress at load.
+        const percent = this.getPercent();
+        this.rafProgress.setCurrentProgress(percent);
+        this.interpolator.update(percent);
     }
 
 
@@ -314,6 +339,25 @@ export default class LottieController {
  *       # Useful for debugging.
  *       # Optional - boolean
  *       debugFrame: false
+ *
+ *    # Css interpolations synchronized with the lottie scroll.
+ *    interpolations:
+ *     - id: '--x'
+ *       progress:
+ *       - from: 0.5
+ *         to: 1
+ *         start: '0px'
+ *         end: '20px'
+ *     - id: '--opacity'
+ *       progress:
+ *       - from: 0
+ *         to: 0.5
+ *         start: 0
+ *         end: 1
+ *       - from: 0.5
+ *         to: 1
+ *         start: 1
+ *         end: 0
  * ```
  *
  * In your app:
