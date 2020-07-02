@@ -10,6 +10,17 @@ import { interpolateSettings } from '../interpolate/multi-interpolate';
 import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 
 
+export const LottieScrollEvents = {
+    PROGRESS_UPDATE: 'LOTTIE_SCROLL_EVENT'
+}
+
+export interface LottieScrollEventPayload {
+    controller: LottieController,
+    progress: number,
+    direction: number,
+}
+
+
 export interface LottieScrollSettings {
     // Whether to display progress information in the dev console.
     // Defaults to false.
@@ -58,7 +69,7 @@ export interface LottieObject {
 }
 
 
-export default class LottieController {
+export class LottieController {
     private element: HTMLElement;
     /**
      * The element to which the scroll progress is measured.  This currently defaults to the
@@ -260,6 +271,15 @@ export default class LottieController {
             return;
         }
 
+        // Fire a dom event.
+        const payload: LottieScrollEventPayload = {
+            controller: this,
+            progress: easedProgress,
+            direction: direction
+        }
+        dom.event(this.element, LottieScrollEvents.PROGRESS_UPDATE, payload);
+
+
         this.currentProgress = easedProgress;
 
         this.lottieObjects.forEach((lottieObject) => {
@@ -425,6 +445,61 @@ export default class LottieController {
  *       <div class="mymodule__lottie" lottie-desktop></div>
  *   </div>
  * ```
+ *
+ *
+ *
+ * # Events
+ *
+ * You may have situations in which you want to extend or add additional more complicated
+ * interaction.  There are a few ways to do this
+ * 1) you can create your own controller
+ * and setup lottie interpolations manually (so don't use this directive).
+ * This is recommended if you have a lot of custom needed.
+ * 2) You can extend this directive.
+ * 3) Use events to listen to the progress update event.
+ *
+ *
+ * Events are useful if you want to add some custom interaction based on the progress.
+ *
+ * Raf Progress events are fired on the root element of the directive.
+ * Hooking into them with your own custom controller might look something
+ * this:
+ *
+ *
+ * ```
+ * <div
+ *   ng-controller="MyController as ctrl"
+ *   lottie-scroll="{{partial.lottie_scrolls|jsonify}}">
+ *       <div class="post-hero__lottie" lottie-container></div>
+ * </div>
+ *
+ *
+ *
+ *   import { LottieScrollEvents, LottieScrollEventPayload } from 'yano-js/lib/angular/directive-lottie-scroll';
+ *
+ *
+ *   export default class PostHeroController {
+ *     static get $inject() {
+ *         return ['$scope', '$element'];
+ *     }
+ *     private el: HTMLElement;
+ *     private $scope: ng.IScope;
+ *     constructor($scope: ng.IScope, $element: ng.IAngularStatic) {
+ *       this.el = $element[0];
+ *       this.el.addEventListener(LottieScrollEvents.PROGRESS_UPDATE, (e:any)=> {
+ *           const scrollEvent:LottieScrollEventPayload = e.detail;
+ *           console.log(scrollEvent.progress); // current progress
+ *           console.log(scrollEvent.direction); // current direction
+ *       })
+ *     }
+ *   }
+ * ```
+ *
+ *
+ *
+ *
+ *
+ *
  *
  */
 export const lottieScrollDirective = function () {
