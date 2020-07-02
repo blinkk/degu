@@ -126,9 +126,20 @@ export class LazyImage implements INgDisposable {
         }
 
         // If we have already set the google image but thereafter, resized the
-        // browser, we want to resize the loaded imge.
+        // browser, we want to resize the loaded image.
         if (this.useGoogleImageAutosize) {
-            this.url = this.autosizeGoogleImage(this.url);
+
+            const currentWidth = this.getWidthFromGoogleUrl(this.url);
+            const newUrl = this.autosizeGoogleImage(this.url);
+            const newWidth = this.getWidthFromGoogleUrl(newUrl);
+
+            // There is no reason to reload or fetch another image, if the
+            // new size is slated to be smaller than what is already loaded.
+            if(currentWidth > newWidth) {
+                return;
+            }
+
+            this.url = newUrl;
 
             if (this.setAsBackgroundImage) {
                 this.el.style.backgroundImage = `url(${this.url})`;
@@ -256,6 +267,15 @@ export class LazyImage implements INgDisposable {
         }
 
         return url;
+    }
+
+
+    /**
+     * Given a google url, extracts the width value.
+     * @param url
+     */
+    private getWidthFromGoogleUrl(url:string):number {
+        return +url.match(/\w([0-9]+)$/)[1];
     }
 
 
