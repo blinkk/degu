@@ -221,8 +221,8 @@ export class LazyImage implements INgDisposable {
      * of hiding the element will return true.
      */
     isPaintedOnScreen() {
-        let style = window.getComputedStyle(this.el, null).display;
-        return style != 'none';
+        // TODO (uxder): Possibly upgrade this to dom.isDisplayNoneWithAncestor.
+        return !dom.isDisplayNone(this.el);
     }
 
 
