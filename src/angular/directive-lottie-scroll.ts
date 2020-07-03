@@ -517,7 +517,7 @@ export class LottieController {
  *   import { LottieScrollEvents, LottieScrollEventPayload } from 'yano-js/lib/angular/directive-lottie-scroll';
  *
  *
- *   export default class PostHeroController {
+ *   export default class MyController {
  *     static get $inject() {
  *         return ['$scope', '$element'];
  *     }
