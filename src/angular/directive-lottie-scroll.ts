@@ -157,9 +157,6 @@ export class LottieController {
             this.createLottieInstances();
         }
 
-        // Run window resize once.
-        this.onWindowResize();
-
 
         $scope.$on('$destroy', () => {
             this.dispose();
@@ -190,15 +187,7 @@ export class LottieController {
 
 
     protected onWindowResize(): void {
-        // Convert the css unit into pixels for the top and bottom progress
-        // offsets.
-        this.progressTopOffset = func.setDefault(
-            this.getPixelValue(this.lottieScrollSettings.top), 0
-        )
-        this.progressBottomOffset = func.setDefault(
-            this.getPixelValue(this.lottieScrollSettings.bottom), 0
-        )
-
+        this.calculateProgressOffsets();
 
         // On each window resize, test if the root lottie element is visible.
         // If not, mark the lottieScroll to not render or paint.
@@ -207,6 +196,19 @@ export class LottieController {
             lottieObject.isOnScreen = !dom.isDisplayNoneWithAncestors(container);
             return lottieObject;
         });
+    }
+
+
+
+    protected calculateProgressOffsets() {
+        // Convert the css unit into pixels for the top and bottom progress
+        // offsets.
+        this.progressTopOffset = func.setDefault(
+            this.getPixelValue(this.lottieScrollSettings.top), 0
+        )
+        this.progressBottomOffset = func.setDefault(
+            this.getPixelValue(this.lottieScrollSettings.bottom), 0
+        )
     }
 
 
@@ -270,10 +272,17 @@ export class LottieController {
                         }
                     );
                     this.lottieObjects[i].cssInterpolatorInstance.useBatchUpdate(true);
+
+                    // Run window resize once.
+                    this.onWindowResize();
+
+
+                    // Add loaded class to mark it is ready.
+                    this.element.classList.add('loaded');
                 }
 
                 // Update and render immediately after it loads.
-                this.immediateUpdate();
+                this.updateImmediately();
             }, { once: true });
         })
     }
@@ -337,7 +346,7 @@ export class LottieController {
     }
 
 
-    protected immediateUpdate() {
+    protected updateImmediately() {
         // Set the immediate progress at load.
         const percent = this.getPercent();
         this.rafProgress.setCurrentProgress(percent);
@@ -490,6 +499,21 @@ export class LottieController {
  * ```
  *
  *
+ * # Loaded class
+ *
+ * A css class "loaded" gets appended to the directive element.
+ * This can be used to hide the element during loading.
+ *
+ * .mymodule
+ *   visibility: hidden
+ * .mymodule.loaded
+ *   visibility: visible
+ *
+ * Before Load:
+ *   <div class="mymodule" lottie-scroll="{{partial.lottie_scrolls|jsonify}}{% endif %">..</div>
+ *
+ * After Load
+ *   <div class="mymodule loaded" lottie-scroll="{{partial.lottie_scrolls|jsonify}}{% endif %">..</div>
  *
  * # Events
  *
