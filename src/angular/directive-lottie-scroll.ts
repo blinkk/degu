@@ -93,6 +93,10 @@ export class LottieController {
     private progressBottomOffset: number;
 
 
+    static get $inject() {
+        return ['$element', '$scope', '$attrs'];
+    }
+
 
     constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
         this.element = $element[0];
