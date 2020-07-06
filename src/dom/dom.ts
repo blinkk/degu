@@ -130,6 +130,41 @@ export class dom {
 
 
     /**
+     * Inverse of getElementScrolledPercent.
+     * Given an element on the page, finds the scrollY value in order
+     * to scroll into that element by the provided percent.
+     *
+     * @param element
+     * @param startOffset
+     * @param heightOffset
+     * @param percent A value between 0-1
+     *
+     * ```ts
+     *
+     * // Scroll halfway into the given element.
+     * const scrollY = mathf.getScrollYAtPercent(element, 0, 0, 0.5);
+     * window.scrollTo(0, scrollY);
+     *
+     * // Scroll 0.2 percent into the given element.
+     * const scrollY = mathf.getScrollYAtPercent(element, 0, 0, 0.2);
+     * window.scrollTo(0, scrollY);
+     * ```
+     */
+    static getScrollYAtPercent(
+        element:HTMLElement,
+        startOffset: number = 0,
+        heightOffset: number = 0,
+        percent: number
+     ) {
+        const wh = window.innerHeight;
+        const top = dom.getScrollTop(element);
+        const start = top - wh + startOffset;
+        const end = top - wh + element.offsetHeight + heightOffset;
+        return mathf.lerp(start, end, percent);
+     }
+
+
+    /**
      * Sets a css variable to an element.
      *
      * ```ts
