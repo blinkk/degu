@@ -11,7 +11,12 @@ import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 
 
 export const LottieScrollEvents = {
+    INIT: 'INIT',
     PROGRESS_UPDATE: 'LOTTIE_SCROLL_EVENT'
+}
+
+export interface LottieScrollInitPayload {
+    controller: LottieController,
 }
 
 export interface LottieScrollEventPayload {
@@ -47,8 +52,7 @@ export interface LottieObject {
     container_selector: string,
     // The renderer to use 'canvas', 'svg'
     renderer: string
-    // The aspect ratio sizing settings to use for lottie.
-    // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAspectRatio
+    // The aspect ratio sizing settings to use for lottie. // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAspectRatio
     // Defaults to xMidYMid slice.
     preserveAspectRatio: string,
 
@@ -281,6 +285,11 @@ export class LottieController {
                     this.element.classList.add('loaded');
                 }
 
+                const payload: LottieScrollInitPayload = {
+                    controller: this,
+                }
+                dom.event(this.element, LottieScrollEvents.INIT, payload);
+
                 // Update and render immediately after it loads.
                 this.updateImmediately();
             }, { once: true });
@@ -297,6 +306,10 @@ export class LottieController {
         // Cull unnecessary calls.
         if (this.currentProgress == easedProgress) {
             return;
+        }
+
+        if (this.lottieScrollSettings.debug) {
+            console.log(this.currentProgress);
         }
 
         // Fire a dom event.
@@ -324,7 +337,7 @@ export class LottieController {
                     lottieObject.endFrame, easedProgress);
 
                 if (lottieObject.debugFrame) {
-                    console.log("Frame", frame, easedProgress);
+                    console.log("Frame", frame, easedProgress, window.scrollY);
                 }
 
 
@@ -360,11 +373,25 @@ export class LottieController {
     }
 
 
-    getPercent(): number {
+    protected getPercent(): number {
         let percent = dom.getElementScrolledPercent(this.scrollEl,
             this.progressTopOffset, this.progressBottomOffset);
         return percent;
     }
+
+
+    /**
+     * Given a provided percent, returns the scrollY point.  Handy when you
+     * have to manually update the scroll position to a given percent / progress.
+     */
+    public getScrollYAtPercent(percent: number): number {
+        return dom.getScrollYAtPercent(
+            this.scrollEl,
+            this.progressTopOffset, this.progressBottomOffset,
+            percent
+        );
+    }
+
 
 
     protected dispose(): void {
@@ -542,7 +569,7 @@ export class LottieController {
  *
  *
  *
- *   import { LottieScrollEvents, LottieScrollEventPayload } from 'yano-js/lib/angular/directive-lottie-scroll';
+ *   import { LottieController, LottieScrollEvents, LottieScrollEventPayload, LottieScrollInitPayload } from 'yano-js/lib/angular/directive-lottie-scroll';
  *
  *
  *   export default class MyController {
@@ -553,6 +580,11 @@ export class LottieController {
  *     private $scope: ng.IScope;
  *     constructor($scope: ng.IScope, $element: ng.IAngularStatic) {
  *       this.el = $element[0];
+ *       this.el.addEventListener(LottieScrollEvents.INIT, (e:any)=> {
+ *           const scrollEvent:LottieScrollInitPayload = e.detail;
+ *           console.log(scrollEvent.controller); // The controller
+ *       });
+ *
  *       this.el.addEventListener(LottieScrollEvents.PROGRESS_UPDATE, (e:any)=> {
  *           const scrollEvent:LottieScrollEventPayload = e.detail;
  *           console.log(scrollEvent.progress); // current progress
