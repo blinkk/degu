@@ -5,6 +5,15 @@ import { objectf } from '../objectf/objectf';
  */
 export class urlParams {
 
+    /**
+     * Whether two string urls are of the same original
+     */
+    static areSameHostNames(url1:string, url2:string) {
+        var urlA = new URL(url1);
+        var urlB = new URL(url2);
+        return urlA.hostname == urlB.hostname;
+    }
+
 
     /**
      * Checks if a given param is present in the url AND is set to 'true'
