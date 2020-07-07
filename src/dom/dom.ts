@@ -874,4 +874,19 @@ export class dom {
         }
         return isDisplayNone;
     }
+
+
+
+    /**
+     * Removes all classes from an element that starts with a given prefix.
+     * https://stackoverflow.com/questions/28608587/how-to-remove-a-class-that-starts-with
+     * @param el
+     * @param prefix
+     */
+    static removeClassByPrefix(el:HTMLElement, prefix:string) {
+        var reg = new RegExp('\\b' + prefix + '.*?\\b', 'g');
+        el.className = el.className.replace(reg, '');
+        return el;
+    }
+
 }
