@@ -151,17 +151,17 @@ export class dom {
      * ```
      */
     static getScrollYAtPercent(
-        element:HTMLElement,
+        element: HTMLElement,
         startOffset: number = 0,
         heightOffset: number = 0,
         percent: number
-     ) {
+    ) {
         const wh = window.innerHeight;
         const top = dom.getScrollTop(element);
         const start = top - wh + startOffset;
         const end = top - wh + element.offsetHeight + heightOffset;
         return mathf.lerp(start, end, percent);
-     }
+    }
 
 
     /**
@@ -811,7 +811,7 @@ export class dom {
      * Thank you to: https://silvantroxler.ch/2016/setting-voiceover-focus-with-javascript/
      * @param el
      */
-    static forceVOFocus(element: HTMLElement, interval: number = 10, repetition:number = 10) {
+    static forceVOFocus(element: HTMLElement, interval: number = 10, repetition: number = 10) {
         var focusInterval = interval; // ms, time between function calls
         var focusTotalRepetitions = repetition; // number of repetitions
 
@@ -849,7 +849,7 @@ export class dom {
     /**
      * Tests whether the provided element is set to display none.
      */
-    static isDisplayNone(el:Element):boolean {
+    static isDisplayNone(el: Element): boolean {
         let style = window.getComputedStyle(el, null).display;
         return style == 'none';
     }
@@ -865,10 +865,10 @@ export class dom {
      * const elementIsVisibleOnScreen = !dom.isDisplayNoneWithAncestors(element);
      * ```
      */
-    static isDisplayNoneWithAncestors(el:Element):boolean {
+    static isDisplayNoneWithAncestors(el: Element): boolean {
         let isDisplayNone = dom.isDisplayNone(el);
-        while(el = el.parentElement) {
-            if(!isDisplayNone) {
+        while (el = el.parentElement) {
+            if (!isDisplayNone) {
                 isDisplayNone = dom.isDisplayNone(el);
             }
         }
@@ -883,10 +883,27 @@ export class dom {
      * @param el
      * @param prefix
      */
-    static removeClassByPrefix(el:HTMLElement, prefix:string) {
+    static removeClassByPrefix(el: HTMLElement, prefix: string) {
         var reg = new RegExp('\\b' + prefix + '.*?\\b', 'g');
         el.className = el.className.replace(reg, '');
         return el;
+    }
+
+
+    /**
+     * Returns all text nodes under a given element.
+     * https://stackoverflow.com/questions/10730309/find-all-text-nodes-in-html-page
+     * @param el
+     */
+    static getAllTextNodes(el: HTMLElement):Array<Node> {
+        var n, a = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+        while (n = walk.nextNode()) a.push(n);
+        return a;
+    }
+
+
+    static appendAfter(nodeToAdd:HTMLElement, nodeToAddAfter:HTMLElement) {
+        nodeToAddAfter.parentNode.insertBefore(nodeToAdd, nodeToAddAfter.nextSibling);
     }
 
 }
