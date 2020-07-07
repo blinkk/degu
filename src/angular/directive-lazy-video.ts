@@ -5,7 +5,12 @@ import { func } from '../func/func';
 import { is } from '../is/is';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
 
-class LazyVideoController {
+export const LazyVideoEvents = {
+    LOAD_START: 'LOAD_START',
+}
+
+
+export class LazyVideoController {
     private el: HTMLElement;
     private parent: HTMLElement;
     private url: string;
@@ -88,6 +93,7 @@ class LazyVideoController {
 
             // Tell the parent element (video) to load.
             this.parent['load']();
+            dom.event(this.parent, LazyVideoEvents.LOAD_START, {});
 
             // Once it's loaded, dispose of this module.
             this.dispose();
@@ -152,6 +158,23 @@ class LazyVideoController {
  * # Forward Scalar
  * Adjust the forward scalar to higher values to load videos more aggressively.
  *   <source lazy-video="{{url}}" lazy-video-forward-load-scalar="3"></source>
+ *
+ *
+ *
+ * # Listen for events.
+ * Events get fired on the video element.
+ *
+ * ```
+ * import { lazyVideoDirective, lazyVideoEvents } from 'yano-js/lib/angular/directive-lazy-video';
+ * document.getElementById("myvideo").addEventListener(lazyVideoEvents.LOAD_START, ()=. {
+ *    // Loading started!
+ * }, { once: true});
+ *
+ *
+ * <video id="myvideo" class="only-mobile">
+ *   <source type="video/mp4" lazy-video="{{url}}"></source>
+ * <video>
+ * ```
  *
  */
 export const lazyVideoDirective = function () {
