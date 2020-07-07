@@ -87,7 +87,6 @@ export class LazyVideoController {
      */
     paint() {
         if (this.isPainted() && !this.setComplete) {
-            console.log("works");
             this.setComplete = true;
             this.el.setAttribute('src', this.url);
 
