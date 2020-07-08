@@ -410,6 +410,14 @@ export class LottieController {
     }
 
 
+    /**
+     * Gets all lottie objects.
+     */
+    public getLottieObjects():Array<LottieObject> {
+        return this.lottieObjects;
+    }
+
+
 
     protected dispose(): void {
         this.lottieObjects.forEach((lottieInstance) => {
