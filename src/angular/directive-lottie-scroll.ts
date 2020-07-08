@@ -201,7 +201,13 @@ export class LottieController {
             lottieObject.isOnScreen = !dom.isDisplayNoneWithAncestors(container);
             return lottieObject;
         });
+
+
+        this.lottieObjects.forEach((lottieObject)=> {
+            lottieObject.lottieInstance.resize();
+        })
     }
+
 
 
 
