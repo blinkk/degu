@@ -15,6 +15,7 @@ export interface textSplit2Config {
  *
  *
  * Here is a basic example.
+ *
  * ```ts
  *
  * <div id="myElement">New York <br/>City</div>
@@ -28,7 +29,9 @@ export interface textSplit2Config {
  * ```
  *
  * This results in:
+ *
  * ```ts
+ *
  * <div id="myElement" class="text-split-set" style="--item-total-count:3">
  *   <span style="--item-index:0">New&nbsp;</span>
  *   <span style="--item-index:1">York&nbsp;</span><br/>
@@ -40,7 +43,11 @@ export interface textSplit2Config {
  *
  * Additionally, each item can received the follow:
  *
+ * ```ts
+ *
  * <span start="1" row="1" end="1" item="1">xxx</div>
+ *
+ * ```
  *
  * row: This is the row sentence number that this span resides on.
  * start: If this is the first word in the sentence.
@@ -53,7 +60,7 @@ export interface textSplit2Config {
  *
  * Now you can use css variables to add various effect.
  *
- * ```
+ * ```ts
  *  @keyframes textIn
  *      from
  *          opacity: 0;
@@ -82,7 +89,6 @@ export interface textSplit2Config {
  *    // stagger animation always completes in 1s.
  *    animation-delay: calc(var(--item-index) * (1s / var(--item-total-count)))
  * ```
- *
  */
 export class TextSplit2 {
     private element: HTMLElement;
