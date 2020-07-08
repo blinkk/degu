@@ -123,7 +123,7 @@ export class LottieController {
         })
 
 
-        this.rafProgress = new RafProgress(this.onRafProgress.bind(this));
+        this.rafProgress = new RafProgress(this.progressUpdate.bind(this));
         this.rafProgress.setPrecision(5);
 
         const configData = JSON.parse(this.element.getAttribute('lottie-scroll'));
@@ -206,6 +206,17 @@ export class LottieController {
         this.lottieObjects.forEach((lottieObject)=> {
             lottieObject.lottieInstance.resize();
         })
+
+
+        // Lottie doesn't "redraw" itself on size.  Most likely
+        // because it culls two consecutive calls to drawing the
+        // same frame.
+        // To get around this, on each window resize, what we
+        // must do is first tell lottie to draw some other
+        // frame.  Then redraw the current frame.
+        const progress = this.currentProgress;
+        this.progressUpdate(progress - 2, 0);
+        this.progressUpdate(progress, 0);
     }
 
 
@@ -247,6 +258,9 @@ export class LottieController {
 
 
             const lottieInstance = lottie['loadAnimation'](settings)
+
+            // Supposed lottie optimization.
+            lottieInstance.setSubframe(false);
 
             this.lottieObjects[i].lottieInstance = lottieInstance;
 
@@ -319,11 +333,7 @@ export class LottieController {
     }
 
 
-    protected onRafProgress(easedProgress: number, direction: number): void {
-        // Cull unnecessary calls.
-        if (this.currentProgress == easedProgress) {
-            return;
-        }
+    protected progressUpdate(easedProgress: number, direction: number): void {
 
         if (this.lottieScrollSettings.debug) {
             console.log(this.currentProgress);
