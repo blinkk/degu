@@ -122,6 +122,7 @@ export class LottieController {
             eventOptions: { passive: true }
         })
 
+
         this.rafProgress = new RafProgress(this.onRafProgress.bind(this));
         this.rafProgress.setPrecision(5);
 
@@ -223,7 +224,7 @@ export class LottieController {
      */
     protected createLottieInstances(): void {
         this.lottieObjects.forEach((lottieObject, i) => {
-            const lottieInstance = lottie['loadAnimation']({
+            const settings = {
                 container: this.element.querySelector(lottieObject.container_selector),
                 loop: false,
                 autoplay: false,
@@ -231,9 +232,15 @@ export class LottieController {
                 rendererSettings: {
                     preserveAspectRatio: lottieObject.preserveAspectRatio
                 },
-                path: lottieObject.json_path,
-                assetsPath: lottieObject.image_path,
-            })
+                path: lottieObject.json_path
+            }
+
+            if(lottieObject.image_path) {
+                settings['assetsPath'] = lottieObject.image_path;
+            }
+
+
+            const lottieInstance = lottie['loadAnimation'](settings)
 
             this.lottieObjects[i].lottieInstance = lottieInstance;
 
@@ -277,12 +284,16 @@ export class LottieController {
                     );
                     this.lottieObjects[i].cssInterpolatorInstance.useBatchUpdate(true);
 
+
                     // Run window resize once.
                     this.onWindowResize();
 
 
                     // Add loaded class to mark it is ready.
                     this.element.classList.add('loaded');
+                } else {
+                    // Run window resize once.
+                    this.onWindowResize();
                 }
 
                 const payload: LottieScrollInitPayload = {
@@ -510,7 +521,8 @@ export class LottieController {
  *    height: 300vh
  * .mymodule__lottie
  *    position: sticky
- *    height: 300vh
+ *    height: 100vh
+ *    width: 100%
  *    top: 0px
  * .mymodule__lottie--desktop
  *   +md-lt
@@ -596,6 +608,10 @@ export class LottieController {
  *
  *
  *
+ * Additional Docs:
+ *
+ * Lottie supported Features:
+ * https://github.com/airbnb/lottie/blob/master/supported-features.md
  *
  *
  *
