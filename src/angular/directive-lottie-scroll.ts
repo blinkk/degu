@@ -504,6 +504,12 @@ export class LottieController {
  *
  * In your app:
  *
+ *
+ * Make sure lottie-web is installed.
+ * ```
+ * npm install lottie-web@5.7.0 --save
+ * ```
+ *
  * ```ts
  *   import { lottieScrollDirective } from 'yano-js/lib/angular/directive-lottie-scroll';
  *
@@ -536,7 +542,6 @@ export class LottieController {
  *       <div class="mymodule__lottie mymodule__lottie--mobile" lottie-mobile></div>
  *   </div>
  * ```
- *
  *
  * # Loaded class
  *
