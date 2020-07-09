@@ -32,10 +32,12 @@ export interface textSplit2Config {
  *
  * ```ts
  *
- * <div id="myElement" class="text-split-set" style="--item-total-count:3">
- *   <span style="--item-index:0">New&nbsp;</span>
- *   <span style="--item-index:1">York&nbsp;</span><br/>
- *   <span style="--item-index:2">City</span>
+ * <div id="myElement" class="text-split-set" style="--item-total-count:3"
+ *   aria-label="New York City"
+ * >
+ *   <span aria-hidden="true" style="--item-index:0">New&nbsp;</span>
+ *   <span aria-hidden="true" style="--item-index:1">York&nbsp;</span><br/>
+ *   <span aria-hidden="true" style="--item-index:2">City</span>
  * </div>
  *
  * ```
@@ -128,7 +130,7 @@ export class TextSplit2 {
 
             texts.forEach((text, i) => {
                 let element = dom.createElementFromString(
-                    `<span></span>`
+                    `<span aria-hidden="true"></span>`
                 );
 
                 if (i !== texts.length - 1) {
