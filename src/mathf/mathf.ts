@@ -201,11 +201,20 @@ export class mathf {
    * @param {number} end The end value of the child progress.  Value
    *     between 0 and 1.
    */
-  static childProgress(progress: number, start: number, end: number): number {
+  static childProgress(progress: number, start: number, end: number, noClamp: boolean = false): number {
     const range = end - start;
     let childProgress = mathf.clamp(0, 1, progress - start);
+
+    if(noClamp) {
+      childProgress = progress - start;
+    }
+
     childProgress = childProgress / range;
-    return mathf.clampAsPercent(childProgress);
+    if(noClamp) {
+      return childProgress;
+    } else {
+      return mathf.clampAsPercent(childProgress);
+    }
   }
 
 
@@ -863,10 +872,15 @@ export class mathf {
    * @param a Start value
    * @param b End value
    * @param value  Value beteen start and end.
+   * @param noClamp Defaults to false, whether to disable clamping.
    * @return {number} A normalized value between 0-1
    */
-  static inverseLerp(a: number, b: number, value: number): number {
-    return mathf.clamp01((value - a) / (b - a));
+  static inverseLerp(a: number, b: number, value: number, noClamp:boolean = false): number {
+    if(noClamp) {
+      return (value - a) / (b - a);
+    } else {
+      return mathf.clamp01((value - a) / (b - a));
+    }
   }
 
 

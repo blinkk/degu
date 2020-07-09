@@ -378,9 +378,10 @@ export class CssVarInterpolate {
 
         // Create a child progress so that the range in which this interpolation
         // reacts can be scoped.
+        // Use noClamp so that we can define negative progress if needed.
         this.mainProgress = mathf.childProgress(
             roundedPrecision,
-            this.startProgress, this.endProgress);
+            this.startProgress, this.endProgress, true);
 
         const previousValues = objectf.jsonCopy(this.currentValues);
         this.currentValues =
