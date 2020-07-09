@@ -247,6 +247,11 @@ export class LottieController {
                 autoplay: false,
                 renderer: lottieObject.renderer as any,
                 rendererSettings: {
+                    // https://github.com/airbnb/lottie-web/issues/1860
+                    // https://github.com/airbnb/lottie-web/wiki/Renderer-Settings
+                    // For svg.
+                    // progressiveLoad: true,
+
                     preserveAspectRatio: lottieObject.preserveAspectRatio
                 },
                 path: lottieObject.json_path

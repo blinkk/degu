@@ -15,11 +15,11 @@ export interface rangedProgress {
     /**
      * The starting value.
      */
-    start: number;
+    start: number | string;
     /**
      * The end value.
      */
-    end: number;
+    end: number | string;
     /**
      * The easing function to be applied.  This is optional and if undeclared,
      * it will be set to linear.
