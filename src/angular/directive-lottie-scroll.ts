@@ -8,6 +8,8 @@ import { func } from '../func/func';
 import { cssUnit, CssUnitObject } from '../string/css-unit';
 import { interpolateSettings } from '../interpolate/multi-interpolate';
 import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
+import { RafTimer } from '../raf/raf-timer';
+import { is } from '../is/is';
 
 
 export const LottieScrollEvents = {
@@ -40,6 +42,18 @@ export interface LottieScrollSettings {
     bottom: string,
 }
 
+
+
+export interface LottieScrollIntro {
+    startFrame: number,
+    duration: number,
+    interpolations: Array<interpolateSettings>
+}
+
+
+//
+// TODO (uxder): Break out lottie object as it's own class.
+//
 export interface LottieObject {
     // Whether to display the "frame"  in the dev console.
     // Defaults to false.
@@ -56,10 +70,15 @@ export interface LottieObject {
     // Defaults to xMidYMid slice.
     preserveAspectRatio: string,
 
-    // The starting frame.
+    // The starting frame for the scroll.
     startFrame: number,
     // The end frame.
     endFrame: number,
+
+    // The intro sequence.
+    intro: LottieScrollIntro,
+    // Whether the intro sequence has completed.
+    introCompleted: boolean,
 
     // Css var interpolations associated with this lottie scroll.
     interpolations: Array<interpolateSettings>,
@@ -152,7 +171,9 @@ export class LottieController {
                         startFrame: 0,
                         // This will get updated once the lottie instance is loaded.
                         // Unless the user specifically set an endframe.
-                        endFrame: 0
+                        endFrame: 0,
+                        intro: null,
+                        introCompleted: false
                     },
                     ...settings
                 };
@@ -285,11 +306,11 @@ export class LottieController {
                         const endFrame = this.lottieObjects[i].endFrame;
                         interpolation.progress.map((progress) => {
                             // TODO (uxder): Technically this a type violation.
-                            if (progress['fromFrame']) {
-                                progress.from = mathf.inverseLerp(startFrame, endFrame, progress['fromFrame']);
+                            if (is.defined(progress['fromFrame'])) {
+                                progress.from = mathf.inverseLerp(startFrame, endFrame, progress['fromFrame'], true);
                             }
-                            if (progress['toFrame']) {
-                                progress.to = mathf.inverseLerp(startFrame, endFrame, progress['toFrame']);
+                            if (is.defined(progress['toFrame'])) {
+                                progress.to = mathf.inverseLerp(startFrame, endFrame, progress['toFrame'], true);
                             }
 
                             return progress;
@@ -314,8 +335,18 @@ export class LottieController {
                     this.onWindowResize();
 
 
+
+                    // If we have an intro, then play out the intro.
+                    if(this.lottieObjects[i].intro) {
+                       this.playIntro(this.lottieObjects[i]);
+                    }
+
+
                     // Add loaded class to mark it is ready.
-                    this.element.classList.add('loaded');
+                    // Put to bottom of event queue for intro sequence to startup.
+                    window.setTimeout(()=> {
+                      this.element.classList.add('lottie-scroll-loaded');
+                    })
                 } else {
                     // Run window resize once.
                     this.onWindowResize();
@@ -338,6 +369,49 @@ export class LottieController {
     }
 
 
+    protected playIntro(lottieObject:LottieObject) {
+        const startProgress = this.getPercent();
+
+        // If we are starting with a progress greater than 0, then we shouldn't
+        // playout the intro.
+        if(startProgress > 0) {
+            lottieObject.introCompleted = true;
+            return;
+        }
+
+        // Create a raf timer that will tick from 0-1 for a set duration.
+        const rafTimer = new RafTimer((progress: number) => {
+
+            const currentScrollProgress = this.getPercent();
+
+            let endFrame = mathf.lerp(
+                lottieObject.startFrame,
+                lottieObject.endFrame, currentScrollProgress);
+
+            // So as the intro plays, the user can scroll so we need to remap
+            // the end frame as needed.
+            const frame = mathf.lerp(lottieObject.intro.startFrame, endFrame, progress)
+            lottieObject.lottieInstance['goToAndStop'](frame, true);
+
+
+            // This would end up being negative progress.
+            const adjustedProgress = mathf.inverseLerp(
+                lottieObject.startFrame, lottieObject.endFrame, frame, true);
+
+            // Also update the regular css interpolations.
+            lottieObject.cssInterpolatorInstance &&
+            lottieObject.cssInterpolatorInstance.update(adjustedProgress);
+
+        })
+        rafTimer.setDuration(lottieObject.intro.duration  || 300);
+        rafTimer.onComplete(() => {
+            lottieObject.introCompleted = true;
+            rafTimer.dispose();
+        });
+        rafTimer.play();
+    }
+
+
     protected progressUpdate(easedProgress: number, direction: number): void {
 
         if (this.lottieScrollSettings.debug) {
@@ -356,6 +430,14 @@ export class LottieController {
         this.currentProgress = easedProgress;
 
         this.lottieObjects.forEach((lottieObject) => {
+
+            // If we have an intro and haven't completed the playback.
+            const hasIntroAndNotCompleted = lottieObject.intro && !lottieObject.introCompleted;
+            if(hasIntroAndNotCompleted) {
+                return;
+            }
+
+
             if (!lottieObject.isOnScreen) {
                 if (lottieObject.debugFrame) {
                     console.log("lottie is not on screen");
@@ -384,6 +466,7 @@ export class LottieController {
                 return;
             }
 
+
             lottieInstance.cssInterpolatorInstance &&
                 lottieInstance.cssInterpolatorInstance.update(easedProgress);
         })
@@ -395,12 +478,13 @@ export class LottieController {
         // Set the immediate progress at load.
         const percent = this.getPercent();
         this.rafProgress.setCurrentProgress(percent);
-        this.lottieObjects.forEach((lottieInstance) => {
-            if (!lottieInstance.isOnScreen) {
+        this.lottieObjects.forEach((lottieObject) => {
+            const hasIntroAndNotCompleted = lottieObject.intro && !lottieObject.introCompleted;
+            if (!lottieObject.isOnScreen || hasIntroAndNotCompleted) {
                 return;
             }
-            lottieInstance.cssInterpolatorInstance &&
-                lottieInstance.cssInterpolatorInstance.update(percent);
+            lottieObject.cssInterpolatorInstance &&
+                lottieObject.cssInterpolatorInstance.update(percent);
         })
     }
 
@@ -497,12 +581,29 @@ export class LottieController {
  *       preserveAspectRatio: 'xMidYMin slice'
  *
  *       # The starting frame.
+ *       # This is the starting frame from which your "scroll" experience begins.
+ *       # If you have an intro, it should not include the intro frames.
+ *       # Example:
+ *       # lottie is from 0-100 frames.
+ *       # intro is from 0-10.
+ *       # startFrame should be set to 10.
  *       # Optional - number.  Defaults to 0.
- *       startFrame: 0
+ *       startFrame: 50
  *
  *       # The ending frame.
  *       # Optional - number.  Defaults to the last frame.
  *       endFrame: 200
+ *
+ *       # Intro
+ *       # The intro will play an intro IF the current progress value is at 0.
+ *       #
+ *       # The intro.startFrame is where the intro should being.
+ *       # Why is there not endFrame?  It's because the end frame is your startFrame
+ *       # (where the scroll starts) above.
+ *       intro:
+ *          startFrame: 0
+ *          # The duration in ms.
+ *          duration: 1000
  *
  *       # Whether to display the current frame number in the dev console.
  *       # Useful for debugging.
@@ -572,14 +673,14 @@ export class LottieController {
  *   </div>
  * ```
  *
- * # Loaded class
+ * # Fouc control -  Loaded class
  *
- * A css class "loaded" gets appended to the directive element.
+ * A css class "lottie-scroll-loaded" gets appended to the directive element.
  * This can be used to hide the element during loading.
  *
  * .mymodule
  *   visibility: hidden
- * .mymodule.loaded
+ * .mymodule.lottie-scroll-loaded
  *   visibility: visible
  *
  * Before Load:
