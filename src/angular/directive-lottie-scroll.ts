@@ -82,19 +82,24 @@ export interface LottieObject {
     // The end frame.
     endFrame: number,
 
+    fromProgress: number,
+    toProgress: number,
+
     // The intro sequence.
     intro: LottieScrollIntro,
     // Whether the intro sequence has completed.
     introCompleted: boolean,
 
     classTriggers: Array<LottieClassTrigger>,
-    activeTriggerClasses : Array<string>,
+    activeTriggerClasses: Array<string>,
 
     // Css var interpolations associated with this lottie scroll.
     interpolations: Array<interpolateSettings>,
 
     // The lottie instance added once it is created.
     lottieInstance: any,
+
+    lottieInDom: boolean,
 
     // Instance of css var interpolate associated.  This is added once
     // lottie is created.
@@ -181,11 +186,14 @@ export class LottieController {
                         startFrame: 0,
                         intro: null,
                         introCompleted: false,
+                        fromProgress: null,
+                        toProgress: null,
                         classTriggers: null,
                         activeTriggerClasses: [],
                         // This will get updated once the lottie instance is loaded.
                         // Unless the user specifically set an endframe.
                         endFrame: 0,
+                        lottieInDom: false,
                     },
                     ...settings
                 };
@@ -237,7 +245,9 @@ export class LottieController {
 
 
         this.lottieObjects.forEach((lottieObject) => {
-            lottieObject.lottieInstance.resize();
+            if (lottieObject.lottieInstance) {
+                lottieObject.lottieInstance.resize();
+            }
         })
 
 
@@ -308,17 +318,17 @@ export class LottieController {
                     this.lottieObjects[i].endFrame = lottieInstance.totalFrames;
                 }
 
-                if(this.lottieObjects[i].classTriggers) {
+                if (this.lottieObjects[i].classTriggers) {
                     const startFrame = this.lottieObjects[i].startFrame;
                     const endFrame = this.lottieObjects[i].endFrame;
                     this.lottieObjects[i].classTriggers.map((trigger) => {
-                            // TODO (uxder): Technically this a type violation.
-                            if (is.defined(trigger['fromFrame'])) {
-                                trigger.from = mathf.inverseLerp(startFrame, endFrame, trigger['fromFrame'], true);
-                            }
-                            if (is.defined(trigger['toFrame'])) {
-                                trigger.to = mathf.inverseLerp(startFrame, endFrame, trigger['toFrame'], true);
-                            }
+                        // TODO (uxder): Technically this a type violation.
+                        if (is.defined(trigger['fromFrame'])) {
+                            trigger.from = mathf.inverseLerp(startFrame, endFrame, trigger['fromFrame'], true);
+                        }
+                        if (is.defined(trigger['toFrame'])) {
+                            trigger.to = mathf.inverseLerp(startFrame, endFrame, trigger['toFrame'], true);
+                        }
                     });
                 }
 
@@ -356,10 +366,11 @@ export class LottieController {
                     );
                     this.lottieObjects[i].cssInterpolatorInstance.useBatchUpdate(true);
 
+                    this.lottieObjects[i].lottieInDom = true;
+
 
                     // Run window resize once.
                     this.onWindowResize();
-
 
 
                     // If we have an intro, then play out the intro.
@@ -416,6 +427,12 @@ export class LottieController {
 
             // So as the intro plays, the user can scroll so we need to remap
             // the end frame as needed.
+
+            // If child progress is defined.
+            if (is.defined(lottieObject.fromProgress) && is.defined(lottieObject.toProgress)) {
+                progress = mathf.childProgress(progress, lottieObject.fromProgress, lottieObject.toProgress);
+            }
+
             const frame = mathf.lerp(lottieObject.intro.startFrame, endFrame, progress)
             lottieObject.lottieInstance['goToAndStop'](frame, true);
 
@@ -456,6 +473,7 @@ export class LottieController {
         this.currentProgress = easedProgress;
 
         this.lottieObjects.forEach((lottieObject) => {
+            let progress = easedProgress;
 
             // If we have an intro and haven't completed the playback.
             const hasIntroAndNotCompleted = lottieObject.intro && !lottieObject.introCompleted;
@@ -472,9 +490,15 @@ export class LottieController {
             }
 
             if (lottieObject.lottieInstance && lottieObject.lottieInstance.isLoaded) {
+
+                // If child progress is defined.
+                if (!is.null(lottieObject.fromProgress) && !is.null(lottieObject.toProgress)) {
+                    progress = mathf.childProgress(progress, lottieObject.fromProgress, lottieObject.toProgress);
+                }
+
                 let frame = mathf.lerp(
                     lottieObject.startFrame,
-                    lottieObject.endFrame, easedProgress);
+                    lottieObject.endFrame, progress);
 
                 if (lottieObject.debugFrame) {
                     console.log("Frame", frame, easedProgress, window.scrollY);
@@ -502,7 +526,7 @@ export class LottieController {
     }
 
 
-    protected updateClassTriggers(progress:number) {
+    protected updateClassTriggers(progress: number) {
         this.lottieObjects.forEach((lottieObject) => {
             if (!lottieObject.isOnScreen) {
                 return;
@@ -524,12 +548,12 @@ export class LottieController {
 
             classesToBeAdded.forEach((className) => {
                 if (!lottieObject.activeTriggerClasses.includes(className)) {
-                  this.element.classList.add(className);
+                    this.element.classList.add(className);
                 }
             });
             classesToBeRemoved.forEach((className) => {
                 if (lottieObject.activeTriggerClasses.includes(className)) {
-                  this.element.classList.remove(className);
+                    this.element.classList.remove(className);
                 }
             });
             lottieObject.activeTriggerClasses = classesToBeAdded;
@@ -658,6 +682,14 @@ export class LottieController {
  *       # The ending frame.
  *       # Optional - number.  Defaults to the last frame.
  *       endFrame: 200
+ *
+ *       # Optional:
+ *       # Normally the lottie animation is tied between the 0-1 progress
+ *       # your whole module.  You can define it so that this lottie
+ *       # instance will run under a child progress instead.
+ *       fromProgress: 0.5
+ *       toProgress: 1
+ *
  *
  *
  *       # Class triggers
