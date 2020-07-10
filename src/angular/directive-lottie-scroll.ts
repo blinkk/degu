@@ -121,6 +121,7 @@ export interface LottieObject {
 
     playLoop: LottiePlayLoop,
     isPlayingLoop: boolean,
+
     loopListener: Function
 }
 
@@ -442,7 +443,7 @@ export class LottieController {
             // the end frame as needed.
 
             // If child progress is defined.
-            if (is.defined(lottieObject.fromProgress) && is.defined(lottieObject.toProgress)) {
+            if (!is.null(lottieObject.fromProgress) && !is.null(lottieObject.toProgress)) {
                 progress = mathf.childProgress(progress, lottieObject.fromProgress, lottieObject.toProgress);
             }
 
@@ -492,14 +493,14 @@ export class LottieController {
     protected drawOrLoop(lottieObject: LottieObject, currentFrame: number) {
         if (
             lottieObject.playLoop && currentFrame > lottieObject.playLoop.whenGreaterThanFrame
-            ) {
+        ) {
             // If we are looping exit.
             if (lottieObject.isPlayingLoop) {
                 return;
             }
             lottieObject.isPlayingLoop = true;
 
-            lottieObject.loopListener = (data:any)=> {
+            lottieObject.loopListener = (data: any) => {
                 const totalFrames = lottieObject.lottieInstance.totalFrames;
                 const playProgress = mathf.inverseLerp(
                     0,
@@ -508,17 +509,17 @@ export class LottieController {
                 );
                 const currentFrame = mathf.lerp(0, totalFrames, playProgress);
                 if (currentFrame >= lottieObject.playLoop.fromFrame) {
-                   lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
-                //    lottieObject.lottieInstance['stop']();
-                   this.playLoop(lottieObject, lottieObject.playLoop.fromFrame, lottieObject.playLoop.toFrame);
+                    lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
+                    //    lottieObject.lottieInstance['stop']();
+                    this.playLoop(lottieObject, lottieObject.playLoop.fromFrame, lottieObject.playLoop.toFrame);
                 }
             }
             lottieObject.lottieInstance.addEventListener('enterFrame', lottieObject.loopListener);
             lottieObject.lottieInstance['goToAndPlay'](currentFrame, true);
 
         } else {
-            if(lottieObject.isPlayingLoop) {
-              lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
+            if (lottieObject.isPlayingLoop) {
+                lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
             }
             lottieObject.isPlayingLoop = false;
             lottieObject.lottieInstance['goToAndStop'](currentFrame, true);
@@ -526,9 +527,9 @@ export class LottieController {
     }
 
 
-    playLoop(lottieObject:LottieObject, start:number, end:number) {
-        if(lottieObject.isPlayingLoop) {
-            lottieObject.loopListener = (data:any)=> {
+    playLoop(lottieObject: LottieObject, start: number, end: number) {
+        if (lottieObject.isPlayingLoop) {
+            lottieObject.loopListener = (data: any) => {
                 const totalFrames = lottieObject.lottieInstance.totalFrames;
                 const playProgress = mathf.inverseLerp(
                     0,
@@ -537,8 +538,8 @@ export class LottieController {
                 );
                 const currentFrame = mathf.lerp(0, totalFrames, playProgress);
                 if (currentFrame >= end) {
-                   lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
-                   this.playLoop(lottieObject, start, end);
+                    lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
+                    this.playLoop(lottieObject, start, end);
                 }
             }
             lottieObject.lottieInstance.addEventListener('enterFrame', lottieObject.loopListener);
