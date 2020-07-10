@@ -27,6 +27,14 @@ export interface LottieScrollEventPayload {
     direction: number,
 }
 
+export interface LottiePlayLoop {
+    // The frame at which, if lottie detected we are at this frame, start
+    // looping
+    whenGreaterThanFrame: number,
+    fromFrame: number,
+    toFrame: number
+}
+
 
 export interface LottieScrollSettings {
     // Whether to display progress information in the dev console.
@@ -109,7 +117,11 @@ export interface LottieObject {
     // currently on the screen.  This is determined based on whether the
     // container or it's ancestors has "display: none".  By adding
     // display: none you can cull paints.
-    isOnScreen: boolean
+    isOnScreen: boolean,
+
+    playLoop: LottiePlayLoop,
+    isPlayingLoop: boolean,
+    loopListener: Function
 }
 
 
@@ -190,6 +202,7 @@ export class LottieController {
                         toProgress: null,
                         classTriggers: null,
                         activeTriggerClasses: [],
+                        playLoop: null,
                         // This will get updated once the lottie instance is loaded.
                         // Unless the user specifically set an endframe.
                         endFrame: 0,
@@ -245,7 +258,7 @@ export class LottieController {
 
 
         this.lottieObjects.forEach((lottieObject) => {
-            if (lottieObject.lottieInstance) {
+            if (lottieObject.lottieInDom) {
                 lottieObject.lottieInstance.resize();
             }
         })
@@ -286,7 +299,7 @@ export class LottieController {
         this.lottieObjects.forEach((lottieObject, i) => {
             const settings = {
                 container: this.element.querySelector(lottieObject.container_selector),
-                loop: false,
+                loop: true,
                 autoplay: false,
                 renderer: lottieObject.renderer as any,
                 rendererSettings: {
@@ -455,6 +468,87 @@ export class LottieController {
     }
 
 
+    /**
+     * Checks if playLoop is set on the lottieObject in which case,
+     * we check the frame to start at and see we have reached that point.
+     *
+     * Note this got real nasty due to what appears to be some issues with playSegment
+     * in lottie library.
+     *
+     * It appears to be a bug between playSegments and goToAndStop
+     * because once you use playSegments, gotoAndStop writes are sometimes ignored.
+     *
+     * This is somewhat related:
+     * https://github.com/airbnb/lottie-web/issues/936
+     *
+     * After trying different things, the best work around is to avoid
+     * playSegments and simply use goToAndPlay to naturally play out loop
+     * and use event listeners to loop the content.
+     *
+     *
+     * @param lottieObject
+     * @param currentFrame
+     */
+    protected drawOrLoop(lottieObject: LottieObject, currentFrame: number) {
+        if (
+            lottieObject.playLoop && currentFrame > lottieObject.playLoop.whenGreaterThanFrame
+            ) {
+            // If we are looping exit.
+            if (lottieObject.isPlayingLoop) {
+                return;
+            }
+            lottieObject.isPlayingLoop = true;
+
+            lottieObject.loopListener = (data:any)=> {
+                const totalFrames = lottieObject.lottieInstance.totalFrames;
+                const playProgress = mathf.inverseLerp(
+                    0,
+                    data.totalTime,
+                    data.currentTime
+                );
+                const currentFrame = mathf.lerp(0, totalFrames, playProgress);
+                if (currentFrame >= lottieObject.playLoop.fromFrame) {
+                   lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
+                //    lottieObject.lottieInstance['stop']();
+                   this.playLoop(lottieObject, lottieObject.playLoop.fromFrame, lottieObject.playLoop.toFrame);
+                }
+            }
+            lottieObject.lottieInstance.addEventListener('enterFrame', lottieObject.loopListener);
+            lottieObject.lottieInstance['goToAndPlay'](currentFrame, true);
+
+        } else {
+            if(lottieObject.isPlayingLoop) {
+              lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
+            }
+            lottieObject.isPlayingLoop = false;
+            lottieObject.lottieInstance['goToAndStop'](currentFrame, true);
+        }
+    }
+
+
+    playLoop(lottieObject:LottieObject, start:number, end:number) {
+        if(lottieObject.isPlayingLoop) {
+            lottieObject.loopListener = (data:any)=> {
+                const totalFrames = lottieObject.lottieInstance.totalFrames;
+                const playProgress = mathf.inverseLerp(
+                    0,
+                    data.totalTime,
+                    data.currentTime
+                );
+                const currentFrame = mathf.lerp(0, totalFrames, playProgress);
+                if (currentFrame >= end) {
+                   lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
+                   this.playLoop(lottieObject, start, end);
+                }
+            }
+            lottieObject.lottieInstance.addEventListener('enterFrame', lottieObject.loopListener);
+            lottieObject.lottieInstance['stop']();
+            lottieObject.lottieInstance['goToAndPlay'](start, true);
+        }
+    }
+
+
+
     protected progressUpdate(easedProgress: number, direction: number): void {
 
         if (this.lottieScrollSettings.debug) {
@@ -505,7 +599,8 @@ export class LottieController {
                 }
 
 
-                lottieObject.lottieInstance['goToAndStop'](frame, true);
+                // lottieObject.lottieInstance['goToAndStop'](frame, true);
+                this.drawOrLoop(lottieObject, frame);
             }
         })
 
@@ -689,6 +784,25 @@ export class LottieController {
  *       # instance will run under a child progress instead.
  *       fromProgress: 0.5
  *       toProgress: 1
+ *
+ *       # Loop Feature.
+ *       # The is a "somwhat" limited loop feature.
+ *       # Lets say you have an icon animation that the entrance is from
+ *       # 0 - 59 and then after it hits 59, you want it to lopo between
+ *       # 59-150, you can use this feature to to that.
+ *       # The "whenGreaterThanFrame" is basically a trigger point to push
+ *       # forward the animation.  Normally, you would set this at 59 (your loop point).
+ *       # but you can set it earlier which will progress it into the animation.
+ *       # hwoever the greater the delta between the whenGreaterThanFrame and
+ *       # your playLoop.fromFrame, there will be a jump when scrolling back up.
+ *       playLoop:
+ *          whenGreaterThan: 58
+ *          fromFrame: 59
+ *          toFrame: 148
+ *
+ *
+ *
+ *
  *
  *
  *
