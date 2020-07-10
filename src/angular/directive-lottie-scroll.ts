@@ -787,15 +787,28 @@ export class LottieController {
  *       toProgress: 1
  *
  *       # Loop Feature.
- *       # The is a "somwhat" limited loop feature.
+ *       # The is a limited loop feature.
+ *       # You can tell a lottie animation to loop once the scroll gets to a certain frame.
+ *       #
+ *       # Example:
  *       # Lets say you have an icon animation that the entrance is from
- *       # 0 - 59 and then after it hits 59, you want it to lopo between
+ *       # 0 - 59 and then after it hits 59, you want it to loop between
  *       # 59-150, you can use this feature to to that.
  *       # The "whenGreaterThanFrame" is basically a trigger point to push
- *       # forward the animation.  Normally, you would set this at 59 (your loop point).
+ *       # and autoplay the loop animation.  Normally, you would set this at 59 (your loop point).
  *       # but you can set it earlier which will progress it into the animation.
- *       # hwoever the greater the delta between the whenGreaterThanFrame and
+ *       # however the greater the delta between the whenGreaterThanFrame and
  *       # your playLoop.fromFrame, there will be a jump when scrolling back up.
+ *       #
+ *       # Troubleshooting:
+ *       # My loop keeps going back to the first frame.  It doesn't loop
+ *       # between the fromFrame and toFrame.  What can I do?
+ *       #
+ *       # Make sure your toFrame doesn't exceed the total number of frames
+ *       # in your lottie animation.  If that doesn't work, make your toFrame, one less than
+ *       # the total number of frames in your lottie file.
+ *       #
+ *       #
  *       playLoop:
  *          whenGreaterThan: 58
  *          fromFrame: 59
