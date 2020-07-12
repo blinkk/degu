@@ -329,32 +329,32 @@ export class MultiInterpolate {
                  *    color: var(--myColor)
                  *
                  *   - id: '--myColor'
-                 *   noInterpolation: true
-                 *   noInterpolationDefault: 'orange'
-                 *   progress:
-                 *   - fromFrame: 300
-                 *       toFrame: 500
-                 *       start: 'blue'
-                 *       end: 'blue'
-                 *   - fromFrame: 600
-                 *       toFrame: 700
+                 *     noInterpolation: true
+                 *     noInterpolationDefault: 'orange'
+                 *     progress:
+                 *     -  from: 0.3
+                 *        to: 0.5
+                 *        start: 'blue'
+                 *        end: 'blue'
+                 *     - from: 0.6
+                 *       to: 0.7
                  *       start: 'red'
                  *       end: 'red'
                  *
                  * Another example is:
                  *   display: var(--display-settings)
                  *   - id: '--display-settings'
-                 *   noInterpolation: true
-                 *   noInterpolationDefault: 'block'
+                 *     noInterpolation: true
+                 *     noInterpolationDefault: 'block'
                  *   progress:
-                 *   - fromFrame: 300
-                 *       toFrame: 500
+                 *     - from: 0.3
+                 *       to: 0.5
                  *       start: 'none'
                  *       end: 'none'
-                 *   - fromFrame: 600
-                 *       toFrame: 700
-                 *       start: 'inline-block'
-                 *       end: 'inline-block'
+                 *    - from: 0.6
+                 *      toFrame: 0.7
+                 *      start: 'inline-block'
+                 *      end: 'inline-block'
                  *
                  * Since it is noInterpolation, the start and end values are expected
                  * to be identical, and when there is no matching setting, the
