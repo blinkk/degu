@@ -65,6 +65,17 @@ import { objectf } from '../objectf/objectf';
  *            ],
  *            id: '--z'
  *          },
+ *          // You can also use a special noInteperlate mode.
+ *         // This is useful if you want to just apply non-interpolating values
+ *         // at specific ranges.  It requires a default value.
+ *         {
+ *            progress: [
+ *              { from: 0.2, to: 0.3, start: 'block', end: 'block' },
+ *            ],
+ *            id: '--display-settings',
+ *            noInterpolation: true,
+ *            noInterpolationDefault: 'none'
+ *         }
  *      ]}
  *  )
  *
