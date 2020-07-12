@@ -52,6 +52,29 @@ export interface interpolateSettings {
      * when using noInterpolation mode.
      */
     noInterpolationDefault?: string;
+
+    /**
+     * Stagger option.
+     */
+    stagger?: interpolateStaggerOptions;
+
+    /**
+     * Whether this is a stagger item that was created at runtime.
+     */
+    staggerItem?: boolean;
+}
+
+
+export interface interpolateStaggerOptions {
+    /**
+     * The number of stagger interpolations to create.
+     */
+    count: number;
+
+    /**
+     * The offset per stagger.
+     */
+    progressOffset: number;
 }
 
 export interface multiInterpolateConfig {
@@ -190,6 +213,21 @@ export const multiInterpolateHelper = {
  *       noInterpolationDefault: 'block'
  *       id: 'display-setting',
  *     },
+ *
+ *
+ *     // Staggers allow to create multi entries of the same property with an
+ *     // offset.  For example, here 4 staggers would be created.
+ *     // hero-y-0, hero-y-1, hero-y-2, hero-y-3 and the from and end points
+ *     // would each be shifted by the progressOffset (0.008).
+ *     {
+ *       progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
+ *       id: 'hero-y',
+ *       stagger: {
+ *           count: 4,
+ *           progressOffset: 0.008
+ *       }
+ *     }
+ *
  *  ]
  * });
  *
@@ -215,6 +253,8 @@ export const multiInterpolateHelper = {
  * console.log(results['x']); //~7441
  * console.log(results['y']); // ~100
  * console.log(results['someOther']); // 100
+ *
+ *
  * ```
  * @tested
  */
@@ -237,7 +277,9 @@ export class MultiInterpolate {
      * Sets and updates the config.  Validates, reorders and set the config.
      */
     updateConfig(config: multiInterpolateConfig) {
-        this.config = config;
+
+        // Assign and create staggers.
+        this.config = this.createStaggers(config);
 
         if (!this.config.interpolations) {
             throw new Error(
@@ -270,7 +312,44 @@ export class MultiInterpolate {
 
                 return interpolateSettings;
             })
+    }
 
+
+    /**
+     * Goes through each multiInterpolation to check if stagger is set.
+     * If it is, create stagger entries.
+     * @param config
+     */
+    private createStaggers(config: multiInterpolateConfig):multiInterpolateConfig {
+        const itemsToAdd: Array<interpolateSettings>= [];
+        [...config.interpolations].forEach((item)=> {
+
+            // If stagger is set, we are going to add a specific stagger count.
+            if(item.stagger && !item.staggerItem) {
+                for (var i = 0; i < item.stagger.count; i++) {
+                    const newItem = Object.assign({}, item);
+
+                    newItem.progress = newItem.progress.map((progress)=> {
+                        progress = Object.assign({}, progress);
+                        progress.to += i * item.stagger.progressOffset;
+                        progress.from += i * item.stagger.progressOffset;
+                        newItem.id = item.id + '-' + i;
+                        newItem.stagger = null;
+                        newItem.staggerItem = true;
+                        return progress;
+                    })
+
+                    // Add this stagger.
+                    itemsToAdd.push(newItem);
+                }
+            }
+        })
+
+        itemsToAdd.forEach((item)=> {
+            config.interpolations.push(item);
+        })
+
+        return config;
     }
 
 

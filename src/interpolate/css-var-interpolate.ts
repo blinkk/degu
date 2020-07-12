@@ -76,6 +76,36 @@ import { objectf } from '../objectf/objectf';
  *            noInterpolation: true,
  *            noInterpolationDefault: 'none'
  *         }
+ *
+ *
+ *       // Staggers allows to create multi entries of the same property with an
+ *       // offset.  For example, here 4 staggers would be created.
+ *       // hero-y-0, hero-y-1, hero-y-2, hero-y-3 and the from and end points
+ *       // would each be shifted by the progressOffset (0.008).
+ *       // You can then use those css variables to target your elements.
+ *       //
+ *       // An easy way might be to add [row="0"], [row="1"]
+ *       // your elements and add a sass mixin like the following.
+ *       //
+ *       //
+ *       //  =effect-stagger($stagger, $offset)
+ *       //   @for $i from 0 through $stagger
+ *       //       [row="#{$i}"]
+ *       //       transform: translateY(var(--hero2-y-#{$i + $offset}))
+ *       //
+ *       // .my-chapter
+ *       //     +effect-stagger(4,0)
+ *       {
+ *         progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
+ *         id: 'hero-y',
+ *         stagger: {
+ *             count: 4,
+ *             progressOffset: 0.008
+ *         }
+ *        }
+ *
+ *
+ *
  *      ]}
  *  )
  *
