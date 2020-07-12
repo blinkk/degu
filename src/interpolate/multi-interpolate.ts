@@ -346,15 +346,15 @@ export class MultiInterpolate {
                  *   - id: '--display-settings'
                  *     noInterpolation: true
                  *     noInterpolationDefault: 'block'
-                 *   progress:
+                 *     progress:
                  *     - from: 0.3
                  *       to: 0.5
                  *       start: 'none'
                  *       end: 'none'
-                 *    - from: 0.6
-                 *      toFrame: 0.7
-                 *      start: 'inline-block'
-                 *      end: 'inline-block'
+                 *     - from: 0.6
+                 *       to: 0.7
+                 *       start: 'inline-block'
+                 *       end: 'inline-block'
                  *
                  * Since it is noInterpolation, the start and end values are expected
                  * to be identical, and when there is no matching setting, the
