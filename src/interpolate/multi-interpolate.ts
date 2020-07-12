@@ -25,6 +25,7 @@ export interface rangedProgress {
      * it will be set to linear.
      */
     easingFunction?: Function;
+
 }
 
 export interface interpolateSettings {
@@ -36,6 +37,21 @@ export interface interpolateSettings {
      * The name of the interpolations
      */
     id: string;
+
+    /**
+     * Optional - noInterpolation property. This defaults to false and is used for very specific
+     * cases in which you want to specify pass through string values.
+     * The main uses case now is to pass through values like 'hidden' or 'none'
+     * to that cssVarInterpolate can add these properties to specific from/to
+     * ranges.  See below for more.
+     */
+    noInterpolation?: boolean;
+
+    /**
+     * Optional - The default value for when there is no match with the current range
+     * when using noInterpolation mode.
+     */
+    noInterpolationDefault?: string;
 }
 
 export interface multiInterpolateConfig {
@@ -161,6 +177,19 @@ export const multiInterpolateHelper = {
  *       progress: [{ from: 0, to: 1, start: '0px', end: '100px' }]
  *       id: 'z',
  *     }
+ *
+ *
+ *     // There is also no interpolation mode.  This doesn't interpolate
+ *     // but rather just applies properties when specific ranges are matched.
+ *     {
+ *       progress: [
+ *          { from: 0.3, to: 0.5, start: 'none', end: 'none'},
+ *          { from: 0.5, to: 0.8, start: 'inline', end: 'inline }
+ *       ],
+ *       noInterpolation: true
+ *       noInterpolationDefault: 'block'
+ *       id: 'display-setting',
+ *     },
  *  ]
  * });
  *
@@ -288,17 +317,77 @@ export class MultiInterpolate {
                     matchedRangeProgress.to
                 )
 
-                // Now calculate the interpolation based on the childProgress
-                // progress value.
-                const interpolatedValue = new Interpolate({
-                    from: matchedRangeProgress.start,
-                    to: matchedRangeProgress.end,
-                    easeFunction: matchedRangeProgress.easingFunction ||
-                        EASE.linear
-                }).calculate(childProgress);
+                /*
+                 * There are very specific cases in which we want to specify
+                 * non-interpolating values.
+                 *
+                 * This happens for the case
+                 * in css-var-interpolate, where we might want to add
+                 * non-interpolating css properties for specific ranges.
+                 *
+                 * An example is:
+                 *    color: var(--myColor)
+                 *
+                 *   - id: '--myColor'
+                 *   noInterpolation: true
+                 *   noInterpolationDefault: 'orange'
+                 *   progress:
+                 *   - fromFrame: 300
+                 *       toFrame: 500
+                 *       start: 'blue'
+                 *       end: 'blue'
+                 *   - fromFrame: 600
+                 *       toFrame: 700
+                 *       start: 'red'
+                 *       end: 'red'
+                 *
+                 * Another example is:
+                 *   display: var(--display-settings)
+                 *   - id: '--display-settings'
+                 *   noInterpolation: true
+                 *   noInterpolationDefault: 'block'
+                 *   progress:
+                 *   - fromFrame: 300
+                 *       toFrame: 500
+                 *       start: 'none'
+                 *       end: 'none'
+                 *   - fromFrame: 600
+                 *       toFrame: 700
+                 *       start: 'inline-block'
+                 *       end: 'inline-block'
+                 *
+                 * Since it is noInterpolation, the start and end values are expected
+                 * to be identical, and when there is no matching setting, the
+                 * value would return null so that the "default" css value
+                 * gets used.
+                 */
+                if (config.noInterpolation) {
 
-                // Finally cache this value to the current values list.
-                this.currentValues[config.id] = interpolatedValue;
+                    if(!config.noInterpolationDefault) {
+                        throw new Error("You are using noInterpolation without a noInterpolation default");
+                    }
+
+                    if (mathf.isBetween(this.parentProgress,
+                        matchedRangeProgress.from, matchedRangeProgress.to, true)) {
+                      // By convention, the start and end should match
+                      // so we just pick end.
+                      this.currentValues[config.id] = matchedRangeProgress.end;
+                    } else {
+                      this.currentValues[config.id] = config.noInterpolationDefault;
+                    }
+                } else {
+                    // Now calculate the interpolation based on the childProgress
+                    // progress value.
+                    const interpolatedValue = new Interpolate({
+                        from: matchedRangeProgress.start,
+                        to: matchedRangeProgress.end,
+                        easeFunction: matchedRangeProgress.easingFunction ||
+                            EASE.linear
+                    }).calculate(childProgress);
+
+                    // Finally cache this value to the current values list.
+                    this.currentValues[config.id] = interpolatedValue;
+                }
             }
         )
 
