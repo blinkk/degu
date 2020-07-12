@@ -189,7 +189,9 @@ export class TextSplit2 {
 
             if (wordY !== y) {
                 y = wordY;
-                this.words[i - 1].setAttribute('end', sentenceNumber + '');
+                if (this.words[i-1]) {
+                  this.words[i - 1].setAttribute('end', sentenceNumber + '');
+                }
                 sentenceNumber++;
                 word.setAttribute('start', sentenceNumber + '');
             }
