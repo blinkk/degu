@@ -14,6 +14,7 @@ export interface CssParallaxSettings {
     bottom: string,
     // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
     lerp: number,
+    damp: number,
     // Whether to force clamp the progress to 0-1 range.  Defaults to true.
     clamp: boolean,
 
@@ -79,6 +80,7 @@ export class CssParallaxController {
                 top: '0px',
                 bottom: '0px',
                 lerp: 1,
+                damp: 1,
                 precision: 3,
                 rafEvOptions: {
                     rootMargin: '300px 0px 300px 0px'
@@ -147,13 +149,14 @@ export class CssParallaxController {
     /**
      * Calculates the current progress and returns a value between 0-1.
      */
-    protected updateProgress(lerp:number): number {
+    protected updateProgress(lerp:number, damp: number): number {
         this.currentProgress =
-            mathf.lerp(
+            mathf.damp(
                 this.currentProgress,
                 dom.getElementScrolledPercent(this.element, this.topOffset, this.bottomOffset, true),
-                lerp
+                lerp, damp
             );
+
 
         if (this.settingsData.clamp) {
             this.currentProgress = mathf.clamp01(this.currentProgress);
@@ -172,7 +175,7 @@ export class CssParallaxController {
      * Updates the current progress immediately.
      */
     protected updateImmediately() {
-        this.updateProgress(1);
+        this.updateProgress(1, 1);
         this.interpolator.update(
             this.currentProgress
         );
@@ -180,7 +183,7 @@ export class CssParallaxController {
 
 
     protected onRaf(): void {
-        this.updateProgress(this.settingsData.lerp);
+        this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
         // Use a rounded progress to pass to css var interpolate which
         // will cull updates that are repetitive.
         const roundedProgress =
@@ -229,6 +232,7 @@ export class CssParallaxController {
  *     top: '0px' (string) A css number to offset where the progress begins.  Accepts %, px, vh.
  *     bottom: '0px' (string) A css number to offset the progress ends.  Accepts %, px, vh.
  *     lerp: 0.18 Optional lerp.  Defaults to 1 assuming no asymptotic averaging.
+ *     damp: 0.18 Optional damp.  Defaults to 1 assuming no damping.
  *     clamp: false (boolean)  Defaults to true where by progress is clamped to 0 and 1.
  *     precision: (number) Defaults to 3.  Lower precision means less dom updates but less accuracy.
  *
