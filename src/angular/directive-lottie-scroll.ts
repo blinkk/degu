@@ -10,6 +10,7 @@ import { interpolateSettings } from '../interpolate/multi-interpolate';
 import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 import { RafTimer } from '../raf/raf-timer';
 import { is } from '../is/is';
+import { CubicBezier} from '../mathf/cubic-bezier';
 
 
 export const LottieScrollEvents = {
@@ -343,6 +344,7 @@ export class LottieController {
                         if (is.defined(trigger['toFrame'])) {
                             trigger.to = mathf.inverseLerp(startFrame, endFrame, trigger['toFrame'], true);
                         }
+
                     });
                 }
 
@@ -361,6 +363,13 @@ export class LottieController {
                             }
                             if (is.defined(progress['toFrame'])) {
                                 progress.to = mathf.inverseLerp(startFrame, endFrame, progress['toFrame'], true);
+                            }
+
+                            if(is.defined(progress['cubic_ease'])) {
+                                const ease = progress['cubic_ease'].split(',');
+                                progress.easingFunction = CubicBezier.makeEasingFunction(
+                                    ease[0], ease[1], ease[2], ease[3]
+                                );
                             }
 
                             return progress;
@@ -862,6 +871,7 @@ export class LottieController {
  *           toFrame: 300
  *           start: 0
  *           end: 1
+ *           cubic_ease: 0.27,0.06,0.3,1
  *         - fromFrame: 300
  *           toFrame: 500
  *           start: 1
