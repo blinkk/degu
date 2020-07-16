@@ -147,6 +147,8 @@ export class RafProgress {
     private precision: number;
     private rangeWatchers: Array<RafProgressRangeWatcher>;
     private callbacks: Array<Function>;
+    // The current scroll direction.
+    private direction:number;
 
     /**
      * @param {Function} progressRafLoop  Optional function to be called on each
@@ -308,11 +310,11 @@ export class RafProgress {
         }
 
 
-        let direction = mathf.direction(previousProgress, this.currentProgress);
+        this.direction = mathf.direction(previousProgress, this.currentProgress);
 
         // Call callbacks.
         this.callbacks.forEach((callback) => {
-            callback(this.currentProgress, direction);
+            callback(this.currentProgress, this.direction);
         })
 
         // Loop through watchers.
@@ -329,7 +331,7 @@ export class RafProgress {
             }
 
             if (isBetween) {
-                watcher.callback(this.currentProgress, direction);
+                watcher.callback(this.currentProgress, this.direction);
             }
         })
 
@@ -391,6 +393,15 @@ export class RafProgress {
      */
     public getLerpDelta() {
         return this.targetProgress - this.currentProgress;
+    }
+
+
+    /**
+     * Gets the current scroll direction. 1 is down scroll, -1 is up scroll and
+     * 0 is no scroll (when progress is catching up).
+     */
+    public getScrollDirection():number {
+        return this.direction;
     }
 
     dispose() {

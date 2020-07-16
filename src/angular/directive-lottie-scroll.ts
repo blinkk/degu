@@ -10,7 +10,7 @@ import { interpolateSettings } from '../interpolate/multi-interpolate';
 import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 import { RafTimer } from '../raf/raf-timer';
 import { is } from '../is/is';
-import { CubicBezier} from '../mathf/cubic-bezier';
+import { CubicBezier } from '../mathf/cubic-bezier';
 
 
 export const LottieScrollEvents = {
@@ -34,6 +34,20 @@ export interface LottiePlayLoop {
     whenGreaterThanFrame: number,
     fromFrame: number,
     toFrame: number
+}
+
+export interface LottieAutoPlay {
+    fromFrame: number,
+    toFrame: number
+    // Whether to trigger this on a down scroll
+    down: boolean,
+    // Whether to trigger this on a up scroll
+    up: boolean,
+
+
+    // If you want it to keep looping.
+    loopStartFrame?: number,
+    loopEndFrame?: number,
 }
 
 
@@ -121,7 +135,9 @@ export interface LottieObject {
     isOnScreen: boolean,
 
     playLoop: LottiePlayLoop,
-    isPlayingLoop: boolean,
+    isPlaying: boolean,
+
+    autoplay: LottieAutoPlay,
 
     loopListener: Function
 }
@@ -205,6 +221,7 @@ export class LottieController {
                         classTriggers: null,
                         activeTriggerClasses: [],
                         playLoop: null,
+                        autoplay: null,
                         // This will get updated once the lottie instance is loaded.
                         // Unless the user specifically set an endframe.
                         endFrame: 0,
@@ -365,7 +382,7 @@ export class LottieController {
                                 progress.to = mathf.inverseLerp(startFrame, endFrame, progress['toFrame'], true);
                             }
 
-                            if(is.defined(progress['cubic_ease'])) {
+                            if (is.defined(progress['cubic_ease'])) {
                                 const ease = progress['cubic_ease'].split(',');
                                 progress.easingFunction = CubicBezier.makeEasingFunction(
                                     ease[0], ease[1], ease[2], ease[3]
@@ -500,14 +517,17 @@ export class LottieController {
      * @param currentFrame
      */
     protected drawOrLoop(lottieObject: LottieObject, currentFrame: number) {
+        const direction = this.rafProgress.getScrollDirection();
+
+        // The case of playLoop.
         if (
             lottieObject.playLoop && currentFrame > lottieObject.playLoop.whenGreaterThanFrame
         ) {
             // If we are looping exit.
-            if (lottieObject.isPlayingLoop) {
+            if (lottieObject.isPlaying) {
                 return;
             }
-            lottieObject.isPlayingLoop = true;
+            lottieObject.isPlaying = true;
 
             lottieObject.loopListener = (data: any) => {
                 const totalFrames = lottieObject.lottieInstance.totalFrames;
@@ -526,18 +546,57 @@ export class LottieController {
             lottieObject.lottieInstance.addEventListener('enterFrame', lottieObject.loopListener);
             lottieObject.lottieInstance['goToAndPlay'](currentFrame, true);
 
+        }
+
+        // Case for autoplay
+        else if (
+            lottieObject.autoplay &&
+            !lottieObject.isPlaying &&
+            (
+                (lottieObject.autoplay.down && direction == 1) ||
+                (lottieObject.autoplay.up && direction == -1)
+            ) &&
+            (mathf.isBetween(this.currentProgress, lottieObject.fromProgress,
+                lottieObject.toProgress, true))) {
+
+            lottieObject.isPlaying = true;
+
+            // If we want to loop
+            if (lottieObject.autoplay.loopStartFrame) {
+                lottieObject.lottieInstance.playSegments([
+                    [
+                    lottieObject.autoplay['fromFrame'], lottieObject.autoplay['toFrame']],
+                    [lottieObject.autoplay['loopStartFrame'], lottieObject.autoplay['loopEndFrame']]
+                ], true);
+            } else {
+                lottieObject.lottieInstance.loop = false;
+                lottieObject.lottieInstance['goToAndStop'](lottieObject.autoplay['fromFrame'], true);
+                lottieObject.lottieInstance.playSegments([
+                    [lottieObject.autoplay['fromFrame'], lottieObject.autoplay['toFrame']]
+                ], true);
+            }
         } else {
-            if (lottieObject.isPlayingLoop) {
+            if (lottieObject.isPlaying) {
                 lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
             }
-            lottieObject.isPlayingLoop = false;
-            lottieObject.lottieInstance['goToAndStop'](currentFrame, true);
+
+            if (lottieObject.autoplay) {
+                if (!mathf.isBetween(this.currentProgress, lottieObject.fromProgress,
+                    lottieObject.toProgress, true)) {
+                 lottieObject.isPlaying = false;
+                 lottieObject.lottieInstance['goToAndStop'](100000, true);
+                }
+            } else {
+
+                lottieObject.isPlaying = false;
+                lottieObject.lottieInstance['goToAndStop'](currentFrame, true);
+            }
         }
     }
 
 
     playLoop(lottieObject: LottieObject, start: number, end: number) {
-        if (lottieObject.isPlayingLoop) {
+        if (lottieObject.isPlaying) {
             lottieObject.loopListener = (data: any) => {
                 const totalFrames = lottieObject.lottieInstance.totalFrames;
                 const playProgress = mathf.inverseLerp(
@@ -758,7 +817,6 @@ export class LottieController {
  *
  *    lotties:
  *     -
- *
  *       # The query selector to select the container element of lottie
  *       # Required - string
  *       container_selector: '[lottie-desktop]'
@@ -829,9 +887,21 @@ export class LottieController {
  *          toFrame: 148
  *
  *
+ *       # Autoplay is used for lottie animations that does not scrub with the scroll
+ *       # but instead play at a specific point.  This is different with the
+ *       # playLoop feature in that the animation plays out naturally and is
+ *       # never scrubbed.  Imaging this being more like inview.
  *
- *
- *
+ *       autoplay:
+ *          fromFrame: 0
+ *          toFrame: 150
+ *          # Whether to trigger this when scrolling down
+ *          down: true
+ *          # Whether to trigger this when scrolling up
+ *          up: true
+ *          # Optional start and end to loop segments.
+ *          loopStartFrom: 150
+ *          loopEndFrom: 300
  *
  *
  *       # Class triggers
