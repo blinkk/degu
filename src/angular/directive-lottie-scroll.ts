@@ -585,7 +585,6 @@ export class LottieController {
                 return;
             }
 
-
             if (!lottieObject.isOnScreen) {
                 if (lottieObject.debugFrame) {
                     console.log("lottie is not on screen");
@@ -618,6 +617,12 @@ export class LottieController {
 
         // Update css var interpolations and class triggers
         this.lottieObjects.forEach((lottieObject) => {
+            // If we have an intro and haven't completed the playback.
+            const hasIntroAndNotCompleted = lottieObject.intro && !lottieObject.introCompleted;
+            if (hasIntroAndNotCompleted) {
+                return;
+            }
+
             if (!lottieObject.isOnScreen) {
                 return;
             }
