@@ -51,7 +51,10 @@ export interface LottieScrollSettings {
 
     // The lerp to apply to the scroll progress.
     // Defaults to 1.
-    lerp: number
+    lerp: number,
+
+    // Damp to apply.  Defaults to 1 (no damp)
+    damp: number,
 
     // Top and bottom offsets for progress calculation.
     top: string,
@@ -188,6 +191,7 @@ export class LottieController {
             ...{
                 debug: false,
                 lerp: 1,
+                damp: 1,
                 top: '0px',
                 bottom: '0px',
             },
@@ -432,7 +436,7 @@ export class LottieController {
 
 
     protected onWindowScroll(): void {
-        this.rafProgress.easeTo(this.getPercent(), this.lottieScrollSettings.lerp);
+        this.rafProgress.dampTo(this.getPercent(), this.lottieScrollSettings.lerp, this.lottieScrollSettings.damp);
     }
 
 

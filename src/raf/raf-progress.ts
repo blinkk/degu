@@ -126,6 +126,7 @@ export class RafProgress {
     public currentProgress: number;
     private targetProgress: number;
     private easeAmount: number;
+    private damp: number;
     private easingFunction: Function;
     private precision: number;
     private rangeWatchers: Array<RafProgressRangeWatcher>;
@@ -160,6 +161,11 @@ export class RafProgress {
          * one RAF cycle.  Use 1 for no ease.
          */
         this.easeAmount = 1;
+
+        /**
+         * The amount of damp to apply. 1 is no damping.
+         */
+        this.damp = 1;
 
         /**
          * A collection of callbacks to be run at specific progress values.
@@ -271,11 +277,19 @@ export class RafProgress {
     private rafLoop() {
         let previousProgress = this.currentProgress;
 
-        this.currentProgress =
-            mathf.ease(this.currentProgress,
-                this.targetProgress,
-                this.easeAmount,
-                this.easingFunction);
+        if(!is.null(this.damp)) {
+            this.currentProgress =
+                mathf.damp(this.currentProgress,
+                    this.targetProgress,
+                    this.easeAmount,
+                    this.damp);
+        } else {
+            this.currentProgress =
+                mathf.ease(this.currentProgress,
+                    this.targetProgress,
+                    this.easeAmount,
+                    this.easingFunction);
+        }
 
         // Reduce the precision of progress.  We dont need to report progress differences
         // of 0.0000001.
@@ -355,13 +369,34 @@ export class RafProgress {
      *      range of 0-1.
      *
      */
-    easeTo(targetProgress: number, easeAmount: number,
+    public easeTo(targetProgress: number, easeAmount: number,
         easingFunction: Function = EASE.linear,
         noClamp: boolean = false) {
 
         this.targetProgress = noClamp ? targetProgress : mathf.clampAsProgress(targetProgress);
         this.easeAmount = mathf.clampAsPercent(easeAmount);
         this.easingFunction = easingFunction;
+        this.damp = null;
+
+        // Start up RAF to make updates and ease to the target progress.
+        // Make sure we force a restart since sometimes, you can get multiple
+        // call to this in the same raf cycle and if stop is called at the end
+        // our animation won't be guaranteed to start.
+        this.raf.start(true);
+    }
+
+
+    /**
+     * Similar to easeTo but applied a smoothdamp instead.
+     * @param targetProgress
+     * @param easeAmount
+     * @param damp
+     */
+    public dampTo(targetProgress:number, easeAmount:number, damp:number, noClamp: boolean = false):void {
+        this.targetProgress = noClamp ? targetProgress : mathf.clampAsProgress(targetProgress);
+        this.easeAmount = mathf.clampAsPercent(easeAmount);
+        this.easingFunction = null;
+        this.damp = damp;
 
         // Start up RAF to make updates and ease to the target progress.
         // Make sure we force a restart since sometimes, you can get multiple
