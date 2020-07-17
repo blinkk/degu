@@ -28,13 +28,6 @@ export interface LottieScrollEventPayload {
     direction: number,
 }
 
-export interface LottiePlayLoop {
-    // The frame at which, if lottie detected we are at this frame, start
-    // looping
-    whenGreaterThanFrame: number,
-    fromFrame: number,
-    toFrame: number
-}
 
 export interface LottieAutoPlay {
     fromFrame: number,
@@ -134,10 +127,8 @@ export interface LottieObject {
     // display: none you can cull paints.
     isOnScreen: boolean,
 
-    playLoop: LottiePlayLoop,
-    isPlaying: boolean,
-
     autoplay: LottieAutoPlay,
+    isAutoPlaying: boolean,
 
     loopListener: Function
 }
@@ -220,7 +211,6 @@ export class LottieController {
                         toProgress: null,
                         classTriggers: null,
                         activeTriggerClasses: [],
-                        playLoop: null,
                         autoplay: null,
                         // This will get updated once the lottie instance is loaded.
                         // Unless the user specifically set an endframe.
@@ -496,22 +486,8 @@ export class LottieController {
 
 
     /**
-     * Checks if playLoop is set on the lottieObject in which case,
+     * Checks if autoplay is set on the lottieObject in which case,
      * we check the frame to start at and see we have reached that point.
-     *
-     * Note this got real nasty due to what appears to be some issues with playSegment
-     * in lottie library.
-     *
-     * It appears to be a bug between playSegments and goToAndStop
-     * because once you use playSegments, gotoAndStop writes are sometimes ignored.
-     *
-     * This is somewhat related:
-     * https://github.com/airbnb/lottie-web/issues/936
-     *
-     * After trying different things, the best work around is to avoid
-     * playSegments and simply use goToAndPlay to naturally play out loop
-     * and use event listeners to loop the content.
-     *
      *
      * @param lottieObject
      * @param currentFrame
@@ -519,39 +495,11 @@ export class LottieController {
     protected drawOrLoop(lottieObject: LottieObject, currentFrame: number) {
         const direction = this.rafProgress.getScrollDirection();
 
-        // The case of playLoop.
+        // Case when autoplay is defined and the current scroll is in range
+        // of the autoplay trigger.
         if (
-            lottieObject.playLoop && currentFrame > lottieObject.playLoop.whenGreaterThanFrame
-        ) {
-            // If we are looping exit.
-            if (lottieObject.isPlaying) {
-                return;
-            }
-            lottieObject.isPlaying = true;
-
-            lottieObject.loopListener = (data: any) => {
-                const totalFrames = lottieObject.lottieInstance.totalFrames;
-                const playProgress = mathf.inverseLerp(
-                    0,
-                    data.totalTime,
-                    data.currentTime
-                );
-                const currentFrame = mathf.lerp(0, totalFrames, playProgress);
-                if (currentFrame >= lottieObject.playLoop.fromFrame) {
-                    lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
-                    //    lottieObject.lottieInstance['stop']();
-                    this.playLoop(lottieObject, lottieObject.playLoop.fromFrame, lottieObject.playLoop.toFrame);
-                }
-            }
-            lottieObject.lottieInstance.addEventListener('enterFrame', lottieObject.loopListener);
-            lottieObject.lottieInstance['goToAndPlay'](currentFrame, true);
-
-        }
-
-        // Case for autoplay
-        else if (
             lottieObject.autoplay &&
-            !lottieObject.isPlaying &&
+            !lottieObject.isAutoPlaying &&
             (
                 (lottieObject.autoplay.down && direction == 1) ||
                 (lottieObject.autoplay.up && direction == -1)
@@ -559,7 +507,7 @@ export class LottieController {
             (mathf.isBetween(this.currentProgress, lottieObject.fromProgress,
                 lottieObject.toProgress, true))) {
 
-            lottieObject.isPlaying = true;
+            lottieObject.isAutoPlaying = true;
 
             // If we want to loop
             if (lottieObject.autoplay.loopStartFrame) {
@@ -576,43 +524,18 @@ export class LottieController {
                 ], true);
             }
         } else {
-            if (lottieObject.isPlaying) {
-                lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
-            }
-
             if (lottieObject.autoplay) {
                 if (!mathf.isBetween(this.currentProgress, lottieObject.fromProgress,
                     lottieObject.toProgress, true)) {
-                 lottieObject.isPlaying = false;
+                 lottieObject.isAutoPlaying = false;
+                 // Force lottie to draw an empty frame by drawing an non-existent frame.
                  lottieObject.lottieInstance['goToAndStop'](100000, true);
                 }
             } else {
-
-                lottieObject.isPlaying = false;
+                // For all other cases, just go to the frame and draw it.
+                lottieObject.isAutoPlaying = false;
                 lottieObject.lottieInstance['goToAndStop'](currentFrame, true);
             }
-        }
-    }
-
-
-    playLoop(lottieObject: LottieObject, start: number, end: number) {
-        if (lottieObject.isPlaying) {
-            lottieObject.loopListener = (data: any) => {
-                const totalFrames = lottieObject.lottieInstance.totalFrames;
-                const playProgress = mathf.inverseLerp(
-                    0,
-                    data.totalTime,
-                    data.currentTime
-                );
-                const currentFrame = mathf.lerp(0, totalFrames, playProgress);
-                if (currentFrame >= end) {
-                    lottieObject.lottieInstance.removeEventListener('enterFrame', lottieObject.loopListener);
-                    this.playLoop(lottieObject, start, end);
-                }
-            }
-            lottieObject.lottieInstance.addEventListener('enterFrame', lottieObject.loopListener);
-            lottieObject.lottieInstance['stop']();
-            lottieObject.lottieInstance['goToAndPlay'](start, true);
         }
     }
 
@@ -858,40 +781,13 @@ export class LottieController {
  *       fromProgress: 0.5
  *       toProgress: 1
  *
- *       # Loop Feature.
- *       # The is a limited loop feature.
- *       # You can tell a lottie animation to loop once the scroll gets to a certain frame.
- *       #
- *       # Example:
- *       # Lets say you have an icon animation that the entrance is from
- *       # 0 - 59 and then after it hits 59, you want it to loop between
- *       # 59-150, you can use this feature to to that.
- *       # The "whenGreaterThanFrame" is basically a trigger point to push
- *       # and autoplay the loop animation.  Normally, you would set this at 59 (your loop point).
- *       # but you can set it earlier which will progress it into the animation.
- *       # however the greater the delta between the whenGreaterThanFrame and
- *       # your playLoop.fromFrame, there will be a jump when scrolling back up.
- *       #
- *       # Troubleshooting:
- *       # My loop keeps going back to the first frame.  It doesn't loop
- *       # between the fromFrame and toFrame.  What can I do?
- *       #
- *       # Make sure your toFrame doesn't exceed the total number of frames
- *       # in your lottie animation.  If that doesn't work, make your toFrame, one less than
- *       # the total number of frames in your lottie file.
- *       #
- *       #
- *       playLoop:
- *          whenGreaterThan: 58
- *          fromFrame: 59
- *          toFrame: 148
- *
  *
  *       # Autoplay is used for lottie animations that does not scrub with the scroll
- *       # but instead play at a specific point.  This is different with the
- *       # playLoop feature in that the animation plays out naturally and is
- *       # never scrubbed.  Imaging this being more like inview.
- *
+ *       # but instead play at a specific point.  Imagine this more like
+ *       # an inview effect where when the scroll is between the defined
+ *       # fromProgress and toProgress points, this lottie will start playing
+ *       # automatically.  If you define a loopStartFrom and loopEndFrame
+ *       # it will loop in that range.
  *       autoplay:
  *          fromFrame: 0
  *          toFrame: 150
@@ -900,8 +796,8 @@ export class LottieController {
  *          # Whether to trigger this when scrolling up
  *          up: true
  *          # Optional start and end to loop segments.
- *          loopStartFrom: 150
- *          loopEndFrom: 300
+ *          loopStartFrame: 150
+ *          loopEndFrame: 300
  *
  *
  *       # Class triggers
