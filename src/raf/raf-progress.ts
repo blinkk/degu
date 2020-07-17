@@ -5,21 +5,6 @@ import { EASE } from '..';
 import { EventEmitter } from 'events';
 import { watch } from 'fs';
 
-interface RafProgressUpdateEvent extends Event {
-    /**
-     * The current progress.
-     */
-    readonly progress: number;
-
-    /**
-     * The direction of the progress.
-     * 0 for no movement.
-     * 1 for foward.
-     * -1 for backwards.
-     */
-    readonly direction: number
-}
-
 interface RafProgressRangeWatcher {
     range: number | Array<number>;
     callback: Function;
