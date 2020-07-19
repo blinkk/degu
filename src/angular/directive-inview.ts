@@ -34,13 +34,10 @@ export class InviewController {
             this.targetElements = Array.from(this.element.querySelectorAll(selector)) as Array<HTMLElement>;
         }
 
-        const offset = this.element.getAttribute('inview-offset') || '0px';
-        this.inOffset = func.setDefault(
-            this.getPixelValue(offset), 0
-        );
+        this.inOffset = +this.element.getAttribute('inview-offset') || 0;
 
         this.ev = elementVisibility.inview(this.element, {
-            rootMargin: this.inOffset + 'px'
+            threshold: +this.inOffset || 0
         }, (element: any, changes:any) => {
             if (changes.isIntersecting) {
                 this.inview();
@@ -76,26 +73,6 @@ export class InviewController {
             el.classList.add(InviewClassNames.OUT);
             el.classList.remove(InviewClassNames.IN);
         })
-    }
-
-    /**
-     * Takes a css string declaration such as '100px', '100vh' or '100%'
-     * and converts that into a relative pixel number.
-     * @param cssUnitObject
-     */
-    protected getPixelValue(cssValue: string): number {
-        const unit = cssUnit.parse(cssValue);
-        let base = 1;
-        if (unit.unit == '%') {
-            base = this.element.offsetHeight;
-            return base * (unit.value as number / 100);
-        }
-        if (unit.unit == 'vh') {
-            base = window.innerHeight;
-            return base * (unit.value as number / 100);
-        }
-
-        return base * (unit.value as number);
     }
 
 
@@ -138,26 +115,9 @@ export class InviewController {
  * ```
  *
  * # Add an offset
- * One of the trickest things with inview is how to setup the offset logic.
- * This inview handles this by allows you to pass px, vh, % values as an offset which
- * gets passed over to the internal intersection observer as a rootMargin.
+ * <div inview inview-offset="0.2"> --> Triggers the inview when 20% of the element is visible.
+ * <div inview inview-offset="0.5> --> Triggers the inview when 50% of the element is visible.
  *
- * By default, without any offset, inview is triggered the "exact" moment that
- * any part of the directive element enters the view port.
- *
- *
- * Pixel offset:
- * <div inview inview-offset="-100px"> --> Triggers the inview when the 100px of element is visible
- *
- * Percentage offset:
- * <div inview inview-offset="-20%> --> Triggers the inview when 20% of the element is visible.
- * <div inview inview-offset="-50%> --> Triggers the inview when 50% of the element is visible.
- *
- *
- * VH offset - this can have strange effects if you element is shorter than your offset itself.
- * For exapmle, having a 50vh offset doesn't make sense if you element is only 20vh tall.
- *
- * <div inview inview-offset="-50vh> --> Triggers the inview when 20vh worth of the element is visible.
  */
 export const inviewDirective = function () {
     return {
