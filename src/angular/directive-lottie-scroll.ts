@@ -54,7 +54,7 @@ export interface LottieScrollSettings {
     lerp: number,
 
     // Damp to apply.  Defaults to 1 (no damp)
-    damp: number,
+    damp?: number,
 
     // Top and bottom offsets for progress calculation.
     top: string,
