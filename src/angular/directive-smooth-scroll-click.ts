@@ -59,6 +59,7 @@ class SmoothScrollController {
         page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove",
             animationComplete);
 
+
         page.stop().animate({
             scrollTop: top
         }, this.duration, animationComplete)

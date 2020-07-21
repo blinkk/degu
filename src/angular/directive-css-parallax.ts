@@ -7,11 +7,13 @@ import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 import { Raf } from '../raf/raf';
 import { dom } from '../dom/dom';
 import { mathf } from '../mathf/mathf';
+import { is } from '../is/is';
 
 export interface CssParallaxSettings {
     debug: boolean,
     top: string,
     bottom: string,
+    height?: string,
     // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
     lerp: number,
     damp: number,
@@ -52,9 +54,15 @@ export class CssParallaxController {
      */
     private topOffset: number;
     /**
-     * The top offset for progress
+     * The bottom offset for progress
      */
     private bottomOffset: number;
+
+    /**
+     * The height value if specified.
+     */
+    private height: number;
+
 
     static get $inject() {
         return ['$element', '$scope', '$attrs'];
@@ -65,6 +73,7 @@ export class CssParallaxController {
         this.raf = new Raf(this.onRaf.bind(this));
         this.parallaxData = JSON.parse(this.element.getAttribute('css-parallax'));
 
+        console.log(this.parallaxData);
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             element: window,
@@ -79,6 +88,7 @@ export class CssParallaxController {
                 clamp: true,
                 top: '0px',
                 bottom: '0px',
+                height: null,
                 lerp: 1,
                 damp: 1,
                 precision: 3,
@@ -110,7 +120,7 @@ export class CssParallaxController {
         // Start and stop raf when the element comes into view.
         this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
             (element: any, changes: any) => {
-                changes.isIntersecting ? this.raf.start() : ()=> {
+                changes.isIntersecting ? this.raf.start() : () => {
                     this.raf.stop();
                     this.updateImmediately();
                 }
@@ -149,7 +159,9 @@ export class CssParallaxController {
     /**
      * Calculates the current progress and returns a value between 0-1.
      */
-    protected updateProgress(lerp:number, damp: number): number {
+    protected updateProgress(lerp: number, damp: number): number {
+
+
         this.currentProgress =
             mathf.damp(
                 this.currentProgress,
@@ -161,7 +173,6 @@ export class CssParallaxController {
         if (this.settingsData.clamp) {
             this.currentProgress = mathf.clamp01(this.currentProgress);
         }
-
 
         if (this.settingsData.debug) {
             console.log(this.currentProgress, this.topOffset, this.bottomOffset);
@@ -187,7 +198,7 @@ export class CssParallaxController {
         // Use a rounded progress to pass to css var interpolate which
         // will cull updates that are repetitive.
         const roundedProgress =
-             mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
+            mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
         this.interpolator.update(
             roundedProgress
         );
@@ -201,6 +212,17 @@ export class CssParallaxController {
         this.bottomOffset = func.setDefault(
             this.getPixelValue(this.settingsData.bottom), 0
         )
+        this.height = is.string(this.settingsData.height) ? this.getPixelValue(this.settingsData.height) : null;
+
+        // If height is specified, we basically want to "shorten" the element
+        // by the delta amount.
+        // Example: el.offsetHeight = 500px, height: 100px.
+        //        so bottomOffset should be el.offsetHeight - height = 400px
+        requestAnimationFrame(()=> {
+            if (this.height) {
+                this.bottomOffset = -(this.element.offsetHeight - this.height);
+            }
+        })
     }
 
 
@@ -227,10 +249,11 @@ export class CssParallaxController {
  * ```
  * partial: myPartial
  * css_parallax:
- *   setting:
+ *   settings:
  *     debug: false (boolean, optional) True outputs progress in the dev console.
  *     top: '0px' (string) A css number to offset where the progress begins.  Accepts %, px, vh.
  *     bottom: '0px' (string) A css number to offset the progress ends.  Accepts %, px, vh.
+ *     height: '100px' (string) Optional.  An absolute height to use to calculate the percent.  Accepts %, px, vh.  In most cases you won't need this.
  *     lerp: 0.18 Optional lerp.  Defaults to 1 assuming no asymptotic averaging.
  *     damp: 0.18 Optional damp.  Defaults to 1 assuming no damping.
  *     clamp: false (boolean)  Defaults to true where by progress is clamped to 0 and 1.
@@ -278,6 +301,22 @@ export class CssParallaxController {
  * ```
  *
  *
+ *
+ * ## Height Settings
+ *
+ * In rare instances, you might want to calculate a scroll percent from when an
+ * element enters the viewport but not based on the height of the element itself.
+ *
+ * Imagine a <div> with 500vh.
+ *
+ * If you applied this settings:
+ * ```
+ *   setting:
+ *     top: '0px'
+ *     height: '100vw'
+ * ```
+ * Now the progress will start when that div comes in but end (1) when 100vw worth
+ * of scroll has been completed.
  *
  */
 export const cssParallaxDirective = function () {
