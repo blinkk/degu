@@ -184,6 +184,23 @@ export class LottieController {
         this.rafProgress = new RafProgress(this.progressUpdate.bind(this));
         this.rafProgress.setPrecision(5);
 
+
+        // Adds a way to update lerp, damp via chrome dev tools.
+        // This can be fired on the document OR the element.  Document
+        // firing will update all instances.
+        this.domWatcher.add({
+            element: document as any,
+            on: 'yano-lottie-scroll-update',
+            callback: this.handleLottieScrollUpdateEvent.bind(this),
+            eventOptions: { passive: true }
+        })
+        this.domWatcher.add({
+            element: this.element,
+            on: 'yano-lottie-scroll-update',
+            callback: this.handleLottieScrollUpdateEvent.bind(this),
+            eventOptions: { passive: true }
+        })
+
         const configData = JSON.parse(this.element.getAttribute('lottie-scroll'));
 
         const settings = configData.settings || {}
@@ -699,6 +716,30 @@ export class LottieController {
      */
     public getLottieObjects(): Array<LottieObject> {
         return this.lottieObjects;
+    }
+
+
+    /**
+     * Updates the lottie settings via document or events on the root element.
+     *
+     *   var event = new CustomEvent('yano-lottie-scroll-update', { detail: { lerp: 0.2, damp: 0.3} });
+     *   document.dispatchEvent(event)
+     *
+     *  // Scope to lottie instance
+     *   element.dispatchEvent(event)
+     *
+     * @param e
+     */
+    private handleLottieScrollUpdateEvent(e:any):void  {
+        const payload = e.detail;
+        if(payload.lerp) {
+            this.lottieScrollSettings.lerp = +payload.lerp;
+        }
+        if(payload.damp) {
+            this.lottieScrollSettings.damp = +payload.damp;
+        }
+        console.log('daupted')
+
     }
 
 
