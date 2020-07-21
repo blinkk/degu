@@ -1,4 +1,5 @@
 
+import * as $ from 'jquery';
 import {dom} from '../dom/dom';
 import {mathf} from '../mathf/mathf';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
@@ -14,6 +15,12 @@ export interface ScrollPointsConfig {
     triggerDirection: number,
     targetElement: HTMLElement,
 
+
+    // The amount of scroll that should happen for every 1 second duration.
+    // This is in effect, the "speed" of scroll but rather sets the duration
+    // to be a factor of distance (meaning the scroll is always a constant speed
+    // independent of distance).
+    scrollDistanceEvery1Second?: number,
     // When the trigger happens, what position - location the scroll should go to.
     // relative to the top of the window.
     targetElementOffsetFromTopOfWindow: Function
@@ -55,9 +62,12 @@ export class ScrollPoints {
     private y: number = 0;
     private prevY: number = 0;
     private scrollDirection: number = 0;
+    private scrolling: boolean = false;
+    private jQuery: JQueryStatic;
 
     constructor(config: ScrollPointsConfig) {
         this.config = config;
+        this.jQuery = $;
 
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
@@ -94,6 +104,11 @@ export class ScrollPoints {
 
 
     private engage():void {
+        if(this.scrolling) {
+            return;
+        }
+
+
         // Engage only when scroll directions match with config specification.
         if(this.config.triggerDirection == -1 && this.scrollDirection != -1) {
             return;
@@ -105,11 +120,40 @@ export class ScrollPoints {
 
 
         this.config.targetElement.classList.add('scroll-point-engaged');
-        window.scrollTo({
-            top: dom.getScrollTop(this.config.targetElement) + this.getOffset(),
-            left: 0,
-            behavior: 'smooth'
-        });
+
+
+
+        // Native scroll.
+        // window.scrollTo({
+        //     top: dom.getScrollTop(this.config.targetElement) + this.getOffset(),
+        //     left: 0,
+        //     behavior: 'smooth'
+        // });
+
+
+        // TODO (uxder): replace jquery based scroll.  Probably use rafTimer.
+        var page = this.jQuery('body, html');
+        const top = dom.getScrollTop(this.config.targetElement) + this.getOffset();
+        let animationComplete = () => {
+            this.scrolling = false;
+            page.off("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove");
+            page.stop();
+        };
+
+        page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove",
+            animationComplete);
+
+        // Calculate the duration.  The duration should factor in the current distance.
+        const distance = Math.abs(window.scrollY - top);
+
+        // 1 second for base distance.
+        const base = this.config.scrollDistanceEvery1Second || 1000;
+        const duration = (distance / base) * 1000;
+        this.scrolling = false;
+
+        page.stop().animate({
+            scrollTop: top
+        }, duration, animationComplete)
     }
 
 
