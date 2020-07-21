@@ -51,6 +51,8 @@ export interface ScrollPointsConfig {
 export class ScrollPoints {
     private config: ScrollPointsConfig;
     private ev: ElementVisibilityObject;
+    private scrollEv: ElementVisibilityObject;
+    private scrollEv2: ElementVisibilityObject;
     private domWatcher: DomWatcher;
     private y: number = 0;
     private prevY: number = 0;
@@ -59,12 +61,18 @@ export class ScrollPoints {
     constructor(config: ScrollPointsConfig) {
         this.config = config;
 
+        this.scrollEv = elementVisibility.inview(this.config.triggerElement, {});
+        this.scrollEv2 = elementVisibility.inview(this.config.targetElement, {});
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             element: window,
             on: 'scroll',
             callback: this.onWindowScroll.bind(this),
-            eventOptions: { passive: true }
+            eventOptions: { passive: true },
+            runWhen: ()=> { return
+                this.scrollEv.state().inview ||
+                this.scrollEv2.state().inview
+            }
         })
         this.onWindowScroll();
 
@@ -121,6 +129,8 @@ export class ScrollPoints {
 
     public dispose():void {
         this.ev.dispose();
+        this.scrollEv.dispose();
+        this.scrollEv2.dispose();
         this.domWatcher.dispose();
     }
 }
