@@ -74,6 +74,8 @@ export class ScrollPoints {
             (element: any, changes: any) => {
                 if(changes.isIntersecting) {
                     this.engage();
+                } else {
+                    this.disengage();
                 }
             });
     }
@@ -102,11 +104,17 @@ export class ScrollPoints {
         }
 
 
+        this.config.targetElement.classList.add('scroll-point-engaged');
         window.scrollTo({
             top: dom.getScrollTop(this.config.targetElement) + this.getOffset(),
             left: 0,
             behavior: 'smooth'
         });
+    }
+
+
+    private disengage():void {
+        this.config.targetElement.classList.remove('scroll-point-engaged');
     }
 
 
