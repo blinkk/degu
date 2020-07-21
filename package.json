@@ -126,6 +126,8 @@
     "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
   },
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "jquery": "^3.4.1",
     "save-dev": "0.0.1-security"
   }

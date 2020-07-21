@@ -275,7 +275,8 @@ export class LazyImage implements INgDisposable {
      * @param url
      */
     private getWidthFromGoogleUrl(url:string):number {
-        return +url.match(/\w([0-9]+)$/)[1];
+        const match = url.match(/\w([0-9]+)$/);
+        return match ? +match[1] : 0;
     }
 
 
