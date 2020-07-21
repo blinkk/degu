@@ -3,10 +3,13 @@ import { DomWatcher } from '../dom/dom-watcher';
 import { func } from '../func/func';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
 import { cssUnit, CssUnitObject } from '../string/css-unit';
+import { mathf } from '../mathf/mathf';
 
 
 const InviewClassNames = {
     IN: 'in',
+    DOWN: 'down',
+    UP: 'up',
     OUT: 'out',
     READY: 'ready',
 }
@@ -20,6 +23,9 @@ export class InviewController {
     private outEv: ElementVisibilityObject;
     private watcher: DomWatcher;
     private inOffset: number;
+    private scrollDirection:number;
+    private scrollY:number;
+
     static get $inject() {
         return ['$scope', '$element', '$attrs'];
     }
@@ -44,6 +50,18 @@ export class InviewController {
             }
         });
 
+        this.scrollY = window.scrollY;
+
+        this.watcher = new DomWatcher();
+        this.watcher.add({
+            element: window,
+            on: 'scroll',
+            callback: this.onWindowScroll.bind(this),
+            eventOptions: { passive: true }
+        })
+        this.onWindowScroll();
+
+
         this.ev.readyPromise.then(()=> {
             this.targetElements.forEach((el)=> {
                 el.classList.add(InviewClassNames.READY);
@@ -61,10 +79,20 @@ export class InviewController {
         });
     }
 
+
+    private onWindowScroll():void {
+        this.scrollDirection = mathf.direction(this.scrollY, window.scrollY);
+        this.scrollY = window.scrollY;
+
+    }
+
     private inview(): void {
         this.targetElements.forEach((el)=> {
             el.classList.remove(InviewClassNames.OUT);
             el.classList.add(InviewClassNames.IN);
+            el.classList.remove(InviewClassNames.UP);
+            el.classList.remove(InviewClassNames.DOWN);
+            el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
         })
     }
 
@@ -72,6 +100,9 @@ export class InviewController {
         this.targetElements.forEach((el)=> {
             el.classList.add(InviewClassNames.OUT);
             el.classList.remove(InviewClassNames.IN);
+            el.classList.remove(InviewClassNames.UP);
+            el.classList.remove(InviewClassNames.DOWN);
+            el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
         })
     }
 
