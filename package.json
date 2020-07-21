@@ -1,6 +1,6 @@
 {
   "name": "yano-js",
-  "version": "0.0.210",
+  "version": "0.0.211",
   "description": "Micro library and util functions",
   "author": "Scott Murphy <stmhawaii@gmail.com>",
   "main": "lib/index.js",
