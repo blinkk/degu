@@ -86,8 +86,10 @@ export interface LottieObject {
     debugFrame: boolean,
     // The json path to the lottie json file.
     json_path: string | null,
+    json_path_webp: string | null,
     // If images are not embedded in the json file, the image path to the image directory.
     image_path: string | null,
+    image_path_webp: string | null,
     // The query selector to the lottie container.
     container_selector: string,
     // The renderer to use 'canvas', 'svg'
@@ -221,7 +223,9 @@ export class LottieController {
                     ...{
                         debugFrame: false,
                         json_path: null,
+                        json_path_webp: null,
                         image_path: null,
+                        image_path_webp: null,
                         container_selector: null,
                         renderer: 'canvas',
                         preserveAspectRatio: 'xMidYMid slice',
@@ -327,137 +331,143 @@ export class LottieController {
      */
     protected createLottieInstances(): void {
         this.lottieObjects.forEach((lottieObject, i) => {
-            const settings = {
-                container: this.element.querySelector(lottieObject.container_selector),
-                loop: true,
-                autoplay: false,
-                renderer: lottieObject.renderer as any,
-                rendererSettings: {
-                    // https://github.com/airbnb/lottie-web/issues/1860
-                    // https://github.com/airbnb/lottie-web/wiki/Renderer-Settings
-                    // For svg.
-                    // progressiveLoad: true,
+            is.supportingWebpAsync().then((supportsWebp) => {
+                const jsonPath = (lottieObject.json_path_webp && supportsWebp) ? lottieObject.json_path_webp : lottieObject.json_path;
+                const settings = {
+                    container: this.element.querySelector(lottieObject.container_selector),
+                    loop: true,
+                    autoplay: false,
+                    renderer: lottieObject.renderer as any,
+                    rendererSettings: {
+                        // https://github.com/airbnb/lottie-web/issues/1860
+                        // https://github.com/airbnb/lottie-web/wiki/Renderer-Settings
+                        // For svg.
+                        // progressiveLoad: true,
 
-                    preserveAspectRatio: lottieObject.preserveAspectRatio
-                },
-                path: lottieObject.json_path
-            }
-
-            if (lottieObject.image_path) {
-                settings['assetsPath'] = lottieObject.image_path;
-            }
-
-
-            const lottieInstance = lottie['loadAnimation'](settings)
-
-            // Supposed lottie optimization.
-            lottieInstance.setSubframe(false);
-
-            this.lottieObjects[i].lottieInstance = lottieInstance;
-
-            // Also update the end frame if it hasn't been specified.
-            lottieInstance.addEventListener('DOMLoaded', () => {
-                if (this.lottieObjects[i].endFrame == 0) {
-                    this.lottieObjects[i].endFrame = lottieInstance.totalFrames;
+                        preserveAspectRatio: lottieObject.preserveAspectRatio
+                    },
+                    path: jsonPath
                 }
 
-                if (this.lottieObjects[i].classTriggers) {
-                    const startFrame = this.lottieObjects[i].startFrame;
-                    const endFrame = this.lottieObjects[i].endFrame;
-                    this.lottieObjects[i].classTriggers.map((trigger) => {
-                        // TODO (uxder): Technically this a type violation.
-                        if (is.defined(trigger['fromFrame'])) {
-                            trigger.from = mathf.inverseLerp(startFrame, endFrame, trigger['fromFrame'], true);
-                        }
-                        if (is.defined(trigger['toFrame'])) {
-                            let toFrame = trigger['toFrame'];
-                            // Allows toFrame to use addition.
-                            if(String(toFrame).startsWith('+')) {
-                                toFrame = trigger['fromFrame'] + +(String(toFrame).replace('+', ''));
-                            }
-                            trigger.to = mathf.inverseLerp(startFrame, endFrame, +toFrame, true);
-                        }
-
-                    });
+                if (lottieObject.image_path) {
+                    if (supportsWebp && lottieObject.image_path_webp) {
+                        settings['assetsPath'] = lottieObject.image_path_webp;
+                    } else {
+                        settings['assetsPath'] = lottieObject.image_path;
+                    }
                 }
 
-                // If there are interpolations associated with this lottie scroll
-                // then create it.
-                if (this.lottieObjects[i].interpolations) {
-                    // First run through the interpolations and convert the
-                    // fromFrame and endFrame to progress values.
-                    this.lottieObjects[i].interpolations.map((interpolation) => {
+                const lottieInstance = lottie['loadAnimation'](settings)
+
+                // Supposed lottie optimization.
+                lottieInstance.setSubframe(false);
+
+                this.lottieObjects[i].lottieInstance = lottieInstance;
+
+                // Also update the end frame if it hasn't been specified.
+                lottieInstance.addEventListener('DOMLoaded', () => {
+                    if (this.lottieObjects[i].endFrame == 0) {
+                        this.lottieObjects[i].endFrame = lottieInstance.totalFrames;
+                    }
+
+                    if (this.lottieObjects[i].classTriggers) {
                         const startFrame = this.lottieObjects[i].startFrame;
                         const endFrame = this.lottieObjects[i].endFrame;
-                        interpolation.progress.map((progress) => {
+                        this.lottieObjects[i].classTriggers.map((trigger) => {
                             // TODO (uxder): Technically this a type violation.
-                            if (is.defined(progress['fromFrame'])) {
-                                progress.from = mathf.inverseLerp(startFrame, endFrame, progress['fromFrame'], true);
+                            if (is.defined(trigger['fromFrame'])) {
+                                trigger.from = mathf.inverseLerp(startFrame, endFrame, trigger['fromFrame'], true);
                             }
-                            if (is.defined(progress['toFrame'])) {
-                                let toFrame = progress['toFrame'];
+                            if (is.defined(trigger['toFrame'])) {
+                                let toFrame = trigger['toFrame'];
                                 // Allows toFrame to use addition.
                                 if(String(toFrame).startsWith('+')) {
-                                    toFrame = progress['fromFrame'] + +(String(toFrame).replace('+', ''));
+                                    toFrame = trigger['fromFrame'] + +(String(toFrame).replace('+', ''));
                                 }
-                                progress.to = mathf.inverseLerp(startFrame, endFrame, toFrame, true);
+                                trigger.to = mathf.inverseLerp(startFrame, endFrame, +toFrame, true);
                             }
 
-                            if (is.defined(progress['cubic_ease'])) {
-                                const ease = progress['cubic_ease'].split(',');
-                                progress.easingFunction = CubicBezier.makeEasingFunction(
-                                    ease[0], ease[1], ease[2], ease[3]
-                                );
-                            }
+                        });
+                    }
 
-                            return progress;
+                    // If there are interpolations associated with this lottie scroll
+                    // then create it.
+                    if (this.lottieObjects[i].interpolations) {
+                        // First run through the interpolations and convert the
+                        // fromFrame and endFrame to progress values.
+                        this.lottieObjects[i].interpolations.map((interpolation) => {
+                            const startFrame = this.lottieObjects[i].startFrame;
+                            const endFrame = this.lottieObjects[i].endFrame;
+                            interpolation.progress.map((progress) => {
+                                // TODO (uxder): Technically this a type violation.
+                                if (is.defined(progress['fromFrame'])) {
+                                    progress.from = mathf.inverseLerp(startFrame, endFrame, progress['fromFrame'], true);
+                                }
+                                if (is.defined(progress['toFrame'])) {
+                                    let toFrame = progress['toFrame'];
+                                    // Allows toFrame to use addition.
+                                    if(String(toFrame).startsWith('+')) {
+                                        toFrame = progress['fromFrame'] + +(String(toFrame).replace('+', ''));
+                                    }
+                                    progress.to = mathf.inverseLerp(startFrame, endFrame, toFrame, true);
+                                }
+
+                                if (is.defined(progress['cubic_ease'])) {
+                                    const ease = progress['cubic_ease'].split(',');
+                                    progress.easingFunction = CubicBezier.makeEasingFunction(
+                                        ease[0], ease[1], ease[2], ease[3]
+                                    );
+                                }
+
+                                return progress;
+                            })
+
+
+                            return interpolation;
                         })
 
 
-                        return interpolation;
-                    })
+                        // Create the css var interpolation.
+                        this.lottieObjects[i].cssInterpolatorInstance = new CssVarInterpolate(
+                            this.element,
+                            {
+                                interpolations: this.lottieObjects[i].interpolations,
+                            }
+                        );
+                        this.lottieObjects[i].cssInterpolatorInstance.useBatchUpdate(true);
+
+                        this.lottieObjects[i].lottieInDom = true;
 
 
-                    // Create the css var interpolation.
-                    this.lottieObjects[i].cssInterpolatorInstance = new CssVarInterpolate(
-                        this.element,
-                        {
-                            interpolations: this.lottieObjects[i].interpolations,
+                        // Run window resize once.
+                        this.onWindowResize();
+
+
+                        // If we have an intro, then play out the intro.
+                        if (this.lottieObjects[i].intro) {
+                            this.playIntro(this.lottieObjects[i]);
                         }
-                    );
-                    this.lottieObjects[i].cssInterpolatorInstance.useBatchUpdate(true);
-
-                    this.lottieObjects[i].lottieInDom = true;
 
 
-                    // Run window resize once.
-                    this.onWindowResize();
-
-
-                    // If we have an intro, then play out the intro.
-                    if (this.lottieObjects[i].intro) {
-                        this.playIntro(this.lottieObjects[i]);
+                        // Add loaded class to mark it is ready.
+                        // Put to bottom of event queue for intro sequence to startup.
+                        window.setTimeout(() => {
+                            this.element.classList.add('lottie-scroll-loaded');
+                        })
+                    } else {
+                        // Run window resize once.
+                        this.onWindowResize();
                     }
 
+                    const payload: LottieScrollInitPayload = {
+                        controller: this,
+                    }
+                    dom.event(this.element, LottieScrollEvents.INIT, payload);
 
-                    // Add loaded class to mark it is ready.
-                    // Put to bottom of event queue for intro sequence to startup.
-                    window.setTimeout(() => {
-                        this.element.classList.add('lottie-scroll-loaded');
-                    })
-                } else {
-                    // Run window resize once.
-                    this.onWindowResize();
-                }
-
-                const payload: LottieScrollInitPayload = {
-                    controller: this,
-                }
-                dom.event(this.element, LottieScrollEvents.INIT, payload);
-
-                // Update and render immediately after it loads.
-                this.updateImmediately();
-            }, { once: true });
+                    // Update and render immediately after it loads.
+                    this.updateImmediately();
+                }, { once: true });
+            });
         })
     }
 
