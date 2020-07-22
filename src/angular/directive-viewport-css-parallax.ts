@@ -9,11 +9,8 @@ import { dom } from '../dom/dom';
 import { mathf } from '../mathf/mathf';
 import { is } from '../is/is';
 
-export interface CssParallaxSettings {
+export interface ViewportCssParallaxSettings {
     debug: boolean,
-    top: string,
-    bottom: string,
-    height?: string,
     // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
     lerp: number,
     damp: number,
@@ -23,16 +20,23 @@ export interface CssParallaxSettings {
     // The precision rounding on the lerp.  Used to cull / avoid layout thrashes.
     precision: number,
 
+    // The elemeent baseline is the location in which we should use to
+    // check the current element position.  Since we want to check
+    // where in a viewport an element is, we need to know what point to use
+    // in the element.  Should we use the top (0), middle (0.5) or bottom of the
+    // element.
+    elementBaseline: number,
+
     // The rafEvOptions so that you can add rootMargin etc to the base raf.
     rafEvOptions: Object
 }
 
-export interface CssParallaxConfig {
-    settings: CssParallaxSettings,
+export interface ViewportCssParallaxConfig {
+    settings: ViewportCssParallaxSettings,
 }
 
 
-export class CssParallaxController {
+export class ViewportCssParallaxController {
     private element: HTMLElement;
     private domWatcher: DomWatcher;
     private rafEv: ElementVisibilityObject;
@@ -42,26 +46,12 @@ export class CssParallaxController {
     /**
      * The css parallax settings.
      */
-    private parallaxData: CssParallaxConfig;
-    private settingsData: CssParallaxSettings;
+    private parallaxData: ViewportCssParallaxConfig;
+    private settingsData: ViewportCssParallaxSettings;
     private interpolationsData: Array<interpolateSettings>;
 
 
     private currentProgress: number = 0;
-
-    /**
-     * The top offset for progress
-     */
-    private topOffset: number;
-    /**
-     * The bottom offset for progress
-     */
-    private bottomOffset: number;
-
-    /**
-     * The height value if specified.
-     */
-    private height: number;
 
 
     static get $inject() {
@@ -69,10 +59,12 @@ export class CssParallaxController {
     }
 
     constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
+
+        console.log('directive viewport css parallax');
+
         this.element = $element[0];
         this.raf = new Raf(this.onRaf.bind(this));
-        this.parallaxData = JSON.parse(this.element.getAttribute('css-parallax'));
-
+        this.parallaxData = JSON.parse(this.element.getAttribute('viewport-css-parallax'));
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             element: window,
@@ -85,11 +77,10 @@ export class CssParallaxController {
             ...{
                 debug: false,
                 clamp: true,
-                top: '0px',
-                bottom: '0px',
-                height: null,
                 lerp: 1,
                 damp: 1,
+                // Default to top of element.
+                elementBaseline: 0,
                 precision: 3,
                 rafEvOptions: {
                     rootMargin: '300px 0px 300px 0px'
@@ -99,8 +90,6 @@ export class CssParallaxController {
         };
 
         this.interpolationsData = this.parallaxData['interpolations'] || [];
-
-        this.calculateProgressOffsets();
 
         this.interpolator = new CssVarInterpolate(
             this.element,
@@ -113,7 +102,6 @@ export class CssParallaxController {
         // On load, we need to initially, bring the animation to
         // start position.
         this.updateImmediately();
-
 
 
         // Start and stop raf when the element comes into view.
@@ -162,11 +150,40 @@ export class CssParallaxController {
      */
     protected updateProgress(lerp: number, damp: number): number {
 
+        // Viewport css parallax needs to calculate where on the viewport a given
+        // elemenet resides.
+        //
+        // Since generally, since we think in terms of scrolling down, 0 - 1 would
+        // be represented as:
+        // 1 ---> top of screen
+        // 0.5 --> middle of screen
+        // 0 --> bottom of screen
+        //
+        // Therefore, progress is represented as 0-1 where it goes from the bottom
+        // of the screen to the top.
+        //
+        //
+        // Additionally, we need to know, what point in the element should be
+        // use to see where the element resides.  We could use the top,
+        // center or bottom.
+        //
+        // The elementBaseline is used to factor this in.  The default state
+        // is calculated from teh top of the element.
+        const elementBaseline =
+            this.element.getBoundingClientRect().top +
+            (this.settingsData.elementBaseline * this.element.offsetHeight);
+
+        let percent = mathf.inverseLerp(0, window.innerHeight,
+            elementBaseline
+        )
+
+        // Invert it so that 0 is considered bottom.
+        percent = 1 - percent;
 
         this.currentProgress =
             mathf.damp(
                 this.currentProgress,
-                dom.getElementScrolledPercent(this.element, this.topOffset, this.bottomOffset, true),
+                percent,
                 lerp, damp
             );
 
@@ -176,7 +193,7 @@ export class CssParallaxController {
         }
 
         if (this.settingsData.debug) {
-            console.log(this.currentProgress, this.topOffset, this.bottomOffset);
+            console.log(this.currentProgress);
         }
 
         return this.currentProgress;
@@ -206,30 +223,7 @@ export class CssParallaxController {
     }
 
 
-    protected calculateProgressOffsets() {
-        this.topOffset = func.setDefault(
-            this.getPixelValue(this.settingsData.top), 0
-        )
-        this.bottomOffset = func.setDefault(
-            this.getPixelValue(this.settingsData.bottom), 0
-        )
-        this.height = is.string(this.settingsData.height) ? this.getPixelValue(this.settingsData.height) : null;
-
-        // If height is specified, we basically want to "shorten" the element
-        // by the delta amount.
-        // Example: el.offsetHeight = 500px, height: 100px.
-        //        so bottomOffset should be el.offsetHeight - height = 400px
-        requestAnimationFrame(()=> {
-            if (this.height) {
-                this.bottomOffset = -(this.element.offsetHeight - this.height);
-            }
-        })
-    }
-
-
-    protected onWindowResize() {
-        this.calculateProgressOffsets();
-    }
+    protected onWindowResize() { }
 
 
     protected dispose(): void {
@@ -245,6 +239,14 @@ export class CssParallaxController {
  *
  * A directive to run css var interpolations from yaml or json.
  *
+ * This is different from css-parallax in that the progress value is NOT how
+ * much an element is shown but rather, WHERE on the viewport it resides.
+ *
+ * Progress is calculates from the top of the screen (0) to the bottom
+ * of the screen (1).
+ *
+ * This allows you to specify effects as the user scrolls.
+ *
  * In yaml:
  *
  * ```
@@ -252,13 +254,11 @@ export class CssParallaxController {
  * css_parallax:
  *   settings:
  *     debug: false (boolean, optional) True outputs progress in the dev console.
- *     top: '0px' (string) A css number to offset where the progress begins.  Accepts %, px, vh.
- *     bottom: '0px' (string) A css number to offset the progress ends.  Accepts %, px, vh.
- *     height: '100px' (string) Optional.  An absolute height to use to calculate the percent.  Accepts %, px, vh.  In most cases you won't need this.
  *     lerp: 0.18 Optional lerp.  Defaults to 1 assuming no asymptotic averaging.
  *     damp: 0.18 Optional damp.  Defaults to 1 assuming no damping.
  *     clamp: false (boolean)  Defaults to true where by progress is clamped to 0 and 1.
  *     precision: (number) Defaults to 3.  Lower precision means less dom updates but less accuracy.
+ *     elementBaseline: 0 (number) defaults to 0 Should we use the top (0), middle (0.5) or bottom of the element to determine where on the viewport it resides.
  *
  *     // Allows you to pass through option to intersection observer controlling
  *     // start and stop of raf.
@@ -284,45 +284,62 @@ export class CssParallaxController {
  *         end: 1
  * ```
  *
+ * It might be more common to inline the settings:
+ * ```
+ *           {% set parallax_settings = {
+ *             'settings': {
+ *               'debug': true,
+ *               'lerp': 0.2,
+ *               'damp': 0.6,
+ *               'clamp': false,
+ *               'elementBaseline': 0
+ *             },
+ *             'interpolations': [
+ *               {
+ *                   'id': '--opacity',
+ *                   'progress': [
+ *                       {
+ *                           'from': 0,
+ *                           'to': 0.5,
+ *                           'start': 0,
+ *                           'end': 1,
+ *                       }
+ *                   ]
+ *               }
+ *             ]
+ *           } %}
+ *
+ *        <div class="sup" viewport-css-parallax="{{parallax_settings|jsonify}}">
+ *            Hello this is a test.
+ *        </div>
+ *
+ *
+ * ```
+ *
  *
  * In your app:
  *
  * ```ts
- *   import { cssParallaxDirective } from 'yano-js/lib/angular/directive-css-parallax';
+ *   import { viewportCssParallaxDirective } from 'yano-js/lib/angular/directive-viewport-css-parallax';
  *
  *   const app = angular.module('myApp', []);
- *   app.directive('cssParallax', cssParallaxDirective);
+ *   app.directive('viewportCssParallax', viewportCssParallaxDirective);
  * ```
  *
  *
  * In the module, you want to use this:
  *
  * ```
- * <div {% if partial.css_parallax %} css-parallax="{{partial.css_parallax|jsonify}}{% endif %"></div>
+ * <div {% if partial.viewport_css_parallax %} viewport-css-parallax="{{partial.viewport_css_parallax|jsonify}}{% endif %"></div>
  * ```
  *
  *
  *
- * ## Height Settings
- *
- * In rare instances, you might want to calculate a scroll percent from when an
- * element enters the viewport but not based on the height of the element itself.
- *
- * Imagine a <div> with 500vh.
- *
- * If you applied this settings:
- * ```
- *   setting:
- *     top: '0px'
- *     height: '100vw'
- * ```
- * Now the progress will start when that div comes in but end (1) when 100vw worth
- * of scroll has been completed.
  *
  */
-export const cssParallaxDirective = function () {
+export const viewportCssParallaxDirective = function () {
     return {
         restrict: 'A',
-        controller: CssParallaxController
+        controller: ViewportCssParallaxController
     }
 }
