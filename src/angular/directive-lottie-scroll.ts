@@ -738,8 +738,6 @@ export class LottieController {
         if(payload.damp) {
             this.lottieScrollSettings.damp = +payload.damp;
         }
-        console.log('daupted')
-
     }
 
 
