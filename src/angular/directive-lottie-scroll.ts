@@ -64,7 +64,7 @@ export interface LottieScrollSettings {
 export interface LottieClassTrigger {
     class: string,
     fromFrame: number,
-    toFrame: number
+    toFrame: number | string,
     from: number,
     to: number
 }
@@ -370,7 +370,12 @@ export class LottieController {
                             trigger.from = mathf.inverseLerp(startFrame, endFrame, trigger['fromFrame'], true);
                         }
                         if (is.defined(trigger['toFrame'])) {
-                            trigger.to = mathf.inverseLerp(startFrame, endFrame, trigger['toFrame'], true);
+                            let toFrame = trigger['toFrame'];
+                            // Allows toFrame to use addition.
+                            if(String(toFrame).startsWith('+')) {
+                                toFrame = trigger['fromFrame'] + +(String(toFrame).replace('+', ''));
+                            }
+                            trigger.to = mathf.inverseLerp(startFrame, endFrame, +toFrame, true);
                         }
 
                     });
@@ -390,7 +395,12 @@ export class LottieController {
                                 progress.from = mathf.inverseLerp(startFrame, endFrame, progress['fromFrame'], true);
                             }
                             if (is.defined(progress['toFrame'])) {
-                                progress.to = mathf.inverseLerp(startFrame, endFrame, progress['toFrame'], true);
+                                let toFrame = progress['toFrame'];
+                                // Allows toFrame to use addition.
+                                if(String(toFrame).startsWith('+')) {
+                                    toFrame = progress['fromFrame'] + +(String(toFrame).replace('+', ''));
+                                }
+                                progress.to = mathf.inverseLerp(startFrame, endFrame, toFrame, true);
                             }
 
                             if (is.defined(progress['cubic_ease'])) {
@@ -890,6 +900,13 @@ export class LottieController {
  *           toFrame: 500
  *           start: 1
  *           end: 0
+ *
+ *
+ *      # toFrame addition available in interpolations ONLY (for now)
+ *      # This allows you to add from the fromFrame value which can be handy.
+ *      fromFrame: 1300
+ *      toFrame: '+30'
+ *
  * ```
  *
  * In your app:
