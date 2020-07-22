@@ -6,7 +6,8 @@ class WatchScrollOverController implements INgDisposable {
     private $scope: ng.IScope;
     private $attrs: ng.IAttributes;
     private cssClass: string;
-    private targetElement: HTMLElement;
+    private cssOutClass: string;
+    private targetElements: Array<HTMLElement>;
     private watcher: DomWatcher;
 
     static get $inject() {
@@ -18,6 +19,7 @@ class WatchScrollOverController implements INgDisposable {
         this.el = $element[0];
         this.$attrs = $attrs;
         this.cssClass = this.$attrs.watchScrollOverClass;
+        this.cssOutClass = this.$attrs.watchScrollOverOutClass;
 
         let query = this.$attrs.watchScrollOverQuery;
         if(!!$attrs.watchScrollOverQueryEval) {
@@ -25,15 +27,16 @@ class WatchScrollOverController implements INgDisposable {
         }
 
         window.setTimeout(()=> {
-            this.targetElement = document.querySelectorAll(
+            this.targetElements = Array.from(document.querySelectorAll(
                 query
-            )[0] as HTMLElement;
+            ));
 
             this.watcher = new DomWatcher();
             this.watcher.add({
                 element: window,
                 on: 'scroll',
-                callback: this.scroll.bind(this)
+                callback: this.scroll.bind(this),
+                eventOptions: { passive: true },
             });
             this.scroll();
         })
@@ -44,14 +47,25 @@ class WatchScrollOverController implements INgDisposable {
 
     private scroll():void {
         const top = this.el.getBoundingClientRect().top + window.scrollY;
-        const targetBox = this.targetElement.getBoundingClientRect()
-        const targetTop = targetBox.top + window.scrollY;
-        const targetBottom = targetTop + targetBox.height;
-        if(mathf.isBetween(top, targetTop, targetBottom)) {
-            this.el.classList.add(this.cssClass);
+
+        let shouldAdd = false;
+        this.targetElements.forEach((targetElement)=> {
+            const targetBox = targetElement.getBoundingClientRect()
+            const targetTop = targetBox.top + window.scrollY;
+            const targetBottom = targetTop + targetBox.height;
+            if(mathf.isBetween(top, targetTop, targetBottom, true)) {
+               shouldAdd = true;
+            }
+        })
+
+        if(shouldAdd) {
+          this.el.classList.add(this.cssClass);
+          this.cssOutClass && this.el.classList.remove(this.cssOutClass);
         } else {
-            this.el.classList.remove(this.cssClass);
+          this.cssOutClass && this.el.classList.add(this.cssOutClass);
+          this.el.classList.remove(this.cssClass);
         }
+
     }
 
     public dispose():void {
@@ -70,6 +84,8 @@ class WatchScrollOverController implements INgDisposable {
  *  - watch-scroll-over-query-eval (bool): Whether to run an eval on the query.
  *  - watch-scroll-over-class (string): The class name to append when the current
  *      directive element resides over the target element.
+ *  - watch-scroll-over-out-class (string): The class name to append when the current
+ *      directive element goes out.
  *
  * ```
  * <div class="header" style="position: fixed; top: 0">
@@ -77,7 +93,9 @@ class WatchScrollOverController implements INgDisposable {
  *    <div class="nav"
  *          watch-scroll-over
  *          watch-scroll-over-query=".section-1"
- *          watch-scroll-over-class="active"> Section 1</div>
+ *          watch-scroll-over-class="active"
+ *          watch-scroll-over-class="out"
+ *      > Section 1</div>
  *    <div class="nav"
  *          watch-scroll-over
  *          watch-scroll-over-query=".section-2"
