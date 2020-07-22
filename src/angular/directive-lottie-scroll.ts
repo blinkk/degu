@@ -381,7 +381,7 @@ export class LottieController {
                             if (is.defined(trigger['toFrame'])) {
                                 let toFrame = trigger['toFrame'];
                                 // Allows toFrame to use addition.
-                                if(String(toFrame).startsWith('+')) {
+                                if (String(toFrame).startsWith('+')) {
                                     toFrame = trigger['fromFrame'] + +(String(toFrame).replace('+', ''));
                                 }
                                 trigger.to = mathf.inverseLerp(startFrame, endFrame, +toFrame, true);
@@ -406,7 +406,7 @@ export class LottieController {
                                 if (is.defined(progress['toFrame'])) {
                                     let toFrame = progress['toFrame'];
                                     // Allows toFrame to use addition.
-                                    if(String(toFrame).startsWith('+')) {
+                                    if (String(toFrame).startsWith('+')) {
                                         toFrame = progress['fromFrame'] + +(String(toFrame).replace('+', ''));
                                     }
                                     progress.to = mathf.inverseLerp(startFrame, endFrame, toFrame, true);
@@ -554,7 +554,7 @@ export class LottieController {
             if (lottieObject.autoplay.loopStartFrame) {
                 lottieObject.lottieInstance.playSegments([
                     [
-                    lottieObject.autoplay['fromFrame'], lottieObject.autoplay['toFrame']],
+                        lottieObject.autoplay['fromFrame'], lottieObject.autoplay['toFrame']],
                     [lottieObject.autoplay['loopStartFrame'], lottieObject.autoplay['loopEndFrame']]
                 ], true);
             } else {
@@ -568,9 +568,9 @@ export class LottieController {
             if (lottieObject.autoplay) {
                 if (!mathf.isBetween(this.currentProgress, lottieObject.fromProgress,
                     lottieObject.toProgress, true)) {
-                 lottieObject.isAutoPlaying = false;
-                 // Force lottie to draw an empty frame by drawing an non-existent frame.
-                 lottieObject.lottieInstance['goToAndStop'](100000, true);
+                    lottieObject.isAutoPlaying = false;
+                    // Force lottie to draw an empty frame by drawing an non-existent frame.
+                    lottieObject.lottieInstance['goToAndStop'](100000, true);
                 }
             } else {
                 // For all other cases, just go to the frame and draw it.
@@ -750,12 +750,12 @@ export class LottieController {
      *
      * @param e
      */
-    private handleLottieScrollUpdateEvent(e:any):void  {
+    private handleLottieScrollUpdateEvent(e: any): void {
         const payload = e.detail;
-        if(payload.lerp) {
+        if (payload.lerp) {
             this.lottieScrollSettings.lerp = +payload.lerp;
         }
-        if(payload.damp) {
+        if (payload.damp) {
             this.lottieScrollSettings.damp = +payload.damp;
         }
     }
