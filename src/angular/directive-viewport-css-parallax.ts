@@ -242,8 +242,8 @@ export class ViewportCssParallaxController {
  * This is different from css-parallax in that the progress value is NOT how
  * much an element is shown but rather, WHERE on the viewport it resides.
  *
- * Progress is calculates from the top of the screen (0) to the bottom
- * of the screen (1).
+ * Progress is calculates from the top of the screen (1) to the bottom
+ * of the screen (0).
  *
  * This allows you to specify effects as the user scrolls.
  *
