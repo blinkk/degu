@@ -66,7 +66,7 @@ export class LazyImage implements INgDisposable {
         this.imageSet = false;
 
         // Cache this value since is.supportingWebp can be computationally expensive.
-        is.supportingWebpAsync().then((supporting)=> {
+        is.supportingWebpAsync().then((supporting) => {
             this.isWebpSupported = supporting;
 
             this.watcher = new DomWatcher();
