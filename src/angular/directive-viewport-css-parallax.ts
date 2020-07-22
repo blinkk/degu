@@ -258,7 +258,7 @@ export class ViewportCssParallaxController {
  *     damp: 0.18 Optional damp.  Defaults to 1 assuming no damping.
  *     clamp: false (boolean)  Defaults to true where by progress is clamped to 0 and 1.
  *     precision: (number) Defaults to 3.  Lower precision means less dom updates but less accuracy.
- *     elementBaseline: 0 (number) defaults to 0 Should we use the top (0), middle (0.5) or bottom of the element to determine where on the viewport it resides.
+ *     elementBaseline: 0 (number) defaults to 0 Should we use the top (0), middle (0.5), bottom(1) or bottom of the element to determine where on the viewport it resides.
  *
  *     // Allows you to pass through option to intersection observer controlling
  *     // start and stop of raf.
