@@ -57,10 +57,9 @@ export interface CssParallaxSettings {
  *   [
  *     {
  *       id: '--x',
- *       from: 0,
- *       to: 1,
- *       start: '0px'
- *       end: '0px'
+ *       progress: [
+ *          {from: 0, to: 1, start: '0px', end: '0px'}
+ *      ]
  *     }
  *   ]
  * )
