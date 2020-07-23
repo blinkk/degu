@@ -1,68 +1,8 @@
-import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
-import { cssUnit, CssUnitObject } from '../string/css-unit';
-import { func } from '../func/func';
-import { interpolateSettings } from '../interpolate/multi-interpolate';
-import { DomWatcher } from '../dom/dom-watcher';
-import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
-import { Raf } from '../raf/raf';
-import { dom } from '../dom/dom';
-import { mathf } from '../mathf/mathf';
-import { is } from '../is/is';
-
-export interface CssParallaxSettings {
-    debug: boolean,
-    top: string,
-    bottom: string,
-    height?: string,
-    // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
-    lerp: number,
-    damp: number,
-    // Whether to force clamp the progress to 0-1 range.  Defaults to true.
-    clamp: boolean,
-
-    // The precision rounding on the lerp.  Used to cull / avoid layout thrashes.
-    precision: number,
-
-    // The rafEvOptions so that you can add rootMargin etc to the base raf.
-    rafEvOptions: Object
-}
-
-export interface CssParallaxConfig {
-    settings: CssParallaxSettings,
-}
-
+import { CssParallaxer } from '../dom/css-parallaxer';
 
 export class CssParallaxController {
     private element: HTMLElement;
-    private domWatcher: DomWatcher;
-    private rafEv: ElementVisibilityObject;
-    private raf: Raf;
-    private interpolator: CssVarInterpolate;
-
-    /**
-     * The css parallax settings.
-     */
-    private parallaxData: CssParallaxConfig;
-    private settingsData: CssParallaxSettings;
-    private interpolationsData: Array<interpolateSettings>;
-
-
-    private currentProgress: number = 0;
-
-    /**
-     * The top offset for progress
-     */
-    private topOffset: number;
-    /**
-     * The bottom offset for progress
-     */
-    private bottomOffset: number;
-
-    /**
-     * The height value if specified.
-     */
-    private height: number;
-
+    private cssParallaxer: CssParallaxer;
 
     static get $inject() {
         return ['$element', '$scope', '$attrs'];
@@ -70,62 +10,12 @@ export class CssParallaxController {
 
     constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
         this.element = $element[0];
-        this.raf = new Raf(this.onRaf.bind(this));
-        this.parallaxData = JSON.parse(this.element.getAttribute('css-parallax'));
-
-        this.domWatcher = new DomWatcher();
-        this.domWatcher.add({
-            element: window,
-            on: 'smartResize',
-            callback: () => this.onWindowResize(),
-        });
-
-
-        this.settingsData = {
-            ...{
-                debug: false,
-                clamp: true,
-                top: '0px',
-                bottom: '0px',
-                height: null,
-                lerp: 1,
-                damp: 1,
-                precision: 3,
-                rafEvOptions: {
-                    rootMargin: '300px 0px 300px 0px'
-                }
-            },
-            ...this.parallaxData['settings'] || {}
-        };
-
-        this.interpolationsData = this.parallaxData['interpolations'] || [];
-
-        this.calculateProgressOffsets();
-
-        this.interpolator = new CssVarInterpolate(
-            this.element,
-            {
-                interpolations: this.interpolationsData,
-            }
+        const parallaxData = JSON.parse(this.element.getAttribute('css-parallax'));
+        this.cssParallaxer = new CssParallaxer(this.element);
+        this.cssParallaxer.init(
+            parallaxData['settings'], parallaxData['interpolations']
         );
-        this.interpolator.useBatchUpdate(true);
 
-        // On load, we need to initially, bring the animation to
-        // start position.
-        this.updateImmediately();
-
-
-
-        // Start and stop raf when the element comes into view.
-        this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
-            (element: any, changes: any) => {
-                if (changes.isIntersecting) {
-                    this.raf.start();
-                } else {
-                    this.raf.stop();
-                    this.updateImmediately();
-                }
-            });
 
         $scope.$on('$destroy', () => {
             this.dispose();
@@ -134,108 +24,8 @@ export class CssParallaxController {
 
 
 
-
-    /**
-     * Takes a css string declaration such as '100px', '100vh' or '100%'
-     * and converts that into a relative pixel number.
-     * @param cssUnitObject
-     */
-    protected getPixelValue(cssValue: string): number {
-        const unit = cssUnit.parse(cssValue);
-        let base = 1;
-        if (unit.unit == '%') {
-            base = this.element.offsetHeight;
-            return base * (unit.value as number / 100);
-        }
-        if (unit.unit == 'vh') {
-            base = window.innerHeight;
-            return base * (unit.value as number / 100);
-        }
-
-        return base * (unit.value as number);
-    }
-
-
-
-    /**
-     * Calculates the current progress and returns a value between 0-1.
-     */
-    protected updateProgress(lerp: number, damp: number): number {
-
-
-        this.currentProgress =
-            mathf.damp(
-                this.currentProgress,
-                dom.getElementScrolledPercent(this.element, this.topOffset, this.bottomOffset, true),
-                lerp, damp
-            );
-
-
-        if (this.settingsData.clamp) {
-            this.currentProgress = mathf.clamp01(this.currentProgress);
-        }
-
-        if (this.settingsData.debug) {
-            console.log(this.currentProgress, this.topOffset, this.bottomOffset);
-        }
-
-        return this.currentProgress;
-    }
-
-
-    /**
-     * Updates the current progress immediately.
-     */
-    protected updateImmediately() {
-        this.updateProgress(1, 1);
-        this.interpolator.update(
-            this.currentProgress
-        );
-    }
-
-
-    protected onRaf(): void {
-        this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
-        // Use a rounded progress to pass to css var interpolate which
-        // will cull updates that are repetitive.
-        const roundedProgress =
-            mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
-        this.interpolator.update(
-            roundedProgress
-        );
-    }
-
-
-    protected calculateProgressOffsets() {
-        this.topOffset = func.setDefault(
-            this.getPixelValue(this.settingsData.top), 0
-        )
-        this.bottomOffset = func.setDefault(
-            this.getPixelValue(this.settingsData.bottom), 0
-        )
-        this.height = is.string(this.settingsData.height) ? this.getPixelValue(this.settingsData.height) : null;
-
-        // If height is specified, we basically want to "shorten" the element
-        // by the delta amount.
-        // Example: el.offsetHeight = 500px, height: 100px.
-        //        so bottomOffset should be el.offsetHeight - height = 400px
-        requestAnimationFrame(()=> {
-            if (this.height) {
-                this.bottomOffset = -(this.element.offsetHeight - this.height);
-            }
-        })
-    }
-
-
-    protected onWindowResize() {
-        this.calculateProgressOffsets();
-    }
-
-
     protected dispose(): void {
-        this.rafEv.dispose();
-        this.raf.dispose();
-        this.domWatcher.dispose();
+        this.cssParallaxer.dispose();
     }
 }
 
