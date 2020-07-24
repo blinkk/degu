@@ -23,7 +23,15 @@ export interface ScrollPointsConfig {
     scrollDistanceEvery1Second?: number,
     // When the trigger happens, what position - location the scroll should go to.
     // relative to the top of the window.
-    targetElementOffsetFromTopOfWindow: Function
+    targetElementOffsetFromTopOfWindow: Function,
+
+    // Whether to use a native smooth scroll.
+    // Native scroll will work better but the speed of travel
+    // can't be controlled and may differ based on the distance
+    // of travel.  Turning this on, makes it run it via a JS
+    // based window scroll in which the travel speed factors
+    // the distance it needs to travel (per scrollDistanceEvery1Second)
+    forceNativeScroll: boolean,
 };
 
 
@@ -124,36 +132,37 @@ export class ScrollPoints {
 
 
         // Native scroll.
-        // window.scrollTo({
-        //     top: dom.getScrollTop(this.config.targetElement) + this.getOffset(),
-        //     left: 0,
-        //     behavior: 'smooth'
-        // });
+        if(this.config.forceNativeScroll) {
+            window.scrollTo({
+                top: dom.getScrollTop(this.config.targetElement) + this.getOffset(),
+                left: 0,
+                behavior: 'smooth'
+            });
+        } else {
+            // TODO (uxder): replace jquery based scroll.  Probably use rafTimer.
+            var page = this.jQuery('body, html');
+            const top = dom.getScrollTop(this.config.targetElement) + this.getOffset();
+            let animationComplete = () => {
+                this.scrolling = false;
+                page.off("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove");
+                page.stop();
+            };
 
+            page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove",
+                animationComplete);
 
-        // TODO (uxder): replace jquery based scroll.  Probably use rafTimer.
-        var page = this.jQuery('body, html');
-        const top = dom.getScrollTop(this.config.targetElement) + this.getOffset();
-        let animationComplete = () => {
+            // Calculate the duration.  The duration should factor in the current distance.
+            const distance = Math.abs(window.scrollY - top);
+
+            // 1 second for base distance.
+            const base = this.config.scrollDistanceEvery1Second || 1000;
+            const duration = (distance / base) * 1000;
             this.scrolling = false;
-            page.off("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove");
-            page.stop();
-        };
 
-        page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove",
-            animationComplete);
-
-        // Calculate the duration.  The duration should factor in the current distance.
-        const distance = Math.abs(window.scrollY - top);
-
-        // 1 second for base distance.
-        const base = this.config.scrollDistanceEvery1Second || 1000;
-        const duration = (distance / base) * 1000;
-        this.scrolling = false;
-
-        page.stop().animate({
-            scrollTop: top
-        }, duration, animationComplete)
+            page.stop().animate({
+                scrollTop: top
+            }, duration, animationComplete)
+        }
     }
 
 
