@@ -60,7 +60,6 @@ export class ViewportCssParallaxController {
 
     constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
 
-        console.log('directive viewport css parallax');
 
         this.element = $element[0];
         this.raf = new Raf(this.onRaf.bind(this));
