@@ -100,7 +100,9 @@ export class CssParallaxer {
         this.domWatcher.add({
             element: window,
             on: 'smartResize',
-            callback: () => this.onWindowResize(),
+            callback: func.debounce(() => {
+                this.onWindowResize();
+            }, 300)
         });
     }
 
@@ -233,6 +235,7 @@ export class CssParallaxer {
 
     protected onWindowResize() {
         this.calculateProgressOffsets();
+        this.updateImmediately();
     }
 
 
