@@ -183,7 +183,7 @@ export class CssParallaxer {
     /**
      * Calculates the current progress and returns a value between 0-1.
      */
-    protected updateProgress(lerp: number, damp: number): number {
+    public updateProgress(lerp: number, damp: number): number {
         this.currentProgress =
             mathf.damp(
                 this.currentProgress,
@@ -204,7 +204,7 @@ export class CssParallaxer {
     }
 
 
-    protected updateImmediately() {
+    public updateImmediately() {
         this.updateProgress(1, 1);
         this.interpolator.update(
             this.currentProgress
