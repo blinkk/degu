@@ -183,7 +183,7 @@ export class TextSplit2 {
 
         this.words[0].setAttribute('start', sentenceNumber + '');
         this.words.forEach((word, i) => {
-            const wordY = dom.getScrollTop(word);
+            const wordY = dom.getScrollTop(word, true);
 
             word.className.replace(/\bbg.*?\b/g, '');
 
