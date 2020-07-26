@@ -740,8 +740,12 @@ export class dom {
      * ```
      *
      */
-    static getScrollTop(el: HTMLElement): number {
-        return el.getBoundingClientRect().top + window.scrollY;
+    static getScrollTop(el: HTMLElement, includeParent: boolean = false): number {
+        if(includeParent) {
+          return el.getBoundingClientRect().top - el.offsetParent.getBoundingClientRect().top + window.scrollY;
+        } else {
+          return el.getBoundingClientRect().top + window.scrollY;
+        }
     }
 
 
