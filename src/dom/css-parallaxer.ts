@@ -27,6 +27,9 @@ export interface CssParallaxSettings {
     // Whether to force clamp the progress to 0-1 range.  Defaults to true.
     clamp?: boolean,
 
+    // Limits the lerping to only when values are beteween 0-1.   Defaults to true.
+    lerpOnlyInRange?: boolean,
+
     // The precision rounding on the lerp.  Used to cull / avoid layout thrashes.
     //  precision: (number) Defaults to 3.  Lower precision means less dom updates but less accuracy.
     precision?: number,
@@ -179,6 +182,7 @@ export class CssParallaxer {
         this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
             (element: any, changes: any) => {
                 if (changes.isIntersecting) {
+                    this.updateImmediately();
                     this.raf.start();
                 } else {
                     this.raf.stop();
@@ -205,6 +209,7 @@ export class CssParallaxer {
                     lerp: 1,
                     damp: 1,
                     precision: 3,
+                    lerpOnlyInRange: true,
                     rafEvOptions: {
                         rootMargin: '300px 0px 300px 0px'
                     }
@@ -248,12 +253,23 @@ export class CssParallaxer {
      * Calculates the current progress and returns a value between 0-1.
      */
     public updateProgress(lerp: number, damp: number): number {
-        this.currentProgress =
-            mathf.damp(
-                this.currentProgress,
-                dom.getElementScrolledPercent(this.element, this.topOffset, this.bottomOffset, true),
-                lerp, damp
-            );
+        const progress = dom.getElementScrolledPercent(this.element, this.topOffset, this.bottomOffset, true);
+
+        // Don't apply lerp / damp when we are out of range.
+        // The problem is that if you apply damp / lerp out of range,
+        // Animations that depend on start (0) and end (1) end up
+        // getting slightly delayed causing FOUC.
+        if (this.settingsData.lerpOnlyInRange && progress <= 0 || progress >= 1) {
+            this.currentProgress = progress;
+        } else {
+            this.currentProgress =
+                mathf.damp(
+                    this.currentProgress,
+                    progress,
+                    lerp, damp
+                );
+        }
+
 
         if (this.settingsData.clamp) {
             this.currentProgress = mathf.clamp01(this.currentProgress);
@@ -310,7 +326,6 @@ export class CssParallaxer {
             this.settingsData.dampMobile &&
             this.settingsData.lerpMobile
         ) {
-            console.log("MObile");
             this.updateProgress(this.settingsData.lerpMobile, this.settingsData.dampMobile);
         } else {
         // All others.
