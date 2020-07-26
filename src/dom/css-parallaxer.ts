@@ -14,9 +14,9 @@ export interface CssParallaxSettings {
     // debug: false (boolean, optional) True outputs progress in the dev console.
     debug?: boolean,
     //  top: '0px' (string) A css number to offset where the progress begins.  Accepts %, px, vh.
-    top: string,
+    top?: string,
     //  bottom: '0px' (string) A css number to offset the progress ends.  Accepts %, px, vh.
-    bottom: string,
+    bottom?: string,
     //  height: '100px' (string) Optional.  An absolute height to use to calculate the percent.  Accepts %, px, vh.  In most cases you won't need this.
     height?: string,
     // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
@@ -34,7 +34,17 @@ export interface CssParallaxSettings {
     // The rafEvOptions so that you can add rootMargin etc to the base raf.
     //  rafEvOptions:
     //   rootMargin: '0px 0px 0px 0px'
-    rafEvOptions?: Object
+    rafEvOptions?: Object,
+
+
+    // Optional mobile lerp.
+    // Requires mobileBreakpoint to be enabled.
+    lerpMobile?: number,
+    // Optional mobile damp.
+    // Requires mobileBreakpoint to be enabled.
+    dampMobile?: number,
+    // The breakpoint width of mobile.
+    mobileBreakpoint?: number,
 }
 
 /**
@@ -68,6 +78,36 @@ export interface CssParallaxSettings {
  * // Later Dispose.
  * parallaxer.dispose();
  * ```
+ *
+ * ## Mobile Lerp
+ * You can specify a different lerp value for mobile.
+ *
+ * ```
+ * const settings = {
+ *    lerp: 0.4,
+ *    damp: 0.23
+ *    mobileBreakpoint: 769
+ *    lerpMobile: 1
+ *    dampMobile: 1
+ * }
+ * ```
+ *
+ * ## FOUC
+ *
+ * You can fight FOUC by setting defaults to your var and also by using the
+ * .css-parallax-ready class that gets applied to the root element
+ * when the css-parallaxer initializer.
+ *
+ * ```
+ * .my-module
+ *   visibility: hidden
+ *  &.css-parallax-ready
+ *   visibility: visible
+ * ```
+ *
+ *
+ *
+ *
  */
 export class CssParallaxer {
     private element: HTMLElement;
@@ -92,6 +132,8 @@ export class CssParallaxer {
      */
     private height: number;
 
+    private windowWidth: number;
+
 
     constructor(element: HTMLElement) {
         this.element = element;
@@ -112,27 +154,12 @@ export class CssParallaxer {
      * @param settings
      */
     public init(settings?: CssParallaxSettings, interpolations?: Array<interpolateSettings>) {
-        if(this.initialized) {
+        if (this.initialized) {
             return;
         }
         this.initialized = true;
 
-        this.settingsData = {
-            ...{
-                debug: false,
-                clamp: true,
-                top: '0px',
-                bottom: '0px',
-                height: null,
-                lerp: 1,
-                damp: 1,
-                precision: 3,
-                rafEvOptions: {
-                    rootMargin: '300px 0px 300px 0px'
-                }
-            },
-            ...settings || {}
-        };
+        this.updateSettings(settings);
 
         this.calculateProgressOffsets();
 
@@ -146,6 +173,9 @@ export class CssParallaxer {
         // start position.
         this.updateImmediately();
 
+
+        this.element.classList.add('css-parallax-ready');
+
         this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
             (element: any, changes: any) => {
                 if (changes.isIntersecting) {
@@ -155,6 +185,40 @@ export class CssParallaxer {
                     this.updateImmediately();
                 }
             });
+    }
+
+
+    /**
+     * Updates the css parallaxer settings.
+     * @param settings
+     */
+    public updateSettings(settings?: CssParallaxSettings) {
+        // If we haven't set the settings data yet apply default.
+        if (!this.settingsData) {
+            this.settingsData = {
+                ...{
+                    debug: false,
+                    clamp: true,
+                    top: '0px',
+                    bottom: '0px',
+                    height: null,
+                    lerp: 1,
+                    damp: 1,
+                    precision: 3,
+                    rafEvOptions: {
+                        rootMargin: '300px 0px 300px 0px'
+                    }
+                },
+                ...settings || {}
+            };
+        } else {
+            // If we have already set once.
+            this.settingsData = {
+                ...this.settingsData,
+                ...settings || {}
+            };
+
+        }
     }
 
 
@@ -191,7 +255,6 @@ export class CssParallaxer {
                 lerp, damp
             );
 
-
         if (this.settingsData.clamp) {
             this.currentProgress = mathf.clamp01(this.currentProgress);
         }
@@ -226,7 +289,7 @@ export class CssParallaxer {
         // by the delta amount.
         // Example: el.offsetHeight = 500px, height: 100px.
         //        so bottomOffset should be el.offsetHeight - height = 400px
-        requestAnimationFrame(()=> {
+        requestAnimationFrame(() => {
             if (this.height) {
                 this.bottomOffset = -(this.element.offsetHeight - this.height);
             }
@@ -234,13 +297,26 @@ export class CssParallaxer {
     }
 
     protected onWindowResize() {
+        this.windowWidth = window.innerWidth;
         this.calculateProgressOffsets();
         this.updateImmediately();
     }
 
 
     protected onRaf() {
-        this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
+        // Mobile case.
+        if (this.settingsData.mobileBreakpoint &&
+            window.innerWidth < this.settingsData.mobileBreakpoint &&
+            this.settingsData.dampMobile &&
+            this.settingsData.lerpMobile
+        ) {
+            console.log("MObile");
+            this.updateProgress(this.settingsData.lerpMobile, this.settingsData.dampMobile);
+        } else {
+        // All others.
+            this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
+        }
+
         // Use a rounded progress to pass to css var interpolate which
         // will cull updates that are repetitive.
         const roundedProgress =
