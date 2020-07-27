@@ -134,9 +134,9 @@ export class InviewController {
 
 
     dispose() {
-        this.ev.dispose();
-        this.outEv.dispose();
-        this.watcher.dispose();
+        this.ev && this.ev.dispose();
+        this.outEv && this.outEv.dispose();
+        this.watcher && this.watcher.dispose();
     }
 }
 
