@@ -290,14 +290,6 @@ export class LottieController {
             return lottieObject;
         });
 
-
-        this.lottieObjects.forEach((lottieObject) => {
-            if (lottieObject.lottieInDom) {
-                lottieObject.lottieInstance.resize();
-            }
-        })
-
-
         // Lottie doesn't "redraw" itself on size.  Most likely
         // because it culls two consecutive calls to drawing the
         // same frame.
@@ -305,7 +297,14 @@ export class LottieController {
         // must do is first tell lottie to draw some other
         // frame.  Then redraw the current frame.
         const progress = this.currentProgress;
-        this.progressUpdate(progress - 2, 0);
+        this.progressUpdate(Math.max(0, progress - 0.01), 0);
+
+        this.lottieObjects.forEach((lottieObject) => {
+            if (lottieObject.lottieInDom) {
+                lottieObject.lottieInstance.resize();
+            }
+        })
+
         this.progressUpdate(progress, 0);
     }
 
