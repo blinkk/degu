@@ -46,15 +46,29 @@ export class InviewController {
             })
         }
 
-        this.inOffset = +this.element.getAttribute('inview-offset') || 0;
+        let offset = this.element.getAttribute('inview-offset');
 
-        this.ev = elementVisibility.inview(this.element, {
-            threshold: +this.inOffset || 0
-        }, (element: any, changes:any) => {
-            if (changes.isIntersecting) {
-                this.inview();
-            }
-        });
+        // Allow offsets to be defined as pixel value.
+        let useRootMargin = offset && offset.endsWith('px');
+
+        if(useRootMargin) {
+            this.ev = elementVisibility.inview(this.element, {
+                rootMargin:  offset + ' 0px 0px 0px'
+            }, (element: any, changes:any) => {
+                if (changes.isIntersecting) {
+                    this.inview();
+                }
+            });
+        } else {
+            this.inOffset = +offset || 0;
+            this.ev = elementVisibility.inview(this.element, {
+                threshold: +this.inOffset || 0
+            }, (element: any, changes:any) => {
+                if (changes.isIntersecting) {
+                    this.inview();
+                }
+            });
+        }
 
         if(this.upDownEnabled) {
             this.scrollY = window.scrollY;
@@ -165,7 +179,8 @@ export class InviewController {
  *
  * # Add an offset
  * <div inview inview-offset="0.2"> --> Triggers the inview when 20% of the element is visible.
- * <div inview inview-offset="0.5> --> Triggers the inview when 50% of the element is visible.
+ * <div inview inview-offset="0.5"> --> Triggers the inview when 50% of the element is visible.
+ * <div inview inview-offset="10px"> --> Triggers the inview when 10px of the element is visible.
  *
  * # My inview keeps flickering, in and out classes toggle.
  * The likely problem is that your inview effect has a translateY
