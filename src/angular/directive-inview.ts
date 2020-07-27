@@ -97,8 +97,8 @@ export class InviewController {
             if(this.upDownEnabled) {
               el.classList.remove(InviewClassNames.UP);
               el.classList.remove(InviewClassNames.DOWN);
+              el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
             }
-            el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
         })
     }
 
@@ -109,8 +109,8 @@ export class InviewController {
             if(this.upDownEnabled) {
               el.classList.remove(InviewClassNames.UP);
               el.classList.remove(InviewClassNames.DOWN);
+              el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
             }
-            el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
         })
     }
 
