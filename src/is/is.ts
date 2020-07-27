@@ -169,7 +169,7 @@ export class is {
 
 
     static ios(): boolean {
-        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        return /iPhone|iPad|iPod/i.test(navigator.userAgent) || is.ipad();
     }
 
     static android(): boolean {
@@ -186,7 +186,8 @@ export class is {
     }
 
     static ipad(): boolean {
-        return navigator.userAgent.match(/iPad/i) != null;
+        return (navigator.userAgent.toLowerCase().indexOf('macintosh') !== -1
+          && navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
     }
 
     static edge(): boolean {
