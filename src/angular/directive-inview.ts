@@ -40,6 +40,10 @@ export class InviewController {
         const selector = this.element.getAttribute('inview-selector');
         if(selector) {
             this.targetElements = Array.from(this.element.querySelectorAll(selector)) as Array<HTMLElement>;
+
+            this.targetElements.forEach((target:HTMLElement, i:number)=> {
+                target.setAttribute('inview-number', i + '');
+            })
         }
 
         this.inOffset = +this.element.getAttribute('inview-offset') || 0;
@@ -148,10 +152,13 @@ export class InviewController {
  * when inview:
  *
  * <div inview inview-selector="[add-inview]">
- *   <div add-inview class="in">my title</div>
- *   <div add-inview class="in">body</div>
+ *   <div add-inview class="in" inview-number="0">my title</div>
+ *   <div add-inview class="in" inview-number="1">body</div>
  * </div>
  * ```
+ *
+ * Note how it adds the inview-number which you can use to add
+ * stagger effects.
  *
  * # Add down and up classes
  * <div inview inview-up-down></div>
