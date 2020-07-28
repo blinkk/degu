@@ -9,6 +9,7 @@ import { mathf } from '../mathf/mathf';
 const InviewClassNames = {
     IN: 'in',
     IN_ONCE: 'in-once',
+    IN_FOLD: 'in-fold',
     DOWN: 'down',
     UP: 'up',
     OUT: 'out',
@@ -90,6 +91,9 @@ export class InviewController {
         this.ev.readyPromise.then(()=> {
             this.targetElements.forEach((el)=> {
                 el.classList.add(InviewClassNames.READY);
+                if(this.ev.state().inview) {
+                  el.classList.add(InviewClassNames.IN_FOLD);
+                }
             })
         })
 
@@ -134,6 +138,7 @@ export class InviewController {
         this.targetElements.forEach((el)=> {
             el.classList.add(InviewClassNames.OUT);
             el.classList.remove(InviewClassNames.IN);
+            el.classList.remove(InviewClassNames.IN_FOLD);
             if(this.upDownEnabled) {
               el.classList.remove(InviewClassNames.UP);
               el.classList.remove(InviewClassNames.DOWN);
@@ -206,6 +211,26 @@ export class InviewController {
  * apply your effect to your desired element.
  *
  * Or just use the target selector feature.
+ *
+ *
+ * # In first view.
+ * Sometimes you might want to add a stagger effect to stuff that is above the folder.
+ * In other words an intro effect but only to elements that are visible on first load.
+ * Inview will add '.in-fold' to any element that is detected to be visible when the
+ * inview first is instantiated.
+ * `in-fold` will get removed on outview.
+ *
+ *
+ * Here we have an element in which it gets a transition delay only when it is initially
+ * in the fold.
+ * ```
+ *   .body
+ *     +effect-body
+ *   .body.in-once
+ *     +effect-body-run
+ *   .body.in-fold
+ *     transition-delay: 0.4s
+ * ```
  *
  */
 export const inviewDirective = function () {
