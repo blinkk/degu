@@ -8,6 +8,7 @@ import { mathf } from '../mathf/mathf';
 
 const InviewClassNames = {
     IN: 'in',
+    IN_ONCE: 'in-once',
     DOWN: 'down',
     UP: 'up',
     OUT: 'out',
@@ -26,6 +27,8 @@ export class InviewController {
     private scrollDirection:number;
     private scrollY:number;
     private upDownEnabled: boolean = false;
+    // Whether the element has been inview at least once.
+    private inOnce: boolean = false;
 
     static get $inject() {
         return ['$scope', '$element', '$attrs'];
@@ -112,6 +115,13 @@ export class InviewController {
         this.targetElements.forEach((el)=> {
             el.classList.remove(InviewClassNames.OUT);
             el.classList.add(InviewClassNames.IN);
+
+            if(!this.inOnce) {
+              el.classList.add(InviewClassNames.IN_ONCE);
+              this.inOnce = true;
+            }
+
+
             if(this.upDownEnabled) {
               el.classList.remove(InviewClassNames.UP);
               el.classList.remove(InviewClassNames.DOWN);
@@ -176,6 +186,11 @@ export class InviewController {
  *
  * # Add down and up classes
  * <div inview inview-up-down></div>
+ *
+ * # In Once
+ * The class .in-once is attached just the first time the element comes into
+ * view and is never removed.  This is useful for things like intro effects
+ * or pages transitions in which you set only once.
  *
  * # Add an offset
  * <div inview inview-offset="0.2"> --> Triggers the inview when 20% of the element is visible.
