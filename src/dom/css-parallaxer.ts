@@ -262,13 +262,20 @@ export class CssParallaxer {
         if (this.settingsData.lerpOnlyInRange && progress <= 0 || progress >= 1) {
             this.currentProgress = progress;
         } else {
-            this.currentProgress =
-                mathf.damp(
-                    this.currentProgress,
-                    progress,
-                    lerp, damp
-                );
+            // If no lerping, bypass.
+            if (lerp == 1 && damp == 1) {
+                this.currentProgress = progress;
+            } else {
+
+                this.currentProgress =
+                    mathf.damp(
+                        this.currentProgress,
+                        progress,
+                        lerp, damp
+                    );
+            }
         }
+
 
 
         if (this.settingsData.clamp) {
@@ -328,7 +335,7 @@ export class CssParallaxer {
         ) {
             this.updateProgress(this.settingsData.lerpMobile, this.settingsData.dampMobile);
         } else {
-        // All others.
+            // All others.
             this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
         }
 

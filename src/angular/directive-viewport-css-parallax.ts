@@ -179,12 +179,16 @@ export class ViewportCssParallaxController {
         // Invert it so that 0 is considered bottom.
         percent = 1 - percent;
 
-        this.currentProgress =
-            mathf.damp(
-                this.currentProgress,
-                percent,
-                lerp, damp
-            );
+        if(lerp == 1 && damp == 1) {
+            this.currentProgress = percent;
+        } else {
+            this.currentProgress =
+                mathf.damp(
+                    this.currentProgress,
+                    percent,
+                    lerp, damp
+                );
+        }
 
 
         if (this.settingsData.clamp) {
