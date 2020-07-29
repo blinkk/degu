@@ -103,8 +103,12 @@ export class ScrollSmoother {
     }
 
 
-    private dispose() {
+    public dispose():void {
         this.domWatcher && this.domWatcher.dispose();
+        this.raf && this.raf.dispose();
+        document.body.style.height = '';
+        this.rootElement.style.position = '';
+        this.rootElement.style.width = '';
     }
 
 }
