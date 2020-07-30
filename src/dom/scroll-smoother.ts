@@ -94,7 +94,7 @@ export class ScrollSmoother {
             return;
         }
 
-        this.rootElement.style.top = -this.currentY + 'px';
+        this.rootElement.style.transform = `translateY(-${this.currentY}px)`;
     }
 
 
