@@ -62,6 +62,11 @@ export interface interpolateSettings {
      * Whether this is a stagger item that was created at runtime.
      */
     staggerItem?: boolean;
+
+    /**
+     * A callback function that gets called each time interpolation is updated.
+     */
+    onUpdate?: Function;
 }
 
 
@@ -225,6 +230,16 @@ export const multiInterpolateHelper = {
  *       stagger: {
  *           count: 4,
  *           progressOffset: 0.008
+ *       }
+ *     }
+ *
+ *
+ *     // onUpdate also provides you hooks when values up.
+ *     {
+ *       progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
+ *       id: 'hero-y',
+ *       onUpdate: (id:string, currentProgress:number, currentValue:string|number) => {
+ *          ...
  *       }
  *     }
  *
@@ -466,6 +481,12 @@ export class MultiInterpolate {
 
                     // Finally cache this value to the current values list.
                     this.currentValues[config.id] = interpolatedValue;
+                }
+
+
+                // Run update function.
+                if(config.onUpdate) {
+                    config.onUpdate(config.id, this.parentProgress, this.currentValues[config.id])
                 }
             }
         )
