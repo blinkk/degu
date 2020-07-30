@@ -299,15 +299,19 @@ export class LottieController {
         const progress = this.currentProgress;
         this.progressUpdate(Math.max(0, progress - 0.01), 0);
 
+        this.resizeLottie();
+
+        this.progressUpdate(progress, 0);
+    }
+
+
+    private resizeLottie():void {
         this.lottieObjects.forEach((lottieObject) => {
             if (lottieObject.lottieInDom) {
                 lottieObject.lottieInstance.resize();
             }
         })
-
-        this.progressUpdate(progress, 0);
     }
-
 
 
 
