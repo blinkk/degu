@@ -297,7 +297,11 @@ export class LottieController {
         // must do is first tell lottie to draw some other
         // frame.  Then redraw the current frame.
         const progress = this.currentProgress;
-        this.progressUpdate(Math.max(0, progress - 0.01), 0);
+        if(progress == 0) {
+          this.progressUpdate(progress + 0.01, 0);
+        } else {
+          this.progressUpdate(Math.max(0, progress - 0.01), 0);
+        }
 
         this.resizeLottie();
 
