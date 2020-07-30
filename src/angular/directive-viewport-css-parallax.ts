@@ -97,6 +97,7 @@ export class ViewportCssParallaxController {
             }
         );
         this.interpolator.useBatchUpdate(true);
+        this.interpolator.useSubPixelRendering(false);
 
         // On load, we need to initially, bring the animation to
         // start position.
