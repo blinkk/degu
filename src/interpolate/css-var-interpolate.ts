@@ -116,6 +116,9 @@ import { objectf } from '../objectf/objectf';
  * // A feature introduced since v0.0.103 and recommended.
  * this.cssVarInterpolate.useBatchUpdate(true);
  *
+ * // For perf boost
+ * this.interpolator.useSubPixelRendering(false);
+ *
  *  // Set the progress to the range value.
  *  this.progress = +this.range.value;
  *
