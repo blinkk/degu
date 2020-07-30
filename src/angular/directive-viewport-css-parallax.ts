@@ -25,7 +25,15 @@ export interface ViewportCssParallaxSettings {
     // where in a viewport an element is, we need to know what point to use
     // in the element.  Should we use the top (0), middle (0.5) or bottom of the
     // element.
-    elementBaseline: number,
+    elementBaseline?: number,
+
+    // Options to basically a setting where by, it shifts the
+    // elementBaseline as the scroll progresses.
+    // The element top is used at the bottom of the screen and element
+    // bottom is used for the top of the screen.
+    // Using this option, overrides the settings of elementBaseline.
+    elementBaselineFromTopToBottom?: boolean,
+
 
     // The rafEvOptions so that you can add rootMargin etc to the base raf.
     rafEvOptions: Object
@@ -80,6 +88,7 @@ export class ViewportCssParallaxController {
                 damp: 1,
                 // Default to top of element.
                 elementBaseline: 0,
+                elementBaselineFromTopToBottom: false,
                 precision: 3,
                 rafEvOptions: {
                     rootMargin: '300px 0px 300px 0px'
@@ -169,13 +178,28 @@ export class ViewportCssParallaxController {
         //
         // The elementBaseline is used to factor this in.  The default state
         // is calculated from teh top of the element.
-        const elementBaseline =
+        let elementBaseline =
             this.element.getBoundingClientRect().top +
             (this.settingsData.elementBaseline * this.element.offsetHeight);
 
         let percent = mathf.inverseLerp(0, window.innerHeight,
             elementBaseline
         )
+
+
+        // From top to bottom is basically a setting where by, it shifts the
+        // elementBaseline as the scroll progresses.
+        // The element top is used at the bottom of the screen and element
+        // bottom is used for the top of the screen.
+        if(
+            this.settingsData.elementBaselineFromTopToBottom
+        ) {
+            let elementBaselineTop = this.element.getBoundingClientRect().top;
+            percent = mathf.inverseLerp(
+                -this.element.offsetHeight, window.innerHeight + this.element.offsetHeight,
+                elementBaselineTop
+            )
+        }
 
         // Invert it so that 0 is considered bottom.
         percent = 1 - percent;
