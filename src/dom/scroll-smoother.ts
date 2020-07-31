@@ -6,7 +6,8 @@ import { Raf } from '../raf/raf';
 export interface ScrollSmootherConfig {
     lerp: number,
     damp: number,
-    root: HTMLElement
+    root: HTMLElement,
+    onUpdate?:  Function
 }
 
 /**
@@ -24,10 +25,23 @@ export interface ScrollSmootherConfig {
  * const scrollSmoother = new ScrollSmoother({
  *  lerp: 0.23
  *  damp: 0.2444,
- *  root: document.getElementById('root');
+ *  root: document.getElementById('root')
  * })
  *
  * scrollSmoother.run();
+ *
+ *
+ *
+ * Optional callback
+ * const scrollSmoother = new ScrollSmoother({
+ *  lerp: 0.23
+ *  damp: 0.2444,
+ *  root: document.getElementById('root'),
+ *  onUpdate: (currentY, targetY)=> {
+ *    ...
+ *  }
+ * })
+ *
  *
  * ```
  *
@@ -95,6 +109,10 @@ export class ScrollSmoother {
         }
 
         this.rootElement.style.transform = `translateY(-${this.currentY}px)`;
+
+        if (this.settings.onUpdate) {
+            this.settings.onUpdate(this.currentY, this.targetY);
+        }
     }
 
 
