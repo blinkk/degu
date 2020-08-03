@@ -58,9 +58,9 @@ export interface ViewportCssParallaxConfig {
  * // Add your settings.
  * const settings = {
  *    debug: false,
- *    lerp: 0.18
- *    damp: 0.18
- *    elmementBaseline: 0
+ *    lerp: 0.18,
+ *    damp: 0.18,
+ *    elmenentBaseline: 0
  * }
  *
  * parallaxer.init(settings,
@@ -147,6 +147,17 @@ export class ViewportCssParallax{
                     this.updateImmediately();
                 }
             });
+    }
+
+
+
+    public updateInterpolations(interpolations: Array<interpolateSettings>) {
+        if(!this.initialized) {
+            throw new Error("You must initialize viewport-css-parallax first before calling updateInterpolations");
+            return;
+        }
+
+        this.interpolator.setInterpolations({ interpolations: interpolations});
     }
 
 
