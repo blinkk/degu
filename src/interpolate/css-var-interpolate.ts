@@ -235,6 +235,17 @@ export class CssVarInterpolate {
 
 
     /**
+     * Whether to prevent css_var from writing to the dom.  This is useful in cases,
+     * you just want css-var-interpolate to calculate values and you take control
+     * of when and where the css-variables are applied.  You can extract the current
+     * values after running updateProgress by calling, getValues() and after that
+     * use dom.setCssVariables() to apply the values.
+     * Default to false.
+     */
+    private noWrite: boolean;
+
+
+    /**
      * @param element The element to update the css variable to.
      *     This can be the body element if you want a "global" css
      *     variable or you can specific a more speicific element to
@@ -267,6 +278,7 @@ export class CssVarInterpolate {
         this.ranOutViewUpdate = false;
         this.batchUpdate = false;
         this.precision = 4;
+        this.noWrite = false;
 
         this.startProgress = 0;
         this.endProgress = 1;
@@ -346,6 +358,19 @@ export class CssVarInterpolate {
     useSubPixelRendering(value: boolean) {
         this.renderSubPixels = value;
     }
+
+
+    /**
+     * Sets css-var-interpolate to no write mode in which it will only calculate
+     * values but not write them to the dom.  This is used for cases in which
+     * you want use the class to calculate values but take control of when
+     * and where writing happens.
+     * @param value
+     */
+    useNoWrite(value: boolean) {
+        this.noWrite = value;
+    }
+
 
 
     /**
@@ -441,6 +466,12 @@ export class CssVarInterpolate {
             return;
         }
 
+
+        // If we are in noWrite mode, skip.
+        if(this.noWrite) {
+            return;
+        }
+
         for (var key in this.currentValues) {
             if (!this.renderSubPixels && is.string(this.currentValues[key])) {
                 let cssUnitValue = cssUnit.parse(this.currentValues[key]);
@@ -459,6 +490,7 @@ export class CssVarInterpolate {
         if (this.batchUpdate) {
           dom.setCssVariables(this.element, this.currentValues);
         }
+
     }
 
 
