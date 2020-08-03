@@ -16,12 +16,12 @@ export interface ViewportCssParallaxSettings {
     lerp: number,
     damp: number,
     // Whether to force clamp the progress to 0-1 range.  Defaults to true.
-    clamp: boolean,
+    clamp?: boolean,
 
     // The precision rounding on the lerp.  Used to cull / avoid layout thrashes.
-    precision: number,
+    precision?: number,
 
-    // The elemeent baseline is the location in which we should use to
+    // The element baseline is the location in which we should use to
     // check the current element position.  Since we want to check
     // where in a viewport an element is, we need to know what point to use
     // in the element.  Should we use the top (0), middle (0.5) or bottom of the
@@ -37,7 +37,7 @@ export interface ViewportCssParallaxSettings {
 
 
     // The rafEvOptions so that you can add rootMargin etc to the base raf.
-    rafEvOptions: Object
+    rafEvOptions?: Object
 }
 
 export interface ViewportCssParallaxConfig {
@@ -211,6 +211,15 @@ export class ViewportCssParallax{
         }
 
         return base * (unit.value as number);
+    }
+
+
+    /**
+     * Gets the cs var values.  Using this you could get the current interpolation
+     * values and say, apply it to another element.
+     */
+    public getValues() {
+        this.interpolator.getValues();
     }
 
 

@@ -168,6 +168,32 @@ import { objectf } from '../objectf/objectf';
  * ```ts
  * this.cssVarInterpolate.renderOutview(true);
  * ```
+ *
+ *
+ * // No write mode.
+ * There are times you may just want to use the css-var-interpolate to just
+ * calculate values for you.
+ *
+ * You can prevent css-var-interpolate from writing to the dom with:
+ *
+ * ```ts
+ * this.cssVarInterpolate.useNoWrite(true);
+ * ```
+ *
+ * then you can do something like this to get the values.
+ *
+ * ```
+ * // Update
+ *    this.cssVarInterpolate.update(this.progress);
+ *
+ * // Get the calculated values.
+ *    const values = this.cssVarInterpolate.getValues();
+ *
+ *
+ * // Now apply them or use them however you want.
+ *    dom.setCssVariables(myElement, values);
+ *
+ * ```
  */
 export class CssVarInterpolate {
     private mainProgress: number | null;
