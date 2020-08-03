@@ -35,7 +35,6 @@ export interface ViewportCssParallaxSettings {
     // Using this option, overrides the settings of elementBaseline.
     elementBaselineFromTopToBottom?: boolean,
 
-
     // The rafEvOptions so that you can add rootMargin etc to the base raf.
     rafEvOptions?: Object
 }
@@ -81,7 +80,15 @@ export interface ViewportCssParallaxConfig {
  *
  */
 export class ViewportCssParallax{
-    private element: HTMLElement;
+    /**
+     * The root element to observe the current viewport position.
+     */
+    private rootElement: HTMLElement;
+
+    /**
+     * The element to write out the css variables to.  Defaults to the rootElement
+     */
+    private css_write_element: HTMLElement;
     private domWatcher: DomWatcher;
     private rafEv: ElementVisibilityObject;
     private raf: Raf;
@@ -100,10 +107,13 @@ export class ViewportCssParallax{
 
 
 
-    constructor(element: HTMLElement) {
-        this.element = element;
+    constructor(element: HTMLElement, css_write_element?: HTMLElement) {
+        this.rootElement = element;
+        this.css_write_element = css_write_element ? css_write_element: this.rootElement;
+
+
         this.raf = new Raf(this.onRaf.bind(this));
-        this.parallaxData = JSON.parse(this.element.getAttribute('viewport-css-parallax'));
+        this.parallaxData = JSON.parse(this.rootElement.getAttribute('viewport-css-parallax'));
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             element: window,
@@ -123,22 +133,24 @@ export class ViewportCssParallax{
 
 
         this.interpolator = new CssVarInterpolate(
-            this.element,
+            this.rootElement,
             {
                 interpolations: interpolations || [],
             }
         );
         this.interpolator.useBatchUpdate(true);
         this.interpolator.useSubPixelRendering(false);
+        // Use no write mode as we will use interpolator to just calculate values.
+        this.interpolator.useNoWrite(true);
 
         // On load, we need to initially, bring the animation to
         // start position.
         this.updateImmediately();
 
-        this.element.classList.add('viewport-css-parallax-ready');
+        this.rootElement.classList.add('viewport-css-parallax-ready');
 
         // Start and stop raf when the element comes into view.
-        this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
+        this.rafEv = elementVisibility.inview(this.rootElement, this.settingsData.rafEvOptions,
             (element: any, changes: any) => {
                 if (changes.isIntersecting) {
                     this.raf.start();
@@ -202,7 +214,7 @@ export class ViewportCssParallax{
         const unit = cssUnit.parse(cssValue);
         let base = 1;
         if (unit.unit == '%') {
-            base = this.element.offsetHeight;
+            base = this.rootElement.offsetHeight;
             return base * (unit.value as number / 100);
         }
         if (unit.unit == 'vh') {
@@ -211,15 +223,6 @@ export class ViewportCssParallax{
         }
 
         return base * (unit.value as number);
-    }
-
-
-    /**
-     * Gets the cs var values.  Using this you could get the current interpolation
-     * values and say, apply it to another element.
-     */
-    public getValues() {
-        this.interpolator.getValues();
     }
 
 
@@ -249,8 +252,8 @@ export class ViewportCssParallax{
         // The elementBaseline is used to factor this in.  The default state
         // is calculated from teh top of the element.
         let elementBaseline =
-            this.element.getBoundingClientRect().top +
-            (this.settingsData.elementBaseline * this.element.offsetHeight);
+            this.rootElement.getBoundingClientRect().top +
+            (this.settingsData.elementBaseline * this.rootElement.offsetHeight);
 
         let percent = mathf.inverseLerp(0, window.innerHeight,
             elementBaseline
@@ -264,9 +267,9 @@ export class ViewportCssParallax{
         if(
             this.settingsData.elementBaselineFromTopToBottom
         ) {
-            let elementBaselineTop = this.element.getBoundingClientRect().top;
+            let elementBaselineTop = this.rootElement.getBoundingClientRect().top;
             percent = mathf.inverseLerp(
-                -this.element.offsetHeight, window.innerHeight + this.element.offsetHeight,
+                -this.rootElement.offsetHeight, window.innerHeight + this.rootElement.offsetHeight,
                 elementBaselineTop
             )
         }
@@ -318,6 +321,11 @@ export class ViewportCssParallax{
         this.interpolator.update(
             roundedProgress
         );
+
+
+        // Write values.
+        const values = this.interpolator.getValues();
+        dom.setCssVariables(this.css_write_element, values);
     }
 
 
