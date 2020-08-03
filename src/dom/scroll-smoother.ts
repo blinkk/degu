@@ -8,6 +8,7 @@ export interface ScrollSmootherConfig {
     damp: number,
     root: HTMLElement,
     onUpdate?:  Function
+    topMode?: boolean
 }
 
 /**
@@ -108,7 +109,11 @@ export class ScrollSmoother {
             return;
         }
 
-        this.rootElement.style.transform = `translateY(-${this.currentY}px)`;
+        if(this.settings.topMode) {
+          this.rootElement.style.top = `-${this.currentY}px`;
+        } else {
+          this.rootElement.style.transform = `translateY(-${this.currentY}px)`;
+        }
 
         if (this.settings.onUpdate) {
             this.settings.onUpdate(this.currentY, this.targetY);
