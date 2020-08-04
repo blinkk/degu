@@ -89,7 +89,9 @@ export class BlobLoader {
                     }
                 })
                 .then((response) => {
-                    this.blobs[source] = response;
+                    if (this.blobs) {
+                        this.blobs[source] = response;
+                    }
                     resolve(response);
                 });
         });
