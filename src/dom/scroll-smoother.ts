@@ -7,7 +7,7 @@ export interface ScrollSmootherConfig {
     lerp: number,
     damp: number,
     root: HTMLElement,
-    onUpdate?:  Function
+    onUpdate?: Function
     topMode?: boolean
 }
 
@@ -79,12 +79,18 @@ export class ScrollSmoother {
             eventOptions: { passive: true },
             callback: this.onWindowScroll.bind(this),
         });
-        this.onWindowScroll();
 
+        this.onWindowScroll();
 
         this.raf = new Raf(this.onRaf.bind(this));
         this.raf.start();
     }
+
+
+    public resize() {
+        this.onSmartResize();
+    }
+
 
     private onSmartResize() {
         this.rootElement = this.settings.root;
@@ -105,14 +111,14 @@ export class ScrollSmoother {
             this.settings.damp || 1);
         updated = mathf.floorToPrecision(updated, precision);
         this.currentY = updated;
-        if(prev == updated) {
+        if (prev == updated) {
             return;
         }
 
-        if(this.settings.topMode) {
-          this.rootElement.style.top = `-${this.currentY}px`;
+        if (this.settings.topMode) {
+            this.rootElement.style.top = `-${this.currentY}px`;
         } else {
-          this.rootElement.style.transform = `translateY(-${this.currentY}px)`;
+            this.rootElement.style.transform = `translateY(-${this.currentY}px)`;
         }
 
         if (this.settings.onUpdate) {
@@ -126,7 +132,7 @@ export class ScrollSmoother {
     }
 
 
-    public dispose():void {
+    public dispose(): void {
         this.domWatcher && this.domWatcher.dispose();
         this.raf && this.raf.dispose();
         document.body.style.height = '';
