@@ -69,9 +69,8 @@ export class ScrollSmoother {
         this.domWatcher.add({
             element: window,
             on: 'smartResize',
-            callback: () => requestAnimationFrame(this.onSmartResize.bind(this)),
+            callback: this.resize.bind(this),
         });
-        this.onSmartResize();
 
         this.domWatcher.add({
             element: window,
@@ -80,10 +79,15 @@ export class ScrollSmoother {
             callback: this.onWindowScroll.bind(this),
         });
 
-        this.onWindowScroll();
 
+        this.onWindowScroll();
+        this.onSmartResize();
+        this.updateScrollPosition(1,1);
         this.raf = new Raf(this.onRaf.bind(this));
         this.raf.start();
+        requestAnimationFrame(()=> {
+            this.onSmartResize();
+        })
     }
 
 
@@ -94,21 +98,33 @@ export class ScrollSmoother {
 
     private onSmartResize() {
         this.rootElement = this.settings.root;
+        // document.body.style.height = 'auto';
         const height = this.rootElement.offsetHeight;
-        document.body.style.height = height + 'px';
-        this.rootElement.style.position = 'fixed';
-        this.rootElement.style.width = '100%';
+
+        requestAnimationFrame(() => {
+            document.body.style.height = height + 'px';
+            this.rootElement.style.position = 'fixed';
+            this.rootElement.style.width = '100%';
+        })
     }
 
 
     private onRaf() {
         // Cull unncessary updated based on a precision.
         // Use precision 0, since we don't need subpixels.
+        this.updateScrollPosition(this.settings.lerp || 1, this.settings.damp || 1)
+    }
+
+
+    private onWindowScroll() {
+        this.targetY = window.scrollY;
+    }
+
+
+    private updateScrollPosition(lerp:number = 1, damp:number = 1) {
         const precision = 0;
         const prev = this.currentY;
-        let updated = mathf.damp(this.currentY, this.targetY,
-            this.settings.lerp || 1,
-            this.settings.damp || 1);
+        let updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
         updated = mathf.floorToPrecision(updated, precision);
         this.currentY = updated;
         if (prev == updated) {
@@ -124,11 +140,7 @@ export class ScrollSmoother {
         if (this.settings.onUpdate) {
             this.settings.onUpdate(this.currentY, this.targetY);
         }
-    }
 
-
-    private onWindowScroll() {
-        this.targetY = window.scrollY;
     }
 
 
