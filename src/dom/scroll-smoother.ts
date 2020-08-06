@@ -61,16 +61,23 @@ export class ScrollSmoother {
     // The target y position.
     private targetY: number = 0;
 
+    /*
+     * @type ResizeObserver https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+     */
+    private resizer: any;
+
     constructor(config: ScrollSmootherConfig) {
         this.settings = config;
 
         this.domWatcher = new DomWatcher();
 
-        this.domWatcher.add({
-            element: window,
-            on: 'smartResize',
-            callback: this.resize.bind(this),
+        this.resizer = new window['ResizeObserver']((entries:any) => {
+            for (const entry of entries) {
+               this.resize(entry.contentRect.height);
+            }
         });
+        this.resizer['observe'](this.settings.root);
+
 
         this.domWatcher.add({
             element: window,
@@ -80,26 +87,25 @@ export class ScrollSmoother {
         });
 
 
+        this.resize();
         this.onWindowScroll();
-        this.onSmartResize();
         this.updateScrollPosition(1,1);
         this.raf = new Raf(this.onRaf.bind(this));
         this.raf.start();
-        requestAnimationFrame(()=> {
-            this.onSmartResize();
-        })
     }
 
 
-    public resize() {
-        this.onSmartResize();
+    public resize(height?:number) {
+        if(!height) {
+            this.rootElement = this.settings.root;
+            height = this.rootElement.offsetHeight;
+        }
+        this.onElementResize(height);
     }
 
 
-    private onSmartResize() {
-        this.rootElement = this.settings.root;
+    private onElementResize(height:number) {
         // document.body.style.height = 'auto';
-        const height = this.rootElement.offsetHeight;
 
         requestAnimationFrame(() => {
             document.body.style.height = height + 'px';
@@ -150,6 +156,7 @@ export class ScrollSmoother {
         document.body.style.height = '';
         this.rootElement.style.position = '';
         this.rootElement.style.width = '';
+        this.resizer['unobserve'](this.settings.root);
     }
 
 }
