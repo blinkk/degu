@@ -24,6 +24,8 @@ export interface HorizontalScrollElementPositions {
 /**
  *
  * This is useful in creating a draggable horizontal scroll area that is draggable.
+ * This like a horizontal carousel basically.
+ * The items will get centered in position.
  *
  * ```
  * <div class="scroll" id="myscroller">
@@ -110,7 +112,7 @@ export class HorizontalScrollElement {
     private snapToClosets: boolean = true;
     private items: Array<HTMLElement>;
     private childrenPositions: Array<HorizontalScrollElementPositions>;
-    private index:number = 0;
+    private index: number = 0;
     private useCssVar: boolean = false;
 
     constructor(rootElement: HTMLElement) {
@@ -201,7 +203,7 @@ export class HorizontalScrollElement {
             this.root.classList.remove('dragging');
             this.mouseState.down = false;
 
-            if(this.snapToClosets) {
+            if (this.snapToClosets) {
                 let index = this.findClosestIndexToX(this.targetX);
                 this.slideTo(index, false, true);
             }
@@ -239,16 +241,20 @@ export class HorizontalScrollElement {
             });
         });
 
+        if (this.snapToClosets) {
+            this.slideTo(this.index, false, true);
+        }
+
     }
 
     setScrollPosition(x: number) {
         this.currentX = x;
-        if(this.useCssVar) {
+        if (this.useCssVar) {
             dom.setCssVariables(this.root, {
                 '--horizontal-scroll-x': -this.currentX + 'px'
             })
         } else {
-          this.root.scrollLeft = this.currentX;
+            this.root.scrollLeft = this.currentX;
         }
     }
 
@@ -271,7 +277,7 @@ export class HorizontalScrollElement {
         this.childrenPositions[this.index].el.classList.add('slide-active');
     }
 
-    getChildPosition(index:number) {
+    getChildPosition(index: number) {
         if (index == -1) {
             return this.childrenPositions[this.childrenPositions.length - 1];
         }
@@ -303,7 +309,7 @@ export class HorizontalScrollElement {
      * Turns off and on snapping.
      * @param value
      */
-    public setSnapToClosest(value:boolean) {
+    public setSnapToClosest(value: boolean) {
         this.snapToClosets = value;
     }
 
@@ -311,7 +317,7 @@ export class HorizontalScrollElement {
      * Turns on or off css var mode.
      * @param value
      */
-    public setUseCssVar(value:boolean) {
+    public setUseCssVar(value: boolean) {
         this.useCssVar = value;
     }
 
