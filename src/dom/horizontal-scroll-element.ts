@@ -49,7 +49,7 @@ export interface HorizontalScrollElementPositions {
  * =scroll-snap-container
  *   width: 100vw
  *   display: flex
- *   overflow: scroll
+ *   overflow-x: scroll
  *   -webkit-overflow-scrolling: touch
  *   margin-left: calc(var(--grid-side, $grid-mobile-side) * -1)
  *   margin-right: calc(var(--grid-side, $grid-mobile-side) * -1)
@@ -76,6 +76,8 @@ export interface HorizontalScrollElementPositions {
  *     padding-right: calc(var(--grid-side, $grid-mobile-side) * 1)
  *   &:hover
  *     cursor: grab
+ *   img
+ *     pointer-events: none
  *
  * ```
  *
@@ -98,6 +100,17 @@ export interface HorizontalScrollElementPositions {
  * .myroot
  *   transform: translateX(var(--horizontal-scroll-x))
  *   will-change: transform
+ * ```
+ *
+ *
+ * ## The dragging is buggy
+ * This is sometimes causes by the fact that you can focus into a `<img>` element.
+ * Make sure you have:
+ *
+ * ```
+ * .mymodule img
+ *   point-events: none
+ *
  * ```
  *
  */
@@ -197,6 +210,7 @@ export class HorizontalScrollElement {
         });
 
         const outHandler = (e: any) => {
+            console.log("out", this.mouseState);
             if (!this.mouseState.down) {
                 return;
             }
@@ -242,7 +256,8 @@ export class HorizontalScrollElement {
         });
 
         if (this.snapToClosets) {
-            this.slideTo(this.index, false, true);
+            let index = this.findClosestIndexToX(this.currentX);
+            this.slideTo(index, false, true);
         }
 
     }
