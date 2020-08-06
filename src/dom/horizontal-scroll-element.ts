@@ -29,11 +29,15 @@ export interface HorizontalScrollElementPositions {
  *
  * ```
  * <div class="scroll" id="myscroller">
- *   <div class="scroll-item">...</div>
- *   <div class="scroll-item">...</div>
- *   <div class="scroll-item">...</div>
- *   <div class="scroll-item">...</div>
- *   <div class="scroll-item">...</div>
+ *   <div class="scroll-item" scroll-item>
+ *      <div class="scroll-item__inner" scroll-inner>...</div>
+ *   </div>
+ *   <div class="scroll-item" scroll-item>
+ *      <div class="scroll-item__inner" scroll-inner>...</div>
+ *   </div>
+ *   <div class="scroll-item" scroll-item>
+ *      <div class="scroll-item__inner" scroll-inner>...</div>
+ *   </div>
  * </div>
  *
  *
@@ -44,41 +48,47 @@ export interface HorizontalScrollElementPositions {
  *
  * - while dragging, the root element will receive a "dragging" css class.
  * - the active child element will receive a "slide-active" class.
+ * - use scroll-item__inner (the inner element) to size your items.
  *
  * ```
- * =scroll-snap-container
- *   width: 100vw
+ * =scroll-snap
+ *   width: 100%
  *   display: flex
  *   overflow-x: scroll
+ *   overflow-y: hidden
  *   -webkit-overflow-scrolling: touch
- *   margin-left: calc(var(--grid-side, $grid-mobile-side) * -1)
- *   margin-right: calc(var(--grid-side, $grid-mobile-side) * -1)
- *   padding-left: var(--grid-side, $grid-mobile-side)
- *   transform: scale(1.0)
  *   transition: 0.2s all ease
- *   &.dragging
- *     transform: scale(1.01)
+ *   transform: scale(1.0)
+ *   user-drag: none
+ *   a
+ *     user-select: none
+ *     user-drag: none
+ *   img
+ *     pointer-events: none
  *   &::-webkit-scrollbar
  *       background: transparent
  *       width: 0
+ *   &.dragging
+ *       transform: scale(1.01)
+ *   [scroll-item]
+ *       position: relative
+ *       &:hover
+ *       cursor: grab
+ *   [scroll-inner]
+ *       position: relative
+ *       user-select: none
+ *       width: 85vw
+ *       +sd-lt
+ *         margin-right: 24px
+ *   [scroll-item]:first-child
+ *       +sd-lt
+ *         margin-left: 24px
  *
- * // Add this to the slide.
- * =scroll-snap-item
- *   flex: 0 0 80%
- *   scroll-snap-align: center
- *   padding-left: calc(var(--grid-side, $grid-mobile-side) * 0.5)
- *   padding-right: calc(var(--grid-side, $grid-mobile-side) * 0.5)
- *   user-select: none
- *   // Shift the last item over slightly.
- *   &:first-child
- *     padding-left: calc(var(--grid-side, $grid-mobile-side) * 1)
- *   &:last-child
- *     padding-right: calc(var(--grid-side, $grid-mobile-side) * 1)
- *   &:hover
- *     cursor: grab
- *   img
- *     pointer-events: none
  *
+ * .myscroller
+ *   +scroll-snap
+ * .myscroll img
+ *   point-events: none
  * ```
  *
  *
@@ -111,6 +121,9 @@ export interface HorizontalScrollElementPositions {
  * .mymodule img
  *   point-events: none
  *
+ * or sometimes these can help:
+ *   user-select: none
+ *   user-drag: none
  * ```
  *
  */
@@ -187,6 +200,21 @@ export class HorizontalScrollElement {
         this.domWatcher.add({
             element: this.root, on: 'mousedown', callback: downHandler.bind(this),
         });
+        this.domWatcher.add({
+            element: this.root, on: 'dragstart', callback: downHandler.bind(this),
+        });
+
+        // Prevent drags.
+        this.domWatcher.add({
+            element: this.root, on: 'dragover', callback: (e:any)=> {
+                e.preventDefault();
+            },
+        });
+        this.domWatcher.add({
+            element: this.root, on: '', callback: (e:any)=> {
+                e.preventDefault();
+            },
+        });
 
         const moveHandler = (e: any) => {
             let eventX = e.touches && e.touches[0].clientX || e.x;
@@ -195,8 +223,8 @@ export class HorizontalScrollElement {
                 let diff = this.mouseState.lastX - this.mouseState.x;
                 // Drag sensititiy.  The higher the less effort requires to move around.
                 // Make it less sensitive towards mobile.
-                let normalizedWindowSize = mathf.inverseLerp(300, 1000, window.innerWidth);
-                let dragSensitivity = mathf.lerp(1.4, 1.8, normalizedWindowSize);
+                let normalizedWindowSize = mathf.inverseLerp(300, 2000, window.innerWidth);
+                let dragSensitivity = mathf.lerp(1.4, 2, normalizedWindowSize);
                 this.targetX += diff * dragSensitivity;
                 this.mouseState.lastX = this.mouseState.x;
             }
@@ -208,9 +236,11 @@ export class HorizontalScrollElement {
         this.domWatcher.add({
             element: this.root, on: 'mousemove', callback: moveHandler.bind(this),
         });
+        this.domWatcher.add({
+            element: this.root, on: 'drag', callback: moveHandler.bind(this),
+        });
 
         const outHandler = (e: any) => {
-            console.log("out", this.mouseState);
             if (!this.mouseState.down) {
                 return;
             }
@@ -229,6 +259,10 @@ export class HorizontalScrollElement {
         });
         this.domWatcher.add({
             element: this.root, on: 'mouseup', callback: outHandler.bind(this),
+            eventOptions: { passive: true },
+        });
+        this.domWatcher.add({
+            element: this.root, on: 'dragend', callback: outHandler.bind(this),
             eventOptions: { passive: true },
         });
         this.domWatcher.add({
