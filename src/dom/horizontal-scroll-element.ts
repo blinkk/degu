@@ -96,7 +96,7 @@ export interface HorizontalScrollElementPositions {
  * This will turn it into a free flowing.
  *
  * ```
- * hr.setSnapToClosest(false);
+ * hr.enableSnapToClosest(false);
  * ```
  *
  *
@@ -104,7 +104,7 @@ export interface HorizontalScrollElementPositions {
  *   This allows you to set the scroll position with transformX instead of scrollLeft
  *   for perf boosts.
  * ```
- * hr.setUseCssVar(true);
+ * hr.enableCssVar(true);
  *
  *
  * .myroot
@@ -126,6 +126,23 @@ export interface HorizontalScrollElementPositions {
  *   user-drag: none
  * ```
  *
+ *
+ * # Adding slide effects
+ * ```
+ * hr.enableSlideDeltaValues(true);
+ *
+ * // Now the chapter will sorta parallax as it slides in and shifts.
+ * .myslide .mychapter
+ *   transform: translateX( calc(var(--horizontal-scroll-in-x) * 50px))
+ *   will-change: transform
+ *
+ *
+ * var(--horizontal-scroll-in-x) --> -1 - 0 - 1
+ * var(--horizontal-scroll-in-x-ab) --> 1 - 0 - 1
+ * var(--horizontal-scroll-in-x-abs-inv) --> -1 - 0 - -1
+ * ```
+ *
+ *
  */
 export class HorizontalScrollElement {
     private root: HTMLElement;
@@ -135,11 +152,13 @@ export class HorizontalScrollElement {
     private targetX: number = 0;
     private rafEv: ElementVisibilityObject;
     private raf: Raf;
-    private snapToClosets: boolean = true;
+    private useSnapToClosest: boolean = true;
     private items: Array<HTMLElement>;
     private childrenPositions: Array<HorizontalScrollElementPositions>;
     private index: number = 0;
     private useCssVar: boolean = false;
+    private useSlideDeltaValues: boolean = false;
+    private scrollWidth: number;
 
     constructor(rootElement: HTMLElement) {
         this.root = rootElement;
@@ -180,6 +199,25 @@ export class HorizontalScrollElement {
         let dampedTarget = mathf.damp(
             currentX, this.targetX, 0.4, 0.2);
         this.setScrollPosition(dampedTarget);
+
+
+        if(this.useSlideDeltaValues) {
+
+            this.childrenPositions.forEach((child) => {
+                const current = this.currentX;
+                const delta = child.centerX - current;
+                const percent = delta / this.scrollWidth;
+
+                if(mathf.isBetween(percent, -1, 1, true)) {
+                    dom.setCssVariables(child.el, {
+                        '--horizontal-scroll-in-x': percent,
+                        '--horizontal-scroll-in-x-abs': Math.abs(percent),
+                        '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
+                    })
+                }
+            });
+
+        }
     }
 
     private setupMouseDrag() {
@@ -247,7 +285,7 @@ export class HorizontalScrollElement {
             this.root.classList.remove('dragging');
             this.mouseState.down = false;
 
-            if (this.snapToClosets) {
+            if (this.useSnapToClosest) {
                 let index = this.findClosestIndexToX(this.targetX);
                 this.slideTo(index, false);
             }
@@ -289,7 +327,9 @@ export class HorizontalScrollElement {
             });
         });
 
-        if (this.snapToClosets) {
+        this.scrollWidth = this.root.offsetWidth;
+
+        if (this.useSnapToClosest) {
             let index = this.findClosestIndexToX(this.currentX);
             this.slideTo(index, false);
         }
@@ -370,18 +410,26 @@ export class HorizontalScrollElement {
      * Turns off and on snapping.
      * @param value
      */
-    public setSnapToClosest(value: boolean) {
-        this.snapToClosets = value;
+    public enableSnapToClosest(value: boolean) {
+        this.useSnapToClosest = value;
     }
 
     /**
      * Turns on or off css var mode.
      * @param value
      */
-    public setUseCssVar(value: boolean) {
+    public enableCssVar(value: boolean) {
         this.useCssVar = value;
     }
 
+
+    /**
+     * Whether to add css var that indicate the current delta value of the
+     * css var.
+     */
+    public enableSlideDeltaValues(value: boolean) {
+        this.useSlideDeltaValues = value;
+    }
 
 
     public dispose(): void {

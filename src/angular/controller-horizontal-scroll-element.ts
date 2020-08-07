@@ -72,8 +72,6 @@ export interface HorizontalScrollElementControllerInitConfig {
  *
  *
  *
- * ```
- *
  * @see HorizontalScrollElement for docs.
  */
 export class HorizontalScrollElementController implements INgDisposable {
@@ -104,7 +102,7 @@ export class HorizontalScrollElementController implements INgDisposable {
             }
         }
         this.horizontalScroll = new HorizontalScrollElement(this.scrollElement);
-        this.horizontalScroll.setUseCssVar(false);
+        this.horizontalScroll.enableSlideDeltaValues(true);
     }
 
 
