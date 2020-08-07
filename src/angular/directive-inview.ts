@@ -113,7 +113,6 @@ export class InviewController {
     }
 
     private inview(): void {
-        console.log('inview');
         this.targetElements.forEach((el)=> {
             el.classList.remove(InviewClassNames.OUT);
             el.classList.add(InviewClassNames.IN);
@@ -133,7 +132,6 @@ export class InviewController {
     }
 
     private outview(): void {
-        console.log('outview');
         this.targetElements.forEach((el)=> {
             el.classList.add(InviewClassNames.OUT);
             el.classList.remove(InviewClassNames.IN);
