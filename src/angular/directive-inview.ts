@@ -53,26 +53,23 @@ export class InviewController {
         let offset = this.element.getAttribute('inview-offset');
 
         // Allow offsets to be defined as pixel value.
-        let useRootMargin = offset && offset.endsWith('px');
+        let isDecimal = offset && offset.includes('.');
 
-        if(useRootMargin) {
-            this.ev = elementVisibility.inview(this.element, {
-                rootMargin:  offset + ' 0px 0px 0px'
-            }, (element: any, changes:any) => {
-                if (changes.isIntersecting) {
-                    this.inview();
-                }
-            });
-        } else {
-            this.inOffset = +offset || 0;
-            this.ev = elementVisibility.inview(this.element, {
-                threshold: +this.inOffset || 0
-            }, (element: any, changes:any) => {
-                if (changes.isIntersecting) {
-                    this.inview();
-                }
-            });
+        if(isDecimal) {
+            offset = +offset * 100 + '%';
         }
+
+        if(!offset) {
+            offset = '0px';
+        }
+
+        this.ev = elementVisibility.inview(this.element, {
+            rootMargin:  offset + ' 0px 0px 0px'
+        }, (element: any, changes:any) => {
+            if (changes.isIntersecting) {
+                this.inview();
+            }
+        });
 
         if(this.upDownEnabled) {
             this.scrollY = window.scrollY;
@@ -116,6 +113,7 @@ export class InviewController {
     }
 
     private inview(): void {
+        console.log('inview');
         this.targetElements.forEach((el)=> {
             el.classList.remove(InviewClassNames.OUT);
             el.classList.add(InviewClassNames.IN);
@@ -135,6 +133,7 @@ export class InviewController {
     }
 
     private outview(): void {
+        console.log('outview');
         this.targetElements.forEach((el)=> {
             el.classList.add(InviewClassNames.OUT);
             el.classList.remove(InviewClassNames.IN);

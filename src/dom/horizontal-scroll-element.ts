@@ -223,8 +223,8 @@ export class HorizontalScrollElement {
                 let diff = this.mouseState.lastX - this.mouseState.x;
                 // Drag sensititiy.  The higher the less effort requires to move around.
                 // Make it less sensitive towards mobile.
-                let normalizedWindowSize = mathf.inverseLerp(300, 2000, window.innerWidth);
-                let dragSensitivity = mathf.lerp(1.4, 2, normalizedWindowSize);
+                let normalizedWindowSize = mathf.inverseLerp(300, 3000, window.innerWidth);
+                let dragSensitivity = mathf.lerp(1.4, 3, normalizedWindowSize);
                 this.targetX += diff * dragSensitivity;
                 this.mouseState.lastX = this.mouseState.x;
             }
