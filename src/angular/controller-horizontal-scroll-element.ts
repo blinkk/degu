@@ -2,6 +2,10 @@ import { HorizontalScrollElement } from '../dom/horizontal-scroll-element';
 import { INgDisposable } from "./i-ng-disposable";
 
 
+export interface HorizontalScrollElementControllerInitConfig {
+    scrollSelector: string;
+}
+
 /**
  *
  * ```
@@ -46,8 +50,12 @@ import { INgDisposable } from "./i-ng-disposable";
  * .my-scroll-area
  *   +scroll-snap
  *
- * <div ng-controller="HorizontalScrollElementController as ctrl">
- *   <div class="my-scroll-area">
+ * <div
+ *  ng-controller="HorizontalScrollElementController as ctrl"
+ *  ng-init="ctrl.init({ scrollSelector: '[scroll]'})"
+ *
+ * >
+ *   <div class="my-scroll-area" scroll>
  *        <div scroll-item>
  *           <div scroll-inner>...</div.
  *        </div>
@@ -61,6 +69,9 @@ import { INgDisposable } from "./i-ng-disposable";
  *
  * import { HorizontalScrollElementController } from 'yano-js/lib/angular/controller-horizontal-scroll-element';
  * app.controller('HorizontalScrollElementController', HorizontalScrollElementController);
+ *
+ *
+ *
  * ```
  *
  * @see HorizontalScrollElement for docs.
@@ -68,6 +79,7 @@ import { INgDisposable } from "./i-ng-disposable";
 export class HorizontalScrollElementController implements INgDisposable {
 
     private el: HTMLElement;
+    private scrollElement: HTMLElement;
     private $scope: ng.IScope;
     private horizontalScroll: HorizontalScrollElement;
     static get $inject() {
@@ -77,13 +89,33 @@ export class HorizontalScrollElementController implements INgDisposable {
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.$scope = $scope;
         this.el = $element[0];
-        this.horizontalScroll = new HorizontalScrollElement(this.el);
-        this.horizontalScroll.setUseCssVar(false);
         $scope.$on('$destroy', () => {
             this.dispose();
         });
     }
 
+
+    public init(config: HorizontalScrollElementControllerInitConfig) {
+        this.scrollElement = this.el;
+        if(config.scrollSelector) {
+            this.scrollElement = this.el.querySelector(config.scrollSelector);
+            if(!this.scrollElement) {
+                throw new Error('An element with the selector ' + config.scrollSelector + ' was not found');
+            }
+        }
+        this.horizontalScroll = new HorizontalScrollElement(this.scrollElement);
+        this.horizontalScroll.setUseCssVar(false);
+    }
+
+
+    public prev():void {
+        this.horizontalScroll.prev();
+    }
+
+
+    public next():void {
+        this.horizontalScroll.next();
+    }
 
     public dispose():void {
         this.horizontalScroll.dispose();

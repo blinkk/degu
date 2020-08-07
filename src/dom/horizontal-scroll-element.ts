@@ -308,7 +308,19 @@ export class HorizontalScrollElement {
     }
 
 
-    private slideTo(index: number, instant = false, skipDisplayIndexUpdate = false) {
+    public prev() {
+        this.slideTo(this.index--);
+    }
+
+    public next() {
+        this.slideTo(this.index++);
+    }
+
+
+    /**
+     * Slides to a specific index.
+     */
+    public slideTo(index: number, instant = false) {
         if (index == -1) {
             index = this.childrenPositions.length - 1;
         }
@@ -369,6 +381,7 @@ export class HorizontalScrollElement {
     public setUseCssVar(value: boolean) {
         this.useCssVar = value;
     }
+
 
 
     public dispose(): void {
