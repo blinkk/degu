@@ -391,8 +391,8 @@ export class HorizontalScrollElement {
 
 
     public isLastSlide() {
-        return this.index >= this.childrenPositions.length - 1);
-     }
+        return this.index >= this.childrenPositions.length - 1
+    }
 
     getChildPosition(index: number) {
         if (index == -1) {
