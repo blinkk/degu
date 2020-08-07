@@ -249,7 +249,7 @@ export class HorizontalScrollElement {
 
             if (this.snapToClosets) {
                 let index = this.findClosestIndexToX(this.targetX);
-                this.slideTo(index, false, true);
+                this.slideTo(index, false);
             }
         };
 
@@ -291,7 +291,7 @@ export class HorizontalScrollElement {
 
         if (this.snapToClosets) {
             let index = this.findClosestIndexToX(this.currentX);
-            this.slideTo(index, false, true);
+            this.slideTo(index, false);
         }
 
     }
