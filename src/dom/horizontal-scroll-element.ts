@@ -349,11 +349,11 @@ export class HorizontalScrollElement {
 
 
     public prev() {
-        this.slideTo(this.index--);
+        this.slideTo(this.index - 1);
     }
 
     public next() {
-        this.slideTo(this.index++);
+        this.slideTo(this.index + 1);
     }
 
 
@@ -361,22 +361,38 @@ export class HorizontalScrollElement {
      * Slides to a specific index.
      */
     public slideTo(index: number, instant = false) {
+
+        // Wrapping?
+        // if (index == -1) {
+        //     index = this.childrenPositions.length - 1;
+        // }
+        // if (index > this.childrenPositions.length - 1) {
+        //     index = 0;
+        // }
         if (index == -1) {
-            index = this.childrenPositions.length - 1;
+            return;
         }
         if (index > this.childrenPositions.length - 1) {
-            index = 0;
+            return;
         }
 
         if (instant) {
             this.setScrollPosition(this.getChildPosition(index).centerX);
         }
         this.targetX = this.getChildPosition(index).centerX;
-
         this.childrenPositions[this.index].el.classList.remove('slide-active');
         this.index = index;
         this.childrenPositions[this.index].el.classList.add('slide-active');
     }
+
+    public isFirstSlide() {
+        return this.index == 0;
+    }
+
+
+    public isLastSlide() {
+        return this.index >= this.childrenPositions.length - 1);
+     }
 
     getChildPosition(index: number) {
         if (index == -1) {

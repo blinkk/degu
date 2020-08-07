@@ -107,12 +107,23 @@ export class HorizontalScrollElementController implements INgDisposable {
 
 
     public prev():void {
+        console.log("prev");
         this.horizontalScroll.prev();
     }
 
 
     public next():void {
+        console.log("next");
         this.horizontalScroll.next();
+    }
+
+
+    public isFirstSlide() {
+        return this.horizontalScroll.isFirstSlide();
+    }
+
+    public isLastSlide() {
+        return this.horizontalScroll.isLastSlide();
     }
 
     public dispose():void {
