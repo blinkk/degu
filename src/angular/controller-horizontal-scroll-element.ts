@@ -103,6 +103,13 @@ export class HorizontalScrollElementController implements INgDisposable {
         }
         this.horizontalScroll = new HorizontalScrollElement(this.scrollElement);
         this.horizontalScroll.enableSlideDeltaValues(true);
+
+        const deltaSelector = this.el.getAttribute('add-delta-value-elements-selector');
+        if(deltaSelector) {
+            const group = Array.from(this.el.querySelectorAll(deltaSelector)) as Array<HTMLElement>;
+            this.horizontalScroll.addSlideDeltaValuesToElements([group]);
+        }
+
     }
 
 

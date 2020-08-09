@@ -142,6 +142,41 @@ export interface HorizontalScrollElementPositions {
  * var(--horizontal-scroll-in-x-abs-inv) --> -1 - 0 - -1
  * ```
  *
+ * Now further, sometimes, you may want to apply these effects to elements outside the slide.
+ * For example, you might having something like this:
+ *
+ * ```
+ * <div class="scroll" id="myscroller">
+ *   <div class="scroll-item" scroll-item>
+ *      <div class="scroll-item__inner" scroll-inner>...</div>
+ *   </div>
+ *   ...
+ * </div>
+ *
+ * <div class="chapters">
+ *   <div class="chapters">... </div>
+ *   ...
+ * </div>
+ * ```
+ * In this case, we have slides but also have the same number of chapters outside the slide.  This allow you to
+ * "fix" the chapter in place and create different effects.  If you want to add the same horizontal-scroll-in
+ * values to the chapters, you can do this:
+ *
+ *
+ * ```
+ * // Get your chapters or elements you want to apply the slide effects.
+ * // This should be the same count as your slides.
+ * var chapters = Array.from(document.querySelectorAll('.chapters')) as Array<HTMLElement>;
+ *
+ * // Now add them.
+ * hr.addSlideDeltaValuesToElements([chapters]);
+ *
+ *
+ * // You can add multiple.
+ * hr.addSlideDeltaValuesToElements([chapters, anotherSet]);
+ *
+ * ```
+ *
  *
  */
 export class HorizontalScrollElement {
@@ -159,6 +194,7 @@ export class HorizontalScrollElement {
     private useCssVar: boolean = false;
     private useSlideDeltaValues: boolean = false;
     private scrollWidth: number;
+    private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
 
     constructor(rootElement: HTMLElement) {
         this.root = rootElement;
@@ -192,8 +228,8 @@ export class HorizontalScrollElement {
     }
 
     private onRaf(): void {
-        const currentX = this.currentX;
-        if (this.currentX == this.targetX) {
+        const currentX = mathf.roundToPrecision(this.currentX, 3);
+        if (currentX == this.targetX) {
             return;
         }
         let dampedTarget = mathf.damp(
@@ -201,20 +237,26 @@ export class HorizontalScrollElement {
         this.setScrollPosition(dampedTarget);
 
 
-        if(this.useSlideDeltaValues) {
-
-            this.childrenPositions.forEach((child) => {
+        if (this.useSlideDeltaValues) {
+            this.childrenPositions.forEach((child, i) => {
                 const current = this.currentX;
                 const delta = child.centerX - current;
                 const percent = delta / this.scrollWidth;
 
-                if(mathf.isBetween(percent, -1, 1, true)) {
-                    dom.setCssVariables(child.el, {
+                dom.setCssVariables(child.el, {
+                    '--horizontal-scroll-in-x': percent,
+                    '--horizontal-scroll-in-x-abs': Math.abs(percent),
+                    '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
+                })
+
+                // Add the same css value to associated slieDeltaValueElements
+                this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
+                    dom.setCssVariables(group[i], {
                         '--horizontal-scroll-in-x': percent,
                         '--horizontal-scroll-in-x-abs': Math.abs(percent),
                         '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
                     })
-                }
+                })
             });
 
         }
@@ -244,12 +286,12 @@ export class HorizontalScrollElement {
 
         // Prevent drags.
         this.domWatcher.add({
-            element: this.root, on: 'dragover', callback: (e:any)=> {
+            element: this.root, on: 'dragover', callback: (e: any) => {
                 e.preventDefault();
             },
         });
         this.domWatcher.add({
-            element: this.root, on: '', callback: (e:any)=> {
+            element: this.root, on: '', callback: (e: any) => {
                 e.preventDefault();
             },
         });
@@ -445,6 +487,35 @@ export class HorizontalScrollElement {
      */
     public enableSlideDeltaValues(value: boolean) {
         this.useSlideDeltaValues = value;
+    }
+
+
+
+    /**
+     * Allows you to add extra groups of html elements to add css effects to.  Each group
+     * must be the same length as the number of slides in the system.
+     *
+     * @param elementGroups
+     *
+     * Example:
+     * ```
+     * var chapters = Array.from(document.querySelectorAll('.chapters'));
+     *
+     * // Now add them.
+     * hr.addSlideDeltaValuesToElements([chapters]);
+     *
+     *
+     * ```
+     */
+    public addSlideDeltaValuesToElements(elementGroups: Array<Array<HTMLElement>>) {
+        // Loop through to check each group length matches the number of slides.
+        this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
+            if (group.length !== this.childrenPositions.length) {
+                throw new Error("The group you pass does not have the same number of elements as slides");
+            }
+        })
+
+        this.slideDeltaValuesElements = elementGroups;
     }
 
 
