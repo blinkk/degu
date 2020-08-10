@@ -289,13 +289,24 @@ export class HorizontalScrollElement {
             this.root.classList.add('dragging');
         };
         this.domWatcher.add({
-            element: this.root, on: 'touchstart', callback: downHandler.bind(this),
+            element: this.root,
+            on: 'touchstart',
+            callback: downHandler.bind(this),
+            eventOptions: {
+                passive: true
+            }
         });
         this.domWatcher.add({
             element: this.root, on: 'mousedown', callback: downHandler.bind(this),
+            eventOptions: {
+                passive: true
+            }
         });
         this.domWatcher.add({
             element: this.root, on: 'dragstart', callback: downHandler.bind(this),
+            eventOptions: {
+                passive: true
+            }
         });
 
         // Prevent drags.
@@ -326,12 +337,21 @@ export class HorizontalScrollElement {
 
         this.domWatcher.add({
             element: this.root, on: 'touchmove', callback: moveHandler.bind(this),
+            eventOptions: {
+                passive: true
+            }
         });
         this.domWatcher.add({
             element: this.root, on: 'mousemove', callback: moveHandler.bind(this),
+            eventOptions: {
+                passive: true
+            }
         });
         this.domWatcher.add({
             element: this.root, on: 'drag', callback: moveHandler.bind(this),
+            eventOptions: {
+                passive: true
+            }
         });
 
         const outHandler = (e: any) => {
