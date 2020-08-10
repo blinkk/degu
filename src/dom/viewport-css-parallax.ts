@@ -8,6 +8,7 @@ import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 import { Raf } from '../raf/raf';
 import { dom } from '../dom/dom';
 import { mathf } from '../mathf/mathf';
+import { stringf } from '../string/stringf';
 import { is } from '../is/is';
 
 export interface ViewportCssParallaxSettings {
@@ -92,6 +93,7 @@ export class ViewportCssParallax{
     private domWatcher: DomWatcher;
     private rafEv: ElementVisibilityObject;
     private raf: Raf;
+    private id: string;
     private interpolator: CssVarInterpolate;
 
     /**
@@ -111,6 +113,7 @@ export class ViewportCssParallax{
         this.rootElement = element;
         this.css_write_element = css_write_element ? css_write_element: this.rootElement;
 
+        this.id = stringf.uuid();
 
         this.raf = new Raf(this.onRaf.bind(this));
         this.parallaxData = JSON.parse(this.rootElement.getAttribute('viewport-css-parallax'));
@@ -313,19 +316,26 @@ export class ViewportCssParallax{
 
 
     protected onRaf(): void {
-        this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
-        // Use a rounded progress to pass to css var interpolate which
-        // will cull updates that are repetitive.
-        const roundedProgress =
-            mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
-        this.interpolator.update(
-            roundedProgress
-        );
+
+        this.raf.read(()=> {
+          this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
+        })
 
 
-        // Write values.
-        const values = this.interpolator.getValues();
-        dom.setCssVariables(this.css_write_element, values);
+        this.raf.write(()=> {
+            // Use a rounded progress to pass to css var interpolate which
+            // will cull updates that are repetitive.
+            const roundedProgress =
+                mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
+            this.interpolator.update(
+                roundedProgress
+            );
+
+
+            // Write values.
+            const values = this.interpolator.getValues();
+            dom.setCssVariables(this.css_write_element, values);
+        });
     }
 
 
