@@ -204,12 +204,18 @@ export class HorizontalScrollElement {
         this.domWatcher.add({
             element: window,
             on: 'smartResize',
-            callback: this.onWindowResize.bind(this),
+            callback: ()=> { window.setTimeout(this.onWindowResize.bind(this), 0)},
             eventOptions: {
                 passive: true
             }
         });
-        this.onWindowResize();
+
+
+        this.calculateChildPositions();
+        this.slideTo(0);
+        this.draw(true);
+
+
         this.raf = new Raf(this.onRaf.bind(this));
         this.mouseState = {
             x: 0,
@@ -226,19 +232,18 @@ export class HorizontalScrollElement {
                 }
             });
 
-        this.rafEv.readyPromise.then(()=> {
-          window.setTimeout(()=> {
-            this.onWindowResize();
-          });
-          this.slideTo(0);
-        })
 
         this.setupMouseDrag();
     }
 
     private onRaf(): void {
+        this.draw();
+    }
+
+
+    public draw(force: boolean = false) {
         const currentX = mathf.roundToPrecision(this.currentX, 3);
-        if (currentX == this.targetX) {
+        if (currentX == this.targetX && !force) {
             return;
         }
         let dampedTarget = mathf.damp(
@@ -283,7 +288,9 @@ export class HorizontalScrollElement {
             });
 
         }
+
     }
+
 
     private setupMouseDrag() {
         const downHandler = (e: any) => {
@@ -396,6 +403,17 @@ export class HorizontalScrollElement {
 
 
     private onWindowResize(): void {
+        this.calculateChildPositions();
+
+        if (this.useSnapToClosest) {
+            let index = this.findClosestIndexToX(this.currentX);
+            this.slideTo(index, false);
+            this.draw(true);
+        }
+    }
+
+
+    calculateChildPositions() {
         this.childrenPositions = [];
         this.items.forEach((child) => {
             let baseX = this.currentX;
@@ -413,11 +431,6 @@ export class HorizontalScrollElement {
         });
 
         this.scrollWidth = this.root.offsetWidth;
-
-        if (this.useSnapToClosest) {
-            let index = this.findClosestIndexToX(this.currentX);
-            this.slideTo(index, false);
-        }
 
     }
 
@@ -530,6 +543,7 @@ export class HorizontalScrollElement {
      */
     public enableSlideDeltaValues(value: boolean) {
         this.useSlideDeltaValues = value;
+        this.draw(true);
     }
 
 
@@ -559,6 +573,7 @@ export class HorizontalScrollElement {
         })
 
         this.slideDeltaValuesElements = elementGroups;
+        this.draw(true);
     }
 
 

@@ -101,38 +101,42 @@ export class HorizontalScrollElementController implements INgDisposable {
                 throw new Error('An element with the selector ' + config.scrollSelector + ' was not found');
             }
         }
-        this.horizontalScroll = new HorizontalScrollElement(this.scrollElement);
-        this.horizontalScroll.enableSlideDeltaValues(true);
 
-        const deltaSelector = this.el.getAttribute('add-delta-value-elements-selector');
-        if(deltaSelector) {
-            const group = Array.from(this.el.querySelectorAll(deltaSelector)) as Array<HTMLElement>;
-            this.horizontalScroll.addSlideDeltaValuesToElements([group]);
-        }
+        window.setTimeout(()=> {
+            this.horizontalScroll = new HorizontalScrollElement(this.scrollElement);
+            this.horizontalScroll.enableSlideDeltaValues(true);
+
+            const deltaSelector = this.el.getAttribute('add-delta-value-elements-selector');
+            if(deltaSelector) {
+                const group = Array.from(this.el.querySelectorAll(deltaSelector)) as Array<HTMLElement>;
+                this.horizontalScroll.addSlideDeltaValuesToElements([group]);
+            }
+
+        })
 
     }
 
 
     public prev():void {
-        this.horizontalScroll.prev();
+        this.horizontalScroll && this.horizontalScroll.prev();
     }
 
 
     public next():void {
-        this.horizontalScroll.next();
+        this.horizontalScroll && this.horizontalScroll.next();
     }
 
 
     public isFirstSlide() {
-        return this.horizontalScroll.isFirstSlide();
+        return this.horizontalScroll && this.horizontalScroll.isFirstSlide();
     }
 
     public isLastSlide() {
-        return this.horizontalScroll.isLastSlide();
+        return this.horizontalScroll && this.horizontalScroll.isLastSlide();
     }
 
     public dispose():void {
-        this.horizontalScroll.dispose();
+        this.horizontalScroll && this.horizontalScroll.dispose();
     }
 }
 
