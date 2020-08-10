@@ -42,4 +42,10 @@ export class stringf {
         return str;
     }
 
+
+    // https://stackoverflow.com/questions/105034/how-to-create-guid-uuid
+    static uuid():string {
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    }
+
 }
