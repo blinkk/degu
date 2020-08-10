@@ -205,6 +205,9 @@ export class HorizontalScrollElement {
             element: window,
             on: 'smartResize',
             callback: this.onWindowResize.bind(this),
+            eventOptions: {
+                passive: true
+            }
         });
         this.onWindowResize();
         this.raf = new Raf(this.onRaf.bind(this));
@@ -223,8 +226,14 @@ export class HorizontalScrollElement {
                 }
             });
 
+        this.rafEv.readyPromise.then(()=> {
+          window.setTimeout(()=> {
+            this.onWindowResize();
+          });
+          this.slideTo(0);
+        })
+
         this.setupMouseDrag();
-        this.slideTo(0);
     }
 
     private onRaf(): void {
