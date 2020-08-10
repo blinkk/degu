@@ -28,6 +28,7 @@ export class InviewController {
     private scrollDirection:number;
     private scrollY:number;
     private upDownEnabled: boolean = false;
+    private isIn: boolean = false;
     // Whether the element has been inview at least once.
     private inOnce: boolean = false;
 
@@ -66,23 +67,20 @@ export class InviewController {
         this.ev = elementVisibility.inview(this.element, {
             rootMargin:  offset + ' 0px 0px 0px'
         }, (element: any, changes:any) => {
-            if (changes.isIntersecting) {
+            if(this.scrollDirection == 1 || this.scrollDirection == 0 && changes.isIntersecting) {
                 this.inview();
             }
         });
 
-        if(this.upDownEnabled) {
-            this.scrollY = window.scrollY;
-
-            this.watcher = new DomWatcher();
-            this.watcher.add({
-                element: window,
-                on: 'scroll',
-                callback: this.onWindowScroll.bind(this),
-                eventOptions: { passive: true }
-            })
-            this.onWindowScroll();
-        }
+        this.scrollY = window.scrollY;
+        this.watcher = new DomWatcher();
+        this.watcher.add({
+            element: window,
+            on: 'scroll',
+            callback: this.onWindowScroll.bind(this),
+            eventOptions: { passive: true }
+        })
+        this.onWindowScroll();
 
 
         this.ev.readyPromise.then(()=> {
@@ -98,6 +96,9 @@ export class InviewController {
             if (!changes.isIntersecting) {
                 this.outview();
             }
+            if(this.scrollDirection == -1 && changes.isIntersecting) {
+                this.inview();
+            }
         });
 
         $scope.$on('$destroy', () => {
@@ -109,10 +110,13 @@ export class InviewController {
     private onWindowScroll():void {
         this.scrollDirection = mathf.direction(this.scrollY, window.scrollY);
         this.scrollY = window.scrollY;
-
     }
 
     private inview(): void {
+        if(this.isIn) {
+            return;
+        };
+        this.isIn = true;
         this.targetElements.forEach((el)=> {
             el.classList.remove(InviewClassNames.OUT);
             el.classList.add(InviewClassNames.IN);
@@ -132,6 +136,10 @@ export class InviewController {
     }
 
     private outview(): void {
+        if(!this.isIn) {
+            return;
+        };
+        this.isIn = false;
         this.targetElements.forEach((el)=> {
             el.classList.add(InviewClassNames.OUT);
             el.classList.remove(InviewClassNames.IN);

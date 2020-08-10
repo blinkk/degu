@@ -242,19 +242,33 @@ export class HorizontalScrollElement {
                 const current = this.currentX;
                 const delta = child.centerX - current;
                 const percent = delta / this.scrollWidth;
+                const halfPercent = mathf.inverseLerp(0, 0.5, percent, true);
+                const quartPercent = mathf.inverseLerp(0, 0.25, percent, true);
 
                 dom.setCssVariables(child.el, {
                     '--horizontal-scroll-in-x': percent,
+                    '--horizontal-scroll-in-x-half': halfPercent,
+                    '--horizontal-scroll-in-x-quart': quartPercent,
                     '--horizontal-scroll-in-x-abs': Math.abs(percent),
+                    '--horizontal-scroll-in-x-abs-half': Math.abs(halfPercent),
+                    '--horizontal-scroll-in-x-abs-quart': Math.abs(quartPercent),
                     '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
+                    '--horizontal-scroll-in-x-abs-inv-half': 1 - Math.abs(halfPercent),
+                    '--horizontal-scroll-in-x-abs-inv-quart': 1 - Math.abs(quartPercent),
                 })
 
                 // Add the same css value to associated slieDeltaValueElements
                 this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
                     dom.setCssVariables(group[i], {
-                        '--horizontal-scroll-in-x': percent,
-                        '--horizontal-scroll-in-x-abs': Math.abs(percent),
-                        '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
+                    '--horizontal-scroll-in-x': percent,
+                    '--horizontal-scroll-in-x-half': halfPercent,
+                    '--horizontal-scroll-in-x-quart': quartPercent,
+                    '--horizontal-scroll-in-x-abs': Math.abs(percent),
+                    '--horizontal-scroll-in-x-abs-half': Math.abs(halfPercent),
+                    '--horizontal-scroll-in-x-abs-quart': Math.abs(quartPercent),
+                    '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
+                    '--horizontal-scroll-in-x-abs-inv-half': 1 - Math.abs(halfPercent),
+                    '--horizontal-scroll-in-x-abs-inv-quart': 1 - Math.abs(quartPercent),
                     })
                 })
             });
