@@ -328,25 +328,29 @@ export class CssParallaxer {
 
 
     protected onRaf() {
-        // Mobile case.
-        if (this.settingsData.mobileBreakpoint &&
-            window.innerWidth < this.settingsData.mobileBreakpoint &&
-            this.settingsData.dampMobile &&
-            this.settingsData.lerpMobile
-        ) {
-            this.updateProgress(this.settingsData.lerpMobile, this.settingsData.dampMobile);
-        } else {
-            // All others.
-            this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
-        }
+        this.raf.read(()=> {
+            // Mobile case.
+            if (this.settingsData.mobileBreakpoint &&
+                window.innerWidth < this.settingsData.mobileBreakpoint &&
+                this.settingsData.dampMobile &&
+                this.settingsData.lerpMobile
+            ) {
+                this.updateProgress(this.settingsData.lerpMobile, this.settingsData.dampMobile);
+            } else {
+                // All others.
+                this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
+            }
+        })
 
-        // Use a rounded progress to pass to css var interpolate which
-        // will cull updates that are repetitive.
-        const roundedProgress =
-            mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
-        this.interpolator.update(
-            roundedProgress
-        );
+        this.raf.write(()=> {
+            // Use a rounded progress to pass to css var interpolate which
+            // will cull updates that are repetitive.
+            const roundedProgress =
+                mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
+            this.interpolator.update(
+                roundedProgress
+            );
+        })
     }
 
 
