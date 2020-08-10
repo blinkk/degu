@@ -217,6 +217,7 @@ export class HorizontalScrollElement {
 
 
         this.raf = new Raf(this.onRaf.bind(this));
+
         this.mouseState = {
             x: 0,
             down: false,
@@ -313,13 +314,15 @@ export class HorizontalScrollElement {
             }
         });
         this.domWatcher.add({
-            element: this.root, on: 'mousedown', callback: downHandler.bind(this),
+            element: this.root, on: 'mousedown',
+            callback: downHandler.bind(this),
             eventOptions: {
                 passive: true
             }
         });
         this.domWatcher.add({
-            element: this.root, on: 'dragstart', callback: downHandler.bind(this),
+            element: this.root, on: 'dragstart',
+            callback: downHandler.bind(this),
             eventOptions: {
                 passive: true
             }
@@ -327,12 +330,8 @@ export class HorizontalScrollElement {
 
         // Prevent drags.
         this.domWatcher.add({
-            element: this.root, on: 'dragover', callback: (e: any) => {
-                e.preventDefault();
-            },
-        });
-        this.domWatcher.add({
-            element: this.root, on: '', callback: (e: any) => {
+            element: this.root, on: 'dragover',
+            callback: (e: any) => {
                 e.preventDefault();
             },
         });
@@ -352,19 +351,22 @@ export class HorizontalScrollElement {
         };
 
         this.domWatcher.add({
-            element: this.root, on: 'touchmove', callback: moveHandler.bind(this),
+            element: this.root, on: 'touchmove',
+            callback: moveHandler.bind(this),
             eventOptions: {
                 passive: true
             }
         });
         this.domWatcher.add({
-            element: this.root, on: 'mousemove', callback: moveHandler.bind(this),
+            element: this.root, on: 'mousemove',
+            callback: moveHandler.bind(this),
             eventOptions: {
                 passive: true
             }
         });
         this.domWatcher.add({
-            element: this.root, on: 'drag', callback: moveHandler.bind(this),
+            element: this.root, on: 'drag',
+            callback: moveHandler.bind(this),
             eventOptions: {
                 passive: true
             }
@@ -385,7 +387,8 @@ export class HorizontalScrollElement {
 
         this.domWatcher.add({
             element: this.root, on: 'touchend',
-            callback: outHandler.bind(this), eventOptions: { passive: true }
+            callback: outHandler.bind(this),
+            eventOptions: { passive: true }
         });
         this.domWatcher.add({
             element: this.root, on: 'mouseup', callback: outHandler.bind(this),
