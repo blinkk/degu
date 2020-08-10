@@ -81,6 +81,25 @@ import { time } from '../time/time';
  *
  * ```
  *
+ *
+ *
+ * # Batch read / write.
+ * Batch write / read.  To batch write and read, wrap your methods in
+ * read and write calls.  Read / Write calls uses the yano raf registry
+ * so your reads or writes can get delayed by one raf cycle.
+ * ```
+ * var raf = new Raf(()=> {
+ *    raf.read(()=> {
+ *        this.height = element.offsetHeight;
+ *    })
+ *
+ *    raf.write(()=> {
+ *        element.style.height = this.height + 20 + 'px';
+ *    })
+ *
+ * })
+ * ```
+ *
  * @noInheritDoc
  * @class
  */
@@ -92,11 +111,12 @@ export class Raf {
     private delta: number;
     private fps: number;
     private currentFps: number;
-    private isPlaying: boolean;
-    private callbacks: Array<Function>;
+    public isPlaying: boolean;
+    private callbacks: Array<Function> = [];
     private runCondition: Function | null;
     private isRunningRaf: boolean;
     private elaspedTime: number;
+    public isDisposed: boolean = false;
     private startTime: number;
 
     /**
@@ -181,6 +201,11 @@ export class Raf {
         if (rafLoop) {
             this.watch(rafLoop);
         }
+
+
+        // Register self to global registry.
+        window['YANO_RAF_REGISTRY'] &&
+            window['YANO_RAF_REGISTRY'].register(this);
     }
 
     /**
@@ -189,6 +214,33 @@ export class Raf {
      */
     watch(callback: any) {
         this.callbacks.push(callback);
+    }
+
+
+    /**
+     * Adds a one time read callback executed by the global yano raf registry.
+     * This allows you to batch read calls.
+     * @param callback
+     */
+    read(callback: any) {
+        window['YANO_RAF_REGISTRY'] &&
+            window['YANO_RAF_REGISTRY'].addOneTimeRead({
+                callback: callback,
+                raf: this
+            });
+    }
+
+    /**
+     * Adds a one time write callback executed by the global yano raf registry.
+     * This allows you to batch write calls.
+     * @param callback
+     */
+    write(callback: any) {
+        window['YANO_RAF_REGISTRY'] &&
+            window['YANO_RAF_REGISTRY'].addOneTimeWrite({
+                callback: callback,
+                raf: this
+            });
     }
 
     /**
@@ -228,7 +280,7 @@ export class Raf {
         if (!force && this.isPlaying) {
             return;
         }
-        this.startTime = ( typeof performance === 'undefined' ? Date : performance ).now();
+        this.startTime = (typeof performance === 'undefined' ? Date : performance).now();
         this.animationLoop_();
         this.isPlaying = true;
     }
@@ -243,7 +295,12 @@ export class Raf {
     }
 
     dispose() {
+        this.callbacks = null;
+        this.isDisposed = true;
         this.stop();
+        // Deregister self to global registry.
+        window['YANO_RAF_REGISTRY'] &&
+            window['YANO_RAF_REGISTRY'].unregister(this);
     }
 
     /**
@@ -251,11 +308,11 @@ export class Raf {
      * @param inSeconds Whether to acquire the delta time in seconds.  Defaults
      *   to ms.
      */
-    getDelta(inSeconds:boolean) {
-        if(inSeconds) {
-          return this.delta / 1000;
+    getDelta(inSeconds: boolean) {
+        if (inSeconds) {
+            return this.delta / 1000;
         } else {
-          return this.delta;
+            return this.delta;
         }
     }
 
@@ -307,7 +364,7 @@ export class Raf {
             const fps = this.fps == 0 ? 0 : 1000 / this.fps;
             this.currentFps = 1000 / elapsed;
             if (elapsed > fps) {
-                this.callbacks.forEach((callback) => {
+                this.callbacks && this.callbacks.forEach((callback) => {
                     const callCallback = () => {
                         callback(this.frame, this.lastUpdateTime, elapsed, () => {
                             this.stop();
@@ -329,4 +386,120 @@ export class Raf {
         }
 
     }
+}
+
+
+export interface RafRegistryObject {
+    callback: Function,
+    raf: Raf
+}
+
+
+/**
+ * The idea behind the rafRegistry is to be able to batch read and write
+ * raf calls similar to fastDom or toolBox mutate.
+ *
+ * In order to achieve this performance boosts, read and write calls need
+ * to be executed in order and therefore, we need a registry to maintain
+ * all raf instances on the page.
+ *
+ * When instantiated, each RAF adds itself to the registry and can be run / stopped
+ * normally.
+ *
+ * Within it's raf loop, it can call a raf.read(callback); raf.write(callback);
+ * which ends up getting executed on the RafRegistry event loop.
+ *
+ * raf.read(callback) and raf.write(callback) are ONE-time so must be recalled
+ * on each raf loop.  It is basically saying, read this on the next raf loop once
+ * or write it on the next raf loop.
+ *
+ * To use this system, simply use add read and write calls in your raf loop.
+ *
+ * ```
+ * var raf = new Raf(()=> {
+ *    raf.read(()=> {
+ *        this.height = element.offsetHeight;
+ *    })
+ *
+ *    raf.write(()=> {
+ *        element.style.height = this.height + 20 + 'px';
+ *    })
+ *
+ * })
+ * ```
+ *
+ */
+class RafRegistry {
+    private rafs: Array<Raf>;
+    private flushScheduled: boolean;
+    private raf_: any;
+    private reads: Array<RafRegistryObject> = [];
+    private writes: Array<RafRegistryObject> = [];
+    private isReading: boolean = false;
+
+    constructor() {
+        this.rafs = [];
+    }
+
+
+    public start() {
+        if (this.flushScheduled) {
+            return;
+        }
+        this.flushScheduled = true;
+        requestAnimationFrame(()=> {
+          this.runRaf();
+        })
+    }
+
+
+    private runRaf() {
+
+        // Execute reads.
+        this.reads && this.reads.forEach((registryObject: RafRegistryObject) => {
+            if (!registryObject.raf.isDisposed && registryObject.raf.isPlaying) {
+                registryObject.callback();
+            }
+        })
+        // this.isReading = false;
+        // Remove all read and writes at the end of the cycle.
+        this.reads = [];
+
+        // Execute writes.
+        this.writes && this.writes.forEach((registryObject: RafRegistryObject) => {
+            if (!registryObject.raf.isDisposed && registryObject.raf.isPlaying) {
+                registryObject.callback();
+            }
+        })
+        // this.isReading = true;
+        this.writes = [];
+        this.flushScheduled = false;
+    }
+
+
+    private addOneTimeRead(read: RafRegistryObject) {
+        this.reads.push(read);
+        this.start();
+    }
+
+    private addOneTimeWrite(write: RafRegistryObject) {
+        this.writes.push(write);
+        this.start();
+    }
+
+
+    public register(raf: Raf) {
+        this.rafs.push(raf);
+    }
+
+    public unregister(raf: Raf) {
+        this.rafs = this.rafs.filter((r) => {
+            return r == raf;
+        })
+    }
+}
+
+// Create raf registry as a global.
+if (!window['YANO_RAF_REGISTRY']) {
+    window['YANO_RAF_REGISTRY'] = new RafRegistry();
 }
