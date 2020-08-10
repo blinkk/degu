@@ -454,6 +454,13 @@ class RafRegistry {
 
 
     private runRaf() {
+        // Open console and add:
+        //
+        // YANO_RAF_REGISTRY_DEBUG = true;
+        //
+        if (window['YANO_RAF_REGISTRY_DEBUG']) {
+            console.log("Running raf", this.reads.length, this.writes.length);
+        }
 
         // Execute reads.
         this.reads && this.reads.forEach((registryObject: RafRegistryObject) => {
@@ -477,11 +484,19 @@ class RafRegistry {
     }
 
 
+    /**
+     * Add a single addOneTimeRead to the batch read / write system.
+     * @param read
+     */
     private addOneTimeRead(read: RafRegistryObject) {
         this.reads.push(read);
         this.start();
     }
 
+    /**
+     * Add a single addOneTimeWrite to the batch read / write system.
+     * @param read
+     */
     private addOneTimeWrite(write: RafRegistryObject) {
         this.writes.push(write);
         this.start();
