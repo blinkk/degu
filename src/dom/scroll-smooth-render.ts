@@ -30,7 +30,9 @@ export interface ScrollSmoothRenderConfig {
  *
  * ```
  *   const scroll = new ScrollRenderSmooth({
- *      scrollSensitivity: 4,
+ *      // If NOT using dynamicSensitivity use a value like 3 or 4.
+ *      // If using dynamicSensitivity usually something like 120.
+ *      scrollSensitivity: 120,
  *      dynamicSensitivity: true,
  *      lerp: 1,
  *      damp: 0.4
@@ -169,7 +171,6 @@ export class ScrollSmoothRender {
     private wheelHandler(e: WheelEvent) {
         e.preventDefault();
 
-        console.log(e.deltaY);
 
         let delta = e.deltaY;
         let sensitivity = this.config.scrollSensitivity;
@@ -179,11 +180,7 @@ export class ScrollSmoothRender {
         // large jumps.  Track pads typically have smaller jumps whereas,
         // mouse wheels can have very large deltas.
         if(this.config.dynamicSensitivity) {
-            const diff = delta - this.prevDeltaY;
-            // Remap the delta.
-            let remappedAmount = mathf.remap(0, 10, 0, 100, diff);
-            // Now just add that remapped amount.
-            delta = this.prevDeltaY + remappedAmount;
+            delta = e['wheelDeltaY'] ? -e['wheelDeltaY'] / 120 : e.deltaY;
         }
 
 
@@ -192,7 +189,7 @@ export class ScrollSmoothRender {
         this.isWheeling = true;
         this.raf.read(() => {
             this.targetY =
-                this.currentY + delta * sensitivity;
+                this.currentY + (delta * sensitivity);
         });
         this.prevDeltaY = e.deltaY;
     }
