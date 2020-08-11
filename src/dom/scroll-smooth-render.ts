@@ -78,12 +78,10 @@ export class ScrollSmoothRender {
     private raf: Raf;
     private currentY: number;
     private targetY: number;
-    private isScrolling: boolean = false;
     private isWheeling: boolean = false;
     private config: ScrollSmoothRenderConfig;
-    private mouseDown: boolean = false;
     private domWatcher: DomWatcher;
-    private prevDeltaY: number = 0;
+    private disabled: boolean = false;
 
     constructor(config: ScrollSmoothRenderConfig) {
         this.raf = new Raf(this.onRaf.bind(this));
@@ -153,10 +151,21 @@ export class ScrollSmoothRender {
         this.raf.stop();
     }
 
+    /**
+     * Temporarily disables the effects of this class.
+     */
+    public disable():void {
+        this.stopWheelJack();
+        this.disabled = true;
+    }
 
+
+    public enable():void {
+        this.disabled = false;
+    }
 
     private scrollHandler(e: any) {
-        if (this.isWheeling) {
+        if (this.isWheeling || this.disable) {
             return;
         }
 
@@ -169,6 +178,12 @@ export class ScrollSmoothRender {
 
 
     private wheelHandler(e: WheelEvent) {
+        if(this.disabled) {
+            return;
+        }
+
+
+
         e.preventDefault();
 
 
@@ -184,14 +199,12 @@ export class ScrollSmoothRender {
         }
 
 
-
         this.raf.start();
         this.isWheeling = true;
         this.raf.read(() => {
             this.targetY =
                 this.currentY + (delta * sensitivity);
         });
-        this.prevDeltaY = e.deltaY;
     }
 
     /**

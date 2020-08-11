@@ -2,6 +2,7 @@ import { mathf } from '../mathf/mathf';
 import { Defer } from '../func/defer';
 import { func } from '../func/func';
 import { is } from '../is/is';
+import { DomWatcher } from '../dom/dom-watcher';
 
 /**
  * Yano DOM utility functions.
@@ -913,6 +914,49 @@ export class dom {
 
     static appendAfter(nodeToAdd:HTMLElement, nodeToAddAfter:HTMLElement) {
         nodeToAddAfter.parentNode.insertBefore(nodeToAdd, nodeToAddAfter.nextSibling);
+    }
+
+
+    /**
+     * Used for cases in which you want to prevent scroll on the page.
+     *
+     * Technically, this prevents wheel and touchmove events.
+     *
+     * ```
+     * // Disable scrolling.
+     * const reenable = dom.domDisableScrolling();
+     *
+     * // Renable.
+     * reenable();
+     * ```
+     */
+    static disableScrolling() {
+        const disabler = (e:any)=> {
+            e.preventDefault();
+        }
+
+        const domWatcher = new DomWatcher();
+        domWatcher.add({
+            element: window,
+            on: 'wheel',
+            callback: disabler,
+            eventOptions: {
+                passive: false
+            }
+        });
+        domWatcher.add({
+            element: window,
+            on: 'touchmove',
+            callback: disabler,
+            eventOptions: {
+                passive: false
+            }
+        });
+
+
+        return ()=> {
+            domWatcher.dispose();
+        }
     }
 
 }
