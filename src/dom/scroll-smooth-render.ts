@@ -7,6 +7,9 @@ import { DomWatcher } from './dom-watcher';
 export interface ScrollSmoothRenderConfig {
     // How much to move per mouse wheel.
     scrollSensitivity: number,
+    // Whether to attempt to normalize scroll sensitivity based on distance which
+    // helps normalize difference between track pad, mouse wheel etc.
+    dynamicSensitivity: boolean,
     lerp: number,
     damp: number
 }
@@ -28,6 +31,7 @@ export interface ScrollSmoothRenderConfig {
  * ```
  *   const scroll = new ScrollRenderSmooth({
  *      scrollSensitivity: 4,
+ *      dynamicSensitivity: true,
  *      lerp: 1,
  *      damp: 0.4
  *  });
@@ -77,12 +81,14 @@ export class ScrollSmoothRender {
     private config: ScrollSmoothRenderConfig;
     private mouseDown: boolean = false;
     private domWatcher: DomWatcher;
+    private prevDeltaY: number = 0;
 
     constructor(config: ScrollSmoothRenderConfig) {
         this.raf = new Raf(this.onRaf.bind(this));
         this.raf.setReadWriteMode(true);
         this.domWatcher = new DomWatcher();
         this.config = config;
+
 
         this.domWatcher.add({
             element: window,
@@ -163,12 +169,32 @@ export class ScrollSmoothRender {
     private wheelHandler(e: WheelEvent) {
         e.preventDefault();
 
+        console.log(e.deltaY);
+
+        let delta = e.deltaY;
+        let sensitivity = this.config.scrollSensitivity;
+
+
+        // If we are using dynamicSensitivity, we basicaly want to normalize
+        // large jumps.  Track pads typically have smaller jumps whereas,
+        // mouse wheels can have very large deltas.
+        if(this.config.dynamicSensitivity) {
+            const diff = delta - this.prevDeltaY;
+            // Remap the delta.
+            let remappedAmount = mathf.remap(0, 10, 0, 100, diff);
+            // Now just add that remapped amount.
+            delta = this.prevDeltaY + remappedAmount;
+        }
+
+
+
         this.raf.start();
         this.isWheeling = true;
         this.raf.read(() => {
             this.targetY =
-                this.currentY + e.deltaY * this.config.scrollSensitivity;
+                this.currentY + delta * sensitivity;
         });
+        this.prevDeltaY = e.deltaY;
     }
 
     /**
