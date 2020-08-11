@@ -89,15 +89,23 @@ export interface HorizontalScrollElementPositions {
  *       &:hover
  *       cursor: grab
  *   [scroll-inner]
- *       position: relative
- *       user-select: none
- *       width: 85vw
- *       +sd-lt
- *         margin-right: 24px
- *   [scroll-item]:first-child
- *       +sd-lt
- *         margin-left: 24px
  *
+ *     position: relative
+ *     width: 85vw
+ *     margin-right: 16px
+ *     margin-left: 16px
+ *     max-width: 1272px
+ *     +sd-lt
+ *       margin-left: 12px
+ *       margin-right: 12px
+ *     +md-lt
+ *     margin-left: 12px
+ *      margin-right: 12px
+ *   [scroll-item]:first-child [scroll-inner]
+ *     +sd-lt
+ *       margin-left: -24px
+ *     +md-lt
+ *       margin-left: 0px
  * .myscroll img
  *   point-events: none
  * ```
