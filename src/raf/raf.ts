@@ -114,6 +114,41 @@ import { time } from '../time/time';
  *    })
  *
  * ```
+ *
+ *
+ * If you want read / writes to NOT cull, you can set the
+ * read write mode.    This is needed if you pass a rafLoop
+ * to the constructor but additionally, want to use the read
+ * write outside your loop even when your raf is stopped.
+ * ```
+ * var raf = new Raf(()=> {
+ *    raf.read(()=> {
+ *        this.height = element.offsetHeight;
+ *    })
+ *
+ *    raf.write(()=> {
+ *        element.style.height = this.height + 20 + 'px';
+ *    })
+ * })
+ *
+ * // Raf is stopped.
+ * raf.stop();
+ *
+ * // This won't work.
+ * raf.write(()=> {
+ * ...
+ * })
+ *
+ *
+ * raf.setReadWriteMode(true);
+ * // Now it will work even when raf is stopped.
+ * raf.write(()=> {
+ * ...
+ * })
+ *
+ * ```
+ *
+ *
  * @noInheritDoc
  * @class
  */
