@@ -123,7 +123,7 @@ export class ScrollSmoother {
     private onRaf() {
         // Cull unncessary updated based on a precision.
         // Use precision 0, since we don't need subpixels.
-        this.raf.write(()=> {
+        this.raf.postWrite(()=> {
           this.updateScrollPosition(this.settings.lerp || 1, this.settings.damp || 1)
         })
     }
@@ -149,7 +149,7 @@ export class ScrollSmoother {
         if (this.settings.topMode) {
             this.rootElement.style.top = `-${this.currentY}px`;
         } else {
-            this.rootElement.style.transform = `translateY(-${this.currentY}px)`;
+            this.rootElement.style.transform = `translateY(-${this.currentY}px) translateZ(0)`;
         }
 
         if (this.settings.onUpdate) {

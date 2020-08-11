@@ -4,6 +4,7 @@ import { is } from '../is/is';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
 import { INgDisposable } from './i-ng-disposable';
 import { func } from '../func/func';
+import { Raf } from '../raf/raf';
 
 export class LazyImage implements INgDisposable {
     static get $inject() {
@@ -15,10 +16,10 @@ export class LazyImage implements INgDisposable {
     private url: string;
     // Whether this directive has finished setting the background image.
     private imageSet: boolean;
-    private foucImage: HTMLImageElement;
     private setAsBackgroundImage: boolean;
     private watcher: DomWatcher;
     private ev: ElementVisibilityObject;
+    private readWrite: Raf;
 
     // The amount of rootMargin offset to apply to lazyimage.
     // 1 would result in a forward load of 1 * window.innerHeight.
@@ -38,12 +39,10 @@ export class LazyImage implements INgDisposable {
     private useGoogleImageAutosize: boolean;
 
 
-    private foucWidth: number;
-    private foucHeight: number;
-
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
         this.url = $attrs.lazyImage;
+        this.readWrite = new Raf();
         this.setAsBackgroundImage = !!$attrs.lazyImageAsBackground;
         this.forwardLoadScalar =
             is.defined($attrs.lazyImageForwardLoadScalar) ?
@@ -52,16 +51,6 @@ export class LazyImage implements INgDisposable {
         this.useGoogleImageAutosize = $attrs.lazyImageGoogleImageAutosize == 'true';
         this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp == 'true';
 
-        this.foucWidth = +$attrs.lazyImageFoucWidth || 0;
-        this.foucHeight = +$attrs.lazyImageFoucHeight || 0;
-
-        if(!!this.foucWidth && !!this.foucHeight) {
-            this.setFoucImage();
-        }
-
-        if($attrs.lazyImageFoucDebug == 'true') {
-          return;
-        }
 
         this.imageSet = false;
 
@@ -114,9 +103,11 @@ export class LazyImage implements INgDisposable {
      * Attemps to set the image if possible.
      */
     paint() {
-        if (this.isPaintedOnScreen() && !this.imageSet && this.ev.state().inview) {
-            this.startLoad();
-        }
+        this.readWrite.read(() => {
+            if (this.isPaintedOnScreen() && !this.imageSet && this.ev.state().inview) {
+                this.startLoad();
+            }
+        })
     }
 
     /**
@@ -138,17 +129,19 @@ export class LazyImage implements INgDisposable {
 
             // There is no reason to reload or fetch another image, if the
             // new size is slated to be smaller than what is already loaded.
-            if(currentWidth > newWidth) {
+            if (currentWidth > newWidth) {
                 return;
             }
 
             this.url = newUrl;
 
-            if (this.setAsBackgroundImage) {
-                this.el.style.backgroundImage = `url(${this.url})`;
-            } else {
-                this.el['src'] = this.url;
-            }
+            this.readWrite.write(() => {
+                if (this.setAsBackgroundImage) {
+                    this.el.style.backgroundImage = `url(${this.url})`;
+                } else {
+                    this.el['src'] = this.url;
+                }
+            })
         }
     }
 
@@ -158,8 +151,8 @@ export class LazyImage implements INgDisposable {
         this.imageSet = true;
 
         // Get rid of watchers unless we need resize processing.
-        if(!this.useGoogleImageAutosize) {
-          this.watcher.dispose();
+        if (!this.useGoogleImageAutosize) {
+            this.watcher.dispose();
         }
 
         this.ev.dispose();
@@ -187,23 +180,27 @@ export class LazyImage implements INgDisposable {
 
             // If this is to be a background image.
             if (this.setAsBackgroundImage) {
-                this.el.style.backgroundImage = `url(${this.url})`;
-                this.el.classList.add('loaded')
-                resolve();
+                this.readWrite.write(() => {
+                    this.el.style.backgroundImage = `url(${this.url})`;
+                    this.el.classList.add('loaded')
+                    resolve();
+                })
                 return;
             }
 
             // If this is a new image to be replaced.
             let imageLoader = new Image();
             let onLoad = () => {
-                // Add loaded class.
-                imageLoader.classList.add('loaded');
-                // Swap out the div with the new image.
-                element.parentNode &&
-                    element.parentNode.replaceChild(imageLoader, element);
+                this.readWrite.write(() => {
+                    // Add loaded class.
+                    imageLoader.classList.add('loaded');
+                    // Swap out the div with the new image.
+                    element.parentNode &&
+                        element.parentNode.replaceChild(imageLoader, element);
 
-                this.el = imageLoader;
-                resolve();
+                    this.el = imageLoader;
+                    resolve();
+                });
             }
 
             imageLoader.addEventListener('load', onLoad, {
@@ -277,33 +274,9 @@ export class LazyImage implements INgDisposable {
      * Given a google url, extracts the width value.
      * @param url
      */
-    private getWidthFromGoogleUrl(url:string):number {
+    private getWidthFromGoogleUrl(url: string): number {
         const match = url.match(/\w([0-9]+)$/);
         return match ? +match[1] : 0;
-    }
-
-
-    /**
-     * Sets a FOUC image inside the root element.
-     */
-    private setFoucImage():void {
-        this.foucImage = new Image();
-        const width = this.foucWidth;
-        const height = this.foucHeight;
-        const src:string = `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"%3E%3C/svg%3E`;
-        this.foucImage.src = src;
-        this.foucImage.classList.add('fouc-image');
-        const offsetWidth = this.el.offsetWidth;
-        let attributes = Array.prototype.slice.call(this.el.attributes).concat();
-        // Transfer all attributes on the div to the new image.
-        attributes.forEach((attr) => {
-            if(attr.name.startsWith('lazy-image')) {
-                return;
-            }
-            this.foucImage.setAttribute(attr.name, attr.value);
-        })
-        this.foucImage.style.width = !!offsetWidth ? offsetWidth + 'px' : '100%';
-        this.el.append(this.foucImage);
     }
 
 
@@ -384,25 +357,6 @@ export class LazyImage implements INgDisposable {
  *    Lazy-image will append a -wXXX (width) param based on the size of the current element
  * ```
  *
- *
- * ## FOUC guarding
- * Since image sizes are unknown until they are actually fetched, FOUC is an
- * issue with lazy loading images.
- *
- * This directive adds support to guard against by optionally adding a
- * base-64 svg image prior to actuallyl loading your image (only available).
- *
- * To use this, you'll want to set the following:
- *
- * ```
- * lazy-image-fouc-width="true"
- * lazy-image-fouc-height="true"
- * ```
- *
- * To debug fouc-image.  This will stop from the fouc-image to be replaced.
- * ```
- * lazy-image-fouc-debug="true"
- * ```
  *
  */
 export const lazyImageDirective = function () {

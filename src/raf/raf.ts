@@ -245,6 +245,19 @@ export class Raf {
         this.isReadWriteOnly = value;
     }
 
+    /**
+     * Adds a one time read callback executed by the global yano raf registry.
+     * This allows you to batch read calls.
+     * @param callback
+     */
+    preRead(callback: any) {
+        window['YANO_RAF_REGISTRY'] &&
+            window['YANO_RAF_REGISTRY'].addOneTimePreRead({
+                callback: callback,
+                raf: this
+            });
+    }
+
 
     /**
      * Adds a one time read callback executed by the global yano raf registry.
@@ -460,12 +473,17 @@ export interface RafRegistryObject {
  *
  *
  * Life cycle:
+ * - preread
  * - read
  * - write
  * - postWrite
  *
  * ```
  * var raf = new Raf(()=> {
+ *    raf.preRead(()=> {
+ *        this.height = element.offsetHeight;
+ *    })
+ *
  *    raf.read(()=> {
  *        this.height = element.offsetHeight;
  *    })
@@ -506,6 +524,7 @@ class RafRegistry {
     private rafs: Array<Raf>;
     private flushScheduled: boolean;
     private raf_: any;
+    private preReads: Array<RafRegistryObject> = [];
     private reads: Array<RafRegistryObject> = [];
     private writes: Array<RafRegistryObject> = [];
     private postWrites: Array<RafRegistryObject> = [];
@@ -536,6 +555,14 @@ class RafRegistry {
         }
 
         // Execute reads.
+        this.preReads && this.preReads.forEach((registryObject: RafRegistryObject) => {
+            if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
+                registryObject.callback();
+            }
+        })
+        this.preReads = [];
+
+        // Execute reads.
         this.reads && this.reads.forEach((registryObject: RafRegistryObject) => {
             if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
                 registryObject.callback();
@@ -563,6 +590,14 @@ class RafRegistry {
         this.flushScheduled = false;
     }
 
+    /**
+     * Add a single addOneTimePreRead to the batch read / write system.
+     * @param read
+     */
+    private addOneTimePreRead(read: RafRegistryObject) {
+        this.preReads.push(read);
+        this.start();
+    }
 
     /**
      * Add a single addOneTimeRead to the batch read / write system.
