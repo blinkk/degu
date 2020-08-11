@@ -131,7 +131,7 @@ export class ScrollSmoother {
         const precision = 0;
         const prev = this.currentY;
         let updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
-        updated = mathf.floorToPrecision(updated, precision);
+        updated = updated >> 0;
         this.currentY = updated;
         if (prev == updated) {
             return;
