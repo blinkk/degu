@@ -128,7 +128,6 @@ export class ScrollSmoother {
 
 
     private updateScrollPosition(lerp:number = 1, damp:number = 1) {
-        const precision = 0;
         const prev = this.currentY;
         let updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
         updated = updated >> 0;
