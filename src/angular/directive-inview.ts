@@ -4,6 +4,7 @@ import { func } from '../func/func';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
 import { cssUnit, CssUnitObject } from '../string/css-unit';
 import { mathf } from '../mathf/mathf';
+import { Raf } from '../raf/raf';
 
 
 const InviewClassNames = {
@@ -22,11 +23,12 @@ export class InviewController {
     // The element in which css classes get appended to.
     private targetElements: Array<HTMLElement>;
     private ev: ElementVisibilityObject;
+    private raf: Raf;
     private outEv: ElementVisibilityObject;
     private watcher: DomWatcher;
     private inOffset: number;
-    private scrollDirection:number;
-    private scrollY:number;
+    private scrollDirection: number;
+    private scrollY: number;
     private upDownEnabled: boolean = false;
     private isIn: boolean = false;
     // Whether the element has been inview at least once.
@@ -39,14 +41,15 @@ export class InviewController {
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.element = $element[0];
         this.targetElements = [this.element];
+        this.raf = new Raf();
 
         this.upDownEnabled = this.element.hasAttribute('inview-up-down') || false;
 
         const selector = this.element.getAttribute('inview-selector');
-        if(selector) {
+        if (selector) {
             this.targetElements = Array.from(this.element.querySelectorAll(selector)) as Array<HTMLElement>;
 
-            this.targetElements.forEach((target:HTMLElement, i:number)=> {
+            this.targetElements.forEach((target: HTMLElement, i: number) => {
                 target.setAttribute('inview-number', i + '');
             })
         }
@@ -56,18 +59,18 @@ export class InviewController {
         // Allow offsets to be defined as pixel value.
         let isDecimal = offset && offset.includes('.');
 
-        if(isDecimal) {
+        if (isDecimal) {
             offset = +offset * 100 + '%';
         }
 
-        if(!offset) {
+        if (!offset) {
             offset = '0px';
         }
 
         this.ev = elementVisibility.inview(this.element, {
-            rootMargin:  offset + ' 0px 0px 0px'
-        }, (element: any, changes:any) => {
-            if(this.scrollDirection == 1 || this.scrollDirection == 0 && changes.isIntersecting) {
+            rootMargin: offset + ' 0px 0px 0px'
+        }, (element: any, changes: any) => {
+            if (this.scrollDirection == 1 || this.scrollDirection == 0 && changes.isIntersecting) {
                 this.inview();
             }
         });
@@ -83,11 +86,11 @@ export class InviewController {
         this.onWindowScroll();
 
 
-        this.ev.readyPromise.then(()=> {
-            this.targetElements.forEach((el)=> {
+        this.ev.readyPromise.then(() => {
+            this.targetElements.forEach((el) => {
                 el.classList.add(InviewClassNames.READY);
-                if(this.ev.state().inview) {
-                  el.classList.add(InviewClassNames.IN_FOLD);
+                if (this.ev.state().inview) {
+                    el.classList.add(InviewClassNames.IN_FOLD);
                 }
             })
         })
@@ -96,7 +99,7 @@ export class InviewController {
             if (!changes.isIntersecting) {
                 this.outview();
             }
-            if(this.scrollDirection == -1 && changes.isIntersecting) {
+            if (this.scrollDirection == -1 && changes.isIntersecting) {
                 this.inview();
             }
         });
@@ -107,49 +110,57 @@ export class InviewController {
     }
 
 
-    private onWindowScroll():void {
-        this.scrollDirection = mathf.direction(this.scrollY, window.scrollY);
-        this.scrollY = window.scrollY;
+    private onWindowScroll(): void {
+        this.raf.read(() => {
+            const ws = window.scrollY;
+            this.scrollDirection = mathf.direction(this.scrollY, ws);
+            this.scrollY = ws;
+        })
     }
 
     private inview(): void {
-        if(this.isIn) {
+        if (this.isIn) {
             return;
         };
         this.isIn = true;
-        this.targetElements.forEach((el)=> {
-            el.classList.remove(InviewClassNames.OUT);
-            el.classList.add(InviewClassNames.IN);
 
-            if(!this.inOnce) {
-              el.classList.add(InviewClassNames.IN_ONCE);
-              this.inOnce = true;
-            }
+        this.raf.write(() => {
+            this.targetElements.forEach((el) => {
+                el.classList.remove(InviewClassNames.OUT);
+                el.classList.add(InviewClassNames.IN);
+
+                if (!this.inOnce) {
+                    el.classList.add(InviewClassNames.IN_ONCE);
+                    this.inOnce = true;
+                }
 
 
-            if(this.upDownEnabled) {
-              el.classList.remove(InviewClassNames.UP);
-              el.classList.remove(InviewClassNames.DOWN);
-              el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
-            }
-        })
+                if (this.upDownEnabled) {
+                    el.classList.remove(InviewClassNames.UP);
+                    el.classList.remove(InviewClassNames.DOWN);
+                    el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
+                }
+            })
+        });
     }
 
     private outview(): void {
-        if(!this.isIn) {
+        if (!this.isIn) {
             return;
         };
         this.isIn = false;
-        this.targetElements.forEach((el)=> {
-            el.classList.add(InviewClassNames.OUT);
-            el.classList.remove(InviewClassNames.IN);
-            el.classList.remove(InviewClassNames.IN_FOLD);
-            if(this.upDownEnabled) {
-              el.classList.remove(InviewClassNames.UP);
-              el.classList.remove(InviewClassNames.DOWN);
-              el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
-            }
-        })
+        this.raf.write(() => {
+            this.targetElements.forEach((el) => {
+                el.classList.add(InviewClassNames.OUT);
+                el.classList.remove(InviewClassNames.IN);
+                el.classList.remove(InviewClassNames.IN_FOLD);
+                if (this.upDownEnabled) {
+                    el.classList.remove(InviewClassNames.UP);
+                    el.classList.remove(InviewClassNames.DOWN);
+                    el.classList.add(this.scrollDirection == -1 ? InviewClassNames.UP : InviewClassNames.DOWN);
+                }
+            })
+        });
     }
 
 
