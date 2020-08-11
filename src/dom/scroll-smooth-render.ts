@@ -89,6 +89,10 @@ export class ScrollSmoothRender {
         this.domWatcher = new DomWatcher();
         this.config = config;
 
+        this.raf.read(() => {
+            this.currentY = this.getScrollTop();
+        });
+
 
         this.domWatcher.add({
             element: window,
