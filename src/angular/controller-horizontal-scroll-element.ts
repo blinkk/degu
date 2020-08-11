@@ -9,67 +9,11 @@ export interface HorizontalScrollElementControllerInitConfig {
 /**
  *
  * ```
- * =scroll-snap
- *   width: 100%
- *   display: flex
- *   overflow-x: scroll
- *   overflow-y: hidden
- *   -webkit-overflow-scrolling: touch
- *   transition: 0.3s all ease-in
- *   transform: scale(1.0)
- *   user-select: none
- *   user-drag: none
- *   -webkit-touch-callout: none
- *   a
- *       user-select: none
- *       user-drag: none
- *   img
- *       pointer-events: none
- *   &::-webkit-scrollbar
- *       background: transparent
- *       width: 0
- *   &.dragging
- *       transform: scale(1.015)
- *   [scroll-item]
- *       position: relative
- *       &:hover
- *       cursor: grab
- *   [scroll-inner]
- *       position: relative
- *       width: 85vw
- *       +sd-lt
- *       margin-right: 32px
- *       +md-lt
- *       margin-right: 24px
- *   [scroll-item]:first-child
- *       +sd-lt
- *       margin-left: 32px
- *       +md-lt
- *       margin-left: 24px
- *
- * .my-scroll-area
- *   +scroll-snap
- *
- * <div
- *  ng-controller="HorizontalScrollElementController as ctrl"
- *  ng-init="ctrl.init({ scrollSelector: '[scroll]'})"
- *
- * >
- *   <div class="my-scroll-area" scroll>
- *        <div scroll-item>
- *           <div scroll-inner>...</div.
- *        </div>
- *        <div scroll-item>
- *          <div scroll-inner>...</div.
- *        </div>
- *        ...
- *    </div>
- *
- *
  *
  * import { HorizontalScrollElementController } from 'yano-js/lib/angular/controller-horizontal-scroll-element';
  * app.controller('HorizontalScrollElementController', HorizontalScrollElementController);
  *
+ * ```
  *
  *
  * @see HorizontalScrollElement for docs.

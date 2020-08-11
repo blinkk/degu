@@ -28,15 +28,23 @@ export interface HorizontalScrollElementPositions {
  * The items will get centered in position.
  *
  * ```
- * <div class="scroll" id="myscroller">
- *   <div class="scroll-item" scroll-item>
+ * <div class="scroll" id="myscroller"
+ *    ng-controller="HorizontalScrollElementController as ctrl"
+ * >
+ *
+ *   <div class="scroll__track" scroll-track>
+ *
+ *     <div class="scroll-item" scroll-item>
  *      <div class="scroll-item__inner" scroll-inner>...</div>
- *   </div>
- *   <div class="scroll-item" scroll-item>
- *      <div class="scroll-item__inner" scroll-inner>...</div>
- *   </div>
- *   <div class="scroll-item" scroll-item>
- *      <div class="scroll-item__inner" scroll-inner>...</div>
+ *     </div>
+ *     <div class="scroll-item" scroll-item>
+ *        <div class="scroll-item__inner" scroll-inner>...</div>
+ *     </div>
+ *     <div class="scroll-item" scroll-item>
+ *        <div class="scroll-item__inner" scroll-inner>...</div>
+ *     </div>
+ *     ...
+ *
  *   </div>
  * </div>
  *
@@ -49,9 +57,10 @@ export interface HorizontalScrollElementPositions {
  * - while dragging, the root element will receive a "dragging" css class.
  * - the active child element will receive a "slide-active" class.
  * - use scroll-item__inner (the inner element) to size your items.
+ * - scrolling works based on translateX(var(--horizontal-scroll-x))
  *
  * ```
- * =scroll-snap
+ * #myscroller
  *   width: 100%
  *   display: flex
  *   overflow-x: scroll
@@ -70,6 +79,11 @@ export interface HorizontalScrollElementPositions {
  *       width: 0
  *   &.dragging
  *       transform: scale(1.01)
+ *   [scroll-track]
+ *     display: flex
+ *     position: relative
+ *     transform: translateX(var(--horizontal-scroll-x))
+ *     will-change: transform
  *   [scroll-item]
  *       position: relative
  *       &:hover
@@ -84,9 +98,6 @@ export interface HorizontalScrollElementPositions {
  *       +sd-lt
  *         margin-left: 24px
  *
- *
- * .myscroller
- *   +scroll-snap
  * .myscroll img
  *   point-events: none
  * ```
@@ -97,19 +108,6 @@ export interface HorizontalScrollElementPositions {
  *
  * ```
  * hr.enableSnapToClosest(false);
- * ```
- *
- *
- * # Use css variable mode.  This will set a css variable with the offset value.
- *   This allows you to set the scroll position with transformX instead of scrollLeft
- *   for perf boosts.
- * ```
- * hr.enableCssVar(true);
- *
- *
- * .myroot
- *   transform: translateX(var(--horizontal-scroll-x))
- *   will-change: transform
  * ```
  *
  *
@@ -191,7 +189,6 @@ export class HorizontalScrollElement {
     private items: Array<HTMLElement>;
     private childrenPositions: Array<HorizontalScrollElementPositions>;
     private index: number = 0;
-    private useCssVar: boolean = false;
     private useSlideDeltaValues: boolean = false;
     private scrollWidth: number;
     private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
@@ -200,7 +197,7 @@ export class HorizontalScrollElement {
     constructor(rootElement: HTMLElement) {
         this.root = rootElement;
         this.raf = new Raf(this.onRaf.bind(this));
-        this.items = Array.from(this.root.children) as Array<HTMLElement>;
+        this.items = Array.from(this.root.querySelectorAll('[scroll-item]')) as Array<HTMLElement>;
 
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
@@ -213,10 +210,10 @@ export class HorizontalScrollElement {
         });
 
 
+        this.windowWidth = window.innerWidth;
         this.calculateChildPositions();
         this.slideTo(0);
         this.draw(true);
-
 
 
         this.mouseState = {
@@ -233,6 +230,7 @@ export class HorizontalScrollElement {
                     this.raf.stop();
                 }
             });
+
 
 
         this.setupMouseDrag();
@@ -296,6 +294,7 @@ export class HorizontalScrollElement {
 
     private setupMouseDrag() {
         const downHandler = (e: any) => {
+
             let eventX = e.touches && e.touches[0].clientX || e.x;
             this.mouseState = {
                 x: eventX,
@@ -341,6 +340,7 @@ export class HorizontalScrollElement {
         });
 
         const moveHandler = (e: any) => {
+
             let eventX = e.touches && e.touches[0].clientX || e.x;
             if (this.mouseState.down) {
                 this.mouseState.x = eventX;
@@ -446,13 +446,9 @@ export class HorizontalScrollElement {
 
     setScrollPosition(x: number) {
         this.currentX = x;
-        if (this.useCssVar) {
-            dom.setCssVariables(this.root, {
-                '--horizontal-scroll-x': -this.currentX + 'px'
-            })
-        } else {
-            this.root.scrollLeft = this.currentX;
-        }
+        dom.setCssVariables(this.root, {
+            '--horizontal-scroll-x': -this.currentX + 'px'
+        })
     }
 
 
@@ -483,7 +479,6 @@ export class HorizontalScrollElement {
         if (index > this.childrenPositions.length - 1) {
             return;
         }
-
 
         if (instant) {
             this.setScrollPosition(this.getChildPosition(index).centerX);
