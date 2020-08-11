@@ -254,9 +254,10 @@ export class ViewportCssParallax{
         //
         // The elementBaseline is used to factor this in.  The default state
         // is calculated from teh top of the element.
+        let box = this.rootElement.getBoundingClientRect();
         let elementBaseline =
-            this.rootElement.getBoundingClientRect().top +
-            (this.settingsData.elementBaseline * this.rootElement.offsetHeight);
+            box.top +
+            (this.settingsData.elementBaseline * box.height);
 
         let percent = mathf.inverseLerp(0, window.innerHeight,
             elementBaseline
@@ -270,9 +271,9 @@ export class ViewportCssParallax{
         if(
             this.settingsData.elementBaselineFromTopToBottom
         ) {
-            let elementBaselineTop = this.rootElement.getBoundingClientRect().top;
+            let elementBaselineTop = box.top;
             percent = mathf.inverseLerp(
-                -this.rootElement.offsetHeight, window.innerHeight + this.rootElement.offsetHeight,
+                -this.rootElement.offsetHeight, window.innerHeight + box.height,
                 elementBaselineTop
             )
         }
