@@ -1,5 +1,6 @@
 
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
+import { Raf } from '../raf/raf';
 
 /**
  * A directive used to immediately toggle visibility of elements when it goes out of view.
@@ -10,17 +11,21 @@ export class VisibilityOptimizeController {
     }
     private element: HTMLElement;
     private ev: ElementVisibilityObject;
+    private raf: Raf;
 
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.element = $element[0];
+        this.raf = new Raf();
         this.ev = elementVisibility.inview(this.element, {
             rootMargin:  '500px 0px 500px 0px'
         }, (element: any, changes:any) => {
-            if (changes.isIntersecting) {
-                this.element.style.visibility = '';
-            } else {
-                this.element.style.visibility = 'hidden';
-            }
+            this.raf.write(()=> {
+                if (changes.isIntersecting) {
+                    this.element.style.visibility = '';
+                } else {
+                    this.element.style.visibility = 'hidden';
+                }
+            })
         });
     }
 }
