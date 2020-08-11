@@ -238,6 +238,15 @@ export class Raf {
 
 
     /**
+     * Sets the read write mode.
+     * @param value
+     */
+    setReadWriteMode(value: boolean) {
+        this.isReadWriteOnly = value;
+    }
+
+
+    /**
      * Adds a one time read callback executed by the global yano raf registry.
      * This allows you to batch read calls.
      * @param callback

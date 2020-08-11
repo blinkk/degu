@@ -68,6 +68,8 @@ export class ScrollSmoother {
 
     constructor(config: ScrollSmootherConfig) {
         this.settings = config;
+        this.raf = new Raf(this.onRaf.bind(this));
+        this.raf.setReadWriteMode(true);
 
         this.domWatcher = new DomWatcher();
 
@@ -88,26 +90,29 @@ export class ScrollSmoother {
 
 
         this.resize();
-        this.onWindowScroll();
-        this.updateScrollPosition(1,1);
-        this.raf = new Raf(this.onRaf.bind(this));
-        this.raf.start();
+        this.targetY = window.scrollY;
+        this.raf.write(()=> {
+            this.updateScrollPosition(1,1);
+            this.raf.start();
+        });
     }
 
 
     public resize(height?:number) {
-        if(!height) {
-            this.rootElement = this.settings.root;
-            height = this.rootElement.offsetHeight;
-        }
-        this.onElementResize(height);
+        this.raf.read(()=> {
+            if(!height) {
+                this.rootElement = this.settings.root;
+                height = this.rootElement.offsetHeight;
+            }
+            this.onElementResize(height);
+        })
     }
 
 
     private onElementResize(height:number) {
         // document.body.style.height = 'auto';
 
-        requestAnimationFrame(() => {
+        this.raf.write(()=> {
             document.body.style.height = height + 'px';
             this.rootElement.style.position = 'fixed';
             this.rootElement.style.width = '100%';
@@ -118,7 +123,7 @@ export class ScrollSmoother {
     private onRaf() {
         // Cull unncessary updated based on a precision.
         // Use precision 0, since we don't need subpixels.
-        this.raf.postWrite(()=> {
+        this.raf.write(()=> {
           this.updateScrollPosition(this.settings.lerp || 1, this.settings.damp || 1)
         })
     }
@@ -134,11 +139,12 @@ export class ScrollSmoother {
     private updateScrollPosition(lerp:number = 1, damp:number = 1) {
         const prev = this.currentY;
         let updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
-        updated = updated >> 0;
+        // updated = updated >> 0;
         this.currentY = updated;
         if (prev == updated) {
             return;
         }
+
 
         if (this.settings.topMode) {
             this.rootElement.style.top = `-${this.currentY}px`;

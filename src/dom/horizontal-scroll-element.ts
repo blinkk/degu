@@ -195,16 +195,18 @@ export class HorizontalScrollElement {
     private useSlideDeltaValues: boolean = false;
     private scrollWidth: number;
     private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
+    private windowWidth: number;
 
     constructor(rootElement: HTMLElement) {
         this.root = rootElement;
+        this.raf = new Raf(this.onRaf.bind(this));
         this.items = Array.from(this.root.children) as Array<HTMLElement>;
 
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             element: window,
             on: 'smartResize',
-            callback: ()=> { window.setTimeout(this.onWindowResize.bind(this), 0)},
+            callback: () => { window.setTimeout(this.onWindowResize.bind(this), 0) },
             eventOptions: {
                 passive: true
             }
@@ -216,7 +218,6 @@ export class HorizontalScrollElement {
         this.draw(true);
 
 
-        this.raf = new Raf(this.onRaf.bind(this));
 
         this.mouseState = {
             x: 0,
@@ -238,8 +239,8 @@ export class HorizontalScrollElement {
     }
 
     private onRaf(): void {
-        this.raf.write(()=> {
-          this.draw();
+        this.raf.write(() => {
+            this.draw();
         })
     }
 
@@ -277,15 +278,15 @@ export class HorizontalScrollElement {
                 // Add the same css value to associated slieDeltaValueElements
                 this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
                     dom.setCssVariables(group[i], {
-                    '--horizontal-scroll-in-x': percent,
-                    '--horizontal-scroll-in-x-half': halfPercent,
-                    '--horizontal-scroll-in-x-quart': quartPercent,
-                    '--horizontal-scroll-in-x-abs': Math.abs(percent),
-                    '--horizontal-scroll-in-x-abs-half': Math.abs(halfPercent),
-                    '--horizontal-scroll-in-x-abs-quart': Math.abs(quartPercent),
-                    '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
-                    '--horizontal-scroll-in-x-abs-inv-half': 1 - Math.abs(halfPercent),
-                    '--horizontal-scroll-in-x-abs-inv-quart': 1 - Math.abs(quartPercent),
+                        '--horizontal-scroll-in-x': percent,
+                        '--horizontal-scroll-in-x-half': halfPercent,
+                        '--horizontal-scroll-in-x-quart': quartPercent,
+                        '--horizontal-scroll-in-x-abs': Math.abs(percent),
+                        '--horizontal-scroll-in-x-abs-half': Math.abs(halfPercent),
+                        '--horizontal-scroll-in-x-abs-quart': Math.abs(quartPercent),
+                        '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
+                        '--horizontal-scroll-in-x-abs-inv-half': 1 - Math.abs(halfPercent),
+                        '--horizontal-scroll-in-x-abs-inv-quart': 1 - Math.abs(quartPercent),
                     })
                 })
             });
@@ -303,7 +304,10 @@ export class HorizontalScrollElement {
                 start: eventX,
             };
             this.targetX = this.currentX;
-            this.root.classList.add('dragging');
+
+            this.raf.write(() => {
+                this.root.classList.add('dragging');
+            })
         };
         this.domWatcher.add({
             element: this.root,
@@ -343,7 +347,7 @@ export class HorizontalScrollElement {
                 let diff = this.mouseState.lastX - this.mouseState.x;
                 // Drag sensititiy.  The higher the less effort requires to move around.
                 // Make it less sensitive towards mobile.
-                let normalizedWindowSize = mathf.inverseLerp(300, 3000, window.innerWidth);
+                let normalizedWindowSize = mathf.inverseLerp(300, 3000, this.windowWidth);
                 let dragSensitivity = mathf.lerp(1.4, 3, normalizedWindowSize);
                 this.targetX += diff * dragSensitivity;
                 this.mouseState.lastX = this.mouseState.x;
@@ -376,7 +380,9 @@ export class HorizontalScrollElement {
             if (!this.mouseState.down) {
                 return;
             }
-            this.root.classList.remove('dragging');
+            this.raf.write(() => {
+                this.root.classList.remove('dragging');
+            })
             this.mouseState.down = false;
 
             if (this.useSnapToClosest) {
@@ -406,6 +412,7 @@ export class HorizontalScrollElement {
 
 
     private onWindowResize(): void {
+        this.windowWidth = window.innerWidth;
         this.calculateChildPositions();
 
         if (this.useSnapToClosest) {
@@ -477,13 +484,18 @@ export class HorizontalScrollElement {
             return;
         }
 
+
         if (instant) {
             this.setScrollPosition(this.getChildPosition(index).centerX);
         }
+
         this.targetX = this.getChildPosition(index).centerX;
-        this.childrenPositions[this.index].el.classList.remove('slide-active');
         this.index = index;
-        this.childrenPositions[this.index].el.classList.add('slide-active');
+
+        this.raf && this.raf.write(() => {
+            this.childrenPositions[this.index].el.classList.remove('slide-active');
+            this.childrenPositions[this.index].el.classList.add('slide-active');
+        })
     }
 
     public isFirstSlide() {
