@@ -118,7 +118,9 @@ export class ScrollSmoother {
     private onRaf() {
         // Cull unncessary updated based on a precision.
         // Use precision 0, since we don't need subpixels.
-        this.updateScrollPosition(this.settings.lerp || 1, this.settings.damp || 1)
+        this.raf.postWrite(()=> {
+          this.updateScrollPosition(this.settings.lerp || 1, this.settings.damp || 1)
+        })
     }
 
 
