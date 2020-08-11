@@ -538,14 +538,6 @@ export class HorizontalScrollElement {
         this.useSnapToClosest = value;
     }
 
-    /**
-     * Turns on or off css var mode.
-     * @param value
-     */
-    public enableCssVar(value: boolean) {
-        this.useCssVar = value;
-    }
-
 
     /**
      * Whether to add css var that indicate the current delta value of the
