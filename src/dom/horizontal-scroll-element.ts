@@ -238,7 +238,9 @@ export class HorizontalScrollElement {
     }
 
     private onRaf(): void {
-        this.draw();
+        this.raf.write(()=> {
+          this.draw();
+        })
     }
 
 
@@ -287,9 +289,7 @@ export class HorizontalScrollElement {
                     })
                 })
             });
-
         }
-
     }
 
 
