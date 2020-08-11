@@ -73,7 +73,10 @@ export class LazyImage implements INgDisposable {
             this.watcher.add({
                 element: window,
                 on: 'smartResize',
-                callback: func.debounce(this.resize.bind(this), 500)
+                callback: func.debounce(this.resize.bind(this), 500),
+                eventOptions: {
+                    passive: true
+                }
             });
 
             this.ev = elementVisibility.inview(this.el, {
