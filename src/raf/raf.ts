@@ -96,10 +96,24 @@ import { time } from '../time/time';
  *    raf.write(()=> {
  *        element.style.height = this.height + 20 + 'px';
  *    })
- *
  * })
+ *
  * ```
  *
+ * You can also create a read / write only raf by passing
+ * no rafLoop to the constructor.
+ *
+ * ```
+ * var raf = new Raf();
+ *    raf.read(()=> {
+ *        this.height = element.offsetHeight;
+ *    })
+ *
+ *    raf.write(()=> {
+ *        element.style.height = this.height + 20 + 'px';
+ *    })
+ *
+ * ```
  * @noInheritDoc
  * @class
  */
@@ -112,6 +126,7 @@ export class Raf {
     private fps: number;
     private currentFps: number;
     public isPlaying: boolean;
+    public isReadWriteOnly: boolean = false;
     private callbacks: Array<Function> = [];
     private runCondition: Function | null;
     private isRunningRaf: boolean;
@@ -124,7 +139,7 @@ export class Raf {
      *     request animation frame.
      * @constructor
      */
-    constructor(rafLoop: Function | null) {
+    constructor(rafLoop?: Function | null) {
 
         /**
          * The internal reference to request animation frame.
@@ -198,8 +213,13 @@ export class Raf {
          */
         this.startTime = 0;
 
+
         if (rafLoop) {
             this.watch(rafLoop);
+        } else {
+            // If no rafLoop was defined, this raf is being
+            // used for readWrites only.
+            this.isReadWriteOnly = true;
         }
 
 
@@ -242,6 +262,20 @@ export class Raf {
                 raf: this
             });
     }
+
+    /**
+     * Adds a one time post write callback executed by the global yano raf registry.
+     * This allows you to batch post write calls.
+     * @param callback
+     */
+    postWrite(callback: any) {
+        window['YANO_RAF_REGISTRY'] &&
+            window['YANO_RAF_REGISTRY'].addOneTimePostWrite({
+                callback: callback,
+                raf: this
+            });
+    }
+
 
     /**
      * Removes a progress listener.
@@ -415,6 +449,12 @@ export interface RafRegistryObject {
  *
  * To use this system, simply use add read and write calls in your raf loop.
  *
+ *
+ * Life cycle:
+ * - read
+ * - write
+ * - postWrite
+ *
  * ```
  * var raf = new Raf(()=> {
  *    raf.read(()=> {
@@ -425,7 +465,31 @@ export interface RafRegistryObject {
  *        element.style.height = this.height + 20 + 'px';
  *    })
  *
+ *    // Somewhat rare but executed after all writes.
+ *    raf.postWrite(()=> {
+ *        element.style.height = this.height + 20 + 'px';
+ *    })
  * })
+ * ```
+ *
+ *
+ * You may also to use raf.write and raf.read outside a
+ * rafLoop.  In this case, you can just pass a null to the constructor.
+ *
+ * ```
+ * var raf = new Raf();
+ *
+ * // Somewhere
+ *  raf.read(()=> {
+ *      this.height = element.offsetHeight;
+ *  })
+ *
+ *
+ *  raf.write(()=> {
+ *      element.style.height = this.height + 20 + 'px';
+ *  })
+ *
+ *
  * ```
  *
  */
@@ -435,7 +499,7 @@ class RafRegistry {
     private raf_: any;
     private reads: Array<RafRegistryObject> = [];
     private writes: Array<RafRegistryObject> = [];
-    private isReading: boolean = false;
+    private postWrites: Array<RafRegistryObject> = [];
 
     constructor() {
         this.rafs = [];
@@ -464,22 +528,29 @@ class RafRegistry {
 
         // Execute reads.
         this.reads && this.reads.forEach((registryObject: RafRegistryObject) => {
-            if (!registryObject.raf.isDisposed && registryObject.raf.isPlaying) {
+            if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
                 registryObject.callback();
             }
         })
-        // this.isReading = false;
-        // Remove all read and writes at the end of the cycle.
         this.reads = [];
 
         // Execute writes.
         this.writes && this.writes.forEach((registryObject: RafRegistryObject) => {
-            if (!registryObject.raf.isDisposed && registryObject.raf.isPlaying) {
+            if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
                 registryObject.callback();
             }
         })
-        // this.isReading = true;
         this.writes = [];
+
+
+        // Execute writes.
+        this.postWrites && this.postWrites.forEach((registryObject: RafRegistryObject) => {
+            if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
+                registryObject.callback();
+            }
+        })
+        this.postWrites = [];
+
         this.flushScheduled = false;
     }
 
@@ -502,6 +573,15 @@ class RafRegistry {
         this.start();
     }
 
+
+    /**
+     * Add a single addOneTimeWrite to the batch read / write system.
+     * @param read
+     */
+    private addOneTimePostWrite(postWrite: RafRegistryObject) {
+        this.postWrites.push(postWrite);
+        this.start();
+    }
 
     public register(raf: Raf) {
         this.rafs.push(raf);
