@@ -121,9 +121,14 @@ export class ScrollSmoothRender {
         });
     }
 
+    private getScrollTop():number {
+        return document.scrollingElement.scrollTop;
+    }
+
+
     private onRaf() {
         this.raf.read(() => {
-            this.currentY = document.documentElement.scrollTop;
+            this.currentY = this.getScrollTop();
         });
 
         this.raf.postWrite(() => {
@@ -134,8 +139,8 @@ export class ScrollSmoothRender {
                 this.config.damp) >> 0;
 
             if (this.currentY >> 0 !== value) {
-                document.documentElement.scrollTop = value;
-                // Complete when we reach our destination.
+                // Use scrollingElement to normalize diff between chrome and safari.
+                document.scrollingElement.scrollTop = value;
             } else {
                 this.stopWheelJack();
             }
@@ -170,7 +175,7 @@ export class ScrollSmoothRender {
         }
 
         this.raf.read(() => {
-            this.targetY = document.documentElement.scrollTop;
+            this.targetY = this.getScrollTop();
         })
     }
 
@@ -233,7 +238,7 @@ export class ScrollSmoothRender {
     public overrideScrollPosition(callback: Function) {
         this.stopWheelJack();
         callback();
-        this.currentY = document.documentElement.scrollTop;
+        this.currentY = this.getScrollTop();
         this.targetY = this.currentY;
     }
 
