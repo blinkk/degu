@@ -125,7 +125,9 @@ export class ScrollSmoother {
 
 
     private onWindowScroll() {
-        this.targetY = window.scrollY;
+        this.raf && this.raf.read(()=> {
+          this.targetY = window.scrollY;
+        })
     }
 
 
