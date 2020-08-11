@@ -24,7 +24,19 @@ websites.
 
 ## Installation
 ```bash
+npm install resize-observer-polyfill --save-dev
+npm install intersection-observer --save-dev
+
+
 npm install yano-js@latest --save-dev
+```
+
+
+Include resize-observer and intersection-observer polyfills in your project
+```
+import '../../node_modules/intersection-observer/intersection-observer.js';
+import ResizeObserver from 'resize-observer-polyfill';
+window['ResizeObserver'] = ResizeObserver;
 ```
 
 ## Getting started
