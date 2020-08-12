@@ -6,6 +6,9 @@ import { mathf } from '../mathf/mathf';
 import { dom } from './dom';
 import { Raf } from '../raf/raf';
 
+export const HorizontalScrollElementEvents = {
+    INDEX_CHANGE: 'horizontal-scroll-element-index-change',
+}
 
 export interface HorizontalScrollElementConfig {
     /**
@@ -207,6 +210,16 @@ export interface HorizontalScrollElementPositions {
  *
  * // You can add multiple.
  * hr.addSlideDeltaValuesToElements([chapters, anotherSet]);
+ *
+ * ```
+ *
+ *
+ * ## Events are available.
+ *
+ * ```
+ * this.rootElement.addEventListener(HorizontalScrollElementsEvents.INDEX_CHANGE, (event)=> {
+ *     console.log(event.detail.index);
+ * })
  *
  * ```
  *
@@ -545,6 +558,12 @@ export class HorizontalScrollElement {
             this.childrenPositions[this.index].el.classList.remove('slide-active');
             this.childrenPositions[this.index].el.classList.add('slide-active');
         })
+
+
+        // Fire a notification that the index has changed.
+        dom.event(this.root, HorizontalScrollElementEvents.INDEX_CHANGE, {
+            index: this.index
+        });
     }
 
     public isFirstSlide() {

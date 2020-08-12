@@ -1,5 +1,6 @@
-import { HorizontalScrollElement } from '../dom/horizontal-scroll-element';
+import { HorizontalScrollElement, HorizontalScrollElementEvents } from '../dom/horizontal-scroll-element';
 import { INgDisposable } from "./i-ng-disposable";
+import { DomWatcher } from '../dom/dom-watcher';
 
 
 export interface HorizontalScrollElementControllerInitConfig {
@@ -25,6 +26,7 @@ export class HorizontalScrollElementController implements INgDisposable {
     private scrollElement: HTMLElement;
     private $scope: ng.IScope;
     private horizontalScroll: HorizontalScrollElement;
+    private domWatcher: DomWatcher;
     static get $inject() {
         return ['$scope', '$element', '$attrs'];
     }
@@ -40,12 +42,26 @@ export class HorizontalScrollElementController implements INgDisposable {
 
     public init(config: HorizontalScrollElementControllerInitConfig) {
         this.scrollElement = this.el;
+        this.domWatcher = new DomWatcher();
+
+
         if(config.scrollSelector) {
             this.scrollElement = this.el.querySelector(config.scrollSelector);
             if(!this.scrollElement) {
                 throw new Error('An element with the selector ' + config.scrollSelector + ' was not found');
             }
         }
+
+        this.domWatcher.add({
+            element: this.scrollElement,
+            on: HorizontalScrollElementEvents.INDEX_CHANGE,
+            callback: (event: any)=> {
+                if (!this.$scope.$$phase) {
+                    this.$scope.$apply();
+                }
+            },
+        })
+
 
         window.setTimeout(()=> {
             this.horizontalScroll = new HorizontalScrollElement({
@@ -86,6 +102,7 @@ export class HorizontalScrollElementController implements INgDisposable {
 
     public dispose():void {
         this.horizontalScroll && this.horizontalScroll.dispose();
+        this.domWatcher && this.domWatcher.dispose();
     }
 }
 
