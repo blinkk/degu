@@ -36,6 +36,7 @@ export interface HorizontalScrollElementConfig {
 export interface HorizontalScrollElementMouseState {
     x: number;
     down: boolean;
+    dragging: boolean;
     start: number;
     lastX: number;
 }
@@ -108,6 +109,8 @@ export interface HorizontalScrollElementPositions {
  *       width: 0
  *   &.dragging
  *       transform: scale(1.01)
+ *   &.dragging a
+ *     pointer-events: none
  *   [scroll-track]
  *     display: flex
  *     position: relative
@@ -265,6 +268,7 @@ export class HorizontalScrollElement {
         this.mouseState = {
             x: 0,
             down: false,
+            dragging: false,
             start: 0,
             lastX: 0
         }
@@ -364,14 +368,12 @@ export class HorizontalScrollElement {
             this.mouseState = {
                 x: eventX,
                 down: true,
+                dragging: false,
                 lastX: eventX,
                 start: eventX,
             };
             this.targetX = this.currentX;
 
-            this.raf.write(() => {
-                this.root.classList.add('dragging');
-            })
         };
         this.domWatcher.add({
             element: this.root,
@@ -405,6 +407,14 @@ export class HorizontalScrollElement {
         });
 
         const moveHandler = (e: any) => {
+
+            if(!this.mouseState.dragging &&
+                    this.mouseState.lastX !== this.mouseState.start) {
+                this.mouseState.dragging = true;
+                this.raf.write(() => {
+                    this.root.classList.add('dragging');
+                })
+            }
 
             let eventX = e.touches && e.touches[0].clientX || e.x;
             if (this.mouseState.down) {
@@ -448,6 +458,7 @@ export class HorizontalScrollElement {
             this.raf.write(() => {
                 this.root.classList.remove('dragging');
             })
+            this.mouseState.dragging = false;
             this.mouseState.down = false;
 
             if (this.useSnapToClosest) {
