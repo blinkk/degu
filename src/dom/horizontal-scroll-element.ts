@@ -203,6 +203,7 @@ export class HorizontalScrollElement {
     private windowWidth: number;
 
     constructor(rootElement: HTMLElement) {
+        console.log("creating horizontal scroll");
         this.root = rootElement;
         this.raf = new Raf(this.onRaf.bind(this));
         this.items = Array.from(this.root.querySelectorAll('[scroll-item]')) as Array<HTMLElement>;
@@ -216,12 +217,6 @@ export class HorizontalScrollElement {
                 passive: true
             }
         });
-
-
-        this.windowWidth = window.innerWidth;
-        this.calculateChildPositions();
-        this.slideTo(0);
-        this.draw(true);
 
 
         this.mouseState = {
@@ -239,9 +234,13 @@ export class HorizontalScrollElement {
                 }
             });
 
+        this.rafEv.readyPromise.then(() => {
+            this.onWindowResize();
+            this.setupMouseDrag();
+        })
 
 
-        this.setupMouseDrag();
+
     }
 
     private onRaf(): void {
@@ -251,13 +250,23 @@ export class HorizontalScrollElement {
     }
 
 
-    public draw(force: boolean = false) {
+    public draw(immediate: boolean = false) {
+
+        if (!this.childrenPositions || !this.childrenPositions.length) {
+            return;
+        }
+
         const currentX = mathf.roundToPrecision(this.currentX, 3);
-        if (currentX == this.targetX && !force) {
+        if (currentX == this.targetX && !immediate) {
             return;
         }
         let dampedTarget = mathf.damp(
             currentX, this.targetX, 0.4, 0.2);
+
+        // No lerp when immediate
+        if(immediate) {
+            dampedTarget = this.targetX;
+        }
         this.setScrollPosition(dampedTarget);
 
 
@@ -422,6 +431,7 @@ export class HorizontalScrollElement {
     private onWindowResize(): void {
         this.windowWidth = window.innerWidth;
         this.calculateChildPositions();
+
 
         if (this.useSnapToClosest) {
             let index = this.findClosestIndexToX(this.currentX);
