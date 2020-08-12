@@ -47,7 +47,7 @@ export class HorizontalScrollElementController implements INgDisposable {
         }
 
         window.setTimeout(()=> {
-            this.horizontalScroll = new HorizontalScrollElement(this.scrollElement);
+            this.horizontalScroll = new HorizontalScrollElement(this.scrollElement, true);
             this.horizontalScroll.enableSlideDeltaValues(true);
 
             const deltaSelector = this.el.getAttribute('add-delta-value-elements-selector');

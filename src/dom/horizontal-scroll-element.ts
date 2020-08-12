@@ -200,10 +200,10 @@ export class HorizontalScrollElement {
     private useSlideDeltaValues: boolean = false;
     private scrollWidth: number;
     private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
+    private ranFirstEv: boolean = false;
     private windowWidth: number;
 
-    constructor(rootElement: HTMLElement) {
-        console.log("creating horizontal scroll");
+    constructor(rootElement: HTMLElement, resizeOnFirstEv: boolean = false) {
         this.root = rootElement;
         this.raf = new Raf(this.onRaf.bind(this));
         this.items = Array.from(this.root.querySelectorAll('[scroll-item]')) as Array<HTMLElement>;
@@ -228,22 +228,23 @@ export class HorizontalScrollElement {
         this.rafEv = elementVisibility.inview(this.root, {},
             (element: any, changes: any) => {
                 if (changes.isIntersecting) {
+                    if(!this.ranFirstEv && resizeOnFirstEv) {
+                      this.onWindowResize();
+                    }
+
                     this.raf.start();
+                    this.ranFirstEv = true;
                 } else {
                     this.raf.stop();
                 }
             });
 
-        this.rafEv.readyPromise.then(() => {
-            console.log("initial sizing");
-            this.onWindowResize();
-            this.setupMouseDrag();
-        })
+        this.onWindowResize();
+        this.setupMouseDrag();
 
-        window['YY'] = this;
-
-
-
+        // Force it to slide to 0.
+        this.slideTo(0, true);
+        this.draw(true);
     }
 
     private onRaf(): void {
@@ -432,14 +433,13 @@ export class HorizontalScrollElement {
 
 
     private onWindowResize(): void {
-        console.log("on window resize");
         this.windowWidth = window.innerWidth;
         this.calculateChildPositions();
 
 
         if (this.useSnapToClosest) {
             let index = this.findClosestIndexToX(this.currentX);
-            this.slideTo(index, false);
+            this.slideTo(index, true);
             this.draw(true);
         }
     }
@@ -502,12 +502,13 @@ export class HorizontalScrollElement {
             return;
         }
 
+        this.targetX = this.getChildPosition(index).centerX;
+        this.index = index;
+
         if (instant) {
             this.setScrollPosition(this.getChildPosition(index).centerX);
         }
 
-        this.targetX = this.getChildPosition(index).centerX;
-        this.index = index;
 
         this.raf && this.raf.write(() => {
             this.childrenPositions[this.index].el.classList.remove('slide-active');
