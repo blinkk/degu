@@ -235,9 +235,12 @@ export class HorizontalScrollElement {
             });
 
         this.rafEv.readyPromise.then(() => {
+            console.log("initial sizing");
             this.onWindowResize();
             this.setupMouseDrag();
         })
+
+        window['YY'] = this;
 
 
 
@@ -429,6 +432,7 @@ export class HorizontalScrollElement {
 
 
     private onWindowResize(): void {
+        console.log("on window resize");
         this.windowWidth = window.innerWidth;
         this.calculateChildPositions();
 
