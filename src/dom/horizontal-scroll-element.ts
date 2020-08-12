@@ -7,6 +7,29 @@ import { dom } from './dom';
 import { Raf } from '../raf/raf';
 
 
+export interface HorizontalScrollElementConfig {
+    /**
+     * The root element to create the horizontal scroll element.
+     */
+    rootElement: HTMLElement;
+    /**
+     * Defaults to false but if set to true, the first time the root element
+     * is visible in the viewport, it will be quickly resized.
+     */
+    resizeOnFirstEv?: boolean;
+
+    /**
+     * Whether to use slide delta values.
+     */
+    slideDeltaValues?: boolean;
+
+    /**
+     * Whether to use scroll snapping.
+     */
+    snapToClosest?: boolean;
+}
+
+
 export interface HorizontalScrollElementMouseState {
     x: number;
     down: boolean;
@@ -28,9 +51,7 @@ export interface HorizontalScrollElementPositions {
  * The items will get centered in position.
  *
  * ```
- * <div class="scroll" id="myscroller"
- *    ng-controller="HorizontalScrollElementController as ctrl"
- * >
+ * <div class="scroll" id="myscroller">
  *
  *   <div class="scroll__track" scroll-track>
  *
@@ -49,7 +70,12 @@ export interface HorizontalScrollElementPositions {
  * </div>
  *
  *
- * const hr = new HorizontalScrollElement(document.getElementById('myscroller'));
+ * const hr = new HorizontalScrollElement({
+ *   rootElement: document.getElementById('myscroller'),
+ *   resizeOnFirstEv: false,
+ *   slideDeltaValues: true,
+ *   snapToClosest: true,
+ * });
  * ```
  *
  * Sample css to go with it.
@@ -111,11 +137,12 @@ export interface HorizontalScrollElementPositions {
  * ```
  *
  *
- * # Turn off snapping.
- * This will turn it into a free flowing.
+ * # Turn on snapping
+ * The carousel defaults to a free flowing carousel but it can be turned to snap
+ * by running the following method.
  *
  * ```
- * hr.enableSnapToClosest(false);
+ * hr.enableSnapToClosest(true);
  * ```
  *
  *
@@ -193,7 +220,7 @@ export class HorizontalScrollElement {
     private targetX: number = 0;
     private rafEv: ElementVisibilityObject;
     private raf: Raf;
-    private useSnapToClosest: boolean = true;
+    private useSnapToClosest: boolean = false;
     private items: Array<HTMLElement>;
     private childrenPositions: Array<HorizontalScrollElementPositions>;
     private index: number = 0;
@@ -203,9 +230,12 @@ export class HorizontalScrollElement {
     private ranFirstEv: boolean = false;
     private windowWidth: number;
 
-    constructor(rootElement: HTMLElement, resizeOnFirstEv: boolean = false) {
-        this.root = rootElement;
+    constructor(config: HorizontalScrollElementConfig) {
+        this.root = config.rootElement;
         this.raf = new Raf(this.onRaf.bind(this));
+        this.useSlideDeltaValues = !!config.slideDeltaValues;
+        this.useSnapToClosest = !!config.snapToClosest;
+
         this.items = Array.from(this.root.querySelectorAll('[scroll-item]')) as Array<HTMLElement>;
 
         this.domWatcher = new DomWatcher();
@@ -225,10 +255,11 @@ export class HorizontalScrollElement {
             start: 0,
             lastX: 0
         }
+
         this.rafEv = elementVisibility.inview(this.root, {},
             (element: any, changes: any) => {
                 if (changes.isIntersecting) {
-                    if(!this.ranFirstEv && resizeOnFirstEv) {
+                    if(!this.ranFirstEv && !!config.resizeOnFirstEv) {
                       this.onWindowResize();
                     }
 

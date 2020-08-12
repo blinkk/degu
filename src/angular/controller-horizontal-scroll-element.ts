@@ -7,6 +7,7 @@ export interface HorizontalScrollElementControllerInitConfig {
 }
 
 /**
+ * A composition around HorizontalScrollElement.
  *
  * ```
  *
@@ -47,8 +48,12 @@ export class HorizontalScrollElementController implements INgDisposable {
         }
 
         window.setTimeout(()=> {
-            this.horizontalScroll = new HorizontalScrollElement(this.scrollElement, true);
-            this.horizontalScroll.enableSlideDeltaValues(true);
+            this.horizontalScroll = new HorizontalScrollElement({
+                rootElement: this.scrollElement,
+                resizeOnFirstEv: true,
+                snapToClosest: true,
+                slideDeltaValues: true
+            });
 
             const deltaSelector = this.el.getAttribute('add-delta-value-elements-selector');
             if(deltaSelector) {
