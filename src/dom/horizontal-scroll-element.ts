@@ -30,6 +30,11 @@ export interface HorizontalScrollElementConfig {
      * Whether to use scroll snapping.
      */
     snapToClosest?: boolean;
+
+    /**
+     * Delay resizing by a given ms amount.  Defaults to no delay.
+     */
+    delayResizeMs: number;
 }
 
 
@@ -152,18 +157,6 @@ export interface HorizontalScrollElementPositions {
  * ```
  *
  *
- * ## The dragging is buggy
- * This is sometimes causes by the fact that you can focus into a `<img>` element.
- * Make sure you have:
- *
- * ```
- * .mymodule img
- *   point-events: none
- *
- * or sometimes these can help:
- *   user-select: none
- *   user-drag: none
- * ```
  *
  *
  * # Adding slide effects
@@ -217,7 +210,7 @@ export interface HorizontalScrollElementPositions {
  * ```
  *
  *
- * ## Events are available.
+ * ## Events
  *
  * ```
  * this.rootElement.addEventListener(HorizontalScrollElementsEvents.INDEX_CHANGE, (event)=> {
@@ -225,6 +218,42 @@ export interface HorizontalScrollElementPositions {
  * })
  *
  * ```
+ *
+ *
+ * # Troubleshooting
+ *
+ * ## The dragging is buggy
+ * This is sometimes causes by the fact that you can focus into a `<img>` element.
+ * Make sure you have:
+ *
+ * ```
+ * .mymodule img
+ *   point-events: none
+ *
+ * or sometimes these can help:
+ *   user-select: none
+ *   user-drag: none
+ * ```
+ *
+ * ## Resizing messes up!
+ * When resizing happens, the carousel scans the sizes of the inner
+ * elements.  This means that if you are translating sizing, it might
+ * still be in the middle of fixing the size.
+ *
+ *
+ * Look out for things like this where you are transiting everything (all):
+ *
+ * ```
+ *   transition: 0.3s all ease-in-out
+ * ```
+ *
+ * Switch them to only what you need
+ *
+ * ```
+ *   transition: 0.3s opacity ease-in-out
+ * ```
+ *
+ * If you still can't solve it, pass a delay value to the delayResizeMs in the config.
  *
  *
  */
@@ -258,7 +287,15 @@ export class HorizontalScrollElement {
         this.domWatcher.add({
             element: window,
             on: 'smartResize',
-            callback: () => { window.setTimeout(this.onWindowResize.bind(this), 0) },
+            callback: ()=> {
+                if(config.delayResizeMs) {
+                    window.setTimeout(()=> {
+                      this.onWindowResize();
+                    }, +config.delayResizeMs)
+                } else {
+                  this.onWindowResize();
+                }
+            },
             eventOptions: {
                 passive: true
             }
@@ -276,8 +313,8 @@ export class HorizontalScrollElement {
         this.rafEv = elementVisibility.inview(this.root, {},
             (element: any, changes: any) => {
                 if (changes.isIntersecting) {
-                    if(!this.ranFirstEv && !!config.resizeOnFirstEv) {
-                      this.onWindowResize();
+                    if (!this.ranFirstEv && !!config.resizeOnFirstEv) {
+                        this.onWindowResize();
                     }
 
                     this.raf.start();
@@ -287,7 +324,9 @@ export class HorizontalScrollElement {
                 }
             });
 
-        this.onWindowResize();
+
+        this.calculateChildPositions();
+        this.windowWidth = window.innerWidth;
         this.setupMouseDrag();
 
         // Force it to slide to 0.
@@ -316,7 +355,7 @@ export class HorizontalScrollElement {
             currentX, this.targetX, 0.4, 0.2);
 
         // No lerp when immediate
-        if(immediate) {
+        if (immediate) {
             dampedTarget = this.targetX;
         }
         this.setScrollPosition(dampedTarget);
@@ -408,8 +447,8 @@ export class HorizontalScrollElement {
 
         const moveHandler = (e: any) => {
 
-            if(!this.mouseState.dragging &&
-                    this.mouseState.lastX !== this.mouseState.start) {
+            if (!this.mouseState.dragging &&
+                this.mouseState.lastX !== this.mouseState.start) {
                 this.mouseState.dragging = true;
                 this.raf.write(() => {
                     this.root.classList.add('dragging');
@@ -491,11 +530,8 @@ export class HorizontalScrollElement {
         this.windowWidth = window.innerWidth;
         this.calculateChildPositions();
 
-
         if (this.useSnapToClosest) {
-            let index = this.findClosestIndexToX(this.currentX);
-            this.slideTo(index, true);
-            this.draw(true);
+            this.slideTo(this.index, true);
         }
     }
 
@@ -504,8 +540,9 @@ export class HorizontalScrollElement {
         this.childrenPositions = [];
         this.items.forEach((child) => {
             let baseX = this.currentX;
-            let bounds = child.getBoundingClientRect();
-            let x = bounds.left + baseX;
+            // let bounds = child.getBoundingClientRect();
+            let x = child.offsetLeft;
+            // let x = child.offsetLeft;
             let width = child.offsetWidth;
             let baseWidth = this.root.offsetWidth;
             this.childrenPositions.push({
@@ -516,9 +553,7 @@ export class HorizontalScrollElement {
                 width: width,
             });
         });
-
         this.scrollWidth = this.root.offsetWidth;
-
     }
 
     setScrollPosition(x: number) {
@@ -562,13 +597,14 @@ export class HorizontalScrollElement {
 
         if (instant) {
             this.setScrollPosition(this.getChildPosition(index).centerX);
-        }
-
-
-        this.raf && this.raf.write(() => {
             this.childrenPositions[this.index].el.classList.remove('slide-active');
             this.childrenPositions[this.index].el.classList.add('slide-active');
-        })
+        } else {
+            this.raf && this.raf.write(() => {
+                this.childrenPositions[this.index].el.classList.remove('slide-active');
+                this.childrenPositions[this.index].el.classList.add('slide-active');
+            })
+        }
 
 
         // Fire a notification that the index has changed.

@@ -68,7 +68,8 @@ export class HorizontalScrollElementController implements INgDisposable {
                 rootElement: this.scrollElement,
                 resizeOnFirstEv: true,
                 snapToClosest: true,
-                slideDeltaValues: true
+                slideDeltaValues: true,
+                delayResizeMs: +this.el.getAttribute('delay-resize-ms') || null
             });
 
             const deltaSelector = this.el.getAttribute('add-delta-value-elements-selector');
