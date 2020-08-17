@@ -454,7 +454,7 @@ export class LottieButton {
     }
 
 
-    private getMouseState(): LottieButtonMouseState {
+    public getMouseState(): LottieButtonMouseState {
         return this.mouseState;
     }
 
