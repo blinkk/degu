@@ -662,6 +662,35 @@ class RafRegistry {
         this.start();
     }
 
+
+    /**
+     * Gets the count of all active rafs.
+     *
+     * In dev console:
+     * ```
+     * YANO_RAF_REGISTRY.getActiveRafCount();
+     * ```
+     */
+    public getActiveRafCount():number {
+        return this.rafs.filter((r) => {
+            return r.isPlaying;
+        }).length;
+    }
+
+    /**
+     * Gets the count of rafs.
+     *
+     * In dev console:
+     * ```
+     * YANO_RAF_REGISTRY.getRafCount();
+     * ```
+     */
+    public getRafCount():number {
+        return this.rafs.length;
+    }
+
+
+
     public register(raf: Raf) {
         this.rafs.push(raf);
     }
