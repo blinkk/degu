@@ -169,8 +169,22 @@ export interface LottieButtonPlayQueueItem {
  * lb.mouseup(); == unclick
  * lb.mouseenter(); == hover
  * lb.mouseleave(); == unhover
+ *
  * ```
  *
+ * Usually, it is expected that you go from hover -> click.
+ * But certain state like click -> unhover (mouseleave) won't work.
+ * However, you can force it by tricking lb to think it is in a hover
+ * state and then run mouseleave.
+ *
+ *
+ * ```
+ *   this.lottieButton.setMouseState({
+ *      clicked: false,
+ *      hovering: true
+ *   })
+ *   this.lottieButton.mouseleave();
+ * ``
  *
  *
  */
@@ -398,24 +412,20 @@ export class LottieButton {
         this.mouseState.hovering = false;
         if (this.config.mouseleave) {
             //   this.lottieInstance['playSegments']([this.config.mouseleave.start, this.config.mouseleave.end], true);
-            console.log("S handlemouseleave");
             this.schedule(LottieButtonState.MOUSELEAVE, this.config.mouseleave.start, this.config.mouseleave.end);
         }
     }
 
     public mouseleave(): void {
-        console.log("H handlemouseleave");
         this.handleMouseLeave();
     }
 
 
     public mouseenter(): void {
-        console.log("H handlemouseenter");
         this.handleMouseEnter();
     }
 
     private handleMouseEnter(): void {
-        console.log("handle mouse enter", this.mouseState.hovering);
         if (this.mouseState.hovering) {
             return;
         }
@@ -458,6 +468,9 @@ export class LottieButton {
         return this.mouseState;
     }
 
+    public setMouseState(state:LottieButtonMouseState): LottieButtonMouseState {
+        return this.mouseState = state;
+    }
 
 
     public dispose(): void {
