@@ -24,10 +24,19 @@ class LottieButtonController {
             inview: playSettings.inview as LottieButtonRange,
             click: playSettings.click as LottieButtonRange,
             mouseleave: playSettings.mouseleave as LottieButtonRange,
-            mouseover: playSettings.mouseover as LottieButtonRange,
+            mouseenter: playSettings.mouseenter as LottieButtonRange,
+            noListeners: playSettings.noListeners || false,
         });
 
 
+        $scope.$on('$destroy', () => {
+            this.dispose();
+        });
+    }
+
+
+    private dispose(): void {
+        this.lottieButton.dispose();
     }
 }
 
