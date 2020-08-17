@@ -145,12 +145,14 @@ export class InviewController {
     }
 
     private outview(): void {
-        if (!this.isIn) {
-            return;
-        };
-        this.isIn = false;
         this.raf.write(() => {
+            if (!this.isIn) {
+                return;
+            };
+            this.isIn = false;
+
             this.targetElements.forEach((el) => {
+
                 el.classList.add(InviewClassNames.OUT);
                 el.classList.remove(InviewClassNames.IN);
                 el.classList.remove(InviewClassNames.IN_FOLD);
