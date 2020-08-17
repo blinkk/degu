@@ -29,6 +29,11 @@ class LottieButtonController {
         });
 
 
+        if(this.el.getAttribute('lottie-enable-play-queue')) {
+          this.lottieButton.enablePlayQueue(true);
+        }
+
+
         $scope.$on('$destroy', () => {
             this.dispose();
         });
