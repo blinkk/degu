@@ -207,7 +207,7 @@ export class ScrollSmoothRender {
         // mouse wheels can have very large deltas.
         if(this.config.dynamicSensitivity) {
             let normalized = e.deltaY ? e.deltaY : -e['wheelDeltaY'] / 120;
-            normalized = mathf.clamp(-100, 100, normalized);
+            normalized = mathf.clamp(-80, 80, normalized);
             delta = normalized;
         }
 
