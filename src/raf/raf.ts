@@ -409,7 +409,7 @@ export class Raf {
      * raf.runWhenElementIsInview(
      *    document.getElementById("myelement"),
      *    {
-     *      rootMargin: '500px 0px 500px 0px'
+     *      rootMargin: '300px 0px 300px 0px'
      *    }
      * ).then(()=> {
      *    raf.start();
@@ -419,7 +419,7 @@ export class Raf {
      * ```
      *
      */
-    runWhenElementIsInview(element: HTMLElement, intersectionObserverOptions: Object ):Promise<any> {
+    runWhenElementIsInview(element: HTMLElement, intersectionObserverOptions?: Object ):Promise<any> {
         // Dispose of any previous instances if this is being called a second
         // time.
         this.ev && this.ev.dispose();
@@ -468,6 +468,7 @@ export class Raf {
     }
 
     dispose() {
+        this.ev && this.ev.dispose();
         this.callbacks = null;
         this.isDisposed = true;
         this.stop();
