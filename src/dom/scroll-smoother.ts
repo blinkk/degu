@@ -24,9 +24,10 @@ export interface ScrollSmootherConfig {
  *
  *
  * const scrollSmoother = new ScrollSmoother({
- *  lerp: 0.23
+ *  lerp: 0.23,
  *  damp: 0.2444,
- *  root: document.getElementById('root')
+ *  root: document.getElementById('root'),
+ *  topMode: true
  * })
  *
  * scrollSmoother.run();

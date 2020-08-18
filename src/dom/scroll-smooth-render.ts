@@ -1,6 +1,7 @@
 
 import { Raf } from '../raf/raf';
 import { mathf } from '../mathf/mathf';
+import { func } from '../func/func';
 
 import { DomWatcher } from './dom-watcher';
 
@@ -131,20 +132,21 @@ export class ScrollSmoothRender {
 
 
     private onRaf() {
-        this.raf.read(() => {
-            this.currentY = this.getScrollTop();
-        });
 
         this.raf.postWrite(() => {
+            // Note: Keep this on low precision and don't cull.
+            // On trackpads, mosuewheel events are called frequently and
+            // it ends up feeling smoother when we allow subpixels here.
             const value = mathf.damp(
                 this.currentY,
                 this.targetY,
                 this.config.lerp,
-                this.config.damp) >> 0;
+                this.config.damp);
 
-            if (this.currentY >> 0 !== value) {
+            if (this.currentY !== value) {
                 // Use scrollingElement to normalize diff between chrome and safari.
                 document.scrollingElement.scrollTop = value;
+                this.currentY = value;
             } else {
                 this.stopWheelJack();
             }
@@ -200,17 +202,22 @@ export class ScrollSmoothRender {
         let sensitivity = this.config.scrollSensitivity;
 
 
-        // If we are using dynamicSensitivity, we basicaly want to normalize
+        // If we are using dynamicSensitivity, we basically want to normalize
         // large jumps.  Track pads typically have smaller jumps whereas,
         // mouse wheels can have very large deltas.
         if(this.config.dynamicSensitivity) {
-            delta = e['wheelDeltaY'] ? -e['wheelDeltaY'] / 120 : e.deltaY;
+            let normalized = e.deltaY ? e.deltaY : -e['wheelDeltaY'] / 120;
+            normalized = mathf.clamp(-100, 100, normalized);
+            delta = normalized;
         }
 
 
         this.raf.start();
+
+
         this.isWheeling = true;
         this.raf.read(() => {
+            this.currentY = this.getScrollTop();
             this.targetY =
                 this.currentY + (delta * sensitivity);
         });
