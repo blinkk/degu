@@ -429,7 +429,7 @@ export class Inview {
     }
 
 
-    public runOutviewState(force: boolean) {
+    public runOutviewState(force?: boolean) {
         if (!this.isInState && !force) {
             return;
         }
