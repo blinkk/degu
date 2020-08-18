@@ -1,4 +1,5 @@
 import { time } from '../time/time';
+import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
 
 
 
@@ -61,6 +62,9 @@ import { time } from '../time/time';
  *
  *
  * // Runs only when myElement is in view.
+ * // Option 1: You can use runWhen condition
+ *
+ *
  * let ev = elementVisibility.inview(myElement);
  * var raf = new Raf(() => {
  *    console.log('a raf that runs when element is in view.');
@@ -76,6 +80,27 @@ import { time } from '../time/time';
  * // if you want to be sure to only run RAF when ev is ready do this:
  * ev.readyPromise.then(()=> {
  *   raf.start();
+ * })
+ *
+ * ```
+ *
+ * // Runs only when myElement is in view.
+ * // Option 2: You can use runWhenElementIsInview option.
+ *
+ * ```
+ * var raf = new Raf(()=> {
+ *   ...
+ * })
+ *
+ *
+ * // Set element and run when it's ready.
+ * raf.runWhenElementIsInview(
+ *    document.getElementById("myelement"),
+ *    {
+ *      rootMargin: '500px 0px 500px 0px'
+ *    }
+ * ).then(()=> {
+ *    raf.start();
  * })
  *
  *
@@ -168,6 +193,12 @@ export class Raf {
     private elaspedTime: number;
     public isDisposed: boolean = false;
     private startTime: number;
+
+    /**
+     * Internal element visibility object used to track element visibility
+     * when runWhenElementIsInview option is used.
+     */
+    private ev: ElementVisibilityObject;
 
     /**
      * @param {Function} rafLoop  Optional function to be called on each
@@ -354,6 +385,57 @@ export class Raf {
     runWhen(callbackCondition: Function) {
         this.runCondition = callbackCondition;
     }
+
+
+    /**
+     * Allows you to pass an option to tell this raf to execute only when the
+     * given element is in the viewport.  Optionally pass intersection observer
+     * options.
+     *
+     * Note that this still requires you to start the raf.  You can do this
+     * with the promise that the method returns (resolved when ev is ready)
+     * or at a later time.
+     *
+     * Note it's recommended that you add a rootMargin to your ev settings
+     * if need to do offscreen processing.
+     *
+     * ```
+     * var raf = new Raf(()=> {
+     *   ...
+     * })
+     *
+     *
+     * // Set element and run when it's ready.
+     * raf.runWhenElementIsInview(
+     *    document.getElementById("myelement"),
+     *    {
+     *      rootMargin: '500px 0px 500px 0px'
+     *    }
+     * ).then(()=> {
+     *    raf.start();
+     * })
+     *
+     *
+     * ```
+     *
+     */
+    runWhenElementIsInview(element: HTMLElement, intersectionObserverOptions: Object ):Promise<any> {
+        // Dispose of any previous instances if this is being called a second
+        // time.
+        this.ev && this.ev.dispose();
+        this.runCondition = null;
+
+        this.ev = elementVisibility.inview(element, intersectionObserverOptions || {});
+
+        // Set the run when condition.
+        this.runWhen(()=> {
+            return this.ev.state().inview;
+        })
+
+
+        return this.ev.readyPromise;
+    }
+
 
 
     /**
