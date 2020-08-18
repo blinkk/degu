@@ -23,7 +23,8 @@ export default class InviewSample {
             element: document.getElementById('test2'),
             elementBaseline: 0,
             viewportOffset: 0.2,
-            outviewOnlyOnElementExit: true
+            // outviewOnlyOnElementExit: true
+            downOnlyMode: true
         });
     }
 

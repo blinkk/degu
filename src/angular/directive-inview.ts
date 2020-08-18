@@ -25,7 +25,8 @@ export class InviewController {
             childSelector: this.element.getAttribute('inview-selector') || null,
             elementBaseline: +this.element.getAttribute('inview-element-baseline') || 0,
             viewportOffset: +this.element.getAttribute('inview-viewport-offset') || 0,
-            outviewOnlyOnElementExit: true
+            // outviewOnlyOnElementExit: true
+            downOnlyMode: true
         });
 
         $scope.$on('$destroy', () => {

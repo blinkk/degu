@@ -75,7 +75,13 @@ export interface InviewConfig {
      * of inview.  Once inview is fired, it will stay in that state until
      * the element is completely out of view.
      */
-    outviewOnlyOnElementExit: boolean,
+    outviewOnlyOnElementExit?: boolean,
+
+
+    /**
+     * A flag that sets this inview to down only mode. See below for more.
+     */
+    downOnlyMode?: boolean;
 
 }
 
@@ -87,7 +93,8 @@ export interface InviewConfig {
  *           element: document.getElementById('test2'),
  *           elementBaseline: 0,
  *           viewportOffset: 0.2,
- *           waitForOutOfViewToRefireInview: false
+ *           waitForOutOfViewToRefireInview: false,
+ *           downOnlyMode: false
  *       });
  * ```
  *
@@ -103,6 +110,9 @@ export interface InviewConfig {
  *   view
  * - will add 'up' and 'down' class to the element based on the scroll direction
  *   allowing you to add directional inview.
+ *
+ * - waitForOutOfViewToRefireInview, downOnlyMode are options to modify the
+ *   inview triggers.
  *
  *
  * # Inview Logic
@@ -160,7 +170,7 @@ export interface InviewConfig {
  * ```
  *
  *
- * # outviewOnlyOnElementExit Option
+ * # outviewOnlyOnElementExit Mode
  * This changes the behavior of inview a bit.
  *
  * You can set it so that the outview doesn't fire based on the elementBaseline
@@ -182,6 +192,14 @@ export interface InviewConfig {
  * This might be undesired.    By setting this option, it will fire outview until the
  * element has completely exited and therefore, preventing refiring of inview multiple
  * times while the element is inview.
+ *
+ * # downOnlyMode Mode
+ * Downonly modes assumes your primary experience is scrolling down.  So
+ * it will add an inview, when the element crosses the inview threshold when
+ * scrolling down and then "KEEP" that inview attached.  Outview is ONLY
+ * fired when the element is completley out of view AND below the viewport.
+ *
+ *
  *
  */
 export class Inview {
@@ -223,7 +241,8 @@ export class Inview {
             {
                 elementBaseline: 0,
                 viewportOffset: 0,
-                outviewOnlyOnElementExit: false
+                outviewOnlyOnElementExit: false,
+                downOnlyMode: false
             },
             config
         );
@@ -265,7 +284,6 @@ export class Inview {
 
         this.targetElements.forEach((target: HTMLElement, i: number) => {
             this.readWrite.write(() => {
-                console.log("suppy");
                 target.classList.add(InviewClassNames.READY)
             })
         })
@@ -342,17 +360,32 @@ export class Inview {
                 let bottomPercent = outPercent;
                 const completelyOutOfView = !mathf.isBetween(topPercent, 0, 1) && !mathf.isBetween(bottomPercent, 0, 1);
 
-                    if (inPercent < this.config.viewportOffset || outPercent >= 1) {
-                        if (
-                            this.isInState && completelyOutOfView
-                        ) {
+                if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+                    if (
+                        this.isInState && completelyOutOfView
+                    ) {
                         this.runOutviewState();
-                        }
-                    } else {
-                        this.runInviewState();
                     }
+                } else {
+                    this.runInviewState();
+                }
 
+            } else if (this.config.downOnlyMode) {
+                // This is the percent where the TOP of the element is in the viewport.
+                let topPercent = 1 - mathf.inverseLerp(0, wh, box.top, true);
+                // Down only mode.
+                const topOfElementIsBelowViewport = topPercent < 0;
+                if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+                    if (
+                        this.isInState && topOfElementIsBelowViewport
+                    ) {
+                        this.runOutviewState();
+                    }
+                } else {
+                    this.runInviewState();
+                }
             } else {
+
                 // NORMAL INVIEW
                 // The outview conditions are in the outpercent (bottom of the element) is greater than 1
                 // or the inpercent (the element baseline) is below 0 under the screen.
