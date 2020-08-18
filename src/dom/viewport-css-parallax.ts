@@ -12,6 +12,12 @@ import { stringf } from '../string/stringf';
 import { is } from '../is/is';
 
 export interface ViewportCssParallaxSettings {
+    rootElement: HTMLElement,
+    // Optional css write element, defaults to rootElement.
+    cssWriteElement?: HTMLElement,
+    // Optional raf ev element, defaults to rootElement.
+    rafEvElement?: HTMLElement,
+
     debug: boolean,
     // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
     lerp: number,
@@ -52,11 +58,12 @@ export interface ViewportCssParallaxConfig {
  * ```
  *
  * // Create the instance and set the root element
- * const parallaxer = new ViewportCssParallaxer(element);
+ * const parallaxer = new ViewportCssParallaxer();
  *
  *
  * // Add your settings.
  * const settings = {
+ *    rootElement: document.getElementById('hoho'),
  *    debug: false,
  *    lerp: 0.18,
  *    damp: 0.18,
@@ -89,7 +96,11 @@ export class ViewportCssParallax{
     /**
      * The element to write out the css variables to.  Defaults to the rootElement
      */
-    private css_write_element: HTMLElement;
+    private cssWriteElement: HTMLElement;
+
+    private rafEvElement: HTMLElement;
+
+
     private domWatcher: DomWatcher;
     private rafEv: ElementVisibilityObject;
     private raf: Raf;
@@ -109,9 +120,19 @@ export class ViewportCssParallax{
 
 
 
-    constructor(element: HTMLElement, css_write_element?: HTMLElement) {
-        this.rootElement = element;
-        this.css_write_element = css_write_element ? css_write_element: this.rootElement;
+    constructor() {}
+
+
+    public init(settings:ViewportCssParallaxSettings, interpolations?: Array<interpolateSettings>) {
+        if (this.initialized) {
+            return;
+        }
+        this.initialized = true;
+
+
+        this.rootElement = settings.rootElement;
+        this.cssWriteElement = settings.cssWriteElement ? settings.cssWriteElement : this.rootElement;
+        this.rafEvElement = settings.rafEvElement ? settings.rafEvElement : this.rootElement;
 
         this.id = stringf.uuid();
 
@@ -123,14 +144,7 @@ export class ViewportCssParallax{
             on: 'smartResize',
             callback: () => this.onWindowResize(),
         });
-    }
 
-
-    public init(settings:ViewportCssParallaxSettings, interpolations?: Array<interpolateSettings>) {
-        if (this.initialized) {
-            return;
-        }
-        this.initialized = true;
 
         this.updateSettings(settings);
 
@@ -153,7 +167,7 @@ export class ViewportCssParallax{
         this.rootElement.classList.add('viewport-css-parallax-ready');
 
         // Start and stop raf when the element comes into view.
-        this.rafEv = elementVisibility.inview(this.rootElement, this.settingsData.rafEvOptions,
+        this.rafEv = elementVisibility.inview(this.rafEvElement, this.settingsData.rafEvOptions,
             (element: any, changes: any) => {
                 if (changes.isIntersecting) {
                     this.raf.start();
@@ -308,7 +322,7 @@ export class ViewportCssParallax{
     /**
      * Updates the current progress immediately.
      */
-    protected updateImmediately() {
+    public updateImmediately() {
         this.updateProgress(1, 1);
         this.interpolator.update(
             this.currentProgress
@@ -316,7 +330,8 @@ export class ViewportCssParallax{
     }
 
 
-    protected onRaf(): void {
+
+    public onRaf(): void {
 
         this.raf.read(()=> {
           this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
@@ -335,7 +350,7 @@ export class ViewportCssParallax{
 
             // Write values.
             const values = this.interpolator.getValues();
-            dom.setCssVariables(this.css_write_element, values);
+            dom.setCssVariables(this.cssWriteElement, values);
         });
     }
 

@@ -249,8 +249,6 @@ export class Inview {
         this.raf = new Raf(this.onRaf.bind(this));
         this.readWrite = new Raf()
         this.scrollY = window.scrollY;
-        // Force read even if the element is out of view.
-        this.onRaf();
 
 
         this.scrollY = window.scrollY;
@@ -293,6 +291,11 @@ export class Inview {
         }).then(() => {
             this.raf.start();
         })
+
+
+        // Force read even if the element is out of view.
+        this.runOutviewState();
+        this.onRaf();
     }
 
 
