@@ -4,7 +4,7 @@
 import { Raf } from '../raf/raf';
 import { DomWatcher } from '../dom/dom-watcher';
 import { mathf } from '../mathf/mathf';
-import {dom} from '../dom/dom';
+import { dom } from '../dom/dom';
 
 
 const InviewClassNames = {
@@ -69,10 +69,29 @@ export interface InviewConfig {
      */
     evIntersectionObserverOptions?: Object,
 
+
+    /**
+     * A flag in which if set to true will slightly modify the behavior
+     * of inview.  Once inview is fired, it will stay in that state until
+     * the element is completely out of view.
+     */
+    outviewOnlyOnElementExit: boolean,
+
 }
 
 /**
  * Implements a basic type 1 inview.
+ *
+ * ```
+ *        new Inview({
+ *           element: document.getElementById('test2'),
+ *           elementBaseline: 0,
+ *           viewportOffset: 0.2,
+ *           waitForOutOfViewToRefireInview: false
+ *       });
+ * ```
+ *
+ *
  * Type 1 inview:
  * - will add an '.in' class to an element when the element is at
  *   at certain percentage of the viewport. (viewport offset) or
@@ -139,6 +158,31 @@ export interface InviewConfig {
  *    visibility: visible
  *
  * ```
+ *
+ *
+ * # outviewOnlyOnElementExit Option
+ * This changes the behavior of inview a bit.
+ *
+ * You can set it so that the outview doesn't fire based on the elementBaseline
+ * but instead, when the full elmement, top and bottom are out of view.
+ *
+ * In short, once inview is fired, the element will stay in an inview state
+ * until the element is compeltely out off view.
+ *
+ *
+ * To clarify:
+ * When scrolling back and up, based on your inview trigger point, the
+ * user might see the element go from an instate to outstate back and forth.
+ * For example, let's say you trigger at the top of the element (elementBaseline 0)
+ * and 0.2 viewport offset.  As the user scrolls down,
+ * the top of the element hits the bottom 20%
+ * of the viewport, the element becomes in an inview state.  If the user scrolls back
+ * up immediately, and the element is at 0.19, the element goes back to outview.
+ *
+ * This might be undesired.    By setting this option, it will fire outview until the
+ * element has completely exited and therefore, preventing refiring of inview multiple
+ * times while the element is inview.
+ *
  */
 export class Inview {
     private raf: Raf;
@@ -179,6 +223,7 @@ export class Inview {
             {
                 elementBaseline: 0,
                 viewportOffset: 0,
+                outviewOnlyOnElementExit: false
             },
             config
         );
@@ -219,7 +264,7 @@ export class Inview {
 
 
         this.targetElements.forEach((target: HTMLElement, i: number) => {
-            this.readWrite.write(()=> {
+            this.readWrite.write(() => {
                 console.log("suppy");
                 target.classList.add(InviewClassNames.READY)
             })
@@ -233,8 +278,8 @@ export class Inview {
     }
 
 
-    private onWindowScroll():void {
-        this.raf.read(()=> {
+    private onWindowScroll(): void {
+        this.raf.read(() => {
             // Calculate the scroll direction.
             const scrollY = window.scrollY;
             this.scrollDirection = mathf.direction(this.scrollY, scrollY);
@@ -253,7 +298,7 @@ export class Inview {
     private onRaf(): void {
 
         // Figure out how much of this element is visible.
-        this.raf.read(()=> {
+        this.raf.read(() => {
 
             // Since generally, since we think in terms of scrolling down, 0 - 1 would
             // be represented as:
@@ -281,20 +326,41 @@ export class Inview {
             // So 0 would mean the elementbaseline is at the bottom of the viewport.
             // 1 would mean elementBaseline is at the top of the viewport.
             // A value less than viewport offset would mean that the element is above the viewport == outview.
-            let inPercent = 1 - mathf.inverseLerp(0, wh,  elementBaseline, true);
+            let inPercent = 1 - mathf.inverseLerp(0, wh, elementBaseline, true);
 
             // This is the percent of where the BOTTOM of the element is in the viewport.
             // We want to use this to valuate whether the element is out of view.
             // A value greater than 1 would mean that the element is above the viewport == outview.
-            let outPercent = 1 - mathf.inverseLerp(0, wh,  box.top + box.height, true);
+            let outPercent = 1 - mathf.inverseLerp(0, wh, box.top + box.height, true);
 
 
-            // The outview conditions are in the outpercent (bottom of the element) is greater than 1
-            // or the inpercent (the element baseline) is below 0 under the screen.
-            if(inPercent < this.config.viewportOffset || outPercent >= 1) {
-                this.runOutviewState();
+
+            if (this.config.outviewOnlyOnElementExit) {
+                // This is the percent where the TOP of the element is in the viewport.
+                let topPercent = 1 - mathf.inverseLerp(0, wh, box.top, true);
+                // AKA
+                let bottomPercent = outPercent;
+                const completelyOutOfView = !mathf.isBetween(topPercent, 0, 1) && !mathf.isBetween(bottomPercent, 0, 1);
+                if (
+                    this.isInState && completelyOutOfView
+                ) {
+                    this.runOutviewState();
+                } else {
+                    if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+                    } else {
+                        this.runInviewState();
+                    }
+                }
+
             } else {
-                this.runInviewState();
+                // NORMAL INVIEW
+                // The outview conditions are in the outpercent (bottom of the element) is greater than 1
+                // or the inpercent (the element baseline) is below 0 under the screen.
+                if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+                    this.runOutviewState();
+                } else {
+                    this.runInviewState();
+                }
             }
 
 
@@ -304,7 +370,7 @@ export class Inview {
 
 
     public runInviewState() {
-        if(this.isInState) {
+        if (this.isInState) {
             return;
         }
         this.readWrite.write(() => {
@@ -329,7 +395,7 @@ export class Inview {
 
 
     public runOutviewState() {
-        if(!this.isInState) {
+        if (!this.isInState) {
             return;
         }
         this.readWrite.write(() => {
