@@ -341,16 +341,16 @@ export class Inview {
                 // AKA
                 let bottomPercent = outPercent;
                 const completelyOutOfView = !mathf.isBetween(topPercent, 0, 1) && !mathf.isBetween(bottomPercent, 0, 1);
-                if (
-                    this.isInState && completelyOutOfView
-                ) {
-                    this.runOutviewState();
-                } else {
+
                     if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+                        if (
+                            this.isInState && completelyOutOfView
+                        ) {
+                        this.runOutviewState();
+                        }
                     } else {
                         this.runInviewState();
                     }
-                }
 
             } else {
                 // NORMAL INVIEW
