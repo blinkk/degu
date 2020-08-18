@@ -294,8 +294,7 @@ export class Inview {
 
 
         // Force read even if the element is out of view.
-        this.runOutviewState();
-        this.onRaf();
+        this.runOutviewState(true);
     }
 
 
@@ -430,8 +429,8 @@ export class Inview {
     }
 
 
-    public runOutviewState() {
-        if (!this.isInState) {
+    public runOutviewState(force: boolean) {
+        if (!this.isInState && !force) {
             return;
         }
         this.readWrite.write(() => {
