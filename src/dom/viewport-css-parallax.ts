@@ -196,6 +196,7 @@ export class ViewportCssParallax{
         if(!this.settingsData) {
             this.settingsData = {
                 ...{
+                    rootElement: this.rootElement,
                     debug: false,
                     clamp: true,
                     lerp: 1,
