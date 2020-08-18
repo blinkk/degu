@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inview Sample</title>
+
+  <style>
+      .test0 {
+          height: 500px;
+          background-color: blue;
+          color: black;
+          text-align:  center;
+      }
+
+      .test0.in {
+          background-color: red;
+      }
+
+      .test {
+          height: 500px;
+          background-color: blue;
+          color: black;
+          text-align:  center;
+      }
+
+      .test.in {
+          background-color: red;
+      }
+
+      .test2 {
+          height: 120vh;
+          background-color: blue;
+          color: black;
+          text-align:  center;
+      }
+
+      .test2.in {
+          background-color: red;
+      }
+  </style>
+</head>
+<body init-sample="inviewSample">
+  <a href="/index.html">Back to home</a>
+  <h1>Inview type 1 test</h1>
+
+  <div id="test0" class="test0"> This is the inview element.</div>
+  <div style="height: 100vh; background-color: grey"></div>
+  <div id="test" class="test"> This is the inview element.</div>
+  <div style="height: 100vh; background-color: grey"></div>
+  <div id="test2" class="test2"> This is the inview element.</div>
+
+</body>
+</html>
