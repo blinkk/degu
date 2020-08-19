@@ -293,8 +293,8 @@ export class Inview {
         })
 
 
-        // Force read even if the element is out of view.
-        this.runOutviewState(true);
+        // Force update the state.
+        this.onRaf(true);
     }
 
 
@@ -315,10 +315,11 @@ export class Inview {
      *
      * TODO (uxder): Some of these values can be cached.
      */
-    private onRaf(): void {
+    private onRaf(force?: boolean): void {
+        const writer = force ? this.readWrite : this.raf;
 
         // Figure out how much of this element is visible.
-        this.raf.read(() => {
+        writer.read(() => {
 
             // Since generally, since we think in terms of scrolling down, 0 - 1 would
             // be represented as:
@@ -364,27 +365,36 @@ export class Inview {
 
                 if (inPercent < this.config.viewportOffset || outPercent >= 1) {
                     if (
-                        this.isInState && completelyOutOfView
+                        completelyOutOfView
                     ) {
-                        this.runOutviewState();
+                        this.runOutviewState(force);
                     }
                 } else {
-                    this.runInviewState();
+                    this.runInviewState(force);
                 }
 
             } else if (this.config.downOnlyMode) {
                 // This is the percent where the TOP of the element is in the viewport.
                 let topPercent = 1 - mathf.inverseLerp(0, wh, box.top, true);
+                let bottomPercent = outPercent;
                 // Down only mode.
                 const topOfElementIsBelowViewport = topPercent < 0;
+                const bottomOfElementIsAboveViewport = bottomPercent >= 1;
                 if (inPercent < this.config.viewportOffset || outPercent >= 1) {
                     if (
-                        this.isInState && topOfElementIsBelowViewport
+                        topOfElementIsBelowViewport
                     ) {
-                        this.runOutviewState();
+                        this.runOutviewState(force);
+                    }
+
+                    // If the bottom of the element is above the viewport, we should ensure it is in the instate.
+                    if (
+                      bottomOfElementIsAboveViewport
+                    ) {
+                      this.runInviewState(force);
                     }
                 } else {
-                    this.runInviewState();
+                    this.runInviewState(force);
                 }
             } else {
 
@@ -392,9 +402,9 @@ export class Inview {
                 // The outview conditions are in the outpercent (bottom of the element) is greater than 1
                 // or the inpercent (the element baseline) is below 0 under the screen.
                 if (inPercent < this.config.viewportOffset || outPercent >= 1) {
-                    this.runOutviewState();
+                    this.runOutviewState(force);
                 } else {
-                    this.runInviewState();
+                    this.runInviewState(force);
                 }
             }
 
@@ -404,7 +414,7 @@ export class Inview {
     }
 
 
-    public runInviewState() {
+    public runInviewState(force?:boolean) {
         if (this.isInState) {
             return;
         }
