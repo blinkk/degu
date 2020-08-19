@@ -17,13 +17,15 @@ export class VisibilityOptimizeController {
         this.element = $element[0];
         this.raf = new Raf();
         this.ev = elementVisibility.inview(this.element, {
-            rootMargin:  '500px 0px 500px 0px'
+            rootMargin:  '200px 0px 200px 0px'
         }, (element: any, changes:any) => {
             this.raf.write(()=> {
                 if (changes.isIntersecting) {
                     this.element.style.visibility = '';
+                    this.element.style['contentVisibility'] = '';
                 } else {
                     this.element.style.visibility = 'hidden';
+                    this.element.style['contentVisibility'] = 'hidden';
                 }
             })
         });
