@@ -121,4 +121,10 @@ export class AnimationElement {
         })[0];
     }
 
+
+
+    public getElement():HTMLElement {
+        return this.el;
+    }
+
 }
