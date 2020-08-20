@@ -1,5 +1,6 @@
 
 import {Raf} from '../raf/raf';
+import { DomWatcher } from './dom-watcher';
 
 /**
  * What this class does is, it eats the window.wheel event
@@ -46,13 +47,17 @@ export class ScrollRenderFix {
     private raf: Raf;
     private currentY: number;
     private targetY: number;
+    private domWatcher: DomWatcher;
 
     constructor() {
         this.raf = new Raf();
-        window.addEventListener(
-            'wheel', this.wheelHandler.bind(this), {
-                 passive: false
-            });
+        this.domWatcher = new DomWatcher();
+        this.domWatcher.add({
+            element: window,
+            on: 'wheel',
+            eventOptions: { passive: true },
+            callback: this.wheelHandler.bind(this)
+        });
     }
 
 
@@ -67,5 +72,10 @@ export class ScrollRenderFix {
               document.documentElement.scrollTop = this.targetY;
             }
         });
+    }
+
+
+    public dispose() {
+      this.domWatcher && this.domWatcher.dispose();
     }
 }
