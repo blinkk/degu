@@ -145,7 +145,7 @@ export class ScrollSmoothRender {
 
             if (this.currentY !== value) {
                 // Use scrollingElement to normalize diff between chrome and safari.
-                document.scrollingElement.scrollTop = value;
+                document.scrollingElement.scrollTop = value >> 0;
                 this.currentY = value;
             } else {
                 this.stopWheelJack();
@@ -249,8 +249,10 @@ export class ScrollSmoothRender {
     public overrideScrollPosition(callback: Function) {
         this.stopWheelJack();
         callback();
-        this.currentY = this.getScrollTop();
-        this.targetY = this.currentY;
+        this.raf.read(()=> {
+            this.currentY = this.getScrollTop();
+            this.targetY = this.currentY;
+        })
     }
 
 }
