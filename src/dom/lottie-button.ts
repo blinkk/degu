@@ -212,10 +212,8 @@ export class LottieButton {
 
     constructor(config: LottieButtonConfig) {
         this.config = config;
-        console.log("this.", this.config);
 
         this.playQueue = [];
-        // console.log("lottie button.", this.config);
         this.watcher = new DomWatcher();
         this.raf = new Raf();
         this.isPlaying = false;
@@ -295,8 +293,6 @@ export class LottieButton {
             element: this.lottieInstance as HTMLElement,
             on: 'DOMLoaded',
             callback: () => {
-                // console.log("loaded");
-                // console.log(this.lottieInstance);
                 if (!this.config.noListeners) {
                     this.ev = elementVisibility.inview(this.config.rootElement, {}, (element: any, changes: any) => {
                         if (changes.isIntersecting) {
@@ -336,7 +332,6 @@ export class LottieButton {
         this.isPlaying = true;
         this.stopFrame = end;
         this.lottieInstance['goToAndPlay'](start, true);
-        console.log("Playing state", this.currentState);
         this.updateCssClass();
     }
 
@@ -442,7 +437,6 @@ export class LottieButton {
         this.raf.write(() => {
             this.config.rootElement.classList.remove(LottieButtonCssClasses.CLICK);
             this.config.rootElement.classList.remove(LottieButtonCssClasses.HOVER);
-            // console.log(this.currentState);
 
             if (this.currentState == 'click') {
                 this.config.rootElement.classList.add(LottieButtonCssClasses.CLICK);
