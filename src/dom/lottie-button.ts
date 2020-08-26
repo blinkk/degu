@@ -78,6 +78,11 @@ export interface LottieButtonPlayQueueItem {
  *
  * Creates an interactable lottie button.
  *
+ *
+ * Note that I don't consider this to be stable.
+ * I don't recommend directly using this class and instead for now,
+ * copy it and use it as a base in your project.
+ *
  * ```
  *
  * <div id="mylottiebutton">
