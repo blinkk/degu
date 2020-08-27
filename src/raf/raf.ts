@@ -786,6 +786,6 @@ class RafRegistry {
 }
 
 // Create raf registry as a global.
-if (!window['YANO_RAF_REGISTRY']) {
+if (window && !window['YANO_RAF_REGISTRY']) {
     window['YANO_RAF_REGISTRY'] = new RafRegistry();
 }
