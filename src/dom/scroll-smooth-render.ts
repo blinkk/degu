@@ -15,6 +15,12 @@ export interface ScrollSmoothRenderConfig {
     damp: number
 }
 
+
+export const ScrollSmoothRenderEvents = {
+    DISABLE: "YANO_SCROLL_SMOOTH_RENDER_DISABLE",
+    ENABLE: "YANO_SCROLL_SMOOTH_RENDER_ENABLE",
+}
+
 /**
  * Provides a way to "override" and smooth out the default scroll behavior.
  * This class also allows you to ensure that rendering is synced to the scroll.
@@ -70,7 +76,15 @@ export interface ScrollSmoothRenderConfig {
  *   window.scrollTo(0,0);
  * })
  *
-  * ```*
+ * ```
+ *
+ *
+ *
+ * ## My div has a scrollbar and it's not scrollable!
+ *
+ * See the /lib/angular/directive-scroll-smooth-render-scrollable directive.
+ * Add this to any directive that has a scrollbar and it will act normally.
+ *
  *
  *
  *
@@ -94,6 +108,27 @@ export class ScrollSmoothRender {
             this.currentY = this.getScrollTop();
         });
 
+        this.domWatcher.add({
+            element: document.documentElement,
+            on: ScrollSmoothRenderEvents.DISABLE,
+            callback: ()=> {
+                this.disable();
+            },
+            eventOptions: {
+                passive: true
+            }
+        });
+
+        this.domWatcher.add({
+            element: document.documentElement,
+            on: ScrollSmoothRenderEvents.ENABLE,
+            callback: ()=> {
+                this.enable();
+            },
+            eventOptions: {
+                passive: true
+            }
+        });
 
         this.domWatcher.add({
             element: window,
