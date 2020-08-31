@@ -38,13 +38,33 @@ export interface HorizontalScrollElementConfig {
 
     /**
      * Whether to left align.  Defaults to false and centers.
+     * If using leftAlign, it is common to want a margin on the ends.  Add padding to
+     * the scroll element to achieve this.
+     *
+     *
+     * ```
+     *[scroll-item]:first-child
+     *  padding-left: #{$grid-mobile-side}
+     * +md
+     *   padding-left: #{$grid-tablet-side}
+     * +lg
+     *   padding-left: #{$grid-desktop-side}
+     *[scroll-item]:last-child
+     * padding-right: #{$grid-mobile-side}
+     * +md
+     *   padding-right: #{$grid-tablet-side}
+     * +lg
+     *   padding-right: #{$grid-desktop-side}
+     * ```
+     *
+     *
      */
-    leftAlign: boolean;
+    leftAlign?: boolean;
 
     /**
      * When dragging, allow a little wiggle room.  Defaults to 0
      */
-    dragBounce: number;
+    dragBounce?: number;
 }
 
 
@@ -291,13 +311,14 @@ export class HorizontalScrollElement {
     private dragBounce: number;
     private resizing: boolean = false;
 
+
     constructor(config: HorizontalScrollElementConfig) {
         this.root = config.rootElement;
         this.raf = new Raf(this.onRaf.bind(this));
         this.useSlideDeltaValues = !!config.slideDeltaValues;
         this.useSnapToClosest = !!config.snapToClosest;
         this.shouldLeftAlign = !!config.leftAlign;
-        this.dragBounce = config.dragBounce || 0;
+        this.dragBounce = config.dragBounce || 100;
 
         this.items = Array.from(this.root.querySelectorAll('[scroll-item]')) as Array<HTMLElement>;
 
@@ -431,7 +452,7 @@ export class HorizontalScrollElement {
                 lastX: eventX,
                 start: eventX,
             };
-            this.targetX = this.currentX;
+            this.setTargetX(this.currentX);
 
         };
         this.domWatcher.add({
@@ -483,7 +504,7 @@ export class HorizontalScrollElement {
                 // Make it less sensitive towards mobile.
                 let normalizedWindowSize = mathf.inverseLerp(300, 3000, this.windowWidth);
                 let dragSensitivity = mathf.lerp(1.4, 3, normalizedWindowSize);
-                this.targetX += diff * dragSensitivity;
+                this.setTargetX(this.targetX + diff * dragSensitivity);
                 this.mouseState.lastX = this.mouseState.x;
             }
         };
@@ -550,7 +571,8 @@ export class HorizontalScrollElement {
         this.windowWidth = window.innerWidth;
         this.calculateChildPositions();
         if (this.useSnapToClosest) {
-            this.slideTo(this.index, true);
+            // this.slideTo(this.index, true);
+            this.slideTo(0, true);
         }
     }
 
@@ -574,6 +596,7 @@ export class HorizontalScrollElement {
                 width: width,
             });
         });
+
         this.rootWidth = this.root.offsetWidth;
         // Add currentX to account for the current position.
         this.scrollWidth = this.root.scrollWidth + this.currentX;
@@ -583,30 +606,6 @@ export class HorizontalScrollElement {
 
     setScrollPosition(x: number) {
         this.currentX = x;
-
-        // Clamp
-        if(this.shouldLeftAlign) {
-            this.currentX = Math.min(
-                this.currentX,
-                this.scrollWidth - this.windowWidth + this.dragBounce
-            )
-            this.currentX = Math.max(
-                this.currentX,
-                0 - this.dragBounce
-            )
-        } else {
-            this.currentX = Math.min(
-                this.currentX,
-                this.lastItemCenterOffset + this.dragBounce
-            )
-            this.currentX = Math.max(
-                this.currentX,
-                this.firstItemCenterOffset - this.dragBounce
-            )
-        }
-
-
-
 
         dom.setCssVariables(this.root, {
             '--horizontal-scroll-x': -this.currentX + 'px'
@@ -642,7 +641,7 @@ export class HorizontalScrollElement {
             return;
         }
 
-        this.targetX = this.getChildPosition(index).centerX;
+        this.setTargetX(this.getChildPosition(index).centerX);
         this.index = index;
 
         if (instant) {
@@ -661,6 +660,34 @@ export class HorizontalScrollElement {
         dom.event(this.root, HorizontalScrollElementEvents.INDEX_CHANGE, {
             index: this.index
         });
+    }
+
+
+    public setTargetX(x:number) {
+        const dragBounce = this.mouseState.dragging ? this.dragBounce : 0;
+        // Clamp
+        if(this.shouldLeftAlign) {
+
+            this.targetX = Math.min(
+                x,
+                this.scrollWidth - this.windowWidth + dragBounce
+            )
+            this.targetX = Math.max(
+                this.targetX,
+                this.firstItemCenterOffset - dragBounce
+            )
+
+        } else {
+            this.targetX = Math.min(
+                x,
+                this.lastItemCenterOffset + dragBounce
+            )
+            this.targetX = Math.max(
+                this.targetX,
+                this.firstItemCenterOffset - dragBounce
+            )
+        }
+
     }
 
     public isFirstSlide() {
