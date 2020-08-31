@@ -692,6 +692,8 @@ export class HorizontalScrollElement {
         return this.index >= this.childrenPositions.length - 1
     }
 
+
+
     getChildPosition(index: number) {
         if (index == -1) {
             return this.childrenPositions[this.childrenPositions.length - 1];
@@ -716,6 +718,11 @@ export class HorizontalScrollElement {
                 distance = diff;
             }
         });
+
+        if(this.targetX >= this.lastItemCenterOffset) {
+            this.index == this.childrenPositions.length - 1;
+        }
+
         return index;
     }
 
