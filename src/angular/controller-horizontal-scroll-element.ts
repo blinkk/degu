@@ -5,6 +5,7 @@ import { DomWatcher } from '../dom/dom-watcher';
 
 export interface HorizontalScrollElementControllerInitConfig {
     scrollSelector: string;
+    leftAlign: boolean;
 }
 
 /**
@@ -66,10 +67,12 @@ export class HorizontalScrollElementController implements INgDisposable {
         window.setTimeout(()=> {
             this.horizontalScroll = new HorizontalScrollElement({
                 rootElement: this.scrollElement,
+                leftAlign: config.leftAlign || false,
                 resizeOnFirstEv: true,
                 snapToClosest: true,
                 slideDeltaValues: true,
-                delayResizeMs: +this.el.getAttribute('delay-resize-ms') || null
+                dragBounce: 0,
+                delayResizeMs: 10
             });
 
             const deltaSelector = this.el.getAttribute('add-delta-value-elements-selector');

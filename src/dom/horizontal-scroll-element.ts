@@ -35,6 +35,16 @@ export interface HorizontalScrollElementConfig {
      * Delay resizing by a given ms amount.  Defaults to no delay.
      */
     delayResizeMs: number;
+
+    /**
+     * Whether to left align.  Defaults to false and centers.
+     */
+    leftAlign: boolean;
+
+    /**
+     * When dragging, allow a little wiggle room.  Defaults to 0
+     */
+    dragBounce: number;
 }
 
 
@@ -266,20 +276,28 @@ export class HorizontalScrollElement {
     private rafEv: ElementVisibilityObject;
     private raf: Raf;
     private useSnapToClosest: boolean = false;
+    private shouldLeftAlign: boolean = false;
     private items: Array<HTMLElement>;
     private childrenPositions: Array<HorizontalScrollElementPositions>;
     private index: number = 0;
     private useSlideDeltaValues: boolean = false;
+    private rootWidth: number;
     private scrollWidth: number;
+    private firstItemCenterOffset: number;
+    private lastItemCenterOffset: number;
     private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
     private ranFirstEv: boolean = false;
     private windowWidth: number;
+    private dragBounce: number;
+    private resizing: boolean = false;
 
     constructor(config: HorizontalScrollElementConfig) {
         this.root = config.rootElement;
         this.raf = new Raf(this.onRaf.bind(this));
         this.useSlideDeltaValues = !!config.slideDeltaValues;
         this.useSnapToClosest = !!config.snapToClosest;
+        this.shouldLeftAlign = !!config.leftAlign;
+        this.dragBounce = config.dragBounce || 0;
 
         this.items = Array.from(this.root.querySelectorAll('[scroll-item]')) as Array<HTMLElement>;
 
@@ -348,11 +366,13 @@ export class HorizontalScrollElement {
         }
 
         const currentX = mathf.roundToPrecision(this.currentX, 3);
+
         if (currentX == this.targetX && !immediate) {
             return;
         }
         let dampedTarget = mathf.damp(
             currentX, this.targetX, 0.4, 0.2);
+
 
         // No lerp when immediate
         if (immediate) {
@@ -365,7 +385,7 @@ export class HorizontalScrollElement {
             this.childrenPositions.forEach((child, i) => {
                 const current = this.currentX;
                 const delta = child.centerX - current;
-                const percent = delta / this.scrollWidth;
+                const percent = delta / this.rootWidth;
                 const halfPercent = mathf.inverseLerp(0, 0.5, percent, true);
                 const quartPercent = mathf.inverseLerp(0, 0.25, percent, true);
 
@@ -529,7 +549,6 @@ export class HorizontalScrollElement {
     private onWindowResize(): void {
         this.windowWidth = window.innerWidth;
         this.calculateChildPositions();
-
         if (this.useSnapToClosest) {
             this.slideTo(this.index, true);
         }
@@ -549,15 +568,46 @@ export class HorizontalScrollElement {
                 el: child,
                 x: x,
                 // Center position relative to window size.
-                centerX: x - ((baseWidth * 0.5) - (width * 0.5)),
+                centerX: this.shouldLeftAlign ?
+                  x :
+                  x - ((baseWidth * 0.5) - (width * 0.5)),
                 width: width,
             });
         });
-        this.scrollWidth = this.root.offsetWidth;
+        this.rootWidth = this.root.offsetWidth;
+        // Add currentX to account for the current position.
+        this.scrollWidth = this.root.scrollWidth + this.currentX;
+        this.firstItemCenterOffset = this.childrenPositions[0].centerX;
+        this.lastItemCenterOffset = this.childrenPositions[this.childrenPositions.length - 1].centerX;
     }
 
     setScrollPosition(x: number) {
         this.currentX = x;
+
+        // Clamp
+        if(this.shouldLeftAlign) {
+            this.currentX = Math.min(
+                this.currentX,
+                this.scrollWidth - this.windowWidth + this.dragBounce
+            )
+            this.currentX = Math.max(
+                this.currentX,
+                0 - this.dragBounce
+            )
+        } else {
+            this.currentX = Math.min(
+                this.currentX,
+                this.lastItemCenterOffset + this.dragBounce
+            )
+            this.currentX = Math.max(
+                this.currentX,
+                this.firstItemCenterOffset - this.dragBounce
+            )
+        }
+
+
+
+
         dom.setCssVariables(this.root, {
             '--horizontal-scroll-x': -this.currentX + 'px'
         })
