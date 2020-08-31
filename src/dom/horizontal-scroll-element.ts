@@ -43,18 +43,11 @@ export interface HorizontalScrollElementConfig {
      *
      *
      * ```
-     *[scroll-item]:first-child
-     *  padding-left: #{$grid-mobile-side}
-     * +md
-     *   padding-left: #{$grid-tablet-side}
-     * +lg
-     *   padding-left: #{$grid-desktop-side}
+     * [scroll-track]
+     *   margin-left: var(--grid-side)
+     *
      *[scroll-item]:last-child
-     * padding-right: #{$grid-mobile-side}
-     * +md
-     *   padding-right: #{$grid-tablet-side}
-     * +lg
-     *   padding-right: #{$grid-desktop-side}
+     *   padding-right: var(--grid-side)
      * ```
      *
      *
