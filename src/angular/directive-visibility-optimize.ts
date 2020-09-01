@@ -22,10 +22,10 @@ export class VisibilityOptimizeController {
             this.raf.write(()=> {
                 if (changes.isIntersecting) {
                     this.element.style.visibility = '';
-                    this.element.style['contentVisibility'] = '';
+                    // this.element.style['contentVisibility'] = '';
                 } else {
                     this.element.style.visibility = 'hidden';
-                    this.element.style['contentVisibility'] = 'hidden';
+                    // this.element.style['contentVisibility'] = 'hidden';
                 }
             })
         });
