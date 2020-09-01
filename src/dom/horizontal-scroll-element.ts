@@ -572,6 +572,11 @@ export class HorizontalScrollElement {
 
 
     calculateChildPositions() {
+        if(this.items.length == 0) {
+            return;
+        }
+
+
         this.childrenPositions = [];
         this.items.forEach((child) => {
             let baseX = this.currentX;
@@ -590,6 +595,7 @@ export class HorizontalScrollElement {
                 width: width,
             });
         });
+
 
         this.rootWidth = this.root.offsetWidth;
         // Add currentX to account for the current position.
