@@ -303,6 +303,7 @@ export class HorizontalScrollElement {
     private windowWidth: number;
     private dragBounce: number;
     private resizing: boolean = false;
+    private itemCount: number = 0;
 
 
     constructor(config: HorizontalScrollElementConfig) {
@@ -319,13 +320,13 @@ export class HorizontalScrollElement {
         this.domWatcher.add({
             element: window,
             on: 'smartResize',
-            callback: ()=> {
-                if(config.delayResizeMs) {
-                    window.setTimeout(()=> {
-                      this.onWindowResize();
+            callback: () => {
+                if (config.delayResizeMs) {
+                    window.setTimeout(() => {
+                        this.onWindowResize();
                     }, +config.delayResizeMs)
                 } else {
-                  this.onWindowResize();
+                    this.onWindowResize();
                 }
             },
             eventOptions: {
@@ -584,8 +585,8 @@ export class HorizontalScrollElement {
                 x: x,
                 // Center position relative to window size.
                 centerX: this.shouldLeftAlign ?
-                  x :
-                  x - ((baseWidth * 0.5) - (width * 0.5)),
+                    x :
+                    x - ((baseWidth * 0.5) - (width * 0.5)),
                 width: width,
             });
         });
@@ -595,6 +596,17 @@ export class HorizontalScrollElement {
         this.scrollWidth = this.root.scrollWidth + this.currentX;
         this.firstItemCenterOffset = this.childrenPositions[0].centerX;
         this.lastItemCenterOffset = this.childrenPositions[this.childrenPositions.length - 1].centerX;
+
+        // If we are in left align mode, the index count
+        // is calculated differently.  The last index
+        // would be the element in which the last element is
+        // full in view.
+        this.itemCount = this.childrenPositions.length - 1;
+        if(this.shouldLeftAlign) {
+            const visibleWidth = this.scrollWidth - this.rootWidth;
+            const itemWidth = this.childrenPositions[0].width;
+            this.itemCount = Math.ceil(visibleWidth / itemWidth);
+        }
     }
 
     setScrollPosition(x: number) {
@@ -630,9 +642,10 @@ export class HorizontalScrollElement {
         if (index == -1) {
             return;
         }
-        if (index > this.childrenPositions.length - 1) {
+        if (index > this.itemCount) {
             return;
         }
+
 
         this.setTargetX(this.getChildPosition(index).centerX);
         this.index = index;
@@ -656,10 +669,10 @@ export class HorizontalScrollElement {
     }
 
 
-    public setTargetX(x:number) {
+    public setTargetX(x: number) {
         const dragBounce = this.mouseState.dragging ? this.dragBounce : 0;
         // Clamp
-        if(this.shouldLeftAlign) {
+        if (this.shouldLeftAlign) {
 
             this.targetX = Math.min(
                 x,
@@ -689,7 +702,7 @@ export class HorizontalScrollElement {
 
 
     public isLastSlide() {
-        return this.index >= this.childrenPositions.length - 1
+        return this.index >= this.itemCount;
     }
 
 
@@ -711,6 +724,7 @@ export class HorizontalScrollElement {
     findClosestIndexToX(x: number) {
         let index;
         let distance = 10000;
+
         this.childrenPositions.forEach((position, i) => {
             let diff = Math.abs(position.x - x);
             if (diff <= distance) {
@@ -718,10 +732,6 @@ export class HorizontalScrollElement {
                 distance = diff;
             }
         });
-
-        if(this.targetX >= this.lastItemCenterOffset) {
-            this.index == this.childrenPositions.length - 1;
-        }
 
         return index;
     }
