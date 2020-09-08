@@ -31,9 +31,16 @@ export interface textSplit2Config {
  * This results in:
  *
  * ```ts
+ * .only-screenreaders
+ *  height: 1px
+ *  width: 1px
+ *  margin: -1px
+ *  overflow: hidden
+ *  padding: 0
+ *  position: absolute
  *
+ * <div class="only-screenreaders">New York City</div>
  * <div id="myElement" class="text-split-set" style="--item-total-count:3"
- *   aria-label="New York City"
  * >
  *   <span aria-hidden="true" style="--item-index:0">New&nbsp;</span>
  *   <span aria-hidden="true" style="--item-index:1">York&nbsp;</span><br/>
