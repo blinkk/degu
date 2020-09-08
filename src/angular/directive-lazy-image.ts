@@ -38,6 +38,8 @@ export class LazyImage implements INgDisposable {
     // Whether we should tyr to add width parameters to the google image.
     private useGoogleImageAutosize: boolean;
 
+    private googleImageMultiplier: number = 1;
+
 
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
@@ -50,7 +52,7 @@ export class LazyImage implements INgDisposable {
 
         this.useGoogleImageAutosize = $attrs.lazyImageGoogleImageAutosize == 'true';
         this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp == 'true';
-
+        this.googleImageMultiplier = +$attrs.lazyImageGoogleImageMultiplier || 1;
 
         this.imageSet = false;
 
@@ -250,7 +252,7 @@ export class LazyImage implements INgDisposable {
         }
 
         // Get the width to use.
-        let width = Math.ceil(this.el.offsetWidth * window.devicePixelRatio);
+        let width = Math.ceil(this.el.offsetWidth * window.devicePixelRatio * this.googleImageMultiplier);
 
 
         // If a width can't be determined, give up and just serve the image.
@@ -356,6 +358,11 @@ export class LazyImage implements INgDisposable {
  * lazy-image-google-image-autosize="true"
  *    Lazy-image will append a -wXXX (width) param based on the size of the current element
  * ```
+ *
+ *
+ * # Autowidth Multiplier
+ * For cases in which you want to intentionally load larger image, use the image multiplier
+ * lazy-image-google-image-multiplier="1.2"
  *
  *
  */
