@@ -38,6 +38,11 @@ export class LazyImage implements INgDisposable {
     // Whether we should tyr to add width parameters to the google image.
     private useGoogleImageAutosize: boolean;
 
+
+    // Whether to swap the images for webp (when in non google image mode).
+    private shouldSwapForWebp: boolean = false;
+
+
     private googleImageMultiplier: number = 1;
 
 
@@ -53,6 +58,7 @@ export class LazyImage implements INgDisposable {
         this.useGoogleImageAutosize = $attrs.lazyImageGoogleImageAutosize == 'true';
         this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp == 'true';
         this.googleImageMultiplier = +$attrs.lazyImageGoogleImageMultiplier || 1;
+        this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp == 'true' || false;
 
         this.imageSet = false;
 
@@ -169,6 +175,8 @@ export class LazyImage implements INgDisposable {
         })
     }
 
+
+
     loadImage() {
         return new Promise((resolve, reject) => {
             if (this.useGoogleImageTryWebp) {
@@ -176,6 +184,10 @@ export class LazyImage implements INgDisposable {
             }
             if (this.useGoogleImageAutosize) {
                 this.url = this.autosizeGoogleImage(this.url);
+            }
+
+            if(this.shouldSwapForWebp) {
+                this.url = this.swapForWebp(this.url);
             }
 
             let element = this.el;
@@ -236,6 +248,20 @@ export class LazyImage implements INgDisposable {
     isPaintedOnScreen() {
         // TODO (uxder): Possibly upgrade this to dom.isDisplayNoneWithAncestor.
         return !dom.isDisplayNone(this.el);
+    }
+
+
+    /**
+     * Given an image url, swaps the .jpg or .png extension for .webp if webp is
+     * supported.
+     * @param url
+     */
+    private swapForWebp(url:string) {
+        if(this.isWebpSupported) {
+            return url.replace('.jpg', '.webp').replace('.png', '.webp');
+        } else {
+            return url;
+        }
     }
 
 
@@ -349,6 +375,16 @@ export class LazyImage implements INgDisposable {
  * <div lazy-image="{{url}}" lazy-image-forward-load-scalar="0"></div>
  * ```
  *
+ * ## Webp support.
+ * This is typically done for local server images.  For example if you have
+ * an image that is xxx.jpg or xxx.png, setting this option to true
+ * will swap the extention to .webp if webp is available.
+ *
+ * Note that if you are using Google Images, you shouldn't enable this and
+ * instead use the google images support (below).
+ * ```
+ * lazy-image-swap-for-webp="true"
+ * ```
  *
  * ## Google Images support.
  * You can enable google images support.  The options are:
