@@ -14,6 +14,7 @@ export class LazyImage implements INgDisposable {
     private el: HTMLElement;
     // The url to set.
     private url: string;
+    private originalUrl: string;
     // Whether this directive has finished setting the background image.
     private imageSet: boolean;
     private setAsBackgroundImage: boolean;
@@ -41,7 +42,11 @@ export class LazyImage implements INgDisposable {
 
     // Whether to swap the images for webp (when in non google image mode).
     private shouldSwapForWebp: boolean = false;
-
+    // Whether to use autowidth.
+    private shouldUseAutowidth: boolean = false;
+    private autowidthAppendFormat:string;
+    private autowidthPrecision: number = 10;
+    private autowidthMultiplier: number = 1;
 
     private googleImageMultiplier: number = 1;
 
@@ -49,6 +54,7 @@ export class LazyImage implements INgDisposable {
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
         this.url = $attrs.lazyImage;
+        this.originalUrl = $attrs.lazyImage;
         this.readWrite = new Raf();
         this.setAsBackgroundImage = !!$attrs.lazyImageAsBackground;
         this.forwardLoadScalar =
@@ -60,11 +66,20 @@ export class LazyImage implements INgDisposable {
         this.googleImageMultiplier = +$attrs.lazyImageGoogleImageMultiplier || 1;
         this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp == 'true' || false;
 
+        this.shouldUseAutowidth = $attrs.lazyImageAutowidth == 'true' || false;
+        this.autowidthAppendFormat = $attrs.lazyImageAutowidthFormat || '=w';
+        this.autowidthPrecision = +$attrs.lazyImageAutowidthPrecision || 10;
+        this.autowidthMultiplier = +$attrs.lazyImageAutowidthMultiplier || 1;
+
         this.imageSet = false;
 
         // Cache this value since is.supportingWebp can be computationally expensive.
         is.supportingWebpAsync().then((supporting) => {
             this.isWebpSupported = supporting;
+            // Update the original url.
+            if(this.shouldSwapForWebp) {
+                this.originalUrl = this.swapForWebp(this.originalUrl);
+            }
 
             this.watcher = new DomWatcher();
             this.watcher.add({
@@ -127,30 +142,41 @@ export class LazyImage implements INgDisposable {
             return;
         }
 
+        let currentWidth;
+        let newWidth;
+        let newUrl;
+
         // If we have already set the google image but thereafter, resized the
         // browser, we want to resize the loaded image.
         if (this.useGoogleImageAutosize) {
-
-            const currentWidth = this.getWidthFromGoogleUrl(this.url);
-            const newUrl = this.autosizeGoogleImage(this.url);
-            const newWidth = this.getWidthFromGoogleUrl(newUrl);
-
-            // There is no reason to reload or fetch another image, if the
-            // new size is slated to be smaller than what is already loaded.
-            if (currentWidth > newWidth) {
-                return;
-            }
-
-            this.url = newUrl;
-
-            this.readWrite.write(() => {
-                if (this.setAsBackgroundImage) {
-                    this.el.style.backgroundImage = `url(${this.url})`;
-                } else {
-                    this.el['src'] = this.url;
-                }
-            })
+            currentWidth = this.getWidthFromGoogleUrl(this.url);
+            newUrl = this.autosizeGoogleImage(this.url);
+            newWidth = this.getWidthFromGoogleUrl(newUrl);
         }
+
+
+        // If we are using autowidth.
+        if (this.shouldUseAutowidth) {
+            currentWidth = this.getWidthFromAutowidthUrl(this.url);
+            newUrl = this.autowidth(this.url);
+            newWidth = this.getWidthFromAutowidthUrl(newUrl);
+        }
+
+        // There is no reason to reload or fetch another image, if the
+        // new size is slated to be smaller than what is already loaded.
+        if (currentWidth > newWidth) {
+            return;
+        }
+
+        this.url = newUrl;
+
+        this.readWrite.write(() => {
+            if (this.setAsBackgroundImage) {
+                this.el.style.backgroundImage = `url(${this.url})`;
+            } else {
+                this.el['src'] = this.url;
+            }
+        })
     }
 
 
@@ -159,7 +185,7 @@ export class LazyImage implements INgDisposable {
         this.imageSet = true;
 
         // Get rid of watchers unless we need resize processing.
-        if (!this.useGoogleImageAutosize) {
+        if (!this.useGoogleImageAutosize && !this.autowidth) {
             this.watcher.dispose();
         }
 
@@ -184,6 +210,10 @@ export class LazyImage implements INgDisposable {
             }
             if (this.useGoogleImageAutosize) {
                 this.url = this.autosizeGoogleImage(this.url);
+            }
+
+            if (this.shouldUseAutowidth) {
+                this.url = this.autowidth(this.url);
             }
 
             if(this.shouldSwapForWebp) {
@@ -293,10 +323,23 @@ export class LazyImage implements INgDisposable {
         } else {
             url += '-w' + width;
         }
-
         return url;
     }
 
+    private autowidth(url: string): string {
+        // Get the width to use.
+        let width = Math.ceil(this.el.offsetWidth * window.devicePixelRatio * this.autowidthMultiplier);
+
+        width = Math.ceil(width / this.autowidthPrecision) * this.autowidthPrecision;
+
+        // If a width can't be determined, give up and just serve the image.
+        if (!width) {
+            return url;
+        }
+
+        url = this.originalUrl + this.autowidthAppendFormat.replace("\\", "") + width;
+        return url;
+    }
 
     /**
      * Given a google url, extracts the width value.
@@ -304,6 +347,15 @@ export class LazyImage implements INgDisposable {
      */
     private getWidthFromGoogleUrl(url: string): number {
         const match = url.match(/\w([0-9]+)$/);
+        return match ? +match[1] : 0;
+    }
+
+    /**
+     * Given an autowidth url, grab the current width.
+     * @param url
+     */
+    private getWidthFromAutowidthUrl(url: string): number {
+        const match = url.match('[' + this.autowidthAppendFormat + ']([0-9]+)$');
         return match ? +match[1] : 0;
     }
 
@@ -375,7 +427,7 @@ export class LazyImage implements INgDisposable {
  * <div lazy-image="{{url}}" lazy-image-forward-load-scalar="0"></div>
  * ```
  *
- * ## Webp support.
+ * ## Webp support (non-google web servers)
  * This is typically done for local server images.  For example if you have
  * an image that is xxx.jpg or xxx.png, setting this option to true
  * will swap the extention to .webp if webp is available.
@@ -384,6 +436,37 @@ export class LazyImage implements INgDisposable {
  * instead use the google images support (below).
  * ```
  * lazy-image-swap-for-webp="true"
+ * ```
+ * ## Autowidth Support with Precision (non-google web servers)
+ *
+ * For non-google servers, you can use autowidth.  This is called "autowidth"
+ * as opposed to autosize.
+ *
+ * You can specificy
+ * the appending format.  Additionally, specificy the precision.
+ *
+ * For example:
+ *
+ * ```
+ * lazy-image-autowidth="true"
+ * lazy-image-autowidth-format="=w"
+ * lazy-image-autowidth-precision="10"
+ * lazy-image-autowidth-multiplier="1.2"
+ * ```
+ * would result in, sizes in interval of 10.
+ *
+ * ```
+ * myimage.jpg=w1000
+ * myimage.jpg=w1010
+ * ```
+ *
+ *
+ * ```
+ * lazy-image-autowidth-format="?"
+ * myimage.jpg?1000
+ *
+ * lazy-image-autowidth-format="?w"
+ * myimage.jpg?w1000
  * ```
  *
  * ## Google Images support.
