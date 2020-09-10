@@ -86,6 +86,17 @@ export const ScrollSmoothRenderEvents = {
  * See the /lib/angular/directive-scroll-smooth-render-scrollable directive.
  * Add this to any directive that has a scrollbar and it will act normally.
  *
+ * ## Deep linking
+ * ScrollRenderSmooth watches for hash changes on the page.
+ *
+ * However, if you want to run this manually do:
+ *
+ * ```
+ * scroll.checkPageHash();
+ * ```
+ * which will check the current page url and if there is a hash, it will
+ * disable scrolling and jump to the positon and reenable smooth scrolling.
+ *
  *
  *
  *
@@ -109,7 +120,7 @@ export class ScrollSmoothRender {
 
 
         if(window && window.location.hash) {
-           this.hashChangeHandler();
+           this.checkPageHash();
         } else {
             this.raf.read(() => {
                 this.currentY = this.getScrollTop();
@@ -142,7 +153,7 @@ export class ScrollSmoothRender {
         this.domWatcher.add({
             element: window,
             on: 'hashchange',
-            callback: this.hashChangeHandler.bind(this),
+            callback: this.checkPageHash.bind(this),
             eventOptions: {
                 passive: false
             }
@@ -209,7 +220,13 @@ export class ScrollSmoothRender {
     }
 
 
-    private hashChangeHandler():void {
+    /**
+     * Check the the current page hash (#) and if there is one,
+     * disables the scroll smoothing and jumps to that section then reenables
+     * the scroll smoothing.
+     */
+    public checkPageHash():void {
+        console.log("checking");
         var anchor = window && window.location.hash;
         var targetElement = document.getElementById(anchor.replace('#', ''));
         if(anchor && targetElement) {
