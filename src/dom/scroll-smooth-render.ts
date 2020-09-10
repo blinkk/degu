@@ -1,6 +1,7 @@
 
 import { Raf } from '../raf/raf';
 import { mathf } from '../mathf/mathf';
+import { dom } from '../dom/dom';
 import { func } from '../func/func';
 
 import { DomWatcher } from './dom-watcher';
@@ -99,14 +100,22 @@ export class ScrollSmoothRender {
     private disabled: boolean = false;
 
     constructor(config: ScrollSmoothRenderConfig) {
+
+
         this.raf = new Raf(this.onRaf.bind(this));
         this.raf.setReadWriteMode(true);
         this.domWatcher = new DomWatcher();
         this.config = config;
 
-        this.raf.read(() => {
-            this.currentY = this.getScrollTop();
-        });
+
+        if(window && window.location.hash) {
+           this.hashChangeHandler();
+        } else {
+            this.raf.read(() => {
+                this.currentY = this.getScrollTop();
+            });
+        }
+
 
         this.domWatcher.add({
             element: document.documentElement,
@@ -127,6 +136,15 @@ export class ScrollSmoothRender {
             },
             eventOptions: {
                 passive: true
+            }
+        });
+
+        this.domWatcher.add({
+            element: window,
+            on: 'hashchange',
+            callback: this.hashChangeHandler.bind(this),
+            eventOptions: {
+                passive: false
             }
         });
 
@@ -159,6 +177,8 @@ export class ScrollSmoothRender {
                 passive: true
             }
         });
+
+
     }
 
     private getScrollTop():number {
@@ -187,6 +207,20 @@ export class ScrollSmoothRender {
             }
         });
     }
+
+
+    private hashChangeHandler():void {
+        var anchor = window && window.location.hash;
+        var targetElement = document.getElementById(anchor.replace('#', ''));
+        if(anchor && targetElement) {
+           const y = dom.getScrollTop(targetElement);
+           targetElement.focus();
+           this.disable();
+           window.scrollTo(0, y);
+           this.currentY = y;
+           this.enable();
+        }
+    };
 
 
     /**
