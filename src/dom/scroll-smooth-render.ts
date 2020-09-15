@@ -226,7 +226,6 @@ export class ScrollSmoothRender {
      * the scroll smoothing.
      */
     public checkPageHash():void {
-        console.log("checking");
         var anchor = window && window.location.hash;
         var targetElement = document.getElementById(anchor.replace('#', ''));
         if(anchor && targetElement) {
