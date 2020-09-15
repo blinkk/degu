@@ -42,6 +42,7 @@ export class LazyImage implements INgDisposable {
     // Whether to swap the images for webp (when in non google image mode).
     private shouldSwapForWebp: boolean = false;
 
+    private parentloadedSelector: string;
 
     private googleImageMultiplier: number = 1;
 
@@ -59,6 +60,7 @@ export class LazyImage implements INgDisposable {
         this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp == 'true';
         this.googleImageMultiplier = +$attrs.lazyImageGoogleImageMultiplier || 1;
         this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp == 'true' || false;
+        this.parentloadedSelector = $attrs.lazyImageLoadedSelector || false;
 
         this.imageSet = false;
 
@@ -200,6 +202,12 @@ export class LazyImage implements INgDisposable {
                         this.readWrite.write(() => {
                             this.el.style.backgroundImage = `url(${this.url})`;
                             this.el.classList.add('loaded')
+                            const closestImageContainer = this.el.closest('.image-container');
+                            closestImageContainer && closestImageContainer.classList.add('loaded');
+                            if(this.parentloadedSelector) {
+                              const closestLoadedContainer = this.el.closest(this.parentloadedSelector);
+                              closestLoadedContainer && closestLoadedContainer.classList.add('loaded');
+                            }
                             resolve();
                         });
                     }
@@ -226,6 +234,15 @@ export class LazyImage implements INgDisposable {
                 this.readWrite.write(() => {
                     // Add loaded class.
                     imageLoader.classList.add('loaded');
+                    const closestImageContainer = this.el.closest('.image-container');
+                    closestImageContainer && closestImageContainer.classList.add('loaded');
+
+                    if(this.parentloadedSelector) {
+                      const closestLoadedContainer = this.el.closest(this.parentloadedSelector);
+                      closestLoadedContainer && closestLoadedContainer.classList.add('loaded');
+                    }
+
+
                     // Swap out the div with the new image.
                     element.parentNode &&
                         element.parentNode.replaceChild(imageLoader, element);
@@ -419,6 +436,20 @@ export class LazyImage implements INgDisposable {
  * lazy-image-google-image-multiplier="1.2"
  *
  *
+ * # Image container
+ *
+ * By convention, a parent of the image that has the class, image-container will automatically
+ * recieve a "loaded" class when the image loads.  This is helpful in controlling animations
+ * when the image itself loads.
+ *
+ * <div class="image-container">
+ *   <div lazy-image="{{url}}" lazy-image-forward-load-scalar="0"></div>
+ * </div>
+ *
+ * # You can also opt to add the loaded class given a selector.
+ * For example, this would do a look up for add-inview on the parent of the lazy image
+ * item.
+ * lazy-image-loaded-selector="[add-inview]"
  */
 export const lazyImageDirective = function () {
     return {
