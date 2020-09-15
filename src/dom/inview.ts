@@ -11,6 +11,7 @@ const InviewClassNames = {
     READY: 'ready',
     IN: 'in',
     IN_ONCE: 'in-once',
+    IN_FOLD: 'in-fold',
     DOWN: 'down',
     UP: 'up',
     OUT: 'out',
@@ -249,9 +250,6 @@ export class Inview {
         this.raf = new Raf(this.onRaf.bind(this));
         this.readWrite = new Raf()
         this.scrollY = window.scrollY;
-
-
-        this.scrollY = window.scrollY;
         this.watcher = new DomWatcher();
         this.watcher.add({
             element: window,
@@ -271,7 +269,7 @@ export class Inview {
             const childSelectors = Array.from(this.config.element.querySelectorAll(this.config.childSelector)) as Array<HTMLElement>;
             this.targetElements = [...this.targetElements, ...childSelectors];
 
-            // Add invie inview
+            // Add inview index
             this.readWrite.write(() => {
                 this.targetElements.forEach((target: HTMLElement, i: number) => {
                     target.setAttribute('inview-index', i + '');
@@ -426,6 +424,10 @@ export class Inview {
                 if (!this.inOnce) {
                     el.classList.add(InviewClassNames.IN_ONCE);
                     this.inOnce = true;
+
+                    if(window.scrollY == 0) {
+                      el.classList.add(InviewClassNames.IN_FOLD);
+                    }
                 }
 
 

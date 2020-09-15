@@ -195,9 +195,27 @@ export class LazyImage implements INgDisposable {
             // If this is to be a background image.
             if (this.setAsBackgroundImage) {
                 this.readWrite.write(() => {
-                    this.el.style.backgroundImage = `url(${this.url})`;
-                    this.el.classList.add('loaded')
-                    resolve();
+                    let imageLoader = new Image();
+                    let onLoad = () => {
+                        this.readWrite.write(() => {
+                            this.el.style.backgroundImage = `url(${this.url})`;
+                            this.el.classList.add('loaded')
+                            resolve();
+                        });
+                    }
+
+                    imageLoader.addEventListener('load', onLoad, {
+                        once: true
+                    });
+
+                    let onError = (e: any) => {
+                        resolve();
+                    };
+                    imageLoader.addEventListener('error', onError, {
+                        once: true
+                    });
+
+                    imageLoader.src = this.url;
                 })
                 return;
             }

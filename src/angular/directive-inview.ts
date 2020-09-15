@@ -56,7 +56,7 @@ export class InviewController {
  *
  * # Settings
  * Shifting position.
- * <div inview inview-element-baseline="0" inview-viewport-offset="0.2"></div>
+ * <div inview inview-element-baseline="0" inview-viewport-offset="0.25"></div>
  *
  *
  * # Child Selectors
