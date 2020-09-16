@@ -347,7 +347,7 @@ export class HorizontalScrollElement {
             (element: any, changes: any) => {
                 if (changes.isIntersecting) {
                     if (!this.ranFirstEv && !!config.resizeOnFirstEv) {
-                        this.onWindowResize();
+                        this.onWindowResize(true);
                     }
 
                     this.raf.start();
@@ -561,7 +561,7 @@ export class HorizontalScrollElement {
     }
 
 
-    private onWindowResize(): void {
+    private onWindowResize(immediate: boolean = false): void {
         window.setTimeout(()=> {
             this.windowWidth = window.innerWidth;
             this.calculateChildPositions();
@@ -571,7 +571,7 @@ export class HorizontalScrollElement {
         // Not sure why but annoyingly, there are occassional cases where resizing
         // messes up especially combined with lazyimage.  Adding some time here
         // helps as a temporary solution.
-        }, 100)
+        }, immediate ? 0 : 100)
     }
 
 
