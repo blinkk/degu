@@ -562,12 +562,16 @@ export class HorizontalScrollElement {
 
 
     private onWindowResize(): void {
-        this.windowWidth = window.innerWidth;
-        this.calculateChildPositions();
-        if (this.useSnapToClosest) {
-            // this.slideTo(this.index, true);
-            this.slideTo(0, true);
-        }
+        window.setTimeout(()=> {
+            this.windowWidth = window.innerWidth;
+            this.calculateChildPositions();
+            if (this.useSnapToClosest) {
+                this.slideTo(this.index, true);
+            }
+        // Not sure why but annoyingly, there are occassional cases where resizing
+        // messes up especially combined with lazyimage.  Adding some time here
+        // helps as a temporary solution.
+        }, 100)
     }
 
 
