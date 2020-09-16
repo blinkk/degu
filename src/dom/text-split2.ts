@@ -140,11 +140,12 @@ export class TextSplit2 {
                     `<span aria-hidden="true"></span>`
                 );
 
-                if (i !== texts.length - 1) {
-                    element.innerHTML = text + '&nbsp;';
-                } else {
-                    element.innerHTML = text;;
-                }
+                // if (i !== texts.length - 1) {
+                //     element.innerHTML = text + '&nbsp;';
+                // } else {
+                //     element.innerHTML = text + '&nbsp;';
+                // }
+                element.innerHTML = text + '&nbsp;';
 
                 element.classList.add('text-split__text');
                 element.setAttribute('item', index + '');
