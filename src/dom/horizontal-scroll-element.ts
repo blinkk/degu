@@ -483,6 +483,7 @@ export class HorizontalScrollElement {
         const moveHandler = (e: any) => {
 
             if (!this.mouseState.dragging &&
+                this.mouseState.down &&
                 this.mouseState.lastX !== this.mouseState.start) {
                 this.mouseState.dragging = true;
                 this.raf.write(() => {
