@@ -4,7 +4,6 @@ import {RafProgress} from '../lib/raf/raf-progress';
 import {dom} from '../lib/dom/dom';
 import {ScrollRenderFix} from '../lib/dom/scroll-render-fix';
 import {EASE} from '../lib/ease/ease';
-import {is} from '../lib/is/is';
 
 /**
  * Experimental class that ties updates an html5 video with progress.
@@ -28,9 +27,7 @@ export default class VideoProgressSample {
     const rafProgress = new RafProgress();
     this.videoProgress = new VideoProgress(video);
 
-    if (!is.firefox()) {
-      new ScrollRenderFix();
-    }
+    new ScrollRenderFix();
 
     // Update rafProgress when the window scrolls.
     window.addEventListener('scroll', () => {
