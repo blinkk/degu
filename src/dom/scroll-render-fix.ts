@@ -60,8 +60,6 @@ export class ScrollRenderFix {
         });
     }
 
-
-
     private wheelHandler(e:WheelEvent) {
         e.preventDefault();
         this.raf.read(()=> {

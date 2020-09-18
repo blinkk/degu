@@ -16,6 +16,9 @@ import {EASE} from '../lib/ease/ease';
  *
  * Not recommended this for production use.
  *
+ * ffmpeg -i video-test.mp4 -r 30 -g 1 -an -loglevel panic -vcodec copy -acodec copy video-test2.mp4
+ * -r sets frame rate
+ * -g sets a keyframe every frame.
  *
  * @experimental
  */
@@ -27,7 +30,6 @@ export default class VideoProgressSample {
     const rafProgress = new RafProgress();
     this.videoProgress = new VideoProgress(video);
 
-    new ScrollRenderFix();
 
     // Update rafProgress when the window scrolls.
     window.addEventListener('scroll', () => {

@@ -55,7 +55,9 @@ export class VideoProgress {
         // if (this.video['fastSeek']) {
             // this.video['fastSeek'](interpolatedTime);
         // } else {
-            this.video.currentTime = interpolatedTime;
+            if(interpolatedTime) {
+              this.video.currentTime = interpolatedTime;
+            }
         // }
     }
 
