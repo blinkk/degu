@@ -55,7 +55,7 @@ export class ScrollRenderFix {
         this.domWatcher.add({
             element: window,
             on: 'wheel',
-            eventOptions: { passive: true },
+            eventOptions: { passive: false },
             callback: this.wheelHandler.bind(this)
         });
     }
