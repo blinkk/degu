@@ -2,6 +2,7 @@
 import {VideoProgress} from '../lib/dom/video-progress';
 import {RafProgress} from '../lib/raf/raf-progress';
 import {dom} from '../lib/dom/dom';
+import {ScrollRenderFix} from '../lib/dom/scroll-render-fix';
 import {EASE} from '../lib/ease/ease';
 
 /**
@@ -25,6 +26,8 @@ export default class VideoProgressSample {
 
     const rafProgress = new RafProgress();
     this.videoProgress = new VideoProgress(video);
+
+    new ScrollRenderFix();
 
     // Update rafProgress when the window scrolls.
     window.addEventListener('scroll', () => {
