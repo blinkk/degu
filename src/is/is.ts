@@ -417,11 +417,20 @@ export class is {
         return window.innerWidth >= window.innerHeight;
     }
 
+    // Alias
+    static landscape():boolean {
+        return window.innerWidth < window.innerHeight;
+    }
 
     /**
      * Whether the current viewport is portrait or not.   Excludes 1x1 aspect.
      */
     static isPortrait():boolean {
+        return window.innerWidth < window.innerHeight;
+    }
+
+    // Alias
+    static portrait():boolean {
         return window.innerWidth < window.innerHeight;
     }
 }
