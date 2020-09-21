@@ -196,10 +196,38 @@ export class LazyImage implements INgDisposable {
 
             // If this is to be a background image.
             if (this.setAsBackgroundImage) {
+                // TODO (uxder): Make this an exposed option for later.
+                const waitForBgLoad = false;
                 this.readWrite.write(() => {
-                    let imageLoader = new Image();
-                    let onLoad = () => {
-                        this.readWrite.write(() => {
+                    if(waitForBgLoad) {
+                        let imageLoader = new Image();
+                        let onLoad = () => {
+                            this.readWrite.write(() => {
+                                this.el.style.backgroundImage = `url(${this.url})`;
+                                this.el.classList.add('loaded')
+                                const closestImageContainer = this.el.closest('.image-container');
+                                closestImageContainer && closestImageContainer.classList.add('loaded');
+                                if(this.parentloadedSelector) {
+                                const closestLoadedContainer = this.el.closest(this.parentloadedSelector);
+                                closestLoadedContainer && closestLoadedContainer.classList.add('loaded');
+                                }
+                                resolve();
+                            });
+                        }
+
+                        imageLoader.addEventListener('load', onLoad, {
+                            once: true
+                        });
+
+                        let onError = (e: any) => {
+                            resolve();
+                        };
+                        imageLoader.addEventListener('error', onError, {
+                            once: true
+                        });
+
+                        imageLoader.src = this.url;
+                    } else {
                             this.el.style.backgroundImage = `url(${this.url})`;
                             this.el.classList.add('loaded')
                             const closestImageContainer = this.el.closest('.image-container');
@@ -209,21 +237,9 @@ export class LazyImage implements INgDisposable {
                               closestLoadedContainer && closestLoadedContainer.classList.add('loaded');
                             }
                             resolve();
-                        });
+
                     }
 
-                    imageLoader.addEventListener('load', onLoad, {
-                        once: true
-                    });
-
-                    let onError = (e: any) => {
-                        resolve();
-                    };
-                    imageLoader.addEventListener('error', onError, {
-                        once: true
-                    });
-
-                    imageLoader.src = this.url;
                 })
                 return;
             }
@@ -450,6 +466,7 @@ export class LazyImage implements INgDisposable {
  * For example, this would do a look up for add-inview on the parent of the lazy image
  * item.
  * lazy-image-loaded-selector="[add-inview]"
+ *
  */
 export const lazyImageDirective = function () {
     return {
