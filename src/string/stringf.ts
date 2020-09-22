@@ -48,4 +48,13 @@ export class stringf {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
     }
 
+
+    /**
+     * Given a number, outputs it with commas.
+     * @param x
+     */
+    static numberWithCommas(x:number):string {
+      return x.toLocaleString();
+    }
+
 }
