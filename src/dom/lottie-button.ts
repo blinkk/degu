@@ -44,6 +44,7 @@ export interface LottieButtonConfig {
     mouseenter?: LottieButtonRange,
     mouseleave?: LottieButtonRange,
     click?: LottieButtonRange,
+    outview?: LottieButtonRange,
 
 
     /**
@@ -65,6 +66,7 @@ export const LottieButtonState = {
     MOUSEENTER: 'mouseenter',
     MOUSELEAVE: 'mouseleave',
     CLICK: 'click',
+    OUTVIEW: 'outview',
 }
 
 
@@ -317,7 +319,12 @@ export class LottieButton {
                 this.currentFrame = this.lottieInstance.currentFrame;
                 if (this.currentFrame >= this.stopFrame) {
                     this.isPlaying = false;
-                    this.lottieInstance['pause']();
+
+                    if (this.currentState == 'outview') {
+                        this.lottieInstance['stop']();
+                    } else {
+                        this.lottieInstance['pause']();
+                    }
 
                     // Once we reach the end, play whatever is on the play queue.
                     if (this.playQueue.length >= 1) {
@@ -373,11 +380,14 @@ export class LottieButton {
 
 
     public outview(): void {
-        this.isInview = false;
-        this.lottieInstance['stop']();
-        this.isPlaying = false;
-        this.playQueue = [];
-        this.updateCssClass();
+        if (this.config.outview && this.isInview) {
+            this.schedule(LottieButtonState.OUTVIEW, this.config.outview.start, this.config.outview.end);
+        } else {
+            this.isInview = false;
+            this.isPlaying = false;
+            this.playQueue = [];
+            this.updateCssClass();
+        }
     }
 
 
