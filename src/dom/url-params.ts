@@ -46,6 +46,10 @@ export class urlParams {
      *
      * // http://mydomain.com --> null
      * // http://mydomain.com?sup --> null
+     *
+     *
+     * // For quick sanitization.
+     * const myvalue = stringf.alphaNumeric(urlParams.getValue('sup'));
      * ```
      */
     static getValue(paramName: string): string {

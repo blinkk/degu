@@ -57,4 +57,18 @@ export class stringf {
       return x.toLocaleString();
     }
 
+
+
+    /**
+     * Only returns alpha numberic values.  Handy for quick sanitization
+     * in selext cases.
+     * @param x
+     */
+    static alphaNumeric(x:string):string {
+        return x && x.replace(/[^A-Za-z0-9\.]/gi,'');
+    }
+
+    static numeric(x:string):string {
+       return x && x.replace(/[^0-9\.]/gi,'');
+    }
 }
