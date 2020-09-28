@@ -46,6 +46,17 @@ export class LazyImage implements INgDisposable {
 
     private googleImageMultiplier: number = 1;
 
+    // Allows you to specificy a different element as the lazy image trigger.
+    // The image will load when this element is inview.  The trigger selector
+    // will pick the closest match to the element.
+    private triggerElementSelector: string;
+
+    // The root element that triggers lazy load when it's inview.  This is usually
+    // the element that has the lazy-image attribute but can be modified if
+    // triggerElementSelector is specified.
+    private triggerElement: HTMLElement;
+
+
 
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
@@ -61,6 +72,7 @@ export class LazyImage implements INgDisposable {
         this.googleImageMultiplier = +$attrs.lazyImageGoogleImageMultiplier || 1;
         this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp == 'true' || false;
         this.parentloadedSelector = $attrs.lazyImageLoadedSelector || false;
+        this.triggerElementSelector = $attrs.lazyImageTriggerElementSelector || false;
 
         this.imageSet = false;
 
@@ -78,7 +90,15 @@ export class LazyImage implements INgDisposable {
                 }
             });
 
-            this.ev = elementVisibility.inview(this.el, {
+
+            if(this.triggerElementSelector) {
+                this.triggerElement = this.el.closest(this.triggerElementSelector);
+            } else {
+                this.triggerElement = this.el;
+            }
+
+
+            this.ev = elementVisibility.inview(this.triggerElement, {
                 rootMargin: window.innerHeight * this.forwardLoadScalar + 'px'
             }, () => {
                 this.paint();
@@ -466,6 +486,29 @@ export class LazyImage implements INgDisposable {
  * For example, this would do a look up for add-inview on the parent of the lazy image
  * item.
  * lazy-image-loaded-selector="[add-inview]"
+ *
+ * # Visibility Element
+ *
+ * There are times when you want to trigger lazy image based on the visibility
+ * of another element (often a parent).  You can do this by adding the
+ * lazy-image-trigger-element-selector option.  Note that the logic for this
+ * is to select the CLOSEST element with that selector.
+ *
+ *
+ * For example:
+ * ```
+ *
+ * <div class="image-container" lazy-image-trigger>
+ *   <div lazy-image="{{url}}" lazy-image-forward-load-scalar="0"></div>
+ * </div>
+ *
+ *
+ * lazy-image-trigger-element-selector="[lazy-image-trigger]"
+ *
+ * ```
+ *
+ * Since the parent container has the lazy-image-trigger and is the closest,
+ * this image will load when the image container is inview.
  *
  */
 export const lazyImageDirective = function () {
