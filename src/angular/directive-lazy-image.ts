@@ -92,7 +92,10 @@ export class LazyImage implements INgDisposable {
 
 
             if(this.triggerElementSelector) {
-                this.triggerElement = this.el.closest(this.triggerElementSelector);
+                this.triggerElement = this.el.closest(this.triggerElementSelector) as HTMLElement;
+                if(!this.triggerElement) {
+                    this.triggerElement = this.el;
+                }
             } else {
                 this.triggerElement = this.el;
             }
