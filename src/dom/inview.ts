@@ -257,6 +257,13 @@ export class Inview {
             callback: this.onWindowScroll.bind(this),
             eventOptions: { passive: true }
         })
+        this.watcher.add({
+            element: window,
+            on: 'smartResize',
+            callback: this.onWindowScroll.bind(this),
+            eventOptions: { passive: true }
+        })
+
         this.onWindowScroll();
 
         if (!this.config.element) {
