@@ -3,6 +3,7 @@ import * as lottie from 'lottie-web';
 import { DomWatcher } from '../dom/dom-watcher';
 import { elementVisibility, ElementVisibilityObject } from './element-visibility';
 import { Raf } from '../raf/raf';
+import { dom } from '../dom/dom';
 
 export interface LottieButtonRange {
     start: number,
@@ -207,6 +208,7 @@ export class LottieButton {
     private isInview: boolean = false;
     private raf: Raf;
     private isPlaying: boolean = false;
+    private hasStartedLoading: boolean = false;
 
     private playQueue: Array<LottieButtonPlayQueueItem>;
     /**
@@ -232,7 +234,10 @@ export class LottieButton {
         }
 
 
-        this.createLottie();
+        dom.runAfterWindowLoad(()=> {
+          this.hasStartedLoading = true;
+          this.createLottie();
+        })
 
 
         if (!this.config.noListeners) {
@@ -339,6 +344,11 @@ export class LottieButton {
     }
 
     private play(state: string, start: number, end: number) {
+        if(!this.hasStartedLoading) {
+            return;
+        }
+
+
         const prevState = this.currentState;
         this.currentState = state;
         this.isPlaying = true;
