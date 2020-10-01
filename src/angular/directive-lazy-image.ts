@@ -57,6 +57,9 @@ export class LazyImage implements INgDisposable {
     private triggerElement: HTMLElement;
 
 
+    private waitForBgLoad: boolean = false;
+
+
 
     constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
         this.el = $element[0];
@@ -73,6 +76,9 @@ export class LazyImage implements INgDisposable {
         this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp == 'true' || false;
         this.parentLoadedSelector = $attrs.lazyImageLoadedSelector || false;
         this.triggerElementSelector = $attrs.lazyImageTriggerElementSelector || false;
+
+        this.waitForBgLoad = $attrs.lazyImageWaitForBgLoad == 'true' || false;
+
 
         this.imageSet = false;
 
@@ -219,10 +225,8 @@ export class LazyImage implements INgDisposable {
 
             // If this is to be a background image.
             if (this.setAsBackgroundImage) {
-                // TODO (uxder): Make this an exposed option for later.
-                const waitForBgLoad = false;
                 this.readWrite.write(() => {
-                    if(waitForBgLoad) {
+                    if(this.waitForBgLoad) {
                         let imageLoader = new Image();
                         let onLoad = () => {
                             this.readWrite.write(() => {
@@ -512,6 +516,24 @@ export class LazyImage implements INgDisposable {
  *
  * Since the parent container has the lazy-image-trigger and is the closest,
  * this image will load when the image container is inview.
+ *
+ *
+ *
+ * ## Wait for Bg loading
+ * Force bg loading in background.
+ *
+ * Normally when using lazy image as a background
+ * image, we just set the style="url(...)" to trigger the image loading.
+ *
+ * However, setting this option will first preload the image in the background
+ * and then set the style.  This *can* lead to confusing results because
+ * if you have chrome dev tools open with 'disable cache' it almost appears
+ * like the image loaded twice.
+ *
+ *
+ * ```
+ * lazy-image-wait-for-bg-load="true"
+ * ```
  *
  */
 export const lazyImageDirective = function () {
