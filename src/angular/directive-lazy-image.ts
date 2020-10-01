@@ -42,7 +42,7 @@ export class LazyImage implements INgDisposable {
     // Whether to swap the images for webp (when in non google image mode).
     private shouldSwapForWebp: boolean = false;
 
-    private parentloadedSelector: string;
+    private parentLoadedSelector: string;
 
     private googleImageMultiplier: number = 1;
 
@@ -71,7 +71,7 @@ export class LazyImage implements INgDisposable {
         this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp == 'true';
         this.googleImageMultiplier = +$attrs.lazyImageGoogleImageMultiplier || 1;
         this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp == 'true' || false;
-        this.parentloadedSelector = $attrs.lazyImageLoadedSelector || false;
+        this.parentLoadedSelector = $attrs.lazyImageLoadedSelector || false;
         this.triggerElementSelector = $attrs.lazyImageTriggerElementSelector || false;
 
         this.imageSet = false;
@@ -230,8 +230,8 @@ export class LazyImage implements INgDisposable {
                                 this.el.classList.add('loaded')
                                 const closestImageContainer = this.el.closest('.image-container');
                                 closestImageContainer && closestImageContainer.classList.add('loaded');
-                                if(this.parentloadedSelector) {
-                                const closestLoadedContainer = this.el.closest(this.parentloadedSelector);
+                                if(this.parentLoadedSelector) {
+                                const closestLoadedContainer = this.el.closest(this.parentLoadedSelector);
                                 closestLoadedContainer && closestLoadedContainer.classList.add('loaded');
                                 }
                                 resolve();
@@ -255,8 +255,8 @@ export class LazyImage implements INgDisposable {
                             this.el.classList.add('loaded')
                             const closestImageContainer = this.el.closest('.image-container');
                             closestImageContainer && closestImageContainer.classList.add('loaded');
-                            if(this.parentloadedSelector) {
-                              const closestLoadedContainer = this.el.closest(this.parentloadedSelector);
+                            if(this.parentLoadedSelector) {
+                              const closestLoadedContainer = this.el.closest(this.parentLoadedSelector);
                               closestLoadedContainer && closestLoadedContainer.classList.add('loaded');
                             }
                             resolve();
@@ -276,8 +276,8 @@ export class LazyImage implements INgDisposable {
                     const closestImageContainer = this.el.closest('.image-container');
                     closestImageContainer && closestImageContainer.classList.add('loaded');
 
-                    if(this.parentloadedSelector) {
-                      const closestLoadedContainer = this.el.closest(this.parentloadedSelector);
+                    if(this.parentLoadedSelector) {
+                      const closestLoadedContainer = this.el.closest(this.parentLoadedSelector);
                       closestLoadedContainer && closestLoadedContainer.classList.add('loaded');
                     }
 
