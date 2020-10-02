@@ -531,6 +531,8 @@ export class LazyImage implements INgDisposable {
  * like the image loaded twice.
  *
  *
+ * If testing bandwidth, use incognito mode.
+ *
  * ```
  * lazy-image-wait-for-bg-load="true"
  * ```
