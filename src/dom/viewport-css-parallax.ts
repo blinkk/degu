@@ -116,6 +116,7 @@ export class ViewportCssParallax{
 
 
     private currentProgress: number = 0;
+    private lastWriteProgress: number = -1;
     public initialized: boolean = false;
 
 
@@ -344,14 +345,21 @@ export class ViewportCssParallax{
             // will cull updates that are repetitive.
             const roundedProgress =
                 mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
+
+
             this.interpolator.update(
                 roundedProgress
             );
 
 
-            // Write values.
-            const values = this.interpolator.getValues();
-            dom.setCssVariables(this.cssWriteElement, values);
+            if(roundedProgress !== this.lastWriteProgress) {
+                // Write values.
+                const values = this.interpolator.getValues();
+                dom.setCssVariables(this.cssWriteElement, values);
+            }
+
+            this.lastWriteProgress = roundedProgress;
+
         });
     }
 
