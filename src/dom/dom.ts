@@ -959,4 +959,25 @@ export class dom {
         }
     }
 
+
+
+    /**
+     * Adds &nbsps to between the second to last and last word
+     * to avoid unorphanization.
+     *
+     * ```
+     *       // Unorphanize all text nodes.
+     *       dom.unorphan(element as HTMLElement);
+     * ```
+     * @param el
+     */
+    static unorphan(el:HTMLElement):void {
+        const allTextNodes = dom.getAllTextNodes(el as HTMLElement);
+
+        var nbsp = '\xA0';
+        allTextNodes.forEach((node)=> {
+           node.nodeValue = node.nodeValue.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
+        })
+
+    }
 }
