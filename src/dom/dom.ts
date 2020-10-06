@@ -968,11 +968,18 @@ export class dom {
      * ```
      *       // Unorphanize all text nodes.
      *       dom.unorphan(element as HTMLElement);
+     *
+     *       // No nesting (just the last text node)
+     *       dom.unorphan(element as HTMLElement, true);
      * ```
      * @param el
      */
-    static unorphan(el:HTMLElement):void {
-        const allTextNodes = dom.getAllTextNodes(el as HTMLElement);
+    static unorphan(el:HTMLElement, lastOnly: boolean = false):void {
+
+        let allTextNodes = dom.getAllTextNodes(el as HTMLElement);
+        if (lastOnly) {
+            allTextNodes = [allTextNodes[allTextNodes.length - 1]];
+        }
 
         var nbsp = '\xA0';
         allTextNodes.forEach((node)=> {
