@@ -5,6 +5,7 @@ import { DomWatcher } from './dom-watcher';
 import { mathf } from '../mathf/mathf';
 import { dom } from './dom';
 import { Raf } from '../raf/raf';
+import { func } from '..';
 
 export const HorizontalScrollElementEvents = {
     INDEX_CHANGE: 'horizontal-scroll-element-index-change',
@@ -127,6 +128,11 @@ export interface HorizontalScrollElementPositions {
  *   transition: 0.2s all ease
  *   transform: scale(1.0)
  *   user-drag: none
+ *   &.resizing *
+ *     transition: none !important
+ *     animation: none !important
+ *
+ *
  *   a
  *     user-select: none
  *     user-drag: none
@@ -320,7 +326,7 @@ export class HorizontalScrollElement {
         this.domWatcher.add({
             element: window,
             on: 'smartResize',
-            callback: () => {
+            callback: func.debounce(() => {
                 if (config.delayResizeMs) {
                     window.setTimeout(() => {
                         this.onWindowResize();
@@ -328,7 +334,7 @@ export class HorizontalScrollElement {
                 } else {
                     this.onWindowResize();
                 }
-            },
+            }, 200),
             eventOptions: {
                 passive: true
             }
@@ -349,7 +355,6 @@ export class HorizontalScrollElement {
                     if (!this.ranFirstEv && !!config.resizeOnFirstEv) {
                         this.onWindowResize(true);
                     }
-
                     this.raf.start();
                     this.ranFirstEv = true;
                 } else {
@@ -563,12 +568,14 @@ export class HorizontalScrollElement {
 
 
     private onWindowResize(immediate: boolean = false): void {
+        this.root.classList.add('resizing');
         window.setTimeout(()=> {
-            this.windowWidth = window.innerWidth;
             this.calculateChildPositions();
+
             if (this.useSnapToClosest) {
                 this.slideTo(this.index, true);
             }
+            this.root.classList.remove('resizing');
         // Not sure why but annoyingly, there are occassional cases where resizing
         // messes up especially combined with lazyimage.  Adding some time here
         // helps as a temporary solution.
@@ -581,14 +588,26 @@ export class HorizontalScrollElement {
             return;
         }
 
+        this.windowWidth = window.innerWidth;
+        this.mouseState = {
+            x: 0,
+            down: false,
+            dragging: false,
+            start: 0,
+            lastX: 0
+        }
+
+
 
         this.childrenPositions = [];
         this.items.forEach((child) => {
             let baseX = this.currentX;
-            // let bounds = child.getBoundingClientRect();
-            let x = child.offsetLeft;
             // let x = child.offsetLeft;
+            let x = child.offsetLeft;
+            let bounds = child.getBoundingClientRect();
             let width = child.offsetWidth;
+
+            // console.log('item width', itemWidth, this.itemCount);
             let baseWidth = this.root.offsetWidth;
             this.childrenPositions.push({
                 el: child,
@@ -618,6 +637,9 @@ export class HorizontalScrollElement {
             const itemWidth = this.childrenPositions[0].width;
             this.itemCount = Math.ceil(visibleWidth / itemWidth);
         }
+
+        this.currentX = 0;
+        this.targetX = 0;
     }
 
     setScrollPosition(x: number) {
