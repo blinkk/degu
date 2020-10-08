@@ -359,10 +359,16 @@ export class LazyImage implements INgDisposable {
         let width = Math.ceil(this.el.offsetWidth * window.devicePixelRatio * this.googleImageMultiplier);
 
 
-        // If a width can't be determined, give up and just serve the image.
-        if (!width) {
-            return url;
+        // If the image size can't be determined, use the window width.
+        if(width == 0) {
+            width = window.innerWidth * window.devicePixelRatio * this.googleImageMultiplier;
         }
+
+
+        // // If a width can't be determined, give up and just serve the image.
+        // if (!width) {
+        //     return url;
+        // }
 
         if (url.match(/\=w\d+/)) {
             url = url.replace(/=w\d+/, '=w' + width);
