@@ -325,10 +325,19 @@ export class ViewportCssParallax{
      * Updates the current progress immediately.
      */
     public updateImmediately() {
+        this.flush();
         this.updateProgress(1, 1);
         this.interpolator.update(
             this.currentProgress
         );
+    }
+
+
+    /**
+     * Flushes internal cache that culls two consecutive writes.
+     */
+    public flush() {
+        this.lastWriteProgress = null;
     }
 
 
