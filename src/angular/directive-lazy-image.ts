@@ -361,7 +361,7 @@ export class LazyImage implements INgDisposable {
 
         // If the image size can't be determined, use the window width.
         if(width == 0) {
-            width = window.innerWidth * window.devicePixelRatio * this.googleImageMultiplier;
+            width = Math.ceil(window.innerWidth * window.devicePixelRatio * this.googleImageMultiplier);
         }
 
 
