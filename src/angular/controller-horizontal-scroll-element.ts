@@ -68,7 +68,7 @@ export class HorizontalScrollElementController implements INgDisposable {
             this.horizontalScroll = new HorizontalScrollElement({
                 rootElement: this.scrollElement,
                 leftAlign: config.leftAlign || false,
-                resizeOnFirstEv: true,
+                resizeOnFirstEv: false,
                 snapToClosest: true,
                 slideDeltaValues: true,
                 dragBounce: 0,

@@ -16,9 +16,13 @@ export interface HorizontalScrollElementConfig {
      * The root element to create the horizontal scroll element.
      */
     rootElement: HTMLElement;
+
     /**
      * Defaults to false but if set to true, the first time the root element
-     * is visible in the viewport, it will be quickly resized.
+     * is visible in the viewport, it will be quickly resized.  This can be
+     * useful for rare cases in which the carousel is instantiated at a given
+     * size but actually rendered at a different one such as a carousel
+     * within a modal.
      */
     resizeOnFirstEv?: boolean;
 
@@ -363,13 +367,9 @@ export class HorizontalScrollElement {
             });
 
 
-        this.calculateChildPositions();
-        this.windowWidth = window.innerWidth;
-        this.setupMouseDrag();
-
-        // Force it to slide to 0.
-        this.slideTo(0, true);
-        this.draw(true);
+            this.index = 0;
+            this.onWindowResize();
+            this.setupMouseDrag();
     }
 
     private onRaf(): void {
