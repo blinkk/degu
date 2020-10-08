@@ -370,6 +370,7 @@ export class HorizontalScrollElement {
             this.index = 0;
             this.onWindowResize();
             this.setupMouseDrag();
+            this.draw(true);
     }
 
     private onRaf(): void {
@@ -382,6 +383,7 @@ export class HorizontalScrollElement {
     public draw(immediate: boolean = false) {
 
         if (!this.childrenPositions || !this.childrenPositions.length) {
+            this.onWindowResize();
             return;
         }
 
