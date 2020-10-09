@@ -78,7 +78,9 @@ export interface LottieButtonPlayQueueItem {
 
 
 /**
- *
+ * Notice: Experimental Class
+ * This class was written fairly quickly and might change in the future.
+ * Maybe?  use it as a reference.
  * Creates an interactable lottie button.
  *
  *

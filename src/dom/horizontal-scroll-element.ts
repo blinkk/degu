@@ -82,6 +82,10 @@ export interface HorizontalScrollElementPositions {
 }
 
 /**
+ * Notice: Experimental Class
+ * This class was written fairly quickly and might change in the future.
+ * Maybe?  use it as a reference.
+ *
  *
  * This is useful in creating a draggable horizontal scroll area that is draggable.
  * This like a horizontal carousel basically.
