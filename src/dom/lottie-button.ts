@@ -54,6 +54,13 @@ export interface LottieButtonConfig {
      * mousestate.
      */
     noListeners?: boolean,
+
+
+    /**
+     * Whether to load the lottie button immediately.  Default is
+     * false to where it will wait for window loading.
+     */
+    loadImmediately?: boolean
 }
 
 export interface LottieButtonMouseState {
@@ -208,6 +215,7 @@ export class LottieButton {
     private stopFrame: number;
     private ev: ElementVisibilityObject;
     private isInview: boolean = false;
+    private loadImmediately: boolean = false;
     private raf: Raf;
     private isPlaying: boolean = false;
     private hasStartedLoading: boolean = false;
@@ -229,6 +237,7 @@ export class LottieButton {
         this.raf = new Raf();
         this.isPlaying = false;
         this.isInview = false;
+        this.loadImmediately = this.config.loadImmediately || false;
 
         this.mouseState = {
             hovering: false,
@@ -236,10 +245,15 @@ export class LottieButton {
         }
 
 
-        dom.runAfterWindowLoad(()=> {
-          this.hasStartedLoading = true;
-          this.createLottie();
-        })
+        if(this.loadImmediately) {
+            this.hasStartedLoading = true;
+            this.createLottie();
+        } else {
+            dom.runAfterWindowLoad(()=> {
+              this.hasStartedLoading = true;
+              this.createLottie();
+            })
+        }
 
 
         if (!this.config.noListeners) {

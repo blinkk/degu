@@ -26,6 +26,7 @@ class LottieButtonController {
             mouseleave: playSettings.mouseleave as LottieButtonRange,
             mouseenter: playSettings.mouseenter as LottieButtonRange,
             noListeners: playSettings.noListeners || false,
+            loadImmediately: this.el.getAttribute('lottie-load-immediate') == 'true',
         });
 
 

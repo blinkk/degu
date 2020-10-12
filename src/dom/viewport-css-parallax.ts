@@ -202,6 +202,7 @@ export class ViewportCssParallax{
                     clamp: true,
                     lerp: 1,
                     damp: 1,
+
                     // Default to top of element.
                     elementBaseline: 0,
                     elementBaselineFromTopToBottom: false,
