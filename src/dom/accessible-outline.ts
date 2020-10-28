@@ -9,6 +9,11 @@ enum AccessibleOutlineInputTypes {
  * A class that helps with enabling outline on a page ONLY when the user
  * is interacting with the keyboard.
  *
+ *
+ * Note it's recommended you use:
+ * http://css-tricks.com/the-focus-visible-trick/
+ * instead of this class now.
+ *
  * It is common to do outline: none to disable button or inputs for
  * aesthetic reasons but this not good for accessibility.  To address the
  * issue, this class will apply outline: none only in the event,
