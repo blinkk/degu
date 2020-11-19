@@ -40,7 +40,7 @@ export class dom {
      *
      *  window.addEventListener('scroll', () => {
      *     let progress =
-     *             mathf.getElementScrolledPercent(this.stickyParent_);
+     *             dom.getElementScrolledPercent(this.stickyParent_);
      *     // 0 when the above the element,
      *     // increases as you scroll thorugh
      *     // 1 when the bottom of the element reaches the bottom of the screen.
