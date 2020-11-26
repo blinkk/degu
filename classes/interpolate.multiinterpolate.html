@@ -1,0 +1,529 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>MultiInterpolate | Yano
+	</title>
+	<meta name="description" content="">
+	<meta name="theme-color" content="#28b463">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Yano">
+	<meta property="og:site_name" content="Yano" />
+	<meta property="og:locale" content="en_US" />
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">Yano</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/interpolate.html">interpolate</a>
+				</li>
+				<li>
+					<a href="interpolate.multiinterpolate.html">MultiInterpolate</a>
+				</li>
+			</ul>
+			<h1>Class MultiInterpolate</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/angular.html">angular</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/arrayf.html">arrayf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/datguif.html">datguif</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/debug.html">debug</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/dom.html">dom</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/ease.html">ease</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/func.html">func</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/interpolate.html">interpolate</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/is.html">is</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/loader.html">loader</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/mathf.html">mathf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/objectf.html">objectf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/pseudo_3d_canvas.html">pseudo-<wbr>3d-<wbr>canvas</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/raf.html">raf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/shaders.html">shaders</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/string.html">string</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/threef.html">threef</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/time.html">time</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/ui.html">ui</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/x.html">x</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="interpolate.cssvarinterpolate.html" class="tsd-kind-icon">Css<wbr>Var<wbr>Interpolate</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="interpolate.interpolate-1.html" class="tsd-kind-icon">Interpolate</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="interpolate.markerinterpolate.html" class="tsd-kind-icon">Marker<wbr>Interpolate</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="interpolate.multiinterpolate.html" class="tsd-kind-icon">Multi<wbr>Interpolate</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="interpolate.multiinterpolate.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="interpolate.multiinterpolate.html#calculate" class="tsd-kind-icon">calculate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="interpolate.multiinterpolate.html#getcalculations" class="tsd-kind-icon">get<wbr>Calculations</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="interpolate.multiinterpolate.html#updateconfig" class="tsd-kind-icon">update<wbr>Config</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/interpolate.markersinterpolatemarkers.html" class="tsd-kind-icon">Markers<wbr>Interpolate<wbr>Markers</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/interpolate.interpolateconfig.html" class="tsd-kind-icon">interpolate<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/interpolate.interpolatesettings.html" class="tsd-kind-icon">interpolate<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/interpolate.interpolatestaggeroptions.html" class="tsd-kind-icon">interpolate<wbr>Stagger<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-kind-icon">multi<wbr>Interpolate<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/interpolate.rangedprogress.html" class="tsd-kind-icon">ranged<wbr>Progress</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
+						<a href="../modules/interpolate.html#multiinterpolatehelper" class="tsd-kind-icon">multi<wbr>Interpolate<wbr>Helper</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="col-7 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>MultiInterpolate allows you to interpolate multiple values at once against
+						a parent progress.</p>
+					</div>
+					<pre><code class="language-ts">
+
+JS
+ import { MultiInterpolate, EASE } from 'yano-js';
+ let multiInterpolate = new MultiInterpolate({
+  interpolations: [
+    // This declaration would create the following.
+    // When progress is:
+    // 0 - 0.29999 ---&gt; x = 50.
+    //    It uses applies the start value of the first progress.
+    // 0.3 - 0.5   ---&gt; x = 50 - 100.
+    // 0.5 - 0.8   ---&gt; x = 100 - 800
+    // 0.8 - 1     ----&gt; x = 800.  The last value is used.
+    {
+      progress: [
+         { from: 0.3, to: 0.5, start: 50, end: 1000,
+            easingFunction: EASE.easeInOutSine },
+         { from: 0.5, to: 0.8, start: 1000, end: 8000,
+            easingFunction: EASE.easeInOutBounce }
+      ],
+      id: 'x',
+    },
+
+    // When the progress is from 0.5 - 1,
+    // The value of y would go from 0 to 100.
+    {
+      progress: [{ from: 0, to: 0.5, start: 0, end: 100 }],
+      id: 'y',
+    },
+    // When the progress is from 0.5 - 1,
+    // The value of someOtherId would go from 0 to 100.
+    {
+      progress: [{ from: 0, to: 1, start: 0, end: 100 }]
+      id: 'someOther',
+    },
+
+    // Multi interpolate also supports simple units.  See interpolate for
+    // unit and color support.
+    {
+      progress: [{ from: 0, to: 1, start: '0px', end: '100px' }]
+      id: 'z',
+    }
+
+
+    // There is also no interpolation mode.  This doesn't interpolate
+    // but rather just applies properties when specific ranges are matched.
+    {
+      progress: [
+         { from: 0.3, to: 0.5, start: 'none', end: 'none'},
+         { from: 0.5, to: 0.8, start: 'inline', end: 'inline }
+      ],
+      noInterpolation: true
+      noInterpolationDefault: 'block'
+      id: 'display-setting',
+    },
+
+
+    // Staggers allow to create multi entries of the same property with an
+    // offset.  For example, here 4 staggers would be created.
+    // hero-y-0, hero-y-1, hero-y-2, hero-y-3 and the from and end points
+    // would each be shifted by the progressOffset (0.008).
+    {
+      progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
+      id: 'hero-y',
+      stagger: {
+          count: 4,
+          progressOffset: 0.008
+      }
+    }
+
+
+    // onUpdate also provides you hooks when values up.
+    {
+      progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
+      id: 'hero-y',
+      onUpdate: (id:string, currentProgress:number, currentValue:string|number) =&gt; {
+         ...
+      }
+    }
+
+ ]
+});
+
+// What are the values at 0 progress.
+let results = multiInterpolate.calculate(0);
+console.log(results['x']); // 50
+console.log(results['y']); // 0
+console.log(results['someOther']); // 0
+
+// What are the values at 0.3 progress (30%)
+results = multiInterpolate.calculate(0.3);
+console.log(results['x']); // 50
+console.log(results['y']); // ~60
+console.log(results['someOther']); // 30
+
+// What are the values at 0.7 progress (70%)
+results = multiInterpolate.calculate(0.7);
+console.log(results['x']); //~7441
+console.log(results['y']); // ~100
+console.log(results['someOther']); // 30
+
+results = multiInterpolate.calculate(1);
+console.log(results['x']); //~7441
+console.log(results['y']); // ~100
+console.log(results['someOther']); // 100
+
+</code></pre>
+					<dl class="tsd-comment-tags">
+						<dt>tested</dt>
+						<dd></dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">MultiInterpolate</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="interpolate.multiinterpolate.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interpolate.multiinterpolate.html#calculate" class="tsd-kind-icon">calculate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interpolate.multiinterpolate.html#getcalculations" class="tsd-kind-icon">get<wbr>Calculations</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="interpolate.multiinterpolate.html#updateconfig" class="tsd-kind-icon">update<wbr>Config</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Multi<wbr>Interpolate<span class="tsd-signature-symbol">(</span>multiInterpolaterConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-signature-type">multiInterpolateConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interpolate.multiinterpolate.html" class="tsd-signature-type">MultiInterpolate</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>multiInterpolaterConfig: <a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-signature-type">multiInterpolateConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="interpolate.multiinterpolate.html" class="tsd-signature-type">MultiInterpolate</a></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/interpolate/multi-interpolate.ts#L281">interpolate/multi-interpolate.ts:281</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="calculate" class="tsd-anchor"></a>
+					<h3>calculate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">calculate<span class="tsd-signature-symbol">(</span>progress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the current progress and returns all interpolations.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>progress: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
+							<p>An object with all interpolation ids as the keys and their
+							relative values.</p>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/interpolate/multi-interpolate.ts#L390">interpolate/multi-interpolate.ts:390</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcalculations" class="tsd-anchor"></a>
+					<h3>get<wbr>Calculations</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Calculations<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the last know interpolations values.
+										<code>`</code>ts
+									multiInterpolate.calculate(0.5);</p>
+								</div>
+								<p>let results = multiInterpolate.getCalculations();</p>
+								<p><code>`</code></p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/interpolate/multi-interpolate.ts#L380">interpolate/multi-interpolate.ts:380</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updateconfig" class="tsd-anchor"></a>
+					<h3>update<wbr>Config</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Config<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-signature-type">multiInterpolateConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets and updates the config.  Validates, reorders and set the config.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-signature-type">multiInterpolateConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/interpolate/multi-interpolate.ts#L294">interpolate/multi-interpolate.ts:294</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+			</section>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

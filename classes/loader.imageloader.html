@@ -1,0 +1,753 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ImageLoader | Yano
+	</title>
+	<meta name="description" content="">
+	<meta name="theme-color" content="#28b463">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Yano">
+	<meta property="og:site_name" content="Yano" />
+	<meta property="og:locale" content="en_US" />
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">Yano</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/loader.html">loader</a>
+				</li>
+				<li>
+					<a href="loader.imageloader.html">ImageLoader</a>
+				</li>
+			</ul>
+			<h1>Class ImageLoader</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/angular.html">angular</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/arrayf.html">arrayf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/datguif.html">datguif</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/debug.html">debug</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/dom.html">dom</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/ease.html">ease</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/func.html">func</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/interpolate.html">interpolate</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/is.html">is</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/loader.html">loader</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/mathf.html">mathf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/objectf.html">objectf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/pseudo_3d_canvas.html">pseudo-<wbr>3d-<wbr>canvas</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/raf.html">raf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/shaders.html">shaders</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/string.html">string</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/threef.html">threef</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/time.html">time</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/ui.html">ui</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/x.html">x</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="loader.blobloader.html" class="tsd-kind-icon">Blob<wbr>Loader</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="loader.imageloader.html" class="tsd-kind-icon">Image<wbr>Loader</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="loader.imageloader.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="loader.imageloader.html#imagesources" class="tsd-kind-icon">image<wbr>Sources</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="loader.imageloader.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#dispose" class="tsd-kind-icon">dispose</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#fetchimage" class="tsd-kind-icon">fetch<wbr>Image</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#fetchimagebitmap" class="tsd-kind-icon">fetch<wbr>Image<wbr>Bitmap</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#getimages" class="tsd-kind-icon">get<wbr>Images</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#load" class="tsd-kind-icon">load</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#loadbitmaporimage" class="tsd-kind-icon">load<wbr>Bitmap<wbr>OrImage</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#loadimagebitmaps" class="tsd-kind-icon">load<wbr>Image<wbr>Bitmaps</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#ping" class="tsd-kind-icon">ping</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#pingsource" class="tsd-kind-icon">ping<wbr>Source</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#setdecodeafterfetch" class="tsd-kind-icon">set<wbr>Decode<wbr>After<wbr>Fetch</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="loader.imageloader.html#setloadcallback" class="tsd-kind-icon">set<wbr>Load<wbr>Callback</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+		<div class="col-7 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A class the loads a given set of images.</p>
+					</div>
+					<p>TODO (uxder): Needs more work.  Needs error and fetch fail handling.</p>
+					<pre><code class="language-ts">
+<span class="hljs-keyword">const</span> myImages = [
+ <span class="hljs-string">'http://mydomain.com/dog.png'</span>,
+ <span class="hljs-string">'http://mydomain.com/cat.png'</span>
+ <span class="hljs-string">'http://mydomain.com/cow.jpg'</span>
+];
+<span class="hljs-keyword">const</span> myImageLoader = <span class="hljs-keyword">new</span> ImageLoader(myImages);
+
+<span class="hljs-comment">// Optional - decodes the image as well.</span>
+<span class="hljs-comment">// However, this uses image.decode() which will move the image memory</span>
+<span class="hljs-comment">// to native memory.  It is not recommended unless you know what you are</span>
+<span class="hljs-comment">// doing.</span>
+<span class="hljs-comment">// @see dom.fetchAndMakeImage for more on the issues around</span>
+<span class="hljs-comment">// image.decode().</span>
+myImageLoader.setDecodeAfterFetch(<span class="hljs-literal">true</span>);
+
+
+<span class="hljs-comment">// Loads images.</span>
+<span class="hljs-keyword">await</span> results = myImageLoader.load();
+
+<span class="hljs-comment">// The source of the image is the key.</span>
+results[<span class="hljs-string">'http://mydomain.com/dog.png'</span>]; <span class="hljs-comment">// DOG HTML Image element.</span>
+results[<span class="hljs-string">'http://mydomain.com/cat.png'</span>]; <span class="hljs-comment">// Cat HTML Image element.</span>
+</code></pre>
+					<p>You can alternatively fetch for just blobs.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> myImages = [
+ <span class="hljs-string">'http://mydomain.com/dog.png'</span>,
+ <span class="hljs-string">'http://mydomain.com/cat.png'</span>
+ <span class="hljs-string">'http://mydomain.com/cow.jpg'</span>
+];
+<span class="hljs-keyword">const</span> myImageLoader = <span class="hljs-keyword">new</span> ImageLoader(myImages);
+
+<span class="hljs-keyword">await</span> results = myImageLoader.loadBlobs();
+results[<span class="hljs-string">'http://mydomain.com/dog.png'</span>]; <span class="hljs-comment">// DOG image blob.</span></code></pre>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">ImageLoader</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="loader.imageloader.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="loader.imageloader.html#imagesources" class="tsd-kind-icon">image<wbr>Sources</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="loader.imageloader.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#dispose" class="tsd-kind-icon">dispose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#fetchimage" class="tsd-kind-icon">fetch<wbr>Image</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#fetchimagebitmap" class="tsd-kind-icon">fetch<wbr>Image<wbr>Bitmap</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#getimages" class="tsd-kind-icon">get<wbr>Images</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#load" class="tsd-kind-icon">load</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#loadbitmaporimage" class="tsd-kind-icon">load<wbr>Bitmap<wbr>OrImage</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#loadimagebitmaps" class="tsd-kind-icon">load<wbr>Image<wbr>Bitmaps</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#ping" class="tsd-kind-icon">ping</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#pingsource" class="tsd-kind-icon">ping<wbr>Source</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#setdecodeafterfetch" class="tsd-kind-icon">set<wbr>Decode<wbr>After<wbr>Fetch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="loader.imageloader.html#setloadcallback" class="tsd-kind-icon">set<wbr>Load<wbr>Callback</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Image<wbr>Loader<span class="tsd-signature-symbol">(</span>imageSources<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="loader.imageloader.html" class="tsd-signature-type">ImageLoader</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>imageSources: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="loader.imageloader.html" class="tsd-signature-type">ImageLoader</a></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L73">loader/image-loader.ts:73</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="imagesources" class="tsd-anchor"></a>
+					<h3>image<wbr>Sources</h3>
+					<div class="tsd-signature tsd-kind-icon">image<wbr>Sources<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L53">loader/image-loader.ts:53</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="maxretries" class="tsd-anchor"></a>
+					<h3>max<wbr>Retries</h3>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Retries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L63">loader/image-loader.ts:63</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The number of times to refetch an image if unsuccessful.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="dispose" class="tsd-anchor"></a>
+					<h3>dispose</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L352">loader/image-loader.ts:352</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fetchimage" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Image</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Image<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, retryCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetches and creates an image element when successful.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>source: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The image source</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> retryCount: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The current retry count.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L229">loader/image-loader.ts:229</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fetchimagebitmap" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Image<wbr>Bitmap</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Image<wbr>Bitmap<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, retryCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetches image bitmap.   Image bitmaps are faster in rendering images on
+										canvas because they don&#39;t do image decoding on each draw.  However,
+									they are not fully supported across all browsers so use wisely.</p>
+								</div>
+								<p>Also note that at the current time usage of ImageBitmap seems to bloat the
+								native memory that can&#39;t be released.</p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://aerotwist.com/blog/the-hack-is-back/">https://aerotwist.com/blog/the-hack-is-back/</a></p>
+									</dd>
+									<dt>see</dt>
+									<dd><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap">https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap</a></p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>source: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> retryCount: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L316">loader/image-loader.ts:316</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getimages" class="tsd-anchor"></a>
+					<h3>get<wbr>Images</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Images<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the internal cached images.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L116">loader/image-loader.ts:116</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="load" class="tsd-anchor"></a>
+					<h3>load</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">load<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Begins loading all images.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L133">loader/image-loader.ts:133</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="loadbitmaporimage" class="tsd-anchor"></a>
+					<h3>load<wbr>Bitmap<wbr>OrImage</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Bitmap<wbr>OrImage<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Loads bitmap or image.   If browser supports bitmaps, it will
+									load bitmaps instead of an image.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L346">loader/image-loader.ts:346</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="loadimagebitmaps" class="tsd-anchor"></a>
+					<h3>load<wbr>Image<wbr>Bitmaps</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">load<wbr>Image<wbr>Bitmaps<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Begins loading imageBitMaps. Alternate to load method but ImageBitmap
+									has only partial support at the moment.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L292">loader/image-loader.ts:292</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="ping" class="tsd-anchor"></a>
+					<h3>ping</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">ping<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Pings / Fetches all images.   This can be used as an alternative
+										to load().  Unlike load that ends up storing ImageBitmap or images
+										in memory (resulting in higher RAM usage),
+										this will simply make an XHR request so the response is
+									help in browser cache.</p>
+								</div>
+								<p>Once cached, you can pair this with dom.fetchAndMakeImage and dom.deleteImage
+									to give you better control of releasing image memory from RAM on a per image
+								basis.</p>
+								<pre><code> <span class="hljs-keyword">const</span> myImages = [
+ <span class="hljs-string">'http://mydomain.com/dog.png'</span>,
+ <span class="hljs-string">'http://mydomain.com/cat.png'</span>
+ <span class="hljs-string">'http://mydomain.com/cow.jpg'</span>
+];
+ <span class="hljs-keyword">const</span> imageLoader = <span class="hljs-keyword">new</span> ImageLoader();
+
+ <span class="hljs-comment">// Ping images.</span>
+await results = myImageLoader.ping();
+
+<span class="hljs-comment">// Images have been fetched and are in browser memory.</span>
+<span class="hljs-comment">// You can construct it now.</span>
+<span class="hljs-keyword">const</span> <span class="hljs-built_in">image</span> = dom.fetchAndMakeImage(results[<span class="hljs-number">0</span>]);
+
+<span class="hljs-comment">// Do something with the image.</span>
+canvas.drawImage(<span class="hljs-built_in">image</span>);
+
+<span class="hljs-comment">// Now manually delete it when you don't need it.</span>
+dom.deleteImage(<span class="hljs-built_in">image</span>);
+
+
+</code></pre>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L185">loader/image-loader.ts:185</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pingsource" class="tsd-anchor"></a>
+					<h3>ping<wbr>Source</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">ping<wbr>Source<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, retryCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Only fetches images without generating it.
+										This is useful for cases in which you want to
+										&quot;preload&quot; images into the browser cache but not hold the image data in
+									memory.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>source: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> retryCount: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L204">loader/image-loader.ts:204</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setdecodeafterfetch" class="tsd-anchor"></a>
+					<h3>set<wbr>Decode<wbr>After<wbr>Fetch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Decode<wbr>After<wbr>Fetch<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets to decodeAfterFetching.  Setting true on firefox causes failures
+									so we test for firefox.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L126">loader/image-loader.ts:126</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setloadcallback" class="tsd-anchor"></a>
+					<h3>set<wbr>Load<wbr>Callback</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Load<wbr>Callback<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Allows you to hook into each load event of image.
+									This should be called prior to calling load.</p>
+								</div>
+								<pre><code><span class="hljs-keyword">const</span> myImages = [
+ <span class="hljs-string">'http://mydomain.com/dog.png'</span>,
+ <span class="hljs-string">'http://mydomain.com/cat.png'</span>
+ <span class="hljs-string">'http://mydomain.com/cow.jpg'</span>
+];
+<span class="hljs-keyword">const</span> myImageLoader = <span class="hljs-keyword">new</span> ImageLoader(myImages);
+
+myImageLoader.loadCallback(<span class="hljs-function">(<span class="hljs-params">source, img</span>)=&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(source) <span class="hljs-comment">// The image url that was just loaded.</span>
+  <span class="hljs-built_in">console</span>.log(img); <span class="hljs-comment">// The image itself.</span>
+})
+
+<span class="hljs-comment">// Loads images.</span>
+<span class="hljs-keyword">await</span> results = myImageLoader.load();
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/loader/image-loader.ts#L108">loader/image-loader.ts:108</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+			</section>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

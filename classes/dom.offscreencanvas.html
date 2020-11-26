@@ -1,0 +1,542 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>OffScreenCanvas | Yano
+	</title>
+	<meta name="description" content="">
+	<meta name="theme-color" content="#28b463">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Yano">
+	<meta property="og:site_name" content="Yano" />
+	<meta property="og:locale" content="en_US" />
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">Yano</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/dom.html">dom</a>
+				</li>
+				<li>
+					<a href="dom.offscreencanvas.html">OffScreenCanvas</a>
+				</li>
+			</ul>
+			<h1>Class OffScreenCanvas</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/angular.html">angular</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/arrayf.html">arrayf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/datguif.html">datguif</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/debug.html">debug</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/dom.html">dom</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/ease.html">ease</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/func.html">func</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/interpolate.html">interpolate</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/is.html">is</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/loader.html">loader</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/mathf.html">mathf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/objectf.html">objectf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/pseudo_3d_canvas.html">pseudo-<wbr>3d-<wbr>canvas</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/raf.html">raf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/shaders.html">shaders</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/string.html">string</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/threef.html">threef</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/time.html">time</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/ui.html">ui</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/x.html">x</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="dom.offscreencanvas.html" class="tsd-kind-icon">Off<wbr>Screen<wbr>Canvas</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="dom.offscreencanvas.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.offscreencanvas.html#dispose" class="tsd-kind-icon">dispose</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.offscreencanvas.html#init" class="tsd-kind-icon">init</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.offscreencanvas.html#sendmessagetocanvas" class="tsd-kind-icon">send<wbr>Message<wbr>ToCanvas</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.offscreencanvas.html#setcanvas" class="tsd-kind-icon">set<wbr>Canvas</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.offscreencanvas.html#setcanvastask" class="tsd-kind-icon">set<wbr>Canvas<wbr>Task</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+		<div class="col-7 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>An experimental class that works with offscreen canvas and makes it
+						pretty easy to run tasks on a canvas in a separate thread.</p>
+					</div>
+					<p>This works but there are some gotchas that users should be aware of.
+						As of now, offScreenCanvas is run a separate thread with
+						limitations, thisl class is best used for doing computational tasks
+					that can be wrapped in a task call.</p>
+					<p>It may not be well suited to say try to run a huge 3D application.
+						If you want run a large app, you are probably better off making or finding
+					a different offScreenCanvas implementation.</p>
+					<p>See the example usage in the /examples/off-screen-canvas sample.</p>
+					<p>Read the below for the walk through.  There are several limitations.</p>
+					<p>TODO (uxder): The process of setup and be simplified.  setCanvas for example
+					seems like an extra step.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">import</span> { OffScreenCanvas, is } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js'</span>;
+
+<span class="hljs-comment">// Check for support and handle non-supporting browsers as you see fit.</span>
+<span class="hljs-keyword">if</span> (!is.supportingOffScreenCanvas()) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Sorry your browser is not suppported'</span>);
+}
+
+<span class="hljs-comment">// First create an instance of OffScreenCanvas.</span>
+<span class="hljs-keyword">const</span> offScreenCanvas = <span class="hljs-keyword">new</span> OffScreenCanvas();
+
+<span class="hljs-comment">// Grab the canvas element on your page (or create one).</span>
+<span class="hljs-keyword">const</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'canvas'</span>);
+
+<span class="hljs-comment">// Now set the offscreen canvas.  This is a REQUIRED step before</span>
+<span class="hljs-comment">// making calls.  It tells offScreenCanvas to prepare this canvas</span>
+<span class="hljs-comment">// to be transferable via webWorkers.</span>
+offScreenCanvas.setCanvas(canvas);
+
+
+<span class="hljs-comment">// Create a function that will run as a web worker.  This will get executed</span>
+<span class="hljs-comment">// on a different threadc.</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// Limitation 1: Note that this  code actually ends up getting stringified</span>
+<span class="hljs-comment">// (important), bundled and sent to a separate thread.</span>
+<span class="hljs-comment">// Therefore, it is sandboxed in it's own world.</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// Limitation 2:</span>
+<span class="hljs-comment">// The function should accept only 1 parameter AND it must be named "params"</span>
+<span class="hljs-comment">// by convention.  You can send any parameters up as an object.  This is done</span>
+<span class="hljs-comment">// as a convention and to make it easier to wrap up.  See WebWorker for more.</span>
+<span class="hljs-comment">//</span>
+ <span class="hljs-keyword">const</span> task = <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> {
+      <span class="hljs-comment">// If a command called init was sent, set the canvas</span>
+       <span class="hljs-keyword">if</span> (params.command == <span class="hljs-string">'init'</span>) {
+          self.canvas = params.canvas;
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>, params.name);
+          self.ctx = canvas.getContext(<span class="hljs-string">'2d'</span>);
+       }
+
+      <span class="hljs-comment">// Defines an animation loop.</span>
+      <span class="hljs-keyword">var</span> animate = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          <span class="hljs-comment">// Do something cool.</span>
+          <span class="hljs-comment">// This will draw on the canvas (on your main thread)</span>
+          ctx.fillRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">150</span>, <span class="hljs-number">75</span>);
+          requestAnimationFrame(animate);
+      };
+
+      <span class="hljs-keyword">if</span> (params.command == <span class="hljs-string">'animate'</span>) {
+        animate();
+        <span class="hljs-comment">// Return a mesagge when animate is sent.</span>
+        <span class="hljs-keyword">return</span> { message: <span class="hljs-string">'FROM WORKER: started animation'</span> };
+      }
+  };
+
+<span class="hljs-comment">// Now bind and set that task to your instanfe of OffScreenCanvas.</span>
+<span class="hljs-comment">// This will tell offScreenCanvas to run your task in a separate thread.</span>
+offScreenCanvas.setCanvasTask(task);
+
+
+<span class="hljs-comment">// Now initialize offscreen canvas.  The canvas is automatically sent</span>
+<span class="hljs-comment">// and will be available in your task with params.canvas.  You can send</span>
+<span class="hljs-comment">// additional key/value data.</span>
+ offScreenCanvas.init({
+    command: <span class="hljs-string">'init'</span>,
+    name: <span class="hljs-string">'Scott'</span>
+  }).then(<span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> {
+
+           <span class="hljs-comment">// Once initialized, send additional commands with</span>
+           <span class="hljs-comment">// sendMessageToCanvas.</span>
+           offScreenCanvas.sendMessageToCanvas({
+               command: <span class="hljs-string">'animate'</span>,
+               data: <span class="hljs-string">'John'</span>
+           }).then(<span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> {
+               <span class="hljs-built_in">console</span>.log(message); <span class="hljs-comment">// FROM WORKER: started animation</span>
+           });
+       });
+ }
+
+<span class="hljs-comment">// When you are all done, don't forget to terminate the WebWorker.</span>
+offScreenCanvas.terminate();</code></pre>
+					<p>Now assuing you had the canvas you set attached to the DOM, you should
+						see the canvas draw itself.  This is because, when you ran
+						<a href="dom.offscreencanvas.html#setcanvas">OffScreenCanvas.setCanvas</a>, you basically set it to release control of it
+						to a separate worker.  So the manipulations to the canvas
+					(draw call on context) get updated and visible.</p>
+					<dl class="tsd-comment-tags">
+						<dt>unstable</dt>
+						<dd></dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">OffScreenCanvas</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.offscreencanvas.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.offscreencanvas.html#dispose" class="tsd-kind-icon">dispose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.offscreencanvas.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.offscreencanvas.html#sendmessagetocanvas" class="tsd-kind-icon">send<wbr>Message<wbr>ToCanvas</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.offscreencanvas.html#setcanvas" class="tsd-kind-icon">set<wbr>Canvas</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.offscreencanvas.html#setcanvastask" class="tsd-kind-icon">set<wbr>Canvas<wbr>Task</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Off<wbr>Screen<wbr>Canvas<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.offscreencanvas.html" class="tsd-signature-type">OffScreenCanvas</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<h4 class="tsd-returns-title">Returns <a href="dom.offscreencanvas.html" class="tsd-signature-type">OffScreenCanvas</a></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/dom/off-screen-canvas.ts#L124">dom/off-screen-canvas.ts:124</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="dispose" class="tsd-anchor"></a>
+					<h3>dispose</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/dom/off-screen-canvas.ts#L189">dom/off-screen-canvas.ts:189</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="init" class="tsd-anchor"></a>
+					<h3>init</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends the first message to the worker with the transferable canvas</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <span class="tsd-signature-type">Object</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/dom/off-screen-canvas.ts#L161">dom/off-screen-canvas.ts:161</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendmessagetocanvas" class="tsd-anchor"></a>
+					<h3>send<wbr>Message<wbr>ToCanvas</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Message<wbr>ToCanvas<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sends a message to the worker.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <span class="tsd-signature-type">Object</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/dom/off-screen-canvas.ts#L181">dom/off-screen-canvas.ts:181</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setcanvas" class="tsd-anchor"></a>
+					<h3>set<wbr>Canvas</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Canvas<span class="tsd-signature-symbol">(</span>canvas<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLCanvasElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the canvas to be used as offSetCanvas.  Save the canvas to be
+									used.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>canvas: <span class="tsd-signature-type">HTMLCanvasElement</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/dom/off-screen-canvas.ts#L139">dom/off-screen-canvas.ts:139</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setcanvastask" class="tsd-anchor"></a>
+					<h3>set<wbr>Canvas<wbr>Task</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Canvas<wbr>Task<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The handler for the offscreen canvas worker.
+										Note that the contents of this task are stringified and send to a separate
+										thread so the contents of the task are sandboxed.  Same limitations as
+									regular webworkers applieds (no access to DOM for exmaple)</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>task: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/0845265/src/dom/off-screen-canvas.ts#L152">dom/off-screen-canvas.ts:152</a></li>
+								</ul>
+						</aside>        </li>
+					</ul>
+				</section>
+			</section>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
