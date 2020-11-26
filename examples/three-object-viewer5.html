@@ -1,0 +1,58 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Three Object Viewer Test</title>
+</head>
+<body init-sample="threeObjectViewer5">
+  <style>
+      body {
+          padding: 0;
+          margin: 0;
+      }
+      .parent {
+          position: relative;
+          height: 600vh;
+      }
+      .child {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0px;
+          height: 100vh;
+          width: 100vw;
+          background-color: white;
+      }
+      .container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+      }
+      .canvas-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+      }
+      canvas {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          outline: none;
+      }
+  </style>
+
+  <div class="parent" id="parent">
+      <div class="child" id="child">
+        <div class="container">
+          <div id="canvas-container" class="canvas-container"></div>
+        </div>
+      </div>
+  </div>
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>

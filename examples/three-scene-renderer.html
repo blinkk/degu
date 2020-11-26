@@ -1,0 +1,82 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Three Multi Renderer</title>
+</head>
+<body init-sample="threeSceneRenderer">
+  <a href="index.html">Back to home</a>
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+    .box-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .box {
+      width: 40vw;
+      height: 40vh;
+      border: 1px solid red;
+      position: relative;
+    }
+    .text {
+      position: absolute;
+      z-index: 2;
+    }
+    .box-3 {
+      background-color: yellow;
+    }
+    .box-4 {
+      background-color: green;
+    }
+  </style>
+
+  <h1> This is a test of the multi renderer</h1>
+
+  <div class="box-container">
+    <div class="box box-1" id="box-1">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-2" id="box-2">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-3" id="box-3">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-4" id="box-4">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-5" id="box-5">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-6" id="box-6">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-7" id="box-7">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-8" id="box-8">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-9" id="box-9">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-10" id="box-10">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-11" id="box-11">
+      <div class="text">Hello</div>
+    </div>
+    <div class="box box-12" id="box-12">
+      <div class="text">Hello</div>
+    </div>
+  </div>
+
+
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>

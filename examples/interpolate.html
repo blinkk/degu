@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interpolation Sample</title>
+</head>
+<body init-sample="interpolateSample">
+  <a href="index.html">Back to home</a>
+  <h1>Interpolation Animation Example</h1>
+  <p>This exact same effect can be achieved using pure mathf.easing</p>
+  <p>However, the Interpolation class makes it easer to compose an interpolation.</p>
+
+  <input id="range" type="range" name="points" step="0.01" min="0" max="1" style="width: 500px;">
+
+  <div class="easer" style="width: 500px; height: 500px;">
+    <div id="ball" class="easer__ball"></div>
+  </div>
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>

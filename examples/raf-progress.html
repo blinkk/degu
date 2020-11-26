@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raf Progress Sample</title>
+</head>
+<body init-sample="rafProgressSample" id="body">
+  <a href="index.html">Back to home</a>
+  <h1>Raf Progress Sample</h1>
+  <style>
+      .blue {
+        background-color: blue;
+      }
+      .red {
+        background-color: red;
+      }
+      .yellow {
+        background-color: yellow;
+      }
+      .green {
+        background-color:green;
+      }
+  </style>
+
+  <p>Open the web console for this demo.  Change the sliding value.</p>
+  <input id="range" type="range" name="points" step="0.01" value="1.2" min="-1" max="2" style="width: 500px;">
+  <div>
+   Current Progress <div id="progress"></div>
+  </div>
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>

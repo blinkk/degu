@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll demo</title>
+  <style>
+      body {
+          background-color: var(--background) !important;
+      }
+      .parent {
+          position: relative;
+          height: 800vh;
+      }
+      .child {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0px;
+          height: 100vh;
+      }
+      .container {
+          position: relative;
+          height: 100vw;
+          height: 100vh;
+          overflow: hidden;
+      }
+      .flower {
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+      .module {
+          height: 100vh;
+          background-color: #efefef;
+      }
+
+  </style>
+
+</head>
+<body init-sample="scrollDemoSample5" style="padding: 0px">
+  <div class="module">
+      <h1> Smoothing </h1>
+      <p>This is a demo of using catmull rom to interpolate timeline points on
+        a VectorDom.  It also features slerping Eular rotation.
+      </p>
+  </div>
+  <div class="parent" id="parent">
+      <div class="child" id="child">
+        <div class="container">
+            <div class="flower" id="flower"><div><img src="public/boy-crop.png"/></div></div>
+        </div>
+      </div>
+  </div>
+  <div class="module">
+      <h1> This is the end of the page.</h1>
+  </div>
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>

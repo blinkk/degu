@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vector Dom 3</title>
+  <style>
+      body {
+          padding: 0;
+          perspective: 300px;
+          overflow-x: hidden;
+      }
+      .big {
+          height: 120vh;
+      }
+      .ball {
+          display: inline-flex;
+          left: 50%;
+          position: relative;
+      }
+      .ball2 {
+          display: inline-flex;
+          left: 0%;
+          position: relative;
+      }
+      .ball div {
+          position: relative;
+      }
+      .ball img {
+          max-width: 100%;
+          position: relative;
+      }
+      .text {
+          position: relative;
+          display: flex;
+          top: 0;
+          left: 0;
+          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          color: #000;
+          font-size: 50px;
+      }
+      .text div {
+          max-width: 50vw;
+          margin: 0 auto;
+      }
+
+  </style>
+</head>
+<body init-sample="vectorDomSample3">
+  <a href="index.html">back to home</a>
+  <h1>Vector Dom</h1>
+  <div class="big"></div>
+  <div class="ball" id="ball">
+      <img src="public/flower.jpg"/>
+  </div>
+  <div class="ball2" id="ball2">
+      <img src="public/flower.jpg"/>
+  </div>
+  <div class="text" id="text">
+      <div>This is a demo of Vector Dom</div>
+      <div>This text responds to mouse positions.  The images respond to scroll position.</div>
+  </div>
+
+  <div class="big"></div>
+
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>
+

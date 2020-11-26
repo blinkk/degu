@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll demo</title>
+  <style>
+      body {
+          perspective: 500px;
+      }
+      .parent {
+          position: relative;
+          height: 800vh;
+      }
+      .child {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0px;
+          height: 100vh;
+          background-color: var(--background);
+      }
+      .container {
+          position: relative;
+          height: 100vw;
+          height: 100vh;
+          overflow: hidden;
+      }
+      .flower {
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+      .text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 50px;
+        color: var(--text-color);
+        opacity: var(--opacity);
+        transform: translateY(var(--y));
+        z-index: 30;
+      }
+      .module {
+          height: 100vh;
+          background-color: #efefef;
+      }
+
+  </style>
+
+</head>
+<body init-sample="scrollDemoSample3" style="padding: 0px">
+  <div class="module">
+      <h1> This is the start of the page</h1>
+      <p> This is an example of using VectorDom timeline feature.
+          You can control vector positions and rotation via a timeline.</p>
+      <p> With VectorDom you can also set css variables.  Notice how the parent
+          element has a background changing.  This is set via css variables that
+          are updated with VectorDom.
+      </p>
+      <p>
+          This demo can also serve to demonstrate gimble lock of eular degrees.
+          VectorDom uses Quaternions to avoid this but you can enable
+          eularRotationAsRotationMatarix to true to see the effects of
+          gimble lock on the flower image.
+      </p>
+  </div>
+  <div class="parent" id="parent">
+      <div class="child" id="child">
+        <div class="container">
+            <div class="flower" id="flower"><div><img src="public/boy-crop.png"/></div></div>
+            <div class="flower" id="city"><div><img src="https://picsum.photos/id/703/400"/></div></div>
+            <div class="text" id="text">
+                <h1> Hello  this is some text</h1>
+            </div>
+        </div>
+      </div>
+  </div>
+  <div class="module">
+      <h1> This is the end of the page.</h1>
+  </div>
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>
