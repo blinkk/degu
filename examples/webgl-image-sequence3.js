@@ -17,7 +17,7 @@ export default class CanvasImageSequenceSample3 {
     for (let i = 1; i <= 153; i++) {
       let value = i + '';
       value = value.padStart(4, '0');
-      this.sources.push('/public/frames/thumb' + value + '.jpg');
+      this.sources.push('./public/frames/thumb' + value + '.jpg');
     }
 
     // Create Canvas Image Sequenece

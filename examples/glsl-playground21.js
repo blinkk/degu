@@ -148,7 +148,7 @@ export default class GlslPlayground21 {
             // Load a texture.
             // Ends up being a sampler2D type.
             u_texture: {
-                value: new THREE.TextureLoader().load('/public/flower.jpg')
+                value: new THREE.TextureLoader().load('./public/flower.jpg')
             },
             u_time: { value: 0.0 },
             u_duration: { value: 0.8 },

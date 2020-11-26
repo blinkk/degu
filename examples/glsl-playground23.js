@@ -338,9 +338,9 @@ export default class GlslPlayground23 {
         this.slideIndex = 0;
         this.textures=
         [
-             new THREE.TextureLoader().load('/public/random.jpg'),
-             new THREE.TextureLoader().load('/public/random2.jpg'),
-             new THREE.TextureLoader().load('/public/random3.jpg'),
+             new THREE.TextureLoader().load('./public/random.jpg'),
+             new THREE.TextureLoader().load('./public/random2.jpg'),
+             new THREE.TextureLoader().load('./public/random3.jpg'),
         ];
 
 

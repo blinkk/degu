@@ -34,7 +34,7 @@ export default class XSample {
   constructor() {
     this.imageTextures = {};
     let images = new ImageLoader([
-      '/public/flower.jpg',
+      './public/flower.jpg',
     ]).load().then((results) => {
       // Make textures out of the images.
       Object.keys(results).forEach((key) => {
@@ -65,7 +65,7 @@ export default class XSample {
       scaleY: 1,
       rotation: 1.5,
       interactable: true,
-      texture: this.imageTextures['/public/flower.jpg'],
+      texture: this.imageTextures['./public/flower.jpg'],
     });
     this.X.stage.addChild(this.flower);
 

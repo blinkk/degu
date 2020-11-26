@@ -59,8 +59,8 @@ export default class ThreeObjectViewer3 {
 
         var loader = new GLTFLoader();
         // const path = 'https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf';
-        // const path = '/public/dude.glb';
-        const path = '/public/phone/phone.glb';
+        // const path = './public/dude.glb';
+        const path = './public/phone/phone.glb';
         loader.load(path, (gltf) => {
             this.clock = new THREE.Clock();
             const scene = gltf.scenes[0];

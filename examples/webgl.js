@@ -45,9 +45,9 @@ void main() {
 
 
 const assets = [
-  '/public/guy2.jpg',
-  '/public/guy1.jpg',
-  '/public/displacement1.png',
+  './public/guy2.jpg',
+  './public/guy1.jpg',
+  './public/displacement1.png',
 ];
 
 export default class WebGlSample {

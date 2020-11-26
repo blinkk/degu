@@ -47,7 +47,7 @@ export default class CanvasImageSequenceSample10 {
     for (let i = 1; i <= 153; i++) {
       let value = i + '';
       value = value.padStart(4, '0');
-      this.canvasImageSources.push('/public/frames/thumb' + value + '.jpg');
+      this.canvasImageSources.push('./public/frames/thumb' + value + '.jpg');
     }
 
     // Generate a second "mobile" image sources.
@@ -55,7 +55,7 @@ export default class CanvasImageSequenceSample10 {
     for (let i = 1; i <= 120; i++) {
       let value = i + '';
       value = value.padStart(4, '0');
-      this.mobileImageSources.push('/public/frames2/thumb' + value + '.jpg');
+      this.mobileImageSources.push('./public/frames2/thumb' + value + '.jpg');
     }
 
     // Create Canvas Image Sequenece

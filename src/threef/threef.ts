@@ -36,9 +36,9 @@ export class threef {
      *
      *
      *   threef.load({
-     *     gltfPath: '/public/dev/gltf/test1.gltf',
+     *     gltfPath: './public/dev/gltf/test1.gltf',
      *     // Optional animation marker path.
-     *     animationMarkerPath: '/public/dev/gltf/test1.gltf',
+     *     animationMarkerPath: './public/dev/gltf/test1.gltf',
      *     gltfLoader: gltfLoader
      *   }).then((gltf) => {
      *       // gltf.animationMarkers is available.
@@ -47,8 +47,8 @@ export class threef {
      *
      *   // Call again to load something else with the same loader.
      *   threef.load({
-     *     gltfPath: '/public/dev/gltf/test2.gltf',
-     *     animationMarkerPath: '/public/dev/gltf/test2.gltf',
+     *     gltfPath: './public/dev/gltf/test2.gltf',
+     *     animationMarkerPath: './public/dev/gltf/test2.gltf',
      *     gltfLoader: gltfLoader
      *   }).then((gltf) => {
      *       // gltf.animationMarkers is available.
