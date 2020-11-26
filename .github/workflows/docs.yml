@@ -33,6 +33,7 @@ jobs:
                 sleep 5
                 wget --recursive --page-requisites --html-extension --convert-links localhost:8080
                 mv localhost:8080 ./docs/examples/
+                cp -r ./examples/public/ ./docs/examples/public/
                 pkill -f npm
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
