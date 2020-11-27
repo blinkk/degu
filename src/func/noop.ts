@@ -6,4 +6,6 @@
  * It does nothing, but on purpose and doesn't look like a bug or error.
  * It exists solely for readability.
  */
-export function noop(...args: any[]): any {}
+export function noop(...args: any[]): any {
+  // Purposefully empty.
+}
