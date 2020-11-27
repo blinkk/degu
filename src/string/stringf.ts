@@ -71,4 +71,35 @@ export class stringf {
     static numeric(x:string):string {
        return x && x.replace(/[^0-9\.]/gi,'');
     }
+
+    /**
+     * Strip characters from the left side of a string
+     */
+    static lstrip(value: string, characters: string[] = [' ']): string {
+        const charSet = new Set(characters);
+        let startIndex: number = 0;
+        while (charSet.has(value[startIndex])) {
+            startIndex++;
+        }
+        return value.slice(startIndex);
+    }
+
+    /**
+     * Strip characters from the right side of a string
+     */
+    static rstrip(value: string, characters: string[] = [' ']): string {
+        const charSet = new Set(characters);
+        let endIndex: number = value.length;
+        while (charSet.has(value[endIndex - 1])) {
+            endIndex--;
+        }
+        return value.slice(0, endIndex);
+    }
+
+    /**
+     * Strip characters from the left and right side of a string
+     */
+    static trim(value: string, characters: string[] = [' ']): string {
+        return stringf.lstrip(stringf.rstrip(value, characters), characters);
+    }
 }
