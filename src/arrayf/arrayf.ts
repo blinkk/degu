@@ -28,5 +28,13 @@ export class arrayf {
         return output;
     }
 
-
+    /**
+     * Remove any elements that exist in the subtrahend from the minuend.
+     * ```
+     * arrayf.subtract([1,2,3], [2,3]); // Returns [1]
+     * ```
+     */
+    static subtract<T>(minuend: T[], subtrahend: T[]): T[] {
+        return minuend.filter((value) => subtrahend.indexOf(value) === -1);
+    }
 }
