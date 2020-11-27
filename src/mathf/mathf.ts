@@ -1397,4 +1397,10 @@ export class mathf {
     return mathf.lerp(minA, maxA, t);
   }
 
+  static getSign(x: number): number {
+    return !Math.sign ?
+        // Use MDN polyfill for math.sign
+        (<number><unknown>(x > 0) - <number><unknown>(x < 0)) || +x :
+        Math.sign(x);
+  }
 }
