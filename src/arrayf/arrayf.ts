@@ -44,4 +44,20 @@ export class arrayf {
         return result;
     }
 
+    /**
+     * Return array value that returns the highest score function
+     */
+    static max<T>(values: T[], scoreFn: (v: T) => number): T {
+        let maxValue;
+        let maxScore = Number.NEGATIVE_INFINITY;
+        values.forEach((value) => {
+            const score = scoreFn(value);
+            if (maxScore < score) {
+                maxValue = value;
+                maxScore = score;
+            }
+        });
+        return maxValue;
+    }
+
 }
