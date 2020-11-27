@@ -32,7 +32,7 @@ export class arrayf {
      * Zips arrays together. zip(['a', 'b'], [1, 2]) becomes
      * [['a', 1], ['b', 2]]
      */
-    static zip<T>(...lists:T[][]): T[][] {
+    static zip<T>(...lists: T[][]): T[][] {
         const result = [];
         let i = 0;
         let remainingLists = lists.filter((list) => list.length > i);
