@@ -28,5 +28,20 @@ export class arrayf {
         return output;
     }
 
+    /**
+     * Zips arrays together. zip(['a', 'b'], [1, 2]) becomes
+     * [['a', 1], ['b', 2]]
+     */
+    static zip<T>(...lists:T[][]): T[][] {
+        const result = [];
+        let i = 0;
+        let remainingLists = lists.filter((list) => list.length > i);
+        while (remainingLists.length) {
+            result[i] = remainingLists.map((list) => list[i]);
+            i++;
+            remainingLists = remainingLists.filter((list) => list.length > i);
+        }
+        return result;
+    }
 
 }
