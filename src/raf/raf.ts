@@ -642,10 +642,10 @@ class RafRegistry {
     private rafs: Array<Raf>;
     private flushScheduled: boolean;
     private raf_: any;
-    private preReads: Array<RafRegistryObject> = [];
-    private reads: Array<RafRegistryObject> = [];
-    private writes: Array<RafRegistryObject> = [];
-    private postWrites: Array<RafRegistryObject> = [];
+    private readonly preReads: Array<RafRegistryObject> = [];
+    private readonly reads: Array<RafRegistryObject> = [];
+    private readonly writes: Array<RafRegistryObject> = [];
+    private readonly postWrites: Array<RafRegistryObject> = [];
 
     constructor() {
         this.rafs = [];
@@ -672,38 +672,44 @@ class RafRegistry {
             console.log("Running raf", this.reads.length, this.writes.length);
         }
 
-        // Execute reads.
-        this.preReads && this.preReads.forEach((registryObject: RafRegistryObject) => {
+        // Keep a consistent arrays so that scheduled function can schedule
+        // another function in the same step.
+        // Important so that a read function can call another function that
+        // protects itself in its own read function, in case it is called
+        // through another code execution path.
+
+        // Execute preReads.
+        while (this.preReads.length) {
+            const registryObject = this.preReads.splice(0, 1)[0];
             if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
                 registryObject.callback();
             }
-        })
-        this.preReads = [];
+        }
 
         // Execute reads.
-        this.reads && this.reads.forEach((registryObject: RafRegistryObject) => {
+        while (this.reads.length) {
+            const registryObject = this.reads.splice(0, 1)[0];
             if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
                 registryObject.callback();
             }
-        })
-        this.reads = [];
+        }
 
         // Execute writes.
-        this.writes && this.writes.forEach((registryObject: RafRegistryObject) => {
+        while (this.writes.length) {
+            const registryObject = this.writes.splice(0, 1)[0];
             if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
                 registryObject.callback();
             }
-        })
-        this.writes = [];
+        }
 
 
         // Execute writes.
-        this.postWrites && this.postWrites.forEach((registryObject: RafRegistryObject) => {
+        while (this.postWrites.length) {
+            const registryObject = this.postWrites.splice(0, 1)[0];
             if (!registryObject.raf.isDisposed && (registryObject.raf.isPlaying || registryObject.raf.isReadWriteOnly)) {
                 registryObject.callback();
             }
-        })
-        this.postWrites = [];
+        }
 
         this.flushScheduled = false;
     }
