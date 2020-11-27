@@ -28,5 +28,21 @@ export class arrayf {
         return output;
     }
 
-
+    /**
+     * Return every value before the first occurrence of a value that evaluates
+     * to false when passed to the conditionFn.
+     * ```
+     * // Returns [1, 3, 7]
+     * arrayf.filterUntilFalse([1,3,7,40,2,6], (x) => x < 10);
+     * ```
+     */
+    static filterUntilFalse<T>(
+        values: T[], conditionFn: (value: T, index: number) => boolean
+    ): T[] {
+        let index: number = 0;
+        while (index < values.length && conditionFn(values[index], index)) {
+            index++;
+        }
+        return values.slice(0, index);
+    }
 }
