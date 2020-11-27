@@ -25,3 +25,4 @@ jobs:
                 npm install
                 npm run build
                 npm run ava
+                npm run coverage
