@@ -45,7 +45,15 @@ export class arrayf {
     }
 
     /**
-     * Return array value that returns the highest score function
+     * Return value from array that generates the highest return value when
+     * passed as a parameter to the score function.
+     *
+     * Example:
+     * ```
+     * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
+     * arrayf.max(values, (x) => x.a); // Returns {'a': 2, 'b': 3}
+     * arrayf.max(values, (x) => x.b); // Returns {'a': 1, 'b': 4}
+     * ```
      */
     static max<T>(values: T[], scoreFn: (v: T) => number): T {
         let maxValue;
