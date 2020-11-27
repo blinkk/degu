@@ -28,5 +28,18 @@ export class arrayf {
         return output;
     }
 
-
+    /**
+     * Removes the first instance of the value from the given array.
+     * Not a complex function but `removeFirstInstance` is more readable than
+     * the function contents.
+     * ```
+     * const values = [1, 1, 2, 3, 5, 8];
+     * removeFirstInstance(values, 1); // Returns [1, 2, 3, 5, 8]
+     * ```
+     */
+    static removeFirstInstance<T>(values: T[], value: T): T[] {
+        return [
+            ...values.slice(0, values.indexOf(value)),
+            ...values.slice(values.indexOf(value) + 1)];
+    }
 }
