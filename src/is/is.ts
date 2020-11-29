@@ -1,7 +1,8 @@
-
 /**
  * A utility function that generally tests the state of things.
  */
+import {ColorNameToHex} from '../string/color-name-to-hex';
+
 export class is {
 
     /**
@@ -344,6 +345,20 @@ export class is {
         return is.string(value) && value.startsWith('#');
     }
 
+    /**
+     * A string value that appears to be a css color.
+     *
+     * ```
+     * is.cssHex('red') // true
+     * is.cssHex('blue') // true
+     * is.cssHex('lemonchiffon') // true
+     * is.cssHex('samwise gamgee') // false
+     *
+     * ```
+     */
+    static cssColorName(value: any): boolean {
+        return ColorNameToHex.has(value);
+    }
 
     /**
      * A string value that appears to be a css rgba like.
