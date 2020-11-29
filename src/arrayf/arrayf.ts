@@ -28,5 +28,13 @@ export class arrayf {
         return output;
     }
 
-
+    /**
+     * Flattens a nested array.
+     * ```
+     * arrayf.flatten([[1,2],[3,4]]); // Returns [1,2,3,4]
+     * ```
+     */
+    static flatten<T>(values: T[][]): T[] {
+        return values.reduce((result, subArray) => result.concat(subArray), []);
+    }
 }
