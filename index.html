@@ -151,30 +151,27 @@
 				<p>Yano-js is currently in Alpha and the API can and probably will change
 				in the future.</p>
 				<ul>
-					<li>[Examples] (<a href="http://yano.inverseq.com/index.html">http://yano.inverseq.com/index.html</a>)</li>
-					<li><a href="https://yano-js.surge.sh">API Docs</a></li>
-					<li><a href="https://yano-js-coverage.surge.sh">Coverage Report</a></li>
-					<li><a href="https://circleci.com/gh/uxder/yano-js">Circle CI Builds</a></li>
+					<li><a href="https://grow.github.io/yano-js/">API Docs</a></li>
+					<li><a href="https://grow.github.io/yano-js/examples/">Examples</a></li>
+					<li><a href="https://grow.github.io/yano-js/coverage/">Coverage</a></li>
 				</ul>
 				<h2 id="motivation">Motivation</h2>
 				<p>Yano-js is an interactive developers toolbox.  It&#39;s not the next huge
 					component library with ready made solutions (modal, carousels etc) but it&#39;s
 					the nails and hammers that you need to build awesome customized kickass
 				websites.</p>
-				<h2 id="build-status">Build Status</h2>
-				<p><img src="https://circleci.com/gh/uxder/yano-js.svg?style=svg" alt="Master"></p>
+				<h2 id="build-status">Build status</h2>
+				<p><img src="https://github.com/grow/yano-js/workflows/Run%20tests/badge.svg" alt="Master"></p>
 				<h2 id="installation">Installation</h2>
 				<pre><code class="language-bash">npm install resize-observer-polyfill --save-dev
 npm install intersection-observer --save-dev
-
-
 npm install yano-js@latest --save-dev</code></pre>
 				<p>Include resize-observer and intersection-observer polyfills in your project</p>
 				<pre><code><span class="hljs-keyword">import</span> <span class="hljs-string">'../../node_modules/intersection-observer/intersection-observer.js'</span>;
 <span class="hljs-keyword">import</span> ResizeObserver <span class="hljs-keyword">from</span> <span class="hljs-string">'resize-observer-polyfill'</span>;
 <span class="hljs-built_in">window</span>[<span class="hljs-string">'ResizeObserver'</span>] = ResizeObserver;</code></pre><h2 id="getting-started">Getting started</h2>
-				<p>Read the <a href="https://yano-js.surge.sh">API Docs</a> and also look at the /examples
-				folder to get started.</p>
+				<p>Read the <a href="https://grow.github.io/yano-js/">API Docs</a> and also look at the
+				/examples folder to get started.</p>
 				<p>Import the library as follows:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {WebWorker} <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js'</span>;
 
@@ -184,22 +181,19 @@ npm install yano-js@latest --save-dev</code></pre>
 
 worker.run({a: <span class="hljs-number">5</span>, b: <span class="hljs-number">2</span>}).then(<span class="hljs-function">(<span class="hljs-params">result</span>)=&gt;</span> {
    <span class="hljs-built_in">console</span>.log(result); <span class="hljs-comment">// 10</span>
-})
-</code></pre>
+})</code></pre>
 				<p>Import specific files</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { mathf } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/mathf/mathf/'</span>
 <span class="hljs-keyword">import</span> { is } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/is/is/'</span>
 <span class="hljs-keyword">import</span> { dom } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/dom/dom/'</span></code></pre>
 				<h2 id="threejs-deps">ThreeJS deps</h2>
-				<p>Classes under threef require three.js deps.  Currently supports r110.</p>
+				<p>Classes under threef require three.js deps. Currently supports r110.</p>
 				<p>In your project do:</p>
 				<pre><code>npm install --save-dev <span class="hljs-symbol">three@</span><span class="hljs-number">0.110</span><span class="hljs-number">.0</span>
-npm install --save-dev @types/<span class="hljs-symbol">three@</span><span class="hljs-number">0.103</span><span class="hljs-number">.2</span>
-</code></pre><h2 id="contributing">Contributing</h2>
-				<p>Please read <a href="https://github.com/uxder/yano-js/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a>
-				on how to develop for yano-js.</p>
+npm install --save-dev @types/<span class="hljs-symbol">three@</span><span class="hljs-number">0.103</span><span class="hljs-number">.2</span></code></pre><h2 id="contributing">Contributing</h2>
+				<p>Please read <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> on how to develop for yano-js.</p>
 				<h2 id="license">License</h2>
-				<p>Please read <a href="https://github.com/uxder/yano-js/blob/master/LICENSE.md">LICENSE.md</a></p>
+				<p>Please read <a href="LICENSE.md">LICENSE.md</a></p>
 			</div>
 		</div>
 	</div>
