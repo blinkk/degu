@@ -518,7 +518,7 @@ export class dom {
      * so memory can be released.
      *
      * ```
-     * const imageSource = './public/image/cat.jpg';
+     * const imageSource = 'public/image/cat.jpg';
      *
      * // Cache the image in browser memory.
      *    dom.fetchAndMakeImage(imageSource).then((image)=> {
