@@ -6,8 +6,8 @@ Yano-js is currently in Alpha and the API can and probably will change
 in the future.
 
 - [API Docs](https://grow.github.io/yano-js/)
-- [Examples] (https://grow.github.io/yano-js/examples/)
-- [Examples] (https://grow.github.io/yano-js/coverage/)
+- [Examples](https://grow.github.io/yano-js/examples/)
+- [Coverage](https://grow.github.io/yano-js/coverage/)
 
 ## Motivation
 
