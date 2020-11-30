@@ -30,10 +30,10 @@ export default class X2Sample {
     this.imageTextures = {};
 
     let images = new ImageLoader([
-      '/public/boy.png',
-      '/public/boy2.png',
-      '/public/boy3.png',
-      '/public/flower.jpg',
+      './public/boy.png',
+      './public/boy2.png',
+      './public/boy3.png',
+      './public/flower.jpg',
     ]).load().then((results) => {
       // Make textures out of the images.
       Object.keys(results).forEach((key) => {
@@ -112,7 +112,7 @@ export default class X2Sample {
         //     gy: gameObject.gy,
         // });
       },
-      texture: this.imageTextures['/public/flower.jpg'],
+      texture: this.imageTextures['./public/flower.jpg'],
     });
     // this.test.debug = true;
     this.X.stage.addChild(this.flower);

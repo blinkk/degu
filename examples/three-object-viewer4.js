@@ -98,8 +98,8 @@ export default class ThreeObjectViewer4 {
 
         var loader = new GLTFLoader();
         // const path = 'https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/DamagedHelmet.gltf';
-        // const path = '/public/dude.glb';
-        const path = '/public/home/home3.gltf';
+        // const path = './public/dude.glb';
+        const path = './public/home/home3.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 

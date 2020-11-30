@@ -43,7 +43,7 @@ export default class WebGlImageSequenceSample {
     for (let i = 1; i <= 153; i++) {
       let value = i + '';
       value = value.padStart(4, '0');
-      this.imageSources.push('/public/frames/thumb' + value + '.jpg');
+      this.imageSources.push('./public/frames/thumb' + value + '.jpg');
     }
 
     // Create Canvas Image Sequenece

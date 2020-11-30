@@ -98,7 +98,7 @@ export default class ThreeObjectViewer7 {
 
 
         var loader = new GLTFLoader();
-        const path = '/public/home/demo7.gltf';
+        const path = './public/home/demo7.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 

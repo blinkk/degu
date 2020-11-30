@@ -107,7 +107,7 @@ export default class GlslPlayground20 {
             // Load a texture.
             // Ends up being a sampler2D type.
             u_texture: {
-                value: new THREE.TextureLoader().load('/public/flower.jpg')
+                value: new THREE.TextureLoader().load('./public/flower.jpg')
             },
             u_time: { value: 0.0 },
             u_mouse: { value:{ x:0.0, y:0.0 }},

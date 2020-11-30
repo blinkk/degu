@@ -190,7 +190,7 @@ export default class GlslPlayground29 {
 
         // Add env
         const envCube = new THREE.CubeTextureLoader()
-        .setPath( '/public/' )
+        .setPath( './public/' )
         .load( [
             'skybox2_px.jpg',
             'skybox2_nx.jpg',

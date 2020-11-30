@@ -111,7 +111,7 @@ export default class ThreeObjectViewer11 {
 
 
         var loader = new GLTFLoader();
-        const path = '/public/moon/three-object-viewer11.gltf';
+        const path = './public/moon/three-object-viewer11.gltf';
         loader.load(path, (gltf) => {
             const gltfData = gltf.parser.json;
 

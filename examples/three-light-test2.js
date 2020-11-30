@@ -169,8 +169,8 @@ export default class ThreeLightTest2 {
         // this.uniforms.u_light = { value: new THREE.Vector3(0.5, 0.8, 0.1) };
         // this.uniforms.u_resolution = { value: new THREE.Vector2(1.0, 1.0) };
         // this.uniforms.u_color = { value: new THREE.Color(0xaa6611) };
-        // this.uniforms.u_diffuse_map = { value: new THREE.TextureLoader().load('/public/bricks-diffuse3.png') };
-        // this.uniforms.u_normal_map = { value: new THREE.TextureLoader().load('/public/bricks-normal3.png') };
+        // this.uniforms.u_diffuse_map = { value: new THREE.TextureLoader().load('./public/bricks-diffuse3.png') };
+        // this.uniforms.u_normal_map = { value: new THREE.TextureLoader().load('./public/bricks-normal3.png') };
         // this.uniforms.u_time = { value: 0.0 };
         this.uniforms.u_resolution = { value: { x: 0.0, y: 0.0 } };
 
