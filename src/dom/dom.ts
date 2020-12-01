@@ -197,11 +197,9 @@ export class dom {
      * @param style
      */
     static setCssVariables(element: HTMLElement, variables: Object) {
-        let style = '';
-        for (var key in variables) {
-            style += key + ':' + variables[key] + ';';
+        for (let key in variables){
+          element.style.setProperty(key, variables[key]);
         }
-        element.style.cssText = style;
     }
 
 
