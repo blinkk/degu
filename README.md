@@ -69,6 +69,15 @@ npm install --save-dev three@0.110.0
 npm install --save-dev @types/three@0.103.2
 ```
 
+## Browser compatibility
+
+Yano-js supports only "evergreen" browsers back to the latest two versions:
+
+- Chrome
+- Edge (Chromium version)
+- Firefox
+- Safari
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) on how to develop for yano-js.
