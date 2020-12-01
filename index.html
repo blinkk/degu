@@ -147,32 +147,34 @@
 		<div class="col-7 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="yano-js">Yano-js</h1>
+				<p><img src="https://github.com/grow/yano-js/workflows/Run%20tests/badge.svg" alt="Master"></p>
 				<p>Yano is a general utility library for interactive websites.</p>
-				<p>Yano-js is currently in Alpha and the API can and probably will change
-				in the future.</p>
 				<ul>
-					<li><a href="https://grow.github.io/yano-js/">API Docs</a></li>
+					<li><a href="https://grow.github.io/yano-js/">API docs</a></li>
 					<li><a href="https://grow.github.io/yano-js/examples/">Examples</a></li>
 					<li><a href="https://grow.github.io/yano-js/coverage/">Coverage</a></li>
 				</ul>
 				<h2 id="motivation">Motivation</h2>
-				<p>Yano-js is an interactive developers toolbox.  It&#39;s not the next huge
-					component library with ready made solutions (modal, carousels etc) but it&#39;s
-					the nails and hammers that you need to build awesome customized kickass
-				websites.</p>
-				<h2 id="build-status">Build status</h2>
-				<p><img src="https://github.com/grow/yano-js/workflows/Run%20tests/badge.svg" alt="Master"></p>
+				<p>Yano-js is an interactive developer toolbox. It is not the next buzzword-filled,
+					huge component library with ready-made UI solutions (such as modals, carousels, etc.)
+					but it aims to provide the &quot;hammer and nails&quot; needed to build highly-interactive,
+				performant, kickass websites.</p>
 				<h2 id="installation">Installation</h2>
 				<pre><code class="language-bash">npm install resize-observer-polyfill --save-dev
 npm install intersection-observer --save-dev
 npm install yano-js@latest --save-dev</code></pre>
-				<p>Include resize-observer and intersection-observer polyfills in your project</p>
-				<pre><code><span class="hljs-keyword">import</span> <span class="hljs-string">'../../node_modules/intersection-observer/intersection-observer.js'</span>;
+				<p>Include <code>resize-observer-polyfill</code> and <code>intersection-observer</code> polyfill:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-string">'../../node_modules/intersection-observer/intersection-observer.js'</span>;
 <span class="hljs-keyword">import</span> ResizeObserver <span class="hljs-keyword">from</span> <span class="hljs-string">'resize-observer-polyfill'</span>;
-<span class="hljs-built_in">window</span>[<span class="hljs-string">'ResizeObserver'</span>] = ResizeObserver;</code></pre><h2 id="getting-started">Getting started</h2>
-				<p>Read the <a href="https://grow.github.io/yano-js/">API Docs</a> and also look at the
-				/examples folder to get started.</p>
-				<p>Import the library as follows:</p>
+<span class="hljs-built_in">window</span>[<span class="hljs-string">'ResizeObserver'</span>] = ResizeObserver;
+
+<span class="hljs-comment">/* ... insert code that depends on yano-js ... */</span></code></pre>
+				<h2 id="getting-started">Getting started</h2>
+				<ul>
+					<li>Read the <a href="https://grow.github.io/yano-js/">API Docs</a></li>
+					<li>Explore the [/examples](examples folder)</li>
+				</ul>
+				<p>Import the library:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {WebWorker} <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js'</span>;
 
 <span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> WebWorker(<span class="hljs-function">(<span class="hljs-params">params</span>)=&gt;</span> {
@@ -182,15 +184,15 @@ npm install yano-js@latest --save-dev</code></pre>
 worker.run({a: <span class="hljs-number">5</span>, b: <span class="hljs-number">2</span>}).then(<span class="hljs-function">(<span class="hljs-params">result</span>)=&gt;</span> {
    <span class="hljs-built_in">console</span>.log(result); <span class="hljs-comment">// 10</span>
 })</code></pre>
-				<p>Import specific files</p>
+				<p>Import specific files:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { mathf } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/mathf/mathf/'</span>
 <span class="hljs-keyword">import</span> { is } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/is/is/'</span>
 <span class="hljs-keyword">import</span> { dom } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/dom/dom/'</span></code></pre>
 				<h2 id="threejs-deps">ThreeJS deps</h2>
-				<p>Classes under threef require three.js deps. Currently supports r110.</p>
-				<p>In your project do:</p>
-				<pre><code>npm install --save-dev <span class="hljs-symbol">three@</span><span class="hljs-number">0.110</span><span class="hljs-number">.0</span>
-npm install --save-dev @types/<span class="hljs-symbol">three@</span><span class="hljs-number">0.103</span><span class="hljs-number">.2</span></code></pre><h2 id="contributing">Contributing</h2>
+				<p>Classes under <code>threef</code> require three.js deps. Currently supports r110.</p>
+				<pre><code class="language-bash">npm install --save-dev three@0.110.0
+npm install --save-dev @types/three@0.103.2</code></pre>
+				<h2 id="contributing">Contributing</h2>
 				<p>Please read <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> on how to develop for yano-js.</p>
 				<h2 id="license">License</h2>
 				<p>Please read <a href="LICENSE.md">LICENSE.md</a></p>
