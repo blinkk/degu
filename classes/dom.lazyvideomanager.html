@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ToggleController | Yano
+	<title>LazyVideoManager | Yano
 	</title>
 	<meta name="description" content="">
 	<meta name="theme-color" content="#28b463">
@@ -60,13 +60,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/angular.html">angular</a>
+					<a href="../modules/dom.html">dom</a>
 				</li>
 				<li>
-					<a href="angular.togglecontroller.html">ToggleController</a>
+					<a href="dom.lazyvideomanager.html">LazyVideoManager</a>
 				</li>
 			</ul>
-			<h1>Class ToggleController</h1>
+			<h1>Class LazyVideoManager</h1>
 		</div>
 	</div>
 </header>
@@ -81,7 +81,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/angular.html">angular</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -93,7 +93,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/debug.html">debug</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/dom.html">dom</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -150,22 +150,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="angular.togglecontroller.html" class="tsd-kind-icon">Toggle<wbr>Controller</a>
+						<a href="dom.lazyvideomanager.html" class="tsd-kind-icon">Lazy<wbr>Video<wbr>Manager</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="angular.togglecontroller.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-								<a href="angular.togglecontroller.html#_inject" class="tsd-kind-icon">$inject</a>
+								<a href="dom.lazyvideomanager.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.togglecontroller.html#close" class="tsd-kind-icon">close</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.togglecontroller.html#open" class="tsd-kind-icon">open</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.togglecontroller.html#toggle" class="tsd-kind-icon">toggle</a>
+								<a href="dom.lazyvideomanager.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
 						</ul>
 					</li>
@@ -178,36 +169,15 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A simple controller used to setup basic drawer like functionality.</p>
+						<p>A utility class that helps quickly create and dispose lazy video elements on the page.</p>
 					</div>
-					<p>Example usage:</p>
-					<pre><code class="language-ts">
- .toggle__drawer
-    display: none
-.toggle--open
-   .toggle__drawer
-       display: block
-
-
-&lt;div class="toggle"
- ng-class="{
-    'toggle--open':  toggleCtrl.expanded
- }"
- ng-controller="ToggleController as toggleCtrl"&gt;
-    &lt;div class="toggle__content" ng-click="toggleCtrl.toggle()"&gt;
-        What city is the capital of Japan?
-    &lt;/div&gt;
-    &lt;div class="toggle__drawer"&gt;
-        Tokyo.
-    &lt;/div&gt;
-&lt;/div&gt;</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ToggleController</span>
+						<span class="target">LazyVideoManager</span>
 					</li>
 				</ul>
 			</section>
@@ -218,21 +188,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="angular.togglecontroller.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Accessors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="angular.togglecontroller.html#_inject" class="tsd-kind-icon">$inject</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.lazyvideomanager.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.togglecontroller.html#close" class="tsd-kind-icon">close</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.togglecontroller.html#open" class="tsd-kind-icon">open</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.togglecontroller.html#toggle" class="tsd-kind-icon">toggle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.lazyvideomanager.html#dispose" class="tsd-kind-icon">dispose</a></li>
 							</ul>
 						</section>
 					</div>
@@ -244,90 +206,33 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Toggle<wbr>Controller<span class="tsd-signature-symbol">(</span>$element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IAngularStatic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="angular.togglecontroller.html" class="tsd-signature-type">ToggleController</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Lazy<wbr>Video<wbr>Manager<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.lazyvideomanager.html" class="tsd-signature-type">LazyVideoManager</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>$element: <span class="tsd-signature-type">ng.IAngularStatic</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="angular.togglecontroller.html" class="tsd-signature-type">ToggleController</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="dom.lazyvideomanager.html" class="tsd-signature-type">LazyVideoManager</a></h4>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/d065c76/src/angular/controller-toggle.ts#L39">angular/controller-toggle.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/d065c76/src/dom/lazy-video.ts#L195">dom/lazy-video.ts:195</a></li>
 								</ul>
 						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-					<a name="_inject" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> $inject</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> $inject<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/d065c76/src/angular/controller-toggle.ts#L37">angular/controller-toggle.ts:37</a></li>
-								</ul>
-						</aside>            </li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="close" class="tsd-anchor"></a>
-					<h3>close</h3>
+					<a name="dispose" class="tsd-anchor"></a>
+					<h3>dispose</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/d065c76/src/angular/controller-toggle.ts#L54">angular/controller-toggle.ts:54</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="open" class="tsd-anchor"></a>
-					<h3>open</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">open<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/d065c76/src/angular/controller-toggle.ts#L50">angular/controller-toggle.ts:50</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="toggle" class="tsd-anchor"></a>
-					<h3>toggle</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">toggle<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/d065c76/src/angular/controller-toggle.ts#L46">angular/controller-toggle.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/d065c76/src/dom/lazy-video.ts#L207">dom/lazy-video.ts:207</a></li>
 								</ul>
 						</aside>        </li>
 					</ul>
