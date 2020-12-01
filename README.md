@@ -35,8 +35,8 @@ window['ResizeObserver'] = ResizeObserver;
 
 ## Getting started
 
-- Read the [API Docs](https://grow.github.io/yano-js/)
-- Explore the [/examples](examples folder)
+- Read the [API docs](https://grow.github.io/yano-js/)
+- Explore the [examples folder](/examples/)
 
 Import the library:
 
