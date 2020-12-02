@@ -177,13 +177,17 @@
 					<div class="lead">
 						<p>Implements a basic type 1 inview.</p>
 					</div>
-					<pre><code>       <span class="hljs-string">new</span> <span class="hljs-string">Inview({</span>
-<span class="hljs-attr">          element:</span> <span class="hljs-string">document.getElementById('test2'),</span>
-<span class="hljs-attr">          elementBaseline:</span> <span class="hljs-number">0</span><span class="hljs-string">,</span>
-<span class="hljs-attr">          viewportOffset:</span> <span class="hljs-number">0.2</span><span class="hljs-string">,</span>
-<span class="hljs-attr">          waitForOutOfViewToRefireInview:</span> <span class="hljs-literal">false</span><span class="hljs-string">,</span>
-<span class="hljs-attr">          downOnlyMode:</span> <span class="hljs-literal">false</span>
-      <span class="hljs-string">});</span></code></pre><p>Type 1 inview:</p>
+					<pre><code>       <span class="hljs-selector-tag">new</span> <span class="hljs-selector-tag">Inview</span>({
+          <span class="hljs-attribute">element</span>: document.getElementById(<span class="hljs-string">'test2'</span>),
+          <span class="hljs-attribute">elementBaseline</span>: <span class="hljs-number">0</span>,
+          <span class="hljs-attribute">viewportOffset</span>: <span class="hljs-number">0.2</span>,
+          <span class="hljs-attribute">waitForOutOfViewToRefireInview</span>: false,
+          <span class="hljs-attribute">downOnlyMode</span>: false,
+          <span class="hljs-comment">// Optionally override default class names.</span>
+          <span class="hljs-attribute">inviewClassNames</span>: {
+            <span class="hljs-attribute">IN</span>: <span class="hljs-string">'mymodule--in'</span>
+          }
+      });</code></pre><p>Type 1 inview:</p>
 					<ul>
 						<li>will add an &#39;.in&#39; class to an element when the element is at
 							at certain percentage of the viewport. (viewport offset) or
@@ -306,7 +310,7 @@
 							<h4 class="tsd-returns-title">Returns <a href="dom.inview.html" class="tsd-signature-type">Inview</a></h4>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/a9ea36f/src/dom/inview.ts#L238">dom/inview.ts:238</a></li>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/362f60a/src/dom/inview.ts#L255">dom/inview.ts:255</a></li>
 								</ul>
 						</aside>        </li>
 					</ul>
@@ -325,7 +329,7 @@
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/a9ea36f/src/dom/inview.ts#L468">dom/inview.ts:468</a></li>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/362f60a/src/dom/inview.ts#L495">dom/inview.ts:495</a></li>
 								</ul>
 						</aside>        </li>
 					</ul>
@@ -347,7 +351,7 @@
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/a9ea36f/src/dom/inview.ts#L422">dom/inview.ts:422</a></li>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/362f60a/src/dom/inview.ts#L449">dom/inview.ts:449</a></li>
 								</ul>
 						</aside>        </li>
 					</ul>
@@ -369,7 +373,7 @@
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/a9ea36f/src/dom/inview.ts#L451">dom/inview.ts:451</a></li>
+									<li>Defined in <a href="https://github.com/grow/yano-js/blob/362f60a/src/dom/inview.ts#L478">dom/inview.ts:478</a></li>
 								</ul>
 						</aside>        </li>
 					</ul>
