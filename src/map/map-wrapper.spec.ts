@@ -52,14 +52,14 @@ test('MapWrapper `delete()` should match native Map functionality', async t => {
 });
 
 test('MapWrapper `entries()` should match native Map functionality', async t => {
-  t.deepEqual(new MapWrapper(tests).keys(), new Map(tests).keys());
+  t.deepEqual(new MapWrapper(tests).entries(), new Map(tests).entries());
   const wrapped = new MapWrapper();
   const native = new Map();
   tests.forEach(([key, value]) => {
     wrapped.set(key, value);
     native.set(key, value);
   });
-  t.deepEqual(wrapped.keys(), native.keys());
+  t.deepEqual(wrapped.entries(), native.entries());
 });
 
 test('MapWrapper `forEach()` should match native Map functionality', async t => {
