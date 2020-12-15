@@ -1397,4 +1397,17 @@ export class mathf {
     return mathf.lerp(minA, maxA, t);
   }
 
+  /**
+   * Totals all given values
+   */
+  static sum(...values: number[]): number {
+    return values.reduce((result, value) => result + value, 0);
+  }
+
+  /**
+   * Returns the largest absolute value from the given values
+   */
+  static absMax(...values: number[]): number {
+    return Math.max(...values.map((n) => Math.abs(n)));
+  }
 }
