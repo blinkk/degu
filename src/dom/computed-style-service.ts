@@ -1,5 +1,5 @@
-import { DynamicDefaultMap } from '../../map/dynamic-default';
-import { Raf } from '../..';
+import { DynamicDefaultMap } from '../map/dynamic-default';
+import { Raf } from '..';
 
 export class ComputedStyleService {
 

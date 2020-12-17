@@ -1,12 +1,11 @@
-import { getStyle } from '../../style/get-style';
 import { getVisibleDistanceFromRoot } from './get-visible-distance-from-root';
 import { getOffsetTopIgnoringSticky } from './get-offset-top-ignoring-sticky';
-import { mathf } from '../../..';
+import {dom, mathf} from '../../..';
 
 const ignoredPositions = new Set(['fixed', 'absolute']);
 
 export function getStuckDistance(element: HTMLElement): number {
-  const position = getStyle(element, 'position');
+  const position = dom.getStyle(element).position;
   if (position !== 'sticky') {
     return 0;
   } else {

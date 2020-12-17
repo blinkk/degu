@@ -6,9 +6,8 @@
 import { Numeric } from '../../types';
 import { Vector2d } from '../../mathf/geometry/vector-2d';
 import { ArrayMap } from '../../map/array';
-import { ComputedStyleService } from '../style/computed-style-service';
+import { ComputedStyleService } from '../computed-style-service';
 import { Raf } from '../..';
-import { reduce } from '../../iterable-iterator/reduce';
 
 // Tracks desired changes to element matrices for the next frame
 const matrixChangesByElement: ArrayMap<HTMLElement, Matrix> = new ArrayMap();

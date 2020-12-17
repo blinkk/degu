@@ -1,4 +1,4 @@
-import { getStyle } from '../../style/get-style';
+import {dom} from '../../dom';
 
 const ignoredPositions = new Set(['fixed', 'absolute']);
 
@@ -7,7 +7,7 @@ function getPreviousSiblingHeight(element: HTMLElement): number {
   let previousSibling: HTMLElement =
       <HTMLElement>element.previousElementSibling;
   while (previousSibling) {
-    const previousSiblingPosition = getStyle(previousSibling, 'position');
+    const previousSiblingPosition = dom.getStyle(previousSibling).position;
     if (!ignoredPositions.has(previousSiblingPosition)) {
       if (previousSiblingPosition === 'sticky') {
         previousSiblingHeight += previousSibling.offsetHeight;
@@ -23,7 +23,7 @@ function getPreviousSiblingHeight(element: HTMLElement): number {
 }
 
 function getOffsetTopIgnoringSticky(element: HTMLElement): number {
-  const position = getStyle(element, 'position');
+  const position = dom.getStyle(element).position;
   if (position !== 'sticky') {
     return element.offsetTop;
   } else {
