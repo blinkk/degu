@@ -1,4 +1,8 @@
-function map<T, V>(
+/**
+ * Maps the values in the iterator to an array using the given function.
+ * Behaves similarly to Array.map.
+ */
+export function map<T, V>(
     iterableIterator: IterableIterator<T>,
     callback: (value: T) => V
 ): V[] {
@@ -11,5 +15,3 @@ function map<T, V>(
 
   return result;
 }
-
-export {map};

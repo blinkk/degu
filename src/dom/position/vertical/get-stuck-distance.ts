@@ -1,9 +1,12 @@
 import { getVisibleDistanceFromRoot } from './get-visible-distance-from-root';
 import { getOffsetTopIgnoringSticky } from './get-offset-top-ignoring-sticky';
-import {dom, mathf} from '../../..';
+import { dom, mathf } from '../../..';
 
 const ignoredPositions = new Set(['fixed', 'absolute']);
 
+/**
+ * Returns how many pixels of scroll an element has been "stuck" for.
+ */
 export function getStuckDistance(element: HTMLElement): number {
   const position = dom.getStyle(element).position;
   if (position !== 'sticky') {

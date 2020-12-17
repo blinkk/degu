@@ -42,6 +42,9 @@ export class Dimensions2dDom extends Dimensions2d {
     return <T>new this(window.innerWidth, window.innerHeight);
   }
 
+  /**
+   * Style the given element with the width and height from this instance
+   */
   sizeElement(element: HTMLElement): void {
     element.style.width = `${this.getWidth()}px`;
     element.style.height = `${this.getHeight()}px`;

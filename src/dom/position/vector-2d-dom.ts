@@ -1,7 +1,13 @@
 import { Matrix } from './matrix';
 import { Vector2d } from '../../mathf/geometry/vector-2d';
 
+/**
+ * DOM version of Vector2d with various DOM-specific helper functions.
+ */
 export class Vector2dDom extends Vector2d {
+  /**
+   * Returns a vector matching the element's offsetLeft and offsetTop
+   */
   static fromElementOffset<T extends Vector2dDom>(element: HTMLElement): T {
     const offsetParent: HTMLElement = <HTMLElement>element.offsetParent;
     return <T>new this(element.offsetLeft, element.offsetTop);
@@ -23,11 +29,17 @@ export class Vector2dDom extends Vector2d {
     return <T>new this(e.deltaX, e.deltaY);
   }
 
+  /**
+   * Sets an element's left and top style values based on the vector's X and Y.
+   */
   positionElement(element: HTMLElement): void {
     element.style.left = `${this.getX()}px`;
     element.style.top = `${this.getY()}px`;
   }
 
+  /**
+   * Sets the element's transform to a translate based on the vector's X and Y.
+   */
   positionElementByTranslation(element: HTMLElement): void {
     element.style.transform = `translate(${this.getX()}px, ${this.getY()}px)`;
   }

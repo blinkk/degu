@@ -72,6 +72,9 @@ export class stringf {
        return x && x.replace(/[^0-9\.]/gi,'');
     }
 
+    /**
+     * Determines if the candidate is present in the value.
+     */
     static contains(value: string, candidate: string): boolean {
         return value.indexOf(candidate) !== -1;
     }

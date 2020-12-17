@@ -1,3 +1,7 @@
+/**
+ * Caches the distance of an element from the top of the viewport.
+ * Without caching this can be an expensive recursive operation.
+ */
 import { DynamicDefaultMap } from '../../../map/dynamic-default';
 import { Scroll } from '../../scroll';
 import { Vector2dDom } from '../vector-2d-dom';
@@ -9,51 +13,44 @@ function isFixed(element: HTMLElement) {
 }
 
 function getIgnoreStickyOffset(candidateElement: HTMLElement): number {
-  return getBasicOffset(candidateElement) - getStuckDistance(candidateElement);
+  return getTransformedOffset(candidateElement) - getStuckDistance(candidateElement);
 }
 
-function getBasicOffset(candidateElement: HTMLElement): number {
+function getTransformedOffset(candidateElement: HTMLElement): number {
   return candidateElement.offsetTop +
       Vector2dDom.fromElementTransform(candidateElement).getY();
-}
-
-function getVisibleDistanceFromRoot_(
-    element: HTMLElement,
-    getOffsetFn: (e: HTMLElement) => number
-): number {
-  let candidateElement = element;
-  let y = 0;
-
-  while (candidateElement && candidateElement !== document.body) {
-    // Special case for fixed elements
-    if (isFixed(candidateElement)) {
-      return y + candidateElement.offsetTop;
-    } else {
-      y += getOffsetFn(candidateElement) -
-          candidateElement.scrollTop;
-    }
-    candidateElement = <HTMLElement>candidateElement.offsetParent;
-  }
-
-  const scroll = Scroll.getSingleton(getVisibleDistanceFromRoot_);
-  const invertedScroll = scroll.getPosition().invert();
-  scroll.destroy(getVisibleDistanceFromRoot_);
-  return y + invertedScroll.getY();
 }
 
 function getVisibleDistanceFromRoot(
     element: HTMLElement,
     getOffsetFn: (e: HTMLElement) => number
 ): number {
+  // Short circuit for fixed elements
   if (isFixed(element)) {
     return element.offsetTop;
   }
-  return getOffsetFn(element) +
-      getVisibleDistanceFromRoot_(<HTMLElement>element.offsetParent, getOffsetFn);
+
+  // Loop through offset parents and tally the distance
+  let candidateElement: HTMLElement = <HTMLElement>element.offsetParent;
+  let y = 0;
+  while (candidateElement && candidateElement !== document.body) {
+    // Special case for fixed elements
+    if (isFixed(candidateElement)) {
+      return y + candidateElement.offsetTop;
+    } else {
+      // Factor in the offset and the scroll
+      y += getOffsetFn(candidateElement) - candidateElement.scrollTop;
+    }
+    candidateElement = <HTMLElement>candidateElement.offsetParent;
+  }
+
+  const scroll = Scroll.getSingleton(getVisibleDistanceFromRoot);
+  const invertedScroll = scroll.getPosition().invert();
+  scroll.destroy(getVisibleDistanceFromRoot);
+  return getOffsetFn(element) + y + invertedScroll.getY();
 }
 
 export class VisibleDistanceFromRootService {
-
   static getSingleton(): VisibleDistanceFromRootService {
     return this.singleton = this.singleton || new this();
   }
@@ -67,7 +64,7 @@ export class VisibleDistanceFromRootService {
     this.cache =
         DynamicDefaultMap.usingFunction(
             (element: HTMLElement) => {
-              return getVisibleDistanceFromRoot(element, getBasicOffset);
+              return getVisibleDistanceFromRoot(element, getTransformedOffset);
             });
     this.cacheIgnoringSticky =
         DynamicDefaultMap.usingFunction(
@@ -77,10 +74,18 @@ export class VisibleDistanceFromRootService {
     this.init();
   }
 
+  /**
+   * Returns the visible distance from the elements top to the top of the
+   * viewport.
+   */
   getVisibleDistanceFromRoot(element: HTMLElement): number {
     return this.cache.get(element);
   }
 
+  /**
+   * Returns the visible distance from the elements top to the top of the
+   * viewport, as if the element weren't stickied.
+   */
   getVisibleDistanceFromRootIgnoringSticky(element: HTMLElement): number {
     return this.cacheIgnoringSticky.get(element);
   }
@@ -89,6 +94,9 @@ export class VisibleDistanceFromRootService {
     this.raf.start();
   }
 
+  /**
+   * Clear caches during the postWrite step.
+   */
   private loop() {
     this.raf.postWrite(() => this.clearCaches());
   }

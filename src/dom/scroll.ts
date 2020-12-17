@@ -6,6 +6,9 @@ import { WindowDimensions } from './position/window-dimensions';
 import { arrayf } from '../arrayf/arrayf';
 import { getScrollElement } from './get-scroll-element';
 
+/**
+ * Caches the scrolling element's scroll position.
+ */
 export class Scroll extends CachedElementVector<Vector2d> {
 
   static getForElement(use: any, args: any[] = [null]): Scroll {
@@ -26,10 +29,16 @@ export class Scroll extends CachedElementVector<Vector2d> {
         Dimensions.getForElement(this, [getScrollElement()]);
   }
 
+  /**
+   * Returns the current scroll position
+   */
   getPosition(): Vector2d {
     return this.getLastValue();
   }
 
+  /**
+   * Returns how much of the document has been scrolled
+   */
   getScrollPercent(): Vector2d {
     const scrollableDimensions: number[] =
         this.scrollElementDimensions
@@ -67,10 +76,10 @@ export class Scroll extends CachedElementVector<Vector2d> {
   }
 
   protected getValues(): number[] {
-    return [this.getScrollX_(), this.getScrollY_()];
+    return [this.getScrollX(), this.getScrollY()];
   }
 
-  private getScrollX_(): number {
+  private getScrollX(): number {
     if (this.element) {
       return this.element.scrollLeft;
     } else {
@@ -78,7 +87,7 @@ export class Scroll extends CachedElementVector<Vector2d> {
     }
   }
 
-  private getScrollY_(): number {
+  private getScrollY(): number {
     if (this.element) {
       return this.element.scrollTop;
     } else {

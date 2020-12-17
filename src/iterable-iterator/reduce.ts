@@ -1,3 +1,7 @@
+/**
+ * Reduces the values in the iterator to a single value.
+ * Behaves similarly to Array.reduce.
+ */
 export function reduce<V, R>(
     iterableIterator: IterableIterator<V>,
     callback: (result: R, value: V) => R,

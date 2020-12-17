@@ -1,6 +1,9 @@
 import { CachedElementVector } from '../cached-element-vector';
 import { Dimensions2dDom } from './dimensions-2d-dom';
 
+/**
+ * Caches the window dimensions.
+ */
 export class WindowDimensions extends CachedElementVector<Dimensions2dDom> {
   static getForElement(use: any, args: any[] = null): WindowDimensions {
     if (args) {

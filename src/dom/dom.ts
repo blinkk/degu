@@ -3,7 +3,7 @@ import { Defer } from '../func/defer';
 import { func } from '../func/func';
 import { is } from '../is/is';
 import { DomWatcher } from '../dom/dom-watcher';
-import {ComputedStyleService} from './computed-style-service';
+import { ComputedStyleService } from './computed-style-service';
 
 /**
  * Yano DOM utility functions.
@@ -478,6 +478,7 @@ export class dom {
      * @return CSSStyleDeclartion
      */
     static getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
+        // Use per-frame cached values to avoid style-recalc and layout calls
         return ComputedStyleService.getSingleton().getComputedStyle(element);
     }
 
@@ -851,6 +852,7 @@ export class dom {
      * ```
      */
     static getStyle(el: Element): CSSStyleDeclaration {
+        // Use per-frame cached values to avoid style-recalc and layout calls
         return ComputedStyleService.getSingleton().getComputedStyle(el);
     }
 
@@ -858,6 +860,7 @@ export class dom {
      * Tests whether the provided element is set to display none.
      */
     static isDisplayNone(el: Element): boolean {
+        // Use internal style fetching to allow for optimizations
         let style = dom.getStyle(el).display;
         return style == 'none';
     }

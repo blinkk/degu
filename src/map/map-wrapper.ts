@@ -1,5 +1,3 @@
-import { is } from '..';
-
 /**
  * Places a wrapper around the built-in Map structure. The built in structure
  * cannot be inherited, so this allows us to extend and build on top of
@@ -10,8 +8,7 @@ import { is } from '..';
  * V: Value type
  */
 
-export class MapWrapper<K, V> implements Map<K, V> {
-
+export class MapWrapper<K, V> {
   get size(): number {
     return this.map.size;
   }
@@ -40,7 +37,7 @@ export class MapWrapper<K, V> implements Map<K, V> {
       callbackFn: (value: V, index: K, map: Map<K, V>) => void,
       thisArg?: any
   ): void {
-    const finalThisArg = is.defined(thisArg) ? thisArg : this;
+    const finalThisArg = typeof thisArg !== 'undefined' ? thisArg : this;
     this.map.forEach(callbackFn, <this>finalThisArg);
   }
 
