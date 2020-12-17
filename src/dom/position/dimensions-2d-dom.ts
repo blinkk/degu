@@ -1,6 +1,9 @@
 import { Dimensions2d } from '../../mathf/geometry/dimensions-2d';
 import { getScrollElement } from '../get-scroll-element';
 
+/**
+ * Version of Dimenions2d with various DOM specific helper functions.
+ */
 export class Dimensions2dDom extends Dimensions2d {
   static fromCanvas<T extends Dimensions2dDom>(
       element: HTMLCanvasElement = null
@@ -40,7 +43,7 @@ export class Dimensions2dDom extends Dimensions2d {
   }
 
   sizeElement(element: HTMLElement): void {
-    element.style.width = `${this.width}px`;
-    element.style.height = `${this.height}px`;
+    element.style.width = `${this.getWidth()}px`;
+    element.style.height = `${this.getHeight()}px`;
   }
 }

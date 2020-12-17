@@ -2,8 +2,12 @@ import { DynamicDefaultMap } from '../../../map/dynamic-default';
 import { Scroll } from '../../scroll';
 import { Vector2dDom } from '../vector-2d-dom';
 import { getStuckDistance } from './get-stuck-distance';
-import { isFixed } from '../is-fixed';
 import { Raf } from '../../..';
+import { getStyle } from '../../style/get-style';
+
+function isFixed(element: HTMLElement) {
+  return getStyle(element, 'position') === 'fixed';
+}
 
 function getIgnoreStickyOffset(candidateElement: HTMLElement): number {
   return getBasicOffset(candidateElement) - getStuckDistance(candidateElement);

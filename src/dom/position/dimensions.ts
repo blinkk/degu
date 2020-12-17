@@ -1,6 +1,5 @@
 import { CachedElementVector } from '../cached-element-vector';
 import { Dimensions2dDom } from './dimensions-2d-dom';
-import { getAncestorDimensions } from './get-ancestor-dimensions';
 
 export class Dimensions extends CachedElementVector<Dimensions2dDom> {
   static getForElement(use: any, args: any[] = [null]): Dimensions {
@@ -21,6 +20,11 @@ export class Dimensions extends CachedElementVector<Dimensions2dDom> {
   }
 
   protected getValues(): number[] {
-    return getAncestorDimensions(this.element).getValues();
+    if (this.element) {
+      return Dimensions2dDom.fromElementOffset(this.element)
+          .getValues();
+    } else {
+      return Dimensions2dDom.fromRootElement().getValues();
+    }
   }
 }

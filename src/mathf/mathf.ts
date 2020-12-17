@@ -864,9 +864,6 @@ export class mathf {
     // return ((value2 - value1) * amount) + amount
   }
 
-
-
-
   /**
    * Inverse lerp function
    * @param a Start value

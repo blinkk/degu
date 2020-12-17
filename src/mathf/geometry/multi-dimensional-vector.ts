@@ -1,4 +1,3 @@
-import { NumericRange } from '../numeric-range';
 import { arrayf } from '../../arrayf/arrayf';
 import { mathf } from '../mathf';
 
@@ -14,20 +13,6 @@ export class MultiDimensionalVector {
 
   static invert<T extends MultiDimensionalVector>(vector: T): T {
     return vector.invert();
-  }
-
-  static clamp<T extends MultiDimensionalVector>(
-      vector: T, ...ranges: NumericRange[]
-  ): T {
-    const zippedValuesAndRanges: Array<[number, NumericRange]> =
-        <Array<[number, NumericRange]>>(
-            arrayf.zip<number|NumericRange>(vector.getValues(), ranges));
-    const clampedValues: number[] =
-        zippedValuesAndRanges.map(
-            ([value, range]: [number, NumericRange]) => {
-              return range ? range.clamp(value) : value;
-            });
-    return <T>new this(...clampedValues);
   }
 
   static subtract<T extends MultiDimensionalVector>(minuend: T, ...subtrahends: T[]): T {
@@ -98,10 +83,6 @@ export class MultiDimensionalVector {
     return <this>new this.constructor(...this.getValues().map((val) => -val));
   }
 
-  clamp(...ranges: NumericRange[]): this {
-    return this.constructor.clamp(this, ...ranges);
-  }
-
   subtract(...subtrahends: this[]): this {
     return this.constructor.subtract(this, ...subtrahends);
   }
@@ -154,11 +135,6 @@ export class MultiDimensionalVector {
   toExponent(pow: number): this {
     return <this>new this.constructor(
         ...this.getValues().map((value) => Math.pow(value, pow)));
-  }
-
-  asRanges(): NumericRange[] {
-    return this.getValues()
-        .map((value) => new NumericRange(Math.min(0, value), Math.max(0, value)));
   }
 
   toNthPower(power: number): this {

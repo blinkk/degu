@@ -477,6 +477,8 @@ export class dom {
      * @return CSSStyleDeclartion
      */
     static getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
+        // TODO(Angus): Possibly use ComputedStyleService.getSingleton() here as
+        // an optimization step.
         return window.getComputedStyle(element);
     }
 

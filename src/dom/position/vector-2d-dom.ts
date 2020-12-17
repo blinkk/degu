@@ -8,7 +8,7 @@ export class Vector2dDom extends Vector2d {
   }
 
   static fromMatrix<T extends Vector2dDom>(matrix: Matrix): T {
-    return <T>new this(matrix.translateX, matrix.translateY);
+    return <T>new this(matrix.getTranslateX(), matrix.getTranslateY());
   }
 
   static fromElementScroll<T extends Vector2dDom>(element: Element): T {

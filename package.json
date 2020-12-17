@@ -7,8 +7,7 @@
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",
   "directories": {
-    "lib": "lib",
-    "src": "src"
+    "lib": "lib"
   },
   "license": "MIT",
   "repository": {
@@ -16,8 +15,7 @@
     "url": "git+https://github.com/grow/yano-js.git"
   },
   "files": [
-    "lib",
-    "src"
+    "lib"
   ],
   "ava": {
     "compileEnhancements": false,
