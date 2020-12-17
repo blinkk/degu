@@ -1,5 +1,5 @@
 import { Dimensions2d } from '../../mathf/geometry/dimensions-2d';
-import { getScrollElement } from '../get-scroll-element';
+import { dom } from '../dom';
 
 /**
  * Version of Dimenions2d with various DOM specific helper functions.
@@ -35,7 +35,8 @@ export class Dimensions2dDom extends Dimensions2d {
 
   static fromScrollElementClient<T extends Dimensions2dDom>() {
     return <T>new this(
-        getScrollElement().clientWidth, getScrollElement().clientHeight);
+        dom.getScrollElement().clientWidth,
+        dom.getScrollElement().clientHeight);
   }
 
   static fromInnerWindow<T extends Dimensions2dDom>() {

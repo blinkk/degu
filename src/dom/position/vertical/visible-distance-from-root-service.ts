@@ -46,7 +46,7 @@ function getVisibleDistanceFromRoot(
 
   const scroll = Scroll.getSingleton(getVisibleDistanceFromRoot);
   const invertedScroll = scroll.getPosition().invert();
-  scroll.destroy(getVisibleDistanceFromRoot);
+  scroll.dispose(getVisibleDistanceFromRoot);
   return getOffsetFn(element) + y + invertedScroll.getY();
 }
 

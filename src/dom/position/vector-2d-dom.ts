@@ -1,4 +1,4 @@
-import { Matrix } from './matrix';
+import { MatrixDom } from './matrix-dom';
 import { Vector2d } from '../../mathf/geometry/vector-2d';
 
 /**
@@ -13,7 +13,7 @@ export class Vector2dDom extends Vector2d {
     return <T>new this(element.offsetLeft, element.offsetTop);
   }
 
-  static fromMatrix<T extends Vector2dDom>(matrix: Matrix): T {
+  static fromMatrix<T extends Vector2dDom>(matrix: MatrixDom): T {
     return <T>new this(matrix.getTranslateX(), matrix.getTranslateY());
   }
 
@@ -22,7 +22,7 @@ export class Vector2dDom extends Vector2d {
   }
 
   static fromElementTransform<T extends Vector2dDom>(element: Element): T {
-    return this.fromMatrix(Matrix.fromElementTransform(element));
+    return this.fromMatrix(MatrixDom.fromElementTransform(element));
   }
 
   static fromWheelEvent<T extends Vector2dDom>(e: WheelEvent): T {

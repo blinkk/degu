@@ -479,7 +479,10 @@ export class dom {
      */
     static getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
         // Use per-frame cached values to avoid style-recalc and layout calls
-        return ComputedStyleService.getSingleton().getComputedStyle(element);
+        const styleService = ComputedStyleService.getSingleton(this);
+        const value = styleService.getComputedStyle(element);
+        styleService.dispose(this);
+        return value;
     }
 
 
@@ -853,7 +856,10 @@ export class dom {
      */
     static getStyle(el: Element): CSSStyleDeclaration {
         // Use per-frame cached values to avoid style-recalc and layout calls
-        return ComputedStyleService.getSingleton().getComputedStyle(el);
+        const styleService = ComputedStyleService.getSingleton(this);
+        const value = styleService.getComputedStyle(el);
+        styleService.dispose(this);
+        return value;
     }
 
     /**
@@ -987,5 +993,9 @@ export class dom {
            node.nodeValue = node.nodeValue.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
         })
 
+    }
+
+    static getScrollElement(): Element {
+        return document.scrollingElement || document.documentElement;
     }
 }

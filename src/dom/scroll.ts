@@ -4,7 +4,7 @@ import { Vector2d } from '../mathf/geometry/vector-2d';
 import { Dimensions } from './position/dimensions';
 import { WindowDimensions } from './position/window-dimensions';
 import { arrayf } from '../arrayf/arrayf';
-import { getScrollElement } from './get-scroll-element';
+import { dom } from './dom';
 
 /**
  * Caches the scrolling element's scroll position.
@@ -26,7 +26,7 @@ export class Scroll extends CachedElementVector<Vector2d> {
     super(element);
     this.windowDimensions = WindowDimensions.getSingleton(this);
     this.scrollElementDimensions =
-        Dimensions.getForElement(this, [getScrollElement()]);
+        Dimensions.getForElement(this, [dom.getScrollElement()]);
   }
 
   /**
@@ -69,10 +69,10 @@ export class Scroll extends CachedElementVector<Vector2d> {
     return this.getDelta().getX() < 0;
   }
 
-  destroy(use: any) {
-    super.destroy(use);
-    this.windowDimensions.destroy(this);
-    this.scrollElementDimensions.destroy(this);
+  dispose(use: any) {
+    super.dispose(use);
+    this.windowDimensions.dispose(this);
+    this.scrollElementDimensions.dispose(this);
   }
 
   protected getValues(): number[] {
@@ -83,7 +83,7 @@ export class Scroll extends CachedElementVector<Vector2d> {
     if (this.element) {
       return this.element.scrollLeft;
     } else {
-      return window.pageXOffset || getScrollElement().scrollLeft;
+      return window.pageXOffset || dom.getScrollElement().scrollLeft;
     }
   }
 
@@ -91,7 +91,7 @@ export class Scroll extends CachedElementVector<Vector2d> {
     if (this.element) {
       return this.element.scrollTop;
     } else {
-      return window.pageYOffset || getScrollElement().scrollTop;
+      return window.pageYOffset || dom.getScrollElement().scrollTop;
     }
   }
 }

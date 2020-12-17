@@ -10,28 +10,28 @@ import { ComputedStyleService } from '../computed-style-service';
 import { Raf } from '../..';
 
 // Tracks desired changes to element matrices for the next frame
-const matrixChangesByElement: ArrayMap<HTMLElement, Matrix> = new ArrayMap();
+const matrixChangesByElement: ArrayMap<HTMLElement, MatrixDom> = new ArrayMap();
 // Tracks starting state of each matrix for the current frame
-const preChangeMatrixByElement: Map<HTMLElement, Matrix> = new Map();
+const preChangeMatrixByElement: Map<HTMLElement, MatrixDom> = new Map();
 
 // For figuring out how much to trim off strings to get at the values
 const STYLE_STRING_PREFIX = 'matrix(';
 const STYLE_STRING_PREFIX_LENGTH = STYLE_STRING_PREFIX.length;
 
-// Optimization to minimize DOM queries where possible
-const computedStyleService = ComputedStyleService.getSingleton();
-
-export class Matrix {
-  static parseFromString(str: string): Matrix {
+export class MatrixDom {
+  static parseFromString(str: string): MatrixDom {
     if (str === 'none' || !str.length) {
-      return new Matrix();
+      return new MatrixDom();
     }
-    return new Matrix(...str.slice(STYLE_STRING_PREFIX_LENGTH, -1).split(','));
+    return new MatrixDom(
+        ...str.slice(STYLE_STRING_PREFIX_LENGTH, -1).split(','));
   }
 
-  static fromElementTransform(element: Element): Matrix {
-    return Matrix.parseFromString(
-        computedStyleService.getComputedStyle(element).transform);
+  static fromElementTransform(element: Element): MatrixDom {
+    const styleService = ComputedStyleService.getSingleton(this);
+    const transform = styleService.getComputedStyle(element).transform;
+    styleService.dispose(this);
+    return MatrixDom.parseFromString(transform);
   }
 
   // Applies all matrix changes to an element, allowing multiple effects to
@@ -100,33 +100,33 @@ export class Matrix {
   }
 
   /**
-   * Return a re-positioned copy of the current Matrix
+   * Return a re-positioned copy of the current MatrixDom
    */
-  setPosition(position: Vector2d): Matrix {
-    return new Matrix(
+  setPosition(position: Vector2d): MatrixDom {
+    return new MatrixDom(
         this.a, this.b, this.c, this.d, position.getX(), position.getY());
   }
 
   /**
-   * Return acopy of the current Matrix, moved to the given X coordinate
+   * Return acopy of the current MatrixDom, moved to the given X coordinate
    */
-  setTranslateX(value: number): Matrix {
-    return new Matrix(this.a, this.b, this.c, this.d, value, this.ty);
+  setTranslateX(value: number): MatrixDom {
+    return new MatrixDom(this.a, this.b, this.c, this.d, value, this.ty);
   }
 
   /**
-   * Return acopy of the current Matrix, moved to the given Y coordinate
+   * Return acopy of the current MatrixDom, moved to the given Y coordinate
    */
-  setTranslateY(value: number): Matrix {
-    return new Matrix(this.a, this.b, this.c, this.d, this.tx, value);
+  setTranslateY(value: number): MatrixDom {
+    return new MatrixDom(this.a, this.b, this.c, this.d, this.tx, value);
   }
 
   /**
-   * Returns copy of the current Matrix with the given scale value instead of
+   * Returns copy of the current MatrixDom with the given scale value instead of
    * the current scale value.
    */
   setScale(scale: number) {
-    return new Matrix(scale, this.b, this.c, scale, this.tx, this.ty);
+    return new MatrixDom(scale, this.b, this.c, scale, this.tx, this.ty);
   }
 
   toCSSString(): string {
@@ -144,19 +144,19 @@ export class Matrix {
    */
   applyToElementTransformAsChange(
       element: HTMLElement,
-      originalMatrix: Matrix
+      originalMatrix: MatrixDom
   ): void {
     matrixChangesByElement.get(element)
         .push(this.getDifference(originalMatrix));
     preChangeMatrixByElement.set(element, originalMatrix);
-    Matrix.mutateElementWithMatrixChanges(element);
+    MatrixDom.mutateElementWithMatrixChanges(element);
   }
 
   /**
-   * Returns a copy of the current Matrix after applying the given matrix.
+   * Returns a copy of the current MatrixDom after applying the given matrix.
    */
-  applyDifference(differenceMatrix: Matrix): Matrix {
-    return new Matrix(
+  applyDifference(differenceMatrix: MatrixDom): MatrixDom {
+    return new MatrixDom(
         this.a + differenceMatrix.a,
         this.b + differenceMatrix.b,
         this.c + differenceMatrix.c,
@@ -169,8 +169,8 @@ export class Matrix {
   /**
    * Return the difference between the current matrix and the given matrix.
    */
-  getDifference(matrix: Matrix): Matrix {
-    return new Matrix(
+  getDifference(matrix: MatrixDom): MatrixDom {
+    return new MatrixDom(
         this.a - matrix.a,
         this.b - matrix.b,
         this.c - matrix.c,

@@ -107,7 +107,7 @@ export abstract class CachedElementVector<T extends MultiDimensionalVector> {
     return !this.getVectorClass().areEqual(...this.getCurrentAndLastValue());
   }
 
-  destroy(use: any): void {
+  dispose(use: any): void {
     uses.get(this).delete(use);
     clearTimeout(this.disposeTimeout);
     // Hang tight for a minute so we aren't creating and destroying these caches
