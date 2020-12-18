@@ -103,6 +103,10 @@ export class arrayf {
      * Removes the first instance of a value from the given array.
      * Useful when tracking the places a singleton or service is used so that
      * it can dispose of itself when no longer needed.
+     *
+     * ```
+     * removeFirstInstance([1,2,3,4,3], 3); // Returns [1,2,4,3];
+     * ```
      */
     static removeFirstInstance<T>(values: T[], value: T): T[] {
         return [

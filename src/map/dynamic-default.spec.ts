@@ -9,7 +9,7 @@ const testDefaultFns = [
 
 test('DynamicDefaultMap should generate default values', async t => {
   testDefaultFns.forEach((defaultFn) => {
-    const map = new DynamicDefaultMap<number, any>([], Map, defaultFn);
+    const map = new DynamicDefaultMap<number, any>([], defaultFn);
     for (let i = -1; i < 2; i++) {
       t.is(map.get(i), defaultFn(i));
     }
@@ -18,7 +18,7 @@ test('DynamicDefaultMap should generate default values', async t => {
 
 test('DynamicDefaultMap should not generate defaults over set values', async t => {
   testDefaultFns.forEach((defaultFn) => {
-    const map = new DynamicDefaultMap<number, any>([], Map, defaultFn);
+    const map = new DynamicDefaultMap<number, any>([], defaultFn);
     for (let i = -1; i < 2; i++) {
       map.set(i, i);
       t.is(map.get(i), i);
@@ -29,7 +29,7 @@ test('DynamicDefaultMap should not generate defaults over set values', async t =
 test('DynamicDefaultMap should not generate defaults over initialized values', async t => {
   testDefaultFns.forEach((defaultFn) => {
     const testValues: Array<[number, any]> = [[-1, -1], [0, 0], [1, 1]];
-    const map = new DynamicDefaultMap<number, any>(testValues, Map, defaultFn);
+    const map = new DynamicDefaultMap<number, any>(testValues, defaultFn);
     for (let i = -1; i < 2; i++) {
       t.is(map.get(i), i);
     }

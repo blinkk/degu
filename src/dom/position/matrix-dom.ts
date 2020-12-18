@@ -3,14 +3,16 @@
  * Supports relative updates being made to a matrix from multiple pieces of
  * code without them over-riding each other (unless explicitly desired).
  */
-import { Numeric } from '../../types';
 import { Vector2d } from '../../mathf/geometry/vector-2d';
-import { ArrayMap } from '../../map/array';
 import { ComputedStyleService } from '../computed-style-service';
 import { Raf } from '../..';
+import { DynamicDefaultMap } from '../../map/dynamic-default';
+
+type Numeric = number|string; // Number that could be represented as string
 
 // Tracks desired changes to element matrices for the next frame
-const matrixChangesByElement: ArrayMap<HTMLElement, MatrixDom> = new ArrayMap();
+const matrixChangesByElement: DynamicDefaultMap<HTMLElement, MatrixDom[]> =
+    DynamicDefaultMap.usingFunction((el) => []);
 // Tracks starting state of each matrix for the current frame
 const preChangeMatrixByElement: Map<HTMLElement, MatrixDom> = new Map();
 

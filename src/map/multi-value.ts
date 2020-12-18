@@ -1,5 +1,4 @@
 import { DynamicDefaultMap } from './dynamic-default';
-import { MapWrapper } from './map-wrapper';
 import { MappedIterator } from '../iterable-iterator/mapped-iterator';
 
 /**
@@ -22,22 +21,18 @@ import { MappedIterator } from '../iterable-iterator/mapped-iterator';
  * map.get([flamingo, man]); // Returns an empty array
  * ```
  */
-export class MultiValueMap<K, V> extends MapWrapper<K[], V> {
-  private valueToUid: DynamicDefaultMap<K, number>;
-  private internalKeyToArray: Map<string, K[]>;
-  private uid: number;
+export class MultiValueMap<K, V> extends Map<K[], V> {
+  private readonly valueToUid: DynamicDefaultMap<K, number>;
+  private readonly internalKeyToArray: Map<string, K[]>;
+  private uid: number = 0;
 
-  constructor(iterable: Array<[K[], V]> = [],
-              InnerMapClass: typeof Map = Map) {
-    super([], InnerMapClass); // Defer population
+  constructor(iterable: Array<[K[], V]> = []) {
+    super([]); // Defer population
 
-    this.uid = 0;
     this.valueToUid =
       DynamicDefaultMap.usingFunction<K, number>((value: K) => this.uid++);
-
     this.internalKeyToArray = new Map<string, K[]>();
-
-    this.populateFromIterable(iterable);
+    iterable.forEach(([keys, value]) => this.set(keys, value));
   }
 
   clear(): void {
@@ -47,15 +42,15 @@ export class MultiValueMap<K, V> extends MapWrapper<K[], V> {
   }
 
   get(keys: K[]): V {
-    return super.get(this.getInternalKey_(keys));
+    return super.get(this.getInternalKey(keys));
   }
 
   delete(keys: K[]): boolean {
-    return super.delete(this.getInternalKey_(keys));
+    return super.delete(this.getInternalKey(keys));
   }
 
   has(keys: K[]): boolean {
-    return super.has(this.getInternalKey_(keys));
+    return super.has(this.getInternalKey(keys));
   }
 
   keys(): IterableIterator<K[]> {
@@ -63,13 +58,16 @@ export class MultiValueMap<K, V> extends MapWrapper<K[], V> {
     return new MappedIterator(super.keys(), (key: K[]) => key ? [...key] : []);
   }
 
+  /**
+   * Set a value by a collection of ordered keys
+   */
   set(keys: K[], value: V): this {
-    return super.set(this.getInternalKey_(keys), value);
+    return super.set(this.getInternalKey(keys), value);
   }
 
   // Ensures a one-to-one mapping, so the same values always reference the
   // same array.
-  private getInternalKey_(keys: K[]): K[] {
+  private getInternalKey(keys: K[]): K[] {
     const stringId = keys.map((key) => this.valueToUid.get(key)).join('-');
     if (!this.internalKeyToArray.has(stringId)) {
       this.internalKeyToArray.set(stringId, keys.slice());

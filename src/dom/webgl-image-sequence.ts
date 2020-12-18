@@ -992,7 +992,7 @@ export class WebGlImageSequence {
         }
 
         // Can't draw on a 0 area canvas
-        if (this.canvasWidth * this.canvasHeight === 0) {
+        if (!this.canvasWidth || !this.canvasHeight) {
             return;
         }
 
