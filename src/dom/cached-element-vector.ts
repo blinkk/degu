@@ -141,8 +141,4 @@ export abstract class CachedElementVector<T extends MultiDimensionalVector> {
             .slice(-(VALUE_LIMIT - 1))
             .concat([this.getCurrentVector()]);
   }
-
-  private getCurrentAndLastValue(): MultiDimensionalVector[] {
-    return this.values.slice(-2);
-  }
 }
