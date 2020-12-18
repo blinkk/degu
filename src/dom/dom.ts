@@ -479,10 +479,7 @@ export class dom {
      */
     static getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
         // Use per-frame cached values to avoid style-recalc and layout calls
-        const styleService = ComputedStyleService.getSingleton(this);
-        const value = styleService.getComputedStyle(element);
-        styleService.dispose(this);
-        return value;
+        return ComputedStyleService.getComputedStyle(element);
     }
 
 
@@ -856,10 +853,7 @@ export class dom {
      */
     static getStyle(el: Element): CSSStyleDeclaration {
         // Use per-frame cached values to avoid style-recalc and layout calls
-        const styleService = ComputedStyleService.getSingleton(this);
-        const value = styleService.getComputedStyle(el);
-        styleService.dispose(this);
-        return value;
+        return ComputedStyleService.getComputedStyle(el);
     }
 
     /**

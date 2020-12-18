@@ -15,6 +15,13 @@ export class ComputedStyleService {
     return this.singleton;
   }
 
+  static getComputedStyle(element: Element): CSSStyleDeclaration {
+    const singleton = this.getSingleton(this);
+    const style = singleton.getComputedStyle(element);
+    singleton.dispose(this);
+    return style;
+  }
+
   private static singleton: ComputedStyleService = null;
   private readonly raf: Raf;
 
@@ -39,7 +46,7 @@ export class ComputedStyleService {
     this.raf.start();
   }
 
-  getComputedStyle(element: Element) {
+  getComputedStyle(element: Element): CSSStyleDeclaration {
     return this.computedStyle.get(element);
   }
 
