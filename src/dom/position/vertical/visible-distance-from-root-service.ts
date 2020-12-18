@@ -5,7 +5,7 @@
 import { DynamicDefaultMap } from '../../../map/dynamic-default';
 import { Scroll } from '../../scroll';
 import { Vector2dDom } from '../vector-2d-dom';
-import {dom, mathf, Raf} from '../../..';
+import { dom, mathf, Raf } from '../../..';
 
 const ignoredPositions = new Set(['fixed', 'absolute']);
 
@@ -153,7 +153,7 @@ export class VisibleDistanceFromRootService {
             (element: HTMLElement) => {
               return getVisibleDistanceFromRoot(element, getIgnoreStickyOffset);
             });
-    this.init();
+    this.raf.start();
   }
 
   /**
@@ -162,10 +162,6 @@ export class VisibleDistanceFromRootService {
    */
   getVisibleDistanceFromRoot(element: HTMLElement): number {
     return this.cache.get(element);
-  }
-
-  private init() {
-    this.raf.start();
   }
 
   /**
