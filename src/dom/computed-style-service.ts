@@ -1,6 +1,5 @@
 import { DynamicDefaultMap } from '../map/dynamic-default';
 import { Raf } from '..';
-import { arrayf } from '../arrayf/arrayf';
 
 /**
  * Caches results of getComputedStyle on a per-frame basis.
@@ -45,7 +44,11 @@ export class ComputedStyleService {
   }
 
   dispose(use: any) {
-    this.uses = arrayf.removeFirstInstance(this.uses, use);
+    const useIndex = this.uses.indexOf(use);
+    if (useIndex === -1) {
+      return;
+    }
+    this.uses.splice(useIndex, 1);
     // Hang tight for a minute so we aren't creating and destroying the
     // singleton too rapidly.
     clearTimeout(this.disposeTimeout);

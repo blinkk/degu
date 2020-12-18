@@ -2,6 +2,30 @@ import { arrayf } from '../../arrayf/arrayf';
 import { mathf } from '../mathf';
 
 /**
+ * Determine if each value in the array is the same value.
+ */
+function containsIdenticalValues<T>(values: T[]): boolean {
+  return values.length === 0 ||
+      values.every((value) => values[0] === value);
+}
+
+/**
+ * Determines if the value in each index of each list matches the
+ * corresponding value in that same index in each other list.
+ * @param lists
+ */
+function areArrayValuesIdentical<T>(lists: T[][]): boolean {
+  // Check all lists have same lengths
+  const lengths = lists.map((list: T[]) => list.length);
+  if (!containsIdenticalValues(lengths)) {
+    return false;
+  }
+  // Verify that values match across lists
+  return arrayf.zip(...lists)
+      .every((zippedValues: T[]) => containsIdenticalValues(zippedValues));
+}
+
+/**
  * Class for handling vectors of arbitrary dimensions
  */
 export class MultiDimensionalVector {
@@ -69,7 +93,7 @@ export class MultiDimensionalVector {
   }
 
   static areEqual<T extends MultiDimensionalVector>(...vectors: T[]): boolean {
-    return arrayf.areArrayValuesIdentical(vectors.map((v) => v.getValues()));
+    return areArrayValuesIdentical(vectors.map((v) => v.getValues()));
   }
 
   ['constructor']: typeof MultiDimensionalVector;
