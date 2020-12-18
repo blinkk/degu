@@ -1,22 +1,9 @@
 import { Dimensions2d } from '../../mathf/geometry/dimensions-2d';
-import { dom } from '../dom';
 
 /**
  * Version of Dimenions2d with various DOM specific helper functions.
  */
 export class Dimensions2dDom extends Dimensions2d {
-  static fromCanvas<T extends Dimensions2dDom>(
-      element: HTMLCanvasElement = null
-  ): T {
-    return <T>new this(element.width, element.height);
-  }
-
-  static fromVideo<T extends Dimensions2dDom>(
-      element: HTMLVideoElement = null
-  ): T {
-    return <T>new this(element.videoWidth, element.videoHeight);
-  }
-
   static fromElementOffset<T extends Dimensions2dDom>(
       element: HTMLElement = null
   ): T {
@@ -33,21 +20,7 @@ export class Dimensions2dDom extends Dimensions2d {
         document.documentElement.clientHeight);
   }
 
-  static fromScrollElementClient<T extends Dimensions2dDom>() {
-    return <T>new this(
-        dom.getScrollElement().clientWidth,
-        dom.getScrollElement().clientHeight);
-  }
-
   static fromInnerWindow<T extends Dimensions2dDom>() {
     return <T>new this(window.innerWidth, window.innerHeight);
-  }
-
-  /**
-   * Style the given element with the width and height from this instance
-   */
-  sizeElement(element: HTMLElement): void {
-    element.style.width = `${this.getWidth()}px`;
-    element.style.height = `${this.getHeight()}px`;
   }
 }
