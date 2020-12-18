@@ -5,8 +5,90 @@
 import { DynamicDefaultMap } from '../../../map/dynamic-default';
 import { Scroll } from '../../scroll';
 import { Vector2dDom } from '../vector-2d-dom';
-import { getStuckDistance } from './get-stuck-distance';
-import { dom, Raf } from '../../..';
+import {dom, mathf, Raf} from '../../..';
+
+const ignoredPositions = new Set(['fixed', 'absolute']);
+
+/**
+ * Returns the offsetTop of the element if the scrolled sticky wasn't applied.
+ */
+function getOffsetTopIgnoringSticky(element: HTMLElement): number {
+  const position = dom.getStyle(element).position;
+  // Short circuit if the given element isn't sticky
+  if (position !== 'sticky') {
+    return element.offsetTop;
+  } else {
+    /**
+     * Loop through all sibling and parent elements until the offset parent is
+     * found to find out where this element would be if it wasn't stickily
+     * positioned.
+     */
+    const previousSiblingHeight = getPreviousSiblingsHeight(element);
+    let previousParent = element.parentElement;
+    let parentPreviousSiblingHeight = 0;
+    while (previousParent !== element.offsetParent) {
+      parentPreviousSiblingHeight += getPreviousSiblingsHeight(previousParent);
+      previousParent = previousParent.parentElement;
+    }
+
+    return previousSiblingHeight + parentPreviousSiblingHeight;
+  }
+}
+
+/**
+ * Returns the total offsetHeight of the element's previous siblings which are
+ * relevant to calculating the offsetTop of the element as if it was not
+ * sticky positioned.
+ */
+function getPreviousSiblingsHeight(element: HTMLElement): number {
+  let previousSiblingHeight: number = 0;
+  let previousSibling: HTMLElement =
+      <HTMLElement>element.previousElementSibling;
+
+  /**
+   * Loop through previous siblings, totalling height, but ignoring fixed
+   * or absolute elements, and totalling only the height of stickied siblings.
+   */
+  while (previousSibling) {
+    const previousSiblingPosition = dom.getStyle(previousSibling).position;
+    if (!ignoredPositions.has(previousSiblingPosition)) {
+      if (previousSiblingPosition === 'sticky') {
+        previousSiblingHeight += previousSibling.offsetHeight;
+      } else {
+        previousSiblingHeight +=
+            previousSibling.offsetTop + previousSibling.offsetHeight;
+        break;
+      }
+    }
+    previousSibling = <HTMLElement>previousSibling.previousElementSibling;
+  }
+  return previousSiblingHeight;
+}
+
+/**
+ * Returns how many pixels of scroll an element has been "stuck" for.
+ */
+function getStuckDistance(element: HTMLElement): number {
+  const position = dom.getStyle(element).position;
+  if (position !== 'sticky') {
+    return 0;
+  } else {
+    const ignoringStickyOffsetTop = getOffsetTopIgnoringSticky(element);
+
+    const stickyContainer = element.parentElement;
+    const parentElementOffsetTop: number =
+        VisibleDistanceFromRootService.getSingleton()
+            .getVisibleDistanceFromRoot(stickyContainer);
+
+    const maxStickyDistance =
+        stickyContainer.offsetHeight - ignoringStickyOffsetTop -
+        element.offsetHeight;
+
+    const estimatedStickyDistance =
+        -1 * (ignoringStickyOffsetTop + parentElementOffsetTop);
+    return mathf.clamp(0, maxStickyDistance, estimatedStickyDistance);
+  }
+}
 
 function isFixed(element: HTMLElement) {
   return dom.getStyle(element).position === 'fixed';
@@ -80,14 +162,6 @@ export class VisibleDistanceFromRootService {
    */
   getVisibleDistanceFromRoot(element: HTMLElement): number {
     return this.cache.get(element);
-  }
-
-  /**
-   * Returns the visible distance from the elements top to the top of the
-   * viewport, as if the element weren't stickied.
-   */
-  getVisibleDistanceFromRootIgnoringSticky(element: HTMLElement): number {
-    return this.cacheIgnoringSticky.get(element);
   }
 
   private init() {
