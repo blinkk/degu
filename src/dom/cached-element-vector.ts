@@ -98,15 +98,6 @@ export abstract class CachedElementVector<T extends MultiDimensionalVector> {
     return this.values.slice(-1)[0];
   }
 
-  getDelta(): T {
-    const values = this.getCurrentAndLastValue();
-    return <T>this.getVectorClass().subtract(values[0], values[1]);
-  }
-
-  hasChanged(): boolean {
-    return !this.getVectorClass().areEqual(...this.getCurrentAndLastValue());
-  }
-
   dispose(use: any): void {
     uses.get(this).delete(use);
     clearTimeout(this.disposeTimeout);

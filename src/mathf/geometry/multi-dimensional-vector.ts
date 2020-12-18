@@ -65,27 +65,6 @@ export class MultiDimensionalVector {
   }
 
   /**
-   * Returns an array of vectors containing the deltas between each vector.
-   */
-  static getDeltas<T extends MultiDimensionalVector>(...vectors: T[]): T[] {
-    let previous: T = vectors[0];
-    return <T[]>vectors.slice(1).map(
-        (next: T) => {
-          const result = this.subtract(next, previous);
-          previous = next;
-          return result;
-        });
-  }
-
-  /**
-   * Returns a new vector from the given vector.
-   * Useful for transforming a vector of one type into a vector of another type.
-   */
-  static fromMultiDimensionalVector<T extends MultiDimensionalVector>(vector: MultiDimensionalVector): T {
-    return <T>new this(...vector.getValues());
-  }
-
-  /**
    * Returns a new vector that is the given vector scaled by the given amount.
    */
   static scale<T extends MultiDimensionalVector>(vector: T, amount: number): T {
@@ -101,24 +80,6 @@ export class MultiDimensionalVector {
 
   constructor(...values: number[]) {
     this.values = values;
-  }
-
-  /**
-   * Returns new vector with same scale, pointing in the same direction as the
-   * provided vector. Ensuring that signs of numeric values match between the
-   * returned vector and the provided vector.
-   */
-  alignTo(vector: this): this {
-    const zippedValues: number[][] =
-        arrayf.zip<number>(this.getValues(), vector.getValues());
-    const alignedValues =
-        zippedValues
-            .map(
-                ([originalValue, valueToAlignWith]) => {
-                  return Math.abs(originalValue) * Math.sign(valueToAlignWith);
-                }
-            );
-    return <this>new this.constructor(...alignedValues);
   }
 
   /**

@@ -53,22 +53,6 @@ export class Scroll extends CachedElementVector<Vector2d> {
         ...zippedValues.map(([pos, len]: [number, number]) => pos / len));
   }
 
-  isScrollingDown(): boolean {
-    return this.getDelta().getY() < 0;
-  }
-
-  isScrollingUp(): boolean {
-    return this.getDelta().getY() > 0;
-  }
-
-  isScrollingRight(): boolean {
-    return this.getDelta().getX() > 0;
-  }
-
-  isScrollingLeft(): boolean {
-    return this.getDelta().getX() < 0;
-  }
-
   dispose(use: any) {
     super.dispose(use);
     this.windowDimensions.dispose(this);
