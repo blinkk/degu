@@ -36,7 +36,7 @@ export class ComputedStyleService {
     this.computedStyle =
         DynamicDefaultMap.usingFunction(
             (element: Element) => window.getComputedStyle(element));
-    this.init();
+    this.raf.start();
   }
 
   getComputedStyle(element: Element) {
@@ -61,10 +61,6 @@ export class ComputedStyleService {
           }
         },
         1000);
-  }
-
-  private init() {
-    this.raf.start();
   }
 
   private loop() {
