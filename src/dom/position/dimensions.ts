@@ -20,17 +20,12 @@ export class Dimensions extends CachedElementVector<Dimensions2dDom> {
     super(element);
   }
 
-  getDimensions(): Dimensions2dDom {
-    return this.getLastValue();
-  }
-
   /**
    * Calculates the actual width/height values
    */
   protected getValues(): number[] {
     if (this.element) {
-      return Dimensions2dDom.fromElementOffset(this.element)
-          .getValues();
+      return Dimensions2dDom.fromElementOffset(this.element).getValues();
     } else {
       return Dimensions2dDom.fromRootElement().getValues();
     }
