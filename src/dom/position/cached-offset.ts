@@ -1,33 +1,31 @@
-import { DefaultMap } from '../map/default';
-import { Raf } from '..';
+import { DefaultMap } from '../../map/default';
+import { Raf } from '../..';
 
 /**
- * Caches results of getComputedStyle on a per-frame basis.
- * It can be an expensive operation and will typically force style
- * recalc or layout, so it can be extra helpful in minimizing potential trhasing
- * in situations where there may be code running outside of appropriate raf
- * read/write calls.
+ * Caches element dimensions on a per-frame basis.
+ * Useful for measuring element distances as high level elements may be queried
+ * multiple times.
  */
-export class ComputedStyleService {
-  static getSingleton(use: any): ComputedStyleService {
+export class CachedOffset {
+  static getSingleton(use: any): CachedOffset {
     this.singleton = this.singleton || new this();
     this.singleton.uses.push(use);
     return this.singleton;
   }
 
-  static getComputedStyle(element: Element): CSSStyleDeclaration {
+  static getHeight(element: HTMLElement): number {
     const singleton = this.getSingleton(this);
-    const style = singleton.getComputedStyle(element);
+    const style = singleton.getHeight(element);
     singleton.dispose(this);
     return style;
   }
 
-  private static singleton: ComputedStyleService = null;
+  private static singleton: CachedOffset = null;
   private readonly raf: Raf;
 
   // DefaultMap serves as the cache, generating values and storing them
   // Gets cleared out during the postWrite step.
-  private computedStyle: DefaultMap<Element, CSSStyleDeclaration>;
+  private offsetHeight: DefaultMap<HTMLElement, number>;
 
   // Track where this is used so it can be destroyed as needed;
   private readonly uses: any[];
@@ -40,14 +38,14 @@ export class ComputedStyleService {
     this.uses = [];
     this.disposeTimeout = null;
     this.raf = new Raf(() => this.loop());
-    this.computedStyle =
+    this.offsetHeight =
         DefaultMap.usingFunction(
-            (element: Element) => window.getComputedStyle(element));
+            (element: HTMLElement) => element.offsetHeight);
     this.raf.start();
   }
 
-  getComputedStyle(element: Element): CSSStyleDeclaration {
-    return this.computedStyle.get(element);
+  getHeight(element: HTMLElement): number {
+    return this.offsetHeight.get(element);
   }
 
   dispose(use: any) {
@@ -62,15 +60,15 @@ export class ComputedStyleService {
     this.disposeTimeout = window.setTimeout(
         () => {
           if (this.uses.length <= 0) {
-            ComputedStyleService.singleton = null;
+            CachedOffset.singleton = null;
             this.raf.dispose();
-            this.computedStyle.clear();
+            this.offsetHeight.clear();
           }
         },
         1000);
   }
 
   private loop() {
-    this.raf.postWrite(() => this.computedStyle.clear());
+    this.raf.postWrite(() => this.offsetHeight.clear());
   }
 }

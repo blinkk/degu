@@ -2,10 +2,10 @@
  * Caches the distance of an element from the top of the viewport.
  * Without caching this can be an expensive recursive operation.
  */
-import { DynamicDefaultMap } from '../../../map/dynamic-default';
-import { Scroll } from '../../scroll';
-import { Vector2dDom } from '../vector-2d-dom';
+import { DefaultMap } from '../../../map/default';
+import { CachedScroll } from '../../cached-scroll';
 import { dom, Raf } from '../../..';
+import { domVectorf } from '../dom-vectorf';
 
 const ignoredPositions = new Set(['fixed', 'absolute']);
 
@@ -15,7 +15,7 @@ function isFixed(element: HTMLElement) {
 
 function getTransformedOffset(candidateElement: HTMLElement): number {
   return candidateElement.offsetTop +
-      Vector2dDom.fromElementTransform(candidateElement).getY();
+      domVectorf.fromElementTransform(candidateElement).y;
 }
 
 function getVisibleDistanceFromRoot(
@@ -41,10 +41,7 @@ function getVisibleDistanceFromRoot(
     candidateElement = <HTMLElement>candidateElement.offsetParent;
   }
 
-  const scroll = Scroll.getSingleton(getVisibleDistanceFromRoot);
-  const invertedScroll = scroll.getPosition().invert();
-  scroll.dispose(getVisibleDistanceFromRoot);
-  return getOffsetFn(element) + y + invertedScroll.getY();
+  return getOffsetFn(element) + y - CachedScroll.getRootScrollTop();
 }
 
 export class VisibleDistanceFromRootService {
@@ -53,12 +50,12 @@ export class VisibleDistanceFromRootService {
   }
   private static singleton: VisibleDistanceFromRootService = null;
   private readonly raf: Raf;
-  private readonly cache: DynamicDefaultMap<HTMLElement, number>;
+  private readonly cache: DefaultMap<HTMLElement, number>;
 
   constructor() {
     this.raf = new Raf(() => this.loop());
     this.cache =
-        DynamicDefaultMap.usingFunction(
+        DefaultMap.usingFunction(
             (element: HTMLElement) => {
               return getVisibleDistanceFromRoot(element, getTransformedOffset);
             });

@@ -1,4 +1,4 @@
-import { DynamicDefaultMap } from './dynamic-default';
+import { DefaultMap } from './default';
 import { MappedIterator } from '../iterable-iterator/mapped-iterator';
 
 /**
@@ -22,7 +22,7 @@ import { MappedIterator } from '../iterable-iterator/mapped-iterator';
  * ```
  */
 export class MultiValueMap<K, V> extends Map<K[], V> {
-  private readonly valueToUid: DynamicDefaultMap<K, number>;
+  private readonly valueToUid: DefaultMap<K, number>;
   private readonly internalKeyToArray: Map<string, K[]>;
   private uid: number = 0;
 
@@ -30,7 +30,7 @@ export class MultiValueMap<K, V> extends Map<K[], V> {
     super([]); // Defer population
 
     this.valueToUid =
-      DynamicDefaultMap.usingFunction<K, number>((value: K) => this.uid++);
+      DefaultMap.usingFunction<K, number>((value: K) => this.uid++);
     this.internalKeyToArray = new Map<string, K[]>();
     iterable.forEach(([keys, value]) => this.set(keys, value));
   }

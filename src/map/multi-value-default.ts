@@ -4,13 +4,13 @@ import { noop } from '../func/noop';
 type DefaultFunction<K, V> = (keys: K[]) => V;
 
 /**
- * A MultiValueMap with the default generating of DynamicDefaultMap
+ * A MultiValueMap with the default generating of DefaultMap
  */
-export class MultiValueDynamicDefaultMap<K, V> extends MultiValueMap<K, V> {
+export class MultiValueDefaultMap<K, V> extends MultiValueMap<K, V> {
 
   static usingFunction<K, V>(
       defaultFunction: DefaultFunction<K, V>
-  ): MultiValueDynamicDefaultMap<K, V> {
+): MultiValueDefaultMap<K, V> {
     return new this([], defaultFunction);
   }
 

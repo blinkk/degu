@@ -9,14 +9,14 @@ type DefaultFunction<K, V> = (key: K) => V;
  *
  * ```
  * const sqrRts =
- *     DynamicDefaultMap.usingFunction<number, number>((x) => Math.sqrt(x));
+ *     DefaultMap.usingFunction<number, number>((x) => Math.sqrt(x));
  * sqrRts.get(9); // Returns 3
  * ```
  */
-export class DynamicDefaultMap<K, V> extends Map<K, V> {
+export class DefaultMap<K, V> extends Map<K, V> {
   static usingFunction<K, V>(
       defaultFunction: DefaultFunction<K, V>
-  ): DynamicDefaultMap<K, V> {
+  ): DefaultMap<K, V> {
     return new this([], defaultFunction);
   }
 
