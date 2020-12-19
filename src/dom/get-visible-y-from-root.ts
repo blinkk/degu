@@ -39,11 +39,8 @@ function getVisibleDistanceFromRoot(
 }
 
 /**
- * Caches element distances from the root on a per-frame basis.
- * It can be an expensive operation and will typically force style
- * recalc or layout, so it can be extra helpful in minimizing potential thrasing
- * in situations where there may be code running outside of appropriate raf
- * read/write calls.
+ * Returns the visible distance between the top of the given element and the
+ * top of the viewport.
  */
 export function getVisibleYFromRoot(element: HTMLElement) {
   return getVisibleDistanceFromRoot(element, getTransformedOffset);
