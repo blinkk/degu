@@ -5,6 +5,8 @@ type DefaultFunction<K, V> = (key: K) => V;
  * Allows for returning generated defaults for unknown keys.
  * Useful as a quick and dirty way to cache results of functions.
  *
+ * This is intended to behave similarly to the defaultdict structure in python.
+ *
  * ```
  * const sqrRts =
  *     DynamicDefaultMap.usingFunction<number, number>((x) => Math.sqrt(x));
