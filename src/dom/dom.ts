@@ -477,7 +477,6 @@ export class dom {
      * @return CSSStyleDeclartion
      */
     static getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
-        // Use per-frame cached values to avoid style-recalc and layout calls
         return window.getComputedStyle(element);
     }
 
@@ -848,16 +847,13 @@ export class dom {
      *
      * ```
      */
-    static getStyle(el: Element): CSSStyleDeclaration {
-        // Use per-frame cached values to avoid style-recalc and layout calls
-        return el['currentStyle'] || window.getComputedStyle(el);
+    static getStyle(el: Element): CSSStyleDeclaration {return el['currentStyle'] || window.getComputedStyle(el);
     }
 
     /**
      * Tests whether the provided element is set to display none.
      */
     static isDisplayNone(el: Element): boolean {
-        // Use internal style fetching to allow for optimizations
         let style = window.getComputedStyle(el).display;
         return style == 'none';
     }
