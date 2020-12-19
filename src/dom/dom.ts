@@ -847,7 +847,8 @@ export class dom {
      *
      * ```
      */
-    static getStyle(el: Element): CSSStyleDeclaration {return el['currentStyle'] || window.getComputedStyle(el);
+    static getStyle(el: Element): CSSStyleDeclaration {
+        return el['currentStyle'] || window.getComputedStyle(el);
     }
 
     /**

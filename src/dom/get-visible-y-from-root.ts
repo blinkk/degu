@@ -1,8 +1,6 @@
 import { dom } from '../';
 import { domVectorf } from './dom-vectorf';
 
-const ignoredPositions = new Set(['fixed', 'absolute']);
-
 function isFixed(element: HTMLElement) {
   return dom.getStyle(element).position === 'fixed';
 }
@@ -16,7 +14,7 @@ function getVisibleDistanceFromRoot(
     element: HTMLElement,
     getOffsetFn: (e: HTMLElement) => number
 ): number {
-  // Short circuit for fixed elements
+  // Short circuit for fixed elements.
   if (isFixed(element)) {
     return element.offsetTop;
   }

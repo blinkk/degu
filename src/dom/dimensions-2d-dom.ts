@@ -16,6 +16,6 @@ export class Dimensions2dDom {
   }
 
   getHypotenuseLength() {
-    return Math.sqrt(Math.pow(this.width, 2) + Math.pow(this.height, 2));
+    return Math.sqrt(this.width * this.width + this.height * this.height);
   }
 }

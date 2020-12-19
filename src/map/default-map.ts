@@ -30,8 +30,11 @@ export class DefaultMap<K, V> extends Map<K, V> {
 
   get(key: K): V {
     if (!this.has(key)) {
-      this.set(key, this.defaultFunction(key));
+      const defaultValue = this.defaultFunction(key);
+      this.set(key, defaultValue);
+      return defaultValue;
+    } else {
+      return super.get(key);
     }
-    return super.get(key);
   }
 }

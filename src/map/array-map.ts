@@ -1,4 +1,4 @@
-import { DefaultMap } from './default';
+import { DefaultMap } from './default-map';
 
 /**
  * A map where the values in the map are all expected to be arrays.

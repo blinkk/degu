@@ -1,4 +1,4 @@
-import { DefaultMap } from './default';
+import { DefaultMap } from './default-map';
 import test from 'ava';
 
 const testDefaultFns = [
