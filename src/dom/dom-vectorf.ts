@@ -1,5 +1,5 @@
 import { MatrixDom } from './matrix-dom';
-import { Vector } from '../../mathf/vector';
+import { Vector } from '../mathf/vector';
 
 /**
  * DOM version of Vector2d with various DOM-specific helper functions.

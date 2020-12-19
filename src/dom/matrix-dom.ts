@@ -3,7 +3,7 @@
  * Supports relative updates being made to a matrix from multiple pieces of
  * code without them over-riding each other (unless explicitly desired).
  */
-import { ComputedStyleService } from '../computed-style-service';
+import { dom } from './dom';
 
 type Numeric = number|string; // Number that could be represented as string
 
@@ -16,7 +16,7 @@ export class MatrixDom {
   }
 
   static fromElementTransform(element: Element): MatrixDom {
-    const transform = ComputedStyleService.getComputedStyle(element).transform;
+    const transform = dom.getStyle(element).transform;
     return MatrixDom.parseFromString(transform);
   }
 

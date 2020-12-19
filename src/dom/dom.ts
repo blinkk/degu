@@ -3,7 +3,6 @@ import { Defer } from '../func/defer';
 import { func } from '../func/func';
 import { is } from '../is/is';
 import { DomWatcher } from '../dom/dom-watcher';
-import { ComputedStyleService } from './computed-style-service';
 
 /**
  * Yano DOM utility functions.
@@ -479,10 +478,8 @@ export class dom {
      */
     static getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
         // Use per-frame cached values to avoid style-recalc and layout calls
-        return ComputedStyleService.getComputedStyle(element);
+        return window.getComputedStyle(element);
     }
-
-
 
     /**
      * Creates an image in memory that is later deletable so it can
@@ -853,7 +850,7 @@ export class dom {
      */
     static getStyle(el: Element): CSSStyleDeclaration {
         // Use per-frame cached values to avoid style-recalc and layout calls
-        return ComputedStyleService.getComputedStyle(el);
+        return el['currentStyle'] || window.getComputedStyle(el);
     }
 
     /**
@@ -861,7 +858,7 @@ export class dom {
      */
     static isDisplayNone(el: Element): boolean {
         // Use internal style fetching to allow for optimizations
-        let style = dom.getStyle(el).display;
+        let style = window.getComputedStyle(el).display;
         return style == 'none';
     }
 
