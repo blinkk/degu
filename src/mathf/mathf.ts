@@ -864,9 +864,6 @@ export class mathf {
     // return ((value2 - value1) * amount) + amount
   }
 
-
-
-
   /**
    * Inverse lerp function
    * @param a Start value
@@ -1396,5 +1393,4 @@ export class mathf {
     const t = mathf.inverseLerp(minB, maxB, valueB);
     return mathf.lerp(minA, maxA, t);
   }
-
 }

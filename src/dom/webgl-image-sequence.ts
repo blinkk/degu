@@ -982,7 +982,6 @@ export class WebGlImageSequence {
 
 
     private async draw(imageSource: string | null) {
-
         // Prevent invalid draws
         if (!imageSource || this.disposed) {
             return;
@@ -991,6 +990,12 @@ export class WebGlImageSequence {
         if (imageSource == this.lastDrawSource) {
             return;
         }
+
+        // Can't draw on a 0 area canvas
+        if (!this.canvasWidth || !this.canvasHeight) {
+            return;
+        }
+
         this.lastDrawSource = imageSource;
 
 
@@ -1001,7 +1006,7 @@ export class WebGlImageSequence {
                 // the very last draw call is always rendered.
                 this.lastDrawSource = null;
                 this.draw(imageSource);
-            })
+            });
             return;
         }
 
@@ -1203,8 +1208,6 @@ export class WebGlImageSequence {
 
         this.lastRenderSource = imageSource;
     }
-
-
 
     /**
      * Updates the internal sizing options.

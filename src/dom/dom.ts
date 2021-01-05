@@ -480,8 +480,6 @@ export class dom {
         return window.getComputedStyle(element);
     }
 
-
-
     /**
      * Creates an image in memory that is later deletable so it can
      * be released from native memory AND image cache.
@@ -853,12 +851,11 @@ export class dom {
         return el['currentStyle'] || window.getComputedStyle(el);
     }
 
-
     /**
      * Tests whether the provided element is set to display none.
      */
     static isDisplayNone(el: Element): boolean {
-        let style = window.getComputedStyle(el, null).display;
+        let style = window.getComputedStyle(el).display;
         return style == 'none';
     }
 
@@ -984,5 +981,9 @@ export class dom {
            node.nodeValue = node.nodeValue.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
         })
 
+    }
+
+    static getScrollElement(): Element {
+        return document.scrollingElement || document.documentElement;
     }
 }
