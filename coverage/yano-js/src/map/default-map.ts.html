@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for yano-js/src/map/dynamic-default.ts</title>
+    <title>Code coverage report for yano-js/src/map/default-map.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -16,7 +16,7 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../index.html">All files</a> / <a href="index.html">yano-js/src/map</a> dynamic-default.ts
+      <a href="../../../index.html">All files</a> / <a href="index.html">yano-js/src/map</a> default-map.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
@@ -25,9 +25,9 @@
         <span class='fraction'>10/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>2/5</span>
+        <span class='fraction'>2/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -83,7 +83,28 @@
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -91,70 +112,58 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">380x</span>
-<span class="cline-any cline-yes">125x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">380x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { MapWrapper } from './map-wrapper';
-import { noop } from '../func/noop';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { noop } from '../func/noop';
 &nbsp;
+type DefaultFunction&lt;K, V&gt; = (key: K) =&gt; V;
 /**
  * Allows for returning generated defaults for unknown keys.
  * Useful as a quick and dirty way to cache results of functions.
  *
+ * This is intended to behave similarly to the defaultdict structure in python.
+ *
  * ```
  * const sqrRts =
- *     DynamicDefaultMap.usingFunction&lt;number, number&gt;((x) =&gt; Math.sqrt(x));
+ *     DefaultMap.usingFunction&lt;number, number&gt;((x) =&gt; Math.sqrt(x));
  * sqrRts.get(9); // Returns 3
  * ```
  */
-export class DynamicDefaultMap&lt;K, V&gt; extends MapWrapper&lt;K, V&gt; {
+export class DefaultMap&lt;K, V&gt; extends Map&lt;K, V&gt; {
   static usingFunction&lt;K, V&gt;(
-    defaultFunction: (key: K) =&gt; V
-  ): DynamicDefaultMap&lt;K, V&gt; {
-    return new this([], Map, defaultFunction);
+      defaultFunction: DefaultFunction&lt;K, V&gt;
+  ): DefaultMap&lt;K, V&gt; {
+    return new this([], defaultFunction);
   }
 &nbsp;
-  private readonly defaultFunction: (key: K) =&gt; V;
+  private readonly defaultFunction: DefaultFunction&lt;K, V&gt;;
 &nbsp;
   constructor(iterable: Array&lt;[K, V]&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >[],</span>
-              InnerMapClass: typeof Map = <span class="branch-0 cbranch-no" title="branch not covered" >Map,</span>
-              defaultFunction: (key: K) =&gt; V = &lt;(key: K) =&gt; V&gt;<span class="branch-0 cbranch-no" title="branch not covered" >noop)</span> {
-    super([], InnerMapClass); // Defer population
+              defaultFunction: DefaultFunction&lt;K, V&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >noop)</span> {
+    super(iterable);
     this.defaultFunction = defaultFunction;
-    this.populateFromIterable(iterable);
   }
 &nbsp;
-  get(key: any): any {
+  get(key: K): V {
     if (!this.has(key)) {
-      this.set(key, this.defaultFunction(key));
+      const defaultValue = this.defaultFunction(key);
+      this.set(key, defaultValue);
+      return defaultValue;
+    } else {
+      return super.get(key);
     }
-    return super.get(key);
   }
 }
 &nbsp;</pre></td></tr>
@@ -163,7 +172,7 @@ export class DynamicDefaultMap&lt;K, V&gt; extends MapWrapper&lt;K, V&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Dec 03 2020 18:28:52 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jan 05 2021 00:52:18 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

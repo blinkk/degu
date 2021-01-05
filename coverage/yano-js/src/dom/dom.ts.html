@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.11% </span>
+        <span class="strong">3.09% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/193</span>
+        <span class='fraction'>6/194</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/72</span>
+        <span class='fraction'>0/74</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/69</span>
+        <span class='fraction'>0/70</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.16% </span>
+        <span class="strong">3.14% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/190</span>
+        <span class='fraction'>6/191</span>
       </div>
     </div>
     <p class="quiet">
@@ -1034,16 +1034,17 @@
 <a name='L986'></a><a href='#L986'>986</a>
 <a name='L987'></a><a href='#L987'>987</a>
 <a name='L988'></a><a href='#L988'>988</a>
-<a name='L989'></a><a href='#L989'>989</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">12x</span>
+<a name='L989'></a><a href='#L989'>989</a>
+<a name='L990'></a><a href='#L990'>990</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1565,8 +1566,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1887,7 +1886,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2020,6 +2018,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { mathf } from '../mathf/mathf';
@@ -2504,8 +2506,6 @@ export class dom {
 <span class="cstat-no" title="statement not covered" >        return window.getComputedStyle(element);</span>
     }
 &nbsp;
-&nbsp;
-&nbsp;
     /**
      * Creates an image in memory that is later deletable so it can
      * be released from native memory AND image cache.
@@ -2877,12 +2877,11 @@ export class dom {
 <span class="cstat-no" title="statement not covered" >        return el['currentStyle'] || window.getComputedStyle(el);</span>
     }
 &nbsp;
-&nbsp;
     /**
      * Tests whether the provided element is set to display none.
      */
 <span class="fstat-no" title="function not covered" >    static </span>isDisplayNone(el: Element): boolean {
-        let style = <span class="cstat-no" title="statement not covered" >window.getComputedStyle(el, null).display;</span>
+        let style = <span class="cstat-no" title="statement not covered" >window.getComputedStyle(el).display;</span>
 <span class="cstat-no" title="statement not covered" >        return style == 'none';</span>
     }
 &nbsp;
@@ -3009,6 +3008,10 @@ export class dom {
         })
 &nbsp;
     }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    static </span>getScrollElement(): Element {
+<span class="cstat-no" title="statement not covered" >        return document.scrollingElement || document.documentElement;</span>
+    }
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -3016,7 +3019,7 @@ export class dom {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Dec 03 2020 18:28:52 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jan 05 2021 00:52:18 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
