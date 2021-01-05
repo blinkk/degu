@@ -3,7 +3,6 @@ import { Defer } from '../func/defer';
 import { func } from '../func/func';
 import { is } from '../is/is';
 import { DomWatcher } from '../dom/dom-watcher';
-import { domVectorf } from './dom-vectorf';
 
 /**
  * Yano DOM utility functions.
@@ -986,62 +985,5 @@ export class dom {
 
     static getScrollElement(): Element {
         return document.scrollingElement || document.documentElement;
-    }
-
-    /**
-     * Determine if the given element is fixed.
-     */
-    static isFixed(element: HTMLElement): boolean {
-        return dom.getStyle(element).position === 'fixed';
-    }
-
-    /**
-     * Factor in the transform of the given element when determining its offseTop
-     */
-    static getTransformedOffsetTop(candidateElement: HTMLElement): number {
-        return candidateElement.offsetTop +
-            domVectorf.fromElementTransform(candidateElement).y;
-    }
-
-    /**
-     * Returns the visible distance between the top of the given element and the
-     * top of the viewport.
-     *
-     * Useful for specific scroll-based effects and in-view checks that cannot
-     * be easily expressed via a configuration.
-     *
-     * ```
-     * function getEffectPercent() {
-     *    const start = getSomeHeaderHeight();
-     *    const end = start + getViewportHeight() - getSomeFooterHeight();
-     *    const distanceFromRoot = getViewportY(this.el);
-     *    return mathf.inverseLerp(-1 * start, -1 * end, -1 * distanceFromRoot);
-     * }
-     * ```
-     */
-    static getViewportY(element: HTMLElement): number {
-        // Short circuit for fixed elements.
-        if (dom.isFixed(element)) {
-            return element.offsetTop;
-        }
-
-        // Loop through offset parents and tally the distance
-        let candidateElement: HTMLElement = <HTMLElement>element.offsetParent;
-        let y = 0;
-        while (candidateElement && candidateElement !== document.body) {
-            // Special case for fixed elements
-            if (dom.isFixed(candidateElement)) {
-                return y + candidateElement.offsetTop;
-            } else {
-                // Factor in the offset and the scroll
-                y +=
-                    dom.getTransformedOffsetTop(candidateElement) -
-                    candidateElement.scrollTop;
-            }
-            candidateElement = <HTMLElement>candidateElement.offsetParent;
-        }
-
-        return dom.getTransformedOffsetTop(element) + y -
-            dom.getScrollElement().scrollTop;
     }
 }
