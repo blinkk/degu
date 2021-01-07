@@ -18,8 +18,8 @@ export interface ScrollSmoothRenderConfig {
 
 
 export const ScrollSmoothRenderEvents = {
-    DISABLE: "YANO_SCROLL_SMOOTH_RENDER_DISABLE",
-    ENABLE: "YANO_SCROLL_SMOOTH_RENDER_ENABLE",
+    DISABLE: "DEGU_SCROLL_SMOOTH_RENDER_DISABLE",
+    ENABLE: "DEGU_SCROLL_SMOOTH_RENDER_ENABLE",
 }
 
 /**
@@ -47,7 +47,7 @@ export const ScrollSmoothRenderEvents = {
  *  });
  * ```
  *
- * To take full advantage, use toolbox mutate or yano.read / writes.
+ * To take full advantage, use toolbox mutate or degu.read / writes.
  * ```
  *
  * const raf = new Raf();

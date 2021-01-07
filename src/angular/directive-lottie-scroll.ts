@@ -192,13 +192,13 @@ export class LottieController {
         // firing will update all instances.
         this.domWatcher.add({
             element: document as any,
-            on: 'yano-lottie-scroll-update',
+            on: 'degu-lottie-scroll-update',
             callback: this.handleLottieScrollUpdateEvent.bind(this),
             eventOptions: { passive: true }
         })
         this.domWatcher.add({
             element: this.element,
-            on: 'yano-lottie-scroll-update',
+            on: 'degu-lottie-scroll-update',
             callback: this.handleLottieScrollUpdateEvent.bind(this),
             eventOptions: { passive: true }
         })
@@ -749,7 +749,7 @@ export class LottieController {
     /**
      * Updates the lottie settings via document or events on the root element.
      *
-     *   var event = new CustomEvent('yano-lottie-scroll-update', { detail: { lerp: 0.2, damp: 0.3} });
+     *   var event = new CustomEvent('degu-lottie-scroll-update', { detail: { lerp: 0.2, damp: 0.3} });
      *   document.dispatchEvent(event)
      *
      *  // Scope to lottie instance
@@ -935,7 +935,7 @@ export class LottieController {
  * ```
  *
  * ```ts
- *   import { lottieScrollDirective } from 'yano-js/lib/angular/directive-lottie-scroll';
+ *   import { lottieScrollDirective } from 'degu/lib/angular/directive-lottie-scroll';
  *
  *   const app = angular.module('myApp', []);
  *   app.directive('lottieScroll', lottieScrollDirective);
@@ -1010,7 +1010,7 @@ export class LottieController {
  *
  *
  *
- *   import { LottieController, LottieScrollEvents, LottieScrollEventPayload, LottieScrollInitPayload } from 'yano-js/lib/angular/directive-lottie-scroll';
+ *   import { LottieController, LottieScrollEvents, LottieScrollEventPayload, LottieScrollInitPayload } from 'degu/lib/angular/directive-lottie-scroll';
  *
  *
  *   export default class MyController {

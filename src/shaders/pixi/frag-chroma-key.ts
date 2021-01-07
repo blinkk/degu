@@ -5,8 +5,8 @@
  * Sample usage with Pixi.
  * ```ts
  *
- *   import {color} from 'yano-js';
- *   import {fragChromaKey} from 'yano-js/lib/shaders/pixi/frag-chroma-key';
+ *   import {color} from 'degu';
+ *   import {fragChromaKey} from 'degu/lib/shaders/pixi/frag-chroma-key';
  *
  *   let uniforms = {
  *     // Threshold

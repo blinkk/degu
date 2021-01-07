@@ -25,7 +25,7 @@ import { DomWatcher } from './dom-watcher';
  * }
  * ```
  *
- * To take full advantage, use toolbox mutate or yano.read / writes.
+ * To take full advantage, use toolbox mutate or degu.read / writes.
  * ```
  *
  * const raf = new Raf();

@@ -32,7 +32,7 @@ export interface backgroundCoverBox {
 }
 
 /**
- * Yano Math utility functions.
+ * Degu Math utility functions.
  */
 export class mathf {
 
@@ -1083,7 +1083,7 @@ export class mathf {
    *
    * You can also combine with CubicBezier.makeEasingFunction or a catmull-roll.
    * ```
-   * import { EASE, mathf} from 'yano-js'
+   * import { EASE, mathf} from 'degu'
    * mathf.ease(0, 100, 0, EASE.easeInExpo)   ---> 0
    * mathf.ease(0, 100, 0.3, EASE.easeInExpo) ---> 0.1953125
    * mathf.ease(0, 100, 0.5, EASE.easeInExpo) ---> 3.125
@@ -1092,7 +1092,7 @@ export class mathf {
    *
    *
    *
-   * import { CubicBezier, EASE, mathf} from 'yano-js'
+   * import { CubicBezier, EASE, mathf} from 'degu'
    * mathf.ease(0, 100, 0.3, CubicBezier.makeEasingFunction(0, 1, 0.75, 0.9)) ---> 100
    *
    * ```

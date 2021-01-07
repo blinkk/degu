@@ -15,8 +15,8 @@ import { Raf } from '../lib/raf/raf';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 
 // Import shader chunks
-import {yanoMathf} from '../lib/shaders/three-shader-chunks/yano-mathf';
-yanoMathf(THREE);
+import {deguMathf} from '../lib/shaders/three-shader-chunks/degu-mathf';
+deguMathf(THREE);
 
 const vshader = `
 varying vec3 v_position;
@@ -30,7 +30,7 @@ void main() {
 
 
 const fshader = `
-#include <yanoMathf>
+#include <deguMathf>
 #define PI 3.14159265359
 
 uniform vec2 u_mouse;
@@ -66,7 +66,7 @@ void main (void)
     vec2 center = vec2(0.5);
     float imageAspect = 300.0 / 448.0;
     vec3 backgroundColor = vec3(0.0);
-    vec3 color = yanoRotate2dImage(
+    vec3 color = deguRotate2dImage(
         u_texture, imageAspect, v_uv, center, u_time, backgroundColor);
 
   gl_FragColor = vec4(color, 1.0);

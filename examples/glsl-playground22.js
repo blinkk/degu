@@ -16,8 +16,8 @@ import { Raf } from '../lib/raf/raf';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 
 // Import shader chunks
-import {yanoMathf} from '../lib/shaders/three-shader-chunks/yano-mathf';
-yanoMathf(THREE);
+import {deguMathf} from '../lib/shaders/three-shader-chunks/degu-mathf';
+deguMathf(THREE);
 
 const vshader = `
 varying vec3 v_position;
@@ -31,7 +31,7 @@ void main() {
 
 
 const fshader = `
-#include <yanoMathf>
+#include <deguMathf>
 #define PI 3.14159265359
 
 uniform vec2 u_mouse;

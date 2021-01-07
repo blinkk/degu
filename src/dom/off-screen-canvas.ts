@@ -23,7 +23,7 @@ import { WebWorker } from "./web-worker";
  *
  *
  *```ts
- * import { OffScreenCanvas, is } from 'yano-js';
+ * import { OffScreenCanvas, is } from 'degu';
  *
  * // Check for support and handle non-supporting browsers as you see fit.
  * if (!is.supportingOffScreenCanvas()) {

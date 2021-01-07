@@ -78,7 +78,7 @@ export class CssParallaxController {
  * In your app:
  *
  * ```ts
- *   import { cssParallaxDirective } from 'yano-js/lib/angular/directive-css-parallax';
+ *   import { cssParallaxDirective } from 'degu/lib/angular/directive-css-parallax';
  *
  *   const app = angular.module('myApp', []);
  *   app.directive('cssParallax', cssParallaxDirective);

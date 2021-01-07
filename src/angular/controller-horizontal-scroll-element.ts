@@ -13,7 +13,7 @@ export interface HorizontalScrollElementControllerInitConfig {
  *
  * ```
  *
- * import { HorizontalScrollElementController } from 'yano-js/lib/angular/controller-horizontal-scroll-element';
+ * import { HorizontalScrollElementController } from 'degu/lib/angular/controller-horizontal-scroll-element';
  * app.controller('HorizontalScrollElementController', HorizontalScrollElementController);
  *
  * ```

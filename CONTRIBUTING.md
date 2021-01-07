@@ -1,4 +1,4 @@
-# Development Yano
+# Development Degu
 
 
 ## Prerequisites
@@ -52,14 +52,14 @@ npm run doc-server
 
 npm run publish-doc
   Publishes the docs to surge.io.
-  Manually Run:$ surge --domain yano-js.surge.sh --project $PWD/docs/
+  Manually Run:$ surge --domain degu.surge.sh --project $PWD/docs/
 
 npm run coverage
   Runs coverage report
 
 npm run publish-coverage
   Publishes the docs to surge.io.
-  Manually Run:$ surge --domain yano-js-coverage.surge.sh --project $PWD/coverage/
+  Manually Run:$ surge --domain degu-coverage.surge.sh --project $PWD/coverage/
 
 // Quick publish
 npm run publish
@@ -94,7 +94,7 @@ For typescript use for ava check out [this](https://github.com/avajs/ava/blob/ma
 ```
 /docs      --> Project Docs
 /examples  --> Examples
-/lib       --> Compiled Yano JS lib
+/lib       --> Compiled Degu JS lib
 /src       --> Source files (typescript)
 /webpack   --> Webpack configuration to run the local example project.
 ```
@@ -107,20 +107,20 @@ See [this article](https://dev.to/erinbush/npm-linking-and-unlinking-2h) for mor
 #### Linking
 
 ```
-$ cd ~/yano-js  # To to whereever this git repo is cloned to
+$ cd ~/degu  # To to whereever this git repo is cloned to
 $ npm link
 
 Navigate to your project
-$ npm link yano-js
+$ npm link degu
 
 ```
 #### Unlinking
 The order is important here.
 ```
 Navigate to your project
-$ npm unlink --no-save yano-js
+$ npm unlink --no-save degu
 
-$ cd ~/yano-js  # To to whereever this git repo is cloned to
+$ cd ~/degu  # To to whereever this git repo is cloned to
 $ npm unlink
 ```
 

@@ -12,14 +12,14 @@ import { Raf } from '../lib/raf/raf';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 
 // Import shader chunks
-import {yanoMathf} from '../lib/shaders/three-shader-chunks/yano-mathf';
-yanoMathf(THREE);
+import {deguMathf} from '../lib/shaders/three-shader-chunks/degu-mathf';
+deguMathf(THREE);
 import {noise} from '../lib/shaders/three-shader-chunks/noise';
 noise(THREE);
 
 const vshader = `
 #include <noise>
-#include <yanoMathf>
+#include <deguMathf>
 uniform float u_time;
 
 varying float v_noise;

@@ -1,16 +1,16 @@
-# Yano-js
+# degu
 
-![Master](https://github.com/grow/yano-js/workflows/Run%20tests/badge.svg)
+![Master](https://github.com/blinkkcode/degu/workflows/Run%20tests/badge.svg)
 
-Yano is a general utility library for interactive websites.
+Degu is a general utility library for interactive websites.
 
-- [API docs](https://grow.github.io/yano-js/)
-- [Examples](https://grow.github.io/yano-js/examples/)
-- [Coverage](https://grow.github.io/yano-js/coverage/)
+- [API docs](https://grow.github.io/degu/)
+- [Examples](https://grow.github.io/degu/examples/)
+- [Coverage](https://grow.github.io/degu/coverage/)
 
 ## Motivation
 
-Yano-js is an interactive developer toolbox. It is not the next buzzword-filled, 
+degu is an interactive developer toolbox. It is not the next buzzword-filled, 
 huge component library with ready-made UI solutions (such as modals, carousels, etc.)
 but it aims to provide the "hammer and nails" needed to build highly-interactive,
 performant, kickass websites.
@@ -20,7 +20,7 @@ performant, kickass websites.
 ```bash
 npm install resize-observer-polyfill --save-dev
 npm install intersection-observer --save-dev
-npm install yano-js@latest --save-dev
+npm install degu@latest --save-dev
 ```
 
 Include `resize-observer-polyfill` and `intersection-observer` polyfill:
@@ -30,18 +30,18 @@ import '../../node_modules/intersection-observer/intersection-observer.js';
 import ResizeObserver from 'resize-observer-polyfill';
 window['ResizeObserver'] = ResizeObserver;
 
-/* ... insert code that depends on yano-js ... */
+/* ... insert code that depends on degu ... */
 ```
 
 ## Getting started
 
-- Read the [API docs](https://grow.github.io/yano-js/)
+- Read the [API docs](https://grow.github.io/degu/)
 - Explore the [examples folder](/examples/)
 
 Import the library:
 
 ```ts
-import {WebWorker} from 'yano-js';
+import {WebWorker} from 'degu';
 
 const worker = new WebWorker((params)=> {
     return params.a * params.b;
@@ -55,9 +55,9 @@ worker.run({a: 5, b: 2}).then((result)=> {
 Import specific files:
 
 ```ts
-import { mathf } from 'yano-js/lib/mathf/mathf/'
-import { is } from 'yano-js/lib/is/is/'
-import { dom } from 'yano-js/lib/dom/dom/'
+import { mathf } from 'degu/lib/mathf/mathf/'
+import { is } from 'degu/lib/is/is/'
+import { dom } from 'degu/lib/dom/dom/'
 ```
 
 ## ThreeJS deps
@@ -71,7 +71,7 @@ npm install --save-dev @types/three@0.103.2
 
 ## Browser compatibility
 
-Yano-js supports only "evergreen" browsers back to the latest two versions:
+degu supports only "evergreen" browsers back to the latest two versions:
 
 - Chrome
 - Edge (Chromium version)
@@ -80,7 +80,7 @@ Yano-js supports only "evergreen" browsers back to the latest two versions:
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) on how to develop for yano-js.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) on how to develop for degu.
 
 ## License
 

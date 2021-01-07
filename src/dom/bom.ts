@@ -2,7 +2,7 @@
 import { is } from '../is/is';
 
 /**
- * Yano BOM (browser object model) function
+ * Degu BOM (browser object model) function
  */
 export class bom {
 

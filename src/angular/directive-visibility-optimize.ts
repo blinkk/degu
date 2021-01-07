@@ -38,7 +38,7 @@ export class VisibilityOptimizeController {
 /**
  * Usage.
  * ```ts
- *   import { visibilityOptimizeDirective } from 'yano-js/lib/angular/directive-visibility-optimize';
+ *   import { visibilityOptimizeDirective } from 'degu/lib/angular/directive-visibility-optimize';
  *
  *   const app = angular.module('myApp', []);
  *   app.directive('visibilityOptimize', visibilityOptimizeDirective);

@@ -19,7 +19,7 @@ export interface ViewportCssParallaxSettings {
     rafEvElement?: HTMLElement,
 
     debug: boolean,
-    // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
+    // http://degu.surge.sh/classes/mathf.mathf-1.html#damp
     lerp: number,
     damp: number,
     // Whether to force clamp the progress to 0-1 range.  Defaults to true.

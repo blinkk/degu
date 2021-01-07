@@ -423,17 +423,17 @@ export interface SceneRendererConfig {
  *
  * ```
  *
- * ### Applying Yano Shader Chunks
+ * ### Applying Degu Shader Chunks
  *
  * You can apply shader chunks as follows:
  * ```
- *import {yanoShape2d} from
- * 'yano-js/lib/shaders/three-shader-chunks/yano-shape2d';
- *import {yanoMathf} from
- * 'yano-js/lib/shaders/three-shader-chunks/yano-mathf';
+ *import {deguShape2d} from
+ * 'degu/lib/shaders/three-shader-chunks/degu-shape2d';
+ *import {deguMathf} from
+ * 'degu/lib/shaders/three-shader-chunks/degu-mathf';
  *   // Apply shader chunks.
- *   yanoMathf(this.sceneRenderer.getThree());
- *   yanoShape2d(this.sceneRenderer.getThree());
+ *   deguMathf(this.sceneRenderer.getThree());
+ *   deguShape2d(this.sceneRenderer.getThree());
  *
  * ```
  *

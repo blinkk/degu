@@ -14,11 +14,11 @@ import { Raf } from '../lib/raf/raf';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 
 // Import shader chunks
-import {yanoMathf} from '../lib/shaders/three-shader-chunks/yano-mathf';
-yanoMathf(THREE);
+import {deguMathf} from '../lib/shaders/three-shader-chunks/degu-mathf';
+deguMathf(THREE);
 
 const vshader = `
-#include <yanoMathf>
+#include <deguMathf>
 uniform float u_time;
 uniform float u_radius;
 

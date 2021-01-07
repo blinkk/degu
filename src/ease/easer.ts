@@ -33,7 +33,7 @@ export interface easerConfig {
  * TODO (uxder); Possibly refactor this to use raf-timer instead.
  *
  * ```ts
- * import { Raf, Easer} from 'yano-js';
+ * import { Raf, Easer} from 'degu';
  *
  * // Simple example.
  * let easer = new Easer({

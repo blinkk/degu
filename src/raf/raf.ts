@@ -110,7 +110,7 @@ import { elementVisibility, ElementVisibilityObject } from '../dom/element-visib
  *
  * # Batch read / write.
  * Batch write / read.  To batch write and read, wrap your methods in
- * read and write calls.  Read / Write calls uses the yano raf registry
+ * read and write calls.  Read / Write calls uses the degu raf registry
  * so your reads or writes can get delayed by one raf cycle.
  * ```
  * var raf = new Raf(()=> {
@@ -290,8 +290,8 @@ export class Raf {
 
 
         // Register self to global registry.
-        window['YANO_RAF_REGISTRY'] &&
-            window['YANO_RAF_REGISTRY'].register(this);
+        window['DEGU_RAF_REGISTRY'] &&
+            window['DEGU_RAF_REGISTRY'].register(this);
     }
 
     /**
@@ -312,13 +312,13 @@ export class Raf {
     }
 
     /**
-     * Adds a one time read callback executed by the global yano raf registry.
+     * Adds a one time read callback executed by the global degu raf registry.
      * This allows you to batch read calls.
      * @param callback
      */
     preRead(callback: any) {
-        window['YANO_RAF_REGISTRY'] &&
-            window['YANO_RAF_REGISTRY'].addOneTimePreRead({
+        window['DEGU_RAF_REGISTRY'] &&
+            window['DEGU_RAF_REGISTRY'].addOneTimePreRead({
                 callback: callback,
                 raf: this
             });
@@ -326,39 +326,39 @@ export class Raf {
 
 
     /**
-     * Adds a one time read callback executed by the global yano raf registry.
+     * Adds a one time read callback executed by the global degu raf registry.
      * This allows you to batch read calls.
      * @param callback
      */
     read(callback: any) {
-        window['YANO_RAF_REGISTRY'] &&
-            window['YANO_RAF_REGISTRY'].addOneTimeRead({
+        window['DEGU_RAF_REGISTRY'] &&
+            window['DEGU_RAF_REGISTRY'].addOneTimeRead({
                 callback: callback,
                 raf: this
             });
     }
 
     /**
-     * Adds a one time write callback executed by the global yano raf registry.
+     * Adds a one time write callback executed by the global degu raf registry.
      * This allows you to batch write calls.
      * @param callback
      */
     write(callback: any) {
-        window['YANO_RAF_REGISTRY'] &&
-            window['YANO_RAF_REGISTRY'].addOneTimeWrite({
+        window['DEGU_RAF_REGISTRY'] &&
+            window['DEGU_RAF_REGISTRY'].addOneTimeWrite({
                 callback: callback,
                 raf: this
             });
     }
 
     /**
-     * Adds a one time post write callback executed by the global yano raf registry.
+     * Adds a one time post write callback executed by the global degu raf registry.
      * This allows you to batch post write calls.
      * @param callback
      */
     postWrite(callback: any) {
-        window['YANO_RAF_REGISTRY'] &&
-            window['YANO_RAF_REGISTRY'].addOneTimePostWrite({
+        window['DEGU_RAF_REGISTRY'] &&
+            window['DEGU_RAF_REGISTRY'].addOneTimePostWrite({
                 callback: callback,
                 raf: this
             });
@@ -473,8 +473,8 @@ export class Raf {
         this.isDisposed = true;
         this.stop();
         // Deregister self to global registry.
-        window['YANO_RAF_REGISTRY'] &&
-            window['YANO_RAF_REGISTRY'].unregister(this);
+        window['DEGU_RAF_REGISTRY'] &&
+            window['DEGU_RAF_REGISTRY'].unregister(this);
     }
 
     /**
@@ -678,9 +678,9 @@ class RafRegistry {
     private runRaf() {
         // Open console and add:
         //
-        // YANO_RAF_REGISTRY_DEBUG = true;
+        // DEGU_RAF_REGISTRY_DEBUG = true;
         //
-        if (window['YANO_RAF_REGISTRY_DEBUG']) {
+        if (window['DEGU_RAF_REGISTRY_DEBUG']) {
             console.log("Running raf", this.reads.length, this.writes.length);
         }
 
@@ -742,7 +742,7 @@ class RafRegistry {
      *
      * In dev console:
      * ```
-     * YANO_RAF_REGISTRY.getActiveRafCount();
+     * DEGU_RAF_REGISTRY.getActiveRafCount();
      * ```
      */
     public getActiveRafCount():number {
@@ -756,7 +756,7 @@ class RafRegistry {
      *
      * In dev console:
      * ```
-     * YANO_RAF_REGISTRY.getRafCount();
+     * DEGU_RAF_REGISTRY.getRafCount();
      * ```
      */
     public getRafCount():number {
@@ -777,6 +777,6 @@ class RafRegistry {
 }
 
 // Create raf registry as a global.
-if (window && !window['YANO_RAF_REGISTRY']) {
-    window['YANO_RAF_REGISTRY'] = new RafRegistry();
+if (window && !window['DEGU_RAF_REGISTRY']) {
+    window['DEGU_RAF_REGISTRY'] = new RafRegistry();
 }

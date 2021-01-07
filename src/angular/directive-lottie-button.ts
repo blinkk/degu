@@ -49,7 +49,7 @@ class LottieButtonController {
 
 /**
  * ```
- *   import { lottieButtonDirective } from 'yano-js/lib/angular/directive-lottie-button';
+ *   import { lottieButtonDirective } from 'degu/lib/angular/directive-lottie-button';
  *   app.directive('lottieButton', lottieButtonDirective);
  *
  *

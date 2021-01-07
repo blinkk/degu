@@ -13,7 +13,7 @@ interface XConfig {
 }
 
 /**
- * # X is a mini canvas + dom 2d engine within yano-js.
+ * # X is a mini canvas + dom 2d engine within degu.
  *
  * ```ts
  *

@@ -1,5 +1,5 @@
 {
-  "name": "yano-js",
+  "name": "degu",
   "version": "0.0.303",
   "description": "Micro library and util functions",
   "author": "Scott Murphy <stmhawaii@gmail.com>",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grow/yano-js.git"
+    "url": "git+https://github.com/blinkkcode/degu.git"
   },
   "files": [
     "lib"
@@ -114,8 +114,8 @@
     "build-watch": "tsc --watch",
     "doc": "typedoc",
     "publish": "npm run doc && npm run coverage && npm run publish-doc && npm run publish-coverage",
-    "publish-doc": "surge --domain yano-js.surge.sh --project $PWD/docs/",
-    "publish-coverage": "surge --domain yano-js-coverage.surge.sh --project $PWD/coverage/",
+    "publish-doc": "surge --domain degu.surge.sh --project $PWD/docs/",
+    "publish-coverage": "surge --domain degu-coverage.surge.sh --project $PWD/coverage/",
     "doc-server": "simplehttpserver ./docs",
     "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
     "dev-no-test": "concurrently \"tsc --watch\" \"npm run start\"",

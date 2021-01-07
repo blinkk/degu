@@ -5,7 +5,7 @@ import { is } from '../is/is';
 import { DomWatcher } from '../dom/dom-watcher';
 
 /**
- * Yano DOM utility functions.
+ * Degu DOM utility functions.
  */
 export class dom {
 
