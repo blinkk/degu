@@ -1,8 +1,8 @@
 {
   "name": "degu",
   "version": "0.0.303",
-  "description": "Micro library and util functions",
-  "author": "Scott Murphy <stmhawaii@gmail.com>",
+  "description": "A general utility library for interactive websites, with a focus on performance.",
+  "author": "Blinkk <hello@blinkk.com>",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
   "types": "lib/index.d.ts",

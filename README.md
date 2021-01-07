@@ -2,7 +2,7 @@
 
 ![Master](https://github.com/blinkkcode/degu/workflows/Run%20tests/badge.svg)
 
-Degu is a general utility library for interactive websites.
+A general utility library for interactive websites, with a focus on performance.
 
 - [API docs](https://grow.github.io/degu/)
 - [Examples](https://grow.github.io/degu/examples/)
