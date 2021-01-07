@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MatrixIV | Yano
-	</title>
+	<title>MatrixIV | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -72,7 +66,1093 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A 4 four dimensional homogenous matrix class.</p>
+					</div>
+					<p>See examples in /examples for uses of matrix.</p>
+					<pre><code><span class="hljs-comment">// Creates a new matrix.  Default matrix is set to identity.</span>
+let matrixA = new MatrixIV();
+
+matrixA.translateXyz(<span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>);
+
+
+<span class="hljs-comment">// Creates an identity matrix.</span>
+let matrixB = MatrixIV.IDENTITY;
+
+<span class="hljs-comment">// Rotate it on the Z axis by 90 degrees.</span>
+matrixB.scale(<span class="hljs-number">90</span> * Math.<span class="hljs-literal">PI</span> / <span class="hljs-number">180</span>, new Vector(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));
+</code></pre><p>Referenced:</p>
+					<dl class="tsd-comment-tags">
+						<dt>see</dt>
+						<dd><p><a href="http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/">http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js">https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://github.com/photonstorm/phaser/blob/v3.17.0/src/math/Matrix4.js">https://github.com/photonstorm/phaser/blob/v3.17.0/src/math/Matrix4.js</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://www.youtube.com/channel/UCEhBM2x5MG9-e_JSOzU068w">https://www.youtube.com/channel/UCEhBM2x5MG9-e_JSOzU068w</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://www.useragentman.com/blog/2011/01/07/css3-matrix-transform-for-the-mathematically-challenged/">https://www.useragentman.com/blog/2011/01/07/css3-matrix-transform-for-the-mathematically-challenged/</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://github.com/toji/gl-matrix">https://github.com/toji/gl-matrix</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://github.com/adragonite/math3d/blob/master/src/Matrix4x4.js">https://github.com/adragonite/math3d/blob/master/src/Matrix4x4.js</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js">https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js</a></p>
+						</dd>
+						<dt>unstable</dt>
+						<dd></dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">MatrixIV</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="mathf.matrixiv.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="mathf.matrixiv.html#value" class="tsd-kind-icon">value</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#identity" class="tsd-kind-icon">IDENTITY</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#_" class="tsd-kind-icon">_</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#clone" class="tsd-kind-icon">clone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#copy" class="tsd-kind-icon">copy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#fromarray" class="tsd-kind-icon">from<wbr>Array</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#identity-1" class="tsd-kind-icon">identity</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#lookat" class="tsd-kind-icon">look<wbr>At</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#multiply" class="tsd-kind-icon">multiply</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#multiplyby4x1" class="tsd-kind-icon">multiply<wbr>By4x1</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#multiplybyvector" class="tsd-kind-icon">multiply<wbr>ByVector</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#perspective" class="tsd-kind-icon">perspective</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#rotate" class="tsd-kind-icon">rotate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#rotatex" class="tsd-kind-icon">rotateX</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#rotatey" class="tsd-kind-icon">rotateY</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#rotatez" class="tsd-kind-icon">rotateZ</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#scale" class="tsd-kind-icon">scale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#scalexyz" class="tsd-kind-icon">scale<wbr>Xyz</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#setvectorcolumn" class="tsd-kind-icon">set<wbr>Vector<wbr>Column</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#tocss3dmatrix" class="tsd-kind-icon">to<wbr>Css3d<wbr>Matrix</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#translate" class="tsd-kind-icon">translate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#translatexyz" class="tsd-kind-icon">translate<wbr>Xyz</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#ypr" class="tsd-kind-icon">ypr</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#zero" class="tsd-kind-icon">zero</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#compose" class="tsd-kind-icon">compose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#fromarray-1" class="tsd-kind-icon">from<wbr>Array</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#fromquaternion" class="tsd-kind-icon">from<wbr>Quaternion</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>MatrixIV<span class="tsd-signature-symbol">(</span>matrix<span class="tsd-signature-symbol">?: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L51">mathf/matrixIV.ts:51</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> matrix: <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="value" class="tsd-anchor"></a>
+					<h3>value</h3>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Float32Array</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L51">mathf/matrixIV.ts:51</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The internal matrix values.</p>
+						</div>
+						<p>Roughly visualized as:
+							x   y   z   t
+							[
+							0,  1,  2,  3
+							4,  5,  6,  7,
+							8,  9, 10, 11,
+							12, 13, 14, 15
+						]</p>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+					<a name="identity" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> IDENTITY</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> IDENTITY<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L881">mathf/matrixIV.ts:881</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates and returns an identity matrix.</p>
+								</div>
+								<pre><code class="language-ts"><span class="hljs-keyword">let</span> m = MatrixIV.IDENTITY;</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>static</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+					<a name="_" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> _</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> _<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L888">mathf/matrixIV.ts:888</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Alias to MatrixIV identity.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clone" class="tsd-anchor"></a>
+					<h3>clone</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L119">mathf/matrixIV.ts:119</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Clones this matrix.</p>
+								</div>
+								<pre><code class="language-ts"><span class="hljs-keyword">let</span> m = myMatrix.clone();  <span class="hljs-comment">// m is now a new clone of myMatrix.</span></code></pre>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="copy" class="tsd-anchor"></a>
+					<h3>copy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">(</span>matrix4<span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L131">mathf/matrixIV.ts:131</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Copies the values of another matrix into this matrix.</p>
+								</div>
+								<pre><code class="language-ts">matrixA.copy(matrixB) <span class="hljs-comment">// Now matrixA has the values of matrixB.</span></code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>matrix4: <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fromarray" class="tsd-anchor"></a>
+					<h3>from<wbr>Array</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Array<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Float32Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L749">mathf/matrixIV.ts:749</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets this matrix from an array.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>values: <span class="tsd-signature-type">Float32Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="identity-1" class="tsd-anchor"></a>
+					<h3>identity</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">identity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L69">mathf/matrixIV.ts:69</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets this matrix to a default identity matrix.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="lookat" class="tsd-anchor"></a>
+					<h3>look<wbr>At</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">look<wbr>At<span class="tsd-signature-symbol">(</span>eye<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a>, center<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a>, up<span class="tsd-signature-symbol">?: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L563">mathf/matrixIV.ts:563</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates a View Matrix for the world-videw-projection matrix on a
+									left-handed projection.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js">https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js</a>
+										<a href="http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/">http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/</a></p>
+										<pre><code class="language-ts">  <span class="hljs-keyword">var</span> eye = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">5.0</span>);
+  <span class="hljs-keyword">var</span> center = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>);
+  <span class="hljs-keyword">var</span> up = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>);
+  <span class="hljs-keyword">var</span> martix = <span class="hljs-keyword">new</span> MatrixIV().lookAt(eye, center, up);</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eye: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The camera position vector</p>
+									</div>
+								</li>
+								<li>
+									<h5>center: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The camera target vector</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> up: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol"> =&nbsp;Vector.UP</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The up vector relative to the camera.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="multiply" class="tsd-anchor"></a>
+					<h3>multiply</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">multiply<span class="tsd-signature-symbol">(</span>mat<span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L307">mathf/matrixIV.ts:307</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Multiply the current matrix with another.</p>
+								</div>
+								<pre><code class="language-ts">matrixA.multiply(matrixB); <span class="hljs-comment">// Now value of matrixA is multiplied with B.</span>
+
+matrixC = matrixA.clone().multiply(matrixB); <span class="hljs-comment">// matrixC is product.</span></code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>mat: <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="multiplyby4x1" class="tsd-anchor"></a>
+					<h3>multiply<wbr>By4x1</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">multiply<wbr>By4x1<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, w<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L390">mathf/matrixIV.ts:390</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Multiplies this 4x4 matrix by a 4x1 matrix.  This results in
+									returning the results as a 4x1 matrix.</p>
+								</div>
+								<pre><code>    <span class="hljs-number">4</span>x4 Matrix         <span class="hljs-number">4</span>x1 (Vector)
+     <span class="hljs-selector-tag">a</span>, <span class="hljs-selector-tag">b</span>, c, d               x      = ax + by + cz + dw
+     e, f, g, h     x         y      = ex + fy + gz + hw
+     <span class="hljs-selector-tag">i</span>, j, k, l               z      = ix + jy + kz + lw
+    m,  n,  o, <span class="hljs-selector-tag">p</span>              w      = mx + ny + oz + pw</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>z: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> w: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Use 1 for positions and 0 for direction.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="multiplybyvector" class="tsd-anchor"></a>
+					<h3>multiply<wbr>ByVector</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">multiply<wbr>ByVector<span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a>, w<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L436">mathf/matrixIV.ts:436</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Multiplies this matrix by a vector that is converted to a 4x1.  Returns
+									a vector that was converted from the resulting 4x1.</p>
+								</div>
+								<pre><code>    Basis Matrix         <span class="hljs-number">4</span>x1 (Vector)
+     <span class="hljs-selector-tag">a</span>, <span class="hljs-selector-tag">b</span>, c, d               x
+     e, f, g, h     x         y
+     <span class="hljs-selector-tag">i</span>, j, k, l               z
+    m,  n,  o, <span class="hljs-selector-tag">p</span>              w
+</code></pre><pre><code class="language-ts">
+  <span class="hljs-keyword">let</span> up = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">50</span>);
+  <span class="hljs-keyword">let</span> right = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">50</span>, <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">let</span> forward = Vector.ONE.cross(up);
+  <span class="hljs-keyword">let</span> basisMatrix = <span class="hljs-keyword">new</span> MatrixIV();
+  basisMatrix.setVectorColumn(<span class="hljs-number">0</span>, right);
+  basisMatrix.setVectorColumn(<span class="hljs-number">1</span>, up);
+  basisMatrix.setVectorColumn(<span class="hljs-number">2</span>, forward);
+
+  <span class="hljs-keyword">let</span> p0 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>);
+  <span class="hljs-keyword">let</span> p1 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>);
+  <span class="hljs-keyword">let</span> p2 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
+  <span class="hljs-keyword">let</span> p3 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>);
+  <span class="hljs-keyword">let</span> t0 = basisMatrix.clone().multiplyByVector(p1);
+  <span class="hljs-keyword">let</span> t1 = basisMatrix.clone().multiplyByVector(p1);
+  <span class="hljs-keyword">let</span> t2 = basisMatrix.clone().multiplyByVector(p2);
+  <span class="hljs-keyword">let</span> t3 = basisMatrix.clone().multiplyByVector(p3);
+
+  <span class="hljs-comment">// Now t0-t3 are vector of the corner points of a 100x100 square.</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> w: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="perspective" class="tsd-anchor"></a>
+					<h3>perspective</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">perspective<span class="tsd-signature-symbol">(</span>fov<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, aspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, near<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, far<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L662">mathf/matrixIV.ts:662</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates a left-handed perspection projection matrix with the given bounds.
+										The projection matrix is based on near and far view distance,
+									angle of the view of the camera and your screen resolution proportion.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fov: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The field of view in radians.</p>
+									</div>
+								</li>
+								<li>
+									<h5>aspect: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The aspect ratio of the view.</p>
+									</div>
+								</li>
+								<li>
+									<h5>near: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The near clipping bound of frustum. Should be larger than 0.</p>
+									</div>
+								</li>
+								<li>
+									<h5>far: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The far clipping bound of frustum. Should be larger than 0.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="rotate" class="tsd-anchor"></a>
+					<h3>rotate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">rotate<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, axis<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L461">mathf/matrixIV.ts:461</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotates this matrix at an given angle and axis.</p>
+								</div>
+								<pre><code> <span class="hljs-comment">// Rotate along X as the axis, similar to rotateX</span>
+  <span class="hljs-keyword">let</span> matrix = <span class="hljs-keyword">new</span> <span class="hljs-constructor">MatrixIV()</span>.rotate(angle, <span class="hljs-keyword">new</span> <span class="hljs-constructor">Vector(1, 0, 0)</span>);
+
+ <span class="hljs-comment">// Rotate along y as the axis, similar to rotateY</span>
+  matrix = <span class="hljs-keyword">new</span> <span class="hljs-constructor">MatrixIV()</span>.rotate(angle, <span class="hljs-keyword">new</span> <span class="hljs-constructor">Vector(0, 1, 0)</span>);
+
+ <span class="hljs-comment">// Rotate along y as the axis, similar to rotateZ</span>
+  matrix = <span class="hljs-keyword">new</span> <span class="hljs-constructor">MatrixIV()</span>.rotate(angle, <span class="hljs-keyword">new</span> <span class="hljs-constructor">Vector(0, 0, 1)</span>);</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An angle in radians</p>
+									</div>
+								</li>
+								<li>
+									<h5>axis: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A vector point that acts as the axis.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">null</span>
+							</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="rotatex" class="tsd-anchor"></a>
+					<h3>rotateX</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">rotateX<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L521">mathf/matrixIV.ts:521</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotates this matrix along the x plane.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Angle in radians.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="rotatey" class="tsd-anchor"></a>
+					<h3>rotateY</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">rotateY<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L530">mathf/matrixIV.ts:530</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotates this matrix along the y plane.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Angle in radians.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="rotatez" class="tsd-anchor"></a>
+					<h3>rotateZ</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">rotateZ<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L539">mathf/matrixIV.ts:539</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Rotates this matrix along the z plane.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>angle: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Angle in radians.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="scale" class="tsd-anchor"></a>
+					<h3>scale</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L216">mathf/matrixIV.ts:216</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Apply a scale transformation to this matrix given a scale vector.</p>
+								</div>
+								<pre><code class="language-ts">myMatrix.scale(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>));</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The vector to scale this matrix.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="scalexyz" class="tsd-anchor"></a>
+					<h3>scale<wbr>Xyz</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">scale<wbr>Xyz<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L188">mathf/matrixIV.ts:188</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Scales this matrix given x, y, z values.</p>
+								</div>
+								<pre><code class="language-ts">myMatrix.scaleXyz(<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>);</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>z: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setvectorcolumn" class="tsd-anchor"></a>
+					<h3>set<wbr>Vector<wbr>Column</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Vector<wbr>Column<span class="tsd-signature-symbol">(</span>column<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, v<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L168">mathf/matrixIV.ts:168</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fills a specific column of this matrix with a vector values.</p>
+								</div>
+								<pre><code>
+For example, passing <span class="hljs-number">2</span> as the column would:
+[
+  <span class="hljs-number">1</span>,  <span class="hljs-number">0</span>,  x,  <span class="hljs-number">0</span>
+  <span class="hljs-number">0</span>,  <span class="hljs-number">1</span>,  y,  <span class="hljs-number">0</span>,
+  <span class="hljs-number">0</span>,  <span class="hljs-number">0</span>,  z,  <span class="hljs-number">0</span>,
+  <span class="hljs-number">0</span>,  <span class="hljs-number">0</span>,  <span class="hljs-number">0</span>,  <span class="hljs-number">1</span>
+]
+</code></pre><p>This is useful to create a basis matrix.  Below is a 4x4
+								matrix constructed of up, right and forward vectors.</p>
+								<pre><code class="language-ts">
+  <span class="hljs-keyword">let</span> up = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">50</span>);
+  <span class="hljs-keyword">let</span> right = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">50</span>, <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">let</span> forward = Vector.ONE.cross(up);
+  <span class="hljs-keyword">let</span> basisMatrix = <span class="hljs-keyword">new</span> MatrixIV();
+  basisMatrix.setVectorColumn(<span class="hljs-number">0</span>, right);
+  basisMatrix.setVectorColumn(<span class="hljs-number">1</span>, up);
+  basisMatrix.setVectorColumn(<span class="hljs-number">2</span>, foward);
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>column: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The column number to fill.  A value between 0 and 3.</p>
+									</div>
+								</li>
+								<li>
+									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tocss3dmatrix" class="tsd-anchor"></a>
+					<h3>to<wbr>Css3d<wbr>Matrix</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Css3d<wbr>Matrix<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L275">mathf/matrixIV.ts:275</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the current 4x4 matrix over to a css 3d matrix translation string.</p>
+								</div>
+								<pre><code>
+[
+<span class="hljs-symbol">a1</span> <span class="hljs-built_in">a2</span> <span class="hljs-built_in">a3</span> <span class="hljs-built_in">a4</span>
+<span class="hljs-keyword">b1 </span><span class="hljs-keyword">b2 </span><span class="hljs-keyword">b3 </span><span class="hljs-keyword">b4
+</span><span class="hljs-symbol">c1</span> <span class="hljs-built_in">c2</span> <span class="hljs-built_in">c3</span> <span class="hljs-built_in">c4</span>
+<span class="hljs-symbol">d1</span> <span class="hljs-built_in">d2</span> <span class="hljs-built_in">d3</span> <span class="hljs-built_in">d4</span>
+]
+= matrix3d(<span class="hljs-built_in">a1</span>, <span class="hljs-keyword">b1, </span><span class="hljs-built_in">c1</span>, <span class="hljs-built_in">d1</span>, <span class="hljs-built_in">a2</span>, <span class="hljs-keyword">b2, </span><span class="hljs-built_in">c2</span>, <span class="hljs-built_in">d2</span>, <span class="hljs-built_in">a3</span>, <span class="hljs-keyword">b3, </span><span class="hljs-built_in">c3</span>, <span class="hljs-built_in">d3</span>, <span class="hljs-built_in">a4</span>, <span class="hljs-keyword">b4, </span><span class="hljs-built_in">c4</span>, <span class="hljs-built_in">d4</span>)</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d">https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d</a></p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="translate" class="tsd-anchor"></a>
+					<h3>translate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">translate<span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L253">mathf/matrixIV.ts:253</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Apply a translation.</p>
+								</div>
+								<pre><code class="language-ts">myMatrix.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>));</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="translatexyz" class="tsd-anchor"></a>
+					<h3>translate<wbr>Xyz</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">translate<wbr>Xyz<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L233">mathf/matrixIV.ts:233</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Translates this matrix given the values.</p>
+								</div>
+								<pre><code class="language-ts">myMatrix.translateXyz(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">0</span>));</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>y: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>z: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="ypr" class="tsd-anchor"></a>
+					<h3>ypr</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">ypr<span class="tsd-signature-symbol">(</span>yaw<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pitch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, roll<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L697">mathf/matrixIV.ts:697</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the values of this matrix based on given yaw, pitch and roll.
+									Degu uses: YXZ Local Axes Yaw (y), Pitch (x), Roll (z)</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>yaw: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>pitch: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>roll: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="zero" class="tsd-anchor"></a>
+					<h3>zero</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">zero<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L92">mathf/matrixIV.ts:92</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets this matrix to have all 0 value.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="compose" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> compose</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">compose<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a>, rotation<span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a>, scale<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L837">mathf/matrixIV.ts:837</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Composes a new matrixIV from a position, rotation and scale.</p>
+								</div>
+								<pre><code class="language-ts">
+<span class="hljs-keyword">let</span> mat = MatrixIV.compose(position, rotation, scale);
+
+<span class="hljs-comment">// Create a rotation matrix from a quaternion.  Same effect as</span>
+<span class="hljs-comment">// MatrixIV.fromQuaterion.</span>
+<span class="hljs-keyword">let</span> position = Vector.ZERO;
+<span class="hljs-keyword">let</span> scale = Vector.ONE;
+<span class="hljs-keyword">let</span> myQuaternion = Quaternion.fromEular(<span class="hljs-number">90</span>,<span class="hljs-number">90</span>,<span class="hljs-number">90</span>);
+<span class="hljs-keyword">let</span> rotationMatrix = MatrixIV.compose(position, q, scale);
+</code></pre>
+								<p>Thanks to Mr. Doob:
+								<a href="https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js">https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js</a></p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>position: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+								</li>
+								<li>
+									<h5>rotation: <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h5>
+								</li>
+								<li>
+									<h5>scale: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromarray-1" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Array</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Array<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Float32Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L754">mathf/matrixIV.ts:754</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>values: <span class="tsd-signature-type">Float32Array</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromquaternion" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Quaternion</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Quaternion<span class="tsd-signature-symbol">(</span>q<span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/mathf/matrixIV.ts#L773">mathf/matrixIV.ts:773</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a matrixIV from a quaternion.
+									Based off: <a href="https://github.com/toji/gl-matrix/blob/master/src/mat4.js">https://github.com/toji/gl-matrix/blob/master/src/mat4.js</a></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>q: <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -149,8 +1229,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
@@ -306,1065 +1384,6 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A 4 four dimensional homogenous matrix class.</p>
-					</div>
-					<p>See examples in /examples for uses of matrix.</p>
-					<pre><code><span class="hljs-comment">// Creates a new matrix.  Default matrix is set to identity.</span>
-let matrixA = new MatrixIV();
-
-matrixA.translateXyz(<span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>);
-
-
-<span class="hljs-comment">// Creates an identity matrix.</span>
-let matrixB = MatrixIV.IDENTITY;
-
-<span class="hljs-comment">// Rotate it on the Z axis by 90 degrees.</span>
-matrixB.scale(<span class="hljs-number">90</span> * Math.<span class="hljs-literal">PI</span> / <span class="hljs-number">180</span>, new Vector(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));
-</code></pre><p>Referenced:</p>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p><a href="http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/">http://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js">https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://github.com/photonstorm/phaser/blob/v3.17.0/src/math/Matrix4.js">https://github.com/photonstorm/phaser/blob/v3.17.0/src/math/Matrix4.js</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://www.youtube.com/channel/UCEhBM2x5MG9-e_JSOzU068w">https://www.youtube.com/channel/UCEhBM2x5MG9-e_JSOzU068w</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://www.useragentman.com/blog/2011/01/07/css3-matrix-transform-for-the-mathematically-challenged/">https://www.useragentman.com/blog/2011/01/07/css3-matrix-transform-for-the-mathematically-challenged/</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://github.com/toji/gl-matrix">https://github.com/toji/gl-matrix</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://github.com/adragonite/math3d/blob/master/src/Matrix4x4.js">https://github.com/adragonite/math3d/blob/master/src/Matrix4x4.js</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js">https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js</a></p>
-						</dd>
-						<dt>unstable</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">MatrixIV</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="mathf.matrixiv.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="mathf.matrixiv.html#value" class="tsd-kind-icon">value</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Accessors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#identity" class="tsd-kind-icon">IDENTITY</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#_" class="tsd-kind-icon">_</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#clone" class="tsd-kind-icon">clone</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#copy" class="tsd-kind-icon">copy</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#fromarray" class="tsd-kind-icon">from<wbr>Array</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#identity-1" class="tsd-kind-icon">identity</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#lookat" class="tsd-kind-icon">look<wbr>At</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#multiply" class="tsd-kind-icon">multiply</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#multiplyby4x1" class="tsd-kind-icon">multiply<wbr>By4x1</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#multiplybyvector" class="tsd-kind-icon">multiply<wbr>ByVector</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#perspective" class="tsd-kind-icon">perspective</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#rotate" class="tsd-kind-icon">rotate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#rotatex" class="tsd-kind-icon">rotateX</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#rotatey" class="tsd-kind-icon">rotateY</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#rotatez" class="tsd-kind-icon">rotateZ</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#scale" class="tsd-kind-icon">scale</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#scalexyz" class="tsd-kind-icon">scale<wbr>Xyz</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#setvectorcolumn" class="tsd-kind-icon">set<wbr>Vector<wbr>Column</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#tocss3dmatrix" class="tsd-kind-icon">to<wbr>Css3d<wbr>Matrix</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#translate" class="tsd-kind-icon">translate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#translatexyz" class="tsd-kind-icon">translate<wbr>Xyz</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#ypr" class="tsd-kind-icon">ypr</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="mathf.matrixiv.html#zero" class="tsd-kind-icon">zero</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#compose" class="tsd-kind-icon">compose</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#fromarray-1" class="tsd-kind-icon">from<wbr>Array</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="mathf.matrixiv.html#fromquaternion" class="tsd-kind-icon">from<wbr>Quaternion</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>MatrixIV<span class="tsd-signature-symbol">(</span>matrix<span class="tsd-signature-symbol">?: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> matrix: <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L51">mathf/matrixIV.ts:51</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="value" class="tsd-anchor"></a>
-					<h3>value</h3>
-					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Float32Array</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L51">mathf/matrixIV.ts:51</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The internal matrix values.</p>
-						</div>
-						<p>Roughly visualized as:
-							x   y   z   t
-							[
-							0,  1,  2,  3
-							4,  5,  6,  7,
-							8,  9, 10, 11,
-							12, 13, 14, 15
-						]</p>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-					<a name="identity" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> IDENTITY</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> IDENTITY<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates and returns an identity matrix.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> m = MatrixIV.IDENTITY;</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>static</dt>
-									<dd></dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L881">mathf/matrixIV.ts:881</a></li>
-								</ul>
-						</aside>            </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-					<a name="_" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> _</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> _<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Alias to MatrixIV identity.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L888">mathf/matrixIV.ts:888</a></li>
-								</ul>
-						</aside>            </li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="clone" class="tsd-anchor"></a>
-					<h3>clone</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Clones this matrix.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> m = myMatrix.clone();  <span class="hljs-comment">// m is now a new clone of myMatrix.</span></code></pre>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L119">mathf/matrixIV.ts:119</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="copy" class="tsd-anchor"></a>
-					<h3>copy</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">copy<span class="tsd-signature-symbol">(</span>matrix4<span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Copies the values of another matrix into this matrix.</p>
-								</div>
-								<pre><code class="language-ts">matrixA.copy(matrixB) <span class="hljs-comment">// Now matrixA has the values of matrixB.</span></code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>matrix4: <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L131">mathf/matrixIV.ts:131</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="fromarray" class="tsd-anchor"></a>
-					<h3>from<wbr>Array</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">from<wbr>Array<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Float32Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets this matrix from an array.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>values: <span class="tsd-signature-type">Float32Array</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L749">mathf/matrixIV.ts:749</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="identity-1" class="tsd-anchor"></a>
-					<h3>identity</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">identity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets this matrix to a default identity matrix.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L69">mathf/matrixIV.ts:69</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="lookat" class="tsd-anchor"></a>
-					<h3>look<wbr>At</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">look<wbr>At<span class="tsd-signature-symbol">(</span>eye<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a>, center<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a>, up<span class="tsd-signature-symbol">?: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Generates a View Matrix for the world-videw-projection matrix on a
-									left-handed projection.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p><a href="https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js">https://github.com/doxas/minMatrix.js/blob/master/minMatrix.js</a>
-										<a href="http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/">http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/</a></p>
-										<pre><code class="language-ts">  <span class="hljs-keyword">var</span> eye = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">5.0</span>);
-  <span class="hljs-keyword">var</span> center = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>);
-  <span class="hljs-keyword">var</span> up = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">0.0</span>);
-  <span class="hljs-keyword">var</span> martix = <span class="hljs-keyword">new</span> MatrixIV().lookAt(eye, center, up);</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>eye: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The camera position vector</p>
-									</div>
-								</li>
-								<li>
-									<h5>center: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The camera target vector</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> up: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol"> =&nbsp;Vector.UP</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The up vector relative to the camera.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L563">mathf/matrixIV.ts:563</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="multiply" class="tsd-anchor"></a>
-					<h3>multiply</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">multiply<span class="tsd-signature-symbol">(</span>mat<span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Multiply the current matrix with another.</p>
-								</div>
-								<pre><code class="language-ts">matrixA.multiply(matrixB); <span class="hljs-comment">// Now value of matrixA is multiplied with B.</span>
-
-matrixC = matrixA.clone().multiply(matrixB); <span class="hljs-comment">// matrixC is product.</span></code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>mat: <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L307">mathf/matrixIV.ts:307</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="multiplyby4x1" class="tsd-anchor"></a>
-					<h3>multiply<wbr>By4x1</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">multiply<wbr>By4x1<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, w<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Multiplies this 4x4 matrix by a 4x1 matrix.  This results in
-									returning the results as a 4x1 matrix.</p>
-								</div>
-								<pre><code>    <span class="hljs-number">4</span>x4 Matrix         <span class="hljs-number">4</span>x1 (Vector)
-     <span class="hljs-selector-tag">a</span>, <span class="hljs-selector-tag">b</span>, c, d               x      = ax + by + cz + dw
-     e, f, g, h     x         y      = ex + fy + gz + hw
-     <span class="hljs-selector-tag">i</span>, j, k, l               z      = ix + jy + kz + lw
-    m,  n,  o, <span class="hljs-selector-tag">p</span>              w      = mx + ny + oz + pw</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>x: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>y: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>z: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> w: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Use 1 for positions and 0 for direction.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L390">mathf/matrixIV.ts:390</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="multiplybyvector" class="tsd-anchor"></a>
-					<h3>multiply<wbr>ByVector</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">multiply<wbr>ByVector<span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a>, w<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Multiplies this matrix by a vector that is converted to a 4x1.  Returns
-									a vector that was converted from the resulting 4x1.</p>
-								</div>
-								<pre><code>    Basis Matrix         <span class="hljs-number">4</span>x1 (Vector)
-     <span class="hljs-selector-tag">a</span>, <span class="hljs-selector-tag">b</span>, c, d               x
-     e, f, g, h     x         y
-     <span class="hljs-selector-tag">i</span>, j, k, l               z
-    m,  n,  o, <span class="hljs-selector-tag">p</span>              w
-</code></pre><pre><code class="language-ts">
-  <span class="hljs-keyword">let</span> up = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">50</span>);
-  <span class="hljs-keyword">let</span> right = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">50</span>, <span class="hljs-number">0</span>);
-  <span class="hljs-keyword">let</span> forward = Vector.ONE.cross(up);
-  <span class="hljs-keyword">let</span> basisMatrix = <span class="hljs-keyword">new</span> MatrixIV();
-  basisMatrix.setVectorColumn(<span class="hljs-number">0</span>, right);
-  basisMatrix.setVectorColumn(<span class="hljs-number">1</span>, up);
-  basisMatrix.setVectorColumn(<span class="hljs-number">2</span>, forward);
-
-  <span class="hljs-keyword">let</span> p0 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>);
-  <span class="hljs-keyword">let</span> p1 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>);
-  <span class="hljs-keyword">let</span> p2 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
-  <span class="hljs-keyword">let</span> p3 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>);
-  <span class="hljs-keyword">let</span> t0 = basisMatrix.clone().multiplyByVector(p1);
-  <span class="hljs-keyword">let</span> t1 = basisMatrix.clone().multiplyByVector(p1);
-  <span class="hljs-keyword">let</span> t2 = basisMatrix.clone().multiplyByVector(p2);
-  <span class="hljs-keyword">let</span> t3 = basisMatrix.clone().multiplyByVector(p3);
-
-  <span class="hljs-comment">// Now t0-t3 are vector of the corner points of a 100x100 square.</span>
-</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> w: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L436">mathf/matrixIV.ts:436</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="perspective" class="tsd-anchor"></a>
-					<h3>perspective</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">perspective<span class="tsd-signature-symbol">(</span>fov<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, aspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, near<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, far<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Generates a left-handed perspection projection matrix with the given bounds.
-										The projection matrix is based on near and far view distance,
-									angle of the view of the camera and your screen resolution proportion.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>fov: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The field of view in radians.</p>
-									</div>
-								</li>
-								<li>
-									<h5>aspect: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The aspect ratio of the view.</p>
-									</div>
-								</li>
-								<li>
-									<h5>near: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The near clipping bound of frustum. Should be larger than 0.</p>
-									</div>
-								</li>
-								<li>
-									<h5>far: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The far clipping bound of frustum. Should be larger than 0.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L662">mathf/matrixIV.ts:662</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="rotate" class="tsd-anchor"></a>
-					<h3>rotate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">rotate<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, axis<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Rotates this matrix at an given angle and axis.</p>
-								</div>
-								<pre><code> <span class="hljs-comment">// Rotate along X as the axis, similar to rotateX</span>
-  <span class="hljs-keyword">let</span> matrix = <span class="hljs-keyword">new</span> <span class="hljs-constructor">MatrixIV()</span>.rotate(angle, <span class="hljs-keyword">new</span> <span class="hljs-constructor">Vector(1, 0, 0)</span>);
-
- <span class="hljs-comment">// Rotate along y as the axis, similar to rotateY</span>
-  matrix = <span class="hljs-keyword">new</span> <span class="hljs-constructor">MatrixIV()</span>.rotate(angle, <span class="hljs-keyword">new</span> <span class="hljs-constructor">Vector(0, 1, 0)</span>);
-
- <span class="hljs-comment">// Rotate along y as the axis, similar to rotateZ</span>
-  matrix = <span class="hljs-keyword">new</span> <span class="hljs-constructor">MatrixIV()</span>.rotate(angle, <span class="hljs-keyword">new</span> <span class="hljs-constructor">Vector(0, 0, 1)</span>);</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>angle: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>An angle in radians</p>
-									</div>
-								</li>
-								<li>
-									<h5>axis: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A vector point that acts as the axis.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a>
-								<span class="tsd-signature-symbol"> | </span>
-								<span class="tsd-signature-type">null</span>
-							</h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L461">mathf/matrixIV.ts:461</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="rotatex" class="tsd-anchor"></a>
-					<h3>rotateX</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">rotateX<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Rotates this matrix along the x plane.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>angle: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Angle in radians.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L521">mathf/matrixIV.ts:521</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="rotatey" class="tsd-anchor"></a>
-					<h3>rotateY</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">rotateY<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Rotates this matrix along the y plane.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>angle: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Angle in radians.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L530">mathf/matrixIV.ts:530</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="rotatez" class="tsd-anchor"></a>
-					<h3>rotateZ</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">rotateZ<span class="tsd-signature-symbol">(</span>angle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Rotates this matrix along the z plane.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>angle: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Angle in radians.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L539">mathf/matrixIV.ts:539</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="scale" class="tsd-anchor"></a>
-					<h3>scale</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">scale<span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Apply a scale transformation to this matrix given a scale vector.</p>
-								</div>
-								<pre><code class="language-ts">myMatrix.scale(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>));</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The vector to scale this matrix.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L216">mathf/matrixIV.ts:216</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="scalexyz" class="tsd-anchor"></a>
-					<h3>scale<wbr>Xyz</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">scale<wbr>Xyz<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Scales this matrix given x, y, z values.</p>
-								</div>
-								<pre><code class="language-ts">myMatrix.scaleXyz(<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>);</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>x: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>y: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>z: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L188">mathf/matrixIV.ts:188</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setvectorcolumn" class="tsd-anchor"></a>
-					<h3>set<wbr>Vector<wbr>Column</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Vector<wbr>Column<span class="tsd-signature-symbol">(</span>column<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, v<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Fills a specific column of this matrix with a vector values.</p>
-								</div>
-								<pre><code>
-For example, passing <span class="hljs-number">2</span> as the column would:
-[
-  <span class="hljs-number">1</span>,  <span class="hljs-number">0</span>,  x,  <span class="hljs-number">0</span>
-  <span class="hljs-number">0</span>,  <span class="hljs-number">1</span>,  y,  <span class="hljs-number">0</span>,
-  <span class="hljs-number">0</span>,  <span class="hljs-number">0</span>,  z,  <span class="hljs-number">0</span>,
-  <span class="hljs-number">0</span>,  <span class="hljs-number">0</span>,  <span class="hljs-number">0</span>,  <span class="hljs-number">1</span>
-]
-</code></pre><p>This is useful to create a basis matrix.  Below is a 4x4
-								matrix constructed of up, right and forward vectors.</p>
-								<pre><code class="language-ts">
-  <span class="hljs-keyword">let</span> up = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">50</span>);
-  <span class="hljs-keyword">let</span> right = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">50</span>, <span class="hljs-number">0</span>);
-  <span class="hljs-keyword">let</span> forward = Vector.ONE.cross(up);
-  <span class="hljs-keyword">let</span> basisMatrix = <span class="hljs-keyword">new</span> MatrixIV();
-  basisMatrix.setVectorColumn(<span class="hljs-number">0</span>, right);
-  basisMatrix.setVectorColumn(<span class="hljs-number">1</span>, up);
-  basisMatrix.setVectorColumn(<span class="hljs-number">2</span>, foward);
-</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>column: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The column number to fill.  A value between 0 and 3.</p>
-									</div>
-								</li>
-								<li>
-									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L168">mathf/matrixIV.ts:168</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="tocss3dmatrix" class="tsd-anchor"></a>
-					<h3>to<wbr>Css3d<wbr>Matrix</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">to<wbr>Css3d<wbr>Matrix<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts the current 4x4 matrix over to a css 3d matrix translation string.</p>
-								</div>
-								<pre><code>
-[
-<span class="hljs-symbol">a1</span> <span class="hljs-built_in">a2</span> <span class="hljs-built_in">a3</span> <span class="hljs-built_in">a4</span>
-<span class="hljs-keyword">b1 </span><span class="hljs-keyword">b2 </span><span class="hljs-keyword">b3 </span><span class="hljs-keyword">b4
-</span><span class="hljs-symbol">c1</span> <span class="hljs-built_in">c2</span> <span class="hljs-built_in">c3</span> <span class="hljs-built_in">c4</span>
-<span class="hljs-symbol">d1</span> <span class="hljs-built_in">d2</span> <span class="hljs-built_in">d3</span> <span class="hljs-built_in">d4</span>
-]
-= matrix3d(<span class="hljs-built_in">a1</span>, <span class="hljs-keyword">b1, </span><span class="hljs-built_in">c1</span>, <span class="hljs-built_in">d1</span>, <span class="hljs-built_in">a2</span>, <span class="hljs-keyword">b2, </span><span class="hljs-built_in">c2</span>, <span class="hljs-built_in">d2</span>, <span class="hljs-built_in">a3</span>, <span class="hljs-keyword">b3, </span><span class="hljs-built_in">c3</span>, <span class="hljs-built_in">d3</span>, <span class="hljs-built_in">a4</span>, <span class="hljs-keyword">b4, </span><span class="hljs-built_in">c4</span>, <span class="hljs-built_in">d4</span>)</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d">https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix3d</a></p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L275">mathf/matrixIV.ts:275</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="translate" class="tsd-anchor"></a>
-					<h3>translate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">translate<span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Apply a translation.</p>
-								</div>
-								<pre><code class="language-ts">myMatrix.translate(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>));</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L253">mathf/matrixIV.ts:253</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="translatexyz" class="tsd-anchor"></a>
-					<h3>translate<wbr>Xyz</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">translate<wbr>Xyz<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, z<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Translates this matrix given the values.</p>
-								</div>
-								<pre><code class="language-ts">myMatrix.translateXyz(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">0</span>));</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>x: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>y: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>z: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L233">mathf/matrixIV.ts:233</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="ypr" class="tsd-anchor"></a>
-					<h3>ypr</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">ypr<span class="tsd-signature-symbol">(</span>yaw<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, pitch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, roll<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the values of this matrix based on given yaw, pitch and roll.
-									Yano uses: YXZ Local Axes Yaw (y), Pitch (x), Roll (z)</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>yaw: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>pitch: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>roll: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L697">mathf/matrixIV.ts:697</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="zero" class="tsd-anchor"></a>
-					<h3>zero</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">zero<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets this matrix to have all 0 value.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L92">mathf/matrixIV.ts:92</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="compose" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> compose</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">compose<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a>, rotation<span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a>, scale<span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Composes a new matrixIV from a position, rotation and scale.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> mat = MatrixIV.compose(position, rotation, scale);
-
-<span class="hljs-comment">// Create a rotation matrix from a quaternion.  Same effect as</span>
-<span class="hljs-comment">// MatrixIV.fromQuaterion.</span>
-<span class="hljs-keyword">let</span> position = Vector.ZERO;
-<span class="hljs-keyword">let</span> scale = Vector.ONE;
-<span class="hljs-keyword">let</span> myQuaternion = Quaternion.fromEular(<span class="hljs-number">90</span>,<span class="hljs-number">90</span>,<span class="hljs-number">90</span>);
-<span class="hljs-keyword">let</span> rotationMatrix = MatrixIV.compose(position, q, scale);
-</code></pre>
-								<p>Thanks to Mr. Doob:
-								<a href="https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js">https://github.com/mrdoob/three.js/blob/master/src/math/Matrix4.js</a></p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>position: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-								</li>
-								<li>
-									<h5>rotation: <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h5>
-								</li>
-								<li>
-									<h5>scale: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L837">mathf/matrixIV.ts:837</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="fromarray-1" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Array</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">from<wbr>Array<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Float32Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>values: <span class="tsd-signature-type">Float32Array</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L754">mathf/matrixIV.ts:754</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="fromquaternion" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Quaternion</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">from<wbr>Quaternion<span class="tsd-signature-symbol">(</span>q<span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates a matrixIV from a quaternion.
-									Based off: <a href="https://github.com/toji/gl-matrix/blob/master/src/mat4.js">https://github.com/toji/gl-matrix/blob/master/src/mat4.js</a></p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>q: <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/mathf/matrixIV.ts#L773">mathf/matrixIV.ts:773</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-		</div>
 	</div>
 </div>
 <footer>
@@ -1379,7 +1398,6 @@ For example, passing <span class="hljs-number">2</span> as the column would:
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

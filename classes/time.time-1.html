@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>time | Yano
-	</title>
+	<title>time | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -72,7 +66,327 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A class that helps with time.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">time</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#countdown" class="tsd-kind-icon">countdown</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#createlocaltimezonedate" class="tsd-kind-icon">create<wbr>Local<wbr>Time<wbr>Zone<wbr>Date</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#easterntimetolocaltimedate" class="tsd-kind-icon">eastern<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#isinbetween" class="tsd-kind-icon">is<wbr>InBetween</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#now" class="tsd-kind-icon">now</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#pacifictimetolocaltimedate" class="tsd-kind-icon">pacific<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#timediffms" class="tsd-kind-icon">time<wbr>Diff<wbr>Ms</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#utcdatetolocaltimezone" class="tsd-kind-icon">utc<wbr>Date<wbr>ToLocal<wbr>Time<wbr>Zone</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="countdown" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> countdown</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">countdown<span class="tsd-signature-symbol">(</span>currentTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, endTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/time/time.ts#L185">time/time.ts:185</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Use to calculate the countdown to a given time.  Note that the
+									currentTime and endTime should both be in the same local timezone.</p>
+								</div>
+								<p>Returns an object with days, hours, minutes, seconds.</p>
+								<pre><code><span class="hljs-keyword">const</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+<span class="hljs-keyword">const</span> endTime = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">'2021-06-20 03:34:00 UTC'</span>);
+<span class="hljs-keyword">const</span> countDown = time.countdown(now, endTime);
+
+
+countdown.days; <span class="hljs-comment">// the number of days</span>
+countdown.hours; <span class="hljs-comment">// the number of hours</span>
+countdown.minutes; <span class="hljs-comment">// the number of minutes</span>
+countdown.seconds; <span class="hljs-comment">// the number of seconds</span></code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>currentTime: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+								<li>
+									<h5>endTime: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createlocaltimezonedate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Local<wbr>Time<wbr>Zone<wbr>Date</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Local<wbr>Time<wbr>Zone<wbr>Date<span class="tsd-signature-symbol">(</span>localTimeDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/time/time.ts#L104">time/time.ts:104</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a local timezone date string.  This is mainly here to normalize
+										browser differences.  Safari creates a new date in utc whereas
+									other browsers create the date based on the users timezone.</p>
+								</div>
+								<p>By using this method, you are guaranteed that the created date is adjusted</p>
+								<h2 id="to-the-current-users-computer-time-">to the current users computer time.</h2>
+								<p>const myDate = time.createLocalTimeZoneDate(&#39;2021-06-20T03:45:00&#39;);
+								const myDate2 = time.createLocalTimeZoneDate(&#39;2021-06-20 03:45:00&#39;);</p>
+								<hr>
+								<p>The localTimeDate would be the localtime on the users computer.</p>
+								<hr>
+								<h2 id="const-mydate-time-createlocaltimezonedate-2021-06-20t03-45-00-">const myDate = time.createLocalTimeZoneDate(&#39;2021-06-20T03:45:00&#39;);</h2>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>localTimeDate: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="easterntimetolocaltimedate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> eastern<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">eastern<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date<span class="tsd-signature-symbol">(</span>pacificTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/time/time.ts#L152">time/time.ts:152</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a pacific time over to utc.</p>
+								</div>
+								<hr>
+								<p>const myEastTime = &#39;2020-12-12 03:34:00&#39;;
+								time.easternTimeToLocalTimeDate(myEastern);</p>
+								<hr>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pacificTime: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="isinbetween" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> is<wbr>InBetween</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>InBetween<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, endTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, testTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/time/time.ts#L44">time/time.ts:44</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Given a startTime and endTime, tests whether the provided testTime
+									is within that time.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>startTime: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+								<li>
+									<h5>endTime: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+								<li>
+									<h5>testTime: <span class="tsd-signature-type">Date</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="now" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> now</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">now<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/time/time.ts#L12">time/time.ts:12</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the current time.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="pacifictimetolocaltimedate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> pacific<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">pacific<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date<span class="tsd-signature-symbol">(</span>pacificTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/time/time.ts#L126">time/time.ts:126</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a pacific time over to utc.</p>
+								</div>
+								<hr>
+								<p>const myPacificTime = &#39;2020-12-12 03:34:00&#39;;
+								time.pacificTimeToLocalTimeDate(myPacificTime);</p>
+								<hr>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pacificTime: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="timediffms" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> time<wbr>Diff<wbr>Ms</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">time<wbr>Diff<wbr>Ms<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, endTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/time/time.ts#L31">time/time.ts:31</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calculates the time difference in milliseconds between to times.</p>
+								</div>
+								<pre><code class="language-ts"><span class="hljs-keyword">let</span> startTime = time.now();
+
+<span class="hljs-built_in">window</span>.setTimeout(() {
+  <span class="hljs-keyword">let</span> diff = time.timDiffMs(startTime, time.now());
+  <span class="hljs-built_in">console</span>.log(diff); <span class="hljs-comment">// 300</span>
+}, <span class="hljs-number">300</span>);
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>startTime: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>endTime: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="utcdatetolocaltimezone" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> utc<wbr>Date<wbr>ToLocal<wbr>Time<wbr>Zone</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">utc<wbr>Date<wbr>ToLocal<wbr>Time<wbr>Zone<span class="tsd-signature-symbol">(</span>utcDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/time/time.ts#L72">time/time.ts:72</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a utc based time that you might created into the local time.</p>
+								</div>
+								<pre><code>const myUTCDate = <span class="hljs-built_in">new</span> <span class="hljs-type">Date</span>(<span class="hljs-string">'2020-06-20 03:45:00'</span>);
+const theUTCDateInLocalTime = <span class="hljs-type">time</span>.utcDateToLocalTimeZone(myUTCDate);
+
+
+// <span class="hljs-keyword">Do</span> Stuff.  Now it <span class="hljs-keyword">is</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">local</span> <span class="hljs-type">time</span> <span class="hljs-type">zone</span>.
+const diff = thisUTCDateInLocalTime - <span class="hljs-built_in">new</span> <span class="hljs-type">Date</span>();</code></pre><p>Now the theUTCDateInLocalTime is the UTC time adjusted to your
+								local computer timezone.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>utcDate: <span class="tsd-signature-type">Date</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -149,8 +463,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
@@ -192,318 +504,6 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that helps with time.</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">time</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#countdown" class="tsd-kind-icon">countdown</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#createlocaltimezonedate" class="tsd-kind-icon">create<wbr>Local<wbr>Time<wbr>Zone<wbr>Date</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#easterntimetolocaltimedate" class="tsd-kind-icon">eastern<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#isinbetween" class="tsd-kind-icon">is<wbr>InBetween</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#now" class="tsd-kind-icon">now</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#pacifictimetolocaltimedate" class="tsd-kind-icon">pacific<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#timediffms" class="tsd-kind-icon">time<wbr>Diff<wbr>Ms</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="time.time-1.html#utcdatetolocaltimezone" class="tsd-kind-icon">utc<wbr>Date<wbr>ToLocal<wbr>Time<wbr>Zone</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="countdown" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> countdown</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">countdown<span class="tsd-signature-symbol">(</span>currentTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, endTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Use to calculate the countdown to a given time.  Note that the
-									currentTime and endTime should both be in the same local timezone.</p>
-								</div>
-								<p>Returns an object with days, hours, minutes, seconds.</p>
-								<pre><code><span class="hljs-keyword">const</span> now = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
-<span class="hljs-keyword">const</span> endTime = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">'2021-06-20 03:34:00 UTC'</span>);
-<span class="hljs-keyword">const</span> countDown = time.countdown(now, endTime);
-
-
-countdown.days; <span class="hljs-comment">// the number of days</span>
-countdown.hours; <span class="hljs-comment">// the number of hours</span>
-countdown.minutes; <span class="hljs-comment">// the number of minutes</span>
-countdown.seconds; <span class="hljs-comment">// the number of seconds</span></code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>currentTime: <span class="tsd-signature-type">Date</span></h5>
-								</li>
-								<li>
-									<h5>endTime: <span class="tsd-signature-type">Date</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/time/time.ts#L185">time/time.ts:185</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="createlocaltimezonedate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Local<wbr>Time<wbr>Zone<wbr>Date</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Local<wbr>Time<wbr>Zone<wbr>Date<span class="tsd-signature-symbol">(</span>localTimeDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a local timezone date string.  This is mainly here to normalize
-										browser differences.  Safari creates a new date in utc whereas
-									other browsers create the date based on the users timezone.</p>
-								</div>
-								<p>By using this method, you are guaranteed that the created date is adjusted</p>
-								<h2 id="to-the-current-users-computer-time-">to the current users computer time.</h2>
-								<p>const myDate = time.createLocalTimeZoneDate(&#39;2021-06-20T03:45:00&#39;);
-								const myDate2 = time.createLocalTimeZoneDate(&#39;2021-06-20 03:45:00&#39;);</p>
-								<hr>
-								<p>The localTimeDate would be the localtime on the users computer.</p>
-								<hr>
-								<h2 id="const-mydate-time-createlocaltimezonedate-2021-06-20t03-45-00-">const myDate = time.createLocalTimeZoneDate(&#39;2021-06-20T03:45:00&#39;);</h2>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>localTimeDate: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/time/time.ts#L104">time/time.ts:104</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="easterntimetolocaltimedate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> eastern<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">eastern<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date<span class="tsd-signature-symbol">(</span>pacificTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts a pacific time over to utc.</p>
-								</div>
-								<hr>
-								<p>const myEastTime = &#39;2020-12-12 03:34:00&#39;;
-								time.easternTimeToLocalTimeDate(myEastern);</p>
-								<hr>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>pacificTime: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/time/time.ts#L152">time/time.ts:152</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="isinbetween" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> is<wbr>InBetween</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>InBetween<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, endTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, testTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given a startTime and endTime, tests whether the provided testTime
-									is within that time.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>startTime: <span class="tsd-signature-type">Date</span></h5>
-								</li>
-								<li>
-									<h5>endTime: <span class="tsd-signature-type">Date</span></h5>
-								</li>
-								<li>
-									<h5>testTime: <span class="tsd-signature-type">Date</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/time/time.ts#L44">time/time.ts:44</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="now" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> now</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">now<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the current time.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/time/time.ts#L12">time/time.ts:12</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="pacifictimetolocaltimedate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> pacific<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">pacific<wbr>Time<wbr>ToLocal<wbr>Time<wbr>Date<span class="tsd-signature-symbol">(</span>pacificTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts a pacific time over to utc.</p>
-								</div>
-								<hr>
-								<p>const myPacificTime = &#39;2020-12-12 03:34:00&#39;;
-								time.pacificTimeToLocalTimeDate(myPacificTime);</p>
-								<hr>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>pacificTime: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/time/time.ts#L126">time/time.ts:126</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="timediffms" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> time<wbr>Diff<wbr>Ms</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">time<wbr>Diff<wbr>Ms<span class="tsd-signature-symbol">(</span>startTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, endTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Calculates the time difference in milliseconds between to times.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> startTime = time.now();
-
-<span class="hljs-built_in">window</span>.setTimeout(() {
-  <span class="hljs-keyword">let</span> diff = time.timDiffMs(startTime, time.now());
-  <span class="hljs-built_in">console</span>.log(diff); <span class="hljs-comment">// 300</span>
-}, <span class="hljs-number">300</span>);
-</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>startTime: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>endTime: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/time/time.ts#L31">time/time.ts:31</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="utcdatetolocaltimezone" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> utc<wbr>Date<wbr>ToLocal<wbr>Time<wbr>Zone</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">utc<wbr>Date<wbr>ToLocal<wbr>Time<wbr>Zone<span class="tsd-signature-symbol">(</span>utcDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts a utc based time that you might created into the local time.</p>
-								</div>
-								<pre><code>const myUTCDate = <span class="hljs-built_in">new</span> <span class="hljs-type">Date</span>(<span class="hljs-string">'2020-06-20 03:45:00'</span>);
-const theUTCDateInLocalTime = <span class="hljs-type">time</span>.utcDateToLocalTimeZone(myUTCDate);
-
-
-// <span class="hljs-keyword">Do</span> Stuff.  Now it <span class="hljs-keyword">is</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">local</span> <span class="hljs-type">time</span> <span class="hljs-type">zone</span>.
-const diff = thisUTCDateInLocalTime - <span class="hljs-built_in">new</span> <span class="hljs-type">Date</span>();</code></pre><p>Now the theUTCDateInLocalTime is the UTC time adjusted to your
-								local computer timezone.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>utcDate: <span class="tsd-signature-type">Date</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/time/time.ts#L72">time/time.ts:72</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-		</div>
 	</div>
 </div>
 <footer>
@@ -518,7 +518,6 @@ const diff = thisUTCDateInLocalTime - <span class="hljs-built_in">new</span> <sp
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

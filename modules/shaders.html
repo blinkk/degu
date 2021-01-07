@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>shaders | Yano
-	</title>
+	<title>shaders | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -69,7 +63,336 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#castray" class="tsd-kind-icon">cast<wbr>Ray</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="shaders.html#defaultvertexshader" class="tsd-kind-icon">default<wbr>Vertex<wbr>Shader</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#deguget2drotationmatrix" class="tsd-kind-icon">degu<wbr>Get2d<wbr>Rotation<wbr>Matrix</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#deguget2dscalematrix" class="tsd-kind-icon">degu<wbr>Get2d<wbr>Scale<wbr>Matrix</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#degurotate2d" class="tsd-kind-icon">degu<wbr>Rotate2d</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#degurotate2dimage" class="tsd-kind-icon">degu<wbr>Rotate2d<wbr>Image</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#degushape2dcheckerboard" class="tsd-kind-icon">degu<wbr>Shape2d<wbr>Checkerboard</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="shaders.html#fragchromakey" class="tsd-kind-icon">frag<wbr>Chroma<wbr>Key</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="shaders.html#fragdefault" class="tsd-kind-icon">frag<wbr>Default</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#normalizedsin" class="tsd-kind-icon">normalized<wbr>Sin</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="shaders.html#degumathf" class="tsd-kind-icon">degu<wbr>Mathf</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="shaders.html#degushape2d" class="tsd-kind-icon">degu<wbr>Shape2d</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="shaders.html#noise" class="tsd-kind-icon">noise</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="castray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> cast<wbr>Ray</h3>
+					<div class="tsd-signature tsd-kind-icon">cast<wbr>Ray<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT ){const float delt &#x3D; 0.01f;const float mint &#x3D; 0.001f;const float maxt &#x3D; 10.0f;for( float t &#x3D; mint; t &lt; maxt; t +&#x3D; delt ){const vec3 p &#x3D; ro + rd*t;if( p.y &lt; f( p.x, p.z ) ){resT &#x3D; t - 0.5f*delt;return true;}}return false;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT ){const float delt &#x3D; 0.01f;const float mint &#x3D; 0.001f;const float maxt &#x3D; 10.0f;for( float t &#x3D; mint; t &lt; maxt; t +&#x3D; delt ){const vec3 p &#x3D; ro + rd*t;if( p.y &lt; f( p.x, p.z ) ){resT &#x3D; t - 0.5f*delt;return true;}}return false;}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-mathf.ts#L145">shaders/three-shader-chunks/yano-mathf.ts:145</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Raycast algo.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p><a href="http://blog.ruofeidu.com/tutorial-of-ray-casting-ray-tracing-and-ray-marching/">http://blog.ruofeidu.com/tutorial-of-ray-casting-ray-tracing-and-ray-marching/</a></p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="defaultvertexshader" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> default<wbr>Vertex<wbr>Shader</h3>
+					<div class="tsd-signature tsd-kind-icon">default<wbr>Vertex<wbr>Shader<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 v_uv;varying vec3 v_position;void main() {v_position &#x3D; position;v_uv &#x3D; uv;gl_Position &#x3D; projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 v_uv;varying vec3 v_position;void main() {v_position &#x3D; position;v_uv &#x3D; uv;gl_Position &#x3D; projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three/default-vertex-shader.ts#L18">shaders/three/default-vertex-shader.ts:18</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p> A chroma-key frag shader.  Takes a given color and makes it transparent.</p>
+						</div>
+						<p>Sample usage with Pixi.</p>
+						<pre><code class="language-ts">
+  <span class="hljs-keyword">import</span> {defaultVertexShader} <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/shaders/three/default-vertex-shader'</span>;
+
+  <span class="hljs-keyword">const</span> material = <span class="hljs-keyword">new</span> THREE.ShaderMaterial({
+          uniforms: ...,
+          vertexShader: defaultVertexShader
+          fragmentShader: ..
+  });</code></pre>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="deguget2drotationmatrix" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> degu<wbr>Get2d<wbr>Rotation<wbr>Matrix</h3>
+					<div class="tsd-signature tsd-kind-icon">degu<wbr>Get2d<wbr>Rotation<wbr>Matrix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"mat2 deguGet2dRotationMatrix(float theta) {float s &#x3D; sin(theta);float c &#x3D; cos(theta);return mat2(c, -s, s, c);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;mat2 deguGet2dRotationMatrix(float theta) {float s &#x3D; sin(theta);float c &#x3D; cos(theta);return mat2(c, -s, s, c);}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-mathf.ts#L30">shaders/three-shader-chunks/yano-mathf.ts:30</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Creates a 2d rotation matrix.</p>
+						</div>
+						<p>mat2 mat = deguGetRotationMatrix(rotationInRadians);
+						vec2 rotatedPoint = mat * v_position.xy;</p>
+						<p>   mat2          *      vec2.xy = new rotated position</p>
+						<hr>
+						<p>|   c   -s  |    *    |   x  |  = new rotated position.
+						|   s    c  |         |   y  |</p>
+						<hr>
+						<p>For example:
+							rotation 0
+							sin(0) = 0, cos(0) = 1
+							1   0         x      1<em>x + 0</em>x     x
+							0   1    *    y   =  0<em>y + 1</em>y  =  y
+						rotation of zero has no effect.</p>
+						<p>rotation 180 degrees (3.14 radian)
+							sin(3.14) = 0, cos(3.14) = -1
+							-1   0         x      -1<em>x + 0</em>x     -x
+							0   -1    *    y   =  0<em>y + 1</em>-y  =  -y
+						rotation makes it 180 flipping x,y so it&#39;s correct.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="deguget2dscalematrix" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> degu<wbr>Get2d<wbr>Scale<wbr>Matrix</h3>
+					<div class="tsd-signature tsd-kind-icon">degu<wbr>Get2d<wbr>Scale<wbr>Matrix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"mat2 deguGetScaleMatrix(float scale) {return mat2(scale, 0, 0, scale);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;mat2 deguGetScaleMatrix(float scale) {return mat2(scale, 0, 0, scale);}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-mathf.ts#L48">shaders/three-shader-chunks/yano-mathf.ts:48</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="degurotate2d" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> degu<wbr>Rotate2d</h3>
+					<div class="tsd-signature tsd-kind-icon">degu<wbr>Rotate2d<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"vec2 deguRotate2d(vec2 pt, float theta) {mat2 rotationMatrix &#x3D; deguGet2dRotationMatrix(theta);return rotationMatrix * pt;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;vec2 deguRotate2d(vec2 pt, float theta) {mat2 rotationMatrix &#x3D; deguGet2dRotationMatrix(theta);return rotationMatrix * pt;}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-mathf.ts#L68">shaders/three-shader-chunks/yano-mathf.ts:68</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A 2d based rotation.
+								pt - The point of rotation
+							theta - the angle in radians</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>returns</dt>
+							<dd><p>vec2</p>
+								<p>vec2 myPoints = vec2(0,0.5);
+									// Rotate by 1 radian
+								vec2 rotatedPoints = deguRotate2d(myPoints, 1);</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="degurotate2dimage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> degu<wbr>Rotate2d<wbr>Image</h3>
+					<div class="tsd-signature tsd-kind-icon">degu<wbr>Rotate2d<wbr>Image<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"vec3 deguRotate2dImage(sampler2D texture, float aspect, vec2 uv, vec2 center, float theta, vec3 backgroundColor) {// Adjust for the center point.uv -&#x3D; center;mat2 rotationMatrix &#x3D; deguGet2dRotationMatrix(theta);// Go to square uv coordinates.uv.y /&#x3D; aspect;// Conduct rotation.uv &#x3D; rotationMatrix * uv;// Go back to whatever the aspect was.uv.y *&#x3D; aspect;// Adjust back for the center point.uv +&#x3D; center;vec3 texel &#x3D; texture2D(texture, uv).rgb;// Determine if this point is within the bounds of the rectangle.// If not, use the background color.vec2 s &#x3D; step(vec2(0.0), uv) - step(vec2(1.0), uv);float t &#x3D; s.x * s.y;vec3 color &#x3D; mix(backgroundColor, texel, t);return color;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;vec3 deguRotate2dImage(sampler2D texture, float aspect, vec2 uv, vec2 center, float theta, vec3 backgroundColor) {// Adjust for the center point.uv -&#x3D; center;mat2 rotationMatrix &#x3D; deguGet2dRotationMatrix(theta);// Go to square uv coordinates.uv.y /&#x3D; aspect;// Conduct rotation.uv &#x3D; rotationMatrix * uv;// Go back to whatever the aspect was.uv.y *&#x3D; aspect;// Adjust back for the center point.uv +&#x3D; center;vec3 texel &#x3D; texture2D(texture, uv).rgb;// Determine if this point is within the bounds of the rectangle.// If not, use the background color.vec2 s &#x3D; step(vec2(0.0), uv) - step(vec2(1.0), uv);float t &#x3D; s.x * s.y;vec3 color &#x3D; mix(backgroundColor, texel, t);return color;}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-mathf.ts#L89">shaders/three-shader-chunks/yano-mathf.ts:89</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Rotations an image.
+							<a href="https://www.udemy.com/course/learn-glsl-shaders-from-scratch/learn/lecture/13739174#questions">https://www.udemy.com/course/learn-glsl-shaders-from-scratch/learn/lecture/13739174#questions</a></p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p>glsl-playground20.js for an example.</p>
+								<pre><code>  <span class="hljs-type">vec2</span> center = <span class="hljs-type">vec2</span>(<span class="hljs-number">0.5</span>);
+  <span class="hljs-type">float</span> imageAspect = <span class="hljs-number">300.0</span> / <span class="hljs-number">448.0</span>;
+  <span class="hljs-type">vec3</span> backgroundColor = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.0</span>);
+  <span class="hljs-type">vec3</span> color = deguRotate2dImage(
+      u_texture, imageAspect, v_uv, center, u_time, backgroundColor);</code></pre></dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="degushape2dcheckerboard" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> degu<wbr>Shape2d<wbr>Checkerboard</h3>
+					<div class="tsd-signature tsd-kind-icon">degu<wbr>Shape2d<wbr>Checkerboard<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"float deguShape2dCheckerBoard(vec2 p, float xCount, float yCount) {float x &#x3D; floor(p.x * xCount);float y &#x3D; floor(p.y * yCount);return mod(x + y, 2.0);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;float deguShape2dCheckerBoard(vec2 p, float xCount, float yCount) {float x &#x3D; floor(p.x * xCount);float y &#x3D; floor(p.y * yCount);return mod(x + y, 2.0);}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-shape2d.ts#L23">shaders/three-shader-chunks/yano-shape2d.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="fragchromakey" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> frag<wbr>Chroma<wbr>Key</h3>
+					<div class="tsd-signature tsd-kind-icon">frag<wbr>Chroma<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 vTextureCoord;uniform sampler2D uSampler;uniform vec3 color;uniform float epsilon;void main() {vec4 currentColor &#x3D; texture2D(uSampler, vTextureCoord);vec3 colorDiff &#x3D; color - (currentColor.rgb / max(currentColor.a, 0.0000000001));float colorDistance &#x3D; length(colorDiff);if(colorDistance &lt; epsilon) {gl_FragColor &#x3D; vec4(0.0, 0.0, 0.0, 0.0);} else {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);};}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 vTextureCoord;uniform sampler2D uSampler;uniform vec3 color;uniform float epsilon;void main() {vec4 currentColor &#x3D; texture2D(uSampler, vTextureCoord);vec3 colorDiff &#x3D; color - (currentColor.rgb / max(currentColor.a, 0.0000000001));float colorDistance &#x3D; length(colorDiff);if(colorDistance &lt; epsilon) {gl_FragColor &#x3D; vec4(0.0, 0.0, 0.0, 0.0);} else {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);};}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/pixi/frag-chroma-key.ts#L26">shaders/pixi/frag-chroma-key.ts:26</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p> A chroma-key frag shader.  Takes a given color and makes it transparent.</p>
+						</div>
+						<p>Sample usage with Pixi.</p>
+						<pre><code class="language-ts">
+  <span class="hljs-keyword">import</span> {color} <span class="hljs-keyword">from</span> <span class="hljs-string">'degu'</span>;
+  <span class="hljs-keyword">import</span> {fragChromaKey} <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/shaders/pixi/frag-chroma-key'</span>;
+
+  <span class="hljs-keyword">let</span> uniforms = {
+    <span class="hljs-comment">// Threshold</span>
+    epsilon: {<span class="hljs-keyword">type</span>: <span class="hljs-string">'1f'</span>, value: <span class="hljs-number">0.45</span>},
+    <span class="hljs-comment">// The color to replace.</span>
+    color: {<span class="hljs-keyword">type</span>: <span class="hljs-string">'v3'</span>, value: color.hexToRgbNormalized(<span class="hljs-number">0x50ff00</span>)},
+  };
+  <span class="hljs-keyword">let</span> chromaKeyShader = <span class="hljs-keyword">new</span> PIXI.Filter(<span class="hljs-literal">null</span>, fragChromaKey, uniforms);
+
+</code></pre>
+						<dl class="tsd-comment-tags">
+							<dt>see</dt>
+							<dd><p><a href="https://github.com/pixijs/pixi-filters/blob/master/filters/color-replace/src/colorReplace.frag">https://github.com/pixijs/pixi-filters/blob/master/filters/color-replace/src/colorReplace.frag</a></p>
+							</dd>
+							<dt>see</dt>
+							<dd><p><a href="https://developer.tizen.org/community/tip-tech/creating-pixi.js-filters-using-webgl">https://developer.tizen.org/community/tip-tech/creating-pixi.js-filters-using-webgl</a></p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="fragdefault" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> frag<wbr>Default</h3>
+					<div class="tsd-signature tsd-kind-icon">frag<wbr>Default<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 vTextureCoord;uniform sampler2D uSampler;void main() {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 vTextureCoord;uniform sampler2D uSampler;void main() {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/pixi/frag-default.ts#L4">shaders/pixi/frag-default.ts:4</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Default frag shader that doesn&#39;t do very much.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="normalizedsin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> normalized<wbr>Sin</h3>
+					<div class="tsd-signature tsd-kind-icon">normalized<wbr>Sin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"float normalizedSin(float radians) {return (sin(radians) + 1.0) / 2.0;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;float normalizedSin(float radians) {return (sin(radians) + 1.0) / 2.0;}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-mathf.ts#L134">shaders/three-shader-chunks/yano-mathf.ts:134</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Sin returns values between -1 and 1 but we often want 0-1.
+								Allows you to run a normlized sin.  You can combine this
+							with mix to create sin waves of any given range.</p>
+						</div>
+						<pre><code> <span class="hljs-comment">// These two are the same.</span>
+ <span class="hljs-built_in">float</span> s = (sin(radians) + <span class="hljs-number">1.0</span>) / <span class="hljs-number">2.0</span>;
+ <span class="hljs-built_in">float</span> s = normalizedSin(radians);
+
+<span class="hljs-comment">// Use normalized sin to shift values of sin.</span>
+<span class="hljs-comment">// Make a sin wave of range -0.2, 0.2</span>
+<span class="hljs-built_in">float</span> wave = mix(<span class="hljs-number">-0.2</span>, <span class="hljs-number">0.2</span>, normalizedSin(currentRadian));</code></pre>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="degumathf" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> degu<wbr>Mathf</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">degu<wbr>Mathf<span class="tsd-signature-symbol">(</span>three<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-mathf.ts#L168">shaders/three-shader-chunks/yano-mathf.ts:168</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Common custom math functions for glsl.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>three: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="degushape2d" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> degu<wbr>Shape2d</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">degu<wbr>Shape2d<span class="tsd-signature-symbol">(</span>three<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/yano-shape2d.ts#L32">shaders/three-shader-chunks/yano-shape2d.ts:32</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>three: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="noise" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> noise</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">noise<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/shaders/three-shader-chunks/noise.ts#L2">shaders/three-shader-chunks/noise.ts:2</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -146,8 +469,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
@@ -155,6 +476,21 @@
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="shaders.html#defaultvertexshader" class="tsd-kind-icon">default<wbr>Vertex<wbr>Shader</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="shaders.html#deguget2drotationmatrix" class="tsd-kind-icon">degu<wbr>Get2d<wbr>Rotation<wbr>Matrix</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="shaders.html#deguget2dscalematrix" class="tsd-kind-icon">degu<wbr>Get2d<wbr>Scale<wbr>Matrix</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="shaders.html#degurotate2d" class="tsd-kind-icon">degu<wbr>Rotate2d</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="shaders.html#degurotate2dimage" class="tsd-kind-icon">degu<wbr>Rotate2d<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="shaders.html#degushape2dcheckerboard" class="tsd-kind-icon">degu<wbr>Shape2d<wbr>Checkerboard</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="shaders.html#fragchromakey" class="tsd-kind-icon">frag<wbr>Chroma<wbr>Key</a>
@@ -165,358 +501,17 @@
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="shaders.html#normalizedsin" class="tsd-kind-icon">normalized<wbr>Sin</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="shaders.html#yanoget2drotationmatrix" class="tsd-kind-icon">yano<wbr>Get2d<wbr>Rotation<wbr>Matrix</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="shaders.html#degumathf" class="tsd-kind-icon">degu<wbr>Mathf</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="shaders.html#yanoget2dscalematrix" class="tsd-kind-icon">yano<wbr>Get2d<wbr>Scale<wbr>Matrix</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="shaders.html#yanorotate2d" class="tsd-kind-icon">yano<wbr>Rotate2d</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="shaders.html#yanorotate2dimage" class="tsd-kind-icon">yano<wbr>Rotate2d<wbr>Image</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="shaders.html#yanoshape2dcheckerboard" class="tsd-kind-icon">yano<wbr>Shape2d<wbr>Checkerboard</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="shaders.html#degushape2d" class="tsd-kind-icon">degu<wbr>Shape2d</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="shaders.html#noise" class="tsd-kind-icon">noise</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="shaders.html#yanomathf" class="tsd-kind-icon">yano<wbr>Mathf</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="shaders.html#yanoshape2d" class="tsd-kind-icon">yano<wbr>Shape2d</a>
-					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Variables</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#castray" class="tsd-kind-icon">cast<wbr>Ray</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="shaders.html#defaultvertexshader" class="tsd-kind-icon">default<wbr>Vertex<wbr>Shader</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="shaders.html#fragchromakey" class="tsd-kind-icon">frag<wbr>Chroma<wbr>Key</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="shaders.html#fragdefault" class="tsd-kind-icon">frag<wbr>Default</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#normalizedsin" class="tsd-kind-icon">normalized<wbr>Sin</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#yanoget2drotationmatrix" class="tsd-kind-icon">yano<wbr>Get2d<wbr>Rotation<wbr>Matrix</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#yanoget2dscalematrix" class="tsd-kind-icon">yano<wbr>Get2d<wbr>Scale<wbr>Matrix</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#yanorotate2d" class="tsd-kind-icon">yano<wbr>Rotate2d</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#yanorotate2dimage" class="tsd-kind-icon">yano<wbr>Rotate2d<wbr>Image</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="shaders.html#yanoshape2dcheckerboard" class="tsd-kind-icon">yano<wbr>Shape2d<wbr>Checkerboard</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Functions</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="shaders.html#noise" class="tsd-kind-icon">noise</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="shaders.html#yanomathf" class="tsd-kind-icon">yano<wbr>Mathf</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="shaders.html#yanoshape2d" class="tsd-kind-icon">yano<wbr>Shape2d</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Variables</h2>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="castray" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> cast<wbr>Ray</h3>
-					<div class="tsd-signature tsd-kind-icon">cast<wbr>Ray<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT ){const float delt &#x3D; 0.01f;const float mint &#x3D; 0.001f;const float maxt &#x3D; 10.0f;for( float t &#x3D; mint; t &lt; maxt; t +&#x3D; delt ){const vec3 p &#x3D; ro + rd*t;if( p.y &lt; f( p.x, p.z ) ){resT &#x3D; t - 0.5f*delt;return true;}}return false;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT ){const float delt &#x3D; 0.01f;const float mint &#x3D; 0.001f;const float maxt &#x3D; 10.0f;for( float t &#x3D; mint; t &lt; maxt; t +&#x3D; delt ){const vec3 p &#x3D; ro + rd*t;if( p.y &lt; f( p.x, p.z ) ){resT &#x3D; t - 0.5f*delt;return true;}}return false;}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-mathf.ts#L145">shaders/three-shader-chunks/yano-mathf.ts:145</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Raycast algo.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>see</dt>
-							<dd><p><a href="http://blog.ruofeidu.com/tutorial-of-ray-casting-ray-tracing-and-ray-marching/">http://blog.ruofeidu.com/tutorial-of-ray-casting-ray-tracing-and-ray-marching/</a></p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="defaultvertexshader" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> default<wbr>Vertex<wbr>Shader</h3>
-					<div class="tsd-signature tsd-kind-icon">default<wbr>Vertex<wbr>Shader<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 v_uv;varying vec3 v_position;void main() {v_position &#x3D; position;v_uv &#x3D; uv;gl_Position &#x3D; projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 v_uv;varying vec3 v_position;void main() {v_position &#x3D; position;v_uv &#x3D; uv;gl_Position &#x3D; projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three/default-vertex-shader.ts#L18">shaders/three/default-vertex-shader.ts:18</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p> A chroma-key frag shader.  Takes a given color and makes it transparent.</p>
-						</div>
-						<p>Sample usage with Pixi.</p>
-						<pre><code class="language-ts">
-  <span class="hljs-keyword">import</span> {defaultVertexShader} <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/shaders/three/default-vertex-shader'</span>;
-
-  <span class="hljs-keyword">const</span> material = <span class="hljs-keyword">new</span> THREE.ShaderMaterial({
-          uniforms: ...,
-          vertexShader: defaultVertexShader
-          fragmentShader: ..
-  });</code></pre>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="fragchromakey" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> frag<wbr>Chroma<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">frag<wbr>Chroma<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 vTextureCoord;uniform sampler2D uSampler;uniform vec3 color;uniform float epsilon;void main() {vec4 currentColor &#x3D; texture2D(uSampler, vTextureCoord);vec3 colorDiff &#x3D; color - (currentColor.rgb / max(currentColor.a, 0.0000000001));float colorDistance &#x3D; length(colorDiff);if(colorDistance &lt; epsilon) {gl_FragColor &#x3D; vec4(0.0, 0.0, 0.0, 0.0);} else {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);};}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 vTextureCoord;uniform sampler2D uSampler;uniform vec3 color;uniform float epsilon;void main() {vec4 currentColor &#x3D; texture2D(uSampler, vTextureCoord);vec3 colorDiff &#x3D; color - (currentColor.rgb / max(currentColor.a, 0.0000000001));float colorDistance &#x3D; length(colorDiff);if(colorDistance &lt; epsilon) {gl_FragColor &#x3D; vec4(0.0, 0.0, 0.0, 0.0);} else {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);};}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/pixi/frag-chroma-key.ts#L26">shaders/pixi/frag-chroma-key.ts:26</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p> A chroma-key frag shader.  Takes a given color and makes it transparent.</p>
-						</div>
-						<p>Sample usage with Pixi.</p>
-						<pre><code class="language-ts">
-  <span class="hljs-keyword">import</span> {color} <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js'</span>;
-  <span class="hljs-keyword">import</span> {fragChromaKey} <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/shaders/pixi/frag-chroma-key'</span>;
-
-  <span class="hljs-keyword">let</span> uniforms = {
-    <span class="hljs-comment">// Threshold</span>
-    epsilon: {<span class="hljs-keyword">type</span>: <span class="hljs-string">'1f'</span>, value: <span class="hljs-number">0.45</span>},
-    <span class="hljs-comment">// The color to replace.</span>
-    color: {<span class="hljs-keyword">type</span>: <span class="hljs-string">'v3'</span>, value: color.hexToRgbNormalized(<span class="hljs-number">0x50ff00</span>)},
-  };
-  <span class="hljs-keyword">let</span> chromaKeyShader = <span class="hljs-keyword">new</span> PIXI.Filter(<span class="hljs-literal">null</span>, fragChromaKey, uniforms);
-
-</code></pre>
-						<dl class="tsd-comment-tags">
-							<dt>see</dt>
-							<dd><p><a href="https://github.com/pixijs/pixi-filters/blob/master/filters/color-replace/src/colorReplace.frag">https://github.com/pixijs/pixi-filters/blob/master/filters/color-replace/src/colorReplace.frag</a></p>
-							</dd>
-							<dt>see</dt>
-							<dd><p><a href="https://developer.tizen.org/community/tip-tech/creating-pixi.js-filters-using-webgl">https://developer.tizen.org/community/tip-tech/creating-pixi.js-filters-using-webgl</a></p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="fragdefault" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> frag<wbr>Default</h3>
-					<div class="tsd-signature tsd-kind-icon">frag<wbr>Default<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 vTextureCoord;uniform sampler2D uSampler;void main() {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 vTextureCoord;uniform sampler2D uSampler;void main() {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/pixi/frag-default.ts#L4">shaders/pixi/frag-default.ts:4</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Default frag shader that doesn&#39;t do very much.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="normalizedsin" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> normalized<wbr>Sin</h3>
-					<div class="tsd-signature tsd-kind-icon">normalized<wbr>Sin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"float normalizedSin(float radians) {return (sin(radians) + 1.0) / 2.0;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;float normalizedSin(float radians) {return (sin(radians) + 1.0) / 2.0;}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-mathf.ts#L134">shaders/three-shader-chunks/yano-mathf.ts:134</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Sin returns values between -1 and 1 but we often want 0-1.
-								Allows you to run a normlized sin.  You can combine this
-							with mix to create sin waves of any given range.</p>
-						</div>
-						<pre><code> <span class="hljs-comment">// These two are the same.</span>
- <span class="hljs-built_in">float</span> s = (sin(radians) + <span class="hljs-number">1.0</span>) / <span class="hljs-number">2.0</span>;
- <span class="hljs-built_in">float</span> s = normalizedSin(radians);
-
-<span class="hljs-comment">// Use normalized sin to shift values of sin.</span>
-<span class="hljs-comment">// Make a sin wave of range -0.2, 0.2</span>
-<span class="hljs-built_in">float</span> wave = mix(<span class="hljs-number">-0.2</span>, <span class="hljs-number">0.2</span>, normalizedSin(currentRadian));</code></pre>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="yanoget2drotationmatrix" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> yano<wbr>Get2d<wbr>Rotation<wbr>Matrix</h3>
-					<div class="tsd-signature tsd-kind-icon">yano<wbr>Get2d<wbr>Rotation<wbr>Matrix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"mat2 yanoGet2dRotationMatrix(float theta) {float s &#x3D; sin(theta);float c &#x3D; cos(theta);return mat2(c, -s, s, c);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;mat2 yanoGet2dRotationMatrix(float theta) {float s &#x3D; sin(theta);float c &#x3D; cos(theta);return mat2(c, -s, s, c);}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-mathf.ts#L30">shaders/three-shader-chunks/yano-mathf.ts:30</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Creates a 2d rotation matrix.</p>
-						</div>
-						<p>mat2 mat = yanoGetRotationMatrix(rotationInRadians);
-						vec2 rotatedPoint = mat * v_position.xy;</p>
-						<p>   mat2          *      vec2.xy = new rotated position</p>
-						<hr>
-						<p>|   c   -s  |    *    |   x  |  = new rotated position.
-						|   s    c  |         |   y  |</p>
-						<hr>
-						<p>For example:
-							rotation 0
-							sin(0) = 0, cos(0) = 1
-							1   0         x      1<em>x + 0</em>x     x
-							0   1    *    y   =  0<em>y + 1</em>y  =  y
-						rotation of zero has no effect.</p>
-						<p>rotation 180 degrees (3.14 radian)
-							sin(3.14) = 0, cos(3.14) = -1
-							-1   0         x      -1<em>x + 0</em>x     -x
-							0   -1    *    y   =  0<em>y + 1</em>-y  =  -y
-						rotation makes it 180 flipping x,y so it&#39;s correct.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="yanoget2dscalematrix" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> yano<wbr>Get2d<wbr>Scale<wbr>Matrix</h3>
-					<div class="tsd-signature tsd-kind-icon">yano<wbr>Get2d<wbr>Scale<wbr>Matrix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"mat2 yanoGetScaleMatrix(float scale) {return mat2(scale, 0, 0, scale);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;mat2 yanoGetScaleMatrix(float scale) {return mat2(scale, 0, 0, scale);}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-mathf.ts#L48">shaders/three-shader-chunks/yano-mathf.ts:48</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="yanorotate2d" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> yano<wbr>Rotate2d</h3>
-					<div class="tsd-signature tsd-kind-icon">yano<wbr>Rotate2d<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"vec2 yanoRotate2d(vec2 pt, float theta) {mat2 rotationMatrix &#x3D; yanoGet2dRotationMatrix(theta);return rotationMatrix * pt;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;vec2 yanoRotate2d(vec2 pt, float theta) {mat2 rotationMatrix &#x3D; yanoGet2dRotationMatrix(theta);return rotationMatrix * pt;}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-mathf.ts#L68">shaders/three-shader-chunks/yano-mathf.ts:68</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A 2d based rotation.
-								pt - The point of rotation
-							theta - the angle in radians</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>returns</dt>
-							<dd><p>vec2</p>
-								<p>vec2 myPoints = vec2(0,0.5);
-									// Rotate by 1 radian
-								vec2 rotatedPoints = yanoRotate2d(myPoints, 1);</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="yanorotate2dimage" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> yano<wbr>Rotate2d<wbr>Image</h3>
-					<div class="tsd-signature tsd-kind-icon">yano<wbr>Rotate2d<wbr>Image<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"vec3 yanoRotate2dImage(sampler2D texture, float aspect, vec2 uv, vec2 center, float theta, vec3 backgroundColor) {// Adjust for the center point.uv -&#x3D; center;mat2 rotationMatrix &#x3D; yanoGet2dRotationMatrix(theta);// Go to square uv coordinates.uv.y /&#x3D; aspect;// Conduct rotation.uv &#x3D; rotationMatrix * uv;// Go back to whatever the aspect was.uv.y *&#x3D; aspect;// Adjust back for the center point.uv +&#x3D; center;vec3 texel &#x3D; texture2D(texture, uv).rgb;// Determine if this point is within the bounds of the rectangle.// If not, use the background color.vec2 s &#x3D; step(vec2(0.0), uv) - step(vec2(1.0), uv);float t &#x3D; s.x * s.y;vec3 color &#x3D; mix(backgroundColor, texel, t);return color;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;vec3 yanoRotate2dImage(sampler2D texture, float aspect, vec2 uv, vec2 center, float theta, vec3 backgroundColor) {// Adjust for the center point.uv -&#x3D; center;mat2 rotationMatrix &#x3D; yanoGet2dRotationMatrix(theta);// Go to square uv coordinates.uv.y /&#x3D; aspect;// Conduct rotation.uv &#x3D; rotationMatrix * uv;// Go back to whatever the aspect was.uv.y *&#x3D; aspect;// Adjust back for the center point.uv +&#x3D; center;vec3 texel &#x3D; texture2D(texture, uv).rgb;// Determine if this point is within the bounds of the rectangle.// If not, use the background color.vec2 s &#x3D; step(vec2(0.0), uv) - step(vec2(1.0), uv);float t &#x3D; s.x * s.y;vec3 color &#x3D; mix(backgroundColor, texel, t);return color;}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-mathf.ts#L89">shaders/three-shader-chunks/yano-mathf.ts:89</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Rotations an image.
-							<a href="https://www.udemy.com/course/learn-glsl-shaders-from-scratch/learn/lecture/13739174#questions">https://www.udemy.com/course/learn-glsl-shaders-from-scratch/learn/lecture/13739174#questions</a></p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>see</dt>
-							<dd><p>glsl-playground20.js for an example.</p>
-								<pre><code>  <span class="hljs-type">vec2</span> center = <span class="hljs-type">vec2</span>(<span class="hljs-number">0.5</span>);
-  <span class="hljs-type">float</span> imageAspect = <span class="hljs-number">300.0</span> / <span class="hljs-number">448.0</span>;
-  <span class="hljs-type">vec3</span> backgroundColor = <span class="hljs-type">vec3</span>(<span class="hljs-number">0.0</span>);
-  <span class="hljs-type">vec3</span> color = yanoRotate2dImage(
-      u_texture, imageAspect, v_uv, center, u_time, backgroundColor);</code></pre></dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="yanoshape2dcheckerboard" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> yano<wbr>Shape2d<wbr>Checkerboard</h3>
-					<div class="tsd-signature tsd-kind-icon">yano<wbr>Shape2d<wbr>Checkerboard<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"float yanoShape2dCheckerBoard(vec2 p, float xCount, float yCount) {float x &#x3D; floor(p.x * xCount);float y &#x3D; floor(p.y * yCount);return mod(x + y, 2.0);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;float yanoShape2dCheckerBoard(vec2 p, float xCount, float yCount) {float x &#x3D; floor(p.x * xCount);float y &#x3D; floor(p.y * yCount);return mod(x + y, 2.0);}&#x60;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-shape2d.ts#L23">shaders/three-shader-chunks/yano-shape2d.ts:23</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="noise" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> noise</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">noise<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/noise.ts#L2">shaders/three-shader-chunks/noise.ts:2</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="yanomathf" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> yano<wbr>Mathf</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">yano<wbr>Mathf<span class="tsd-signature-symbol">(</span>three<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Common custom math functions for glsl.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>three: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-mathf.ts#L168">shaders/three-shader-chunks/yano-mathf.ts:168</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="yanoshape2d" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> yano<wbr>Shape2d</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">yano<wbr>Shape2d<span class="tsd-signature-symbol">(</span>three<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>three: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/shaders/three-shader-chunks/yano-shape2d.ts#L32">shaders/three-shader-chunks/yano-shape2d.ts:32</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
 		</div>
 	</div>
 </div>
@@ -532,7 +527,6 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

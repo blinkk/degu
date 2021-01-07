@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SceneRendererConfig | Yano
-	</title>
+	<title>SceneRendererConfig | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -72,7 +66,85 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">SceneRendererConfig</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="threef.scenerendererconfig.html#rendereroptions" class="tsd-kind-icon">renderer<wbr>Options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="threef.scenerendererconfig.html#rootelement" class="tsd-kind-icon">root<wbr>Element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="threef.scenerendererconfig.html#useabsolutepositioning" class="tsd-kind-icon">use<wbr>Absolute<wbr>Positioning</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="rendereroptions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> renderer<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">renderer<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/threef/scene-renderer.ts#L205">threef/scene-renderer.ts:205</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The standard THREE.WEbGLRenderer options such as antialias:true.
+								If you leave this empty, sceneRender will default to it&#39;s internal
+							options for renderer which makes best effort to cover most cases.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="rootelement" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> root<wbr>Element</h3>
+					<div class="tsd-signature tsd-kind-icon">root<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/threef/scene-renderer.ts#L198">threef/scene-renderer.ts:198</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The root element to create the main canvas.
+							Optional and typically this would default to the document.body.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="useabsolutepositioning" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> use<wbr>Absolute<wbr>Positioning</h3>
+					<div class="tsd-signature tsd-kind-icon">use<wbr>Absolute<wbr>Positioning<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/threef/scene-renderer.ts#L212">threef/scene-renderer.ts:212</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether to use absolute positioning of the master canvas.
+								Defaults to false.
+							This can have performance benefits but as of now, it is experimental.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -149,8 +221,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
@@ -192,84 +262,6 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">SceneRendererConfig</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="threef.scenerendererconfig.html#rendereroptions" class="tsd-kind-icon">renderer<wbr>Options</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="threef.scenerendererconfig.html#rootelement" class="tsd-kind-icon">root<wbr>Element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="threef.scenerendererconfig.html#useabsolutepositioning" class="tsd-kind-icon">use<wbr>Absolute<wbr>Positioning</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="rendereroptions" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> renderer<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">renderer<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/threef/scene-renderer.ts#L205">threef/scene-renderer.ts:205</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The standard THREE.WEbGLRenderer options such as antialias:true.
-								If you leave this empty, sceneRender will default to it&#39;s internal
-							options for renderer which makes best effort to cover most cases.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="rootelement" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> root<wbr>Element</h3>
-					<div class="tsd-signature tsd-kind-icon">root<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/threef/scene-renderer.ts#L198">threef/scene-renderer.ts:198</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The root element to create the main canvas.
-							Optional and typically this would default to the document.body.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="useabsolutepositioning" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> use<wbr>Absolute<wbr>Positioning</h3>
-					<div class="tsd-signature tsd-kind-icon">use<wbr>Absolute<wbr>Positioning<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/threef/scene-renderer.ts#L212">threef/scene-renderer.ts:212</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Whether to use absolute positioning of the master canvas.
-								Defaults to false.
-							This can have performance benefits but as of now, it is experimental.</p>
-						</div>
-					</div>
-				</section>
-			</section>
-		</div>
 	</div>
 </div>
 <footer>
@@ -284,7 +276,6 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

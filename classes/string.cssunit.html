@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>cssUnit | Yano
-	</title>
+	<title>cssUnit | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -72,7 +66,104 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A class that helps parsing of css units.</p>
+					</div>
+					<pre><code class="language-ts">
+cssUnit.parse(<span class="hljs-string">'10%'</span>).unit <span class="hljs-comment">// %</span>
+cssUnit.parse(<span class="hljs-string">'10%'</span>).type <span class="hljs-comment">// unit</span>
+cssUnit.parse(<span class="hljs-string">'10%'</span>).valueType <span class="hljs-comment">// number</span>
+cssUnit.parse(<span class="hljs-string">'10%'</span>).value <span class="hljs-comment">// 10</span>
+
+
+
+<span class="hljs-keyword">let</span> rgba = <span class="hljs-string">'rgba(255, 255, 255, 0.3)'</span>
+cssUnit.parse(rgba).unit <span class="hljs-comment">// null</span>
+cssUnit.parse(rgba).type <span class="hljs-comment">// rgba</span>
+cssUnit.parse(rgba).value <span class="hljs-comment">// Return ColorRgba</span>
+cssUnit.parse(rgba).value.r <span class="hljs-comment">// 255</span>
+cssUnit.parse(rgba).value.g <span class="hljs-comment">// 255</span>
+cssUnit.parse(rgba).value.b <span class="hljs-comment">// 255</span>
+cssUnit.parse(rgba).value.a <span class="hljs-comment">// a</span>
+
+
+<span class="hljs-keyword">let</span> hex = <span class="hljs-string">'#FFFFFF'</span>
+cssUnit.parse(rgba).unit <span class="hljs-comment">// null</span>
+cssUnit.parse(rgba).type <span class="hljs-comment">// cssHex</span>
+cssUnit.parse(rgba).originalValue <span class="hljs-comment">// '#FFFFFF'</span>
+cssUnit.parse(rgba).value <span class="hljs-comment">// Return ColorRgba (we use rgba as the centeral unit)</span>
+cssUnit.parse(rgba).value.r <span class="hljs-comment">// 255</span>
+cssUnit.parse(rgba).value.g <span class="hljs-comment">// 255</span>
+cssUnit.parse(rgba).value.b <span class="hljs-comment">// 255</span>
+cssUnit.parse(rgba).value.a <span class="hljs-comment">// a</span>
+
+<span class="hljs-keyword">let</span> rgba = <span class="hljs-string">'rgb(255, 255, 255)'</span>
+cssUnit.parse(rgba).unit <span class="hljs-comment">// null</span>
+cssUnit.parse(rgba).type <span class="hljs-comment">// rgba</span>
+cssUnit.parse(rgba).value <span class="hljs-comment">// Return ColorRgba</span>
+</code></pre>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">cssUnit</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="string.cssunit.html#parse" class="tsd-kind-icon">parse</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="parse" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> parse</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">parse<span class="tsd-signature-symbol">(</span>css<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/string.cssunitobject.html" class="tsd-signature-type">CssUnitObject</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/string/css-unit.ts#L93">string/css-unit.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Takes a css unit value like &#39;10px&#39; or &#39;20vw&#39; and parses it into
+									a CssUnitObject.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>css: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/string.cssunitobject.html" class="tsd-signature-type">CssUnitObject</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -149,8 +240,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
@@ -177,102 +266,6 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that helps parsing of css units.</p>
-					</div>
-					<pre><code class="language-ts">
-cssUnit.parse(<span class="hljs-string">'10%'</span>).unit <span class="hljs-comment">// %</span>
-cssUnit.parse(<span class="hljs-string">'10%'</span>).type <span class="hljs-comment">// unit</span>
-cssUnit.parse(<span class="hljs-string">'10%'</span>).valueType <span class="hljs-comment">// number</span>
-cssUnit.parse(<span class="hljs-string">'10%'</span>).value <span class="hljs-comment">// 10</span>
-
-
-
-<span class="hljs-keyword">let</span> rgba = <span class="hljs-string">'rgba(255, 255, 255, 0.3)'</span>
-cssUnit.parse(rgba).unit <span class="hljs-comment">// null</span>
-cssUnit.parse(rgba).type <span class="hljs-comment">// rgba</span>
-cssUnit.parse(rgba).value <span class="hljs-comment">// Return ColorRgba</span>
-cssUnit.parse(rgba).value.r <span class="hljs-comment">// 255</span>
-cssUnit.parse(rgba).value.g <span class="hljs-comment">// 255</span>
-cssUnit.parse(rgba).value.b <span class="hljs-comment">// 255</span>
-cssUnit.parse(rgba).value.a <span class="hljs-comment">// a</span>
-
-
-<span class="hljs-keyword">let</span> hex = <span class="hljs-string">'#FFFFFF'</span>
-cssUnit.parse(rgba).unit <span class="hljs-comment">// null</span>
-cssUnit.parse(rgba).type <span class="hljs-comment">// cssHex</span>
-cssUnit.parse(rgba).originalValue <span class="hljs-comment">// '#FFFFFF'</span>
-cssUnit.parse(rgba).value <span class="hljs-comment">// Return ColorRgba (we use rgba as the centeral unit)</span>
-cssUnit.parse(rgba).value.r <span class="hljs-comment">// 255</span>
-cssUnit.parse(rgba).value.g <span class="hljs-comment">// 255</span>
-cssUnit.parse(rgba).value.b <span class="hljs-comment">// 255</span>
-cssUnit.parse(rgba).value.a <span class="hljs-comment">// a</span>
-
-<span class="hljs-keyword">let</span> rgba = <span class="hljs-string">'rgb(255, 255, 255)'</span>
-cssUnit.parse(rgba).unit <span class="hljs-comment">// null</span>
-cssUnit.parse(rgba).type <span class="hljs-comment">// rgba</span>
-cssUnit.parse(rgba).value <span class="hljs-comment">// Return ColorRgba</span>
-</code></pre>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">cssUnit</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="string.cssunit.html#parse" class="tsd-kind-icon">parse</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="parse" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> parse</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">parse<span class="tsd-signature-symbol">(</span>css<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/string.cssunitobject.html" class="tsd-signature-type">CssUnitObject</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Takes a css unit value like &#39;10px&#39; or &#39;20vw&#39; and parses it into
-									a CssUnitObject.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>css: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/string.cssunitobject.html" class="tsd-signature-type">CssUnitObject</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/string/css-unit.ts#L93">string/css-unit.ts:93</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-		</div>
 	</div>
 </div>
 <footer>
@@ -287,7 +280,6 @@ cssUnit.parse(rgba).value <span class="hljs-comment">// Return ColorRgba</span>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

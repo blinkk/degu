@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>WebGlImageSequenceOptions | Yano
-	</title>
+	<title>WebGlImageSequenceOptions | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -72,7 +66,275 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">WebGlImageSequenceOptions</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#arialabel" class="tsd-kind-icon">aria<wbr>Label</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#bottom" class="tsd-kind-icon">bottom</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#bottomnoclip" class="tsd-kind-icon">bottom<wbr>NoClip</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#cover" class="tsd-kind-icon">cover</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#left" class="tsd-kind-icon">left</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#leftnoclip" class="tsd-kind-icon">left<wbr>NoClip</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#right" class="tsd-kind-icon">right</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#rightnoclip" class="tsd-kind-icon">right<wbr>NoClip</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#top" class="tsd-kind-icon">top</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#topnoclip" class="tsd-kind-icon">top<wbr>NoClip</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="arialabel" class="tsd-anchor"></a>
+					<h3>aria<wbr>Label</h3>
+					<div class="tsd-signature tsd-kind-icon">aria<wbr>Label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L199">dom/webgl-image-sequence.ts:199</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Optional aria label to add to the generated canvas.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="bottom" class="tsd-anchor"></a>
+					<h3>bottom</h3>
+					<div class="tsd-signature tsd-kind-icon">bottom<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L65">dom/webgl-image-sequence.ts:65</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When using &quot;contain&quot; or &quot;cover&quot; mode, the amount to position FROM the vertical bottom.
+								By default, contain mode will vertically center your image.  Setting this
+							option will adjust the vertical position of the image.</p>
+						</div>
+						<p>This is designed to mimic behavior of background-position as much as possible.</p>
+						<p>Example: bottom: 0 ---&gt; the bottom of the image should align with the
+							bottom of the canvas element.
+							Example: bottom: 0.2 ---&gt; the bottom of the image should align from the
+						bottom 20% of the canvas element.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="bottomnoclip" class="tsd-anchor"></a>
+					<h3>bottom<wbr>NoClip</h3>
+					<div class="tsd-signature tsd-kind-icon">bottom<wbr>NoClip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L90">dom/webgl-image-sequence.ts:90</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When calculating the bottom, whether to allow the image clip.   Basically,
+								says, move this from the top from 0-1 without clipping the image and
+							alters the position algo.</p>
+						</div>
+						<p>By default, position calculation will allow clipping and the specified
+							percentage is based on the size of the canvas.  Using this option,
+						will alter the values to never clip.</p>
+						<p>This option is NOT available when using cover mode.</p>
+						<p>Use by setting to false.
+						bottomClipping: false</p>
+						<p>Example: bottom: 0 ---&gt; the bottom of the image should align to the
+							bottom of the canvas.
+							Example: bottom: 0.5 ---&gt; the bottom of the image should move up 50%
+							from the bottom without clipping the top of the
+							image.
+							Example: bottom: 1 ---&gt; the bottom of the image should move up 100%
+							from the bottom without clipping the top of the
+						image.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="cover" class="tsd-anchor"></a>
+					<h3>cover</h3>
+					<div class="tsd-signature tsd-kind-icon">cover<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L52">dom/webgl-image-sequence.ts:52</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether the sizing should use cover insted of contain.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="left" class="tsd-anchor"></a>
+					<h3>left</h3>
+					<div class="tsd-signature tsd-kind-icon">left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L137">dom/webgl-image-sequence.ts:137</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When using &quot;contain&quot; mode, the amount to position FROM the horizontal left.
+								By default, contain mode will horizontall center your image.  Setting this
+							option will adjust the horizontal position of the image.</p>
+						</div>
+						<p>Example: left: 0 ---&gt; the left of the image should align with the
+							left of the canvas element.
+							Example: left: 0.2 ---&gt; the left of the image should align from the
+						top left% of the canvas element.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="leftnoclip" class="tsd-anchor"></a>
+					<h3>left<wbr>NoClip</h3>
+					<div class="tsd-signature tsd-kind-icon">left<wbr>NoClip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L159">dom/webgl-image-sequence.ts:159</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When calculating the left, whether to allow the image clip.   Basically,
+								says, move this from the left from 0-1 without clipping the image and
+							alters the position algo.</p>
+						</div>
+						<p>By default, position calculation will allow clipping and the specified
+							percentage is based on the size of the canvas.  Using this option,
+						will alter the values to never clip.</p>
+						<p>This option is NOT available when using cover mode.</p>
+						<p>Example: left: 0 ---&gt; the left of the image should align to the
+							left of the canvas.
+							Example: left: 0.5 ---&gt; the left of the image should move right 50%
+							from the left without clipping the right of the
+							image.
+							Example: left: 1 ---&gt; the left of the image should move right 100%
+							from the left without clipping the right of the
+						image.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="right" class="tsd-anchor"></a>
+					<h3>right</h3>
+					<div class="tsd-signature tsd-kind-icon">right<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L172">dom/webgl-image-sequence.ts:172</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When using &quot;contain&quot; mode, the amount to position FROM the horizontal right.
+								By default, contain mode will horizontall center your image.  Setting this
+							option will adjust the horizontal position of the image.</p>
+						</div>
+						<p>Example: right: 0 ---&gt; the right of the image should align with the
+							right of the canvas element.
+							Example: right: 0.2 ---&gt; the right of the image should align from the
+						top right% of the canvas element.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="rightnoclip" class="tsd-anchor"></a>
+					<h3>right<wbr>NoClip</h3>
+					<div class="tsd-signature tsd-kind-icon">right<wbr>NoClip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L194">dom/webgl-image-sequence.ts:194</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When calculating the right, whether to allow the image clip.   Basically,
+								says, move this from the right from 0-1 without clipping the image and
+							alters the position algo.</p>
+						</div>
+						<p>By default, position calculation will allow clipping and the specified
+							percentage is based on the size of the canvas.  Using this option,
+						will alter the values to never clip.</p>
+						<p>This option is NOT available when using cover mode.</p>
+						<p>Example: right: 0 ---&gt; the right of the image should align to the
+							left of the canvas.
+							Example: right: 0.5 ---&gt; the right of the image should move right 50%
+							from the right without clipping the left of the
+							image.
+							Example: right: 1 ---&gt; the right of the image should move right 100%
+							from the right without clipping the left of the
+						image.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="top" class="tsd-anchor"></a>
+					<h3>top</h3>
+					<div class="tsd-signature tsd-kind-icon">top<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L103">dom/webgl-image-sequence.ts:103</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When using &quot;contain&quot; mode, the amount to position FROM the vertical top.
+								By default, contain mode will vertically center your image.  Setting this
+							option will adjust the vertical position of the image.</p>
+						</div>
+						<p>Example: top: 0 ---&gt; the top of the image should align with the
+							top of the canvas element.
+							Example: top: 0.2 ---&gt; the top of the image should align from the
+						top 20% of the canvas element.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="topnoclip" class="tsd-anchor"></a>
+					<h3>top<wbr>NoClip</h3>
+					<div class="tsd-signature tsd-kind-icon">top<wbr>NoClip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/webgl-image-sequence.ts#L125">dom/webgl-image-sequence.ts:125</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When calculating the top, whether to allow the image clip.   Basically,
+								says, move this from the top from 0-1 without clipping the image and
+							alters the position algo.</p>
+						</div>
+						<p>By default, position calculation will allow clipping and the specified
+							percentage is based on the size of the canvas.  Using this option,
+						will alter the values to never clip.</p>
+						<p>This option is NOT available when using cover mode.</p>
+						<p>Example: top: 0 ---&gt; the top of the image should align to the
+							top of the canvas.
+							Example: top: 0.5 ---&gt; the bottom of the image should move up 50%
+							from the bottom without clipping the top of the
+							image.
+							Example: top: 1 ---&gt; the top of the image should move down 100%
+							from the top without clipping the bottom of the
+						image.</p>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -149,8 +411,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 				</ul>
@@ -195,274 +455,6 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">WebGlImageSequenceOptions</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#arialabel" class="tsd-kind-icon">aria<wbr>Label</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#bottom" class="tsd-kind-icon">bottom</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#bottomnoclip" class="tsd-kind-icon">bottom<wbr>NoClip</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#cover" class="tsd-kind-icon">cover</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#left" class="tsd-kind-icon">left</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#leftnoclip" class="tsd-kind-icon">left<wbr>NoClip</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#right" class="tsd-kind-icon">right</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#rightnoclip" class="tsd-kind-icon">right<wbr>NoClip</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#top" class="tsd-kind-icon">top</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.webglimagesequenceoptions.html#topnoclip" class="tsd-kind-icon">top<wbr>NoClip</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="arialabel" class="tsd-anchor"></a>
-					<h3>aria<wbr>Label</h3>
-					<div class="tsd-signature tsd-kind-icon">aria<wbr>Label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L199">dom/webgl-image-sequence.ts:199</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Optional aria label to add to the generated canvas.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="bottom" class="tsd-anchor"></a>
-					<h3>bottom</h3>
-					<div class="tsd-signature tsd-kind-icon">bottom<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L65">dom/webgl-image-sequence.ts:65</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When using &quot;contain&quot; or &quot;cover&quot; mode, the amount to position FROM the vertical bottom.
-								By default, contain mode will vertically center your image.  Setting this
-							option will adjust the vertical position of the image.</p>
-						</div>
-						<p>This is designed to mimic behavior of background-position as much as possible.</p>
-						<p>Example: bottom: 0 ---&gt; the bottom of the image should align with the
-							bottom of the canvas element.
-							Example: bottom: 0.2 ---&gt; the bottom of the image should align from the
-						bottom 20% of the canvas element.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="bottomnoclip" class="tsd-anchor"></a>
-					<h3>bottom<wbr>NoClip</h3>
-					<div class="tsd-signature tsd-kind-icon">bottom<wbr>NoClip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L90">dom/webgl-image-sequence.ts:90</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When calculating the bottom, whether to allow the image clip.   Basically,
-								says, move this from the top from 0-1 without clipping the image and
-							alters the position algo.</p>
-						</div>
-						<p>By default, position calculation will allow clipping and the specified
-							percentage is based on the size of the canvas.  Using this option,
-						will alter the values to never clip.</p>
-						<p>This option is NOT available when using cover mode.</p>
-						<p>Use by setting to false.
-						bottomClipping: false</p>
-						<p>Example: bottom: 0 ---&gt; the bottom of the image should align to the
-							bottom of the canvas.
-							Example: bottom: 0.5 ---&gt; the bottom of the image should move up 50%
-							from the bottom without clipping the top of the
-							image.
-							Example: bottom: 1 ---&gt; the bottom of the image should move up 100%
-							from the bottom without clipping the top of the
-						image.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="cover" class="tsd-anchor"></a>
-					<h3>cover</h3>
-					<div class="tsd-signature tsd-kind-icon">cover<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L52">dom/webgl-image-sequence.ts:52</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Whether the sizing should use cover insted of contain.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="left" class="tsd-anchor"></a>
-					<h3>left</h3>
-					<div class="tsd-signature tsd-kind-icon">left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L137">dom/webgl-image-sequence.ts:137</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When using &quot;contain&quot; mode, the amount to position FROM the horizontal left.
-								By default, contain mode will horizontall center your image.  Setting this
-							option will adjust the horizontal position of the image.</p>
-						</div>
-						<p>Example: left: 0 ---&gt; the left of the image should align with the
-							left of the canvas element.
-							Example: left: 0.2 ---&gt; the left of the image should align from the
-						top left% of the canvas element.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="leftnoclip" class="tsd-anchor"></a>
-					<h3>left<wbr>NoClip</h3>
-					<div class="tsd-signature tsd-kind-icon">left<wbr>NoClip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L159">dom/webgl-image-sequence.ts:159</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When calculating the left, whether to allow the image clip.   Basically,
-								says, move this from the left from 0-1 without clipping the image and
-							alters the position algo.</p>
-						</div>
-						<p>By default, position calculation will allow clipping and the specified
-							percentage is based on the size of the canvas.  Using this option,
-						will alter the values to never clip.</p>
-						<p>This option is NOT available when using cover mode.</p>
-						<p>Example: left: 0 ---&gt; the left of the image should align to the
-							left of the canvas.
-							Example: left: 0.5 ---&gt; the left of the image should move right 50%
-							from the left without clipping the right of the
-							image.
-							Example: left: 1 ---&gt; the left of the image should move right 100%
-							from the left without clipping the right of the
-						image.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="right" class="tsd-anchor"></a>
-					<h3>right</h3>
-					<div class="tsd-signature tsd-kind-icon">right<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L172">dom/webgl-image-sequence.ts:172</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When using &quot;contain&quot; mode, the amount to position FROM the horizontal right.
-								By default, contain mode will horizontall center your image.  Setting this
-							option will adjust the horizontal position of the image.</p>
-						</div>
-						<p>Example: right: 0 ---&gt; the right of the image should align with the
-							right of the canvas element.
-							Example: right: 0.2 ---&gt; the right of the image should align from the
-						top right% of the canvas element.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="rightnoclip" class="tsd-anchor"></a>
-					<h3>right<wbr>NoClip</h3>
-					<div class="tsd-signature tsd-kind-icon">right<wbr>NoClip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L194">dom/webgl-image-sequence.ts:194</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When calculating the right, whether to allow the image clip.   Basically,
-								says, move this from the right from 0-1 without clipping the image and
-							alters the position algo.</p>
-						</div>
-						<p>By default, position calculation will allow clipping and the specified
-							percentage is based on the size of the canvas.  Using this option,
-						will alter the values to never clip.</p>
-						<p>This option is NOT available when using cover mode.</p>
-						<p>Example: right: 0 ---&gt; the right of the image should align to the
-							left of the canvas.
-							Example: right: 0.5 ---&gt; the right of the image should move right 50%
-							from the right without clipping the left of the
-							image.
-							Example: right: 1 ---&gt; the right of the image should move right 100%
-							from the right without clipping the left of the
-						image.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="top" class="tsd-anchor"></a>
-					<h3>top</h3>
-					<div class="tsd-signature tsd-kind-icon">top<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L103">dom/webgl-image-sequence.ts:103</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When using &quot;contain&quot; mode, the amount to position FROM the vertical top.
-								By default, contain mode will vertically center your image.  Setting this
-							option will adjust the vertical position of the image.</p>
-						</div>
-						<p>Example: top: 0 ---&gt; the top of the image should align with the
-							top of the canvas element.
-							Example: top: 0.2 ---&gt; the top of the image should align from the
-						top 20% of the canvas element.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="topnoclip" class="tsd-anchor"></a>
-					<h3>top<wbr>NoClip</h3>
-					<div class="tsd-signature tsd-kind-icon">top<wbr>NoClip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/webgl-image-sequence.ts#L125">dom/webgl-image-sequence.ts:125</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>When calculating the top, whether to allow the image clip.   Basically,
-								says, move this from the top from 0-1 without clipping the image and
-							alters the position algo.</p>
-						</div>
-						<p>By default, position calculation will allow clipping and the specified
-							percentage is based on the size of the canvas.  Using this option,
-						will alter the values to never clip.</p>
-						<p>This option is NOT available when using cover mode.</p>
-						<p>Example: top: 0 ---&gt; the top of the image should align to the
-							top of the canvas.
-							Example: top: 0.5 ---&gt; the bottom of the image should move up 50%
-							from the bottom without clipping the top of the
-							image.
-							Example: top: 1 ---&gt; the top of the image should move down 100%
-							from the top without clipping the bottom of the
-						image.</p>
-					</div>
-				</section>
-			</section>
-		</div>
 	</div>
 </div>
 <footer>
@@ -477,7 +469,6 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>InviewConfig | Yano
-	</title>
+	<title>InviewConfig | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -72,7 +66,181 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">InviewConfig</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#childselector" class="tsd-kind-icon">child<wbr>Selector</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#downonlymode" class="tsd-kind-icon">down<wbr>Only<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#element" class="tsd-kind-icon">element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#elementbaseline" class="tsd-kind-icon">element<wbr>Baseline</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#evintersectionobserveroptions" class="tsd-kind-icon">ev<wbr>Intersection<wbr>Observer<wbr>Options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#inviewclassnames" class="tsd-kind-icon">inview<wbr>Class<wbr>Names</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#outviewonlyonelementexit" class="tsd-kind-icon">outview<wbr>Only<wbr>OnElement<wbr>Exit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#viewportoffset" class="tsd-kind-icon">viewport<wbr>Offset</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="childselector" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> child<wbr>Selector</h3>
+					<div class="tsd-signature tsd-kind-icon">child<wbr>Selector<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/inview.ts#L62">dom/inview.ts:62</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Optionally pass child selectors to add inview states to children.</p>
+						</div>
+						<p>Example:
+						childSelector: [add-inview]</p>
+						<p>Now any element with the attribute add-inview within the main element
+						will also receive inview class.</p>
+						<p>Child selelectors also received &#39;inview-index&#39; such as &#39;inview-index=&quot;0&quot;
+						etc, allows you to use it to stagger inview.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="downonlymode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> down<wbr>Only<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">down<wbr>Only<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/inview.ts#L92">dom/inview.ts:92</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A flag that sets this inview to down only mode. See below for more.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="element" class="tsd-anchor"></a>
+					<h3>element</h3>
+					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/inview.ts#L25">dom/inview.ts:25</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The root element to track inview status.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="elementbaseline" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> element<wbr>Baseline</h3>
+					<div class="tsd-signature tsd-kind-icon">element<wbr>Baseline<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/inview.ts#L35">dom/inview.ts:35</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Defines the baseline of the element.
+								The element baseline is the location in which we should use to
+								check the current element position.  Since we want to check
+								where in a viewport an element is, we need to know what point to use
+								in the element.  Should we use the top (0), middle (0.5) or bottom of the
+							element.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="evintersectionobserveroptions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ev<wbr>Intersection<wbr>Observer<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">ev<wbr>Intersection<wbr>Observer<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/inview.ts#L78">dom/inview.ts:78</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An additional options to pass to raf culling.  In most cases you can ignore
+								this but you can override the internal culling by passing a different
+							setting to fine tune optimization.</p>
+						</div>
+						<p>Expects intersection observer options.  Defaults to:</p>
+						<pre><code>   {
+     <span class="hljs-attribute">rootMargin</span>: <span class="hljs-string">'500px 0px 500px 0px'</span>
+   }</code></pre>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="inviewclassnames" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> inview<wbr>Class<wbr>Names</h3>
+					<div class="tsd-signature tsd-kind-icon">inview<wbr>Class<wbr>Names<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/inview.ts#L48">dom/inview.ts:48</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Inview ClassNames. An optional object defining the inview class names
+							that gets merge with InviewClassNames.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="outviewonlyonelementexit" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> outview<wbr>Only<wbr>OnElement<wbr>Exit</h3>
+					<div class="tsd-signature tsd-kind-icon">outview<wbr>Only<wbr>OnElement<wbr>Exit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/inview.ts#L86">dom/inview.ts:86</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A flag in which if set to true will slightly modify the behavior
+								of inview.  Once inview is fired, it will stay in that state until
+							the element is completely out of view.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="viewportoffset" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> viewport<wbr>Offset</h3>
+					<div class="tsd-signature tsd-kind-icon">viewport<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/inview.ts#L41">dom/inview.ts:41</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Defines the viewport offset. This is a number between 0-1 where 0 is
+							the bottom of the screen and 1 is the top of the screen.  Defaults to 0.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -149,8 +317,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 				</ul>
@@ -189,180 +355,6 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">InviewConfig</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#childselector" class="tsd-kind-icon">child<wbr>Selector</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#downonlymode" class="tsd-kind-icon">down<wbr>Only<wbr>Mode</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#element" class="tsd-kind-icon">element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#elementbaseline" class="tsd-kind-icon">element<wbr>Baseline</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#evintersectionobserveroptions" class="tsd-kind-icon">ev<wbr>Intersection<wbr>Observer<wbr>Options</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#inviewclassnames" class="tsd-kind-icon">inview<wbr>Class<wbr>Names</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#outviewonlyonelementexit" class="tsd-kind-icon">outview<wbr>Only<wbr>OnElement<wbr>Exit</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#viewportoffset" class="tsd-kind-icon">viewport<wbr>Offset</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="childselector" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> child<wbr>Selector</h3>
-					<div class="tsd-signature tsd-kind-icon">child<wbr>Selector<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/inview.ts#L62">dom/inview.ts:62</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Optionally pass child selectors to add inview states to children.</p>
-						</div>
-						<p>Example:
-						childSelector: [add-inview]</p>
-						<p>Now any element with the attribute add-inview within the main element
-						will also receive inview class.</p>
-						<p>Child selelectors also received &#39;inview-index&#39; such as &#39;inview-index=&quot;0&quot;
-						etc, allows you to use it to stagger inview.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="downonlymode" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> down<wbr>Only<wbr>Mode</h3>
-					<div class="tsd-signature tsd-kind-icon">down<wbr>Only<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/inview.ts#L92">dom/inview.ts:92</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A flag that sets this inview to down only mode. See below for more.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="element" class="tsd-anchor"></a>
-					<h3>element</h3>
-					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/inview.ts#L25">dom/inview.ts:25</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The root element to track inview status.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="elementbaseline" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> element<wbr>Baseline</h3>
-					<div class="tsd-signature tsd-kind-icon">element<wbr>Baseline<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/inview.ts#L35">dom/inview.ts:35</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Defines the baseline of the element.
-								The element baseline is the location in which we should use to
-								check the current element position.  Since we want to check
-								where in a viewport an element is, we need to know what point to use
-								in the element.  Should we use the top (0), middle (0.5) or bottom of the
-							element.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="evintersectionobserveroptions" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ev<wbr>Intersection<wbr>Observer<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">ev<wbr>Intersection<wbr>Observer<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/inview.ts#L78">dom/inview.ts:78</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An additional options to pass to raf culling.  In most cases you can ignore
-								this but you can override the internal culling by passing a different
-							setting to fine tune optimization.</p>
-						</div>
-						<p>Expects intersection observer options.  Defaults to:</p>
-						<pre><code>   {
-     <span class="hljs-attribute">rootMargin</span>: <span class="hljs-string">'500px 0px 500px 0px'</span>
-   }</code></pre>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="inviewclassnames" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> inview<wbr>Class<wbr>Names</h3>
-					<div class="tsd-signature tsd-kind-icon">inview<wbr>Class<wbr>Names<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/inview.ts#L48">dom/inview.ts:48</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Inview ClassNames. An optional object defining the inview class names
-							that gets merge with InviewClassNames.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="outviewonlyonelementexit" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> outview<wbr>Only<wbr>OnElement<wbr>Exit</h3>
-					<div class="tsd-signature tsd-kind-icon">outview<wbr>Only<wbr>OnElement<wbr>Exit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/inview.ts#L86">dom/inview.ts:86</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A flag in which if set to true will slightly modify the behavior
-								of inview.  Once inview is fired, it will stay in that state until
-							the element is completely out of view.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="viewportoffset" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> viewport<wbr>Offset</h3>
-					<div class="tsd-signature tsd-kind-icon">viewport<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/inview.ts#L41">dom/inview.ts:41</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Defines the viewport offset. This is a number between 0-1 where 0 is
-							the bottom of the screen and 1 is the top of the screen.  Defaults to 0.</p>
-						</div>
-					</div>
-				</section>
-			</section>
-		</div>
 	</div>
 </div>
 <footer>
@@ -377,7 +369,6 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

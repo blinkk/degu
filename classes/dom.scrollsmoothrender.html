@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ScrollSmoothRender | Yano
-	</title>
+	<title>ScrollSmoothRender | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -72,7 +66,249 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Provides a way to &quot;override&quot; and smooth out the default scroll behavior.
+							This class also allows you to ensure that rendering is synced to the scroll.
+						It is a step beyond the scroll-render-fix (see notes on that).</p>
+					</div>
+					<p>As with scroll-render-fix, this allows the rendering to catch up and then
+					once it is done,  it reapplies the scroll to the document.</p>
+					<p>It goes beyond scroll-render-fix in that it will allow you to
+					damp the scroll position to create a smoother experience.</p>
+					<p>Since this issue is chrome specific, you might want scope it to only chrome.
+					Usage:</p>
+					<pre><code>  const scroll = <span class="hljs-built_in">new</span> ScrollRenderSmooth({
+     // <span class="hljs-keyword">If</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">using</span> dynamicSensitivity use a <span class="hljs-keyword">value</span> <span class="hljs-keyword">like</span> <span class="hljs-number">3</span> <span class="hljs-keyword">or</span> <span class="hljs-number">4.</span>
+     // <span class="hljs-keyword">If</span> <span class="hljs-keyword">using</span> dynamicSensitivity usually something <span class="hljs-keyword">like</span> <span class="hljs-number">120.</span>
+     scrollSensitivity: <span class="hljs-number">120</span>,
+     dynamicSensitivity: <span class="hljs-keyword">true</span>,
+     lerp: <span class="hljs-number">1</span>,
+     damp: <span class="hljs-number">0.4</span>
+ });</code></pre><p>To take full advantage, use toolbox mutate or degu.read / writes.</p>
+					<pre><code>
+const raf = <span class="hljs-keyword">new</span> Raf();
+
+raf.read(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
+  <span class="hljs-regexp">//</span> <span class="hljs-keyword">do</span> some reading
+})
+
+raf.writing(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
+  <span class="hljs-regexp">//</span> <span class="hljs-keyword">do</span> some writing
+})
+</code></pre><p>Because scroll is hijacked, any updates to scroll position should
+					be done either via events or the provided override method.</p>
+					<p>Override method.</p>
+					<pre><code><span class="hljs-keyword">const</span> scroll = new ScrollRenderSmooth({
+     scrollSensitivity: <span class="hljs-number">4</span>,
+     lerp: <span class="hljs-number">1</span>,
+     damp: <span class="hljs-number">0.4</span>
+ });
+
+scroll.overrideScrollPosition(()=&gt; {
+  window.scrollTo(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
+})
+</code></pre><h2 id="my-div-has-a-scrollbar-and-it-s-not-scrollable-">My div has a scrollbar and it&#39;s not scrollable!</h2>
+					<p>See the /lib/angular/directive-scroll-smooth-render-scrollable directive.
+					Add this to any directive that has a scrollbar and it will act normally.</p>
+					<h2 id="deep-linking">Deep linking</h2>
+					<p>ScrollRenderSmooth watches for hash changes on the page.</p>
+					<p>However, if you want to run this manually do:</p>
+					<pre><code>scroll.checkPageHash()<span class="hljs-comment">;</span></code></pre><p>which will check the current page url and if there is a hash, it will
+					disable scrolling and jump to the positon and reenable smooth scrolling.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">ScrollSmoothRender</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#checkpagehash" class="tsd-kind-icon">check<wbr>Page<wbr>Hash</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#disable" class="tsd-kind-icon">disable</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#enable" class="tsd-kind-icon">enable</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#overridescrollposition" class="tsd-kind-icon">override<wbr>Scroll<wbr>Position</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#stopwheeljack" class="tsd-kind-icon">stop<wbr>Wheel<wbr>Jack</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Scroll<wbr>Smooth<wbr>Render<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.scrollsmoothrenderconfig.html" class="tsd-signature-type">ScrollSmoothRenderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.scrollsmoothrender.html" class="tsd-signature-type">ScrollSmoothRender</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/scroll-smooth-render.ts#L111">dom/scroll-smooth-render.ts:111</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <a href="../interfaces/dom.scrollsmoothrenderconfig.html" class="tsd-signature-type">ScrollSmoothRenderConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="dom.scrollsmoothrender.html" class="tsd-signature-type">ScrollSmoothRender</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="checkpagehash" class="tsd-anchor"></a>
+					<h3>check<wbr>Page<wbr>Hash</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Page<wbr>Hash<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/scroll-smooth-render.ts#L228">dom/scroll-smooth-render.ts:228</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check the the current page hash (#) and if there is one,
+										disables the scroll smoothing and jumps to that section then reenables
+									the scroll smoothing.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="disable" class="tsd-anchor"></a>
+					<h3>disable</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">disable<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/scroll-smooth-render.ts#L253">dom/scroll-smooth-render.ts:253</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Temporarily disables the effects of this class.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="enable" class="tsd-anchor"></a>
+					<h3>enable</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">enable<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/scroll-smooth-render.ts#L259">dom/scroll-smooth-render.ts:259</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="overridescrollposition" class="tsd-anchor"></a>
+					<h3>override<wbr>Scroll<wbr>Position</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">override<wbr>Scroll<wbr>Position<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/scroll-smooth-render.ts#L334">dom/scroll-smooth-render.ts:334</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Because this class hijacks the regular scroll, to update the actual scroll position,
+									we need a public method to make this accessible.</p>
+								</div>
+								<p>You&#39;ll most likely not need this method but it is available in case you run
+								into edge cases where you have issues with the wheel jacking.</p>
+								<p>You can also look at the stopWheelJack() method as well.</p>
+								<pre><code><span class="hljs-keyword">const</span> scroll = new ScrollRenderSmooth({
+     scrollSensitivity: <span class="hljs-number">4</span>,
+     lerp: <span class="hljs-number">1</span>,
+     damp: <span class="hljs-number">0.4</span>
+ });
+
+scroll.overrideScrollPosition(()=&gt; {
+  window.scrollTo(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
+})
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stopwheeljack" class="tsd-anchor"></a>
+					<h3>stop<wbr>Wheel<wbr>Jack</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<wbr>Wheel<wbr>Jack<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/dom/scroll-smooth-render.ts#L245">dom/scroll-smooth-render.ts:245</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Immediately stops the wheel jacking.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -149,8 +385,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 				</ul>
@@ -183,242 +417,6 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Provides a way to &quot;override&quot; and smooth out the default scroll behavior.
-							This class also allows you to ensure that rendering is synced to the scroll.
-						It is a step beyond the scroll-render-fix (see notes on that).</p>
-					</div>
-					<p>As with scroll-render-fix, this allows the rendering to catch up and then
-					once it is done,  it reapplies the scroll to the document.</p>
-					<p>It goes beyond scroll-render-fix in that it will allow you to
-					damp the scroll position to create a smoother experience.</p>
-					<p>Since this issue is chrome specific, you might want scope it to only chrome.
-					Usage:</p>
-					<pre><code>  const scroll = <span class="hljs-built_in">new</span> ScrollRenderSmooth({
-     // <span class="hljs-keyword">If</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">using</span> dynamicSensitivity use a <span class="hljs-keyword">value</span> <span class="hljs-keyword">like</span> <span class="hljs-number">3</span> <span class="hljs-keyword">or</span> <span class="hljs-number">4.</span>
-     // <span class="hljs-keyword">If</span> <span class="hljs-keyword">using</span> dynamicSensitivity usually something <span class="hljs-keyword">like</span> <span class="hljs-number">120.</span>
-     scrollSensitivity: <span class="hljs-number">120</span>,
-     dynamicSensitivity: <span class="hljs-keyword">true</span>,
-     lerp: <span class="hljs-number">1</span>,
-     damp: <span class="hljs-number">0.4</span>
- });</code></pre><p>To take full advantage, use toolbox mutate or yano.read / writes.</p>
-					<pre><code>
-const raf = <span class="hljs-keyword">new</span> Raf();
-
-raf.read(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-regexp">//</span> <span class="hljs-keyword">do</span> some reading
-})
-
-raf.writing(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-regexp">//</span> <span class="hljs-keyword">do</span> some writing
-})
-</code></pre><p>Because scroll is hijacked, any updates to scroll position should
-					be done either via events or the provided override method.</p>
-					<p>Override method.</p>
-					<pre><code><span class="hljs-keyword">const</span> scroll = new ScrollRenderSmooth({
-     scrollSensitivity: <span class="hljs-number">4</span>,
-     lerp: <span class="hljs-number">1</span>,
-     damp: <span class="hljs-number">0.4</span>
- });
-
-scroll.overrideScrollPosition(()=&gt; {
-  window.scrollTo(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-})
-</code></pre><h2 id="my-div-has-a-scrollbar-and-it-s-not-scrollable-">My div has a scrollbar and it&#39;s not scrollable!</h2>
-					<p>See the /lib/angular/directive-scroll-smooth-render-scrollable directive.
-					Add this to any directive that has a scrollbar and it will act normally.</p>
-					<h2 id="deep-linking">Deep linking</h2>
-					<p>ScrollRenderSmooth watches for hash changes on the page.</p>
-					<p>However, if you want to run this manually do:</p>
-					<pre><code>scroll.checkPageHash()<span class="hljs-comment">;</span></code></pre><p>which will check the current page url and if there is a hash, it will
-					disable scrolling and jump to the positon and reenable smooth scrolling.</p>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">ScrollSmoothRender</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#checkpagehash" class="tsd-kind-icon">check<wbr>Page<wbr>Hash</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#disable" class="tsd-kind-icon">disable</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#enable" class="tsd-kind-icon">enable</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#overridescrollposition" class="tsd-kind-icon">override<wbr>Scroll<wbr>Position</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollsmoothrender.html#stopwheeljack" class="tsd-kind-icon">stop<wbr>Wheel<wbr>Jack</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Scroll<wbr>Smooth<wbr>Render<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.scrollsmoothrenderconfig.html" class="tsd-signature-type">ScrollSmoothRenderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.scrollsmoothrender.html" class="tsd-signature-type">ScrollSmoothRender</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>config: <a href="../interfaces/dom.scrollsmoothrenderconfig.html" class="tsd-signature-type">ScrollSmoothRenderConfig</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="dom.scrollsmoothrender.html" class="tsd-signature-type">ScrollSmoothRender</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/scroll-smooth-render.ts#L111">dom/scroll-smooth-render.ts:111</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="checkpagehash" class="tsd-anchor"></a>
-					<h3>check<wbr>Page<wbr>Hash</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">check<wbr>Page<wbr>Hash<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Check the the current page hash (#) and if there is one,
-										disables the scroll smoothing and jumps to that section then reenables
-									the scroll smoothing.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/scroll-smooth-render.ts#L228">dom/scroll-smooth-render.ts:228</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="disable" class="tsd-anchor"></a>
-					<h3>disable</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">disable<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Temporarily disables the effects of this class.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/scroll-smooth-render.ts#L253">dom/scroll-smooth-render.ts:253</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="enable" class="tsd-anchor"></a>
-					<h3>enable</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">enable<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/scroll-smooth-render.ts#L259">dom/scroll-smooth-render.ts:259</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="overridescrollposition" class="tsd-anchor"></a>
-					<h3>override<wbr>Scroll<wbr>Position</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">override<wbr>Scroll<wbr>Position<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Because this class hijacks the regular scroll, to update the actual scroll position,
-									we need a public method to make this accessible.</p>
-								</div>
-								<p>You&#39;ll most likely not need this method but it is available in case you run
-								into edge cases where you have issues with the wheel jacking.</p>
-								<p>You can also look at the stopWheelJack() method as well.</p>
-								<pre><code><span class="hljs-keyword">const</span> scroll = new ScrollRenderSmooth({
-     scrollSensitivity: <span class="hljs-number">4</span>,
-     lerp: <span class="hljs-number">1</span>,
-     damp: <span class="hljs-number">0.4</span>
- });
-
-scroll.overrideScrollPosition(()=&gt; {
-  window.scrollTo(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-})
-</code></pre>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/scroll-smooth-render.ts#L334">dom/scroll-smooth-render.ts:334</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="stopwheeljack" class="tsd-anchor"></a>
-					<h3>stop<wbr>Wheel<wbr>Jack</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">stop<wbr>Wheel<wbr>Jack<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Immediately stops the wheel jacking.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/dom/scroll-smooth-render.ts#L245">dom/scroll-smooth-render.ts:245</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-		</div>
 	</div>
 </div>
 <footer>
@@ -433,7 +431,6 @@ scroll.overrideScrollPosition(()=&gt; {
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

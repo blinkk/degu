@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Pseudo3dCanvas | Yano
-	</title>
+	<title>Pseudo3dCanvas | Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Yano</a>
+					<a href="../index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -72,7 +66,189 @@
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The main renderer for pseudo3dCanvas.</p>
+					</div>
+					<p>This pseudo3dCanvas particular class, implements the model - view - perspective
+					matrices to achieve pseudo3d onto 2d canvas.</p>
+					<dl class="tsd-comment-tags">
+						<dt>see</dt>
+						<dd><p><a href="http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/">http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://www.davrous.com/2013/06/13/tutorial-series-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-typescript-or-javascript/">https://www.davrous.com/2013/06/13/tutorial-series-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-typescript-or-javascript/</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="http://www.codinglabs.net/article_world_view_projection_matrix.aspx">http://www.codinglabs.net/article_world_view_projection_matrix.aspx</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://solarianprogrammer.com/2013/05/22/opengl-101-matrices-projection-view-model/">https://solarianprogrammer.com/2013/05/22/opengl-101-matrices-projection-view-model/</a></p>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="https://www.3dgep.com/understanding-the-view-matrix/">https://www.3dgep.com/understanding-the-view-matrix/</a></p>
+						</dd>
+						<dt>unstable</dt>
+						<dd></dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Pseudo3dCanvas</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#aspect" class="tsd-kind-icon">aspect</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#far" class="tsd-kind-icon">far</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#fov" class="tsd-kind-icon">fov</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#near" class="tsd-kind-icon">near</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#render" class="tsd-kind-icon">render</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Pseudo3d<wbr>Canvas<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/pseudo_3d_canvas.pseudo3dcanvasconfig.html" class="tsd-signature-type">Pseudo3dCanvasConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pseudo_3d_canvas.pseudo3dcanvas.html" class="tsd-signature-type">Pseudo3dCanvas</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L43">pseudo-3d-canvas/pseudo-3d-canvas.ts:43</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <a href="../interfaces/pseudo_3d_canvas.pseudo3dcanvasconfig.html" class="tsd-signature-type">Pseudo3dCanvasConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="pseudo_3d_canvas.pseudo3dcanvas.html" class="tsd-signature-type">Pseudo3dCanvas</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="aspect" class="tsd-anchor"></a>
+					<h3>aspect</h3>
+					<div class="tsd-signature tsd-kind-icon">aspect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L36">pseudo-3d-canvas/pseudo-3d-canvas.ts:36</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="far" class="tsd-anchor"></a>
+					<h3>far</h3>
+					<div class="tsd-signature tsd-kind-icon">far<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L35">pseudo-3d-canvas/pseudo-3d-canvas.ts:35</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="fov" class="tsd-anchor"></a>
+					<h3>fov</h3>
+					<div class="tsd-signature tsd-kind-icon">fov<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L33">pseudo-3d-canvas/pseudo-3d-canvas.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="near" class="tsd-anchor"></a>
+					<h3>near</h3>
+					<div class="tsd-signature tsd-kind-icon">near<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L34">pseudo-3d-canvas/pseudo-3d-canvas.ts:34</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="render" class="tsd-anchor"></a>
+					<h3>render</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span>camera<span class="tsd-signature-symbol">: </span><a href="pseudo_3d_canvas.camera.html" class="tsd-signature-type">Camera</a>, meshes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="pseudo_3d_canvas.mesh.html" class="tsd-signature-type">Mesh</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8dc513f/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L94">pseudo-3d-canvas/pseudo-3d-canvas.ts:94</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The render cycle for the pseudo-3d-canvas.</p>
+								</div>
+								<p>Takes various 3d meshes that need to be displayed on the screen
+								and projects them as 2d points.</p>
+								<p>This takes on a world - view - projection pattern to creates a
+								translation matrix and then applies that to each vector point.</p>
+								<p>Note that this order matters.  Using OpenGL right to left multiplication:</p>
+								<pre><code class="language-ts">
+<span class="hljs-keyword">var</span> transformMatrix = projectionMatrix * ViewMatrix * WorldMatrix;</code></pre>
+								<p>WorldMatrix = Takes object space to world space
+									ViewMatrix = Camera matrix - transforms world space to camera space
+								projectionMatrix = Near or far angle of view.</p>
+								<p><a href="http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/">http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/</a></p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>camera: <a href="pseudo_3d_canvas.camera.html" class="tsd-signature-type">Camera</a></h5>
+								</li>
+								<li>
+									<h5>meshes: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="pseudo_3d_canvas.mesh.html" class="tsd-signature-type">Mesh</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -149,8 +325,6 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
@@ -198,186 +372,6 @@
 				</ul>
 			</nav>
 		</div>
-		<div class="col-7 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The main renderer for pseudo3dCanvas.</p>
-					</div>
-					<p>This pseudo3dCanvas particular class, implements the model - view - perspective
-					matrices to achieve pseudo3d onto 2d canvas.</p>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p><a href="http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/">http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://www.davrous.com/2013/06/13/tutorial-series-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-typescript-or-javascript/">https://www.davrous.com/2013/06/13/tutorial-series-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-typescript-or-javascript/</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="http://www.codinglabs.net/article_world_view_projection_matrix.aspx">http://www.codinglabs.net/article_world_view_projection_matrix.aspx</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://solarianprogrammer.com/2013/05/22/opengl-101-matrices-projection-view-model/">https://solarianprogrammer.com/2013/05/22/opengl-101-matrices-projection-view-model/</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://www.3dgep.com/understanding-the-view-matrix/">https://www.3dgep.com/understanding-the-view-matrix/</a></p>
-						</dd>
-						<dt>unstable</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">Pseudo3dCanvas</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#aspect" class="tsd-kind-icon">aspect</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#far" class="tsd-kind-icon">far</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#fov" class="tsd-kind-icon">fov</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#near" class="tsd-kind-icon">near</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pseudo_3d_canvas.pseudo3dcanvas.html#render" class="tsd-kind-icon">render</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Pseudo3d<wbr>Canvas<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/pseudo_3d_canvas.pseudo3dcanvasconfig.html" class="tsd-signature-type">Pseudo3dCanvasConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pseudo_3d_canvas.pseudo3dcanvas.html" class="tsd-signature-type">Pseudo3dCanvas</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>config: <a href="../interfaces/pseudo_3d_canvas.pseudo3dcanvasconfig.html" class="tsd-signature-type">Pseudo3dCanvasConfig</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pseudo_3d_canvas.pseudo3dcanvas.html" class="tsd-signature-type">Pseudo3dCanvas</a></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L43">pseudo-3d-canvas/pseudo-3d-canvas.ts:43</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="aspect" class="tsd-anchor"></a>
-					<h3>aspect</h3>
-					<div class="tsd-signature tsd-kind-icon">aspect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L36">pseudo-3d-canvas/pseudo-3d-canvas.ts:36</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="far" class="tsd-anchor"></a>
-					<h3>far</h3>
-					<div class="tsd-signature tsd-kind-icon">far<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L35">pseudo-3d-canvas/pseudo-3d-canvas.ts:35</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="fov" class="tsd-anchor"></a>
-					<h3>fov</h3>
-					<div class="tsd-signature tsd-kind-icon">fov<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L33">pseudo-3d-canvas/pseudo-3d-canvas.ts:33</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="near" class="tsd-anchor"></a>
-					<h3>near</h3>
-					<div class="tsd-signature tsd-kind-icon">near<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L34">pseudo-3d-canvas/pseudo-3d-canvas.ts:34</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="render" class="tsd-anchor"></a>
-					<h3>render</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span>camera<span class="tsd-signature-symbol">: </span><a href="pseudo_3d_canvas.camera.html" class="tsd-signature-type">Camera</a>, meshes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="pseudo_3d_canvas.mesh.html" class="tsd-signature-type">Mesh</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The render cycle for the pseudo-3d-canvas.</p>
-								</div>
-								<p>Takes various 3d meshes that need to be displayed on the screen
-								and projects them as 2d points.</p>
-								<p>This takes on a world - view - projection pattern to creates a
-								translation matrix and then applies that to each vector point.</p>
-								<p>Note that this order matters.  Using OpenGL right to left multiplication:</p>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">var</span> transformMatrix = projectionMatrix * ViewMatrix * WorldMatrix;</code></pre>
-								<p>WorldMatrix = Takes object space to world space
-									ViewMatrix = Camera matrix - transforms world space to camera space
-								projectionMatrix = Near or far angle of view.</p>
-								<p><a href="http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/">http://web.archive.org/web/20131222170415/http:/robertokoci.com/world-view-projection-matrix-unveiled/</a></p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>camera: <a href="pseudo_3d_canvas.camera.html" class="tsd-signature-type">Camera</a></h5>
-								</li>
-								<li>
-									<h5>meshes: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="pseudo_3d_canvas.mesh.html" class="tsd-signature-type">Mesh</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/grow/yano-js/blob/12b47c6/src/pseudo-3d-canvas/pseudo-3d-canvas.ts#L94">pseudo-3d-canvas/pseudo-3d-canvas.ts:94</a></li>
-								</ul>
-						</aside>        </li>
-					</ul>
-				</section>
-			</section>
-		</div>
 	</div>
 </div>
 <footer>
@@ -392,7 +386,6 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

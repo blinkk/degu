@@ -3,15 +3,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Yano
-	</title>
+	<title>Degu</title>
 	<meta name="description" content="">
-	<meta name="theme-color" content="#28b463">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Yano">
-	<meta property="og:site_name" content="Yano" />
-	<meta property="og:locale" content="en_US" />
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
@@ -28,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">Yano</a>
+					<a href="index.html" class="title">Degu</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -60,13 +54,75 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> Yano</h1>
+			<h1> Degu</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
-		<div class="col-2 col-menu menu-sticky-wrap menu-highlight">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="degu">degu</h1>
+				<p><img src="https://github.com/blinkkcode/degu/workflows/Run%20tests/badge.svg" alt="Master"></p>
+				<p>A general utility library for interactive websites, with a focus on performance.</p>
+				<ul>
+					<li><a href="https://blinkkcode.github.io/degu/">API docs</a></li>
+					<li><a href="https://blinkkcode.github.io/degu/examples/">Examples</a></li>
+					<li><a href="https://blinkkcode.github.io/degu/coverage/">Coverage</a></li>
+				</ul>
+				<h2 id="motivation">Motivation</h2>
+				<p>degu is an interactive developer toolbox. It is not the next buzzword-filled,
+					huge component library with ready-made UI solutions (such as modals, carousels, etc.)
+					but it aims to provide the &quot;hammer and nails&quot; needed to build highly-interactive,
+				performant, kickass websites.</p>
+				<h2 id="installation">Installation</h2>
+				<pre><code class="language-bash">npm install resize-observer-polyfill --save-dev
+npm install intersection-observer --save-dev
+npm install degu@latest --save-dev</code></pre>
+				<p>Include <code>resize-observer-polyfill</code> and <code>intersection-observer</code> polyfill:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-string">'../../node_modules/intersection-observer/intersection-observer.js'</span>;
+<span class="hljs-keyword">import</span> ResizeObserver <span class="hljs-keyword">from</span> <span class="hljs-string">'resize-observer-polyfill'</span>;
+<span class="hljs-built_in">window</span>[<span class="hljs-string">'ResizeObserver'</span>] = ResizeObserver;
+
+<span class="hljs-comment">/* ... insert code that depends on degu ... */</span></code></pre>
+				<h2 id="getting-started">Getting started</h2>
+				<ul>
+					<li>Read the <a href="https://blinkkcode.github.io/degu/">API docs</a></li>
+					<li>Explore the <a href="/examples/">examples folder</a></li>
+				</ul>
+				<p>Import the library:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {WebWorker} <span class="hljs-keyword">from</span> <span class="hljs-string">'degu'</span>;
+
+<span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> WebWorker(<span class="hljs-function">(<span class="hljs-params">params</span>)=&gt;</span> {
+    <span class="hljs-keyword">return</span> params.a * params.b;
+})
+
+worker.run({a: <span class="hljs-number">5</span>, b: <span class="hljs-number">2</span>}).then(<span class="hljs-function">(<span class="hljs-params">result</span>)=&gt;</span> {
+   <span class="hljs-built_in">console</span>.log(result); <span class="hljs-comment">// 10</span>
+})</code></pre>
+				<p>Import specific files:</p>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { mathf } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/mathf/mathf/'</span>
+<span class="hljs-keyword">import</span> { is } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/is/is/'</span>
+<span class="hljs-keyword">import</span> { dom } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/dom/dom/'</span></code></pre>
+				<h2 id="threejs-deps">ThreeJS deps</h2>
+				<p>Classes under <code>threef</code> require three.js deps. Currently supports r110.</p>
+				<pre><code class="language-bash">npm install --save-dev three@0.110.0
+npm install --save-dev @types/three@0.103.2</code></pre>
+				<h2 id="browser-compatibility">Browser compatibility</h2>
+				<p>degu supports only &quot;evergreen&quot; browsers back to the latest two versions:</p>
+				<ul>
+					<li>Chrome</li>
+					<li>Edge (Chromium version)</li>
+					<li>Firefox</li>
+					<li>Safari</li>
+				</ul>
+				<h2 id="contributing">Contributing</h2>
+				<p>Please read <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> on how to develop for degu.</p>
+				<h2 id="license">License</h2>
+				<p>Please read <a href="LICENSE.md">LICENSE.md</a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
@@ -143,74 +199,10 @@
 					</li>
 				</ul>
 			</nav>
-		</div>
-		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 				</ul>
 			</nav>
-		</div>
-		<div class="col-7 col-content">
-			<div class="tsd-panel tsd-typography">
-				<h1 id="yano-js">Yano-js</h1>
-				<p><img src="https://github.com/grow/yano-js/workflows/Run%20tests/badge.svg" alt="Master"></p>
-				<p>Yano is a general utility library for interactive websites.</p>
-				<ul>
-					<li><a href="https://grow.github.io/yano-js/">API docs</a></li>
-					<li><a href="https://grow.github.io/yano-js/examples/">Examples</a></li>
-					<li><a href="https://grow.github.io/yano-js/coverage/">Coverage</a></li>
-				</ul>
-				<h2 id="motivation">Motivation</h2>
-				<p>Yano-js is an interactive developer toolbox. It is not the next buzzword-filled,
-					huge component library with ready-made UI solutions (such as modals, carousels, etc.)
-					but it aims to provide the &quot;hammer and nails&quot; needed to build highly-interactive,
-				performant, kickass websites.</p>
-				<h2 id="installation">Installation</h2>
-				<pre><code class="language-bash">npm install resize-observer-polyfill --save-dev
-npm install intersection-observer --save-dev
-npm install yano-js@latest --save-dev</code></pre>
-				<p>Include <code>resize-observer-polyfill</code> and <code>intersection-observer</code> polyfill:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-string">'../../node_modules/intersection-observer/intersection-observer.js'</span>;
-<span class="hljs-keyword">import</span> ResizeObserver <span class="hljs-keyword">from</span> <span class="hljs-string">'resize-observer-polyfill'</span>;
-<span class="hljs-built_in">window</span>[<span class="hljs-string">'ResizeObserver'</span>] = ResizeObserver;
-
-<span class="hljs-comment">/* ... insert code that depends on yano-js ... */</span></code></pre>
-				<h2 id="getting-started">Getting started</h2>
-				<ul>
-					<li>Read the <a href="https://grow.github.io/yano-js/">API docs</a></li>
-					<li>Explore the <a href="/examples/">examples folder</a></li>
-				</ul>
-				<p>Import the library:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {WebWorker} <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js'</span>;
-
-<span class="hljs-keyword">const</span> worker = <span class="hljs-keyword">new</span> WebWorker(<span class="hljs-function">(<span class="hljs-params">params</span>)=&gt;</span> {
-    <span class="hljs-keyword">return</span> params.a * params.b;
-})
-
-worker.run({a: <span class="hljs-number">5</span>, b: <span class="hljs-number">2</span>}).then(<span class="hljs-function">(<span class="hljs-params">result</span>)=&gt;</span> {
-   <span class="hljs-built_in">console</span>.log(result); <span class="hljs-comment">// 10</span>
-})</code></pre>
-				<p>Import specific files:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { mathf } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/mathf/mathf/'</span>
-<span class="hljs-keyword">import</span> { is } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/is/is/'</span>
-<span class="hljs-keyword">import</span> { dom } <span class="hljs-keyword">from</span> <span class="hljs-string">'yano-js/lib/dom/dom/'</span></code></pre>
-				<h2 id="threejs-deps">ThreeJS deps</h2>
-				<p>Classes under <code>threef</code> require three.js deps. Currently supports r110.</p>
-				<pre><code class="language-bash">npm install --save-dev three@0.110.0
-npm install --save-dev @types/three@0.103.2</code></pre>
-				<h2 id="browser-compatibility">Browser compatibility</h2>
-				<p>Yano-js supports only &quot;evergreen&quot; browsers back to the latest two versions:</p>
-				<ul>
-					<li>Chrome</li>
-					<li>Edge (Chromium version)</li>
-					<li>Firefox</li>
-					<li>Safari</li>
-				</ul>
-				<h2 id="contributing">Contributing</h2>
-				<p>Please read <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> on how to develop for yano-js.</p>
-				<h2 id="license">License</h2>
-				<p>Please read <a href="LICENSE.md">LICENSE.md</a></p>
-			</div>
 		</div>
 	</div>
 </div>
@@ -226,7 +218,6 @@ npm install --save-dev @types/three@0.103.2</code></pre>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
