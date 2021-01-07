@@ -166,7 +166,7 @@ export const multiInterpolateHelper = {
  *
  *
  * JS
- *  import { MultiInterpolate, EASE } from 'degu';
+ *  import { MultiInterpolate, EASE } from '@blinkk/degu';
  *  let multiInterpolate = new MultiInterpolate({
  *   interpolations: [
  *     // This declaration would create the following.

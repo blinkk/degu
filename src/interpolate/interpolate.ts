@@ -30,7 +30,7 @@ export interface interpolateConfig {
  * compositoin around mathf.ease.
  *
  * ```ts
- * import { EASE, Interpolate } from 'degu'
+ * import { EASE, Interpolate } from '@blinkk/degu'
  * let inter = new Interpolate({
  *   from: 0,
  *   to: 100,
@@ -50,7 +50,7 @@ export interface interpolateConfig {
  * of a ball with separate easing.
  *
  * ```ts
- * import { Raf, EASE, Interpolate } from 'degu'
+ * import { Raf, EASE, Interpolate } from '@blinkk/degu'
  *
  * this.progress = 0;
  * let ballXInter = new Interpolate({

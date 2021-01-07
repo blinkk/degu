@@ -10,7 +10,7 @@ A general utility library for interactive websites, with a focus on performance.
 
 ## Motivation
 
-degu is an interactive developer toolbox. It is not the next buzzword-filled, 
+degu is an interactive developer toolbox. It is not the next buzzword-filled,
 huge component library with ready-made UI solutions (such as modals, carousels, etc.)
 but it aims to provide the "hammer and nails" needed to build highly-interactive,
 performant, kickass websites.
@@ -41,7 +41,7 @@ window['ResizeObserver'] = ResizeObserver;
 Import the library:
 
 ```ts
-import {WebWorker} from 'degu';
+import {WebWorker} from '@blinkk/degu';
 
 const worker = new WebWorker((params)=> {
     return params.a * params.b;

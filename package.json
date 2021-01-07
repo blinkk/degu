@@ -1,5 +1,5 @@
 {
-  "name": "degu",
+  "name": "@blinkk/degu",
   "version": "0.0.303",
   "description": "A general utility library for interactive websites, with a focus on performance.",
   "author": "Blinkk <hello@blinkk.com>",

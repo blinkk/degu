@@ -5,7 +5,7 @@
  * Sample usage with Pixi.
  * ```ts
  *
- *   import {color} from 'degu';
+ *   import {color} from '@blinkk/degu';
  *   import {fragChromaKey} from 'degu/lib/shaders/pixi/frag-chroma-key';
  *
  *   let uniforms = {
