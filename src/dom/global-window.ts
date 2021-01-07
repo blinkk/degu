@@ -61,10 +61,10 @@ let globalWindow = new GlobalWindow();
 // on different scopes at different times we
 // preserve it in a global window object to
 // guarantee it's a singleton instance.
-if (window['YANO_JS_GLOBAL_WINDOW']) {
-    globalWindow = window['YANO_JS_GLOBAL_WINDOW'];
+if (window['DEGU_JS_GLOBAL_WINDOW']) {
+    globalWindow = window['DEGU_JS_GLOBAL_WINDOW'];
 } else {
-    window['YANO_JS_GLOBAL_WINDOW'] = globalWindow;
+    window['DEGU_JS_GLOBAL_WINDOW'] = globalWindow;
 }
 
 export default globalWindow;

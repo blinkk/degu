@@ -83,7 +83,7 @@ export const LazyVideoEvents = {
  * Events get fired on the video element.
  *
  * ```
- * import { lazyVideoDirective, lazyVideoEvents } from 'yano-js/lib/angular/directive-lazy-video';
+ * import { lazyVideoDirective, lazyVideoEvents } from 'degu/lib/angular/directive-lazy-video';
  * document.getElementById("myvideo").addEventListener(lazyVideoEvents.LOAD_START, ()=. {
  *    // Loading started!
  * }, { once: true});

@@ -19,8 +19,8 @@ import { Raf } from '../lib/raf/raf';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 
 // Import shader chunks
-import { yanoMathf } from '../lib/shaders/three-shader-chunks/yano-mathf';
-yanoMathf(THREE);
+import { deguMathf } from '../lib/shaders/three-shader-chunks/degu-mathf';
+deguMathf(THREE);
 
 // Extends: https://github.com/mrdoob/three.js/blob/master/src/renderers/shaders/ShaderLib/meshlambert_vert.glsl.js
 const vshader = `
@@ -39,7 +39,7 @@ void main() {
 
 
 const fshader = `
-#include <yanoMathf>
+#include <deguMathf>
 varying vec2 vUv;
 varying vec3 vNormal;
 varying mat4 vModelMatrix;

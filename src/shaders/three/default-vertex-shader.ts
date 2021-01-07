@@ -6,7 +6,7 @@
  * Sample usage with Pixi.
  * ```ts
  *
- *   import {defaultVertexShader} from 'yano-js/lib/shaders/three/default-vertex-shader';
+ *   import {defaultVertexShader} from 'degu/lib/shaders/three/default-vertex-shader';
  *
  *   const material = new THREE.ShaderMaterial({
  *           uniforms: ...,

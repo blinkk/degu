@@ -8,7 +8,7 @@ export enum DebugLevel  {
  * A window.console like utility but with some added features.
  *
  * ```ts
- *  import { debug, DebugLevel } from 'yano-js/lib/debug/debug';
+ *  import { debug, DebugLevel } from 'degu/lib/debug/debug';
  * // Use debug.log as a replacement for console.log
  * debug.log('hohoho', myvariable);
  *
@@ -19,8 +19,8 @@ export enum DebugLevel  {
  * You could also use urlParams or set other conditions to display logs.
  *
  * ```
- * import { debug, DebugLevel } from 'yano-js/debug/debug';
- * import {urlParams} from 'yano-js/lib/dom/url-params';
+ * import { debug, DebugLevel } from 'degu/debug/debug';
+ * import {urlParams} from 'degu/lib/dom/url-params';
  * if(urlParams.isTrue('debug')) {
  *   debug.setDebugLevel(DebugLevel.ALL);
  *  } else {

@@ -19,7 +19,7 @@ export interface CssParallaxSettings {
     bottom?: string,
     //  height: '100px' (string) Optional.  An absolute height to use to calculate the percent.  Accepts %, px, vh.  In most cases you won't need this.
     height?: string,
-    // http://yano-js.surge.sh/classes/mathf.mathf-1.html#damp
+    // http://degu.surge.sh/classes/mathf.mathf-1.html#damp
     //  lerp: 0.18 Optional lerp.  Defaults to 1 assuming no asymptotic averaging.
     lerp?: number,
     //  damp: 0.18 Optional damp.  Defaults to 1 assuming no damping.

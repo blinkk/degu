@@ -120,7 +120,7 @@ export class ViewportCssParallaxController {
  * In your app:
  *
  * ```ts
- *   import { viewportCssParallaxDirective } from 'yano-js/lib/angular/directive-viewport-css-parallax';
+ *   import { viewportCssParallaxDirective } from 'degu/lib/angular/directive-viewport-css-parallax';
  *
  *   const app = angular.module('myApp', []);
  *   app.directive('viewportCssParallax', viewportCssParallaxDirective);

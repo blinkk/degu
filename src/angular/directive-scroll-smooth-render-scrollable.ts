@@ -57,7 +57,7 @@ export class ScrollSmoothRenderScrollableController {
  * certain areas scrollable.
  *
  * ```
- *    import { scrollSmoothRenderScrollable } from 'yano-js/lib/angular/directive-scroll-smooth-render-scrollable';
+ *    import { scrollSmoothRenderScrollable } from 'degu/lib/angular/directive-scroll-smooth-render-scrollable';
  *   app.directive('scrollArea', scrollSmoothRenderScrollable);
  *
  * <div scroll-area>

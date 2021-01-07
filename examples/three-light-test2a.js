@@ -10,7 +10,7 @@ import { Raf } from '../lib/raf/raf';
 import { threef } from '../lib/threef/threef';
 
 // Import shader chunks
-import { yanoMathf } from '../lib/shaders/three-shader-chunks/yano-mathf';
+import { deguMathf } from '../lib/shaders/three-shader-chunks/degu-mathf';
 
 const vshader = `
 varying vec3 vNormal;
@@ -56,7 +56,7 @@ export default class ThreeLightTest2 {
 
 
 
-        yanoMathf(THREE);
+        deguMathf(THREE);
 
         this.createGltfScene1();
 

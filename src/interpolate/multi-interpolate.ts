@@ -166,7 +166,7 @@ export const multiInterpolateHelper = {
  *
  *
  * JS
- *  import { MultiInterpolate, EASE } from 'yano-js';
+ *  import { MultiInterpolate, EASE } from 'degu';
  *  let multiInterpolate = new MultiInterpolate({
  *   interpolations: [
  *     // This declaration would create the following.

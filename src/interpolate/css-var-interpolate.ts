@@ -96,8 +96,8 @@ import { objectf } from '../objectf/objectf';
  *       // .my-chapter
  *       //     +effect-stagger(4,0)
  *       //
- *       // You could use this effect with https://github.com/grow/yano-js/blob/master/src/angular/directive-text-split.ts
- *       // or https://github.com/grow/yano-js/blob/master/src/dom/text-split2.ts
+ *       // You could use this effect with https://github.com/blinkkcode/degu/blob/master/src/angular/directive-text-split.ts
+ *       // or https://github.com/blinkkcode/degu/blob/master/src/dom/text-split2.ts
  *       //
  *       {
  *         progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]

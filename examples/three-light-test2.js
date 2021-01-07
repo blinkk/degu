@@ -10,8 +10,8 @@ import { Raf } from '../lib/raf/raf';
 import { threef } from '../lib/threef/threef';
 
 // Import shader chunks
-import { yanoMathf } from '../lib/shaders/three-shader-chunks/yano-mathf';
-yanoMathf(THREE);
+import { deguMathf } from '../lib/shaders/three-shader-chunks/degu-mathf';
+deguMathf(THREE);
 
 const vshader = `
 #include <common>

@@ -10,7 +10,7 @@ export class pjax {
      *
      *
      * ```
-     * import { pjax } from 'yano-js/lib/dom/pjax';
+     * import { pjax } from 'degu/lib/dom/pjax';
      *
      * pjax.fetch('/my-page', '.hello-div').then((result)=> {
      *

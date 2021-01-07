@@ -127,7 +127,7 @@ export class LazyVideoController {
  *  * Name your directive as lazyImage.
  *
  * ```
- *     import { lazyVideoDirective } from 'yano-js/lib/angular/directive-lazy-video';
+ *     import { lazyVideoDirective } from 'degu/lib/angular/directive-lazy-video';
  *     ngApp.directive('lazyVideo', lazyVideoDirective);
  * ```
  *
@@ -164,7 +164,7 @@ export class LazyVideoController {
  * Events get fired on the video element.
  *
  * ```
- * import { lazyVideoDirective, lazyVideoEvents } from 'yano-js/lib/angular/directive-lazy-video';
+ * import { lazyVideoDirective, lazyVideoEvents } from 'degu/lib/angular/directive-lazy-video';
  * document.getElementById("myvideo").addEventListener(lazyVideoEvents.LOAD_START, ()=. {
  *    // Loading started!
  * }, { once: true});

@@ -38,7 +38,7 @@ class TextSplitController implements INgDisposable {
  * Implements the textSplit2 effect.
  *
  * ```
- *     import { textSplitDirective } from 'yano-js/lib/angular/directive-text-split';
+ *     import { textSplitDirective } from 'degu/lib/angular/directive-text-split';
  *     ngApp.directive('textSplit', textSplitDirective);
  *
  *

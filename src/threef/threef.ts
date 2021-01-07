@@ -14,7 +14,7 @@ export interface threefGltfLoader {
  */
 export class threef {
 
-    public static yanoThreefTempBoxHelper: any;
+    public static deguThreefTempBoxHelper: any;
 
     /**
      * GLTF + Animation Marker Export loader.
