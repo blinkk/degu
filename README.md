@@ -4,9 +4,9 @@
 
 A general utility library for interactive websites, with a focus on performance.
 
-- [API docs](https://grow.github.io/degu/)
-- [Examples](https://grow.github.io/degu/examples/)
-- [Coverage](https://grow.github.io/degu/coverage/)
+- [API docs](https://blinkkcode.github.io/degu/)
+- [Examples](https://blinkkcode.github.io/degu/examples/)
+- [Coverage](https://blinkkcode.github.io/degu/coverage/)
 
 ## Motivation
 
@@ -35,7 +35,7 @@ window['ResizeObserver'] = ResizeObserver;
 
 ## Getting started
 
-- Read the [API docs](https://grow.github.io/degu/)
+- Read the [API docs](https://blinkkcode.github.io/degu/)
 - Explore the [examples folder](/examples/)
 
 Import the library:
