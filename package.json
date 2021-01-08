@@ -107,20 +107,19 @@
     "webpack-merge": "4.2.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
-    "server": "node server",
-    "prepare": "npm run build",
     "build": "rm -rf lib && mkdir lib && tsc",
     "build-watch": "tsc --watch",
-    "doc": "typedoc",
-    "doc-server": "simplehttpserver ./docs",
+    "coverage": "nyc ava",
     "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
     "dev-no-test": "concurrently \"tsc --watch\" \"npm run start\"",
-    "test": "tsc && ava --watch",
-    "ava": "ava",
-    "coverage": "nyc ava",
+    "doc": "typedoc",
+    "doc-server": "simplehttpserver ./docs",
     "lint": "tslint -c tslint.json \"src/**/*.ts\"",
-    "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\""
+    "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\"",
+    "prepare": "npm run build",
+    "server": "node server",
+    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
+    "test": "ava"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
