@@ -2,6 +2,7 @@
 
 import { is } from '../is/is';
 import { ColorRGBA, color } from '../mathf/color';
+import {ColorNameToHex} from './color-name-to-hex';
 
 /**
  * The different types of structures that can be passed.
@@ -22,6 +23,11 @@ export enum CssUnitObjectTypes {
      * A css hex unit such as '#FFFFFF'
      */
     cssHex = 'cssHex',
+
+    /**
+     * A css color such as 'red'
+     */
+    cssColor = 'cssColor',
 
     /**
      * A css rgba unit such as 'rgba(255, 255, 255, 0.3)'
@@ -116,6 +122,10 @@ export class cssUnit {
             result.value = color.cssToRgba(css);
             result.type = CssUnitObjectTypes.cssHex;
             result.valueType = CssUnitObjectTypes.rgba;
+        } else if (is.cssColorName(css)) {
+            result.value = color.cssToRgba(css);
+            result.type = CssUnitObjectTypes.cssColor;
+            result.valueType = CssUnitObjectTypes.rgba;
         } else {
             result.value = value ? +value : null;
             result.unit = unit ? unit[0] : null;
@@ -127,8 +137,4 @@ export class cssUnit {
 
         return result;
     }
-
-
-
-
 }

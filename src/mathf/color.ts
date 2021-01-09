@@ -1,5 +1,6 @@
 import { mathf } from './mathf';
 import { is } from '..';
+import {ColorNameToHex} from '../string/color-name-to-hex';
 
 export interface ColorRGBA {
     r: number,
@@ -207,12 +208,17 @@ export class color {
      * color.cssToRgba('#FFFFFF') // { r: 255, b: 255, g: 255, a: 1}
      * color.cssToRgba('rgba(255, 255, 255, 0.3)') // { r: 255, b: 255, g: 255, a: 0.3}
      * color.cssToRgb('rgb(255, 255, 255)') // { r: 255, b: 255, g: 255, a: 1}
+     * color.cssToRgb('red') // { r: 255, b: 0, g: 0, a: 1}
      *
      * color.cssToRgba(20) // null
      * color.cssToRgba('hello') // null
      * ```
      */
     static cssToRgba(css: string): ColorRGBA | null {
+        if (is.cssColorName(css)) {
+            return this.hexToRgba(ColorNameToHex.get(css));
+        }
+
         if (is.cssHex(css)) {
             return color.hexToRgba(css);
         }
