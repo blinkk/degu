@@ -672,7 +672,7 @@ class RafRegistry {
         this.flushScheduled = true;
         requestAnimationFrame(()=> {
           this.runRaf();
-        })
+        });
     }
 
     private runRaf() {
@@ -697,6 +697,17 @@ class RafRegistry {
         RafRegistry.runRafCallbacks(this.postWrites);
 
         this.flushScheduled = false;
+
+        // If more callbacks were scheduled for the next frame during this
+        // callback, start the process again
+        const remainingCallbackCount =
+            this.preReads.length +
+            this.reads.length +
+            this.writes.length +
+            this.postWrites.length;
+        if (remainingCallbackCount > 0) {
+            this.start();
+        }
     }
 
     /**
