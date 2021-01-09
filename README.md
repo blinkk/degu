@@ -1,6 +1,10 @@
-# degu
+# Degu
 
-![Master](https://github.com/blinkkcode/degu/workflows/Run%20tests/badge.svg)
+[![NPM Version][npm-image]][npm-url]
+[![GitHub Actions][github-image]][github-url]
+[![Dependency Status][david-image]][david-url]
+[![Known Vulnerabilities][snyk-image]][snyk-url]
+[![codecov][codecov-image]][codecov-url]
 
 A general utility library for interactive websites, with a focus on performance.
 
@@ -85,3 +89,14 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) on how to develop for degu.
 ## License
 
 Please read [LICENSE.md](LICENSE.md)
+
+[github-image]: https://github.com/blinkkcode/degu/workflows/Run%20tests/badge.svg
+[github-url]: https://github.com/blinkkcode/degu/actions
+[codecov-image]: https://codecov.io/gh/blinkkcode/degu/branch/main/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/blinkkcode/degu
+[david-image]: https://david-dm.org/blinkkcode/degu.svg
+[david-url]: https://david-dm.org/blinkkcode/degu
+[npm-image]: https://img.shields.io/npm/v/@blinkk/degu.svg
+[npm-url]: https://npmjs.org/package/@blinkk/degu
+[snyk-image]: https://snyk.io/test/github/blinkkcode/degu/badge.svg
+[snyk-url]: https://snyk.io/test/github/blinkkcode/degu
