@@ -3,6 +3,8 @@ import { Defer } from '../func/defer';
 import { func } from '../func/func';
 import { is } from '../is/is';
 import { DomWatcher } from '../dom/dom-watcher';
+import {Vector} from '../mathf/vector';
+import {MatrixService} from '../ui/carousel/physical-slide/matrix-service';
 
 /**
  * Degu DOM utility functions.
@@ -385,8 +387,8 @@ export class dom {
      * @param data
      */
     static event(element: HTMLElement, name: string, data: any) {
-        var event = new CustomEvent(name, { detail: data });
-        element.dispatchEvent(event)
+        const event = new CustomEvent(name, { detail: data });
+        element.dispatchEvent(event);
     }
 
 
@@ -856,9 +858,16 @@ export class dom {
      */
     static isDisplayNone(el: Element): boolean {
         let style = window.getComputedStyle(el).display;
-        return style == 'none';
+        return style === 'none';
     }
 
+    /**
+     * Tests whether the provided element is set to visiblity hidden.
+     */
+    static isVisibilityHidden(el: Element): boolean {
+        let style = window.getComputedStyle(el).visibility;
+        return style === 'hidden';
+    }
 
     /**
      * Tests whether a given element and it's ancestors have
@@ -880,7 +889,37 @@ export class dom {
         return isDisplayNone;
     }
 
+    static hasVisibleArea(
+        target: HTMLElement,
+        container: HTMLElement = null
+    ): boolean {
+        return dom.getVisibleArea(target, container) > 0;
+    }
 
+    static getVisibleArea(target: HTMLElement, container: HTMLElement): number {
+        if (dom.isDisplayNone(target)) {
+            return 0;
+        }
+        const targetRect = target.getBoundingClientRect();
+        const targetLeft = targetRect.left;
+        const targetRight = targetRect.left + targetRect.width;
+        const targetTop = targetRect.top;
+        const targetBottom = targetRect.top + targetRect.height;
+
+        const containerRect = container.getBoundingClientRect();
+        const containerLeft = containerRect.left;
+        const containerRight = containerRect.left + containerRect.width;
+        const containerTop = containerRect.top;
+        const containerBottom = containerRect.top + containerRect.height;
+
+        const left = mathf.clamp(containerLeft, containerRight, targetLeft);
+        const right = mathf.clamp(containerLeft, containerRight, targetRight);
+        const top = mathf.clamp(containerTop, containerBottom, targetTop);
+        const bottom = mathf.clamp(containerTop, containerBottom, targetBottom);
+        const width = right - left;
+        const height = bottom - top;
+        return width * height;
+    }
 
     /**
      * Removes all classes from an element that starts with a given prefix.
@@ -980,10 +1019,60 @@ export class dom {
         allTextNodes.forEach((node)=> {
            node.nodeValue = node.nodeValue.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
         })
+    }
 
+    /**
+     * Add an event listener to multiple events.
+     */
+    static addEventListeners(
+        element: Element|Window,
+        events: string[],
+        listener: EventListenerOrEventListenerObject
+    ) {
+        events.forEach(
+            (event) => element.addEventListener(event, listener));
+    }
+
+    /**
+     * Remove an event listener for multiple events.
+     */
+    static removeEventListeners(
+        element: Element|Window,
+        events: string[],
+        listener: EventListenerOrEventListenerObject
+    ) {
+        events.forEach(
+            (event) => element.removeEventListener(event, listener));
     }
 
     static getScrollElement(): Element {
         return document.scrollingElement || document.documentElement;
+    }
+
+    static getVisibleDistanceBetweenCenters(
+        a: HTMLElement, b: HTMLElement = null
+    ): Vector {
+        const aRect = a.getBoundingClientRect();
+        const rawACenter = new Vector(
+            aRect.left + aRect.width / 2,
+            aRect.top + aRect.height / 2);
+        const aCenter =
+            rawACenter.add(
+                MatrixService.getSingleton().getAlteredTranslation(a));
+        let bCenter;
+        if (b !== null) {
+            const bRect = b.getBoundingClientRect();
+            const rawBCenter = new Vector(
+                bRect.left + bRect.width / 2,
+                bRect.top + bRect.height / 2);
+            bCenter =
+                rawBCenter.add(
+                    MatrixService.getSingleton().getAlteredTranslation(b));
+        } else {
+            bCenter = new Vector(
+                document.children[0].clientWidth / 2,
+                window.innerHeight / 2);
+        }
+        return aCenter.subtract(bCenter);
     }
 }

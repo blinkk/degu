@@ -2,6 +2,7 @@
 import { EASE } from '../ease/ease';
 import { mathf } from './mathf';
 import { MatrixIV } from './matrixIV';
+import {arrayf} from '../arrayf/arrayf';
 
 /**
  *
@@ -87,6 +88,28 @@ export class Vector {
      */
     static clone(v: Vector) {
         return new Vector(v.x, v.y, v.z);
+    }
+
+    /**
+     * Sum the deltas between the given vectors.
+     * @param vectors
+     */
+    static sumDeltas(...vectors: Vector[]): Vector {
+        return vectors[0].subtract(vectors.slice(-1)[0]);
+    }
+
+    /**
+     * Return the deltas between the given vectors.
+     * @param vectors
+     */
+    static getDeltas(...vectors: Vector[]): Vector[] {
+        let previous: Vector = vectors[0];
+        return vectors.slice(1).map(
+            (next: Vector) => {
+                const result = this.subtract(next, previous);
+                previous = next;
+                return result;
+            });
     }
 
     /**
@@ -340,11 +363,10 @@ export class Vector {
         return this;
     }
 
-    static add(v2: Vector, v1: Vector) {
-        const x = v2.x + v1.x;
-        const y = v2.y + v1.y;
-        const z = v2.z + v1.z;
-        return new Vector(x, y, z);
+    static add(...vectors: Vector[]): Vector {
+        return vectors.reduce((result, vector) => {
+            return result.add(vector);
+        }, Vector.ZERO);
     }
 
     /**

@@ -16,7 +16,7 @@ export class objectf {
 
     /**
      * A quick JSON parse, stringify based copy.
-     * This is fast but will destroy functions, Date etc so
+     * This is fast but will dispose functions, Date etc so
      * has limited usage.
      * @param object
      */

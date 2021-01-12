@@ -1393,4 +1393,12 @@ export class mathf {
     const t = mathf.inverseLerp(minB, maxB, valueB);
     return mathf.lerp(minA, maxA, t);
   }
+
+  /**
+   * Total/sum/add-up the given values.
+   */
+  static sum(values: number[]) {
+    return values.reduce(
+        (result, value) => result + value, 0);
+  }
 }

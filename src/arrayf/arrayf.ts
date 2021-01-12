@@ -1,8 +1,9 @@
-
-
 /**
  * A static class that helps with arrays.
  */
+import {mathf} from '..';
+
+
 export class arrayf {
 
 
@@ -39,16 +40,75 @@ export class arrayf {
      * arrayf.max(values, (x) => x.b); // Returns {'a': 1, 'b': 4}
      * ```
      */
-    static max<T>(values: T[], scoreFn: (v: T) => number): T {
-        let maxValue;
+    static max<T>(values: T[], ...scoreFns: Array<(v: T) => number>): T {
+        let maxValue: T;
         let maxScore = Number.NEGATIVE_INFINITY;
+        const scoreFn = scoreFns[0];
         values.forEach((value) => {
             const score = scoreFn(value);
             if (maxScore < score) {
                 maxValue = value;
                 maxScore = score;
+            } else if (maxScore === score && scoreFns.length > 1) {
+                let i = 1;
+                let tieBreaker = scoreFns[i];
+                while (
+                    i < scoreFns.length &&
+                    tieBreaker(maxValue) === tieBreaker(value)
+                ) {
+                    tieBreaker = scoreFns[i++];
+                }
+
+                if (tieBreaker(maxValue) > tieBreaker(value)) {
+                    maxValue = value;
+                }
             }
         });
         return maxValue;
+    }
+
+    /**
+     * Return value from array that generates the lowest return value when
+     * passed as a parameter to the score function.
+     *
+     * Example:
+     * ```
+     * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
+     * arrayf.max(values, (x) => x.a); // Returns {'a': 1, 'b': 4}
+     * arrayf.max(values, (x) => x.b); // Returns {'a': 2, 'b': 3}
+     * ```
+     */
+    static min<T>(values: T[], ...scoreFns: Array<(v: T) => number>): T {
+        return arrayf.max(
+            values,
+            ...scoreFns.map((scoreFn) => {
+                return (v: T) => -1 * scoreFn(v);
+            }));
+    }
+
+    static loopSlice<T>(
+        values: T[], startIndex: number, rawEndIndex: number, direction: number
+    ): T[] {
+        const result: T[] = [];
+        const length = values.length;
+        const increment = Math.sign(direction);
+        const endIndex = mathf.wrap(rawEndIndex, 0, length);
+        let index = mathf.wrap(startIndex, 0, length);
+        while (index !== endIndex) {
+            result.push(values[index]);
+            index = mathf.wrap(index + increment, 0, length);
+        }
+
+        return result;
+    }
+
+    static filterUntilFalse<T>(
+        values: T[], conditionFn: (value: T, index: number) => boolean
+    ): T[] {
+        let index: number = 0;
+        while (index < values.length && conditionFn(values[index], index)) {
+            index++;
+        }
+        return values.slice(0, index);
     }
 }

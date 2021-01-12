@@ -670,9 +670,7 @@ class RafRegistry {
             return;
         }
         this.flushScheduled = true;
-        requestAnimationFrame(()=> {
-          this.runRaf();
-        })
+        requestAnimationFrame(() => this.runRaf());
     }
 
     private runRaf() {

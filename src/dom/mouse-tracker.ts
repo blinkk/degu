@@ -1,3 +1,4 @@
+import {noop} from '../func/noop';
 
 declare function require(x: string): any;
 import { mathf } from '../mathf/mathf';
@@ -14,7 +15,6 @@ import { DomWatcher } from './dom-watcher';
  * @hidden
  */
 export class MouseTracker {
-
     /**
      * The root element to calculate the center position of the effect.
      */
@@ -75,13 +75,13 @@ export class MouseTracker {
             on: 'resize',
             callback: this.calculateRootElementDimensions_.bind(this),
             eventOptions: { passive: true }
-        })
+        });
         this.watcher.add({
             element: window,
             on: 'scroll',
             callback: this.onScroll.bind(this),
             eventOptions: { passive: true }
-        })
+        });
 
         if (!disableMobile && is.supportingDeviceOrientation()) {
             this.watcher.add({
@@ -89,7 +89,7 @@ export class MouseTracker {
                 on: 'deviceorientation',
                 callback: this.onDeviceOrientation.bind(this),
                 eventOptions: { passive: true }
-            })
+            });
         }
 
         this.watcher.add({
@@ -97,16 +97,14 @@ export class MouseTracker {
             on: 'mousemove',
             callback: this.onMouseMove.bind(this),
             eventOptions: { passive: true }
-        })
+        });
         this.watcher.add({
             element: document.body,
             on: 'touchmove',
             callback: this.onMouseMove.bind(this),
             eventOptions: { passive: true }
-        })
-
+        });
     }
-
 
     /**
      * Calculates the base dimensions of the rootElement.
@@ -151,18 +149,18 @@ export class MouseTracker {
      * @type {MouseEvent}
      */
     private onMouseMove(e: any) {
-        let x = e.pageX || e.clientX;
-        let y = e.pageY || e.clientY;
+        const x = e.pageX || e.clientX;
+        const y = e.pageY || e.clientY;
         this.lastWindowY = window.scrollY;
         this.lastPosition = this.position.clone();
         this.updateMouseData(x, y);
         this.moveCallBack && this.moveCallBack(this.mouseData);
     }
 
-
     private updateMouseData(x: number, y: number) {
         this.position.x = x;
         this.position.y = y;
+        console.log(x, y);
         this.mouseData = {
             position: this.position,
             x: x,
@@ -172,11 +170,9 @@ export class MouseTracker {
             percentageX: (x - this.dimensions_.xCenter) /
                 (this.dimensions_.docWidth) * 100,
             percentageY: (y - this.dimensions_.yCenter) /
-                (this.dimensions_.docHeight) * 100,
-        }
-
+                (this.dimensions_.docHeight) * 100
+        };
     }
-
 
     /**
      * Handles the device orientation.
@@ -203,7 +199,6 @@ export class MouseTracker {
     getMousePosition(): any {
         return this.mouseData;
     }
-
 
     dispose() {
         this.watcher.dispose();
