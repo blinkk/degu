@@ -1,0 +1,9 @@
+// Runs a remapping function in css.
+// See https://github.com/blinkkcode/degu/blob/main/src/mathf/mathf.ts#L1383
+// for explanation on remap.
+// +remap(font-size, 200px, 600px, 14px, 40px)
+// +remap(padding-left, 200px, 600px, 14px, 40px)
+@function strip-unit($value)
+  @return $value / ($value * 0 + 1)
+=remap($property, $min-vw, $max-vw, $min-value, $max-value)
+  #{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
