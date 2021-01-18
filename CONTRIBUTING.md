@@ -111,14 +111,14 @@ $ cd ~/degu  # To to whereever this git repo is cloned to
 $ npm link
 
 Navigate to your project
-$ npm link degu
+$ npm link @blinkk/degu
 
 ```
 #### Unlinking
 The order is important here.
 ```
 Navigate to your project
-$ npm unlink --no-save degu
+$ npm unlink --no-save @blinkk/degu
 
 $ cd ~/degu  # To to whereever this git repo is cloned to
 $ npm unlink
