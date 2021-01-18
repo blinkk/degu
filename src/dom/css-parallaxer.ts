@@ -154,42 +154,46 @@ export class CssParallaxer {
 
     /**
      * Initializes module.
+     * You can optionally rerun this method to refresh settings.
      * @param settings
      */
     public init(settings?: CssParallaxSettings, interpolations?: Array<interpolateSettings>) {
-        if (this.initialized) {
-            return;
-        }
-        this.initialized = true;
 
         this.updateSettings(settings);
 
         this.calculateProgressOffsets();
 
-        // Create interpolator.
-        this.interpolator = new CssVarInterpolate(
-            this.element, { interpolations: interpolations || [] }
-        );
-        this.interpolator.useBatchUpdate(true);
-        this.interpolator.useSubPixelRendering(false);
+
+        // Only run this on the first initialization.
+        if (!this.initialized) {
+            // Create interpolator.
+            this.interpolator = new CssVarInterpolate(
+                this.element, { interpolations: interpolations || [] }
+            );
+            this.interpolator.useBatchUpdate(true);
+            this.interpolator.useSubPixelRendering(false);
+            this.element.classList.add('css-parallax-ready');
+            this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
+                (element: any, changes: any) => {
+                    if (changes.isIntersecting) {
+                        this.updateImmediately();
+                        this.raf.start();
+                    } else {
+                        this.raf.stop();
+                        this.updateImmediately();
+                    }
+                });
+            this.initialized = true;
+        } else {
+            // Update if already set.
+            this.interpolator.setInterpolations({interpolations: interpolations || []});
+        }
+
 
         // On load, we need to initially, bring the animation to
         // start position.
         this.updateImmediately();
 
-
-        this.element.classList.add('css-parallax-ready');
-
-        this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
-            (element: any, changes: any) => {
-                if (changes.isIntersecting) {
-                    this.updateImmediately();
-                    this.raf.start();
-                } else {
-                    this.raf.stop();
-                    this.updateImmediately();
-                }
-            });
     }
 
 
@@ -328,7 +332,7 @@ export class CssParallaxer {
 
 
     protected onRaf() {
-        this.raf.read(()=> {
+        this.raf.read(() => {
             // Mobile case.
             if (this.settingsData.mobileBreakpoint &&
                 window.innerWidth < this.settingsData.mobileBreakpoint &&
@@ -342,7 +346,7 @@ export class CssParallaxer {
             }
         })
 
-        this.raf.write(()=> {
+        this.raf.write(() => {
             // Use a rounded progress to pass to css var interpolate which
             // will cull updates that are repetitive.
             const roundedProgress =
