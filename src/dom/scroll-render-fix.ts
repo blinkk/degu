@@ -53,7 +53,8 @@ export class ScrollRenderFix {
         this.raf = new Raf();
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
-            element: window,
+            // @ts-ignore
+            element: document,
             on: 'wheel',
             eventOptions: { passive: false, capture: true },
             callback: this.wheelHandler.bind(this)
