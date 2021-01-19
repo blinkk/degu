@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Player</title>
+  <style>
+    #wrapper {
+      height: 500vh;
+    }
+
+    #range {
+      position: relative;
+      z-index: 100;
+    }
+
+    #video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+
+    button {
+        position: relative;
+        z-index: 10;
+    }
+
+    #time {
+        position: relative;
+        z-index: 10;
+    }
+  </style>
+</head>
+<body init-sample="videoPlayerSample">
+
+  <div id="wrapper">
+    <video id="video">
+        <source src="/public/video-test3.mp4" type="video/mp4"></video>
+    </video>
+
+    <button id="button1">Play</button>
+    <button id="button2">Pause</button>
+    <button id="button3">Reset</button>
+    <button id="button4">Play from 5 - 6</button>
+    <div id="time"></div>
+
+  </div>
+
+
+</body>
+</html>

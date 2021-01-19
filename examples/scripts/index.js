@@ -98,6 +98,7 @@ import VectorDomSample from '../vector-dom';
 import VectorDomSample2 from '../vector-dom2';
 import VectorDomSample3 from '../vector-dom3';
 import VideoProgressSample from '../video-progress';
+import VideoPlayerSample from '../video-player';
 import WebGlImageSequenceSample from '../webgl-image-sequence';
 import WebGlImageSequenceSample2 from '../webgl-image-sequence2';
 import WebGlImageSequenceSample3 from '../webgl-image-sequence3';
@@ -149,6 +150,7 @@ const samples = {
   'hermitCurveSample': HermiteCurveSample,
   'bezierCurveSample': BezierCurveSample,
   'videoProgressSample': VideoProgressSample,
+  'videoPlayerSample': VideoPlayerSample,
   'matrixIVSample': MatrixIVSample,
   'matrixIVSample2': MatrixIVSample2,
   'matrixIVSample3': MatrixIVSample3,
