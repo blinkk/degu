@@ -55,7 +55,7 @@ export class ScrollRenderFix {
         this.domWatcher.add({
             element: window,
             on: 'wheel',
-            eventOptions: { passive: false },
+            eventOptions: { passive: false, capture: true },
             callback: this.wheelHandler.bind(this)
         });
     }
@@ -64,11 +64,11 @@ export class ScrollRenderFix {
         e.preventDefault();
         this.raf.read(()=> {
           this.targetY = document.documentElement.scrollTop + e.deltaY;
-        });
-        this.raf.postWrite(()=> {
-            if (this.currentY !== this.targetY) {
-              document.documentElement.scrollTop = this.targetY;
-            }
+          this.raf.postWrite(()=> {
+              if (this.currentY !== this.targetY) {
+                document.documentElement.scrollTop = this.targetY;
+              }
+          });
         });
     }
 
