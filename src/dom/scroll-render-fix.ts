@@ -61,13 +61,19 @@ export class ScrollRenderFix {
         });
     }
 
+
+    private getScrollElement():Element {
+      return document.scrollingElement || document.documentElement;
+    }
+
     private wheelHandler(e:WheelEvent) {
         e.preventDefault();
         this.raf.read(()=> {
-          this.targetY = document.documentElement.scrollTop + e.deltaY;
+          this.targetY = this.getScrollElement().scrollTop + e.deltaY;
           this.raf.postWrite(()=> {
               if (this.currentY !== this.targetY) {
-                document.documentElement.scrollTop = this.targetY;
+                this.getScrollElement().scrollTop = this.targetY;
+                this.currentY = this.targetY;
               }
           });
         });
