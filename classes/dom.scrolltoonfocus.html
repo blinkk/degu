@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LazyVideoController | @blinkk/degu</title>
+	<title>ScrollToOnFocus | @blinkk/degu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,24 +54,76 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/angular.html">angular</a>
+					<a href="../modules/dom.html">dom</a>
 				</li>
 				<li>
-					<a href="angular.lazyvideocontroller.html">LazyVideoController</a>
+					<a href="dom.scrolltoonfocus.html">ScrollToOnFocus</a>
 				</li>
 			</ul>
-			<h1>Class LazyVideoController</h1>
+			<h1>Class ScrollToOnFocus</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A class that jumps to a specific scroll point when a given
+						element is focused on.</p>
+					</div>
+					<p>This class is designed to help with a11y issues common with
+						css-parallax, lottie-directive or any other module where
+					scroll based progress is calculated.</p>
+					<p>Consider the following example:</p>
+					<pre><code>&lt;<span class="hljs-selector-tag">div</span> sticky-<span class="hljs-number">300vh</span>&gt;
+  &lt;<span class="hljs-selector-tag">div</span> sticky-child&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">1</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">2</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">3</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">4</span>&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre><p>Our module is 300vh tall and we have a sticky child.
+						We then setup css-parallax and for every 0.25 (25%) progress,
+						we hide the visibility / opacity of each chapter.
+					In other words, as you scroll, the chapters fade in and out.</p>
+					<p>The problem with this is that when using VO or another screenreader,
+						the scroll position never updates as you focus on each chapter and
+						creates a situation where you are selecting an element that might
+					still have an opacity 0.</p>
+					<p>To solve this, you can use this class.</p>
+					<pre><code>&lt;<span class="hljs-selector-tag">div</span> sticky-<span class="hljs-number">300vh</span>&gt;
+  &lt;<span class="hljs-selector-tag">div</span> sticky-child&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">1</span> data-scroll-to-on-focus=<span class="hljs-string">"0"</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">2</span> data-scroll-to-on-focus=<span class="hljs-string">"0.25"</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">3</span> data-scroll-to-on-focus=<span class="hljs-string">"0.5"</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">4</span> data-scroll-to-on-focus=<span class="hljs-string">"0.75"</span>&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+new ScrollToOnFocus({
+   element: document.querySelector(<span class="hljs-string">'[sticky-child]'</span>),
+   setTabIndex: true
+   <span class="hljs-comment">// These values should match however you are calculating</span>
+   <span class="hljs-comment">// progress.</span>
+   topProgressOffset: <span class="hljs-number">0</span>,
+   bottomProgressOffset: <span class="hljs-number">0</span>,
+})
+
+<span class="hljs-comment">// The focus element require a tabindex so remove it if needed.</span>
+[data-scroll-to-on-focus]:focus-visible
+  <span class="hljs-attribute">outline</span>: <span class="hljs-number">2px</span> solid <span class="hljs-number">#1967D2</span>
+[data-scroll-to-on-focus]:focus:not(:focus-visible)
+  <span class="hljs-attribute">outline</span>: none</code></pre><p>Now when using VO, if you focus on chapter-2, it will jump to
+					the progress 0.25 position.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">LazyVideoController</span>
+						<span class="target">ScrollToOnFocus</span>
 					</li>
 				</ul>
 			</section>
@@ -82,22 +134,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="angular.lazyvideocontroller.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Accessors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="angular.lazyvideocontroller.html#_inject" class="tsd-kind-icon">$inject</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.scrolltoonfocus.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyvideocontroller.html#dispose" class="tsd-kind-icon">dispose</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyvideocontroller.html#ispainted" class="tsd-kind-icon">is<wbr>Painted</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyvideocontroller.html#paint" class="tsd-kind-icon">paint</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyvideocontroller.html#resize" class="tsd-kind-icon">resize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrolltoonfocus.html#dispose" class="tsd-kind-icon">dispose</a></li>
 							</ul>
 						</section>
 					</div>
@@ -109,48 +152,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Lazy<wbr>Video<wbr>Controller<span class="tsd-signature-symbol">(</span>$scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IScope</span>, $element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IAngularStatic</span>, $attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IAttributes</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="angular.lazyvideocontroller.html" class="tsd-signature-type">LazyVideoController</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Scroll<wbr>ToOn<wbr>Focus<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.scrolltoonfocusconfig.html" class="tsd-signature-type">ScrollToOnFocusConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.scrolltoonfocus.html" class="tsd-signature-type">ScrollToOnFocus</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/angular/directive-lazy-video.ts#L31">angular/directive-lazy-video.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/dom/scroll-to-on-focus.ts#L109">dom/scroll-to-on-focus.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>$scope: <span class="tsd-signature-type">ng.IScope</span></h5>
-								</li>
-								<li>
-									<h5>$element: <span class="tsd-signature-type">ng.IAngularStatic</span></h5>
-								</li>
-								<li>
-									<h5>$attrs: <span class="tsd-signature-type">ng.IAttributes</span></h5>
+									<h5>config: <a href="../interfaces/dom.scrolltoonfocusconfig.html" class="tsd-signature-type">ScrollToOnFocusConfig</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="angular.lazyvideocontroller.html" class="tsd-signature-type">LazyVideoController</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-					<a name="_inject" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> $inject</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> $inject<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/angular/directive-lazy-video.ts#L29">angular/directive-lazy-video.ts:29</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="dom.scrolltoonfocus.html" class="tsd-signature-type">ScrollToOnFocus</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -167,70 +184,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/angular/directive-lazy-video.ts#L113">angular/directive-lazy-video.ts:113</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="ispainted" class="tsd-anchor"></a>
-					<h3>is<wbr>Painted</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Painted<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/angular/directive-lazy-video.ts#L108">angular/directive-lazy-video.ts:108</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Determines whether this element was painted (displayed on the screen).
-										The basis of this is having a css class of display none.  Other methods
-									of hiding the element will return true.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="paint" class="tsd-anchor"></a>
-					<h3>paint</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">paint<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/angular/directive-lazy-video.ts#L88">angular/directive-lazy-video.ts:88</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Attemps to set the video source if possible.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="resize" class="tsd-anchor"></a>
-					<h3>resize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">resize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/angular/directive-lazy-video.ts#L78">angular/directive-lazy-video.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/dom/scroll-to-on-focus.ts#L182">dom/scroll-to-on-focus.ts:182</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -248,7 +202,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/angular.html">angular</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -260,7 +214,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/debug.html">debug</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/dom.html">dom</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -321,25 +275,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="angular.lazyvideocontroller.html" class="tsd-kind-icon">Lazy<wbr>Video<wbr>Controller</a>
+						<a href="dom.scrolltoonfocus.html" class="tsd-kind-icon">Scroll<wbr>ToOn<wbr>Focus</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="angular.lazyvideocontroller.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-								<a href="angular.lazyvideocontroller.html#_inject" class="tsd-kind-icon">$inject</a>
+								<a href="dom.scrolltoonfocus.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyvideocontroller.html#dispose" class="tsd-kind-icon">dispose</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyvideocontroller.html#ispainted" class="tsd-kind-icon">is<wbr>Painted</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyvideocontroller.html#paint" class="tsd-kind-icon">paint</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyvideocontroller.html#resize" class="tsd-kind-icon">resize</a>
+								<a href="dom.scrolltoonfocus.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
 						</ul>
 					</li>
