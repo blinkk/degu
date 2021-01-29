@@ -3,7 +3,7 @@ import { DefaultMap } from '../../map/default-map';
 import { mathf, Raf } from '../..';
 import { setf } from '../../setf/setf';
 import { TransitionTarget } from './transition-target';
-import { CarouselSyncManager } from './carousel-sync-manager';
+import { CarouselSynchronizer } from './carousel-synchronizer';
 
 enum Half {
   LEFT = -1,
@@ -45,6 +45,7 @@ export class Carousel {
   private readonly onDisposeCallbacks: Array<(carousel: Carousel) => void>;
   private readonly slideCssClasses: DefaultMap<HTMLElement, Set<string>>;
   private readonly raf: Raf;
+  private readonly synchronizer: CarouselSynchronizer;
   private transitionTarget: TransitionTarget;
   private interactions: symbol[];
   private lastActiveSlide: HTMLElement;
@@ -101,6 +102,7 @@ export class Carousel {
     this.interactions = [];
     this.disposed = false;
     this.disabled = false;
+    this.synchronizer = CarouselSynchronizer.getSingleton(this);
 
     this.slideCssClasses =
         DefaultMap.usingFunction<HTMLElement, Set<string>>(
@@ -231,7 +233,7 @@ export class Carousel {
 
   transitionToIndex(index: number, drivenBySync: boolean = false): void {
     if (!drivenBySync) {
-      CarouselSyncManager.getSingleton().transitionToIndex(this, index);
+      this.synchronizer.handleCarouselTransition(this, index);
     }
 
     const clampedIndex = this.getClampedIndex_(index);
@@ -265,7 +267,8 @@ export class Carousel {
   dispose() {
     this.disposed = true;
     this.raf.dispose();
-    CarouselSyncManager.getSingleton().disposeCarousel(this);
+    this.synchronizer.disposeCarousel(this);
+    this.synchronizer.dispose(this);
     this.onDisposeCallbacks.forEach((callback) => callback(this));
   }
 
@@ -362,8 +365,8 @@ export class Carousel {
 
         // Sync other carousels.
         if (shouldSync) {
-          CarouselSyncManager.getSingleton()
-              .transitionToIndex(this, this.getSlideIndex(activeSlide));
+          this.synchronizer
+              .handleCarouselTransition(this, this.getSlideIndex(activeSlide));
         }
       }
     });
