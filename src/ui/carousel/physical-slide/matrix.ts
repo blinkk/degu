@@ -4,15 +4,18 @@ import { dom } from '../../..';
 const STYLE_STRING_PREFIX = 'matrix(';
 const STYLE_STRING_PREFIX_LENGTH = STYLE_STRING_PREFIX.length;
 
-type Numeric = number|string;
-
+/**
+ * Tracks information on an element's transform.
+ */
 export class Matrix {
-
   static parseFromString(str: string): Matrix {
     if (str === 'none' || !str.length) {
       return new Matrix();
     }
-    return new Matrix(...str.slice(STYLE_STRING_PREFIX_LENGTH, -1).split(','));
+    return new Matrix(
+        ...str.slice(STYLE_STRING_PREFIX_LENGTH, -1)
+            .split(',')
+            .map(parseFloat));
   }
 
   static fromElementTransform(element: Element): Matrix {
@@ -27,19 +30,19 @@ export class Matrix {
   readonly ty: number;
 
   constructor(
-    a: Numeric = 1,
-    b: Numeric = 0,
-    c: Numeric = 0,
-    d: Numeric = 1,
-    tx: Numeric = 0,
-    ty: Numeric = 0
+    a: number = 1,
+    b: number = 0,
+    c: number = 0,
+    d: number = 1,
+    tx: number = 0,
+    ty: number = 0
   ) {
-    this.a = parseFloat(<string>a);
-    this.b = parseFloat(<string>b);
-    this.c = parseFloat(<string>c);
-    this.d = parseFloat(<string>d);
-    this.tx = parseFloat(<string>tx);
-    this.ty = parseFloat(<string>ty);
+    this.a = a;
+    this.b = b;
+    this.c = c;
+    this.d = d;
+    this.tx = tx;
+    this.ty = ty;
   }
 
   getTranslateX(): number {

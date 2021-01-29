@@ -4,6 +4,14 @@ import { Vector } from '../../../mathf/vector';
 import { mathf } from '../../..';
 import { arrayf } from '../../../arrayf/arrayf';
 
+/**
+ * Adjusts the given slide within a carousel to keep slides split appropriately.
+ * @param carousel The carousel that contains the slides
+ * @param targetSlide The slide to adjust around
+ * @param slide The slide to adjust
+ * @param distancesFromTarget A map of the distance between slides and the target
+ * @param direction The direction the slide should be split
+ */
 export function adjustSlideForSplit(
   carousel: Carousel,
   targetSlide: HTMLElement,
@@ -13,9 +21,7 @@ export function adjustSlideForSplit(
 ): void {
   const targetOffset =
     getTargetSplitOffset(carousel, targetSlide, slide, direction);
-  const distance = distancesFromTarget.get(slide);
-
-  const difference = targetOffset - distance;
+  const difference = targetOffset - distancesFromTarget.get(slide);
   if (difference !== 0) {
     MatrixService.getSingleton().translate(slide, new Vector(difference, 0));
   }
