@@ -32,6 +32,9 @@ export interface CarouselOptions {
   condition?: () => boolean;
 }
 
+/**
+ * Default classes applied to slide elements.
+ */
 enum DefaultCssClass {
   ACTIVE_SLIDE = 'active',
   BEFORE_SLIDE = 'before',
@@ -130,14 +133,27 @@ export class Carousel {
     this.init();
   }
 
+  /**
+   * Returns true if the carousel loops.
+   */
   allowsLooping() {
     return this.allowLooping;
   }
 
+  /**
+   * Returns the last known active slide.
+   */
   getLastActiveSlide(): HTMLElement {
     return this.lastActiveSlide;
   }
 
+  /**
+   * Transition the carousel to the given slide.
+   * If `drivenBySync` is set we know not to trigger another call to the
+   * synchronizer.
+   * @param targetSlide
+   * @param drivenBySync
+   */
   transitionToSlide(
       targetSlide: HTMLElement,
       drivenBySync: boolean = false
@@ -148,47 +164,77 @@ export class Carousel {
     this.transitionTarget = new TransitionTarget(targetSlide, drivenBySync);
   }
 
+  /**
+   * Returns true if the carousel is in the process of transitioning.
+   */
   isTransitioning(): boolean {
     return this.transitionTarget !== null;
   }
 
+  /**
+   * Returns true if the user is interacting with the carousel in the way
+   * specified by the given symbol.
+   * @param interaction
+   */
   isBeingInteractedWith(interaction: symbol = null): boolean {
     return this.interactions.length > 0 &&
         (!interaction || this.interactions.indexOf(interaction) !== -1);
   }
 
+  /**
+   * Returns the currently active slide.
+   */
   getActiveSlide(): HTMLElement {
     return this.transition.getActiveSlide();
   }
 
-  getActiveClass(): string {
-    return this.activeCssClass;
-  }
-
+  /**
+   * Return the index of the currently active slide.
+   */
   getActiveSlideIndex(): number {
     return this.getSlideIndex(this.getActiveSlide());
   }
 
+  /**
+   * Return the first slide in the carousel.
+   */
   getFirstSlide(): HTMLElement {
     return this.slides[0];
   }
 
+  /**
+   * Return the last slide in the carousel.
+   */
   getLastSlide(): HTMLElement {
     return this.slides[this.slides.length - 1];
   }
 
+  /**
+   * Return the index of the given slide within the list of slides.
+   * @param slide
+   */
   getSlideIndex(slide: HTMLElement): number {
     return this.getSlides().indexOf(slide);
   }
 
+  /**
+   * Return the carousel container, the DOM element containing the slides.
+   */
   getContainer(): HTMLElement {
     return this.container;
   }
 
+  /**
+   * Return a copy of the list of slide elements.
+   */
   getSlides(): HTMLElement[] {
     return [...this.slides];
   }
 
+  /**
+   * Return the slides before the given slide. Looping if allowed.
+   * @param slide
+   */
   getSlidesBefore(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
       return this.splitSlidesInHalf(slide, Half.LEFT);
@@ -197,6 +243,10 @@ export class Carousel {
     }
   }
 
+  /**
+   * Return the slides after the given slide. Looping if allowed.
+   * @param slide
+   */
   getSlidesAfter(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
       return this.splitSlidesInHalf(slide, Half.RIGHT);
@@ -205,19 +255,35 @@ export class Carousel {
     }
   }
 
+  /**
+   * Transition to the next slide.
+   */
   next(): void {
     this.transitionSlidesBy(1);
   }
 
+  /**
+   * Transition to the previous slide.
+   */
   previous(): void {
     this.transitionSlidesBy(-1);
   }
 
+  /**
+   * Tell the carousel that it is being interacted with in the way specified
+   * by the given symbol.
+   * @param interaction
+   */
   startInteraction(interaction: symbol): void {
     this.clearTransitionTarget();
     this.interactions.push(interaction);
   }
 
+  /**
+   * Tell the carousel that it is no longer being interacted with in the way
+   * specified by the given symbol.
+   * @param interaction
+   */
   endInteraction(interaction: symbol): void {
     const index = this.interactions.indexOf(interaction);
     this.interactions = [
@@ -225,12 +291,25 @@ export class Carousel {
         ...this.interactions.slice(index + 1)];
   }
 
+  /**
+   * Transition to the slide `value` slides away.
+   * @param value
+   */
   transitionSlidesBy(value: number): void {
     const nextIndex =
         this.getSlides().indexOf(this.getCurrentTransitionTarget()) + value;
     this.transitionToIndex(nextIndex);
   }
 
+  /**
+   * Transition to the slide with the given index.
+   *
+   * If the `drivenBySync` value is set we know not to call the synchronizer
+   * again.
+   *
+   * @param index
+   * @param drivenBySync
+   */
   transitionToIndex(index: number, drivenBySync: boolean = false): void {
     if (!drivenBySync) {
       this.synchronizer.handleCarouselTransition(this, index);
@@ -240,30 +319,54 @@ export class Carousel {
     this.transitionToSlide(this.getSlideByIndex(clampedIndex), drivenBySync);
   }
 
+  /**
+   * Register a function to be called when the carousel completes a transition.
+   * @param callback
+   */
   onTransition(callback: (carousel: Carousel) => void) {
     this.onTransitionCallbacks.push(callback);
   }
 
+  /**
+   * Register a function to be called when the carousel disposes.
+   * @param callback
+   */
   onDispose(callback: (carousel: Carousel) => void) {
     this.onDisposeCallbacks.push(callback);
   }
 
+  /**
+   * Return the slide element at the given index in the list of slides.
+   * @param index
+   */
   getSlideByIndex(index: number): HTMLElement {
     return this.slides[index];
   }
 
+  /**
+   * Return the number of slides.
+   */
   getSlideCount(): number {
     return this.slides.length;
   }
 
+  /**
+   * Enable the carousel.
+   */
   enable(): void {
     this.disabled = false;
   }
 
+  /**
+   * Disable the carousel.
+   */
   disable(): void {
     this.disabled = true;
   }
 
+  /**
+   * Dispose of the carousel.
+   */
   dispose() {
     this.disposed = true;
     this.raf.dispose();
@@ -317,15 +420,24 @@ export class Carousel {
     return result;
   }
 
+  /**
+   * Clear the transition target, stop transitioning.
+   */
   private clearTransitionTarget(): void {
     this.transitionTarget = null;
   }
 
+  /**
+   * Setup initial values.
+   */
   private init(): void {
     this.transition.init(this.getSlides()[0], this);
     this.raf.start();
   }
 
+  /**
+   * Run the loop to do all the necessary work for the carousel.
+   */
   private loop(): void {
     if (this.disposed) {
       return;
@@ -359,6 +471,10 @@ export class Carousel {
     });
   }
 
+  /**
+   * Update the slide elements' CSS classes
+   * @param activeSlide
+   */
   private updateClasses(activeSlide: HTMLElement) {
     const slidesBefore = this.getSlidesBefore(activeSlide);
     const slidesAfter = this.getSlidesAfter(activeSlide);
@@ -386,6 +502,9 @@ export class Carousel {
         });
   }
 
+  /**
+   * Handle the transition between slides.
+   */
   private handleTransition(): boolean {
     if (this.isTransitioning()) {
       const hasTransitionedToTarget =
@@ -403,12 +522,19 @@ export class Carousel {
     }
   }
 
+  /**
+   * Get the slide element the carousel is in the process of transitioning to.
+   */
   private getCurrentTransitionTarget(): HTMLElement {
     return this.isTransitioning() ?
         this.transitionTarget.getElement() :
         this.getActiveSlide();
   }
 
+  /**
+   * Clamp a given index to land within the possible slide indices.
+   * @param index
+   */
   private getClampedIndex(index: number): number {
     const slidesLength = this.getSlides().length;
     if (this.allowsLooping()) {
