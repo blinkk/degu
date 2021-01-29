@@ -2,7 +2,6 @@ import { CssClassesOnly, Transition } from './transitions';
 import { DefaultMap } from '../../map/default-map';
 import { mathf, Raf } from '../..';
 import { setf } from '../../setf/setf';
-import { TransitionTarget } from './transition-target';
 import { CarouselSynchronizer } from './carousel-synchronizer';
 
 /**
@@ -39,6 +38,27 @@ enum DefaultCssClass {
   ACTIVE_SLIDE = 'active',
   BEFORE_SLIDE = 'before',
   AFTER_SLIDE = 'after'
+}
+
+/**
+ * Tracks an element that should be transitioned to.
+ */
+class TransitionTarget {
+  private readonly element: HTMLElement;
+  private readonly drivenBySync: boolean;
+
+  constructor(element: HTMLElement, drivenBySync: boolean = false) {
+    this.element = element;
+    this.drivenBySync = drivenBySync;
+  }
+
+  getElement(): HTMLElement {
+    return this.element;
+  }
+
+  isDrivenBySync(): boolean {
+    return this.drivenBySync;
+  }
 }
 
 export class Carousel {
