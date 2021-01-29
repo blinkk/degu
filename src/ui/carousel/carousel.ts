@@ -61,8 +61,6 @@ export class Carousel {
   private transitionTarget: TransitionTarget;
   private interactions: symbol[];
   private lastActiveSlide: HTMLElement;
-  private disposed: boolean;
-  private disabled: boolean;
 
   /**
    * @param container Parent element of slides.
@@ -112,8 +110,6 @@ export class Carousel {
     this.transition = transition !== null ? transition : new CssClassesOnly();
     this.transitionTarget = null;
     this.interactions = [];
-    this.disposed = false;
-    this.disabled = false;
     this.synchronizer = CarouselSynchronizer.getSingleton(this);
 
     this.slideCssClasses =
@@ -351,24 +347,9 @@ export class Carousel {
   }
 
   /**
-   * Enable the carousel.
-   */
-  enable(): void {
-    this.disabled = false;
-  }
-
-  /**
-   * Disable the carousel.
-   */
-  disable(): void {
-    this.disabled = true;
-  }
-
-  /**
    * Dispose of the carousel.
    */
   dispose() {
-    this.disposed = true;
     this.raf.dispose();
     this.synchronizer.disposeCarousel(this);
     this.synchronizer.dispose(this);
@@ -439,13 +420,8 @@ export class Carousel {
    * Run the loop to do all the necessary work for the carousel.
    */
   private loop(): void {
-    if (this.disposed) {
-      return;
-    }
-
     this.raf.read(() => {
-      // Do nothing if disabled
-      if (this.disabled || !this.condition()) {
+      if (!this.condition()) {
         return;
       }
 
