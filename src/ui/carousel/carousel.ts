@@ -5,11 +5,18 @@ import { setf } from '../../setf/setf';
 import { TransitionTarget } from './transition-target';
 import { CarouselSynchronizer } from './carousel-synchronizer';
 
+/**
+ * For readability, specifies which half should be gotten by providing a
+ * direction to loop through elements.
+ */
 enum Half {
   LEFT = -1,
   RIGHT = 1
 }
 
+/**
+ * Options provided to the constructor
+ */
 export interface CarouselOptions {
   onTransitionCallbacks?: Array<(carousel: Carousel) => void>;
   onDisposeCallbacks?: Array<(carousel: Carousel) => void>;
@@ -17,7 +24,11 @@ export interface CarouselOptions {
   beforeCssClass?: string;
   afterCssClass?: string;
   allowLooping?: boolean;
+  // Transition used to iterate through slides.
   transition?: Transition;
+  // Carousel code won't run if the condition is not met.
+  // Used for establishing multiple types of carousels on the same DOM varied
+  // by breakpoint.
   condition?: () => boolean;
 }
 
@@ -118,7 +129,7 @@ export class Carousel {
         DefaultMap.usingFunction<number, Set<string>>(
             (index) => new Set(
                 [this.afterCssClass, `${this.afterCssClass}--${index}`]));
-    this.init_();
+    this.init();
   }
 
   allowsLooping() {
@@ -148,10 +159,6 @@ export class Carousel {
         (!interaction || this.interactions.indexOf(interaction) !== -1);
   }
 
-  isIdle(): boolean {
-    return !this.isTransitioning() && !this.isBeingInteractedWith();
-  }
-
   getActiveSlide(): HTMLElement {
     return this.transition.getActiveSlide();
   }
@@ -176,11 +183,6 @@ export class Carousel {
     return this.getSlides().indexOf(slide);
   }
 
-  getSlidesBetween(a: HTMLElement, b: HTMLElement): HTMLElement[] {
-    return this.getSlides()
-        .slice(this.getSlideIndex(a) + 1, this.getSlideIndex(b));
-  }
-
   getContainer(): HTMLElement {
     return this.container;
   }
@@ -191,7 +193,7 @@ export class Carousel {
 
   getSlidesBefore(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
-      return this.splitSlidesBy(slide)[0];
+      return this.splitSlidesInHalf(slide, Half.LEFT);
     } else {
       return this.getSlides().slice(0, this.getSlides().indexOf(slide));
     }
@@ -199,7 +201,7 @@ export class Carousel {
 
   getSlidesAfter(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
-      return this.splitSlidesBy(slide)[1];
+      return this.splitSlidesInHalf(slide, Half.RIGHT);
     } else {
       return this.getSlides().slice(this.getSlides().indexOf(slide) + 1);
     }
@@ -214,7 +216,7 @@ export class Carousel {
   }
 
   startInteraction(interaction: symbol = INTERACTION): void {
-    this.clearTransitionTarget_();
+    this.clearTransitionTarget();
     this.interactions.push(interaction);
   }
 
@@ -227,7 +229,7 @@ export class Carousel {
 
   transitionSlidesBy(value: number): void {
     const nextIndex =
-        this.getSlides().indexOf(this.getCurrentTransitionTarget_()) + value;
+        this.getSlides().indexOf(this.getCurrentTransitionTarget()) + value;
     this.transitionToIndex(nextIndex);
   }
 
@@ -236,7 +238,7 @@ export class Carousel {
       this.synchronizer.handleCarouselTransition(this, index);
     }
 
-    const clampedIndex = this.getClampedIndex_(index);
+    const clampedIndex = this.getClampedIndex(index);
     this.transitionToSlide(this.getSlideByIndex(clampedIndex), drivenBySync);
   }
 
@@ -296,7 +298,7 @@ export class Carousel {
    * @param slide
    * @param direction
    */
-  private buildHalfOfSplitSlides(
+  private splitSlidesInHalf(
       slide: HTMLElement, direction: Half
   ): HTMLElement[] {
     const targetLength =
@@ -317,24 +319,11 @@ export class Carousel {
     return result;
   }
 
-  /**
-   * Split the slides evenly on the given item. Returns two arrays containing
-   * the slides to the given slide's left and right.
-   * @param slide
-   */
-  private splitSlidesBy(
-      slide: HTMLElement
-  ): [HTMLElement[], HTMLElement[]] {
-    const left = this.buildHalfOfSplitSlides(slide, Half.LEFT);
-    const right = this.buildHalfOfSplitSlides(slide, Half.RIGHT);
-    return [left, right];
-  }
-
-  private clearTransitionTarget_(): void {
+  private clearTransitionTarget(): void {
     this.transitionTarget = null;
   }
 
-  private init_(): void {
+  private init(): void {
     this.transition.init(this.getSlides()[0], this);
     this.raf.start();
   }
@@ -350,7 +339,7 @@ export class Carousel {
         return;
       }
 
-      const shouldSync: boolean = this.handleTransition_();
+      const shouldSync: boolean = this.handleTransition();
       this.transition.loop(); // Run the transition's render loop
 
       const activeSlide = this.getActiveSlide();
@@ -360,7 +349,7 @@ export class Carousel {
         this.onTransitionCallbacks.forEach((callback) => callback(this));
 
         if (activeSlide) {
-          this.raf.write(() => this.updateClasses_(activeSlide));
+          this.raf.write(() => this.updateClasses(activeSlide));
         }
 
         // Sync other carousels.
@@ -372,7 +361,7 @@ export class Carousel {
     });
   }
 
-  private updateClasses_(activeSlide: HTMLElement) {
+  private updateClasses(activeSlide: HTMLElement) {
     const slidesBefore = this.getSlidesBefore(activeSlide);
     const slidesAfter = this.getSlidesAfter(activeSlide);
 
@@ -399,7 +388,7 @@ export class Carousel {
         });
   }
 
-  private handleTransition_(): boolean {
+  private handleTransition(): boolean {
     if (this.isTransitioning()) {
       const hasTransitionedToTarget =
           this.transition.hasTransitionedTo(this.transitionTarget.getElement());
@@ -416,13 +405,13 @@ export class Carousel {
     }
   }
 
-  private getCurrentTransitionTarget_(): HTMLElement {
+  private getCurrentTransitionTarget(): HTMLElement {
     return this.isTransitioning() ?
         this.transitionTarget.getElement() :
         this.getActiveSlide();
   }
 
-  private getClampedIndex_(index: number): number {
+  private getClampedIndex(index: number): number {
     const slidesLength = this.getSlides().length;
     if (this.allowsLooping()) {
       const clampedIndex = index % slidesLength; // Can be any sign
