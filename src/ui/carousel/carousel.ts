@@ -2,7 +2,6 @@ import { CssClassesOnly, Transition } from './transitions';
 import { DefaultMap } from '../../map/default-map';
 import { mathf, Raf } from '../..';
 import { setf } from '../../setf/setf';
-import { splitEvenlyOnItem } from '../../arrayf/split-evenly-on-item';
 import { TransitionTarget } from './transition-target';
 import { CarouselSyncManager } from './carousel-sync-manager';
 
@@ -185,7 +184,7 @@ export class Carousel {
 
   getSlidesBefore(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
-      return splitEvenlyOnItem(this.getSlides(), slide, true)[0];
+      return this.splitSlidesEvenlyOnSlide(slide)[0];
     } else {
       return this.getSlides().slice(0, this.getSlides().indexOf(slide));
     }
@@ -193,10 +192,71 @@ export class Carousel {
 
   getSlidesAfter(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
-      return splitEvenlyOnItem(this.getSlides(), slide, true)[1];
+      return this.splitSlidesEvenlyOnSlide(slide)[1];
     } else {
       return this.getSlides().slice(this.getSlides().indexOf(slide) + 1);
     }
+  }
+
+  /**
+   * Returns an integer number for half of the slides. The parameter
+   * specifies whether, if given an array containing an odd number of elements,
+   * the larger odd value for half should be returned, or the smaller even
+   * number.
+   * @param weightOdd
+   * @private
+   */
+  private getHalfLengthOfSlides(weightOdd: boolean): number {
+    const halfLength = (this.getSlides().length - 1) / 2;
+    if (halfLength % 2 === 0) {
+      return halfLength;
+    } else if (weightOdd) {
+      return Math.ceil(halfLength);
+    } else {
+      return Math.floor(halfLength);
+    }
+  }
+
+  /**
+   * Return the given number of slides by taking slides starting at the given
+   * index and working in the given direction.
+   * @param startIndex
+   * @param targetLength
+   * @param direction
+   */
+  private loopSliceSlides(
+      startIndex: number, targetLength: number, direction: number
+  ): HTMLElement[] {
+    const slides = this.getSlides();
+    const result = [];
+    const valuesLength = slides.length;
+    let indexToAdd = startIndex;
+    while (result.length < targetLength) {
+      indexToAdd = (indexToAdd + direction + valuesLength) % valuesLength;
+      if (direction > 0) {
+        result.push(slides[indexToAdd]);
+      } else {
+        result.unshift(slides[indexToAdd]);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Split the slides evenly on the given item. Returns two arrays containing
+   * the slides to the given slide's left and right.
+   * @param slide
+   */
+  private splitSlidesEvenlyOnSlide(
+      slide: HTMLElement
+  ): [HTMLElement[], HTMLElement[]] {
+    const slides = this.getSlides();
+    const leftLength = this.getHalfLengthOfSlides(false);
+    const rightLength = this.getHalfLengthOfSlides(true);
+    const itemIndex = slides.indexOf(slide);
+    const left = this.loopSliceSlides(itemIndex, leftLength, -1);
+    const right = this.loopSliceSlides(itemIndex, rightLength, 1);
+    return [left, right];
   }
 
   next(): void {
