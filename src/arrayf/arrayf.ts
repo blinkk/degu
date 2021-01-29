@@ -33,6 +33,9 @@ export class arrayf {
      * Return value from array that generates the highest return value when
      * passed as a parameter to the score function.
      *
+     * Multiple score functions can be passed with later functions used only to
+     * break ties for values returned from the previous score function.
+     *
      * Example:
      * ```
      * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
@@ -71,6 +74,9 @@ export class arrayf {
      * Return value from array that generates the lowest return value when
      * passed as a parameter to the score function.
      *
+     * Multiple score functions can be passed with later functions used only to
+     * break ties for values returned from the previous score function.
+     *
      * Example:
      * ```
      * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
@@ -86,8 +92,18 @@ export class arrayf {
             }));
     }
 
+    /**
+     * Operates as per the built in slice with the option to wrap around from
+     * the end of the array to the start and vice versa. Can also slice in the
+     * reverse direction if given a negative value for `direction`.
+     * @param values
+     * @param startIndex
+     * @param rawEndIndex
+     * @param direction
+     */
     static loopSlice<T>(
-        values: T[], startIndex: number, rawEndIndex: number, direction: number
+        values: T[], startIndex: number, rawEndIndex: number,
+        direction: number = 1
     ): T[] {
         const result: T[] = [];
         const length = values.length;
@@ -98,10 +114,15 @@ export class arrayf {
             result.push(values[index]);
             index = mathf.wrap(index + increment, 0, length);
         }
-
         return result;
     }
 
+    /**
+     * Return the given values in order up until the value that returns a
+     * false value when passed to the given condition function.
+     * @param values
+     * @param conditionFn
+     */
     static filterUntilFalse<T>(
         values: T[], conditionFn: (value: T, index: number) => boolean
     ): T[] {
