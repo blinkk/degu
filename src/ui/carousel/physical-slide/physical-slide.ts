@@ -2,7 +2,7 @@ import { SlideToDraggableMap } from './slide-to-draggable-map';
 import { adjustSlideForSplit } from './adjust-slide-for-split';
 import { adjustSlideForLoop } from './adjust-slide-for-loop';
 import { Carousel } from '../carousel';
-import { dom, mathf, Raf} from '../../..';
+import { dom, mathf, Raf } from '../../..';
 import { Transition } from '../transitions';
 import { MatrixService } from './matrix-service';
 import { Vector } from '../../../mathf/vector';
@@ -116,23 +116,30 @@ export class PhysicalSlide implements Transition {
   init(activeSlide: HTMLElement, carousel: Carousel): void {
     this.draggableBySlide = new SlideToDraggableMap(carousel);
     this.carousel = carousel;
-    carousel.onDispose((disposedCarousel) => this.destroy_());
-    this.initActiveSlide_(activeSlide);
-    this.initDraggableSlides_();
+    carousel.onDispose((disposedCarousel) => this.dispose());
+    this.initActiveSlide(activeSlide);
+    this.initDraggableSlides();
   }
 
   loop(): void {
     this.raf.read(() => {
       if (!this.carousel.isBeingInteractedWith() && this.transitionTarget) {
-        this.transitionToTarget_();
+        this.transitionToTarget();
       } else {
-        this.adjustSplit_();
+        this.adjustSplit();
       }
-      this.carousel.getSlides().forEach((slide) => {
-        const container = this.carousel.getContainer();
-        const style = dom.hasVisibleArea(slide, container) ? '' : 'hidden';
-        this.raf.write(() => slide.style.visibility = style);
-      });
+      this.adjustVisibility();
+    });
+  }
+
+  /**
+   * Hide slides from screen readers if they aren't currently visible.
+   */
+  adjustVisibility() {
+    this.carousel.getSlides().forEach((slide) => {
+      const container = this.carousel.getContainer();
+      const style = dom.hasVisibleArea(slide, container) ? '' : 'hidden';
+      this.raf.write(() => slide.style.visibility = style);
     });
   }
 
@@ -191,11 +198,11 @@ export class PhysicalSlide implements Transition {
     return this.getDistanceToCenter(slide) === 0;
   }
 
-  private initActiveSlide_(target: HTMLElement): void {
+  private initActiveSlide(target: HTMLElement): void {
     this.raf.read(() => this.transition(target, 0));
   }
 
-  private initDraggableSlides_(): void {
+  private initDraggableSlides(): void {
     const draggables =
       this.carousel.getSlides()
         .map(
@@ -217,7 +224,7 @@ export class PhysicalSlide implements Transition {
     DraggableSyncManager.getSingleton().syncDraggables(...draggables);
   }
 
-  private transitionToTarget_() {
+  private transitionToTarget() {
     const target = this.transitionTarget;
     const timeRange = target.getTimeRange();
     const transitionPercent =
@@ -237,7 +244,7 @@ export class PhysicalSlide implements Transition {
         MatrixService.getSingleton().translate(slide, { x: deltaX, y: 0 });
       });
     this.interactionTarget = target.getTarget();
-    this.adjustSplit_();
+    this.adjustSplit();
 
     // If we're close enough, let's call it
     if (easedPercent === 1) {
@@ -245,7 +252,7 @@ export class PhysicalSlide implements Transition {
     }
   }
 
-  private adjustSplit_(): void {
+  private adjustSplit(): void {
     // No matter what we need to loop adjust the target if we have one
     const target = this.interactionTarget;
     if (target !== null) {
@@ -392,7 +399,7 @@ export class PhysicalSlide implements Transition {
     }
   }
 
-  private destroy_() {
+  private dispose() {
     window.removeEventListener('resize', this.resizeHandler);
     window.clearTimeout(this.resizeTimeout);
     Array.from(this.carouselListeners.values())
