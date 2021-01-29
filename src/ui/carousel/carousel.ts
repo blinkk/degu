@@ -203,64 +203,6 @@ export class Carousel {
     }
   }
 
-  /**
-   * Returns an integer number for half of the slides. The parameter
-   * specifies whether, if given an array containing an odd number of elements,
-   * the larger odd value for half should be returned, or the smaller even
-   * number.
-   * @param weightOdd
-   * @private
-   */
-  private getHalfLengthOfSlides(weightOdd: boolean): number {
-    const halfLength = (this.getSlides().length - 1) / 2;
-    if (halfLength % 2 === 0) {
-      return halfLength;
-    } else if (weightOdd) {
-      return Math.ceil(halfLength);
-    } else {
-      return Math.floor(halfLength);
-    }
-  }
-
-  /**
-   * Return half of the slides by taking slides to one side of the given slide.
-   * @param slide
-   * @param direction
-   */
-  private buildHalfOfSplitSlides(
-      slide: HTMLElement, direction: Half
-  ): HTMLElement[] {
-    const targetLength =
-        this.getHalfLengthOfSlides(direction === Half.RIGHT);
-    const slideCount = this.getSlideCount();
-    const result = [];
-    let indexToAdd = this.getSlideIndex(slide);
-    while (result.length < targetLength) {
-      // Build the looped index
-      indexToAdd = (indexToAdd + direction + slideCount) % slideCount;
-      const slideToAdd = this.getSlideByIndex(indexToAdd);
-      if (direction > 0) {
-        result.push(slideToAdd);
-      } else {
-        result.unshift(slideToAdd);
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Split the slides evenly on the given item. Returns two arrays containing
-   * the slides to the given slide's left and right.
-   * @param slide
-   */
-  private splitSlidesBy(
-      slide: HTMLElement
-  ): [HTMLElement[], HTMLElement[]] {
-    const left = this.buildHalfOfSplitSlides(slide, Half.LEFT);
-    const right = this.buildHalfOfSplitSlides(slide, Half.RIGHT);
-    return [left, right];
-  }
-
   next(): void {
     this.transitionSlidesBy(1);
   }
@@ -325,6 +267,64 @@ export class Carousel {
     this.raf.dispose();
     CarouselSyncManager.getSingleton().disposeCarousel(this);
     this.onDisposeCallbacks.forEach((callback) => callback(this));
+  }
+
+  /**
+   * Returns an integer number for half of the slides. The parameter
+   * specifies whether, if given an array containing an odd number of elements,
+   * the larger odd value for half should be returned, or the smaller even
+   * number.
+   * @param weightOdd
+   * @private
+   */
+  private getHalfLengthOfSlides(weightOdd: boolean): number {
+    const halfLength = (this.getSlides().length - 1) / 2;
+    if (halfLength % 2 === 0) {
+      return halfLength;
+    } else if (weightOdd) {
+      return Math.ceil(halfLength);
+    } else {
+      return Math.floor(halfLength);
+    }
+  }
+
+  /**
+   * Return half of the slides by taking slides to one side of the given slide.
+   * @param slide
+   * @param direction
+   */
+  private buildHalfOfSplitSlides(
+      slide: HTMLElement, direction: Half
+  ): HTMLElement[] {
+    const targetLength =
+        this.getHalfLengthOfSlides(direction === Half.RIGHT);
+    const slideCount = this.getSlideCount();
+    const result = [];
+    let indexToAdd = this.getSlideIndex(slide);
+    while (result.length < targetLength) {
+      // Build the looped index
+      indexToAdd = (indexToAdd + direction + slideCount) % slideCount;
+      const slideToAdd = this.getSlideByIndex(indexToAdd);
+      if (direction > 0) {
+        result.push(slideToAdd);
+      } else {
+        result.unshift(slideToAdd);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Split the slides evenly on the given item. Returns two arrays containing
+   * the slides to the given slide's left and right.
+   * @param slide
+   */
+  private splitSlidesBy(
+      slide: HTMLElement
+  ): [HTMLElement[], HTMLElement[]] {
+    const left = this.buildHalfOfSplitSlides(slide, Half.LEFT);
+    const right = this.buildHalfOfSplitSlides(slide, Half.RIGHT);
+    return [left, right];
   }
 
   private clearTransitionTarget_(): void {
