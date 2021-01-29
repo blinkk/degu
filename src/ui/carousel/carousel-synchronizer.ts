@@ -27,6 +27,10 @@ export class CarouselSynchronizer {
   private syncedCarousels: Array<Set<Carousel>>;
 
   constructor() {
+    if (CarouselSynchronizer.singleton !== null) {
+      throw new Error(
+          'CarouselSynchronizer must be instantiated via getSingleton()');
+    }
     this.syncedCarousels = [];
   }
 

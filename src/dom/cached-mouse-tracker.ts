@@ -49,7 +49,8 @@ export class CachedMouseTracker {
 
   constructor() {
     if (CachedMouseTracker.singleton !== null) {
-      throw new Error('CachedMouseTracker must be created via getSingleton()');
+      throw new Error(
+          'CachedMouseTracker must be instantiated via getSingleton()');
     }
 
     this.raf = new Raf();
