@@ -44,20 +44,12 @@ enum DefaultCssClass {
  * Tracks an element that should be transitioned to.
  */
 class TransitionTarget {
-  private readonly element: HTMLElement;
-  private readonly drivenBySync: boolean;
+  readonly element: HTMLElement;
+  readonly drivenBySync: boolean;
 
   constructor(element: HTMLElement, drivenBySync: boolean = false) {
     this.element = element;
     this.drivenBySync = drivenBySync;
-  }
-
-  getElement(): HTMLElement {
-    return this.element;
-  }
-
-  isDrivenBySync(): boolean {
-    return this.drivenBySync;
   }
 }
 
@@ -504,13 +496,13 @@ export class Carousel {
   private handleTransition(): boolean {
     if (this.isTransitioning()) {
       const hasTransitionedToTarget =
-          this.transition.hasTransitionedTo(this.transitionTarget.getElement());
+          this.transition.hasTransitionedTo(this.transitionTarget.element);
 
-      const shouldSync = !this.transitionTarget.isDrivenBySync();
+      const shouldSync = !this.transitionTarget.drivenBySync;
       if (hasTransitionedToTarget) {
         this.transitionTarget = null;
       } else {
-        this.transition.transition(this.transitionTarget.getElement());
+        this.transition.transition(this.transitionTarget.element);
       }
       return shouldSync;
     } else {
@@ -523,7 +515,7 @@ export class Carousel {
    */
   private getCurrentTransitionTarget(): HTMLElement {
     return this.isTransitioning() ?
-        this.transitionTarget.getElement() :
+        this.transitionTarget.element :
         this.getActiveSlide();
   }
 
