@@ -2,7 +2,7 @@ import { SlideToDraggableMap } from './slide-to-draggable-map';
 import { adjustSlideForSplit } from './adjust-slide-for-split';
 import { adjustSlideForLoop } from './adjust-slide-for-loop';
 import { Carousel } from '../carousel';
-import { dom, mathf, Raf, RafProgress} from '../../..';
+import { dom, mathf, Raf} from '../../..';
 import { Transition } from '../transitions';
 import { MatrixService } from './matrix-service';
 import { Vector } from '../../../mathf/vector';
@@ -13,14 +13,22 @@ import { DraggableSyncManager } from '../../draggable/draggable-sync-manager';
 import { Matrix } from './matrix';
 import { arrayf } from '../../../arrayf/arrayf';
 
+/**
+ * Symbol for the user interacting with the slides as part of this transition.
+ */
 const SLIDE_INTERACTION = Symbol('Physical Slide Interaction');
 
+/**
+ * Configuration options for this transition.
+ */
 export interface PhysicalSlideConfig {
-  transitionTime?: number;
-  easingFunction?: EasingFunction;
-  lockScroll?: boolean;
+  transitionTime?: number; // How long the transition animation should take
+  easingFunction?: EasingFunction; // Easing function for the transition
 }
 
+/**
+ * Encapsulates information around a slide that needs to be transitioned to.
+ */
 class TransitionTarget {
   private readonly target: HTMLElement;
   private readonly timeRange: [number, number];
@@ -49,6 +57,22 @@ class TransitionTarget {
   }
 }
 
+/**
+ * Tracks information about the start of an interaction
+ */
+class InteractionStart {
+  readonly time: number;
+  readonly position: Vector;
+  constructor(time: number, position: Vector) {
+    this.time = time;
+    this.position = position;
+  }
+}
+
+/**
+ * A transition for a carousel that allows the user to drag and fling slides
+ * around. Similar to the default interaction for a "slick" carousel.
+ */
 export class PhysicalSlide implements Transition {
   private readonly easingFunction: EasingFunction;
   private readonly matrixService: MatrixService;
@@ -59,8 +83,7 @@ export class PhysicalSlide implements Transition {
   private carousel: Carousel;
   private draggableBySlide: SlideToDraggableMap;
   private interactionTarget: HTMLElement;
-  private interactionStartTime: number;
-  private interactionStartPosition: Vector;
+  private interactionStart: InteractionStart;
   private resizeTimeout: number;
   private raf: Raf;
 
@@ -74,8 +97,7 @@ export class PhysicalSlide implements Transition {
     this.matrixService = MatrixService.getSingleton();
     this.carouselListeners = new Set();
     this.easingFunction = easingFunction;
-    this.interactionStartPosition = null;
-    this.interactionStartTime = null;
+    this.interactionStart = null;
     this.transitionTime = transitionTime;
     this.transitionTarget = null;
     this.interactionTarget = null;
@@ -311,41 +333,41 @@ export class PhysicalSlide implements Transition {
   }
 
   private startInteraction_(event: Event): void {
-    if (this.interactionStartPosition !== null) {
+    if (this.interactionStart !== null) {
       return;
     }
-
-    this.interactionTarget = <HTMLElement>(event.target);
+    const target = <HTMLElement>(event.target);
+    this.interactionTarget = target;
     this.transitionTarget = null;
-    this.interactionStartTime = performance.now();
-    this.interactionStartPosition =
-        Matrix.fromElementTransform(<Element>event.target).getTranslation();
+    this.interactionStart =
+        new InteractionStart(
+            performance.now(),
+            Matrix.fromElementTransform(target).getTranslation());
     this.carousel.startInteraction(SLIDE_INTERACTION);
   }
 
   private endInteraction_(event: Event): void {
-    if (this.interactionStartPosition === null) {
+    if (this.interactionStart === null) {
       return;
     }
     this.interactionTarget = null;
     this.carousel.endInteraction(SLIDE_INTERACTION);
 
-    const interactionDuration = performance.now() - this.interactionStartTime;
+    const interactionDuration = performance.now() - this.interactionStart.time;
     const activeSlide = this.getActiveSlide();
     const distance = this.getInvertedDistanceToCenter(activeSlide);
 
     const interactionDelta =
       Matrix.fromElementTransform(<HTMLElement>event.target)
         .getTranslation()
-        .subtract(this.interactionStartPosition);
+        .subtract(this.interactionStart.position);
     const wasHorizontalDrag =
       Math.abs(interactionDelta.x) > Math.abs(interactionDelta.y);
 
     const velocity =
       interactionDuration > 700 && wasHorizontalDrag ? 0 : interactionDelta.x;
 
-    this.interactionStartTime = null;
-    this.interactionStartPosition = null;
+    this.interactionStart = null;
 
     const velocitySign = Math.sign(velocity);
     const distanceSign = Math.sign(distance);

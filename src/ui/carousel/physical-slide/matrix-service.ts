@@ -1,7 +1,7 @@
 import { Matrix } from './matrix';
 import { DefaultMap } from '../../../map/default-map';
 import { Raf } from '../../..';
-import {Vector} from '../../../mathf/vector';
+import { Vector } from '../../../mathf/vector';
 
 /**
  * This service is used to coordinate modifications to a transform coming
@@ -81,15 +81,16 @@ export class MatrixService {
       element, this.alteredMatrix.get(element).translate(vector));
   }
 
-  setTranslate(element: HTMLElement, vector: {x: number, y: number}): void {
-    this.alteredMatrix.set(
-        element, this.alteredMatrix.get(element).setPosition(vector));
-  }
-
+  /**
+   * Start the RAF loop
+   */
   private init() {
     this.raf.start();
   }
 
+  /**
+   * Apply all scheduled transforms.
+   */
   private loop() {
     this.raf.write(() => {
       const entries = this.alteredMatrix.entries();
