@@ -10,8 +10,6 @@ export enum DraggableEvent {
   END = 'deguDraggableEnd'
 }
 
-let uid = 0;
-
 export class Draggable {
   protected interacting: boolean;
   protected mouseTracker: CachedMouseTracker;
@@ -19,7 +17,6 @@ export class Draggable {
   private readonly raf: Raf;
   private lastPosition: Vector;
   private constraints: DraggableConstraint[];
-  private uid: number; // For debugging
 
   constructor(
     element: HTMLElement,
@@ -31,7 +28,6 @@ export class Draggable {
     this.interacting = false;
     this.constraints = [...constraints];
     this.mouseTracker = CachedMouseTracker.getSingleton(this);
-    this.uid = uid++;
     this.init();
   }
 
