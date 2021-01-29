@@ -32,9 +32,8 @@ export interface CarouselOptions {
   condition?: () => boolean;
 }
 
-const defaultTransition: Transition = new CssClassesOnly();
 const INTERACTION: symbol = Symbol('interaction');
-enum CssClass {
+enum DefaultCssClass {
   ACTIVE_SLIDE = 'active',
   BEFORE_SLIDE = 'before',
   AFTER_SLIDE = 'after'
@@ -87,11 +86,11 @@ export class Carousel {
         condition = () => true,
         onTransitionCallbacks = [],
         onDisposeCallbacks = [],
-        activeCssClass = CssClass.ACTIVE_SLIDE,
-        beforeCssClass = CssClass.BEFORE_SLIDE,
-        afterCssClass = CssClass.AFTER_SLIDE,
+        activeCssClass = DefaultCssClass.ACTIVE_SLIDE,
+        beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
+        afterCssClass = DefaultCssClass.AFTER_SLIDE,
         allowLooping = true,
-        transition = defaultTransition
+        transition = null
       }: CarouselOptions = {}
   ) {
     if (slides.length < 1) {
@@ -108,7 +107,7 @@ export class Carousel {
     this.onTransitionCallbacks = onTransitionCallbacks;
     this.onDisposeCallbacks = onDisposeCallbacks;
     this.slides = slides;
-    this.transition = transition;
+    this.transition = transition !== null ? transition : new CssClassesOnly();
     this.transitionTarget = null;
     this.interactions = [];
     this.disposed = false;
