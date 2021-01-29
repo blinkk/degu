@@ -32,7 +32,6 @@ export interface CarouselOptions {
   condition?: () => boolean;
 }
 
-const INTERACTION: symbol = Symbol('interaction');
 enum DefaultCssClass {
   ACTIVE_SLIDE = 'active',
   BEFORE_SLIDE = 'before',
@@ -214,12 +213,12 @@ export class Carousel {
     this.transitionSlidesBy(-1);
   }
 
-  startInteraction(interaction: symbol = INTERACTION): void {
+  startInteraction(interaction: symbol): void {
     this.clearTransitionTarget();
     this.interactions.push(interaction);
   }
 
-  endInteraction(interaction: symbol = INTERACTION): void {
+  endInteraction(interaction: symbol): void {
     const index = this.interactions.indexOf(interaction);
     this.interactions = [
         ...this.interactions.slice(0, index),
