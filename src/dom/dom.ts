@@ -862,14 +862,6 @@ export class dom {
     }
 
     /**
-     * Tests whether the provided element is set to visiblity hidden.
-     */
-    static isVisibilityHidden(el: Element): boolean {
-        let style = window.getComputedStyle(el).visibility;
-        return style === 'hidden';
-    }
-
-    /**
      * Tests whether a given element and it's ancestors have
      * a display:none.  This is useful to see if a given element
      * is on the screen (based on whether if the element or it's ancestors have
@@ -889,6 +881,12 @@ export class dom {
         return isDisplayNone;
     }
 
+    /**
+     * Determine if the target element has a visible area within the given
+     * container element.
+     * @param target
+     * @param container
+     */
     static hasVisibleArea(
         target: HTMLElement,
         container: HTMLElement = null
@@ -896,22 +894,30 @@ export class dom {
         return dom.getVisibleArea(target, container) > 0;
     }
 
+    /**
+     * Get the area of the target (in pixels) that is visible within the given
+     * container.
+     * @param target
+     * @param container
+     */
     static getVisibleArea(target: HTMLElement, container: HTMLElement): number {
         if (dom.isDisplayNone(target)) {
             return 0;
         }
+        // Assign variables here to try and make calculation below more
+        // readable.
         const targetRect = target.getBoundingClientRect();
         const targetLeft = targetRect.left;
         const targetRight = targetRect.left + targetRect.width;
         const targetTop = targetRect.top;
         const targetBottom = targetRect.top + targetRect.height;
-
         const containerRect = container.getBoundingClientRect();
         const containerLeft = containerRect.left;
         const containerRight = containerRect.left + containerRect.width;
         const containerTop = containerRect.top;
         const containerBottom = containerRect.top + containerRect.height;
 
+        // Calculate area.
         const left = mathf.clamp(containerLeft, containerRight, targetLeft);
         const right = mathf.clamp(containerLeft, containerRight, targetRight);
         const top = mathf.clamp(containerTop, containerBottom, targetTop);
@@ -1023,6 +1029,7 @@ export class dom {
 
     /**
      * Add an event listener to multiple events.
+     * Useful for when mouse and touch events should call the same listener.
      */
     static addEventListeners(
         element: Element|Window,
@@ -1035,6 +1042,7 @@ export class dom {
 
     /**
      * Remove an event listener for multiple events.
+     * Useful for when mouse and touch events should call the same listener.
      */
     static removeEventListeners(
         element: Element|Window,
@@ -1049,9 +1057,21 @@ export class dom {
         return document.scrollingElement || document.documentElement;
     }
 
+    /**
+     * Determine the distance between the centers of two given elements.
+     * If no second element is given, the root element is used.
+     *
+     * Uses the matrix service to account for translations that will be applied
+     * during the raf write step. Note that MatrixService can only account for
+     * translations that will be applied via MatrixService.
+     *
+     * @param a
+     * @param b
+     */
     static getVisibleDistanceBetweenCenters(
         a: HTMLElement, b: HTMLElement = null
     ): Vector {
+        // Gather up the information on the first element's center position.
         const aRect = a.getBoundingClientRect();
         const rawACenter = new Vector(
             aRect.left + aRect.width / 2,
@@ -1059,6 +1079,8 @@ export class dom {
         const aCenter =
             rawACenter.add(
                 MatrixService.getSingleton().getAlteredTranslation(a));
+        // Gather the info on the second element's center position or the root
+        // element's center position.
         let bCenter;
         if (b !== null) {
             const bRect = b.getBoundingClientRect();
@@ -1073,6 +1095,7 @@ export class dom {
                 document.children[0].clientWidth / 2,
                 window.innerHeight / 2);
         }
+
         return aCenter.subtract(bCenter);
     }
 }

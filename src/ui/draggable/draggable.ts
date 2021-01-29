@@ -1,7 +1,7 @@
 import { DraggableSyncManager } from './draggable-sync-manager';
 import { dom, Raf } from '../..';
 import { Vector } from '../../mathf/vector';
-import {FrameSyncDocumentMouseTracker} from '../../dom/frame-sync-document-mouse-tracker';
+import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
 
 export type DraggableConstraint = (draggable: Draggable, delta: Vector) => Vector;
 
@@ -14,7 +14,7 @@ let uid = 0;
 
 export class Draggable {
   protected interacting: boolean;
-  protected mouseTracker: FrameSyncDocumentMouseTracker;
+  protected mouseTracker: CachedMouseTracker;
   private readonly element: HTMLElement;
   private readonly raf: Raf;
   private lastPosition: Vector;
@@ -30,7 +30,7 @@ export class Draggable {
     this.lastPosition = null;
     this.interacting = false;
     this.constraints = [...constraints];
-    this.mouseTracker = FrameSyncDocumentMouseTracker.getSingleton(this);
+    this.mouseTracker = CachedMouseTracker.getSingleton(this);
     this.uid = uid++;
     this.init();
   }
@@ -111,6 +111,6 @@ export class Draggable {
   }
 
   private getMousePosition(): Vector {
-    return this.mouseTracker.getClient().getPosition();
+    return this.mouseTracker.getClientPosition();
   }
 }
