@@ -289,7 +289,7 @@ export class DomWatcher {
 
         configsToRun.forEach((config) => {
             config.callback() && config.callback();
-        });
+        })
     }
 
 

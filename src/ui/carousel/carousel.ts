@@ -5,6 +5,11 @@ import { setf } from '../../setf/setf';
 import { TransitionTarget } from './transition-target';
 import { CarouselSyncManager } from './carousel-sync-manager';
 
+enum Half {
+  LEFT = -1,
+  RIGHT = 1
+}
+
 export interface CarouselOptions {
   onTransitionCallbacks?: Array<(carousel: Carousel) => void>;
   onDisposeCallbacks?: Array<(carousel: Carousel) => void>;
@@ -184,7 +189,7 @@ export class Carousel {
 
   getSlidesBefore(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
-      return this.splitSlidesEvenlyOnSlide(slide)[0];
+      return this.splitSlidesBy(slide)[0];
     } else {
       return this.getSlides().slice(0, this.getSlides().indexOf(slide));
     }
@@ -192,7 +197,7 @@ export class Carousel {
 
   getSlidesAfter(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
-      return this.splitSlidesEvenlyOnSlide(slide)[1];
+      return this.splitSlidesBy(slide)[1];
     } else {
       return this.getSlides().slice(this.getSlides().indexOf(slide) + 1);
     }
@@ -218,25 +223,26 @@ export class Carousel {
   }
 
   /**
-   * Return the given number of slides by taking slides starting at the given
-   * index and working in the given direction.
-   * @param startIndex
-   * @param targetLength
+   * Return half of the slides by taking slides to one side of the given slide.
+   * @param slide
    * @param direction
    */
-  private loopSliceSlides(
-      startIndex: number, targetLength: number, direction: number
+  private buildHalfOfSplitSlides(
+      slide: HTMLElement, direction: Half
   ): HTMLElement[] {
-    const slides = this.getSlides();
+    const targetLength =
+        this.getHalfLengthOfSlides(direction === Half.RIGHT);
+    const slideCount = this.getSlideCount();
     const result = [];
-    const valuesLength = slides.length;
-    let indexToAdd = startIndex;
+    let indexToAdd = this.getSlideIndex(slide);
     while (result.length < targetLength) {
-      indexToAdd = (indexToAdd + direction + valuesLength) % valuesLength;
+      // Build the looped index
+      indexToAdd = (indexToAdd + direction + slideCount) % slideCount;
+      const slideToAdd = this.getSlideByIndex(indexToAdd);
       if (direction > 0) {
-        result.push(slides[indexToAdd]);
+        result.push(slideToAdd);
       } else {
-        result.unshift(slides[indexToAdd]);
+        result.unshift(slideToAdd);
       }
     }
     return result;
@@ -247,15 +253,11 @@ export class Carousel {
    * the slides to the given slide's left and right.
    * @param slide
    */
-  private splitSlidesEvenlyOnSlide(
+  private splitSlidesBy(
       slide: HTMLElement
   ): [HTMLElement[], HTMLElement[]] {
-    const slides = this.getSlides();
-    const leftLength = this.getHalfLengthOfSlides(false);
-    const rightLength = this.getHalfLengthOfSlides(true);
-    const itemIndex = slides.indexOf(slide);
-    const left = this.loopSliceSlides(itemIndex, leftLength, -1);
-    const right = this.loopSliceSlides(itemIndex, rightLength, 1);
+    const left = this.buildHalfOfSplitSlides(slide, Half.LEFT);
+    const right = this.buildHalfOfSplitSlides(slide, Half.RIGHT);
     return [left, right];
   }
 
@@ -304,6 +306,10 @@ export class Carousel {
 
   getSlideByIndex(index: number): HTMLElement {
     return this.slides[index];
+  }
+
+  getSlideCount(): number {
+    return this.slides.length;
   }
 
   enable(): void {
