@@ -292,8 +292,8 @@ export class PhysicalSlide implements Transition {
     } else {
       target = null;
     }
-    if (target !== null) {
-      adjustSlideForLoop(this.carousel, target);
+    if (target !== null && this.carousel.allowsLooping()) {
+      adjustSlideForLoop(this.carousel.getSlides(), target);
     }
 
     const targetSlide = target ? target : this.carousel.getActiveSlide();

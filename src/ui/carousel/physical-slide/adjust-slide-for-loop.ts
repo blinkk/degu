@@ -1,39 +1,39 @@
 import { MatrixService } from './matrix-service';
-import { Carousel } from '../carousel';
-import { dom } from '../../..';
+import { dom, mathf } from '../../..';
 import { Vector } from '../../../mathf/vector';
 
 const matrixService = MatrixService.getSingleton();
 
+/**
+ * Reposition slides if they have been dragged far enough off one side that they
+ * should be wrapping around onto the other side.
+ * @param slides
+ * @param targetSlide
+ */
 export function adjustSlideForLoop(
-    carousel: Carousel, targetSlide: HTMLElement
+    slides: HTMLElement[], targetSlide: HTMLElement
 ): void {
-  if (!carousel.allowsLooping()) {
-    return; // Never adjust non-looping carousels
-  }
-
   const totalWidth =
-    carousel.getSlides().reduce(
-        (total, slide) => total + slide.offsetWidth, 0);
+      mathf.sum(slides.map((slide) => slide.offsetWidth));
 
-  const distanceFromCenter =
+  const distanceToCenter =
     dom.getVisibleDistanceBetweenCenters(targetSlide).x +
     matrixService.getAlteredXTranslation(targetSlide);
-  const distanceFromCenterSign = Math.sign(distanceFromCenter);
-  const isOffscreen = Math.abs(distanceFromCenter) > (totalWidth / 2);
+  const distanceSign = Math.sign(distanceToCenter);
+  const isOffscreen = Math.abs(distanceToCenter) > (totalWidth / 2);
+
+  // If the slides are not offscreen they do not need to be adjusted.
+  if (!isOffscreen) {
+    return;
+  }
 
   // Reset during drag if the drag has gone exceedingly far
-  if (isOffscreen) {
-    const rootElement = document.children[0];
-    const xTranslation = -totalWidth * distanceFromCenterSign;
-    const translatedDistanceFromCenter =
-      (rootElement.clientWidth * distanceFromCenterSign) +
-      distanceFromCenter + xTranslation;
+  const rootElement = document.children[0];
+  const xTranslation = -totalWidth * distanceSign;
+  const adjustedDistanceToCenter =
+    (rootElement.clientWidth * distanceSign) + distanceToCenter + xTranslation;
 
-    if (
-      Math.abs(translatedDistanceFromCenter) < Math.abs(distanceFromCenter)
-    ) {
-      matrixService.translate(targetSlide, new Vector(xTranslation, 0));
-    }
+  if (Math.abs(adjustedDistanceToCenter) < Math.abs(distanceToCenter)) {
+    matrixService.translate(targetSlide, new Vector(xTranslation, 0));
   }
 }

@@ -26,7 +26,6 @@ export class MatrixService {
       DefaultMap.usingFunction(
         (element: HTMLElement) => this.cleanMatrix.get(element));
     this.raf = new Raf(() => this.loop());
-    this.init();
   }
 
   /**
@@ -79,12 +78,6 @@ export class MatrixService {
   translate(element: HTMLElement, vector: {x: number, y: number}): void {
     this.alteredMatrix.set(
       element, this.alteredMatrix.get(element).translate(vector));
-  }
-
-  /**
-   * Start the RAF loop
-   */
-  private init() {
     this.raf.start();
   }
 
@@ -103,6 +96,7 @@ export class MatrixService {
       this.raf.postWrite(() => {
         this.cleanMatrix.clear();
         this.alteredMatrix.clear();
+        this.raf.stop();
       });
     });
   }
