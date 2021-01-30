@@ -235,11 +235,11 @@ export class PhysicalSlide implements Transition {
             const startListener =
                 TrackedListener.add(
                     element, DraggableEvent.START,
-                    (e: Event) => this.startInteraction_(e));
+                    (e: Event) => this.startInteraction(e));
             const endListener =
                 TrackedListener.add(
                     element, DraggableEvent.END,
-                    (e: Event) => this.endInteraction_(e));
+                    (e: Event) => this.endInteraction(e));
             this.carouselListeners.add(startListener);
             this.carouselListeners.add(endListener);
             return draggable;
@@ -296,7 +296,7 @@ export class PhysicalSlide implements Transition {
     }
 
     const targetSlide = target ? target : this.carousel.getActiveSlide();
-    const distancesFromTarget = this.getDistancesFromTarget_(targetSlide);
+    const distancesFromTarget = this.getDistancesFromTarget(targetSlide);
 
     const slideLeftEdgeDistanceFromLeftEdge =
         targetSlide.getBoundingClientRect().left;
@@ -360,7 +360,12 @@ export class PhysicalSlide implements Transition {
     }
   }
 
-  private getDistancesFromTarget_(
+  /**
+   * Return a mapping of slide elements to their distance from the given target
+   * slide.
+   * @param targetSlide
+   */
+  private getDistancesFromTarget(
       targetSlide: HTMLElement
   ): Map<HTMLElement, number> {
     const distancesFromTarget = new Map<HTMLElement, number>();
@@ -375,7 +380,11 @@ export class PhysicalSlide implements Transition {
     return distancesFromTarget;
   }
 
-  private startInteraction_(event: Event): void {
+  /**
+   * Handle the start of user interaction with the carousel.
+   * @param event
+   */
+  private startInteraction(event: Event): void {
     if (this.interactionStart !== null) {
       return;
     }
@@ -389,7 +398,11 @@ export class PhysicalSlide implements Transition {
     this.carousel.startInteraction(SLIDE_INTERACTION);
   }
 
-  private endInteraction_(event: Event): void {
+  /**
+   * Handle the end of user interaction with the carousel.
+   * @param event
+   */
+  private endInteraction(event: Event): void {
     if (this.interactionStart === null) {
       return;
     }
@@ -435,6 +448,9 @@ export class PhysicalSlide implements Transition {
     }
   }
 
+  /**
+   * Dispose of the transition.
+   */
   private dispose() {
     window.removeEventListener('resize', this.resizeHandler);
     window.clearTimeout(this.resizeTimeout);
