@@ -3,21 +3,31 @@ import { dom, Raf } from '../..';
 import { Vector } from '../../mathf/vector';
 import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
 
-export type DraggableConstraint = (draggable: Draggable, delta: Vector) => Vector;
+/**
+ * Type of a function that can be used to constrain the movement of a vector.
+ */
+export type DraggableConstraint =
+    (draggable: Draggable, delta: Vector) => Vector;
 
+/**
+ * Events to dispatch on the start and end of a drag.
+ */
 export enum DraggableEvent {
   START = 'deguDraggableStart',
   END = 'deguDraggableEnd'
 }
 
+/**
+ * Makes a DOM element draggable by adjusting the element's transform.
+ */
 export class Draggable {
+  readonly element: HTMLElement;
   protected interacting: boolean;
   protected mouseTracker: CachedMouseTracker;
-  private readonly element: HTMLElement;
+  private constraints: DraggableConstraint[];
   private readonly raf: Raf;
   private readonly draggableSynchronizer: DraggableSynchronizer;
   private lastPosition: Vector;
-  private constraints: DraggableConstraint[];
 
   constructor(
     element: HTMLElement,
@@ -31,10 +41,6 @@ export class Draggable {
     this.mouseTracker = CachedMouseTracker.getSingleton(this);
     this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
     this.init();
-  }
-
-  getElement(): HTMLElement {
-    return this.element;
   }
 
   dispose() {

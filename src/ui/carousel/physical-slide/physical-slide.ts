@@ -233,14 +233,13 @@ export class PhysicalSlide implements Transition {
         .map(
           (slide) => {
             const draggable: Draggable = this.draggableBySlide.get(slide);
-            const element = draggable.getElement();
             const startListener =
                 TrackedListener.add(
-                    element, DraggableEvent.START,
+                    draggable.element, DraggableEvent.START,
                     (e: Event) => this.startInteraction(e));
             const endListener =
                 TrackedListener.add(
-                    element, DraggableEvent.END,
+                    draggable.element, DraggableEvent.END,
                     (e: Event) => this.endInteraction(e));
             this.carouselListeners.add(startListener);
             this.carouselListeners.add(endListener);

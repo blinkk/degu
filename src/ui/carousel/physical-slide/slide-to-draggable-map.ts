@@ -31,7 +31,7 @@ function constrainPhysicalSlide(
       halfContainerWidth - widthOfAllSlides + halfWidthOfLastSlide;
   const max = halfContainerWidth - halfWidthOfFirstSlide;
   const currentX =
-      Matrix.fromElementTransform(draggable.getElement()).getTranslateX();
+      Matrix.fromElementTransform(draggable.element).getTranslateX();
   const finalX = currentX + delta.x;
   const clampedFinalX = mathf.clamp(min, max, finalX);
   const deltaX = clampedFinalX - currentX;
