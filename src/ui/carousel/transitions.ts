@@ -1,6 +1,9 @@
 import { Carousel } from './carousel';
 export { PhysicalSlideConfig, PhysicalSlide } from './physical-slide/physical-slide';
 
+/**
+ * Interface a Transition must implement to be used with a carousel.
+ */
 export interface Transition {
   transition(targetSlide: Element): void;
   init(initialSlide: Element, carousel: Carousel): void;
@@ -9,6 +12,11 @@ export interface Transition {
   loop(): void;
 }
 
+/**
+ * A transition that doesn't really do anything.
+ * This is used for when all effects can be set via CSS and triggered off the
+ * default active/before/after classes.
+ */
 export class CssClassesOnly implements Transition {
   private activeSlide: HTMLElement = null;
   private carousel: Carousel = null;

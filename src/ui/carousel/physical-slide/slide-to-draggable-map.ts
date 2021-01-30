@@ -6,6 +6,13 @@ import { Vector } from '../../../mathf/vector';
 import { mathf } from '../../..';
 import { Matrix } from './matrix';
 
+/**
+ * Given a carousel and draggable, constrain the given delta so that the
+ * draggable does not exceed the prescribed bounds of the carousel.
+ * @param carousel
+ * @param draggable
+ * @param delta
+ */
 function constrainPhysicalSlide(
     carousel: Carousel, draggable: Draggable, delta: Vector
 ): Vector {
@@ -32,6 +39,10 @@ function constrainPhysicalSlide(
   return new Vector(deltaX, delta.y);
 }
 
+/**
+ * Map slide elements to Draggables that are appropriately constrained to the
+ * carousel.
+ */
 export class SlideToDraggableMap extends DefaultMap<HTMLElement, Draggable> {
   constructor(carousel: Carousel) {
     const constraints =
