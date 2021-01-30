@@ -30,9 +30,15 @@ export class DraggableSynchronizer {
     this.syncedDraggables = [];
   }
 
+  /**
+   * Synchronize the given draggables so that when one is dragged they all move.
+   * @param draggables
+   */
   sync(...draggables: Draggable[]) {
     const unchangedSets: Array<Set<Draggable>> = [];
     const setsToMerge: Array<Set<Draggable>> = [new Set(draggables)];
+    // If any of the given draggables are already synchronized to another
+    // draggable, then merge this new set with the existing set.
     this.syncedDraggables
       .forEach(
         (draggableSet) => {
@@ -50,11 +56,16 @@ export class DraggableSynchronizer {
     this.syncedDraggables = [...unchangedSets, setf.merge(...setsToMerge)];
   }
 
+  /**
+   * Render a drag for the given draggable and all its synchronized mates.
+   * @param draggable The draggable that is kicking things off.
+   * @param delta The amount to translate the Draggables by.
+   */
   renderDrag(draggable: Draggable, delta: Vector) {
     if (delta.length() === 0) {
       return;
     }
-    const syncedDraggables = this.getSetForDraggable_(draggable);
+    const syncedDraggables = this.getSetForDraggable(draggable);
     if (!syncedDraggables) {
       MatrixService.getSingleton().translate(draggable.element, delta);
     }
@@ -63,6 +74,11 @@ export class DraggableSynchronizer {
     });
   }
 
+  /**
+   * Dispose of the draggable, only if all uses of the singleton have disposed
+   * themselves.
+   * @param use
+   */
   dispose(use: any) {
     if (this === DraggableSynchronizer.singleton) {
       DraggableSynchronizer.singletonUses.delete(use);
@@ -75,7 +91,13 @@ export class DraggableSynchronizer {
     }
   }
 
-  private getSetForDraggable_(draggable: Draggable): Set<Draggable> {
-    return this.syncedDraggables.find((set) => set.has(draggable));
+  /**
+   * Return the set of Draggables that are synchronized with the given
+   * draggable.
+   * @param draggable
+   */
+  private getSetForDraggable(draggable: Draggable): Set<Draggable> {
+    return this.syncedDraggables.find(
+        (set) => set.has(draggable));
   }
 }

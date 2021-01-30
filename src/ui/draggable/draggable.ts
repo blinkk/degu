@@ -43,6 +43,9 @@ export class Draggable {
     this.init();
   }
 
+  /**
+   * Disposes of the Draggable instance.
+   */
   dispose() {
     this.raf.stop();
     this.constraints = [];
@@ -50,12 +53,18 @@ export class Draggable {
     this.draggableSynchronizer.dispose(this);
   }
 
+  /**
+   * Start a drag.
+   */
   protected startInteraction(): void {
     this.lastPosition = this.getMousePosition();
     this.interacting = true;
     dom.event(this.element, DraggableEvent.START, {});
   }
 
+  /**
+   * End a drag.
+   */
   protected endInteraction(): void {
     /**
      * Since global events are being listened to in order to end the interaction
@@ -71,10 +80,17 @@ export class Draggable {
     });
   }
 
+  /**
+   * Returns whether or not the draggable is being dragged.
+   */
   protected isInteracting(): boolean {
     return this.interacting;
   }
 
+  /**
+   * Updates the position of the element according to the current drag
+   * interaction.
+   */
   protected loop(): void {
     this.raf.read(() => {
       if (!this.isInteracting()) {
@@ -99,11 +115,17 @@ export class Draggable {
     });
   }
 
+  /**
+   * Setups up the raf loop and event listeners.
+   */
   private init(): void {
     this.initInteraction();
     this.raf.start();
   }
 
+  /**
+   * Initializes the interaction
+   */
   private initInteraction(): void {
     dom.addEventListeners(
         this.element,
@@ -115,6 +137,9 @@ export class Draggable {
         () => this.endInteraction());
   }
 
+  /**
+   * Return the current mouse position.
+   */
   private getMousePosition(): Vector {
     return this.mouseTracker.getClientPosition();
   }
