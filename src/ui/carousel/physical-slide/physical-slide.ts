@@ -117,14 +117,15 @@ export class PhysicalSlide implements Transition {
     this.draggableBySlide = new SlideToDraggableMap(carousel);
     this.carousel = carousel;
     carousel.onDispose((disposedCarousel) => this.dispose());
-    this.initActiveSlide(activeSlide);
+    // Transition to the given active slide
+    this.raf.read(() => this.transition(activeSlide, 0));
     this.initDraggableSlides();
   }
 
   loop(): void {
     this.raf.read(() => {
       if (!this.carousel.isBeingInteractedWith() && this.transitionTarget) {
-        this.transitionToTarget();
+        this.updateTransitionToTarget();
       } else {
         this.adjustSplit();
       }
@@ -143,6 +144,12 @@ export class PhysicalSlide implements Transition {
     });
   }
 
+  /**
+   * Transition to the given target within the given time.
+   * @param targetEl
+   * @param optTransitionTime Time the transition should take, uses value
+   *    provided to the constructor is no value is provided for this call.
+   */
   transition(
     targetEl: HTMLElement,
     optTransitionTime: number = null
@@ -163,45 +170,61 @@ export class PhysicalSlide implements Transition {
     const endX = this.getInvertedDistanceToCenter(targetEl) + currentX;
     const translationRange: [number, number] = [currentX, endX];
 
-    const transitionTarget =
-      new TransitionTarget(targetEl, timeRange, translationRange);
-
-    this.transitionTarget = transitionTarget;
+    this.transitionTarget =
+        new TransitionTarget(targetEl, timeRange, translationRange);
   }
 
+  /**
+   * Return the distance between the given slide and the center of the carousel.
+   * @param slide
+   */
   private getDistanceToCenter(slide: HTMLElement): number {
     const container = this.carousel.getContainer();
-    const distanceFromCenter =
-        dom.getVisibleDistanceBetweenCenters(slide, container).x;
-    return distanceFromCenter;
+    return dom.getVisibleDistanceBetweenCenters(slide, container).x;
   }
 
+  /**
+   * Return the negative of the distance between the given slide and the center
+   * of the carousel.
+   * @param slide
+   */
   private getInvertedDistanceToCenter(slide: HTMLElement): number {
     return -1 * this.getDistanceToCenter(slide);
   }
 
+  /**
+   * Returns the currently active slide.
+   */
   getActiveSlide(): HTMLElement {
     const lastActiveSlide = this.carousel.getLastActiveSlide();
     return arrayf.min(
       this.carousel.getSlides(),
+      // Start with the one closest to the center
       (el) => {
         return Math.abs(
           dom.getVisibleDistanceBetweenCenters(
             <HTMLElement>el, this.carousel.getContainer()).x);
       },
+      // If two slides are tied for distance to the center default to the one
+      // that was last active.
       (el) => el === lastActiveSlide ? 0 : 1,
+      // If neither slide was last active default to the one that appears first
+      // in the list of slides
       (el) => -1 * this.carousel.getSlideIndex(el)
     );
   }
 
+  /**
+   * Returns true if the carousel has transitioned to the given slide.
+   * @param slide
+   */
   hasTransitionedTo(slide: HTMLElement): boolean {
     return this.getDistanceToCenter(slide) === 0;
   }
 
-  private initActiveSlide(target: HTMLElement): void {
-    this.raf.read(() => this.transition(target, 0));
-  }
-
+  /**
+   * Setup the Draggable instances that will correspond to the slide elements.
+   */
   private initDraggableSlides(): void {
     const draggables =
       this.carousel.getSlides()
@@ -224,7 +247,11 @@ export class PhysicalSlide implements Transition {
     DraggableSyncManager.getSingleton().syncDraggables(...draggables);
   }
 
-  private transitionToTarget() {
+  /**
+   * Adjust CSS properties to reflect the current state of the transition
+   * animation to the current target.
+   */
+  private updateTransitionToTarget() {
     const target = this.transitionTarget;
     const timeRange = target.getTimeRange();
     const transitionPercent =
@@ -243,7 +270,6 @@ export class PhysicalSlide implements Transition {
       .forEach((slide) => {
         MatrixService.getSingleton().translate(slide, { x: deltaX, y: 0 });
       });
-    this.interactionTarget = target.getTarget();
     this.adjustSplit();
 
     // If we're close enough, let's call it
@@ -252,9 +278,19 @@ export class PhysicalSlide implements Transition {
     }
   }
 
+  /**
+   * Adjust the split of slides around the currently active slide.
+   */
   private adjustSplit(): void {
     // No matter what we need to loop adjust the target if we have one
-    const target = this.interactionTarget;
+    let target;
+    if (this.interactionTarget !== null) {
+      target = this.interactionTarget;
+    } else if (this.transitionTarget !== null) {
+      target = this.transitionTarget.getTarget();
+    } else {
+      target = null;
+    }
     if (target !== null) {
       adjustSlideForLoop(this.carousel, target);
     }
