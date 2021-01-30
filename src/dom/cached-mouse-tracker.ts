@@ -6,7 +6,7 @@ const CURSOR_MOVE: string[] = ['mousemove', 'touchmove'];
 /**
  * Interface filled by either mousemove or touchmove events.
  */
-interface ClientPositionMoveEvent {
+interface ClientPositionData {
   clientX: number;
   clientY: number;
 }
@@ -44,8 +44,8 @@ export class CachedMouseTracker {
   private static singleton: CachedMouseTracker = null;
   private static singletonUses: Set<any> = new Set();
   private readonly raf: Raf;
-  private clientPosition: Vector;
   private readonly cursorMoveHandler: EventListenerOrEventListenerObject;
+  private clientPosition: Vector;
 
   constructor() {
     if (CachedMouseTracker.singleton !== null) {
@@ -69,7 +69,7 @@ export class CachedMouseTracker {
 
   /**
    * Indicate that the given `use` is no longer using the CachedMouseTracker
-   * singleton
+   * singleton.
    * @param use
    */
   dispose(use: any): void {
@@ -109,11 +109,11 @@ export class CachedMouseTracker {
 
   /**
    * Update the tracked position using event information.
-   * @param event
+   * @param data
    */
-  private updatePositionFromEvent(event: ClientPositionMoveEvent): void {
+  private updatePositionFromEvent(data: ClientPositionData): void {
     this.raf.preRead(() => {
-      this.clientPosition = new Vector(event.clientX, event.clientY);
+      this.clientPosition = new Vector(data.clientX, data.clientY);
     });
   }
 

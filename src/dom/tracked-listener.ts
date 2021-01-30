@@ -1,4 +1,5 @@
-type Listener = [HTMLElement, string, EventListenerOrEventListenerObject];
+type EventTarget = HTMLElement|Window;
+type Listener = [EventTarget, string, EventListenerOrEventListenerObject];
 
 /**
  * Used for tracking listeners by ID.
@@ -15,7 +16,7 @@ export class TrackedListener {
    * @param callback
    */
   static add(
-      element: HTMLElement,
+      element: EventTarget,
       event: string,
       callback: EventListenerOrEventListenerObject
   ) {
@@ -26,12 +27,28 @@ export class TrackedListener {
   }
 
   /**
+   * Adds an event listener that can be tracked via the returned ID.
+   * @param element
+   * @param events
+   * @param callback
+   */
+  static addMultipleEvents(
+      element: EventTarget,
+      events: string[],
+      callback: EventListenerOrEventListenerObject
+  ) {
+    return events.map((event) => this.add(element, event, callback));
+  }
+
+  /**
    * Removes the event listener tracked via the given ID.
    */
-  static remove(id: number) {
-    const listener = this.listeners.get(id);
-    listener[0].removeEventListener(listener[1], listener[2]);
-    this.listeners.delete(id);
+  static remove(...ids: number[]) {
+    ids.forEach((id) => {
+      const listener = this.listeners.get(id);
+      listener[0].removeEventListener(listener[1], listener[2]);
+      this.listeners.delete(id);
+    });
   }
 
   /**

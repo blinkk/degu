@@ -2,6 +2,7 @@ import { DraggableSynchronizer } from './draggable-synchronizer';
 import { dom, Raf } from '../..';
 import { Vector } from '../../mathf/vector';
 import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
+import {TrackedListener} from '../../dom/tracked-listener';
 
 /**
  * Type of a function that can be used to constrain the movement of a vector.
@@ -28,6 +29,7 @@ export class Draggable {
   private readonly raf: Raf;
   private readonly draggableSynchronizer: DraggableSynchronizer;
   private lastPosition: Vector;
+  private listenerIds: number[];
 
   constructor(
     element: HTMLElement,
@@ -40,6 +42,15 @@ export class Draggable {
     this.constraints = [...constraints];
     this.mouseTracker = CachedMouseTracker.getSingleton(this);
     this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
+    this.listenerIds = [
+        ...TrackedListener.addMultipleEvents(
+            this.element, ['touchstart', 'mousedown'],
+            () => this.startInteraction()),
+        ...TrackedListener.addMultipleEvents(
+            window,
+            ['contextmenu',  'dragstart',  'touchend', 'mouseup'],
+            () => this.endInteraction())
+    ];
     this.init();
   }
 
@@ -51,6 +62,7 @@ export class Draggable {
     this.constraints = [];
     this.mouseTracker.dispose(this);
     this.draggableSynchronizer.dispose(this);
+    TrackedListener.remove(...this.listenerIds);
   }
 
   /**
@@ -119,22 +131,7 @@ export class Draggable {
    * Setups up the raf loop and event listeners.
    */
   private init(): void {
-    this.initInteraction();
     this.raf.start();
-  }
-
-  /**
-   * Initializes the interaction
-   */
-  private initInteraction(): void {
-    dom.addEventListeners(
-        this.element,
-        ['touchstart', 'mousedown'],
-        () => this.startInteraction());
-    dom.addEventListeners(
-        window,
-        ['contextmenu',  'dragstart',  'touchend', 'mouseup'],
-        () => this.endInteraction());
   }
 
   /**
