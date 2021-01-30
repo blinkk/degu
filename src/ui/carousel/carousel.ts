@@ -71,7 +71,6 @@ export class Carousel {
   private readonly raf: Raf;
   private readonly synchronizer: CarouselSynchronizer;
   private transitionTarget: TransitionTarget;
-  private interactions: symbol[];
   private lastActiveSlide: HTMLElement;
 
   /**
@@ -121,7 +120,6 @@ export class Carousel {
     this.slides = slides;
     this.transition = transition !== null ? transition : new CssClassesOnly();
     this.transitionTarget = null;
-    this.interactions = [];
     this.synchronizer = CarouselSynchronizer.getSingleton(this);
 
     this.slideCssClasses =
@@ -180,13 +178,10 @@ export class Carousel {
   }
 
   /**
-   * Returns true if the user is interacting with the carousel in the way
-   * specified by the given symbol.
-   * @param interaction
+   * Returns true if the user is interacting with the carousel.
    */
-  isBeingInteractedWith(interaction: symbol = null): boolean {
-    return this.interactions.length > 0 &&
-        (!interaction || this.interactions.indexOf(interaction) !== -1);
+  isBeingInteractedWith(): boolean {
+    return this.transition.isBeingInteractedWith();
   }
 
   /**
@@ -275,28 +270,6 @@ export class Carousel {
    */
   previous(): void {
     this.transitionSlidesBy(-1);
-  }
-
-  /**
-   * Tell the carousel that it is being interacted with in the way specified
-   * by the given symbol.
-   * @param interaction
-   */
-  startInteraction(interaction: symbol): void {
-    this.clearTransitionTarget();
-    this.interactions.push(interaction);
-  }
-
-  /**
-   * Tell the carousel that it is no longer being interacted with in the way
-   * specified by the given symbol.
-   * @param interaction
-   */
-  endInteraction(interaction: symbol): void {
-    const index = this.interactions.indexOf(interaction);
-    this.interactions = [
-        ...this.interactions.slice(0, index),
-        ...this.interactions.slice(index + 1)];
   }
 
   /**
@@ -416,7 +389,7 @@ export class Carousel {
   /**
    * Clear the transition target, stop transitioning.
    */
-  private clearTransitionTarget(): void {
+  public stopTransition(): void {
     this.transitionTarget = null;
   }
 

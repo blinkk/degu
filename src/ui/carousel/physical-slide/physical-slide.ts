@@ -126,7 +126,7 @@ export class PhysicalSlide implements Transition {
 
   loop(): void {
     this.raf.read(() => {
-      if (!this.carousel.isBeingInteractedWith() && this.transitionTarget) {
+      if (!this.isBeingInteractedWith() && this.transitionTarget) {
         this.updateTransitionToTarget();
       } else {
         this.adjustSplit();
@@ -396,7 +396,11 @@ export class PhysicalSlide implements Transition {
         new InteractionStart(
             performance.now(),
             Matrix.fromElementTransform(target).getTranslation());
-    this.carousel.startInteraction(SLIDE_INTERACTION);
+    this.carousel.stopTransition();
+  }
+
+  isBeingInteractedWith(): boolean {
+    return this.interactionTarget !== null;
   }
 
   /**
@@ -408,7 +412,6 @@ export class PhysicalSlide implements Transition {
       return;
     }
     this.interactionTarget = null;
-    this.carousel.endInteraction(SLIDE_INTERACTION);
 
     const interactionDuration = performance.now() - this.interactionStart.time;
     const activeSlide = this.getActiveSlide();
