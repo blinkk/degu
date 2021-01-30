@@ -9,7 +9,7 @@ import { Vector } from '../../../mathf/vector';
 import { CubicBezier, EasingFunction } from '../../../mathf/cubic-bezier';
 import { Draggable, DraggableEvent } from '../../draggable/draggable';
 import { TrackedListener } from '../../../dom/tracked-listener';
-import { DraggableSyncManager } from '../../draggable/draggable-sync-manager';
+import { DraggableSynchronizer } from '../../draggable/draggable-synchronizer';
 import { Matrix } from './matrix';
 import { arrayf } from '../../../arrayf/arrayf';
 
@@ -79,6 +79,7 @@ export class PhysicalSlide implements Transition {
   private readonly carouselListeners: Set<number>;
   private readonly resizeHandler: () => void;
   private readonly transitionTime: number;
+  private readonly draggableSynchronizer: DraggableSynchronizer;
   private transitionTarget: TransitionTarget;
   private carousel: Carousel;
   private draggableBySlide: SlideToDraggableMap;
@@ -94,6 +95,7 @@ export class PhysicalSlide implements Transition {
     }: PhysicalSlideConfig = {}
   ) {
     this.raf = new Raf();
+    this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
     this.matrixService = MatrixService.getSingleton();
     this.carouselListeners = new Set();
     this.easingFunction = easingFunction;
@@ -244,7 +246,7 @@ export class PhysicalSlide implements Transition {
             this.carouselListeners.add(endListener);
             return draggable;
           });
-    DraggableSyncManager.getSingleton().syncDraggables(...draggables);
+    this.draggableSynchronizer.sync(...draggables);
   }
 
   /**
@@ -452,6 +454,7 @@ export class PhysicalSlide implements Transition {
    * Dispose of the transition.
    */
   private dispose() {
+    this.draggableSynchronizer.dispose(this);
     window.removeEventListener('resize', this.resizeHandler);
     window.clearTimeout(this.resizeTimeout);
     Array.from(this.carouselListeners.values())

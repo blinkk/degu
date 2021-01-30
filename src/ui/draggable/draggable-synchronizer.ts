@@ -3,19 +3,34 @@ import { setf } from '../../setf/setf';
 import { Vector } from '../../mathf/vector';
 import { MatrixService } from '../carousel/physical-slide/matrix-service';
 
-class DraggableSyncManager {
-
-  static getSingleton(): DraggableSyncManager {
-    return this.singleton = this.singleton || new this();
+export class DraggableSynchronizer {
+  /**
+   * Returns a singleton. `use` is passed to ensure the singleton is only
+   * actually disposed when it is done being used everywhere. This same `use`
+   * should be passed to the dispose call.
+   * @param use
+   */
+  static getSingleton(use: any): DraggableSynchronizer {
+    DraggableSynchronizer.singletonUses.add(use);
+    if (DraggableSynchronizer.singleton === null) {
+      DraggableSynchronizer.singleton = new DraggableSynchronizer();
+    }
+    return DraggableSynchronizer.singleton;
   }
-  private static singleton: DraggableSyncManager = null;
+
+  private static singleton: DraggableSynchronizer = null;
+  private static singletonUses: Set<any> = new Set();
   private syncedDraggables: Array<Set<Draggable>>;
 
   constructor() {
+    if (DraggableSynchronizer.singleton !== null) {
+      throw new Error(
+          'DraggableSynchronizer must be instantiated via getSingleton()');
+    }
     this.syncedDraggables = [];
   }
 
-  syncDraggables(...draggables: Draggable[]) {
+  sync(...draggables: Draggable[]) {
     const unchangedSets: Array<Set<Draggable>> = [];
     const setsToMerge: Array<Set<Draggable>> = [new Set(draggables)];
     this.syncedDraggables
@@ -49,13 +64,19 @@ class DraggableSyncManager {
     });
   }
 
-  dispose() {
-    this.syncedDraggables = [];
+  dispose(use: any) {
+    if (this === DraggableSynchronizer.singleton) {
+      DraggableSynchronizer.singletonUses.delete(use);
+      if (DraggableSynchronizer.singletonUses.size <= 0) {
+        DraggableSynchronizer.singleton = null;
+        this.syncedDraggables = [];
+      }
+    } else {
+      this.syncedDraggables = [];
+    }
   }
 
   private getSetForDraggable_(draggable: Draggable): Set<Draggable> {
     return this.syncedDraggables.find((set) => set.has(draggable));
   }
 }
-
-export { DraggableSyncManager };

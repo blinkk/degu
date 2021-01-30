@@ -37,7 +37,7 @@ export class CarouselSynchronizer {
   /**
    * Synchronize the given carousels.
    */
-  syncCarousels(...carousels: Carousel[]) {
+  sync(...carousels: Carousel[]) {
     // Create a set with the given carousels, if any of these carousels are
     // already synced to other carousels merge those sets together so that
     // everything stays synchronized.

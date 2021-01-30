@@ -1,4 +1,4 @@
-import { DraggableSyncManager } from './draggable-sync-manager';
+import { DraggableSynchronizer } from './draggable-synchronizer';
 import { dom, Raf } from '../..';
 import { Vector } from '../../mathf/vector';
 import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
@@ -15,6 +15,7 @@ export class Draggable {
   protected mouseTracker: CachedMouseTracker;
   private readonly element: HTMLElement;
   private readonly raf: Raf;
+  private readonly draggableSynchronizer: DraggableSynchronizer;
   private lastPosition: Vector;
   private constraints: DraggableConstraint[];
 
@@ -28,6 +29,7 @@ export class Draggable {
     this.interacting = false;
     this.constraints = [...constraints];
     this.mouseTracker = CachedMouseTracker.getSingleton(this);
+    this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
     this.init();
   }
 
@@ -39,6 +41,7 @@ export class Draggable {
     this.raf.stop();
     this.constraints = [];
     this.mouseTracker.dispose(this);
+    this.draggableSynchronizer.dispose(this);
   }
 
   protected startInteraction(): void {
@@ -86,7 +89,7 @@ export class Draggable {
       if (delta.length() === 0) {
         return;
       }
-      DraggableSyncManager.getSingleton().renderDrag(this, delta);
+      this.draggableSynchronizer.renderDrag(this, delta);
     });
   }
 
