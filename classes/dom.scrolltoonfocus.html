@@ -95,10 +95,10 @@
 					<p>To solve this, you can use this class.</p>
 					<pre><code>&lt;<span class="hljs-selector-tag">div</span> sticky-<span class="hljs-number">300vh</span>&gt;
   &lt;<span class="hljs-selector-tag">div</span> sticky-child&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">1</span> data-scroll-to-on-focus=<span class="hljs-string">"0"</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">2</span> data-scroll-to-on-focus=<span class="hljs-string">"0.25"</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">3</span> data-scroll-to-on-focus=<span class="hljs-string">"0.5"</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">4</span> data-scroll-to-on-focus=<span class="hljs-string">"0.75"</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">1</span> data-scroll-to-on-focus=<span class="hljs-string">"0"</span> role=<span class="hljs-string">"region"</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">2</span> data-scroll-to-on-focus=<span class="hljs-string">"0.25"</span> role=<span class="hljs-string">"region"</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">3</span> data-scroll-to-on-focus=<span class="hljs-string">"0.5"</span> role=<span class="hljs-string">"region"</span>&gt;
+    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">4</span> data-scroll-to-on-focus=<span class="hljs-string">"0.75"</span> role=<span class="hljs-string">"region"</span>&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
@@ -117,6 +117,13 @@ new ScrollToOnFocus({
 [data-scroll-to-on-focus]:focus:not(:focus-visible)
   <span class="hljs-attribute">outline</span>: none</code></pre><p>Now when using VO, if you focus on chapter-2, it will jump to
 					the progress 0.25 position.</p>
+					<h3 id="note-on-role-region-and-tabindex">Note on role=&quot;region&quot; and tabindex</h3>
+					<p>By default, this class will add a tabindex=&quot;0&quot; to the data-scroll-to-on-focus
+						element.  Without a tabindex, we cannot acquire a focus event on the element.
+						When dong this, VO and other screenreaders will read and announce the content
+						of the element which can result in a unwanted double announcement (if you have
+					say a title and body within the element).</p>
+					<p>To avoid the issue, it is recommended to add role=&quot;region&quot; to your element.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -158,7 +165,7 @@ new ScrollToOnFocus({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/dom/scroll-to-on-focus.ts#L109">dom/scroll-to-on-focus.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/90853f4/src/dom/scroll-to-on-focus.ts#L122">dom/scroll-to-on-focus.ts:122</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -184,7 +191,7 @@ new ScrollToOnFocus({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/00afecf/src/dom/scroll-to-on-focus.ts#L182">dom/scroll-to-on-focus.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/90853f4/src/dom/scroll-to-on-focus.ts#L195">dom/scroll-to-on-focus.ts:195</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
