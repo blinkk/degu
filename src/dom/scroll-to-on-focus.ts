@@ -73,10 +73,10 @@ export interface ScrollToOnFocusConfig {
  * ```
  * <div sticky-300vh>
  *   <div sticky-child>
- *     <div chapter-1 data-scroll-to-on-focus="0">
- *     <div chapter-2 data-scroll-to-on-focus="0.25">
- *     <div chapter-3 data-scroll-to-on-focus="0.5">
- *     <div chapter-4 data-scroll-to-on-focus="0.75">
+ *     <div chapter-1 data-scroll-to-on-focus="0" role="region">
+ *     <div chapter-2 data-scroll-to-on-focus="0.25" role="region">
+ *     <div chapter-3 data-scroll-to-on-focus="0.5" role="region">
+ *     <div chapter-4 data-scroll-to-on-focus="0.75" role="region">
  *   </div>
  * </div>
  *
@@ -98,6 +98,19 @@ export interface ScrollToOnFocusConfig {
  *
  * Now when using VO, if you focus on chapter-2, it will jump to
  * the progress 0.25 position.
+ *
+ *
+ *
+ * ### Note on role="region" and tabindex
+ *
+ * By default, this class will add a tabindex="0" to the data-scroll-to-on-focus
+ * element.  Without a tabindex, we cannot acquire a focus event on the element.
+ * When dong this, VO and other screenreaders will read and announce the content
+ * of the element which can result in a unwanted double announcement (if you have
+ * say a title and body within the element).
+ *
+ * To avoid the issue, it is recommended to add role="region" to your element.
+ *
  *
  *
  */
