@@ -27,14 +27,14 @@ export interface PhysicalSlideConfig {
 class TransitionTarget {
   readonly target: HTMLElement;
   readonly timeRange: [number, number];
-  readonly translationRange: [number, number];
+  readonly startDistance: number;
 
   constructor(
       target: HTMLElement,
       timeRange: [number, number],
-      translationRange: [number, number]
+      startDistance: number
   ) {
-    this.translationRange = translationRange;
+    this.startDistance = startDistance;
     this.target = target;
     this.timeRange = timeRange;
   }
@@ -144,13 +144,10 @@ export class PhysicalSlide implements Transition {
 
     const now = performance.now();
     const timeRange: [number, number] = [now, now + transitionTime];
-
-    const currentX = Matrix.fromElementTransform(targetEl).getTranslateX();
-    const endX = this.getInvertedDistanceToCenter(targetEl) + currentX;
-    const translationRange: [number, number] = [currentX, endX];
+    const distance = this.getDistanceToCenter(targetEl);
 
     this.transitionTarget =
-        new TransitionTarget(targetEl, timeRange, translationRange);
+        new TransitionTarget(targetEl, timeRange, distance);
   }
 
   /**
@@ -232,16 +229,12 @@ export class PhysicalSlide implements Transition {
   private updateTransitionToTarget() {
     const target = this.transitionTarget;
     const timeRange = target.timeRange;
-    const translationRange = target.translationRange;
-    const currentX =
-        MatrixService.getSingleton()
-            .getAlteredMatrix(target.target).getTranslateX();
     const transitionPercent =
         mathf.inverseLerp(timeRange[0], timeRange[1], performance.now());
     const easedPercent = this.easingFunction(transitionPercent);
-    const targetX =
-        mathf.lerp(translationRange[0], translationRange[1], easedPercent);
-    const deltaX = targetX - currentX;
+    const targetDistance = mathf.lerp(target.startDistance, 0, easedPercent);
+    const currentDistance = this.getDistanceToCenter(target.target);
+    const deltaX = targetDistance - currentDistance;
     this.carousel.getSlides()
       .forEach((slide) => {
         MatrixService.getSingleton().translate(slide, { x: deltaX, y: 0 });
