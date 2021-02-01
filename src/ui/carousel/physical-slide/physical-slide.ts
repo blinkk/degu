@@ -194,15 +194,6 @@ export class PhysicalSlide implements Transition {
   }
 
   /**
-   * Return the negative of the distance between the given slide and the center
-   * of the carousel.
-   * @param slide
-   */
-  private getInvertedDistanceToCenter(slide: HTMLElement): number {
-    return -1 * this.getDistanceToCenter(slide);
-  }
-
-  /**
    * Setup the Draggable instances that will correspond to the slide elements.
    */
   private initDraggableSlides(): void {
@@ -388,7 +379,7 @@ export class PhysicalSlide implements Transition {
 
     const interactionDuration = performance.now() - this.interactionStart.time;
     const activeSlide = this.getActiveSlide();
-    const distance = this.getInvertedDistanceToCenter(activeSlide);
+    const distance = this.getDistanceToCenter(activeSlide);
 
     const interactionDelta =
       Matrix.fromElementTransform(<HTMLElement>event.target)
@@ -403,7 +394,7 @@ export class PhysicalSlide implements Transition {
     this.interactionStart = null;
 
     const velocitySign = Math.sign(velocity);
-    const distanceSign = Math.sign(distance);
+    const distanceSign = Math.sign(distance) * -1;
     const allowsLooping = this.carousel.allowsLooping();
 
     if (distance === 0 || distanceSign === velocitySign || velocity === 0) {
