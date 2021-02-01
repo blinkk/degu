@@ -255,17 +255,24 @@ export class PhysicalSlide implements Transition {
   private updateTransitionToTarget() {
     const target = this.transitionTarget;
     const timeRange = target.getTimeRange();
-    const transitionPercent =
-        mathf.inverseLerp(timeRange[0], timeRange[1], performance.now());
-    const easedPercent = this.easingFunction(transitionPercent);
-
     const translationRange = target.getTranslationRange();
-    const targetX =
-        mathf.lerp(translationRange[0], translationRange[1], easedPercent);
     const currentX =
         MatrixService.getSingleton()
             .getAlteredMatrix(target.getTarget()).getTranslateX();
-    const deltaX = targetX - currentX;
+    const isAtEnd = performance.now() >= timeRange[1];
+    let deltaX: number;
+    let easedPercent: number;
+    if (isAtEnd) { // Short circuit if we're done
+      deltaX = translationRange[1] - currentX;
+      easedPercent = 1;
+    } else {
+      const transitionPercent =
+          mathf.inverseLerp(timeRange[0], timeRange[1], performance.now());
+      easedPercent = this.easingFunction(transitionPercent);
+      const targetX =
+          mathf.lerp(translationRange[0], translationRange[1], easedPercent);
+      deltaX = targetX - currentX;
+    }
 
     this.carousel.getSlides()
       .forEach((slide) => {
@@ -425,7 +432,7 @@ export class PhysicalSlide implements Transition {
       Math.abs(interactionDelta.x) > Math.abs(interactionDelta.y);
 
     const velocity =
-      interactionDuration > 700 && wasHorizontalDrag ? 0 : interactionDelta.x;
+      interactionDuration > 700 && wasHorizontalDrag ? interactionDelta.x : 0;
 
     this.interactionStart = null;
 
