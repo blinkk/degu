@@ -80,7 +80,7 @@ export class PhysicalSlide implements Transition {
   constructor(
     {
       transitionTime = 500,
-      easingFunction = CubicBezier.EASE_IN_OUT_SINE,
+      easingFunction = CubicBezier.EASE_IN_OUT_SINE
     }: PhysicalSlideConfig = {}
   ) {
     this.raf = new Raf();
@@ -151,24 +151,6 @@ export class PhysicalSlide implements Transition {
   }
 
   /**
-   * Return the distance between the given slide and the center of the carousel.
-   * @param slide
-   */
-  private getDistanceToCenter(slide: HTMLElement): number {
-    const container = this.carousel.getContainer();
-    return dom.getVisibleDistanceBetweenCenters(slide, container).x;
-  }
-
-  /**
-   * Return the negative of the distance between the given slide and the center
-   * of the carousel.
-   * @param slide
-   */
-  private getInvertedDistanceToCenter(slide: HTMLElement): number {
-    return -1 * this.getDistanceToCenter(slide);
-  }
-
-  /**
    * Returns the currently active slide.
    */
   getActiveSlide(): HTMLElement {
@@ -196,6 +178,28 @@ export class PhysicalSlide implements Transition {
    */
   hasTransitionedTo(slide: HTMLElement): boolean {
     return this.getDistanceToCenter(slide) === 0;
+  }
+
+  isBeingInteractedWith(): boolean {
+    return this.interactionTarget !== null;
+  }
+
+  /**
+   * Return the distance between the given slide and the center of the carousel.
+   * @param slide
+   */
+  private getDistanceToCenter(slide: HTMLElement): number {
+    const container = this.carousel.getContainer();
+    return dom.getVisibleDistanceBetweenCenters(slide, container).x;
+  }
+
+  /**
+   * Return the negative of the distance between the given slide and the center
+   * of the carousel.
+   * @param slide
+   */
+  private getInvertedDistanceToCenter(slide: HTMLElement): number {
+    return -1 * this.getDistanceToCenter(slide);
   }
 
   /**
@@ -262,6 +266,9 @@ export class PhysicalSlide implements Transition {
     } else {
       target = null;
     }
+
+    // Shift slides from one side to the other for an even split if looping is
+    // supported.
     if (target !== null && this.carousel.allowsLooping()) {
       adjustSlideForLoop(this.carousel.getSlides(), target);
     }
@@ -367,10 +374,6 @@ export class PhysicalSlide implements Transition {
             performance.now(),
             Matrix.fromElementTransform(target).getTranslation());
     this.carousel.stopTransition();
-  }
-
-  isBeingInteractedWith(): boolean {
-    return this.interactionTarget !== null;
   }
 
   /**
