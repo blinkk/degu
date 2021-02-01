@@ -25,9 +25,9 @@ export interface PhysicalSlideConfig {
  * Encapsulates information around a slide that needs to be transitioned to.
  */
 class TransitionTarget {
-  private readonly target: HTMLElement;
-  private readonly timeRange: [number, number];
-  private readonly translationRange: [number, number];
+  readonly target: HTMLElement;
+  readonly timeRange: [number, number];
+  readonly translationRange: [number, number];
 
   constructor(
       target: HTMLElement,
@@ -37,18 +37,6 @@ class TransitionTarget {
     this.translationRange = translationRange;
     this.target = target;
     this.timeRange = timeRange;
-  }
-
-  getTarget(): HTMLElement {
-    return this.target;
-  }
-
-  getTranslationRange(): [number, number] {
-    return this.translationRange;
-  }
-
-  getTimeRange(): [number, number] {
-    return this.timeRange;
   }
 }
 
@@ -147,7 +135,7 @@ export class PhysicalSlide implements Transition {
   ): void {
     if (
       this.transitionTarget !== null &&
-      this.transitionTarget.getTarget() === targetEl
+      this.transitionTarget.target === targetEl
     ) {
       return; // Don't reset target time
     }
@@ -243,11 +231,11 @@ export class PhysicalSlide implements Transition {
    */
   private updateTransitionToTarget() {
     const target = this.transitionTarget;
-    const timeRange = target.getTimeRange();
-    const translationRange = target.getTranslationRange();
+    const timeRange = target.timeRange;
+    const translationRange = target.translationRange;
     const currentX =
         MatrixService.getSingleton()
-            .getAlteredMatrix(target.getTarget()).getTranslateX();
+            .getAlteredMatrix(target.target).getTranslateX();
     const transitionPercent =
         mathf.inverseLerp(timeRange[0], timeRange[1], performance.now());
     const easedPercent = this.easingFunction(transitionPercent);
@@ -275,7 +263,7 @@ export class PhysicalSlide implements Transition {
     if (this.interactionTarget !== null) {
       target = this.interactionTarget;
     } else if (this.transitionTarget !== null) {
-      target = this.transitionTarget.getTarget();
+      target = this.transitionTarget.target;
     } else {
       target = null;
     }
