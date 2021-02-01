@@ -342,6 +342,27 @@ export class Carousel {
   }
 
   /**
+   * Clear the transition target, stop transitioning.
+   */
+  stopTransition(): void {
+    this.transitionTarget = null;
+  }
+
+  /**
+   * Clamp a given index to land within the possible slide indices.
+   * @param index
+   */
+  getClampedIndex(index: number): number {
+    const slidesLength = this.getSlides().length;
+    if (this.allowsLooping()) {
+      const clampedIndex = index % slidesLength; // Can be any sign
+      return (clampedIndex + slidesLength) % slidesLength; // Make positive
+    } else {
+      return mathf.clamp(0, slidesLength - 1, index);
+    }
+  }
+
+  /**
    * Returns an integer number for half of the slides. The parameter
    * specifies whether, if given an array containing an odd number of elements,
    * the larger odd value for half should be returned, or the smaller even
@@ -384,13 +405,6 @@ export class Carousel {
       }
     }
     return result;
-  }
-
-  /**
-   * Clear the transition target, stop transitioning.
-   */
-  public stopTransition(): void {
-    this.transitionTarget = null;
   }
 
   /**
@@ -490,19 +504,5 @@ export class Carousel {
     return this.isTransitioning() ?
         this.transitionTarget.element :
         this.getActiveSlide();
-  }
-
-  /**
-   * Clamp a given index to land within the possible slide indices.
-   * @param index
-   */
-  private getClampedIndex(index: number): number {
-    const slidesLength = this.getSlides().length;
-    if (this.allowsLooping()) {
-      const clampedIndex = index % slidesLength; // Can be any sign
-      return (clampedIndex + slidesLength) % slidesLength; // Make positive
-    } else {
-      return mathf.clamp(0, slidesLength - 1, index);
-    }
   }
 }
