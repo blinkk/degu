@@ -1027,32 +1027,6 @@ export class dom {
         })
     }
 
-    /**
-     * Add an event listener to multiple events.
-     * Useful for when mouse and touch events should call the same listener.
-     */
-    static addEventListeners(
-        element: Element|Window,
-        events: string[],
-        listener: EventListenerOrEventListenerObject
-    ) {
-        events.forEach(
-            (event) => element.addEventListener(event, listener));
-    }
-
-    /**
-     * Remove an event listener for multiple events.
-     * Useful for when mouse and touch events should call the same listener.
-     */
-    static removeEventListeners(
-        element: Element|Window,
-        events: string[],
-        listener: EventListenerOrEventListenerObject
-    ) {
-        events.forEach(
-            (event) => element.removeEventListener(event, listener));
-    }
-
     static getScrollElement(): Element {
         return document.scrollingElement || document.documentElement;
     }

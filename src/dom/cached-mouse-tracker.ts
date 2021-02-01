@@ -1,7 +1,7 @@
-import { dom, Raf } from '..';
+import {DomWatcher, Raf} from '..';
 import { Vector } from '../mathf/vector';
 
-const CURSOR_MOVE: string[] = ['mousemove', 'touchmove'];
+const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchmove'];
 
 /**
  * Interface filled by either mousemove or touchmove events.
@@ -46,6 +46,7 @@ export class CachedMouseTracker {
   private readonly raf: Raf;
   private readonly cursorMoveHandler: EventListenerOrEventListenerObject;
   private clientPosition: Vector;
+  private domWatcher: DomWatcher;
 
   constructor() {
     if (CachedMouseTracker.singleton !== null) {
@@ -55,8 +56,14 @@ export class CachedMouseTracker {
 
     this.raf = new Raf();
     this.clientPosition = Vector.ZERO;
-    this.cursorMoveHandler = (event: Event) => this.updatePosition(event);
-    dom.addEventListeners(window, CURSOR_MOVE, this.cursorMoveHandler);
+    this.domWatcher = new DomWatcher();
+    CURSOR_MOVE_EVENTS.forEach((cursorMoveEvent) => {
+      this.domWatcher.add({
+        element: window,
+        on: cursorMoveEvent,
+        callback: (e: Event) => this.updatePosition(e)
+      });
+    });
   }
 
   /**
@@ -77,10 +84,10 @@ export class CachedMouseTracker {
       CachedMouseTracker.singletonUses.delete(use);
       if (CachedMouseTracker.singletonUses.size <= 0) {
         CachedMouseTracker.singleton = null;
-        this.removeEventListeners();
+        this.domWatcher.dispose();
       }
     } else {
-      this.removeEventListeners();
+      this.domWatcher.dispose();
     }
   }
 
@@ -115,12 +122,5 @@ export class CachedMouseTracker {
     this.raf.preRead(() => {
       this.clientPosition = new Vector(data.clientX, data.clientY);
     });
-  }
-
-  /**
-   * Removes event listeners.
-   */
-  private removeEventListeners(): void {
-    dom.removeEventListeners(window, CURSOR_MOVE, this.cursorMoveHandler);
   }
 }
