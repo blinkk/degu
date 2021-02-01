@@ -30,10 +30,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 70vh;
+        height: 20vh;
         width: 20%;
         flex-shrink: 0;
         font-size: 10vw;
+        user-select: none;
       }
       .slide:nth-child(odd) {
         background: paleturquoise;
@@ -72,6 +73,15 @@
       <div class="slide">4</div>
       <div class="slide">5</div>
       <div class="slide">6</div>
+      <!-- Repeat for more seamless dragging. As of this writing the Carousel will not allow -->
+      <!-- the currently dragged slide to be repositioned, limiting to at most 100% of the -->
+      <!-- carousel on either side, which sets a real limit on the transition. -->
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+      <div class="slide">3</div>
+      <div class="slide">4</div>
+      <div class="slide">5</div>
+      <div class="slide">6</div>
     </div>
     <h2>Container B - Synchronized to Container A, styled on classes only</h2>
     <div class="container container-b">
@@ -81,6 +91,7 @@
       <div class="slide">4</div>
       <div class="slide">5</div>
       <div class="slide">6</div>
+      <!-- Synched carousel does not need the repeat -->
     </div>
   </div>
 </body>
