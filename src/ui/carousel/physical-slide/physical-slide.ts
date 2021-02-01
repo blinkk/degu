@@ -228,13 +228,15 @@ export class PhysicalSlide implements Transition {
    */
   private updateTransitionToTarget() {
     const target = this.transitionTarget;
-    const timeRange = target.timeRange;
     const transitionPercent =
-        mathf.inverseLerp(timeRange[0], timeRange[1], performance.now());
+        mathf.inverseLerp(
+            target.timeRange[0], target.timeRange[1], performance.now());
     const easedPercent = this.easingFunction(transitionPercent);
     const targetDistance = mathf.lerp(target.startDistance, 0, easedPercent);
     const currentDistance = this.getDistanceToCenter(target.target);
-    const deltaX = targetDistance - currentDistance;
+    const absDelta = Math.abs(targetDistance) - Math.abs(currentDistance);
+    const currentDistanceSign = Math.sign(currentDistance);
+    const deltaX = absDelta * currentDistanceSign;
     this.carousel.getSlides()
       .forEach((slide) => {
         MatrixService.getSingleton().translate(slide, { x: deltaX, y: 0 });
