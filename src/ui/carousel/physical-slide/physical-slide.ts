@@ -14,11 +14,6 @@ import { Matrix } from './matrix';
 import { arrayf } from '../../../arrayf/arrayf';
 
 /**
- * Symbol for the user interacting with the slides as part of this transition.
- */
-const SLIDE_INTERACTION = Symbol('Physical Slide Interaction');
-
-/**
  * Configuration options for this transition.
  */
 export interface PhysicalSlideConfig {
@@ -137,18 +132,6 @@ export class PhysicalSlide implements Transition {
       } else {
         this.adjustSplit();
       }
-      this.adjustVisibility();
-    });
-  }
-
-  /**
-   * Hide slides from screen readers if they aren't currently visible.
-   */
-  adjustVisibility() {
-    this.carousel.getSlides().forEach((slide) => {
-      const container = this.carousel.getContainer();
-      const style = dom.hasVisibleArea(slide, container) ? '' : 'hidden';
-      this.raf.write(() => slide.style.visibility = style);
     });
   }
 
@@ -265,21 +248,12 @@ export class PhysicalSlide implements Transition {
     const currentX =
         MatrixService.getSingleton()
             .getAlteredMatrix(target.getTarget()).getTranslateX();
-    const isAtEnd = performance.now() >= timeRange[1];
-    let deltaX: number;
-    let easedPercent: number;
-    if (isAtEnd) { // Short circuit if we're done
-      deltaX = translationRange[1] - currentX;
-      easedPercent = 1;
-    } else {
-      const transitionPercent =
-          mathf.inverseLerp(timeRange[0], timeRange[1], performance.now());
-      easedPercent = this.easingFunction(transitionPercent);
-      const targetX =
-          mathf.lerp(translationRange[0], translationRange[1], easedPercent);
-      deltaX = targetX - currentX;
-    }
-
+    const transitionPercent =
+        mathf.inverseLerp(timeRange[0], timeRange[1], performance.now());
+    const easedPercent = this.easingFunction(transitionPercent);
+    const targetX =
+        mathf.lerp(translationRange[0], translationRange[1], easedPercent);
+    const deltaX = targetX - currentX;
     this.carousel.getSlides()
       .forEach((slide) => {
         MatrixService.getSingleton().translate(slide, { x: deltaX, y: 0 });
