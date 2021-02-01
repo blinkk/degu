@@ -80,8 +80,8 @@ export class arrayf {
      * Example:
      * ```
      * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
-     * arrayf.max(values, (x) => x.a); // Returns {'a': 1, 'b': 4}
-     * arrayf.max(values, (x) => x.b); // Returns {'a': 2, 'b': 3}
+     * arrayf.min(values, (x) => x.a); // Returns {'a': 1, 'b': 4}
+     * arrayf.min(values, (x) => x.b); // Returns {'a': 2, 'b': 3}
      * ```
      */
     static min<T>(values: T[], ...scoreFns: Array<(v: T) => number>): T {
