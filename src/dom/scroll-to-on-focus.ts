@@ -34,6 +34,12 @@ export interface ScrollToOnFocusConfig {
     setTabIndex?: boolean,
 
     /**
+     * Automatically sets the aria region to what is specified.
+     */
+    setAriaRole?: string,
+
+
+    /**
      * Enables debug mode which outputs additional info to the console for
      * debugging.
      */
@@ -79,16 +85,17 @@ export interface ScrollToOnFocusConfig {
  * ```
  * <div sticky-300vh>
  *   <div sticky-child>
- *     <div chapter-1 data-scroll-to-on-focus="0" role="region">
- *     <div chapter-2 data-scroll-to-on-focus="0.25" role="region">
- *     <div chapter-3 data-scroll-to-on-focus="0.5" role="region">
- *     <div chapter-4 data-scroll-to-on-focus="0.75" role="region">
+ *     <div chapter-1 data-scroll-to-on-focus="0">
+ *     <div chapter-2 data-scroll-to-on-focus="0.25">
+ *     <div chapter-3 data-scroll-to-on-focus="0.5">
+ *     <div chapter-4 data-scroll-to-on-focus="0.75">
  *   </div>
  * </div>
  *
  * new ScrollToOnFocus({
  *    element: document.querySelector('[sticky-child]'),
  *    setTabIndex: true
+ *    setAriaRole: 'region'
  *    // These values should match however you are calculating
  *    // progress.
  *    topProgressOffset: 0,
@@ -148,6 +155,10 @@ export class ScrollToOnFocus {
                 el.tabIndex = 0;
             }
 
+            if(config.setAriaRole) {
+                el.setAttribute('aria-role', config.setAriaRole);
+            }
+
 
             this.watcher.add({
                 element: el,
@@ -164,6 +175,17 @@ export class ScrollToOnFocus {
                     on: 'mousedown',
                     callback: () => {
                         this.handleFocus(el);
+                    }
+                });
+            }
+            if (this.debug) {
+                this.watcher.add({
+                    element: window,
+                    on: 'scroll',
+                    callback: () => {
+                        // Display out the progress.
+                        console.log('progress',
+                            dom.getElementScrolledPercent(this.element, this.topProgressOffset, this.bottomProgressOffset))
                     }
                 });
             }
