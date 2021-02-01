@@ -72,6 +72,12 @@ class InteractionStart {
 /**
  * A transition for a carousel that allows the user to drag and fling slides
  * around. Similar to the default interaction for a "slick" carousel.
+ *
+ * For proper operation, the slide elements within the carousel should be
+ * lined up side-by-side and overflowing the container. The container should
+ * be overflow: hidden; The slide elements themselves should not have transforms
+ * applied to themselves. Children of the slide elements however can be
+ * transformed as needed to achieve any visual effects needed.
  */
 export class PhysicalSlide implements Transition {
   private readonly easingFunction: EasingFunction;

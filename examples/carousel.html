@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carousel Demo</title>
+</head>
+<body init-sample="carouselSample">
+  <a href="/index.html">Back to home</a>
+  <h1>Demo of Carousel</h1>
+  <style>
+      .parent {
+          position: relative;
+          height: auto;
+      }
+      .container {
+        position: relative;
+        height: 20vh;
+        width: 80vw;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+      }
+      .slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 70vh;
+        width: 20%;
+        flex-shrink: 0;
+        font-size: 10vw;
+      }
+      .slide:nth-child(odd) {
+        background: paleturquoise;
+      }
+      .slide:nth-child(even) {
+        background: palevioletred;
+      }
+      .container-b .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: opacity 1s, transform 1s;
+      }
+      .container-b .slide.active {
+        transform: none;
+        opacity: 1;
+      }
+      .container-b .slide.before {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      .container-b .slide.after {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+  </style>
+
+  <div class="parent" id="parent">
+    <h2>Container A - Using PhysicalSlide transition</h2>
+    <div class="container container-a">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+      <div class="slide">3</div>
+      <div class="slide">4</div>
+      <div class="slide">5</div>
+      <div class="slide">6</div>
+    </div>
+    <h2>Container B - Synchronized to Container A, styled on classes only</h2>
+    <div class="container container-b">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+      <div class="slide">3</div>
+      <div class="slide">4</div>
+      <div class="slide">5</div>
+      <div class="slide">6</div>
+    </div>
+  </div>
+</body>
+</html>
