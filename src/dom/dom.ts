@@ -387,8 +387,8 @@ export class dom {
      * @param data
      */
     static event(element: HTMLElement, name: string, data: any) {
-        const event = new CustomEvent(name, { detail: data });
-        element.dispatchEvent(event);
+        var event = new CustomEvent(name, { detail: data });
+        element.dispatchEvent(event)
     }
 
 
@@ -858,7 +858,7 @@ export class dom {
      */
     static isDisplayNone(el: Element): boolean {
         let style = window.getComputedStyle(el).display;
-        return style === 'none';
+        return style == 'none';
     }
 
     /**
