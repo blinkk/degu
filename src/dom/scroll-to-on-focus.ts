@@ -1,6 +1,7 @@
 
 import { DomWatcher } from './dom-watcher';
 import { dom } from './dom';
+import { func } from '../func/func';
 
 
 export interface ScrollToOnFocusConfig {
@@ -19,7 +20,6 @@ export interface ScrollToOnFocusConfig {
      */
     bottomProgressOffset: number,
 
-
     /**
      * Whether to scroll to the element when its click on.
      * Handy for debuggin.
@@ -31,7 +31,13 @@ export interface ScrollToOnFocusConfig {
      * the tabindex=0.  For VO focus to be acquired, tabindex=0 is required
      * so generally you can set this to true.
      */
-    setTabIndex?: boolean
+    setTabIndex?: boolean,
+
+    /**
+     * Enables debug mode which outputs additional info to the console for
+     * debugging.
+     */
+    debug: boolean,
 }
 
 
@@ -120,6 +126,7 @@ export class ScrollToOnFocus {
     private selector: string;
     private topProgressOffset: number;
     private bottomProgressOffset: number;
+    private debug: boolean = false;
 
 
     constructor(private config: ScrollToOnFocusConfig) {
@@ -127,8 +134,9 @@ export class ScrollToOnFocus {
         this.element = config.element;
         this.watcher = new DomWatcher();
         this.selector = 'data-scroll-to-on-focus';
-        this.topProgressOffset = config.topProgressOffset || 0;
-        this.bottomProgressOffset = config.bottomProgressOffset || 0;
+        this.topProgressOffset = func.setDefault(config.topProgressOffset, 0);
+        this.bottomProgressOffset = func.setDefault(config.bottomProgressOffset,0);
+        this.debug = func.setDefault(config.debug, false);
 
 
         const elements: Array<HTMLElement> =
@@ -150,7 +158,7 @@ export class ScrollToOnFocus {
                 eventOptions: { capture: true }
             });
 
-            if (config.mouseDown) {
+            if (config.mouseDown || this.debug) {
                 this.watcher.add({
                     element: el,
                     on: 'mousedown',
@@ -164,10 +172,25 @@ export class ScrollToOnFocus {
 
 
     /**
+     * Update / Set the internal top and bottom offset.
+     */
+    public updateOffset(top: number, bottom: number) {
+        this.topProgressOffset = top;
+        this.bottomProgressOffset = bottom;
+    }
+
+
+    /**
      * Handle focus on an element.
      */
     private handleFocus(focusedElement: HTMLElement) {
         const targetPercent = focusedElement.getAttribute(this.selector);
+
+        if(this.debug) {
+            console.log('el' + focusedElement);
+            console.log('targetPercent' + targetPercent);
+        }
+
         if (targetPercent) {
             this.scrollTo(+targetPercent);
         }
