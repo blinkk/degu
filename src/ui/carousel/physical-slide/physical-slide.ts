@@ -2,13 +2,12 @@ import { SlideToDraggableMap } from './slide-to-draggable-map';
 import { adjustSlideForSplit } from './adjust-slide-for-split';
 import { adjustSlideForLoop } from './adjust-slide-for-loop';
 import { Carousel } from '../carousel';
-import { dom, mathf, Raf } from '../../..';
+import {dom, DomWatcher, mathf, Raf} from '../../..';
 import { Transition } from '../transitions';
 import { MatrixService } from './matrix-service';
 import { Vector } from '../../../mathf/vector';
 import { CubicBezier, EasingFunction } from '../../../mathf/cubic-bezier';
 import { Draggable, DraggableEvent } from '../../draggable/draggable';
-import { TrackedListener } from '../../../dom/tracked-listener';
 import { DraggableSynchronizer } from '../../draggable/draggable-synchronizer';
 import { Matrix } from './matrix';
 import { arrayf } from '../../../arrayf/arrayf';
@@ -65,7 +64,7 @@ class InteractionStart {
 export class PhysicalSlide implements Transition {
   private readonly easingFunction: EasingFunction;
   private readonly matrixService: MatrixService;
-  private readonly carouselListeners: Set<number>;
+  private readonly domWatcher: DomWatcher;
   private readonly resizeHandler: () => void;
   private readonly transitionTime: number;
   private readonly draggableSynchronizer: DraggableSynchronizer;
@@ -86,7 +85,7 @@ export class PhysicalSlide implements Transition {
     this.raf = new Raf();
     this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
     this.matrixService = MatrixService.getSingleton();
-    this.carouselListeners = new Set();
+    this.domWatcher = new DomWatcher();
     this.easingFunction = easingFunction;
     this.interactionStart = null;
     this.transitionTime = transitionTime;
@@ -202,16 +201,16 @@ export class PhysicalSlide implements Transition {
         .map(
           (slide) => {
             const draggable: Draggable = this.draggableBySlide.get(slide);
-            const startListener =
-                TrackedListener.add(
-                    draggable.element, DraggableEvent.START,
-                    (e: Event) => this.startInteraction(e));
-            const endListener =
-                TrackedListener.add(
-                    draggable.element, DraggableEvent.END,
-                    (e: Event) => this.endInteraction(e));
-            this.carouselListeners.add(startListener);
-            this.carouselListeners.add(endListener);
+            this.domWatcher.add({
+              element: draggable.element,
+              on: DraggableEvent.START,
+              callback: (e: Event) => this.startInteraction(e)
+            });
+            this.domWatcher.add({
+              element: draggable.element,
+              on: DraggableEvent.END,
+              callback: (e: Event) => this.endInteraction(e)
+            });
             return draggable;
           });
     this.draggableSynchronizer.sync(...draggables);
@@ -423,7 +422,6 @@ export class PhysicalSlide implements Transition {
     this.draggableSynchronizer.dispose(this);
     window.removeEventListener('resize', this.resizeHandler);
     window.clearTimeout(this.resizeTimeout);
-    Array.from(this.carouselListeners.values())
-        .forEach((uid: number) => TrackedListener.remove(uid));
+    this.domWatcher.dispose();
   }
 }

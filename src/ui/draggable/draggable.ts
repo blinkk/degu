@@ -1,8 +1,7 @@
 import { DraggableSynchronizer } from './draggable-synchronizer';
-import { dom, Raf } from '../..';
+import {dom, DomWatcher, Raf} from '../..';
 import { Vector } from '../../mathf/vector';
 import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
-import {TrackedListener} from '../../dom/tracked-listener';
 
 /**
  * Type of a function that can be used to constrain the movement of a vector.
@@ -29,7 +28,7 @@ export class Draggable {
   private readonly raf: Raf;
   private readonly draggableSynchronizer: DraggableSynchronizer;
   private lastPosition: Vector;
-  private listenerIds: number[];
+  private domWatcher: DomWatcher;
 
   constructor(
     element: HTMLElement,
@@ -42,15 +41,7 @@ export class Draggable {
     this.constraints = [...constraints];
     this.mouseTracker = CachedMouseTracker.getSingleton(this);
     this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
-    this.listenerIds = [
-        ...TrackedListener.addMultipleEvents(
-            this.element, ['touchstart', 'mousedown'],
-            () => this.startInteraction()),
-        ...TrackedListener.addMultipleEvents(
-            window,
-            ['contextmenu',  'dragstart',  'touchend', 'mouseup'],
-            () => this.endInteraction())
-    ];
+    this.domWatcher = new DomWatcher();
     this.init();
   }
 
@@ -62,7 +53,7 @@ export class Draggable {
     this.constraints = [];
     this.mouseTracker.dispose(this);
     this.draggableSynchronizer.dispose(this);
-    TrackedListener.remove(...this.listenerIds);
+    this.domWatcher.dispose();
   }
 
   /**
@@ -131,6 +122,22 @@ export class Draggable {
    * Setups up the raf loop and event listeners.
    */
   private init(): void {
+    ['touchstart', 'mousedown']
+        .forEach((event: string) => {
+          this.domWatcher.add({
+            element: this.element,
+            on: event,
+            callback: () => this.startInteraction()
+          });
+        });
+    ['contextmenu',  'dragstart',  'touchend', 'mouseup']
+        .forEach((event: string) => {
+          this.domWatcher.add({
+            element: this.element,
+            on: event,
+            callback: () => this.endInteraction()
+          });
+        });
     this.raf.start();
   }
 
