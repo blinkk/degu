@@ -2,10 +2,10 @@ import { setf } from '../../setf/setf';
 import { Carousel } from './carousel';
 
 /**
- * Will synchronize the slide positions of multiple carousels.
+ * Will synchronize the active slide index across multiple carousels.
  *
  * This can be useful if you have separate areas for assets, copy and/or
- * navigation that all need to be synchronized together.
+ * navigation that need transition together.
  *
  * Example:
  *
@@ -134,16 +134,14 @@ export class CarouselSynchronizer {
         .forEach(
             (carouselSet) => {
               const setContainsAGivenCarousel =
-                  carousels.find((carousel: Carousel) => {
-                    return carouselSet.has(carousel);
-                  });
+                  carousels.find(
+                      (carousel: Carousel) => carouselSet.has(carousel));
               if (setContainsAGivenCarousel) {
                 setsToMerge.push(carouselSet);
               } else {
                 unchangedSets.push(carouselSet);
               }
-            }
-        );
+            });
 
     this.syncedCarousels = [...unchangedSets, setf.merge(...setsToMerge)];
   }
