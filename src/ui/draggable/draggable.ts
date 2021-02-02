@@ -133,7 +133,7 @@ export class Draggable {
     ['contextmenu',  'dragstart',  'touchend', 'mouseup']
         .forEach((event: string) => {
           this.domWatcher.add({
-            element: this.element,
+            element: window,
             on: event,
             callback: () => this.endInteraction()
           });
