@@ -12,86 +12,78 @@
   <h1>Demo of Carousel</h1>
   <style>
       .parent {
-          position: relative;
-          height: auto;
+        position: relative;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
-      .container {
+      .carousel {
         position: relative;
         height: 20vh;
         width: 80vw;
         overflow: hidden;
         display: flex;
         flex-wrap: nowrap;
-        flex-shrink: 0;
-        align-items: center;
-        justify-content: center;
       }
       .slide {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 20vh;
-        width: 20%;
+        height: 100%;
+        width: 50%;
         flex-shrink: 0;
         font-size: 10vw;
         user-select: none;
       }
-      .slide:nth-child(odd) {
+      .slide:nth-child(1) {
         background: paleturquoise;
       }
-      .slide:nth-child(even) {
+      .slide:nth-child(2) {
         background: palevioletred;
       }
-      .container-b .slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        transition: opacity 1s, transform 1s;
+      .slide:nth-child(3) {
+        background: palegreen;
       }
-      .container-b .slide.active {
-        transform: none;
+      .nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .dot {
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        opacity: .25;
+        background: black;
+        transition: opacity 1s, transform 1s;
+        margin: 0 8px;
+      }
+      .dot.active {
+        transform: scale(1.25);
         opacity: 1;
       }
-      .container-b .slide.before {
-        transform: translateX(-100%);
-        opacity: 0;
-      }
-      .container-b .slide.after {
-        transform: translateX(100%);
-        opacity: 0;
+      .dot.before, .dot.after {
+        transform: scale(0.9);
       }
   </style>
 
   <div class="parent" id="parent">
-    <h2>Container A - Using PhysicalSlide transition</h2>
-    <div class="container container-a">
+    <h2>Carousel A - Using PhysicalSlide transition</h2>
+    <div class="carousel">
       <div class="slide">1</div>
       <div class="slide">2</div>
       <div class="slide">3</div>
-      <div class="slide">4</div>
-      <div class="slide">5</div>
-      <div class="slide">6</div>
-      <!-- Repeat for more seamless dragging. As of this writing the Carousel will not allow -->
-      <!-- the currently dragged slide to be repositioned, limiting to at most 100% of the -->
-      <!-- carousel on either side, which sets a real limit on the transition. -->
-      <div class="slide">1</div>
-      <div class="slide">2</div>
-      <div class="slide">3</div>
-      <div class="slide">4</div>
-      <div class="slide">5</div>
-      <div class="slide">6</div>
     </div>
-    <h2>Container B - Synchronized to Container A, styled on classes only</h2>
-    <div class="container container-b">
-      <div class="slide">1</div>
-      <div class="slide">2</div>
-      <div class="slide">3</div>
-      <div class="slide">4</div>
-      <div class="slide">5</div>
-      <div class="slide">6</div>
-      <!-- Synched carousel does not need the repeat -->
+    <h2>Carousel B - Synchronized to Carousel A, styled on classes only</h2>
+    <div class="nav">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <!-- Synced carousel does not need the repeat -->
     </div>
   </div>
 </body>

@@ -62,6 +62,8 @@ class InteractionStart {
  * transformed as needed to achieve any visual effects needed.
  */
 export class PhysicalSlide implements Transition {
+  private static DEFAULT_EASING: EasingFunction =
+      new CubicBezier(0.445, 0.05, 0.55, 0.95).easingFunction();
   private readonly easingFunction: EasingFunction;
   private readonly matrixService: MatrixService;
   private readonly domWatcher: DomWatcher;
@@ -79,7 +81,7 @@ export class PhysicalSlide implements Transition {
   constructor(
     {
       transitionTime = 500,
-      easingFunction = CubicBezier.EASE_IN_OUT_SINE
+      easingFunction = PhysicalSlide.DEFAULT_EASING
     }: PhysicalSlideConfig = {}
   ) {
     this.raf = new Raf();

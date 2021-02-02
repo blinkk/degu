@@ -77,9 +77,6 @@ export type EasingFunction = (percent: number) => number;
  * @see https://stackoverflow.com/questions/27053888/how-to-get-time-value-from-bezier-curve-given-length
  */
 export class CubicBezier {
-    static EASE_IN_OUT_SINE: EasingFunction =
-        new CubicBezier(0.445, 0.05, 0.55, 0.95).easingFunction();
-
     public x2: number;
     public y2: number;
     public x3: number;

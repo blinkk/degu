@@ -10,16 +10,16 @@ export default class CarouselSample {
   constructor() {
     console.log('carousel');
     const a = new Carousel(
-        document.querySelector('.container-a'),
-        Array.from(document.querySelectorAll('.container-a .slide')),
+        document.querySelector('.carousel'),
+        Array.from(document.querySelectorAll('.carousel .slide')),
         {
           allowLooping: true,
           transition: new PhysicalSlide(),
         }
     );
     const b = new Carousel(
-        document.querySelector('.container-b'),
-        Array.from(document.querySelectorAll('.container-b .slide')),
+        document.querySelector('.nav'),
+        Array.from(document.querySelectorAll('.nav .dot')),
         {
           allowLooping: true,
         }

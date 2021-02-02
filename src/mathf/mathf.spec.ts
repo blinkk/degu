@@ -84,6 +84,10 @@ test('lerp', t => {
     t.is(mathf.lerp(0, 100, 0.5), 50);
     t.is(mathf.lerp(25, 79, 0.2), 35.8);
 
+    t.is(mathf.lerp(-25, 50, 0.5), 12.5);
+    t.is(mathf.lerp(100, 10, 0.5), 55);
+    t.is(mathf.lerp(0, -100, 0.25), -25);
+    t.is(mathf.lerp(25, 79, 0.2), 35.8);
 
     // Check same value lerping.
     t.is(mathf.lerp(1, 1, 0), 1);
