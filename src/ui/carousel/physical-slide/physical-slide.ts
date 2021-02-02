@@ -1,8 +1,7 @@
 import { SlideToDraggableMap } from './slide-to-draggable-map';
 import { adjustSlideForSplit } from './adjust-slide-for-split';
-import { adjustSlideForLoop } from './adjust-slide-for-loop';
 import { Carousel } from '../carousel';
-import {dom, DomWatcher, mathf, Raf} from '../../..';
+import { dom, DomWatcher, mathf, Raf } from '../../..';
 import { Transition } from '../transitions';
 import { MatrixService } from './matrix-service';
 import { Vector } from '../../../mathf/vector';
@@ -11,6 +10,49 @@ import { Draggable, DraggableEvent } from '../../draggable/draggable';
 import { DraggableSynchronizer } from '../../draggable/draggable-synchronizer';
 import { Matrix } from './matrix';
 import { arrayf } from '../../../arrayf/arrayf';
+
+
+/**
+ * Determine the distance between the centers of two given elements.
+ * If no second element is given, `document.children[0]` is used.
+ *
+ * Uses the matrix service to account for translations that will be applied
+ * during the raf write step. Note that MatrixService can only account for
+ * translations that will be applied via MatrixService.
+ *
+ * @param a
+ * @param b
+ */
+function getVisibleDistanceBetweenCenters(
+    a: HTMLElement, b: HTMLElement = null
+): Vector {
+  // Gather up the information on the first element's center position.
+  const aRect = a.getBoundingClientRect();
+  const rawACenter = new Vector(
+      aRect.left + aRect.width / 2,
+      aRect.top + aRect.height / 2);
+  const aCenter =
+      rawACenter.add(
+          MatrixService.getSingleton().getAlteredTranslation(a));
+  // Gather the info on the second element's center position or the root
+  // element's center position.
+  let bCenter;
+  if (b !== null) {
+    const bRect = b.getBoundingClientRect();
+    const rawBCenter = new Vector(
+        bRect.left + bRect.width / 2,
+        bRect.top + bRect.height / 2);
+    bCenter =
+        rawBCenter.add(
+            MatrixService.getSingleton().getAlteredTranslation(b));
+  } else {
+    bCenter = new Vector(
+        document.children[0].clientWidth / 2,
+        window.innerHeight / 2);
+  }
+
+  return aCenter.subtract(bCenter);
+}
 
 /**
  * Configuration options for this transition.
@@ -161,7 +203,7 @@ export class PhysicalSlide implements Transition {
       // Start with the one closest to the center
       (el) => {
         return Math.abs(
-          dom.getVisibleDistanceBetweenCenters(
+          getVisibleDistanceBetweenCenters(
             <HTMLElement>el, this.carousel.getContainer()).x);
       },
       // If two slides are tied for distance to the center default to the one
@@ -191,7 +233,7 @@ export class PhysicalSlide implements Transition {
    */
   private getDistanceToCenter(slide: HTMLElement): number {
     const container = this.carousel.getContainer();
-    return dom.getVisibleDistanceBetweenCenters(slide, container).x;
+    return getVisibleDistanceBetweenCenters(slide, container).x;
   }
 
   /**
@@ -262,7 +304,7 @@ export class PhysicalSlide implements Transition {
     // Shift slides from one side to the other for an even split if looping is
     // supported.
     if (target !== null && this.carousel.allowsLooping()) {
-      adjustSlideForLoop(this.carousel.getSlides(), target);
+      this.adjustSlideForLoop(target);
     }
 
     const targetSlide = target ? target : this.carousel.getActiveSlide();
@@ -342,7 +384,7 @@ export class PhysicalSlide implements Transition {
     this.carousel.getSlides().forEach(
       (slide) => {
         const distance =
-          dom.getVisibleDistanceBetweenCenters(slide, targetSlide).x +
+          getVisibleDistanceBetweenCenters(slide, targetSlide).x +
           this.matrixService.getAlteredXTranslation(slide) -
           this.matrixService.getAlteredXTranslation(targetSlide);
         distancesFromTarget.set(slide, distance);
@@ -414,6 +456,39 @@ export class PhysicalSlide implements Transition {
           this.carousel.transitionToSlide(activeSlide);
         }
       }
+    }
+  }
+
+  /**
+   * Reposition slides if they have been dragged far enough off one side that they
+   * should be wrapping around onto the other side.
+   * @param targetSlide
+   */
+  private adjustSlideForLoop(targetSlide: HTMLElement): void {
+    const matrixService = MatrixService.getSingleton();
+    const slides = this.carousel.getSlides();
+    const totalWidth =
+        mathf.sum(slides.map((slide) => slide.offsetWidth));
+
+    const distanceToCenter =
+        getVisibleDistanceBetweenCenters(targetSlide).x +
+        matrixService.getAlteredXTranslation(targetSlide);
+    const distanceSign = Math.sign(distanceToCenter);
+    const isOffscreen = Math.abs(distanceToCenter) > (totalWidth / 2);
+
+    // If the slides are not offscreen they do not need to be adjusted.
+    if (!isOffscreen) {
+      return;
+    }
+
+    // Reset during drag if the drag has gone exceedingly far
+    const rootElement = document.children[0];
+    const xTranslation = -totalWidth * distanceSign;
+    const adjustedDistanceToCenter =
+        (rootElement.clientWidth * distanceSign) + distanceToCenter + xTranslation;
+
+    if (Math.abs(adjustedDistanceToCenter) < Math.abs(distanceToCenter)) {
+      matrixService.translate(targetSlide, new Vector(xTranslation, 0));
     }
   }
 

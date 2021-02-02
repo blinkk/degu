@@ -1030,46 +1030,4 @@ export class dom {
     static getScrollElement(): Element {
         return document.scrollingElement || document.documentElement;
     }
-
-    /**
-     * Determine the distance between the centers of two given elements.
-     * If no second element is given, `document.children[0]` is used.
-     *
-     * Uses the matrix service to account for translations that will be applied
-     * during the raf write step. Note that MatrixService can only account for
-     * translations that will be applied via MatrixService.
-     *
-     * @param a
-     * @param b
-     */
-    static getVisibleDistanceBetweenCenters(
-        a: HTMLElement, b: HTMLElement = null
-    ): Vector {
-        // Gather up the information on the first element's center position.
-        const aRect = a.getBoundingClientRect();
-        const rawACenter = new Vector(
-            aRect.left + aRect.width / 2,
-            aRect.top + aRect.height / 2);
-        const aCenter =
-            rawACenter.add(
-                MatrixService.getSingleton().getAlteredTranslation(a));
-        // Gather the info on the second element's center position or the root
-        // element's center position.
-        let bCenter;
-        if (b !== null) {
-            const bRect = b.getBoundingClientRect();
-            const rawBCenter = new Vector(
-                bRect.left + bRect.width / 2,
-                bRect.top + bRect.height / 2);
-            bCenter =
-                rawBCenter.add(
-                    MatrixService.getSingleton().getAlteredTranslation(b));
-        } else {
-            bCenter = new Vector(
-                document.children[0].clientWidth / 2,
-                window.innerHeight / 2);
-        }
-
-        return aCenter.subtract(bCenter);
-    }
 }
