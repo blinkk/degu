@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>bom | @blinkk/degu</title>
+	<title>ScrollToCenterOfScreenOnFocus | @blinkk/degu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,10 +57,10 @@
 					<a href="../modules/dom.html">dom</a>
 				</li>
 				<li>
-					<a href="dom.bom.html">bom</a>
+					<a href="dom.scrolltocenterofscreenonfocus.html">ScrollToCenterOfScreenOnFocus</a>
 				</li>
 			</ul>
-			<h1>Class bom</h1>
+			<h1>Class ScrollToCenterOfScreenOnFocus</h1>
 		</div>
 	</div>
 </header>
@@ -70,15 +70,68 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Degu BOM (browser object model) function</p>
+						<p>A class that looks for all elements with data-scroll-to-center-of-screen-on-focus
+							and when that element is focused, centers it to the vertical center
+						of the current viewport.</p>
 					</div>
+					<p>Why is this needed?</p>
+					<p>Let&#39;s say you have a title, body (chapter) that has an inview fade-in anim
+					that triggers when the threshold passes the bottom 30% of the viewport.</p>
+					<p>When using VO or another screenreader, the user can focus onto an element
+						while it is still below the threshold causing a situation where the
+					content is announced but not visible on the screen.</p>
+					<p>By using this class, you can force the element to the vertical center
+					of the screen to avoid these types of situations.</p>
+					<pre><code>
+  <span class="hljs-keyword">this</span>.scrollToCenterOfScreenOnFocus = <span class="hljs-keyword">new</span> ScrollToCenterOfScreenOnFocus({
+     element: <span class="hljs-keyword">this</span>.element,
+     debug: <span class="hljs-keyword">false</span>,
+     setTabIndex: <span class="hljs-keyword">true</span>,
+    setAriaRole: <span class="hljs-string">'region'</span>
+  });
+
+
+<span class="hljs-comment">// Most cases:</span>
+<span class="hljs-comment">// On focus of this element, would scroll the window so that the element</span>
+<span class="hljs-comment">// is dead center in the screen.</span>
+&lt;<span class="hljs-keyword">div</span> data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0.5"</span>&gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
+
+<span class="hljs-comment">// On focus scroll so that the top of this element is at the top of the screen.</span>
+&lt;<span class="hljs-keyword">div</span>
+ data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0"</span>
+ data-base-line=<span class="hljs-string">"0"</span>
+ &gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
+
+<span class="hljs-comment">// On focus scroll so that the center of this element is at the top of the screen.</span>
+&lt;<span class="hljs-keyword">div</span>
+ data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0"</span>
+ data-base-line=<span class="hljs-string">"0.5"</span>
+ &gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
+
+<span class="hljs-comment">// On focus of this element, would scroll the window so that the element</span>
+<span class="hljs-comment">// is 0.8 percent from the top</span>
+&lt;<span class="hljs-keyword">div</span> data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0.8"</span>&gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
+
+
+<span class="hljs-comment">// On focus, the bottom of this element should be at the center of the</span>
+<span class="hljs-comment">// screen.</span>
+&lt;<span class="hljs-keyword">div</span>
+ data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0.5"</span>
+ data-base-line=<span class="hljs-string">"1"</span>
+ &gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
+
+</code></pre><p><code>data-scroll-to-center-of-screen-on-focus</code> value sets where on the screen
+						the element should align to. 0 would be the top, 0.5 would be center and 1
+					would be the bottom of the screen.</p>
+					<p><code>data-base-line</code> tells this class what part of the element should be aligned.
+					0 would mean the top of the element, 0.5 would be the center, 1 would be the bottom.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">bom</span>
+						<span class="target">ScrollToCenterOfScreenOnFocus</span>
 					</li>
 				</ul>
 			</section>
@@ -87,102 +140,62 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.scrolltocenterofscreenonfocus.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="dom.bom.html#appendbrowsernametoelement" class="tsd-kind-icon">append<wbr>Browser<wbr>Name<wbr>ToElement</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="dom.bom.html#smartresize" class="tsd-kind-icon">smart<wbr>Resize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrolltocenterofscreenonfocus.html#dispose" class="tsd-kind-icon">dispose</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="appendbrowsernametoelement" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> append<wbr>Browser<wbr>Name<wbr>ToElement</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">append<wbr>Browser<wbr>Name<wbr>ToElement<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Scroll<wbr>ToCenter<wbr>OfScreen<wbr>OnFocus<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.scrolltocenterofscreenonfocusconfig.html" class="tsd-signature-type">ScrollToCenterOfScreenOnFocusConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.scrolltocenterofscreenonfocus.html" class="tsd-signature-type">ScrollToCenterOfScreenOnFocus</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/22c85c8/src/dom/bom.ts#L73">dom/bom.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/22c85c8/src/dom/scroll-to-center-of-screen-on-focus.ts#L112">dom/scroll-to-center-of-screen-on-focus.ts:112</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Checks the current browser and appends a css class name to the element.</p>
-								</div>
-								<pre><code>// Now this element would receive a <span class="hljs-keyword">class</span> <span class="hljs-type">name</span> <span class="hljs-keyword">of</span> the <span class="hljs-keyword">current</span> browser such
-// <span class="hljs-keyword">as</span> <span class="hljs-string">'safari'</span>, <span class="hljs-string">'ios'</span>
-bom.appendBrowserNameToElement(element);</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>element: <span class="tsd-signature-type">HTMLElement</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
+									<h5>config: <a href="../interfaces/dom.scrolltocenterofscreenonfocusconfig.html" class="tsd-signature-type">ScrollToCenterOfScreenOnFocusConfig</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="dom.scrolltocenterofscreenonfocus.html" class="tsd-signature-type">ScrollToCenterOfScreenOnFocus</a></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="smartresize" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> smart<wbr>Resize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">smart<wbr>Resize<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span></li>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="dispose" class="tsd-anchor"></a>
+					<h3>dispose</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/22c85c8/src/dom/bom.ts#L43">dom/bom.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/22c85c8/src/dom/scroll-to-center-of-screen-on-focus.ts#L195">dom/scroll-to-center-of-screen-on-focus.ts:195</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Acts just like a regular window resize but fixes resize thrashing that
-									happens on mobile during scrolling.</p>
-								</div>
-								<p>The issue is that on mobile, there is that browser URL bar.  As the user
-									scrolls, the url bar scrolls way with it, increasing the viewport
-								height.  The window fires the resize event (since it is a different size).</p>
-								<p>This causes a situation where, as the user scrolls through a page on
-									mobile, resize events are unnecessarily called if you only care
-								about the &quot;width&quot; changing.</p>
-								<p>The method creates a listener on the window resize except it retains
-									memory of the last browser width.  If the browser width hasn&#39;t
-								changed, it will cull/cut off that event.</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> done = bom.smartResize(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'window resize but called when user scrolls on mobile'</span>)
-}, { passive: <span class="hljs-literal">true</span>});
-
-
-<span class="hljs-comment">// Call later to remove listener.</span>
-done();
-</code></pre>
-								<p>This isn&#39;t applied on non-mobile browsers.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-								</li>
-								<li>
-									<h5>options: <span class="tsd-signature-type">Object</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The resize options such as passive: true</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Function</span></h4>
-							<p>A function that which when called, will automatically
-							remove that attached listener from the window.</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -270,13 +283,13 @@ done();
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="dom.bom.html" class="tsd-kind-icon">bom</a>
+						<a href="dom.scrolltocenterofscreenonfocus.html" class="tsd-kind-icon">Scroll<wbr>ToCenter<wbr>OfScreen<wbr>OnFocus</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="dom.bom.html#appendbrowsernametoelement" class="tsd-kind-icon">append<wbr>Browser<wbr>Name<wbr>ToElement</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="dom.scrolltocenterofscreenonfocus.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="dom.bom.html#smartresize" class="tsd-kind-icon">smart<wbr>Resize</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.scrolltocenterofscreenonfocus.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
 						</ul>
 					</li>
