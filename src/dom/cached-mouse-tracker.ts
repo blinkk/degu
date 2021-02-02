@@ -1,4 +1,4 @@
-import {DomWatcher, Raf} from '..';
+import { DomWatcher, Raf } from '..';
 import { Vector } from '../mathf/vector';
 
 const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchmove'];
@@ -44,7 +44,6 @@ export class CachedMouseTracker {
   private static singleton: CachedMouseTracker = null;
   private static singletonUses: Set<any> = new Set();
   private readonly raf: Raf;
-  private readonly cursorMoveHandler: EventListenerOrEventListenerObject;
   private clientPosition: Vector;
   private domWatcher: DomWatcher;
 
