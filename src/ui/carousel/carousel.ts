@@ -424,9 +424,7 @@ export class Carousel {
         return;
       }
 
-      const shouldSync: boolean = this.handleTransition();
       const activeSlide = this.getActiveSlide();
-
       if (activeSlide !== this.lastActiveSlide) {
         this.lastActiveSlide = activeSlide;
         this.onTransitionCallbacks.forEach((callback) => callback(this));
@@ -436,7 +434,7 @@ export class Carousel {
         }
 
         // Sync other carousels.
-        if (shouldSync) {
+        if (this.shouldSync()) {
           this.synchronizer
               .handleCarouselTransition(this, this.getSlideIndex(activeSlide));
         }
@@ -478,7 +476,7 @@ export class Carousel {
   /**
    * Handle the transition between slides.
    */
-  private handleTransition(): boolean {
+  private shouldSync(): boolean {
     if (this.isTransitioning()) {
       const hasTransitionedToTarget =
           this.transition.hasTransitionedTo(this.transitionTarget.element);
