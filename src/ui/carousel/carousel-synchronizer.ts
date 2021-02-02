@@ -20,7 +20,6 @@ import { Carousel } from './carousel';
  *   <div class="dot">1</div>
  *   <div class="dot">2</div>
  *   <div class="dot">3</div>
- *   <!-- Synced carousel does not need the repeat -->
  * </div>
  * ```
  *
