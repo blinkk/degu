@@ -90,75 +90,94 @@ Sass
      transform: translateX(calc(var(<span class="hljs-comment">--x) * 1px)) translateY(calc(var(--y) * 1px));</span>
 </code></pre><p>JS</p>
 					<pre><code class="language-ts">
- <span class="hljs-keyword">this</span>.ball = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'ball'</span>);
- <span class="hljs-keyword">this</span>.range = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'range'</span>);
+ this.ball = document.getElementById('ball');
+ this.range = document.getElementById('range');
 
- <span class="hljs-keyword">this</span>.cssVarInterpolate = <span class="hljs-keyword">new</span> CssVarInterpolate(
-   <span class="hljs-keyword">this</span>.ball,
+ this.cssVarInterpolate = new CssVarInterpolate(
+   this.ball,
    {
      interpolations: [
          {
            progress: [
-             { <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>, to: <span class="hljs-number">1</span>, start: <span class="hljs-number">0</span>, end: <span class="hljs-number">500</span> },
+             { from: 0, to: 1, start: 0, end: 500 },
            ],
-           id: <span class="hljs-string">'--x'</span>
+           id: '--x'
          },
          {
            progress: [
-              { <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>, to: <span class="hljs-number">0.2</span>, start: <span class="hljs-number">0</span>, end: <span class="hljs-number">100</span>, easingFunction: EASE.easeOutSine },
-              { <span class="hljs-keyword">from</span>: <span class="hljs-number">0.2</span>, to: <span class="hljs-number">0.3</span>, start: <span class="hljs-number">100</span>, end: <span class="hljs-number">300</span>, easingFunction: EASE.easeOutSine },
-              { <span class="hljs-keyword">from</span>: <span class="hljs-number">0.3</span>, to: <span class="hljs-number">0.5</span>, start: <span class="hljs-number">300</span>, end: <span class="hljs-number">0</span>, easingFunction: EASE.easeOutSine },
-              { <span class="hljs-keyword">from</span>: <span class="hljs-number">0.5</span>, to: <span class="hljs-number">1</span>, start: <span class="hljs-number">0</span>, end: <span class="hljs-number">500</span>, easingFunction: EASE.easeInQuad },
+              { from: 0, to: 0.2, start: 0, end: 100, easingFunction: EASE.easeOutSine },
+              { from: 0.2, to: 0.3, start: 100, end: 300, easingFunction: EASE.easeOutSine },
+              { from: 0.3, to: 0.5, start: 300, end: 0, easingFunction: EASE.easeOutSine },
+              { from: 0.5, to: 1, start: 0, end: 500, easingFunction: EASE.easeInQuad },
            ],
-           id: <span class="hljs-string">'--y'</span>
+           id: '--y'
          },
-         <span class="hljs-comment">// You can use simple unit values.  See interpolate for more.</span>
+         // You can use simple unit values.  See interpolate for more.
          {
            progress: [
-             { <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>, to: <span class="hljs-number">0.3</span>, start: <span class="hljs-string">'10px'</span>, end: <span class="hljs-string">'30px'</span> },
+             { from: 0, to: 0.3, start: '10px', end: '30px' },
            ],
-           id: <span class="hljs-string">'--z'</span>
+           id: '--z'
          },
-         <span class="hljs-comment">// You can also use a special noInteperlate mode.</span>
-        <span class="hljs-comment">// This is useful if you want to just apply non-interpolating values</span>
-        <span class="hljs-comment">// at specific ranges.  It requires a default value.</span>
+
+        // You can also use a special noInteperlate mode.
+        // This is useful if you want to just apply non-interpolating values
+        // at specific ranges.  It requires a default value.
         {
            progress: [
-             { <span class="hljs-keyword">from</span>: <span class="hljs-number">0.2</span>, to: <span class="hljs-number">0.3</span>, start: <span class="hljs-string">'block'</span>, end: <span class="hljs-string">'block'</span> },
+             { from: 0.2, to: 0.3, start: 'block', end: 'block' },
            ],
-           id: <span class="hljs-string">'--display-settings'</span>,
-           noInterpolation: <span class="hljs-literal">true</span>,
-           noInterpolationDefault: <span class="hljs-string">'none'</span>
+           id: '--display-settings',
+           noInterpolation: true,
+           noInterpolationDefault: 'none'
         }
 
 
-      <span class="hljs-comment">// Staggers allows to create multi entries of the same property with an</span>
-      <span class="hljs-comment">// offset.  For example, here 4 staggers would be created.</span>
-      <span class="hljs-comment">// hero-y-0, hero-y-1, hero-y-2, hero-y-3 and the from and end points</span>
-      <span class="hljs-comment">// would each be shifted by the progressOffset (0.008).</span>
-      <span class="hljs-comment">// You can then use those css variables to target your elements.</span>
-      <span class="hljs-comment">//</span>
-      <span class="hljs-comment">// An easy way might be to add [row="0"], [row="1"]</span>
-      <span class="hljs-comment">// your elements and add a sass mixin like the following.</span>
-      <span class="hljs-comment">//</span>
-      <span class="hljs-comment">//</span>
-      <span class="hljs-comment">//  =effect-stagger($stagger, $offset)</span>
-      <span class="hljs-comment">//   @for $i from 0 through $stagger</span>
-      <span class="hljs-comment">//       [row="#{$i}"]</span>
-      <span class="hljs-comment">//       transform: translateY(var(--hero2-y-#{$i + $offset}))</span>
-      <span class="hljs-comment">//</span>
-      <span class="hljs-comment">// .my-chapter</span>
-      <span class="hljs-comment">//     +effect-stagger(4,0)</span>
-      <span class="hljs-comment">//</span>
-      <span class="hljs-comment">// You could use this effect with https://github.com/blinkkcode/degu/blob/master/src/angular/directive-text-split.ts</span>
-      <span class="hljs-comment">// or https://github.com/blinkkcode/degu/blob/master/src/dom/text-split2.ts</span>
-      <span class="hljs-comment">//</span>
+       // Visibility id
+       // It's common to associate visibility: hidden with opacity: 0
+       // in order to boost rendering performance.
+       // This can be done by creating a non-interpolation (see above)
+       // but since it's a common take, it is available as a special
+       // parameter.
+       // Pass the visibilityId and it will create a css variable
+       // tied to the opacity that sets the value to hidden when
+       // the opacity value is &lt;= 0.
+         {
+           progress: [
+             { from: 0, to: 0.3, start: 0, end: 1 },
+           ],
+           id: '--my-opacity',
+           visibilityId: '--my-visibility
+         },
+
+
+      // Staggers allows to create multi entries of the same property with an
+      // offset.  For example, here 4 staggers would be created.
+      // hero-y-0, hero-y-1, hero-y-2, hero-y-3 and the from and end points
+      // would each be shifted by the progressOffset (0.008).
+      // You can then use those css variables to target your elements.
+      //
+      // An easy way might be to add [row="0"], [row="1"]
+      // your elements and add a sass mixin like the following.
+      //
+      //
+      //  =effect-stagger($stagger, $offset)
+      //   @for $i from 0 through $stagger
+      //       [row="#{$i}"]
+      //       transform: translateY(var(--hero2-y-#{$i + $offset}))
+      //
+      // .my-chapter
+      //     +effect-stagger(4,0)
+      //
+      // You could use this effect with https://github.com/blinkkcode/degu/blob/master/src/angular/directive-text-split.ts
+      // or https://github.com/blinkkcode/degu/blob/master/src/dom/text-split2.ts
+      //
       {
-        progress: [{ <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>, to: <span class="hljs-number">0.3</span>, start: <span class="hljs-string">'0px'</span>, end: <span class="hljs-string">'100px'</span> }]
-        id: <span class="hljs-string">'hero-y'</span>,
+        progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
+        id: 'hero-y',
         stagger: {
-            count: <span class="hljs-number">4</span>,
-            progressOffset: <span class="hljs-number">0.008</span>
+            count: 4,
+            progressOffset: 0.008
         }
        }
 
@@ -167,38 +186,38 @@ Sass
      ]}
  )
 
-<span class="hljs-comment">// A feature introduced since v0.0.103 and recommended.</span>
-<span class="hljs-keyword">this</span>.cssVarInterpolate.useBatchUpdate(<span class="hljs-literal">true</span>);
+// A feature introduced since v0.0.103 and recommended.
+this.cssVarInterpolate.useBatchUpdate(true);
 
-<span class="hljs-comment">// For perf boost</span>
-<span class="hljs-keyword">this</span>.interpolator.useSubPixelRendering(<span class="hljs-literal">false</span>);
+// For perf boost
+this.interpolator.useSubPixelRendering(false);
 
- <span class="hljs-comment">// Set the progress to the range value.</span>
- <span class="hljs-keyword">this</span>.progress = +<span class="hljs-keyword">this</span>.range.value;
+ // Set the progress to the range value.
+ this.progress = +this.range.value;
 
 
- <span class="hljs-comment">// Note that cssVarInterpolate, will cull uncessary calls to</span>
- <span class="hljs-comment">// avoid layout updates/thrashing.  If the value of progress is the</span>
- <span class="hljs-comment">// same, won't make any uncessary calls but allow the animations</span>
- <span class="hljs-comment">// to complete.</span>
- <span class="hljs-comment">//</span>
- <span class="hljs-comment">//</span>
- <span class="hljs-comment">// Note that it is recommended to use &lt;a href="raf.rafprogress.html"&gt;RafProgress&lt;/a&gt; to manage progress</span>
- <span class="hljs-comment">// easing but here to keep the demo simple, we are using a simplified</span>
- <span class="hljs-comment">// model. See the css-var-interpolate example in /examples folder for this</span>
- <span class="hljs-comment">// same implemetnation using RafProgress.</span>
- <span class="hljs-comment">//</span>
- <span class="hljs-keyword">const</span> raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-    <span class="hljs-keyword">let</span> progress = +<span class="hljs-keyword">this</span>.range.value;
+ // Note that cssVarInterpolate, will cull uncessary calls to
+ // avoid layout updates/thrashing.  If the value of progress is the
+ // same, won't make any uncessary calls but allow the animations
+ // to complete.
+ //
+ //
+ // Note that it is recommended to use &lt;a href="raf.rafprogress.html"&gt;RafProgress&lt;/a&gt; to manage progress
+ // easing but here to keep the demo simple, we are using a simplified
+ // model. See the css-var-interpolate example in /examples folder for this
+ // same implemetnation using RafProgress.
+ //
+ const raf = new Raf(() =&gt; {
+    let progress = +this.range.value;
 
-   <span class="hljs-comment">// Add some ease to the progress to smooth it out.</span>
-   <span class="hljs-keyword">this</span>.progress = mathf.ease(<span class="hljs-keyword">this</span>.progress, progress, <span class="hljs-number">0.25</span>, EASE.easeInOutQuad);
+   // Add some ease to the progress to smooth it out.
+   this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
 
-  <span class="hljs-comment">// Reduce the precision of progress.  We dont need to report progress differences</span>
-  <span class="hljs-comment">// of 0.0000001.</span>
-  <span class="hljs-keyword">this</span>.progress = mathf.round(<span class="hljs-keyword">this</span>.progress, <span class="hljs-number">3</span>);
+  // Reduce the precision of progress.  We dont need to report progress differences
+  // of 0.0000001.
+  this.progress = mathf.round(this.progress, 3);
 
-   <span class="hljs-keyword">this</span>.cssVarInterpolate.update(<span class="hljs-keyword">this</span>.progress);
+   this.cssVarInterpolate.update(this.progress);
  }).start();
 
 </code></pre>
@@ -286,7 +305,7 @@ Sass
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L271">interpolate/css-var-interpolate.ts:271</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L290">interpolate/css-var-interpolate.ts:290</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -325,7 +344,7 @@ Sass
 					<div class="tsd-signature tsd-kind-icon">element<wbr>Visibility<span class="tsd-signature-symbol">:</span> <a href="../interfaces/dom.elementvisibilityobject.html" class="tsd-signature-type">ElementVisibilityObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L222">interpolate/css-var-interpolate.ts:222</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L241">interpolate/css-var-interpolate.ts:241</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -340,7 +359,7 @@ Sass
 					<div class="tsd-signature tsd-kind-icon">render<wbr>Only<wbr>When<wbr>Inview<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L230">interpolate/css-var-interpolate.ts:230</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L249">interpolate/css-var-interpolate.ts:249</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -358,7 +377,7 @@ Sass
 					<div class="tsd-signature tsd-kind-icon">run<wbr>Once<wbr>After<wbr>Out<wbr>View<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L238">interpolate/css-var-interpolate.ts:238</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L257">interpolate/css-var-interpolate.ts:257</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -383,7 +402,7 @@ Sass
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L374">interpolate/css-var-interpolate.ts:374</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L393">interpolate/css-var-interpolate.ts:393</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -417,7 +436,7 @@ cssVarInterpolate.update(<span class="hljs-number">0.2</span>); <span class="hlj
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L541">interpolate/css-var-interpolate.ts:541</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L561">interpolate/css-var-interpolate.ts:561</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -441,7 +460,7 @@ cssVarInterpolate.update(<span class="hljs-number">0.2</span>); <span class="hlj
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L413">interpolate/css-var-interpolate.ts:413</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L432">interpolate/css-var-interpolate.ts:432</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -469,7 +488,7 @@ cssVarInterpolate.update(<span class="hljs-number">0.2</span>); <span class="hlj
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L338">interpolate/css-var-interpolate.ts:338</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L357">interpolate/css-var-interpolate.ts:357</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -515,7 +534,7 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L351">interpolate/css-var-interpolate.ts:351</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L370">interpolate/css-var-interpolate.ts:370</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -546,7 +565,7 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L530">interpolate/css-var-interpolate.ts:530</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L550">interpolate/css-var-interpolate.ts:550</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -581,7 +600,7 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L425">interpolate/css-var-interpolate.ts:425</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L444">interpolate/css-var-interpolate.ts:444</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -617,7 +636,7 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L406">interpolate/css-var-interpolate.ts:406</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L425">interpolate/css-var-interpolate.ts:425</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -646,7 +665,7 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L396">interpolate/css-var-interpolate.ts:396</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L415">interpolate/css-var-interpolate.ts:415</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -679,7 +698,7 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/c2fa210/src/interpolate/css-var-interpolate.ts#L384">interpolate/css-var-interpolate.ts:384</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/a2ff4ec/src/interpolate/css-var-interpolate.ts#L403">interpolate/css-var-interpolate.ts:403</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
