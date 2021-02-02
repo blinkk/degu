@@ -13,7 +13,7 @@ import { Matrix } from './matrix';
  * @param draggable
  * @param delta
  */
-function constrainPhysicalSlide(
+function constrainDraggableSlide(
     carousel: Carousel, draggable: Draggable, delta: Vector
 ): Vector {
   const slides = carousel.getSlides();
@@ -49,7 +49,7 @@ export class SlideToDraggableMap extends DefaultMap<HTMLElement, Draggable> {
         carousel.allowsLooping() ?
             [] :
             [(draggable: Draggable, delta: Vector) => {
-              return constrainPhysicalSlide(carousel, draggable, delta);
+              return constrainDraggableSlide(carousel, draggable, delta);
             }];
 
     const options = { constraints };

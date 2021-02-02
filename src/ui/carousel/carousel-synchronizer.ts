@@ -31,7 +31,7 @@ import { Carousel } from './carousel';
  *   Array.from(document.querySelectorAll('.container-a .slide')),
  *   {
  *     allowLooping: true,
- *     transition: new PhysicalSlide(),
+ *     transition: new DraggableSlide(),
  *   });
  * const b = new Carousel(
  *   document.querySelector('.container-b'),

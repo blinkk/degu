@@ -1,7 +1,7 @@
 import { Draggable } from './draggable';
 import { setf } from '../../setf/setf';
 import { Vector } from '../../mathf/vector';
-import { MatrixService } from '../carousel/physical-slide/matrix-service';
+import { MatrixService } from '../carousel/draggable-slide/matrix-service';
 
 export class DraggableSynchronizer {
   /**

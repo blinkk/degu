@@ -56,7 +56,7 @@ function getVisibleDistanceBetweenCenters(
 /**
  * Configuration options for this transition.
  */
-export interface PhysicalSlideConfig {
+export interface DraggableSlideConfig {
   transitionTime?: number; // How long the transition animation should take
   easingFunction?: EasingFunction; // Easing function for the transition
 }
@@ -102,7 +102,7 @@ class InteractionStart {
  * applied to themselves. Children of the slide elements however can be
  * transformed as needed to achieve any visual effects needed.
  */
-export class PhysicalSlide implements Transition {
+export class DraggableSlide implements Transition {
   private static DEFAULT_EASING: EasingFunction =
       new CubicBezier(0.445, 0.05, 0.55, 0.95).easingFunction();
   private readonly easingFunction: EasingFunction;
@@ -122,8 +122,8 @@ export class PhysicalSlide implements Transition {
   constructor(
     {
       transitionTime = 500,
-      easingFunction = PhysicalSlide.DEFAULT_EASING
-    }: PhysicalSlideConfig = {}
+      easingFunction = DraggableSlide.DEFAULT_EASING
+    }: DraggableSlideConfig = {}
   ) {
     this.raf = new Raf();
     this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);

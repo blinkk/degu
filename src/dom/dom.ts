@@ -4,7 +4,7 @@ import { func } from '../func/func';
 import { is } from '../is/is';
 import { DomWatcher } from '../dom/dom-watcher';
 import {Vector} from '../mathf/vector';
-import {MatrixService} from '../ui/carousel/physical-slide/matrix-service';
+import {MatrixService} from '../ui/carousel/draggable-slide/matrix-service';
 
 /**
  * Degu DOM utility functions.
