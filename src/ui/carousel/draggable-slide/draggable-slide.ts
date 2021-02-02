@@ -125,7 +125,7 @@ export class DraggableSlide implements Transition {
       easingFunction = DraggableSlide.DEFAULT_EASING
     }: DraggableSlideConfig = {}
   ) {
-    this.raf = new Raf();
+    this.raf = new Raf(() => this.loop());
     this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
     this.matrixService = MatrixService.getSingleton();
     this.domWatcher = new DomWatcher();
@@ -153,6 +153,7 @@ export class DraggableSlide implements Transition {
     // Transition to the given active slide
     this.raf.read(() => this.transition(activeSlide, 0));
     this.initDraggableSlides();
+    this.raf.start();
   }
 
   loop(): void {

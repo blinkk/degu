@@ -9,7 +9,6 @@ export interface Transition {
   init(initialSlide: Element, carousel: Carousel): void;
   getActiveSlide(): HTMLElement;
   hasTransitionedTo(slide: HTMLElement): boolean;
-  loop(): void;
   isBeingInteractedWith(): boolean;
 }
 
@@ -37,10 +36,6 @@ export class CssClassesOnly implements Transition {
 
   hasTransitionedTo(slide: HTMLElement): boolean {
     return this.activeSlide === slide;
-  }
-
-  loop() {
-    // This space left deliberately empty.
   }
 
   /**

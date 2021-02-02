@@ -425,8 +425,6 @@ export class Carousel {
       }
 
       const shouldSync: boolean = this.handleTransition();
-      this.transition.loop(); // Run the transition's render loop
-
       const activeSlide = this.getActiveSlide();
 
       if (activeSlide !== this.lastActiveSlide) {
