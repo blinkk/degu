@@ -1033,7 +1033,7 @@ export class dom {
 
     /**
      * Determine the distance between the centers of two given elements.
-     * If no second element is given, the root element is used.
+     * If no second element is given, `document.children[0]` is used.
      *
      * Uses the matrix service to account for translations that will be applied
      * during the raf write step. Note that MatrixService can only account for
