@@ -156,7 +156,7 @@ export class ScrollToOnFocus {
             }
 
             if(config.setAriaRole) {
-                el.setAttribute('aria-role', config.setAriaRole);
+                el.setAttribute('role', config.setAriaRole);
             }
 
 
