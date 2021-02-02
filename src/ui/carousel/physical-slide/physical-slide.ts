@@ -1,5 +1,4 @@
 import { SlideToDraggableMap } from './slide-to-draggable-map';
-import { adjustSlideForSplit } from './adjust-slide-for-split';
 import { Carousel } from '../carousel';
 import { dom, DomWatcher, mathf, Raf } from '../../..';
 import { Transition } from '../transitions';
@@ -351,8 +350,8 @@ export class PhysicalSlide implements Transition {
         if (!slidesToAdjust.has(slideToAdjust)) {
           continue;
         }
-        adjustSlideForSplit(
-            this.carousel, targetSlide, slideToAdjust, distancesFromTarget, -1);
+        this.adjustSlideForSplit(
+            targetSlide, slideToAdjust, distancesFromTarget, -1);
         distanceOnLeftToCover -= slideToAdjust.offsetWidth;
         slidesToAdjust.delete(slideToAdjust);
       } else {
@@ -364,8 +363,8 @@ export class PhysicalSlide implements Transition {
         if (!slidesToAdjust.has(slideToAdjust)) {
           continue;
         }
-        adjustSlideForSplit(
-            this.carousel, targetSlide, slideToAdjust, distancesFromTarget, 1);
+        this.adjustSlideForSplit(
+            targetSlide, slideToAdjust, distancesFromTarget, 1);
         distanceOnRightToCover -= slideToAdjust.offsetWidth;
         slidesToAdjust.delete(slideToAdjust);
       }
@@ -489,6 +488,65 @@ export class PhysicalSlide implements Transition {
 
     if (Math.abs(adjustedDistanceToCenter) < Math.abs(distanceToCenter)) {
       matrixService.translate(targetSlide, new Vector(xTranslation, 0));
+    }
+  }
+
+  /**
+   * Adjusts the given slide within a carousel to keep slides split
+   * appropriately.
+   * @param targetSlide The slide to adjust around
+   * @param slide The slide to adjust
+   * @param distancesFromTarget A map of the distance between slides and the
+   *     target
+   * @param direction The direction the slide should be split
+   */
+  private adjustSlideForSplit(
+      targetSlide: HTMLElement,
+      slide: HTMLElement,
+      distancesFromTarget: Map<HTMLElement, number>,
+      direction: number
+  ): void {
+    const targetOffset =
+        this.getTargetSplitOffset(targetSlide, slide, direction);
+    const difference = targetOffset - distancesFromTarget.get(slide);
+    if (difference !== 0) {
+      MatrixService.getSingleton().translate(slide, new Vector(difference, 0));
+    }
+  }
+
+  private getTargetSplitOffset(
+      targetSlide: HTMLElement,
+      slide: HTMLElement,
+      direction: number
+  ): number {
+    if (targetSlide === slide) {
+      return 0;
+    }
+    const inBetweenSlides =
+        this.getInBetweenSlides(targetSlide, slide, direction);
+    const inBetweenWidth =
+        mathf.sum(inBetweenSlides.map((el) => el.offsetWidth));
+    const halfSlideWidth = slide.offsetWidth / 2;
+    const halfTargetSlideWidth = targetSlide.offsetWidth / 2;
+    return (halfSlideWidth + inBetweenWidth + halfTargetSlideWidth) * direction;
+  }
+
+  private getInBetweenSlides(
+      targetSlide: HTMLElement,
+      slide: HTMLElement,
+      direction: number
+  ): HTMLElement[] {
+    const targetIndex = this.carousel.getSlideIndex(targetSlide);
+    const endIndex = this.carousel.getSlideIndex(slide) - direction;
+    if (this.carousel.allowsLooping()) {
+      return arrayf.loopSlice(
+          this.carousel.getSlides(), endIndex, targetIndex, -direction);
+    } else if (targetIndex === endIndex) {
+      return [];
+    } else {
+      return this.carousel.getSlides().slice(
+          Math.min(targetIndex + 1, endIndex),
+          Math.max(targetIndex, endIndex + direction));
     }
   }
 
