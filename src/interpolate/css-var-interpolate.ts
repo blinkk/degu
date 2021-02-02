@@ -65,7 +65,8 @@ import { objectf } from '../objectf/objectf';
  *            ],
  *            id: '--z'
  *          },
- *          // You can also use a special noInteperlate mode.
+ *
+ *         // You can also use a special noInteperlate mode.
  *         // This is useful if you want to just apply non-interpolating values
  *         // at specific ranges.  It requires a default value.
  *         {
@@ -76,6 +77,24 @@ import { objectf } from '../objectf/objectf';
  *            noInterpolation: true,
  *            noInterpolationDefault: 'none'
  *         }
+ *
+ *
+ *        // Visibility id
+ *        // It's common to associate visibility: hidden with opacity: 0
+ *        // in order to boost rendering performance.
+ *        // This can be done by creating a non-interpolation (see above)
+ *        // but since it's a common take, it is available as a special
+ *        // parameter.
+ *        // Pass the visibilityId and it will create a css variable
+ *        // tied to the opacity that sets the value to hidden when
+ *        // the opacity value is <= 0.
+ *          {
+ *            progress: [
+ *              { from: 0, to: 0.3, start: 0, end: 1 },
+ *            ],
+ *            id: '--my-opacity',
+ *            visibilityId: '--my-visibility
+ *          },
  *
  *
  *       // Staggers allows to create multi entries of the same property with an
@@ -485,6 +504,7 @@ export class CssVarInterpolate {
         const previousValues = objectf.jsonCopy(this.currentValues);
         this.currentValues =
             this.multiInterpolate.calculate(this.mainProgress);
+
 
         // Check if the previous values and current values are exactly the same
         // in which case we can avoid an unncessary update.

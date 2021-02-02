@@ -54,6 +54,16 @@ export interface interpolateSettings {
     noInterpolationDefault?: string;
 
     /**
+     * An optional visibility id to pass to associate opacity and visibility.
+     * See https://github.com/blinkkcode/degu/issues/65.
+     *
+     * This option is mainly used for css-var-interpolate to create
+     * a visibility css variable that sets to hidden when the related
+     * css variable (opacity) is set to 0.
+     */
+    visibilityId?: string;
+
+    /**
      * Stagger option.
      */
     stagger?: interpolateStaggerOptions;
@@ -327,6 +337,8 @@ export class MultiInterpolate {
 
                 return interpolateSettings;
             })
+
+
     }
 
 
@@ -411,6 +423,8 @@ export class MultiInterpolate {
                     matchedRangeProgress.to
                 )
 
+
+
                 /*
                  * There are very specific cases in which we want to specify
                  * non-interpolating values.
@@ -481,6 +495,38 @@ export class MultiInterpolate {
 
                     // Finally cache this value to the current values list.
                     this.currentValues[config.id] = interpolatedValue;
+
+
+                    /**
+                     * If visibilityId is declared, we want to create an extra
+                     * interpolation value that observes the current config and
+                     * set it value to 'hidden' when <0 and otherwise 'visible'
+                     *
+                     * The goal here is to be able to create a visibility css
+                     * variable associated with the opacity variable.
+                     *
+                     * When the opacity is 0, the visiblity should be hidden
+                     * to boost performance.
+                     *
+                     * ```
+                     *  {
+                     *   progress: [{ from: 0, to: 0.3, start: 0, end: 1 },],
+                     *   id: '--my-opacity'
+                     *   visibilityId: '--my-visibility'
+                     * },
+                     *
+                     *   .myvar
+                     *       opacity: var(--my-opacity)
+                     *       visibility: var(--my-visibility)
+                     * ```
+                     *
+                     * https://github.com/blinkkcode/degu/issues/65
+                     */
+                    if(config.visibilityId) {
+                        // Add this to the current values list.
+                        this.currentValues[config.visibilityId] =
+                            interpolatedValue <= 0 ? 'hidden' : 'visible';
+                    }
                 }
 
 
