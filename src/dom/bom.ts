@@ -82,6 +82,7 @@ export class bom {
             'firefox': is.firefox,
             'ios': is.ios,
             'ipad': is.ipad,
+            'android': is.android,
         }
 
 
