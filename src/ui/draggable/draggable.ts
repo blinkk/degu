@@ -32,7 +32,7 @@ export class Draggable {
 
   constructor(
     element: HTMLElement,
-    { constraints = [] }: {constraints?: DraggableConstraint[]} = {}
+    { constraints = [] }: { constraints?: DraggableConstraint[] } = {}
   ) {
     this.element = element;
     this.raf = new Raf(() => this.loop());
@@ -78,9 +78,8 @@ export class Draggable {
     }
 
     this.interacting = false;
-    this.raf.read(() => {
-      dom.event(this.element, DraggableEvent.END, {});
-    });
+    this.raf.read(
+        () => dom.event(this.element, DraggableEvent.END, {}));
   }
 
   /**
@@ -130,7 +129,7 @@ export class Draggable {
             callback: () => this.startInteraction()
           });
         });
-    ['contextmenu',  'dragstart',  'touchend', 'mouseup']
+    ['contextmenu', 'dragstart',  'touchend', 'mouseup']
         .forEach((event: string) => {
           this.domWatcher.add({
             element: window,

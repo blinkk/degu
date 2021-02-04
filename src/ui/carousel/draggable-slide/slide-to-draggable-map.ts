@@ -17,24 +17,21 @@ function constrainDraggableSlide(
     carousel: Carousel, draggable: Draggable, delta: Vector
 ): Vector {
   const slides = carousel.getSlides();
-  const container = carousel.getContainer();
 
   // Allow for centering the last slide
-  const halfContainerWidth = container.offsetWidth / 2;
-  const widthOfAllSlides =
+  const halfContainer = carousel.getContainer().offsetWidth / 2;
+  const totalSlideWidth =
       mathf.sum(slides.map((s) => s.offsetWidth));
-  const widthOfLastSlide = slides.slice(-1)[0].offsetWidth;
-  const halfWidthOfLastSlide = widthOfLastSlide / 2;
-  const halfWidthOfFirstSlide = slides[0].offsetWidth / 2;
+  const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
+  const halfLastSlide = lastSlideWidth / 2;
+  const halfFirstSlide = slides[0].offsetWidth / 2;
 
-  const min =
-      halfContainerWidth - widthOfAllSlides + halfWidthOfLastSlide;
-  const max = halfContainerWidth - halfWidthOfFirstSlide;
+  const min = halfContainer - totalSlideWidth + halfLastSlide;
+  const max = halfContainer - halfFirstSlide;
   const currentX =
       Matrix.fromElementTransform(draggable.element).getTranslateX();
-  const finalX = currentX + delta.x;
-  const clampedFinalX = mathf.clamp(min, max, finalX);
-  const deltaX = clampedFinalX - currentX;
+  const finalX = mathf.clamp(min, max, currentX + delta.x);
+  const deltaX = finalX - currentX;
 
   return new Vector(deltaX, delta.y);
 }
@@ -45,14 +42,14 @@ function constrainDraggableSlide(
  */
 export class SlideToDraggableMap extends DefaultMap<HTMLElement, Draggable> {
   constructor(carousel: Carousel) {
-    const constraints =
+    const options =
         carousel.allowsLooping() ?
-            [] :
-            [(draggable: Draggable, delta: Vector) => {
-              return constrainDraggableSlide(carousel, draggable, delta);
-            }];
-
-    const options = { constraints };
+            {} :
+            {
+              constraints: [(draggable: Draggable, delta: Vector) => {
+                return constrainDraggableSlide(carousel, draggable, delta);
+              }]
+            };
     const defaultFn =
         (slide: HTMLElement) => new HorizontallyDraggable(slide, options);
     super([], defaultFn);

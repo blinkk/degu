@@ -8,7 +8,7 @@ import { CarouselSynchronizer } from './carousel-synchronizer';
  * For readability, specifies which half should be gotten by providing a
  * direction to loop through elements.
  */
-enum Half {
+enum Direction {
   LEFT = -1,
   RIGHT = 1
 }
@@ -240,7 +240,7 @@ export class Carousel {
    */
   getSlidesBefore(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
-      return this.splitSlidesInHalf(slide, Half.LEFT);
+      return this.splitSlidesInHalf(slide, Direction.LEFT);
     } else {
       return this.getSlides().slice(0, this.getSlides().indexOf(slide));
     }
@@ -252,7 +252,7 @@ export class Carousel {
    */
   getSlidesAfter(slide: HTMLElement): HTMLElement[] {
     if (this.allowsLooping()) {
-      return this.splitSlidesInHalf(slide, Half.RIGHT);
+      return this.splitSlidesInHalf(slide, Direction.RIGHT);
     } else {
       return this.getSlides().slice(this.getSlides().indexOf(slide) + 1);
     }
@@ -355,8 +355,7 @@ export class Carousel {
   getClampedIndex(index: number): number {
     const slidesLength = this.getSlides().length;
     if (this.allowsLooping()) {
-      const clampedIndex = index % slidesLength; // Can be any sign
-      return (clampedIndex + slidesLength) % slidesLength; // Make positive
+      return mathf.wrap(index, 0, slidesLength);
     } else {
       return mathf.clamp(0, slidesLength - 1, index);
     }
@@ -370,7 +369,7 @@ export class Carousel {
    * @param weightOdd
    * @private
    */
-  private getHalfLengthOfSlides(weightOdd: boolean): number {
+  private getHalfOfSlideCount(weightOdd: boolean): number {
     const halfLength = (this.getSlides().length - 1) / 2;
     if (halfLength % 2 === 0) {
       return halfLength;
@@ -383,22 +382,22 @@ export class Carousel {
 
   /**
    * Return half of the slides by taking slides to one side of the given slide.
-   * @param slide
-   * @param direction
+   *
+   * This function assumes looping is enabled and loops around if needed to get
+   * half of the slides.
    */
   private splitSlidesInHalf(
-      slide: HTMLElement, direction: Half
+      slide: HTMLElement, direction: Direction
   ): HTMLElement[] {
     const targetLength =
-        this.getHalfLengthOfSlides(direction === Half.RIGHT);
-    const slideCount = this.getSlideCount();
+        this.getHalfOfSlideCount(direction === Direction.RIGHT);
     const result = [];
     let indexToAdd = this.getSlideIndex(slide);
     while (result.length < targetLength) {
       // Build the looped index
-      indexToAdd = (indexToAdd + direction + slideCount) % slideCount;
+      indexToAdd = mathf.wrap(indexToAdd + direction, 0, this.getSlideCount());
       const slideToAdd = this.getSlideByIndex(indexToAdd);
-      if (direction > 0) {
+      if (direction === Direction.RIGHT) {
         result.push(slideToAdd);
       } else {
         result.unshift(slideToAdd);
@@ -411,7 +410,7 @@ export class Carousel {
    * Setup initial values.
    */
   private init(): void {
-    this.transition.init(this.getSlides()[0], this);
+    this.transition.init(this.getFirstSlide(), this);
     this.raf.start();
   }
 
@@ -424,6 +423,7 @@ export class Carousel {
         return;
       }
 
+      const shouldSync: boolean = this.shouldSync();
       const activeSlide = this.getActiveSlide();
       if (activeSlide !== this.lastActiveSlide) {
         this.lastActiveSlide = activeSlide;
@@ -434,7 +434,7 @@ export class Carousel {
         }
 
         // Sync other carousels.
-        if (this.shouldSync()) {
+        if (shouldSync) {
           this.synchronizer
               .handleCarouselTransition(this, this.getSlideIndex(activeSlide));
         }
@@ -453,15 +453,17 @@ export class Carousel {
     const adjustCssClasses =
         (slide: HTMLElement, cssClassesToKeep: Set<string>) => {
           const currentCssClasses = this.slideCssClasses.get(slide);
+          this.slideCssClasses.set(slide, cssClassesToKeep);
           const classesToRemove =
               setf.subtract(currentCssClasses, cssClassesToKeep);
-          this.slideCssClasses.set(slide, cssClassesToKeep);
           slide.classList.remove(...classesToRemove);
           slide.classList.add(...cssClassesToKeep);
         };
 
     adjustCssClasses(activeSlide, this.activeCssClassSet);
 
+    // Classes are applied alongside an index so the reverse is important to
+    // ensure that the numbering is accurate.
     slidesBefore.reverse()
         .forEach((slide, index) => {
           adjustCssClasses(slide, this.beforeCssClassMap.get(index));
