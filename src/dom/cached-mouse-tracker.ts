@@ -1,7 +1,7 @@
 import { DomWatcher, Raf } from '..';
 import { Vector } from '../mathf/vector';
 
-const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchmove'];
+const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchstart', 'touchmove'];
 
 /**
  * Interface filled by either mousemove or touchmove events.

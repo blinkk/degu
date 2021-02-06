@@ -22,7 +22,6 @@ export enum DraggableEvent {
  */
 export class Draggable {
   readonly element: HTMLElement;
-  protected interacting: boolean;
   protected mouseTracker: CachedMouseTracker;
   private constraints: DraggableConstraint[];
   private readonly raf: Raf;
@@ -37,7 +36,6 @@ export class Draggable {
     this.element = element;
     this.raf = new Raf(() => this.loop());
     this.lastPosition = null;
-    this.interacting = false;
     this.constraints = [...constraints];
     this.mouseTracker = CachedMouseTracker.getSingleton(this);
     this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
@@ -60,8 +58,8 @@ export class Draggable {
    * Start a drag.
    */
   protected startInteraction(): void {
+    if (this.isInteracting()) { return; }
     this.lastPosition = this.getMousePosition();
-    this.interacting = true;
     dom.event(this.element, DraggableEvent.START, {});
   }
 
@@ -73,11 +71,11 @@ export class Draggable {
      * Since global events are being listened to in order to end the interaction
      * then we must first verify we are in fact interacting.
      */
-    if (!this.interacting) {
+    if (!this.isInteracting()) {
       return;
     }
 
-    this.interacting = false;
+    this.lastPosition = null;
     this.raf.read(
         () => dom.event(this.element, DraggableEvent.END, {}));
   }
@@ -86,7 +84,7 @@ export class Draggable {
    * Returns whether or not the draggable is being dragged.
    */
   protected isInteracting(): boolean {
-    return this.interacting;
+    return this.lastPosition !== null;
   }
 
   /**
