@@ -1,5 +1,5 @@
 import { DraggableSynchronizer } from './draggable-synchronizer';
-import {dom, DomWatcher, Raf} from '../..';
+import { dom, DomWatcher, Raf } from '../..';
 import { Vector } from '../../mathf/vector';
 import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
 
@@ -58,9 +58,11 @@ export class Draggable {
    * Start a drag.
    */
   protected startInteraction(): void {
-    if (this.isInteracting()) { return; }
-    this.lastPosition = this.getMousePosition();
-    dom.event(this.element, DraggableEvent.START, {});
+    this.raf.postWrite(() => { // Trigger after position has been updated
+      if (this.isInteracting()) { return; }
+      this.lastPosition = this.getMousePosition();
+      dom.event(this.element, DraggableEvent.START, {});
+    });
   }
 
   /**
@@ -75,9 +77,10 @@ export class Draggable {
       return;
     }
 
-    this.lastPosition = null;
-    this.raf.read(
-        () => dom.event(this.element, DraggableEvent.END, {}));
+    this.raf.postWrite(() => {
+      this.lastPosition = null;
+      dom.event(this.element, DraggableEvent.END, {});
+    });
   }
 
   /**
