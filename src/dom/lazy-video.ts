@@ -143,6 +143,15 @@ export class LazyVideo {
             callback: func.debounce(this.onResize.bind(this), 500)
         });
 
+        // Watch for force lazy load on root element to force start video load.
+        this.watcher.add({
+            element: this.el,
+            on: 'force-lazy-load',
+            callback: () => {
+                this.paint(true);
+            }
+        });
+
         const forwardScalar = this.el.getAttribute('lazy-video-forward-scalar');
         this.forwardLoadScalar =
             is.defined(forwardScalar) ? +forwardScalar : 1;
@@ -186,8 +195,8 @@ export class LazyVideo {
     }
 
 
-    public paint(): void {
-        if (this.isPainted() && !this.setComplete) {
+    public paint(force:boolean = false): void {
+        if ( (this.isPainted() && !this.setComplete) || force) {
             this.setComplete = true;
             this.el.setAttribute('src', this.url);
 
