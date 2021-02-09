@@ -358,6 +358,14 @@ export class CssParallaxer {
     }
 
 
+    /**
+     * Gets the current progress value.
+     */
+    public getProgress(): number {
+        return this.currentProgress;
+    }
+
+
     public dispose() {
         this.raf && this.raf.stop();
         this.domWatcher.dispose();
