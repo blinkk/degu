@@ -17,8 +17,8 @@ enum Direction {
  * Options provided to the constructor
  */
 export interface CarouselOptions {
-  onTransitionCallbacks?: Array<(carousel: Carousel) => void>;
-  onDisposeCallbacks?: Array<(carousel: Carousel) => void>;
+  onTransitionCallback?: (carousel: Carousel) => void;
+  onDisposeCallback?: (carousel: Carousel) => void;
   activeCssClass?: string;
   beforeCssClass?: string;
   afterCssClass?: string;
@@ -42,6 +42,14 @@ enum DefaultCssClass {
 
 /**
  * Tracks an element that should be transitioned to.
+ *
+ * Groups the two pieces of information that are needed to transition a carousel
+ * to the given element.
+ *
+ * @param element The element that needs to be transitioned to.
+ * @param drivenBySync Whether this transition is driven by a carousel sync.
+ *                     If it is driven by sync, then we know that we don't need
+ *                     to bother the CarouselSynchronizer for another sync.
  */
 class TransitionTarget {
   readonly element: HTMLElement;
@@ -95,8 +103,8 @@ export class Carousel {
       slides: HTMLElement[],
       {
         condition = () => true,
-        onTransitionCallbacks = [],
-        onDisposeCallbacks = [],
+        onTransitionCallback = null,
+        onDisposeCallback = null,
         activeCssClass = DefaultCssClass.ACTIVE_SLIDE,
         beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
         afterCssClass = DefaultCssClass.AFTER_SLIDE,
@@ -115,10 +123,11 @@ export class Carousel {
     this.condition = condition;
     this.container = container;
     this.lastActiveSlide = null;
-    this.onTransitionCallbacks = onTransitionCallbacks;
-    this.onDisposeCallbacks = onDisposeCallbacks;
+    this.onTransitionCallbacks =
+        onTransitionCallback ? [onTransitionCallback] : [];
+    this.onDisposeCallbacks = onDisposeCallback ? [onDisposeCallback] : [];
     this.slides = slides;
-    this.transition = transition !== null ? transition : new CssClassesOnly();
+    this.transition = transition || new CssClassesOnly();
     this.transitionTarget = null;
     this.synchronizer = CarouselSynchronizer.getSingleton(this);
 
@@ -336,7 +345,7 @@ export class Carousel {
    */
   dispose() {
     this.raf.dispose();
-    this.synchronizer.disposeCarousel(this);
+    this.synchronizer.removeCarousel(this);
     this.synchronizer.dispose(this);
     this.onDisposeCallbacks.forEach((callback) => callback(this));
   }
@@ -455,7 +464,7 @@ export class Carousel {
           const currentCssClasses = this.slideCssClasses.get(slide);
           this.slideCssClasses.set(slide, cssClassesToKeep);
           const classesToRemove =
-              setf.subtract(currentCssClasses, cssClassesToKeep);
+              setf.difference(currentCssClasses, cssClassesToKeep);
           slide.classList.remove(...classesToRemove);
           slide.classList.add(...cssClassesToKeep);
         };
@@ -490,9 +499,8 @@ export class Carousel {
         this.transition.transition(this.transitionTarget.element);
       }
       return shouldSync;
-    } else {
-      return true;
     }
+    return true;
   }
 
   /**

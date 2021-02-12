@@ -3,7 +3,7 @@ export class setf {
    * Return a new set containing all the values in the minuend that do not
    * appear in the subtrahend.
    */
-  static subtract<T>(minuend: Set<T>, subtrahend: Set<T>): Set<T> {
+  static difference<T>(minuend: Set<T>, subtrahend: Set<T>): Set<T> {
     const result = new Set<T>();
     minuend.forEach((value) => {
       if (!subtrahend.has(value)) {

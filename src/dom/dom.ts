@@ -880,52 +880,6 @@ export class dom {
     }
 
     /**
-     * Determine if the target element has a visible area within the given
-     * container element.
-     * @param target
-     * @param container
-     */
-    static hasVisibleArea(
-        target: HTMLElement,
-        container: HTMLElement = null
-    ): boolean {
-        return dom.getVisibleArea(target, container) > 0;
-    }
-
-    /**
-     * Get the area of the target (in pixels) that is visible within the given
-     * container.
-     * @param target
-     * @param container
-     */
-    static getVisibleArea(target: HTMLElement, container: HTMLElement): number {
-        if (dom.isDisplayNone(target)) {
-            return 0;
-        }
-        // Assign variables here to try and make calculation below more
-        // readable.
-        const targetRect = target.getBoundingClientRect();
-        const targetLeft = targetRect.left;
-        const targetRight = targetRect.left + targetRect.width;
-        const targetTop = targetRect.top;
-        const targetBottom = targetRect.top + targetRect.height;
-        const containerRect = container.getBoundingClientRect();
-        const containerLeft = containerRect.left;
-        const containerRight = containerRect.left + containerRect.width;
-        const containerTop = containerRect.top;
-        const containerBottom = containerRect.top + containerRect.height;
-
-        // Calculate area.
-        const left = mathf.clamp(containerLeft, containerRight, targetLeft);
-        const right = mathf.clamp(containerLeft, containerRight, targetRight);
-        const top = mathf.clamp(containerTop, containerBottom, targetTop);
-        const bottom = mathf.clamp(containerTop, containerBottom, targetBottom);
-        const width = right - left;
-        const height = bottom - top;
-        return width * height;
-    }
-
-    /**
      * Removes all classes from an element that starts with a given prefix.
      * https://stackoverflow.com/questions/28608587/how-to-remove-a-class-that-starts-with
      * @param el

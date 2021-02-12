@@ -75,9 +75,9 @@ export class MatrixService {
   /**
    * Translate the given element by the given Vector
    */
-  translate(element: HTMLElement, vector: {x: number, y: number}): void {
+  translate(element: HTMLElement, x: number, y: number): void {
     this.alteredMatrix.set(
-      element, this.alteredMatrix.get(element).translate(vector));
+      element, this.alteredMatrix.get(element).translate(x, y));
     this.raf.start();
   }
 

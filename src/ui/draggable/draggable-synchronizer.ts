@@ -67,10 +67,12 @@ export class DraggableSynchronizer {
     }
     const syncedDraggables = this.getSetForDraggable(draggable);
     if (!syncedDraggables) {
-      MatrixService.getSingleton().translate(draggable.element, delta);
+      MatrixService.getSingleton()
+          .translate(draggable.element, delta.x, delta.y);
     }
     syncedDraggables.forEach((syncedDraggable) => {
-      MatrixService.getSingleton().translate(syncedDraggable.element, delta);
+      MatrixService.getSingleton()
+          .translate(syncedDraggable.element, delta.x, delta.y);
     });
   }
 

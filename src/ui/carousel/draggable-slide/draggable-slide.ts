@@ -298,9 +298,9 @@ export class DraggableSlide implements Transition {
     const currentDistance = this.getDistanceToCenter(target.target);
     const absDelta = Math.abs(targetDistance) - Math.abs(currentDistance);
     const currentDistanceSign = Math.sign(currentDistance);
-    const delta = { x: absDelta * currentDistanceSign, y: 0 };
+    const xDelta = absDelta * currentDistanceSign;
     this.carousel.getSlides().forEach(
-        (slide) => this.matrixService.translate(slide, delta));
+        (slide) => this.matrixService.translate(slide, xDelta, 0));
     this.splitSlides();
 
     // If we're close enough, let's call it
@@ -493,7 +493,7 @@ export class DraggableSlide implements Transition {
     // Only loop the slide if it will bring it closer to the center of the
     // viewport than it already is.
     if (Math.abs(adjustedDistanceToCenter) < Math.abs(distanceToCenter)) {
-      this.matrixService.translate(targetSlide, new Vector(xTranslation, 0));
+      this.matrixService.translate(targetSlide, xTranslation, 0);
     }
   }
 
@@ -511,7 +511,7 @@ export class DraggableSlide implements Transition {
         this.getDesiredDistanceBetweenSlides(target, slide, direction);
     const difference = desiredOffset - this.getDistanceToTarget(target, slide);
     if (difference !== 0) {
-      this.matrixService.translate(slide, new Vector(difference, 0));
+      this.matrixService.translate(slide, difference, 0);
     }
   }
 

@@ -1,6 +1,8 @@
 /**
- * This sample show the most basic uses of CanvasImageSequence which is
- * updated by the scroll position of a position sticky based container.
+ * Sample showing two Carousel instances synced with CarouselSynchronizer.
+ *
+ * The top carousel uses the DraggableSlide transition and the bottom is
+ * styled through CSS with no special interaction.
  */
 import {Carousel} from '../lib/ui/carousel/carousel';
 import {DraggableSlide} from '../lib/ui/carousel/draggable-slide/draggable-slide';

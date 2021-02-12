@@ -38,6 +38,13 @@ import { Carousel } from './carousel';
  *   {
  *     allowLooping: true,
  *   });
+ * const syncInstance = CarouselSynchronizer.getSingleton(a);
+ * syncInstance.sync(a, b);
+ *
+ * // At some point later, dispose.
+ * a.dispose();
+ * b.dispose();
+ * syncInstance.dispose(a);
  * ```
  *
  * CSS:
@@ -168,10 +175,10 @@ export class CarouselSynchronizer {
   }
 
   /**
-   * Dispose of the given carousel, removing it from any synced sets.
+   * Remove the given carousel from any synced sets.
    * @param carousel
    */
-  disposeCarousel(carousel: Carousel) {
+  removeCarousel(carousel: Carousel) {
     this.syncedCarousels
         .forEach((carouselSet) => carouselSet.delete(carousel));
     // Remove any empty or army of one carousels. No need to sync a carousel to

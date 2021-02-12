@@ -9,6 +9,9 @@ import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
 export type DraggableConstraint =
     (draggable: Draggable, delta: Vector) => Vector;
 
+const HORIZONTAL_ONLY_CONSTRAINT =
+    (draggable: Draggable, delta: Vector) => new Vector(delta.x, 0);
+
 /**
  * Events to dispatch on the start and end of a drag.
  */
@@ -17,10 +20,29 @@ export enum DraggableEvent {
   END = 'deguDraggableEnd'
 }
 
+export interface DraggableOptions {
+  constraints?: DraggableConstraint[],
+  horizontal?: boolean
+}
+
 /**
  * Makes a DOM element draggable by adjusting the element's transform.
  */
 export class Draggable {
+  /**
+   * Creates a set of constraints considering special-value options passed.
+   *
+   * For readability there is an option "horizontal" that needs to add an
+   * additional constraint to the configured constraints. This is handled here.
+   */
+  static createConstraintsFromOptions(options: DraggableOptions) {
+    const optionConstraints = options.constraints || [];
+    if (options.horizontal) {
+      return [HORIZONTAL_ONLY_CONSTRAINT, ...optionConstraints];
+    }
+    return optionConstraints;
+  }
+
   readonly element: HTMLElement;
   protected mouseTracker: CachedMouseTracker;
   private constraints: DraggableConstraint[];
@@ -31,12 +53,12 @@ export class Draggable {
 
   constructor(
     element: HTMLElement,
-    { constraints = [] }: { constraints?: DraggableConstraint[] } = {}
+    options: DraggableOptions = {}
   ) {
     this.element = element;
     this.raf = new Raf(() => this.loop());
     this.lastPosition = null;
-    this.constraints = [...constraints];
+    this.constraints = Draggable.createConstraintsFromOptions(options);
     this.mouseTracker = CachedMouseTracker.getSingleton(this);
     this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
     this.domWatcher = new DomWatcher();
@@ -59,7 +81,9 @@ export class Draggable {
    */
   protected startInteraction(): void {
     this.raf.postWrite(() => { // Trigger after position has been updated
-      if (this.isInteracting()) { return; }
+      if (this.isInteracting()) {
+        return;
+      }
       this.lastPosition = this.getMousePosition();
       dom.event(this.element, DraggableEvent.START, {});
     });

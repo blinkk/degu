@@ -9,7 +9,7 @@ const STYLE_STRING_PREFIX_LENGTH = STYLE_STRING_PREFIX.length;
  */
 export class Matrix {
   static parseFromString(str: string): Matrix {
-    if (str === 'none' || !str.length) {
+    if (!str.length || str === 'none') {
       return new Matrix();
     }
     return new Matrix(
@@ -57,14 +57,14 @@ export class Matrix {
     return new Vector(this.tx, this.ty);
   }
 
-  translate(vector: {x: number, y: number}): Matrix {
-    const newX = this.tx + vector.x;
-    const newY = this.ty + vector.y;
+  translate(x: number, y: number): Matrix {
+    const newX = this.tx + x;
+    const newY = this.ty + y;
     return new Matrix(this.a, this.b, this.c, this.d, newX, newY);
   }
 
-  setPosition(position: {x: number, y: number}): Matrix {
-    return new Matrix(this.a, this.b, this.c, this.d, position.x, position.y);
+  setPosition(x: number, y: number): Matrix {
+    return new Matrix(this.a, this.b, this.c, this.d, x, y);
   }
 
   toCSSString(): string {
