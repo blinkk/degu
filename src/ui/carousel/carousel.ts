@@ -1,8 +1,6 @@
 import { CssClassesOnly, Transition } from './transitions';
 import { mathf, Raf } from '../..';
-import { setf } from '../../setf/setf';
 import { CarouselSynchronizer } from './carousel-synchronizer';
-import { arrayf } from '../../arrayf/arrayf';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 

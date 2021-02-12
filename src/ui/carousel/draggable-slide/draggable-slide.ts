@@ -1,4 +1,3 @@
-import { SlideToDraggableMap } from './slide-to-draggable-map';
 import { Carousel } from '../carousel';
 import { dom, DomWatcher, mathf, Raf } from '../../..';
 import { Transition } from '../transitions';
@@ -9,6 +8,7 @@ import { Draggable, DraggableEvent } from '../../draggable/draggable';
 import { DraggableSynchronizer } from '../../draggable/draggable-synchronizer';
 import { Matrix } from './matrix';
 import { arrayf } from '../../../arrayf/arrayf';
+import { DefaultMap } from '../../../map/default-map';
 
 enum Direction {
   LEFT = -1,
@@ -124,7 +124,7 @@ export class DraggableSlide implements Transition {
   private readonly draggableSynchronizer: DraggableSynchronizer;
   private transitionTarget: TransitionTarget;
   private carousel: Carousel;
-  private draggableBySlide: SlideToDraggableMap;
+  private draggableBySlide: DefaultMap<HTMLElement, Draggable>;
   private interactionTarget: InteractionTarget;
   private resizeTimeout: number;
   private raf: Raf;
@@ -157,7 +157,20 @@ export class DraggableSlide implements Transition {
                 () => this.transition(this.carousel.getActiveSlide(), 0));
       }
     });
-    this.draggableBySlide = new SlideToDraggableMap(carousel);
+    const options =
+        carousel.allowsLooping() ?
+            {
+              horizontal: true
+            } :
+            {
+              horizontal: true,
+              constraints: [(draggable: Draggable, delta: Vector) => {
+                return this.constrainDraggableSlide(draggable, delta);
+              }]
+            };
+    this.draggableBySlide =
+      DefaultMap.usingFunction(
+          (slide: HTMLElement) => new Draggable(slide, options));
     this.carousel = carousel;
     carousel.onDispose((disposedCarousel) => this.dispose());
     // Transition to the given active slide
@@ -556,6 +569,33 @@ export class DraggableSlide implements Transition {
           Math.min(start + 1, end),
           Math.max(start, end + direction));
     }
+  }
+
+  /**
+   * Given a draggable, constrain the given delta so that the draggable does not
+   * exceed the prescribed bounds of the carousel.
+   * @param draggable
+   * @param delta
+   */
+  private constrainDraggableSlide(draggable: Draggable, delta: Vector): Vector {
+    const slides = this.carousel.getSlides();
+
+    // Allow for centering the last slide
+    const halfContainer = this.carousel.getContainer().offsetWidth / 2;
+    const totalSlideWidth =
+        mathf.sum(slides.map((s) => s.offsetWidth));
+    const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
+    const halfLastSlide = lastSlideWidth / 2;
+    const halfFirstSlide = slides[0].offsetWidth / 2;
+
+    const min = halfContainer - totalSlideWidth + halfLastSlide;
+    const max = halfContainer - halfFirstSlide;
+    const currentX =
+        Matrix.fromElementTransform(draggable.element).getTranslateX();
+    const finalX = mathf.clamp(min, max, currentX + delta.x);
+    const deltaX = finalX - currentX;
+
+    return new Vector(deltaX, delta.y);
   }
 
   /**
