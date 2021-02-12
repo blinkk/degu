@@ -69,11 +69,12 @@ export class DraggableSynchronizer {
     if (!syncedDraggables) {
       MatrixService.getSingleton()
           .translate(draggable.element, delta.x, delta.y);
+    } else {
+      syncedDraggables.forEach((syncedDraggable) => {
+        MatrixService.getSingleton()
+            .translate(syncedDraggable.element, delta.x, delta.y);
+      });
     }
-    syncedDraggables.forEach((syncedDraggable) => {
-      MatrixService.getSingleton()
-          .translate(syncedDraggable.element, delta.x, delta.y);
-    });
   }
 
   /**

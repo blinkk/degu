@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Draggable Demo</title>
+</head>
+<body init-sample="draggableSample">
+<a href="/index.html">Back to home</a>
+<h1>Demo of Draggable</h1>
+<style>
+  .parent {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  .draggable {
+    width: 10%;
+    padding-top: 10%;
+  }
+</style>
+
+<div class="parent" id="parent">
+  <h2>Draggable Boxes</h2>
+  <div class="draggable" draggable-demo-1 style="background: blue;"></div>
+  <div class="draggable" draggable-demo-2 style="background: red;"></div>
+  <div class="draggable" draggable-demo-3 style="background: green;"></div>
+</div>
+</body>
+</html>
