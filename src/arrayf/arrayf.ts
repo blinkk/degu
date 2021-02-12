@@ -116,4 +116,13 @@ export class arrayf {
         }
         return result;
     }
+
+    /**
+     * Determines if the given values contain the given value.
+     * @param values
+     * @param value
+     */
+    static contains<T>(values: T[], value: T): boolean {
+        return values.indexOf(value) !== -1;
+    }
 }

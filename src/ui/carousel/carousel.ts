@@ -1,8 +1,10 @@
 import { CssClassesOnly, Transition } from './transitions';
-import { DefaultMap } from '../../map/default-map';
 import { mathf, Raf } from '../..';
 import { setf } from '../../setf/setf';
 import { CarouselSynchronizer } from './carousel-synchronizer';
+import { arrayf } from '../../arrayf/arrayf';
+
+const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 
 /**
  * For readability, specifies which half should be gotten by providing a
@@ -23,6 +25,7 @@ export interface CarouselOptions {
   beforeCssClass?: string;
   afterCssClass?: string;
   allowLooping?: boolean;
+  distanceToActiveSlideAttr?: string;
   // Transition used to iterate through slides.
   transition?: Transition;
   // Carousel code won't run if the condition is not met.
@@ -63,11 +66,9 @@ class TransitionTarget {
 
 export class Carousel {
   private readonly activeCssClass: string;
-  private readonly activeCssClassSet: Set<string>;
   private readonly beforeCssClass: string;
-  private readonly beforeCssClassMap: DefaultMap<number, Set<string>>;
   private readonly afterCssClass: string;
-  private readonly afterCssClassMap: DefaultMap<number, Set<string>>;
+  private readonly distanceToActiveSlideAttr: string;
   private readonly condition: () => boolean;
   private readonly container: HTMLElement;
   private readonly slides: HTMLElement[];
@@ -75,7 +76,6 @@ export class Carousel {
   private readonly allowLooping: boolean;
   private readonly onTransitionCallbacks: Array<(carousel: Carousel) => void>;
   private readonly onDisposeCallbacks: Array<(carousel: Carousel) => void>;
-  private readonly slideCssClasses: DefaultMap<HTMLElement, Set<string>>;
   private readonly raf: Raf;
   private readonly synchronizer: CarouselSynchronizer;
   private transitionTarget: TransitionTarget;
@@ -89,11 +89,13 @@ export class Carousel {
    * @param slides HTMLElements containing slide content.
    *
    * @param condition Under what conditions the carousel should run
-   * @param onTransitionCallbacks Functions run when the active slide changes.
-   * @param onDisposeCallbacks Functions run when the carousel is disposeed.
+   * @param onTransitionCallback Function run when the active slide changes.
+   * @param onDisposeCallback Function run when the carousel is disposeed.
    * @param activeCssClass Class to apply to active slide.
    * @param beforeCssClass Class to apply to slides before active slide.
    * @param afterCssClass Class to apply to slides after active slide.
+   * @param distanceToActiveSlideAttr Slide attribute on which the index
+   *     distance to the currently active slide is set.
    * @param allowLooping Whether the carousel should be allowed to loop.
    * @param transition How the Carousel should transition.
    * Please see the transitions folder inside the carousel folder for options.
@@ -108,6 +110,7 @@ export class Carousel {
         activeCssClass = DefaultCssClass.ACTIVE_SLIDE,
         beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
         afterCssClass = DefaultCssClass.AFTER_SLIDE,
+        distanceToActiveSlideAttr = DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR,
         allowLooping = true,
         transition = null
       }: CarouselOptions = {}
@@ -119,6 +122,7 @@ export class Carousel {
     this.activeCssClass = activeCssClass;
     this.beforeCssClass = beforeCssClass;
     this.afterCssClass = afterCssClass;
+    this.distanceToActiveSlideAttr = distanceToActiveSlideAttr;
     this.allowLooping = allowLooping;
     this.condition = condition;
     this.container = container;
@@ -131,20 +135,6 @@ export class Carousel {
     this.transitionTarget = null;
     this.synchronizer = CarouselSynchronizer.getSingleton(this);
 
-    this.slideCssClasses =
-        DefaultMap.usingFunction<HTMLElement, Set<string>>(
-            () => new Set<string>());
-
-    /** Mapped Set caches to avoid allocation churn */
-    this.activeCssClassSet = new Set([activeCssClass]);
-    this.beforeCssClassMap =
-        DefaultMap.usingFunction<number, Set<string>>(
-            (index) => new Set(
-                [this.beforeCssClass, `${this.beforeCssClass}--${index}`]));
-    this.afterCssClassMap =
-        DefaultMap.usingFunction<number, Set<string>>(
-            (index) => new Set(
-                [this.afterCssClass, `${this.afterCssClass}--${index}`]));
     this.init();
   }
 
@@ -439,7 +429,7 @@ export class Carousel {
         this.onTransitionCallbacks.forEach((callback) => callback(this));
 
         if (activeSlide) {
-          this.raf.write(() => this.updateClasses(activeSlide));
+          this.updateClasses(activeSlide);
         }
 
         // Sync other carousels.
@@ -459,29 +449,23 @@ export class Carousel {
     const slidesBefore = this.getSlidesBefore(activeSlide);
     const slidesAfter = this.getSlidesAfter(activeSlide);
 
-    const adjustCssClasses =
-        (slide: HTMLElement, cssClassesToKeep: Set<string>) => {
-          const currentCssClasses = this.slideCssClasses.get(slide);
-          this.slideCssClasses.set(slide, cssClassesToKeep);
-          const classesToRemove =
-              setf.difference(currentCssClasses, cssClassesToKeep);
-          slide.classList.remove(...classesToRemove);
-          slide.classList.add(...cssClassesToKeep);
-        };
+    this.raf.write(() => {
+      // Create active slide
+      activeSlide.classList.add(this.activeCssClass);
+      activeSlide.classList.remove(this.beforeCssClass, this.afterCssClass);
+      activeSlide.setAttribute(this.distanceToActiveSlideAttr, '0');
 
-    adjustCssClasses(activeSlide, this.activeCssClassSet);
-
-    // Classes are applied alongside an index so the reverse is important to
-    // ensure that the numbering is accurate.
-    slidesBefore.reverse()
-        .forEach((slide, index) => {
-          adjustCssClasses(slide, this.beforeCssClassMap.get(index));
-        });
-
-    slidesAfter
-        .forEach((slide, index) => {
-          adjustCssClasses(slide, this.afterCssClassMap.get(index));
-        });
+      slidesBefore.reverse().forEach((slide, index) => {
+        slide.classList.add(this.beforeCssClass);
+        slide.classList.remove(this.activeCssClass, this.afterCssClass);
+        slide.setAttribute(this.distanceToActiveSlideAttr, `${-index - 1}`);
+      });
+      slidesAfter.forEach((slide, index) => {
+        slide.classList.add(this.afterCssClass);
+        slide.classList.remove(this.activeCssClass, this.beforeCssClass);
+        slide.setAttribute(this.distanceToActiveSlideAttr, `${index + 1}`);
+      });
+    });
   }
 
   /**
