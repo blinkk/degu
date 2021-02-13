@@ -1,5 +1,6 @@
 import { setf } from '../../setf/setf';
 import { Carousel } from './carousel';
+import { DefaultMap } from '../../map/default-map';
 
 /**
  * Will synchronize the active slide index across multiple carousels.
@@ -38,7 +39,7 @@ import { Carousel } from './carousel';
  *   {
  *     allowLooping: true,
  *   });
- * const syncInstance = CarouselSynchronizer.getSingleton(a);
+ * const syncInstance = CarouselSynchronizer.getSingleton();
  * syncInstance.sync(a, b);
  *
  * // At some point later, dispose.
@@ -103,13 +104,9 @@ import { Carousel } from './carousel';
  */
 export class CarouselSynchronizer {
   /**
-   * Returns a singleton. `use` is passed to ensure the singleton is only
-   * actually disposed when it is done being used everywhere. This same `use`
-   * should be passed to the dispose call.
-   * @param use
+   * Returns a singleton.
    */
-  static getSingleton(use: any): CarouselSynchronizer {
-    CarouselSynchronizer.singletonUses.add(use);
+  static getSingleton(): CarouselSynchronizer {
     if (CarouselSynchronizer.singleton === null) {
       CarouselSynchronizer.singleton = new CarouselSynchronizer();
     }
@@ -117,15 +114,15 @@ export class CarouselSynchronizer {
   }
 
   private static singleton: CarouselSynchronizer = null;
-  private static singletonUses: Set<any> = new Set();
-  private syncedCarousels: Array<Set<Carousel>>;
+  private carouselGraph: DefaultMap<Carousel, Set<Carousel>>;
 
   constructor() {
     if (CarouselSynchronizer.singleton !== null) {
       throw new Error(
           'CarouselSynchronizer must be instantiated via getSingleton()');
     }
-    this.syncedCarousels = [];
+    this.carouselGraph =
+        DefaultMap.usingFunction((carousel: Carousel) => new Set());
   }
 
   /**
@@ -135,22 +132,16 @@ export class CarouselSynchronizer {
     // Create a set with the given carousels, if any of these carousels are
     // already synced to other carousels merge those sets together so that
     // everything stays synchronized.
-    const unchangedSets: Array<Set<Carousel>> = [];
-    const setsToMerge: Array<Set<Carousel>> = [new Set(carousels)];
-    this.syncedCarousels
-        .forEach(
-            (carouselSet) => {
-              const setContainsAGivenCarousel =
-                  carousels.find(
-                      (carousel: Carousel) => carouselSet.has(carousel));
-              if (setContainsAGivenCarousel) {
-                setsToMerge.push(carouselSet);
-              } else {
-                unchangedSets.push(carouselSet);
-              }
-            });
+    carousels.forEach((carousel) => {
+      if (!this.carouselGraph.has(carousel)) {
+        carousel.onTransitionStart(
+            () => this.handleCarouselTransition(carousel));
+      }
 
-    this.syncedCarousels = [...unchangedSets, setf.merge(...setsToMerge)];
+      const set = this.carouselGraph.get(carousel);
+      setf.addMultiple(set, ...carousels);
+      set.delete(carousel);
+    });
   }
 
   /**
@@ -160,17 +151,17 @@ export class CarouselSynchronizer {
    * given index.
    *
    * @param carousel
-   * @param index
    */
-  handleCarouselTransition(carousel: Carousel, index: number) {
-    const syncedCarousels = this.getSetForCarousel(carousel);
-    if (!syncedCarousels) {
-      return; // Do nothing if this carousel is not synced.
+  handleCarouselTransition(carousel: Carousel) {
+    const transitionTarget = carousel.getTransitionTarget();
+    if (!transitionTarget || transitionTarget.drivenBySync) {
+      return; // Skip if this sync was triggered by a sync call
     }
+
+    const syncedCarousels = this.carouselGraph.get(carousel);
+    const index = carousel.getTransitionTargetIndex();
     syncedCarousels.forEach((syncedCarousel) => {
-      if (syncedCarousel !== carousel) {
-        syncedCarousel.transitionToIndex(index, true);
-      }
+      syncedCarousel.transitionToIndex(index, true);
     });
   }
 
@@ -179,37 +170,17 @@ export class CarouselSynchronizer {
    * @param carousel
    */
   removeCarousel(carousel: Carousel) {
-    this.syncedCarousels
-        .forEach((carouselSet) => carouselSet.delete(carousel));
-    // Remove any empty or army of one carousels. No need to sync a carousel to
-    // itself.
-    this.syncedCarousels =
-        this.syncedCarousels
-            .filter((carouselSet) => carouselSet.size > 1);
-  }
+    const syncedCarousels = this.carouselGraph.get(carousel);
+    syncedCarousels.forEach((syncedCarousel) => {
+      this.carouselGraph.get(syncedCarousel).delete(carousel);
+    });
+    this.carouselGraph.delete(carousel);
 
-  /**
-   * Indicate that the given `use` is no longer using the CarouselSynchronizer
-   * singleton
-   * @param use
-   */
-  dispose(use: any): void {
-    if (this === CarouselSynchronizer.singleton) {
-      CarouselSynchronizer.singletonUses.delete(use);
-      if (CarouselSynchronizer.singletonUses.size <= 0) {
-        CarouselSynchronizer.singleton = null;
-        this.syncedCarousels = [];
-      }
-    } else {
-      this.syncedCarousels = [];
+    if (
+        this.carouselGraph.size === 0 &&
+        CarouselSynchronizer.singleton === this
+    ) {
+      CarouselSynchronizer.singleton = null;
     }
-  }
-
-  /**
-   * Return the set of synced carousels to which the given carousel belongs.
-   * @param carousel
-   */
-  private getSetForCarousel(carousel: Carousel): Set<Carousel> {
-    return this.syncedCarousels.find((set) => set.has(carousel));
   }
 }

@@ -1,6 +1,5 @@
 import { CssClassesOnly, Transition } from './transitions';
 import { mathf, Raf } from '../..';
-import { CarouselSynchronizer } from './carousel-synchronizer';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 
@@ -17,7 +16,8 @@ enum Direction {
  * Options provided to the constructor
  */
 export interface CarouselOptions {
-  onTransitionCallback?: (carousel: Carousel) => void;
+  onTransitionStartCallback?: (carousel: Carousel) => void;
+  onTransitionEndCallback?: (carousel: Carousel) => void;
   onDisposeCallback?: (carousel: Carousel) => void;
   activeCssClass?: string;
   beforeCssClass?: string;
@@ -72,10 +72,12 @@ export class Carousel {
   private readonly slides: HTMLElement[];
   private readonly transition: Transition;
   private readonly allowLooping: boolean;
-  private readonly onTransitionCallbacks: Array<(carousel: Carousel) => void>;
+  private readonly onTransitionStartCallbacks:
+      Array<(carousel: Carousel) => void>;
+  private readonly onTransitionEndCallbacks:
+      Array<(carousel: Carousel) => void>;
   private readonly onDisposeCallbacks: Array<(carousel: Carousel) => void>;
   private readonly raf: Raf;
-  private readonly synchronizer: CarouselSynchronizer;
   private transitionTarget: TransitionTarget;
   private lastActiveSlide: HTMLElement;
 
@@ -87,7 +89,10 @@ export class Carousel {
    * @param slides HTMLElements containing slide content.
    *
    * @param condition Under what conditions the carousel should run
-   * @param onTransitionCallback Function run when the active slide changes.
+   * @param onTransitionStartCallback Function to run when the active slide
+   *                                  changes.
+   * @param onTransitionEndCallback Function to run when the active slide
+   *                                changes.
    * @param onDisposeCallback Function run when the carousel is disposeed.
    * @param activeCssClass Class to apply to active slide.
    * @param beforeCssClass Class to apply to slides before active slide.
@@ -103,7 +108,8 @@ export class Carousel {
       slides: HTMLElement[],
       {
         condition = () => true,
-        onTransitionCallback = null,
+        onTransitionStartCallback = null,
+        onTransitionEndCallback = null,
         onDisposeCallback = null,
         activeCssClass = DefaultCssClass.ACTIVE_SLIDE,
         beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
@@ -125,13 +131,14 @@ export class Carousel {
     this.condition = condition;
     this.container = container;
     this.lastActiveSlide = null;
-    this.onTransitionCallbacks =
-        onTransitionCallback ? [onTransitionCallback] : [];
+    this.onTransitionStartCallbacks =
+        onTransitionStartCallback ? [onTransitionStartCallback] : [];
+    this.onTransitionEndCallbacks =
+        onTransitionEndCallback ? [onTransitionEndCallback] : [];
     this.onDisposeCallbacks = onDisposeCallback ? [onDisposeCallback] : [];
     this.slides = slides;
     this.transition = transition || new CssClassesOnly();
     this.transitionTarget = null;
-    this.synchronizer = CarouselSynchronizer.getSingleton(this);
 
     this.init();
   }
@@ -165,6 +172,7 @@ export class Carousel {
       return;
     }
     this.transitionTarget = new TransitionTarget(targetSlide, drivenBySync);
+    this.onTransitionStartCallbacks.forEach((callback) => callback(this));
   }
 
   /**
@@ -282,27 +290,28 @@ export class Carousel {
   /**
    * Transition to the slide with the given index.
    *
-   * If the `drivenBySync` value is set we know not to call the synchronizer
-   * again.
-   *
    * @param index
    * @param drivenBySync
    */
   transitionToIndex(index: number, drivenBySync: boolean = false): void {
-    if (!drivenBySync) {
-      this.synchronizer.handleCarouselTransition(this, index);
-    }
-
     const clampedIndex = this.getClampedIndex(index);
     this.transitionToSlide(this.getSlideByIndex(clampedIndex), drivenBySync);
+  }
+
+  /**
+   * Register a function to be called when the carousel starts a transition.
+   * @param callback
+   */
+  onTransitionStart(callback: (carousel: Carousel) => void) {
+    this.onTransitionStartCallbacks.push(callback);
   }
 
   /**
    * Register a function to be called when the carousel completes a transition.
    * @param callback
    */
-  onTransition(callback: (carousel: Carousel) => void) {
-    this.onTransitionCallbacks.push(callback);
+  onTransitionEnd(callback: (carousel: Carousel) => void) {
+    this.onTransitionEndCallbacks.push(callback);
   }
 
   /**
@@ -333,8 +342,6 @@ export class Carousel {
    */
   dispose() {
     this.raf.dispose();
-    this.synchronizer.removeCarousel(this);
-    this.synchronizer.dispose(this);
     this.onDisposeCallbacks.forEach((callback) => callback(this));
   }
 
@@ -356,6 +363,20 @@ export class Carousel {
     } else {
       return mathf.clamp(0, slidesLength - 1, index);
     }
+  }
+
+  /**
+   * Return the index of the slide currently being transitioned to.
+   */
+  getTransitionTargetIndex(): number {
+    return this.getSlideIndex(this.getTransitionTarget().element);
+  }
+
+  /**
+   * Return the current transition target.
+   */
+  getTransitionTarget(): TransitionTarget {
+    return this.transitionTarget;
   }
 
   /**
@@ -420,20 +441,23 @@ export class Carousel {
         return;
       }
 
-      const shouldSync: boolean = this.shouldSync();
       const activeSlide = this.getActiveSlide();
       if (activeSlide !== this.lastActiveSlide) {
         this.lastActiveSlide = activeSlide;
-        this.onTransitionCallbacks.forEach((callback) => callback(this));
+        this.onTransitionEndCallbacks.forEach((callback) => callback(this));
 
         if (activeSlide) {
           this.updateClasses(activeSlide);
         }
+      }
 
-        // Sync other carousels.
-        if (shouldSync) {
-          this.synchronizer
-              .handleCarouselTransition(this, this.getSlideIndex(activeSlide));
+      if (this.isTransitioning()) {
+        const hasTransitionedToTarget =
+            this.transition.hasTransitionedTo(this.transitionTarget.element);
+        if (hasTransitionedToTarget) {
+          this.transitionTarget = null;
+        } else {
+          this.transition.transition(this.transitionTarget.element);
         }
       }
     });
@@ -464,25 +488,6 @@ export class Carousel {
         slide.setAttribute(this.distanceToActiveSlideAttr, `${index + 1}`);
       });
     });
-  }
-
-  /**
-   * Handle the transition between slides.
-   */
-  private shouldSync(): boolean {
-    if (this.isTransitioning()) {
-      const hasTransitionedToTarget =
-          this.transition.hasTransitionedTo(this.transitionTarget.element);
-
-      const shouldSync = !this.transitionTarget.drivenBySync;
-      if (hasTransitionedToTarget) {
-        this.transitionTarget = null;
-      } else {
-        this.transition.transition(this.transitionTarget.element);
-      }
-      return shouldSync;
-    }
-    return true;
   }
 
   /**

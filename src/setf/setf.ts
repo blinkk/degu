@@ -1,5 +1,15 @@
 export class setf {
   /**
+   * Add multiple given values to the given set.
+   *
+   * This is a shorthand convenience function.
+   */
+  static addMultiple<T>(set: Set<T>, ...values: T[]): Set<T> {
+    values.forEach((value) => set.add(value));
+    return set;
+  }
+
+  /**
    * Return a new set containing all the values in the minuend that do not
    * appear in the subtrahend.
    */
