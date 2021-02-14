@@ -2,6 +2,7 @@
 import { DomWatcher } from './dom-watcher';
 import { dom } from './dom';
 import { func } from '../func/func';
+import { is } from '../is/is';
 
 
 export interface ScrollToOnFocusConfig {
@@ -125,6 +126,31 @@ export interface ScrollToOnFocusConfig {
  * To avoid the issue, it is recommended to add role="region" to your element.
  *
  *
+ * ### Use the watchElement method.
+ *
+ * If you are calculating your progress dynamically in javascript, you can
+ * also use the watchElement to individually set focus.
+ *
+ *
+ * ```ts
+ * const stf = new ScrollToOnFocus({
+ *    element: document.querySelector('[sticky-child]'),
+ *    setTabIndex: true
+ *    setAriaRole: 'region'
+ *    // These values should match however you are calculating
+ *    // progress.
+ *    topProgressOffset: 0,
+ *    bottomProgressOffset: 0,
+ * })
+ *
+ *
+ * // When element1 is focused, it will scroll to 0.2.
+ * stf.watchElement( element1, 0.2);
+ *
+ * // When element2 is focused, it will scroll to 0.4.
+ * stf.watchElement( element2, 0.4);
+ * ```
+ *
  *
  */
 export class ScrollToOnFocus {
@@ -134,9 +160,10 @@ export class ScrollToOnFocus {
     private topProgressOffset: number;
     private bottomProgressOffset: number;
     private debug: boolean = false;
+    private config: ScrollToOnFocusConfig;
 
 
-    constructor(private config: ScrollToOnFocusConfig) {
+    constructor(config: ScrollToOnFocusConfig) {
 
         this.element = config.element;
         this.watcher = new DomWatcher();
@@ -144,19 +171,31 @@ export class ScrollToOnFocus {
         this.topProgressOffset = func.setDefault(config.topProgressOffset, 0);
         this.bottomProgressOffset = func.setDefault(config.bottomProgressOffset,0);
         this.debug = func.setDefault(config.debug, false);
+        this.config = config;
 
 
         const elements: Array<HTMLElement> =
             Array.from(this.element.querySelectorAll(`[${this.selector}]`));
 
         elements.forEach((el) => {
+            this.watchElement(el);
+        })
+    }
 
-            if(config.setTabIndex) {
+
+    public watchElement(el: HTMLElement, progress?: number) {
+
+            // If a progress is declared, then set the attribute on the element.
+            if(is.defined(progress)) {
+                el.setAttribute(this.selector, progress + '')
+            }
+
+            if(this.config.setTabIndex) {
                 el.tabIndex = 0;
             }
 
-            if(config.setAriaRole) {
-                el.setAttribute('role', config.setAriaRole);
+            if(this.config.setAriaRole) {
+                el.setAttribute('role', this.config.setAriaRole);
             }
 
 
@@ -169,7 +208,7 @@ export class ScrollToOnFocus {
                 eventOptions: { capture: true }
             });
 
-            if (config.mouseDown || this.debug) {
+            if (this.config.mouseDown || this.debug) {
                 this.watcher.add({
                     element: el,
                     on: 'mousedown',
@@ -189,7 +228,6 @@ export class ScrollToOnFocus {
                     }
                 });
             }
-        })
     }
 
 
