@@ -1,6 +1,5 @@
 
 import { ProgressWatcher } from '../dom/progress-watcher';
-import { is } from '../is/is';
 
 export interface InviewProgressItem {
     range: number | Array<number>;
@@ -34,7 +33,6 @@ export interface InviewProgressItem {
  &  }
  */
 export class InviewProgress {
-    private currentProgress: number = 0;
     private progressWatcher: ProgressWatcher;
 
     constructor() {
@@ -45,36 +43,27 @@ export class InviewProgress {
     add(inviewProgressItem: InviewProgressItem) {
 
         const setActive = () => {
-                inviewProgressItem.element.classList.add(
-                    inviewProgressItem.className
-                )
+            inviewProgressItem.element.classList.add(
+                inviewProgressItem.className
+            )
         }
 
         const setInactive = () => {
-                inviewProgressItem.element.classList.remove(
-                    inviewProgressItem.className
-                )
+            inviewProgressItem.element.classList.remove(
+                inviewProgressItem.className
+            )
         }
 
-        // Entrance if going down.
-        // Exit if going up
         this.progressWatcher.add({
-            range: inviewProgressItem.range[0],
+            range: inviewProgressItem.range,
             callback: (progress: number, direction: number) => {
-                // Up, remove class if we are active.
-                (direction == -1) ? setInactive() : setActive()
+                setActive();
+            },
+            inactiveCallback: (progress: number, direction: number) => {
+                setInactive();
             }
         })
 
-        // Entrance if going up
-        // Exit if going down
-        this.progressWatcher.add({
-            range: inviewProgressItem.range[1],
-            callback: (progress: number, direction: number) => {
-                // Up, remove class if we are active.
-                (direction == 1) ? setInactive() : setActive()
-            }
-        })
     }
 
 

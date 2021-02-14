@@ -5,6 +5,7 @@ import { mathf } from '../mathf/mathf';
 export interface ProgressWatcherItem {
     range: number | Array<number>;
     callback: Function;
+    inactiveCallback?: Function;
     runWhen?: Function;
 }
 
@@ -21,6 +22,11 @@ export interface ProgressWatcherItem {
  *  this.progressWatcher.add({
  *    range: [0.2, 0.4],
  *    callback: (progress: number, direction: number)=> {
+ *          console.log(progress, direction);
+ *    }
+ *
+ *    // Runs when the progress is NOT 0.2 - 0.4
+ *    inactiveCallback: (progress: number, direction: number)=> {
  *          console.log(progress, direction);
  *    }
  *  })
@@ -131,6 +137,10 @@ export class ProgressWatcher {
                   watcher.callback(this.currentProgress, this.direction);
                 } else {
                   watcher.callback(this.currentProgress, this.direction);
+                }
+            } else {
+                if(watcher.inactiveCallback) {
+                  watcher.inactiveCallback(this.currentProgress, this.direction);
                 }
             }
         })
