@@ -125,6 +125,25 @@ new ScrollToOnFocus({
 						of the element which can result in a unwanted double announcement (if you have
 					say a title and body within the element).</p>
 					<p>To avoid the issue, it is recommended to add role=&quot;region&quot; to your element.</p>
+					<h3 id="use-the-watchelement-method-">Use the watchElement method.</h3>
+					<p>If you are calculating your progress dynamically in javascript, you can
+					also use the watchElement to individually set focus.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> stf = <span class="hljs-keyword">new</span> ScrollToOnFocus({
+   element: <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'[sticky-child]'</span>),
+   setTabIndex: <span class="hljs-literal">true</span>
+   setAriaRole: <span class="hljs-string">'region'</span>
+   <span class="hljs-comment">// These values should match however you are calculating</span>
+   <span class="hljs-comment">// progress.</span>
+   topProgressOffset: <span class="hljs-number">0</span>,
+   bottomProgressOffset: <span class="hljs-number">0</span>,
+})
+
+
+<span class="hljs-comment">// When element1 is focused, it will scroll to 0.2.</span>
+stf.watchElement( element1, <span class="hljs-number">0.2</span>);
+
+<span class="hljs-comment">// When element2 is focused, it will scroll to 0.4.</span>
+stf.watchElement( element2, <span class="hljs-number">0.4</span>);</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -150,6 +169,7 @@ new ScrollToOnFocus({
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrolltoonfocus.html#dispose" class="tsd-kind-icon">dispose</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrolltoonfocus.html#updateoffset" class="tsd-kind-icon">update<wbr>Offset</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrolltoonfocus.html#watchelement" class="tsd-kind-icon">watch<wbr>Element</a></li>
 							</ul>
 						</section>
 					</div>
@@ -167,7 +187,7 @@ new ScrollToOnFocus({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/scroll-to-on-focus.ts#L136">dom/scroll-to-on-focus.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/scroll-to-on-focus.ts#L163">dom/scroll-to-on-focus.ts:163</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -193,7 +213,7 @@ new ScrollToOnFocus({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/scroll-to-on-focus.ts#L240">dom/scroll-to-on-focus.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/scroll-to-on-focus.ts#L278">dom/scroll-to-on-focus.ts:278</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -210,7 +230,7 @@ new ScrollToOnFocus({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/scroll-to-on-focus.ts#L199">dom/scroll-to-on-focus.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/scroll-to-on-focus.ts#L237">dom/scroll-to-on-focus.ts:237</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -225,6 +245,32 @@ new ScrollToOnFocus({
 								</li>
 								<li>
 									<h5>bottom: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="watchelement" class="tsd-anchor"></a>
+					<h3>watch<wbr>Element</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">watch<wbr>Element<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, progress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/scroll-to-on-focus.ts#L186">dom/scroll-to-on-focus.ts:186</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>el: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> progress: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -325,6 +371,9 @@ new ScrollToOnFocus({
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dom.scrolltoonfocus.html#updateoffset" class="tsd-kind-icon">update<wbr>Offset</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.scrolltoonfocus.html#watchelement" class="tsd-kind-icon">watch<wbr>Element</a>
 							</li>
 						</ul>
 					</li>

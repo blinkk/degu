@@ -112,7 +112,26 @@ parallaxer.dispose();</code></pre><h2 id="mobile-lerp">Mobile Lerp</h2>
 					<pre><code><span class="hljs-selector-class">.my-module</span>
   <span class="hljs-attribute">visibility</span>: hidden
  &amp;<span class="hljs-selector-class">.css-parallax-ready</span>
-  <span class="hljs-attribute">visibility</span>: visible</code></pre>
+  <span class="hljs-attribute">visibility</span>: visible</code></pre><h2 id="how-do-i-add-css-classes-to-elements-">How do I add css classes to elements?</h2>
+					<p>You can pass an instance of inviewProgress to cssParallaxer.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> inviewProgress = <span class="hljs-keyword">new</span> InviewProgress();
+
+<span class="hljs-comment">// Add the class "active" when from range 0.2 - 0.4</span>
+inviewProgress.add({
+   range: [<span class="hljs-number">0.2</span>, <span class="hljs-number">0.4</span>],
+   element: el,
+   className: <span class="hljs-string">"active"</span>
+})
+
+<span class="hljs-comment">// Setup css parallax</span>
+<span class="hljs-keyword">const</span> settings = {
+   debug: <span class="hljs-literal">false</span>,
+   top: <span class="hljs-string">'0px'</span>
+   bottom: <span class="hljs-string">'10px'</span>,
+   inviewProgress: inviewProgress
+}
+<span class="hljs-keyword">const</span> parallaxer = <span class="hljs-keyword">new</span> CssParallaxer(el);
+parallaxer.init(settings, [])</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -159,7 +178,7 @@ parallaxer.dispose();</code></pre><h2 id="mobile-lerp">Mobile Lerp</h2>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/css-parallaxer.ts#L138">dom/css-parallaxer.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/css-parallaxer.ts#L169">dom/css-parallaxer.ts:169</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -185,7 +204,7 @@ parallaxer.dispose();</code></pre><h2 id="mobile-lerp">Mobile Lerp</h2>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/css-parallaxer.ts#L369">dom/css-parallaxer.ts:369</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/css-parallaxer.ts#L408">dom/css-parallaxer.ts:408</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -202,7 +221,7 @@ parallaxer.dispose();</code></pre><h2 id="mobile-lerp">Mobile Lerp</h2>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/css-parallaxer.ts#L364">dom/css-parallaxer.ts:364</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/css-parallaxer.ts#L403">dom/css-parallaxer.ts:403</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -224,7 +243,7 @@ parallaxer.dispose();</code></pre><h2 id="mobile-lerp">Mobile Lerp</h2>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/css-parallaxer.ts#L160">dom/css-parallaxer.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/css-parallaxer.ts#L192">dom/css-parallaxer.ts:192</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -258,7 +277,7 @@ parallaxer.dispose();</code></pre><h2 id="mobile-lerp">Mobile Lerp</h2>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/css-parallaxer.ts#L298">dom/css-parallaxer.ts:298</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/css-parallaxer.ts#L337">dom/css-parallaxer.ts:337</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -275,7 +294,7 @@ parallaxer.dispose();</code></pre><h2 id="mobile-lerp">Mobile Lerp</h2>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/css-parallaxer.ts#L260">dom/css-parallaxer.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/css-parallaxer.ts#L293">dom/css-parallaxer.ts:293</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -306,7 +325,7 @@ parallaxer.dispose();</code></pre><h2 id="mobile-lerp">Mobile Lerp</h2>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/css-parallaxer.ts#L204">dom/css-parallaxer.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/335bdf2/src/dom/css-parallaxer.ts#L236">dom/css-parallaxer.ts:236</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
