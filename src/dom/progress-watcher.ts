@@ -42,6 +42,16 @@ export interface ProgressWatcherItem {
  *  })
  *
  *
+ *  // RunWhen.  Add a condition to run.
+ *  this.progressWatcher.add({
+ *    range: [0.2, 0.4],
+ *    callback: (progress: number, direction: number)=> {
+ *          console.log(progress, direction);
+ *    },
+ *    runWhen: ()=> { return window.innerWidth < 1000 }
+ *  })
+ *
+ *
  * // Remove watchFor
  * progressWatcher.remove(callback);
  *
