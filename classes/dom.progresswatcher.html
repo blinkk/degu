@@ -81,6 +81,11 @@
    callback: <span class="hljs-function">(<span class="hljs-params">progress: <span class="hljs-built_in">number</span>, direction: <span class="hljs-built_in">number</span></span>)=&gt;</span> {
          <span class="hljs-built_in">console</span>.log(progress, direction);
    }
+
+   <span class="hljs-comment">// Runs when the progress is NOT 0.2 - 0.4</span>
+   inactiveCallback: <span class="hljs-function">(<span class="hljs-params">progress: <span class="hljs-built_in">number</span>, direction: <span class="hljs-built_in">number</span></span>)=&gt;</span> {
+         <span class="hljs-built_in">console</span>.log(progress, direction);
+   }
  })
 
 <span class="hljs-comment">// Triggers only when 0.2 is crossed in upwards or downwards direction.</span>
@@ -170,7 +175,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3bb0c6e/src/dom/progress-watcher.ts#L77">dom/progress-watcher.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/progress-watcher.ts#L83">dom/progress-watcher.ts:83</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.progresswatcher.html" class="tsd-signature-type">ProgressWatcher</a></h4>
@@ -190,7 +195,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3bb0c6e/src/dom/progress-watcher.ts#L88">dom/progress-watcher.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/progress-watcher.ts#L94">dom/progress-watcher.ts:94</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -218,7 +223,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3bb0c6e/src/dom/progress-watcher.ts#L144">dom/progress-watcher.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/progress-watcher.ts#L154">dom/progress-watcher.ts:154</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -240,7 +245,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3bb0c6e/src/dom/progress-watcher.ts#L152">dom/progress-watcher.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/progress-watcher.ts#L162">dom/progress-watcher.ts:162</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -262,7 +267,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3bb0c6e/src/dom/progress-watcher.ts#L97">dom/progress-watcher.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/progress-watcher.ts#L103">dom/progress-watcher.ts:103</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -292,7 +297,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3bb0c6e/src/dom/progress-watcher.ts#L108">dom/progress-watcher.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/68cb499/src/dom/progress-watcher.ts#L114">dom/progress-watcher.ts:114</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
