@@ -166,6 +166,9 @@ export class CssParallaxer {
      */
     private height: number;
 
+    private windowWidth: number;
+
+
 
     constructor(element: HTMLElement) {
         this.element = element;
