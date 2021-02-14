@@ -22,15 +22,6 @@ export interface InviewProgressItem {
  *  })
  *
  * inviewProgress.update(0.2)
- *
- *
- * // If using with css parallaxer, you might do something
- * // like this.
- *  onRaf() {
- *       this.inviewProgress.setProgress(
- *           this.cssParallaxer.getProgress()
- *       );
- &  }
  */
 export class InviewProgress {
     private progressWatcher: ProgressWatcher;

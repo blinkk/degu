@@ -8,6 +8,7 @@ import { func } from '../func/func';
 import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 import { is } from '../is/is';
 import { interpolateSettings } from '../interpolate/multi-interpolate';
+import { InviewProgress } from './inview-progress';
 
 
 export interface CssParallaxSettings {
@@ -48,6 +49,11 @@ export interface CssParallaxSettings {
     dampMobile?: number,
     // The breakpoint width of mobile.
     mobileBreakpoint?: number,
+
+
+    // Optionally pass inviewProgress.
+    // This can be used to trigger css classes at specific breakpoints.
+    inviewProgress?: InviewProgress
 }
 
 /**
@@ -108,6 +114,31 @@ export interface CssParallaxSettings {
  *   visibility: visible
  * ```
  *
+ * ## How do I add css classes to elements?
+ * You can pass an instance of inviewProgress to cssParallaxer.
+ *
+ * ```ts
+ * const inviewProgress = new InviewProgress();
+ *
+ * // Add the class "active" when from range 0.2 - 0.4
+ * inviewProgress.add({
+ *    range: [0.2, 0.4],
+ *    element: el,
+ *    className: "active"
+ * })
+ *
+ * // Setup css parallax
+ * const settings = {
+ *    debug: false,
+ *    top: '0px'
+ *    bottom: '10px',
+ *    inviewProgress: inviewProgress
+ * }
+ * const parallaxer = new CssParallaxer(el);
+ * parallaxer.init(settings, [])
+ * ```
+ *
+ *
  *
  *
  *
@@ -134,8 +165,6 @@ export class CssParallaxer {
      * The height value if specified.
      */
     private height: number;
-
-    private windowWidth: number;
 
 
     constructor(element: HTMLElement) {
@@ -217,7 +246,8 @@ export class CssParallaxer {
                     lerpOnlyInRange: true,
                     rafEvOptions: {
                         rootMargin: '300px 0px 300px 0px'
-                    }
+                    },
+                    inviewProgress: null
                 },
                 ...settings || {}
             };
@@ -289,6 +319,12 @@ export class CssParallaxer {
 
         if (this.settingsData.debug) {
             console.log(this.currentProgress, this.topOffset, this.bottomOffset);
+        }
+
+
+        // Update inviewProgress if provided.
+        if(this.settingsData.inviewProgress) {
+            this.settingsData.inviewProgress.setProgress(this.currentProgress);
         }
 
         return this.currentProgress;
