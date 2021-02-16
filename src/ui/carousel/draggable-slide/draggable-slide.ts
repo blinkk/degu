@@ -591,7 +591,7 @@ export class DraggableSlide implements Transition {
     const min = halfContainer - totalSlideWidth + halfLastSlide;
     const max = halfContainer - halfFirstSlide;
     const currentX =
-        Matrix.fromElementTransform(draggable.element).getTranslateX();
+        this.matrixService.getAlteredMatrix(draggable.element).getTranslateX();
     const finalX = mathf.clamp(min, max, currentX + delta.x);
     const deltaX = finalX - currentX;
 

@@ -11,8 +11,8 @@ import {CarouselSynchronizer} from '../lib/ui/carousel/carousel-synchronizer';
 export default class CarouselSample {
   constructor() {
     const a = new Carousel(
-        document.querySelector('.carousel'),
-        Array.from(document.querySelectorAll('.carousel .slide')),
+        document.querySelector('.carousel--a'),
+        Array.from(document.querySelectorAll('.carousel--a .slide')),
         {
           allowLooping: true,
           transition: new DraggableSlide(),
@@ -24,5 +24,12 @@ export default class CarouselSample {
           allowLooping: true,
         });
     CarouselSynchronizer.getSingleton(this).sync(a, b);
+    const c = new Carousel(
+        document.querySelector('.carousel--c'),
+        Array.from(document.querySelectorAll('.carousel--c .slide')),
+        {
+          allowLooping: false,
+          transition: new DraggableSlide(),
+        });
   }
 }
