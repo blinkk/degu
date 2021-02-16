@@ -176,6 +176,8 @@ export class CarouselSynchronizer {
     });
     this.carouselGraph.delete(carousel);
 
+    // If there are now no carousels being synchronized,
+    // dispose of the singleton.
     if (
         this.carouselGraph.size === 0 &&
         CarouselSynchronizer.singleton === this
