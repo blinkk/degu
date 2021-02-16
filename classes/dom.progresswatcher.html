@@ -92,13 +92,11 @@
  <span class="hljs-keyword">this</span>.progressWatcher.add({
    range: <span class="hljs-number">0.2</span>,
    callback: <span class="hljs-function">(<span class="hljs-params">progress: <span class="hljs-built_in">number</span>, direction: <span class="hljs-built_in">number</span></span>)=&gt;</span> {
-       <span class="hljs-comment">// If going up</span>
-       <span class="hljs-keyword">if</span>(direction == <span class="hljs-number">-1</span>) {
+       <span class="hljs-keyword">if</span>(direction == Direction.Up) {
           ....
        }
 
-       <span class="hljs-comment">// If going down</span>
-       <span class="hljs-keyword">if</span>(direction == <span class="hljs-number">1</span>) {
+       <span class="hljs-keyword">if</span>(direction == Direction.Down) {
           ....
        }
    }
@@ -175,7 +173,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/4c3a9f0/src/dom/progress-watcher.ts#L83">dom/progress-watcher.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/progress-watcher.ts#L86">dom/progress-watcher.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.progresswatcher.html" class="tsd-signature-type">ProgressWatcher</a></h4>
@@ -195,7 +193,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/4c3a9f0/src/dom/progress-watcher.ts#L94">dom/progress-watcher.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/progress-watcher.ts#L97">dom/progress-watcher.ts:97</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -223,7 +221,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/4c3a9f0/src/dom/progress-watcher.ts#L154">dom/progress-watcher.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/progress-watcher.ts#L157">dom/progress-watcher.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -245,7 +243,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/4c3a9f0/src/dom/progress-watcher.ts#L162">dom/progress-watcher.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/progress-watcher.ts#L165">dom/progress-watcher.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -267,7 +265,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/4c3a9f0/src/dom/progress-watcher.ts#L103">dom/progress-watcher.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/progress-watcher.ts#L106">dom/progress-watcher.ts:106</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -297,7 +295,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/4c3a9f0/src/dom/progress-watcher.ts#L114">dom/progress-watcher.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/progress-watcher.ts#L117">dom/progress-watcher.ts:117</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
