@@ -2,7 +2,7 @@
 import { ProgressWatcher } from '../dom/progress-watcher';
 
 export interface InviewProgressItem {
-    range: number | Array<number>;
+    range: number | number[];
     element: HTMLElement,
     className: string,
 }

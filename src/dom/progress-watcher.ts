@@ -3,12 +3,17 @@ import { is } from '../is/is';
 import { mathf } from '../mathf/mathf';
 
 export interface ProgressWatcherItem {
-    range: number | Array<number>;
+    range: number | number[];
     callback: Function;
     inactiveCallback?: Function;
     runWhen?: Function;
 }
 
+
+export enum Direction {
+   Up = -1,
+   Down = 1
+}
 
 
 /**
@@ -35,13 +40,11 @@ export interface ProgressWatcherItem {
  *  this.progressWatcher.add({
  *    range: 0.2,
  *    callback: (progress: number, direction: number)=> {
- *        // If going up
- *        if(direction == -1) {
+ *        if(direction == Direction.Up) {
  *           ....
  *        }
  *
- *        // If going down
- *        if(direction == 1) {
+ *        if(direction == Direction.Down) {
  *           ....
  *        }
  *    }
@@ -78,7 +81,7 @@ export interface ProgressWatcherItem {
  */
 export class ProgressWatcher {
 
-    private watchers: Array<ProgressWatcherItem> = [];
+    private watchers: ProgressWatcherItem[] = [];
     private currentProgress: number = 0;
     private direction: number = 0;
 
@@ -87,7 +90,7 @@ export class ProgressWatcher {
 
     /**
      * Sets a callback for a specific range.
-     * @param {number|Array<number>} A specific progress to watch for or
+     * @param {number|number[]} A specific progress to watch for or
      *     an array like [0.1, 0.4] specifying the range to be watched.
      * @param {Function}
      */
@@ -115,7 +118,7 @@ export class ProgressWatcher {
         const previousProgress = this.currentProgress;
         this.currentProgress = progress;
         const direction = mathf.direction(previousProgress, this.currentProgress);
-        if(direction == -1 || direction == 1) {
+        if(direction == Direction.Up || direction == Direction.Down) {
             this.direction = direction;
         }
 
