@@ -380,45 +380,34 @@ export class DraggableSlide implements Transition {
   /**
    * Adjust the split of slides around the currently active slide.
    *
-   * This ensures that the slides cover as much of the carousel as possible.
-   * Also ensures that each slide keeps an appropriate distance from the active
-   * slide.
+   * Is a no-op for non-looping carousels.
+   *
+   * Ensures:
+   * - Slides cover as much of the carousel as possible.
+   * - Slides loop from one side to the other.
    */
   private splitSlides(): void {
+    if (!this.carousel.allowsLooping()) {
+      return;
+    }
+
     // No matter what we need to loop adjust the target if we have one
     const activeSlide = this.carousel.getActiveSlide();
     const target: HTMLElement =
       (this.transitionTarget && this.transitionTarget.target) ||
       activeSlide;
 
-    // Shift slides from one side to the other for an even split if looping is
-    // supported.
-    if (target !== activeSlide && this.carousel.allowsLooping()) {
-      this.loopOffscreenSlides(target);
-    }
-
     const targetLeft = target.getBoundingClientRect().left;
     const targetRight = targetLeft + target.offsetWidth;
 
     const slides = this.carousel.getSlides();
-    const nonTargetSlides =
-        slides.filter((slide) => slide !== target);
     const targetIndex = this.carousel.getSlideIndex(target);
-    const slidesToSplit = new Set(nonTargetSlides);
-
-    const leftSlides = slides.slice(0, targetIndex);
-    const rightSlides = slides.slice(targetIndex + 1);
-
-    let leftDistanceToCover =
-        this.carousel.allowsLooping() ?
-            Math.max(targetLeft, 0) :
-            DraggableSlide.sumWidth(leftSlides);
+    const slidesToSplit =
+        new Set(slides.filter((slide) => slide !== target));
 
     const clientWidth = dom.getScrollElement().clientWidth;
-    let rightDistanceToCover =
-        this.carousel.allowsLooping() ?
-            Math.min(clientWidth, clientWidth - targetRight) :
-            DraggableSlide.sumWidth(rightSlides);
+    let leftDistanceToCover = Math.max(targetLeft, 0);
+    let rightDistanceToCover = Math.min(clientWidth, clientWidth - targetRight);
 
     const indices = new Map([
       [Direction.LEFT, targetIndex],
@@ -549,40 +538,6 @@ export class DraggableSlide implements Transition {
       bCenter = document.children[0].clientWidth / 2;
     }
     return aCenter - bCenter;
-  }
-
-  /**
-   * Reposition slides if they have been dragged far enough off one side that
-   * they should be wrapping around onto the other side.
-   * @param targetSlide
-   */
-  private loopOffscreenSlides(targetSlide: HTMLElement): void {
-    const totalWidth = DraggableSlide.sumWidth(this.carousel.getSlides());
-
-    const distanceToCenter =
-        this.getVisibleDistanceBetweenCenters(targetSlide) +
-        this.getAlteredXTranslation(targetSlide);
-    const distanceSign = Math.sign(distanceToCenter);
-    const isOffscreen = Math.abs(distanceToCenter) > (totalWidth / 2);
-
-    // If the slides are not offscreen they do not need to be adjusted.
-    if (!isOffscreen) {
-      return;
-    }
-
-    // Reset during drag if the drag has gone exceedingly far
-    const rootElement = document.children[0];
-    const xTranslation = -totalWidth * distanceSign;
-    const adjustedDistanceToCenter =
-        (rootElement.clientWidth * distanceSign) +
-        distanceToCenter +
-        xTranslation;
-
-    // Only loop the slide if it will bring it closer to the center of the
-    // viewport than it already is.
-    if (Math.abs(adjustedDistanceToCenter) < Math.abs(distanceToCenter)) {
-      this.translate(targetSlide, xTranslation);
-    }
   }
 
   /**

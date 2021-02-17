@@ -31,7 +31,7 @@ export default class CarouselSample {
           autoplaySpeed: 3000,
           allowLooping: true,
           transition: new DraggableSlide({
-            transitionTime: 3000,
+            transitionTime: 2000,
             easingFunction: easeOutBounce
           }),
         });
