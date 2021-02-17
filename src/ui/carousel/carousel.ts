@@ -1,4 +1,4 @@
-import { CssClassesOnly, Transition } from './transitions';
+import {CssClassesOnly, DraggableSlide, Transition} from './transitions';
 import { mathf, Raf } from '../..';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
@@ -25,7 +25,7 @@ export interface CarouselOptions {
   allowLooping?: boolean;
   distanceToActiveSlideAttr?: string;
   // Transition used to iterate through slides.
-  transition?: Transition;
+  transition?: Transition|string;
   // Carousel code won't run if the condition is not met.
   // Used for establishing multiple types of carousels on the same DOM varied
   // by breakpoint.
@@ -137,7 +137,22 @@ export class Carousel {
         onTransitionEndCallback ? [onTransitionEndCallback] : [];
     this.onDisposeCallbacks = onDisposeCallback ? [onDisposeCallback] : [];
     this.slides = slides;
-    this.transition = transition || new CssClassesOnly();
+    if (typeof transition === 'string') {
+      switch (transition) {
+        case 'css':
+          this.transition = new CssClassesOnly();
+          break;
+        case 'draggable':
+          this.transition = new DraggableSlide();
+          break;
+        default:
+          throw new Error(
+              `Unrecognized transition type "${transition}" passed to ` +
+              `Carousel.`);
+      }
+    } else {
+      this.transition = transition || new CssClassesOnly();
+    }
     this.transitionTarget = null;
 
     this.init();

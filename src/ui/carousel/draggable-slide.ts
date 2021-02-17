@@ -1,10 +1,10 @@
-import { Carousel } from '../carousel';
-import { dom, DomWatcher, mathf, Raf } from '../../..';
-import { Transition } from '../transitions';
-import { CubicBezier, EasingFunction } from '../../../mathf/cubic-bezier';
-import { arrayf } from '../../../arrayf/arrayf';
-import { DefaultMap } from '../../../map/default-map';
-import { CachedMouseTracker } from '../../../dom/cached-mouse-tracker';
+import { Carousel } from './carousel';
+import { dom, DomWatcher, mathf, Raf } from '../..';
+import { Transition } from './transitions';
+import { CubicBezier, EasingFunction } from '../../mathf/cubic-bezier';
+import { arrayf } from '../../arrayf/arrayf';
+import { DefaultMap } from '../../map/default-map';
+import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
 
 enum Direction {
   LEFT = -1,
@@ -167,7 +167,7 @@ export class DraggableSlide implements Transition {
     const min = halfContainer - totalSlideWidth + halfLastSlide;
     const max = halfContainer - halfFirstSlide;
 
-    slides.forEach((slide) => {
+    slides.forEach((slide: HTMLElement) => {
       const currentX = this.xTranslate.get(slide);
       this.xTranslate.set(slide, mathf.clamp(min, max, currentX));
     });

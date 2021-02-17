@@ -5,7 +5,7 @@
  * styled through CSS with no special interaction.
  */
 import {Carousel} from '../lib/ui/carousel/carousel';
-import {DraggableSlide} from '../lib/ui/carousel/draggable-slide/draggable-slide';
+import {DraggableSlide} from '../lib/ui/carousel/draggable-slide';
 import {CarouselSynchronizer} from '../lib/ui/carousel/carousel-synchronizer';
 
 export default class CarouselSample {
@@ -29,7 +29,7 @@ export default class CarouselSample {
         Array.from(document.querySelectorAll('.carousel--c .slide')),
         {
           allowLooping: false,
-          transition: new DraggableSlide(),
+          transition: 'draggable',
         });
   }
 }

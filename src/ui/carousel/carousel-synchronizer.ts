@@ -120,8 +120,7 @@ export class CarouselSynchronizer {
       throw new Error(
           'CarouselSynchronizer must be instantiated via getSingleton()');
     }
-    this.graph =
-        DefaultMap.usingFunction((carousel: Carousel) => new Set());
+    this.graph = DefaultMap.usingFunction((carousel: Carousel) => new Set());
   }
 
   /**
