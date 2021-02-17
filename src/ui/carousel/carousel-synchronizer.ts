@@ -1,4 +1,3 @@
-import { setf } from '../../setf/setf';
 import { Carousel } from './carousel';
 import { DefaultMap } from '../../map/default-map';
 
@@ -139,8 +138,9 @@ export class CarouselSynchronizer {
       }
 
       const set = this.carouselGraph.get(carousel);
-      setf.addMultiple(set, ...carousels);
-      set.delete(carousel);
+      carousels
+          .filter((c) => c !== carousel)
+          .forEach((c) => set.add(c));
     });
   }
 

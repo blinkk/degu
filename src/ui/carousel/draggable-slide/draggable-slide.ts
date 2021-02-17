@@ -158,8 +158,7 @@ export class DraggableSlide implements Transition {
 
     // Allow for centering the last slide
     const halfContainer = this.carousel.getContainer().offsetWidth / 2;
-    const totalSlideWidth =
-        mathf.sum(slides.map((s) => s.offsetWidth));
+    const totalSlideWidth = DraggableSlide.sumWidth(slides);
 
     const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
     const halfLastSlide = lastSlideWidth / 2;
