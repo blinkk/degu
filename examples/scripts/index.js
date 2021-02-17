@@ -23,7 +23,6 @@ import CssVarInterpolateSample2 from '../css-var-interpolate2';
 import CssVarInterpolateSample3 from '../css-var-interpolate3';
 import DomCanvasSample from '../dom-canvas';
 import DomWatcherSample from '../dom-watcher';
-import DraggableSample from '../draggable';
 import EaserDisableRafSample from '../easer-disable-raf';
 import EaserSample from '../easer';
 import GlslPlayground from '../glsl-playground';
@@ -119,7 +118,6 @@ import WebGlSample from '../webgl';
 
 const samples = {
   'carouselSample': CarouselSample,
-  'draggableSample': DraggableSample,
   'easerDisableRafSample': EaserDisableRafSample,
   'easerSample': EaserSample,
   'interpolateSample': InterpolateSample,

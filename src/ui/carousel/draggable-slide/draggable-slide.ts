@@ -1,57 +1,14 @@
 import { Carousel } from '../carousel';
 import { dom, DomWatcher, mathf, Raf } from '../../..';
 import { Transition } from '../transitions';
-import { MatrixService } from './matrix-service';
-import { Vector } from '../../../mathf/vector';
 import { CubicBezier, EasingFunction } from '../../../mathf/cubic-bezier';
-import { Draggable, DraggableEvent } from '../../draggable/draggable';
-import { DraggableSynchronizer } from '../../draggable/draggable-synchronizer';
-import { Matrix } from './matrix';
 import { arrayf } from '../../../arrayf/arrayf';
 import { DefaultMap } from '../../../map/default-map';
+import { CachedMouseTracker } from '../../../dom/cached-mouse-tracker';
 
 enum Direction {
   LEFT = -1,
   RIGHT = 1
-}
-
-/**
- * Returns the visible center position of the given element.
- */
-function getVisibleCenter(el: HTMLElement) {
-  const rect = el.getBoundingClientRect();
-  const raw =
-      new Vector(rect.left + rect.width / 2, rect.top + rect.height / 2);
-  return raw.add(MatrixService.getSingleton().getAlteredTranslation(el));
-}
-
-/**
- * Determine the distance between the centers of two given elements.
- * If no second element is given, `document.children[0]` is used.
- *
- * Uses the matrix service to account for translations that will be applied
- * during the raf write step. Note that MatrixService can only account for
- * translations that will be applied via MatrixService.
- *
- * @param a
- * @param b
- */
-export function getVisibleDistanceBetweenCenters(
-    a: HTMLElement, b: HTMLElement = null
-): Vector {
-  // Gather up the information on the first element's center position.
-  const aCenter = getVisibleCenter(a);
-  // Gather the info on the second element's center position or the root
-  // element's center position.
-  let bCenter;
-  if (b !== null) {
-    bCenter = getVisibleCenter(b);
-  } else {
-    bCenter = new Vector(
-        document.children[0].clientWidth / 2,
-        window.innerHeight / 2);
-  }
-  return aCenter.subtract(bCenter);
 }
 
 /**
@@ -81,18 +38,24 @@ class TransitionTarget {
   }
 }
 
-/**
- * Tracks information about the start of an interaction
- */
-class InteractionTarget {
-  readonly target: HTMLElement;
-  readonly time: number;
-  readonly position: Vector;
-  constructor(target: HTMLElement, time: number, position: Vector) {
-    this.target = target;
-    this.time = time;
-    this.position = position;
+class Interaction {
+  readonly startX: number;
+  readonly startTime: number;
+  lastMouseX: number;
+  constructor(startX: number, startTime: number) {
+    this.startX = startX;
+    this.startTime = startTime;
+    this.lastMouseX = startX;
   }
+}
+
+function getTranslateX(el: HTMLElement): number {
+  const transform = dom.getComputedStyle(el).transform;
+  if (!transform.length || transform === 'none') {
+    return 0;
+  }
+  // Grab the tx value from the matrix
+  return parseFloat(transform.slice(7, -1).split(',')[4]);
 }
 
 /**
@@ -118,15 +81,14 @@ export class DraggableSlide implements Transition {
     return mathf.sum(slides.map((slide) => slide.offsetWidth));
   }
   private readonly easingFunction: EasingFunction;
-  private readonly matrixService: MatrixService;
   private readonly domWatcher: DomWatcher;
   private readonly transitionTime: number;
-  private readonly draggableSynchronizer: DraggableSynchronizer;
+  private readonly mouseTracker: CachedMouseTracker;
+  private readonly xTranslate: DefaultMap<HTMLElement, number>;
   private transitionTarget: TransitionTarget;
   private carousel: Carousel;
-  private draggableBySlide: DefaultMap<HTMLElement, Draggable>;
-  private interactionTarget: InteractionTarget;
   private resizeTimeout: number;
+  private interaction: Interaction;
   private raf: Raf;
 
   constructor(
@@ -136,17 +98,28 @@ export class DraggableSlide implements Transition {
     }: DraggableSlideConfig = {}
   ) {
     this.raf = new Raf(() => this.loop());
-    this.draggableSynchronizer = DraggableSynchronizer.getSingleton(this);
-    this.matrixService = MatrixService.getSingleton();
     this.domWatcher = new DomWatcher();
     this.easingFunction = easingFunction;
     this.transitionTime = transitionTime;
-    this.interactionTarget = null;
     this.transitionTarget = null;
     this.resizeTimeout = null;
+    this.mouseTracker = CachedMouseTracker.getSingleton(this);
+    this.interaction = null;
+    this.xTranslate =
+        DefaultMap.usingFunction((el: HTMLElement) => getTranslateX(el));
   }
 
-  init(activeSlide: HTMLElement, carousel: Carousel): void {
+  init(carousel: Carousel): void {
+    this.initResizeHandler();
+    this.carousel = carousel;
+    carousel.onDispose((disposedCarousel) => this.dispose());
+    // Transition to the given active slide
+    this.raf.read(() => this.transition(carousel.getFirstSlide(), 0));
+    this.initDraggableSlides();
+    this.raf.start();
+  }
+
+  private initResizeHandler(): void {
     this.domWatcher.add({
       element: window,
       on: 'resize',
@@ -157,36 +130,67 @@ export class DraggableSlide implements Transition {
                 () => this.transition(this.carousel.getActiveSlide(), 0));
       }
     });
-    const options =
-        carousel.allowsLooping() ?
-            {
-              horizontal: true
-            } :
-            {
-              horizontal: true,
-              constraints: [(draggable: Draggable, delta: Vector) => {
-                return this.constrainDraggableSlide(draggable, delta);
-              }]
-            };
-    this.draggableBySlide =
-      DefaultMap.usingFunction(
-          (slide: HTMLElement) => new Draggable(slide, options));
-    this.carousel = carousel;
-    carousel.onDispose((disposedCarousel) => this.dispose());
-    // Transition to the given active slide
-    this.raf.read(() => this.transition(activeSlide, 0));
-    this.initDraggableSlides();
-    this.raf.start();
   }
 
   loop(): void {
     this.raf.read(() => {
-      if (!this.isBeingInteractedWith() && this.transitionTarget) {
+      if (!this.isInteracting() && this.transitionTarget) {
         this.updateTransitionToTarget();
       } else {
+        if (this.isInteracting()) {
+          this.renderDrag();
+        }
         this.splitSlides();
       }
+      this.applyXTranslations();
     });
+  }
+
+  /**
+   * Limit how far slides can be moved left/right if looping is not allowed for
+   * the carousel.
+   */
+  private constrainXTranslations() {
+    if (this.carousel.allowsLooping()) {
+      return;
+    }
+    const slides = this.carousel.getSlides();
+
+    // Allow for centering the last slide
+    const halfContainer = this.carousel.getContainer().offsetWidth / 2;
+    const totalSlideWidth =
+        mathf.sum(slides.map((s) => s.offsetWidth));
+
+    const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
+    const halfLastSlide = lastSlideWidth / 2;
+    const halfFirstSlide = slides[0].offsetWidth / 2;
+
+    const min = halfContainer - totalSlideWidth + halfLastSlide;
+    const max = halfContainer - halfFirstSlide;
+
+    slides.forEach((slide) => {
+      const currentX = this.xTranslate.get(slide);
+      this.xTranslate.set(slide, mathf.clamp(min, max, currentX));
+    });
+  }
+
+  private applyXTranslations() {
+    this.constrainXTranslations();
+    // Apply all X Translates in a single step
+    this.raf.write(() => {
+      this.xTranslate.forEach((xTranslate, slide) => {
+        slide.style.transform = `translateX(${xTranslate}px)`;
+      });
+    });
+  }
+
+  private renderDrag() {
+    const currentMouseX = this.getMouseX();
+    const delta = currentMouseX - this.interaction.lastMouseX;
+    this.carousel.getSlides().forEach((slide) => {
+      this.xTranslate.set(slide, this.xTranslate.get(slide) + delta);
+    });
+    this.interaction.lastMouseX = currentMouseX;
   }
 
   /**
@@ -226,8 +230,8 @@ export class DraggableSlide implements Transition {
       // Start with the one closest to the center
       (el) => {
         return Math.abs(
-          getVisibleDistanceBetweenCenters(
-            <HTMLElement>el, this.carousel.getContainer()).x);
+          this.getVisibleDistanceBetweenCenters(
+            <HTMLElement>el, this.carousel.getContainer()));
       },
       // If two slides are tied for distance to the center default to the one
       // that was last active.
@@ -249,8 +253,8 @@ export class DraggableSlide implements Transition {
   /**
    * Returns true if the user is interacting with the slides.
    */
-  isBeingInteractedWith(): boolean {
-    return this.interactionTarget !== null;
+  isInteracting(): boolean {
+    return this.interaction !== null;
   }
 
   /**
@@ -258,31 +262,33 @@ export class DraggableSlide implements Transition {
    */
   private getDistanceToCenter(slide: HTMLElement): number {
     const container = this.carousel.getContainer();
-    return getVisibleDistanceBetweenCenters(slide, container).x;
+    return this.getVisibleDistanceBetweenCenters(slide, container);
   }
 
   /**
    * Setup the Draggable instances that will correspond to the slide elements.
    */
   private initDraggableSlides(): void {
-    const draggables =
-      this.carousel.getSlides()
-        .map(
-          (slide) => {
-            const draggable: Draggable = this.draggableBySlide.get(slide);
-            this.domWatcher.add({
-              element: draggable.element,
-              on: DraggableEvent.START,
-              callback: (e: Event) => this.startInteraction(e)
-            });
-            this.domWatcher.add({
-              element: draggable.element,
-              on: DraggableEvent.END,
-              callback: (e: Event) => this.endInteraction(e)
-            });
-            return draggable;
-          });
-    this.draggableSynchronizer.sync(...draggables);
+    this.carousel.getSlides()
+      .forEach(
+        (slide) => {
+          ['touchstart', 'mousedown']
+              .forEach((event: string) => {
+                this.domWatcher.add({
+                  element: slide,
+                  on: event,
+                  callback: (e: Event) => this.startInteraction(e)
+                });
+              });
+          ['contextmenu', 'dragstart', 'touchend', 'mouseup']
+              .forEach((event: string) => {
+                this.domWatcher.add({
+                  element: window,
+                  on: event,
+                  callback: (e: Event) => this.endInteraction(e)
+                });
+              });
+        });
   }
 
   /**
@@ -313,13 +319,22 @@ export class DraggableSlide implements Transition {
     const currentDistanceSign = Math.sign(currentDistance);
     const xDelta = absDelta * currentDistanceSign;
     this.carousel.getSlides().forEach(
-        (slide) => this.matrixService.translate(slide, xDelta, 0));
+        (slide) => this.translate(slide, xDelta));
     this.splitSlides();
 
     // If we're close enough, let's call it
     if (easedPercent === 1) {
       this.transitionTarget = null;
     }
+  }
+
+  /**
+   * Translate the given slide by the given amoutn
+   * @param slide
+   * @param delta
+   */
+  private translate(slide: HTMLElement, delta: number) {
+    this.xTranslate.set(slide, this.xTranslate.get(slide) + delta);
   }
 
   /**
@@ -333,7 +348,7 @@ export class DraggableSlide implements Transition {
     // No matter what we need to loop adjust the target if we have one
     const activeSlide = this.carousel.getActiveSlide();
     const target: HTMLElement =
-      (this.interactionTarget && this.interactionTarget.target) ||
+      // (this.interaction && this.interactionTarget.target) || // NOTE: Used to check interacted slide
       (this.transitionTarget && this.transitionTarget.target) ||
       activeSlide;
 
@@ -395,9 +410,9 @@ export class DraggableSlide implements Transition {
    * Return the distance of the given slide to the target slide.
    */
   private getDistanceToTarget(target: HTMLElement, slide: HTMLElement): number {
-    return getVisibleDistanceBetweenCenters(slide, target).x +
-      this.matrixService.getAlteredXTranslation(slide) -
-      this.matrixService.getAlteredXTranslation(target);
+    return this.getVisibleDistanceBetweenCenters(slide, target) +
+      this.getAlteredXTranslation(slide) -
+      this.getAlteredXTranslation(target);
   }
 
   /**
@@ -405,16 +420,11 @@ export class DraggableSlide implements Transition {
    * @param event
    */
   private startInteraction(event: Event): void {
-    if (this.interactionTarget !== null) {
+    if (this.isInteracting()) {
       return;
     }
-    const target = <HTMLElement>(event.target);
+    this.interaction = new Interaction(this.getMouseX(), performance.now());
     this.transitionTarget = null;
-    this.interactionTarget =
-        new InteractionTarget(
-            target,
-            performance.now(),
-            Matrix.fromElementTransform(target).getTranslation());
     this.carousel.stopTransition();
   }
 
@@ -423,25 +433,18 @@ export class DraggableSlide implements Transition {
    * @param event
    */
   private endInteraction(event: Event): void {
-    if (this.interactionTarget === null) {
+    if (this.interaction === null) {
       return;
     }
 
-    const interactionDuration = performance.now() - this.interactionTarget.time;
+    const interactionDuration = performance.now() - this.interaction.startTime;
     const activeSlide = this.getActiveSlide();
     const distance = this.getDistanceToCenter(activeSlide);
 
-    const interactionDelta =
-      Matrix.fromElementTransform(<HTMLElement>event.target)
-        .getTranslation()
-        .subtract(this.interactionTarget.position);
-    const wasHorizontalDrag =
-      Math.abs(interactionDelta.x) > Math.abs(interactionDelta.y);
+    const interactionDelta = this.getMouseX() - this.interaction.startX;
+    const velocity = interactionDuration > 700 ? interactionDelta : 0;
 
-    const velocity =
-      interactionDuration > 700 && wasHorizontalDrag ? interactionDelta.x : 0;
-
-    this.interactionTarget = null;
+    this.interaction = null;
 
     const velocitySign = Math.sign(velocity);
     const distanceSign = Math.sign(distance) * -1;
@@ -477,6 +480,39 @@ export class DraggableSlide implements Transition {
   }
 
   /**
+   * Return the current mouse position.
+   */
+  private getMouseX(): number {
+    return this.mouseTracker.getClientPosition().x;
+  }
+
+  private getAlteredXTranslation(el: HTMLElement): number {
+    return this.xTranslate.get(el) - getTranslateX(el);
+  }
+
+  private getVisibleCenter(el: HTMLElement): number {
+    const rect = el.getBoundingClientRect();
+    const raw = rect.left + rect.width / 2;
+    return raw + this.getAlteredXTranslation(el);
+  }
+
+  private getVisibleDistanceBetweenCenters(
+      a: HTMLElement, b: HTMLElement = null
+  ): number {
+    // Gather up the information on the first element's center position.
+    const aCenter = this.getVisibleCenter(a);
+    // Gather the info on the second element's center position or the root
+    // element's center position.
+    let bCenter;
+    if (b !== null) {
+      bCenter = this.getVisibleCenter(b);
+    } else {
+      bCenter = document.children[0].clientWidth / 2;
+    }
+    return aCenter - bCenter;
+  }
+
+  /**
    * Reposition slides if they have been dragged far enough off one side that
    * they should be wrapping around onto the other side.
    * @param targetSlide
@@ -485,8 +521,8 @@ export class DraggableSlide implements Transition {
     const totalWidth = DraggableSlide.sumWidth(this.carousel.getSlides());
 
     const distanceToCenter =
-        getVisibleDistanceBetweenCenters(targetSlide).x +
-        this.matrixService.getAlteredXTranslation(targetSlide);
+        this.getVisibleDistanceBetweenCenters(targetSlide) +
+        this.getAlteredXTranslation(targetSlide);
     const distanceSign = Math.sign(distanceToCenter);
     const isOffscreen = Math.abs(distanceToCenter) > (totalWidth / 2);
 
@@ -506,7 +542,7 @@ export class DraggableSlide implements Transition {
     // Only loop the slide if it will bring it closer to the center of the
     // viewport than it already is.
     if (Math.abs(adjustedDistanceToCenter) < Math.abs(distanceToCenter)) {
-      this.matrixService.translate(targetSlide, xTranslation, 0);
+      this.translate(targetSlide, xTranslation);
     }
   }
 
@@ -524,7 +560,7 @@ export class DraggableSlide implements Transition {
         this.getDesiredDistanceBetweenSlides(target, slide, direction);
     const difference = desiredOffset - this.getDistanceToTarget(target, slide);
     if (difference !== 0) {
-      this.matrixService.translate(slide, difference, 0);
+      this.translate(slide, difference);
     }
   }
 
@@ -572,38 +608,12 @@ export class DraggableSlide implements Transition {
   }
 
   /**
-   * Given a draggable, constrain the given delta so that the draggable does not
-   * exceed the prescribed bounds of the carousel.
-   * @param draggable
-   * @param delta
-   */
-  private constrainDraggableSlide(draggable: Draggable, delta: Vector): Vector {
-    const slides = this.carousel.getSlides();
-
-    // Allow for centering the last slide
-    const halfContainer = this.carousel.getContainer().offsetWidth / 2;
-    const totalSlideWidth =
-        mathf.sum(slides.map((s) => s.offsetWidth));
-    const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
-    const halfLastSlide = lastSlideWidth / 2;
-    const halfFirstSlide = slides[0].offsetWidth / 2;
-
-    const min = halfContainer - totalSlideWidth + halfLastSlide;
-    const max = halfContainer - halfFirstSlide;
-    const currentX =
-        this.matrixService.getAlteredMatrix(draggable.element).getTranslateX();
-    const finalX = mathf.clamp(min, max, currentX + delta.x);
-    const deltaX = finalX - currentX;
-
-    return new Vector(deltaX, delta.y);
-  }
-
-  /**
    * Dispose of the transition.
    */
   private dispose() {
     window.clearTimeout(this.resizeTimeout);
-    this.draggableSynchronizer.dispose(this);
+    this.mouseTracker.dispose(this);
     this.domWatcher.dispose();
+    this.xTranslate.clear();
   }
 }

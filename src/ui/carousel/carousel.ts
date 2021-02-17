@@ -186,7 +186,7 @@ export class Carousel {
    * Returns true if the user is interacting with the carousel.
    */
   isBeingInteractedWith(): boolean {
-    return this.transition.isBeingInteractedWith();
+    return this.transition.isInteracting();
   }
 
   /**
@@ -428,7 +428,7 @@ export class Carousel {
    * Setup initial values.
    */
   private init(): void {
-    this.transition.init(this.getFirstSlide(), this);
+    this.transition.init(this);
     this.raf.start();
   }
 

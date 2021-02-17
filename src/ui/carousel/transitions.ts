@@ -6,10 +6,10 @@ export { DraggableSlideConfig, DraggableSlide } from './draggable-slide/draggabl
  */
 export interface Transition {
   transition(targetSlide: Element): void;
-  init(initialSlide: Element, carousel: Carousel): void;
+  init(carousel: Carousel): void;
   getActiveSlide(): HTMLElement;
   hasTransitionedTo(slide: HTMLElement): boolean;
-  isBeingInteractedWith(): boolean;
+  isInteracting(): boolean;
 }
 
 /**
@@ -21,9 +21,8 @@ export class CssClassesOnly implements Transition {
   private activeSlide: HTMLElement = null;
   private carousel: Carousel = null;
 
-  init(targetSlide: HTMLElement, carousel: Carousel) {
+  init(carousel: Carousel) {
     this.carousel = carousel;
-    this.activeSlide = targetSlide;
   }
 
   getActiveSlide(): HTMLElement {
@@ -41,7 +40,7 @@ export class CssClassesOnly implements Transition {
   /**
    * Always false, this transition doesn't support any interaction.
    */
-  isBeingInteractedWith(): boolean {
+  isInteracting(): boolean {
     return false;
   }
 }
