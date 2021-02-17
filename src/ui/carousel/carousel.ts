@@ -18,7 +18,6 @@ enum Direction {
 export interface CarouselOptions {
   onTransitionStartCallback?: (carousel: Carousel) => void;
   onTransitionEndCallback?: (carousel: Carousel) => void;
-  onDisposeCallback?: (carousel: Carousel) => void;
   activeCssClass?: string;
   beforeCssClass?: string;
   afterCssClass?: string;
@@ -79,7 +78,6 @@ export class Carousel {
       Array<(carousel: Carousel) => void>;
   private readonly onTransitionEndCallbacks:
       Array<(carousel: Carousel) => void>;
-  private readonly onDisposeCallbacks: Array<(carousel: Carousel) => void>;
   private readonly raf: Raf;
   private transitionTarget: TransitionTarget;
   private lastActiveSlide: HTMLElement;
@@ -98,7 +96,6 @@ export class Carousel {
    *                                  changes.
    * @param onTransitionEndCallback Function to run when the active slide
    *                                changes.
-   * @param onDisposeCallback Function run when the carousel is disposeed.
    * @param activeCssClass Class to apply to active slide.
    * @param beforeCssClass Class to apply to slides before active slide.
    * @param afterCssClass Class to apply to slides after active slide.
@@ -116,7 +113,6 @@ export class Carousel {
         condition = () => true,
         onTransitionStartCallback = null,
         onTransitionEndCallback = null,
-        onDisposeCallback = null,
         activeCssClass = DefaultCssClass.ACTIVE_SLIDE,
         beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
         afterCssClass = DefaultCssClass.AFTER_SLIDE,
@@ -142,7 +138,6 @@ export class Carousel {
         onTransitionStartCallback ? [onTransitionStartCallback] : [];
     this.onTransitionEndCallbacks =
         onTransitionEndCallback ? [onTransitionEndCallback] : [];
-    this.onDisposeCallbacks = onDisposeCallback ? [onDisposeCallback] : [];
     this.slides = slides;
     if (typeof transition === 'string') {
       switch (transition) {
@@ -339,14 +334,6 @@ export class Carousel {
   }
 
   /**
-   * Register a function to be called when the carousel disposes.
-   * @param callback
-   */
-  onDispose(callback: (carousel: Carousel) => void) {
-    this.onDisposeCallbacks.push(callback);
-  }
-
-  /**
    * Return the slide element at the given index in the list of slides.
    * @param index
    */
@@ -366,7 +353,7 @@ export class Carousel {
    */
   dispose() {
     this.raf.dispose();
-    this.onDisposeCallbacks.forEach((callback) => callback(this));
+    this.transition.dispose();
   }
 
   /**
@@ -459,12 +446,10 @@ export class Carousel {
 
   private resetAutoplayTimeout() {
     if (this.autoplaySpeed !== null) {
-      console.log('Resetting autoplay');
       clearTimeout(this.autoplayTimeout);
       this.autoplayTimeout =
           window.setTimeout(() => {
             this.next();
-            console.log('Autoplay fired');
           }, this.autoplaySpeed);
     }
   }
@@ -479,7 +464,6 @@ export class Carousel {
       }
 
       if (this.isBeingInteractedWith()) {
-        console.log('Resetting due to interaction');
         this.resetAutoplayTimeout();
       }
 
@@ -497,7 +481,6 @@ export class Carousel {
         if (hasTransitionedToTarget) {
           this.transitionTarget = null;
           this.onTransitionEndCallbacks.forEach((callback) => callback(this));
-          console.log('Restting due to transition end');
           this.resetAutoplayTimeout();
         } else {
           this.transition.transition(this.transitionTarget.element);

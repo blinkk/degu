@@ -10,6 +10,7 @@ export interface Transition {
   getActiveSlide(): HTMLElement;
   hasTransitionedTo(slide: HTMLElement): boolean;
   isInteracting(): boolean;
+  dispose(): void;
 }
 
 /**
@@ -44,4 +45,9 @@ export class CssClassesOnly implements Transition {
   isInteracting(): boolean {
     return false;
   }
+
+  /**
+   * No special disposal needed.
+   */
+  dispose() {}
 }

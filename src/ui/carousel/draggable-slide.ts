@@ -112,24 +112,10 @@ export class DraggableSlide implements Transition {
   init(carousel: Carousel): void {
     this.initResizeHandler();
     this.carousel = carousel;
-    carousel.onDispose((disposedCarousel) => this.dispose());
     // Transition to the given active slide
     this.raf.read(() => this.transition(carousel.getFirstSlide(), 0));
     this.initDraggableSlides();
     this.raf.start();
-  }
-
-  private initResizeHandler(): void {
-    this.domWatcher.add({
-      element: window,
-      on: 'resize',
-      callback: () => {
-        window.clearTimeout(this.resizeTimeout);
-        this.resizeTimeout =
-            window.setTimeout(
-                () => this.transition(this.carousel.getActiveSlide(), 0));
-      }
-    });
   }
 
   loop(): void {
@@ -144,52 +130,6 @@ export class DraggableSlide implements Transition {
       }
       this.applyXTranslations();
     });
-  }
-
-  /**
-   * Limit how far slides can be moved left/right if looping is not allowed for
-   * the carousel.
-   */
-  private constrainXTranslations() {
-    if (this.carousel.allowsLooping()) {
-      return;
-    }
-    const slides = this.carousel.getSlides();
-
-    // Allow for centering the last slide
-    const halfContainer = this.carousel.getContainer().offsetWidth / 2;
-    const totalSlideWidth = DraggableSlide.sumWidth(slides);
-
-    const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
-    const halfLastSlide = lastSlideWidth / 2;
-    const halfFirstSlide = slides[0].offsetWidth / 2;
-
-    const min = halfContainer - totalSlideWidth + halfLastSlide;
-    const max = halfContainer - halfFirstSlide;
-
-    slides.forEach((slide: HTMLElement) => {
-      const currentX = this.xTranslate.get(slide);
-      this.xTranslate.set(slide, mathf.clamp(min, max, currentX));
-    });
-  }
-
-  private applyXTranslations() {
-    this.constrainXTranslations();
-    // Apply all X Translates in a single step
-    this.raf.write(() => {
-      this.xTranslate.forEach((xTranslate, slide) => {
-        slide.style.transform = `translateX(${xTranslate}px)`;
-      });
-    });
-  }
-
-  private renderDrag() {
-    const currentMouseX = this.getMouseX();
-    const delta = currentMouseX - this.interaction.lastMouseX;
-    this.carousel.getSlides().forEach((slide) => {
-      this.xTranslate.set(slide, this.xTranslate.get(slide) + delta);
-    });
-    this.interaction.lastMouseX = currentMouseX;
   }
 
   /**
@@ -254,6 +194,75 @@ export class DraggableSlide implements Transition {
    */
   isInteracting(): boolean {
     return this.interaction !== null;
+  }
+
+  /**
+   * Dispose of the transition.
+   */
+  dispose() {
+    window.clearTimeout(this.resizeTimeout);
+    this.mouseTracker.dispose();
+    this.domWatcher.dispose();
+    this.xTranslate.clear();
+  }
+
+  private initResizeHandler(): void {
+    this.domWatcher.add({
+      element: window,
+      on: 'resize',
+      callback: () => {
+        window.clearTimeout(this.resizeTimeout);
+        this.resizeTimeout =
+            window.setTimeout(
+                () => this.transition(this.carousel.getActiveSlide(), 0));
+      }
+    });
+  }
+
+  /**
+   * Limit how far slides can be moved left/right if looping is not allowed for
+   * the carousel.
+   */
+  private constrainXTranslations() {
+    if (this.carousel.allowsLooping()) {
+      return;
+    }
+    const slides = this.carousel.getSlides();
+
+    // Allow for centering the last slide
+    const halfContainer = this.carousel.getContainer().offsetWidth / 2;
+    const totalSlideWidth = DraggableSlide.sumWidth(slides);
+
+    const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
+    const halfLastSlide = lastSlideWidth / 2;
+    const halfFirstSlide = slides[0].offsetWidth / 2;
+
+    const min = halfContainer - totalSlideWidth + halfLastSlide;
+    const max = halfContainer - halfFirstSlide;
+
+    slides.forEach((slide: HTMLElement) => {
+      const currentX = this.xTranslate.get(slide);
+      this.xTranslate.set(slide, mathf.clamp(min, max, currentX));
+    });
+  }
+
+  private applyXTranslations() {
+    this.constrainXTranslations();
+    // Apply all X Translates in a single step
+    this.raf.write(() => {
+      this.xTranslate.forEach((xTranslate, slide) => {
+        slide.style.transform = `translateX(${xTranslate}px)`;
+      });
+    });
+  }
+
+  private renderDrag() {
+    const currentMouseX = this.getMouseX();
+    const delta = currentMouseX - this.interaction.lastMouseX;
+    this.carousel.getSlides().forEach((slide) => {
+      this.xTranslate.set(slide, this.xTranslate.get(slide) + delta);
+    });
+    this.interaction.lastMouseX = currentMouseX;
   }
 
   /**
@@ -604,15 +613,5 @@ export class DraggableSlide implements Transition {
           Math.min(start + 1, end),
           Math.max(start, end + direction));
     }
-  }
-
-  /**
-   * Dispose of the transition.
-   */
-  private dispose() {
-    window.clearTimeout(this.resizeTimeout);
-    this.mouseTracker.dispose();
-    this.domWatcher.dispose();
-    this.xTranslate.clear();
   }
 }
