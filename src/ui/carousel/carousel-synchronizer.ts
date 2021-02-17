@@ -113,14 +113,14 @@ export class CarouselSynchronizer {
   }
 
   private static singleton: CarouselSynchronizer = null;
-  private carouselGraph: DefaultMap<Carousel, Set<Carousel>>;
+  private graph: DefaultMap<Carousel, Set<Carousel>>;
 
   constructor() {
     if (CarouselSynchronizer.singleton !== null) {
       throw new Error(
           'CarouselSynchronizer must be instantiated via getSingleton()');
     }
-    this.carouselGraph =
+    this.graph =
         DefaultMap.usingFunction((carousel: Carousel) => new Set());
   }
 
@@ -132,12 +132,12 @@ export class CarouselSynchronizer {
     // already synced to other carousels merge those sets together so that
     // everything stays synchronized.
     carousels.forEach((carousel) => {
-      if (!this.carouselGraph.has(carousel)) {
+      if (!this.graph.has(carousel)) {
         carousel.onTransitionStart(
             () => this.handleCarouselTransition(carousel));
       }
 
-      const set = this.carouselGraph.get(carousel);
+      const set = this.graph.get(carousel);
       carousels
           .filter((c) => c !== carousel)
           .forEach((c) => set.add(c));
@@ -158,7 +158,7 @@ export class CarouselSynchronizer {
       return; // Skip if this sync was triggered by a sync call
     }
 
-    const syncedCarousels = this.carouselGraph.get(carousel);
+    const syncedCarousels = this.graph.get(carousel);
     const index = carousel.getTransitionTargetIndex();
     syncedCarousels.forEach((syncedCarousel) => {
       syncedCarousel.transitionToIndex(index, true);
@@ -170,16 +170,16 @@ export class CarouselSynchronizer {
    * @param carousel
    */
   removeCarousel(carousel: Carousel) {
-    const syncedCarousels = this.carouselGraph.get(carousel);
+    const syncedCarousels = this.graph.get(carousel);
     syncedCarousels.forEach((syncedCarousel) => {
-      this.carouselGraph.get(syncedCarousel).delete(carousel);
+      this.graph.get(syncedCarousel).delete(carousel);
     });
-    this.carouselGraph.delete(carousel);
+    this.graph.delete(carousel);
 
     // If there are now no carousels being synchronized,
     // dispose of the singleton.
     if (
-        this.carouselGraph.size === 0 &&
+        this.graph.size === 0 &&
         CarouselSynchronizer.singleton === this
     ) {
       CarouselSynchronizer.singleton = null;
