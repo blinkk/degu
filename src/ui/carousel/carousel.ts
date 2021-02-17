@@ -30,6 +30,9 @@ export interface CarouselOptions {
   // Used for establishing multiple types of carousels on the same DOM varied
   // by breakpoint.
   condition?: () => boolean;
+  // Time to stay on a slide before automatically transitioning to the next
+  // slide
+  autoplaySpeed?: number;
 }
 
 /**
@@ -80,6 +83,8 @@ export class Carousel {
   private readonly raf: Raf;
   private transitionTarget: TransitionTarget;
   private lastActiveSlide: HTMLElement;
+  private readonly autoplaySpeed: number;
+  private autoplayTimeout: number;
 
   /**
    * @param container Parent element of slides.
@@ -101,7 +106,8 @@ export class Carousel {
    *     distance to the currently active slide is set.
    * @param allowLooping Whether the carousel should be allowed to loop.
    * @param transition How the Carousel should transition.
-   * Please see the transitions folder inside the carousel folder for options.
+   * @param autoplaySpeed How long the carousel should stay on a slide (in ms)
+   *     before transitioning to the next slide.
    */
   constructor(
       container: HTMLElement,
@@ -116,7 +122,8 @@ export class Carousel {
         afterCssClass = DefaultCssClass.AFTER_SLIDE,
         distanceToActiveSlideAttr = DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR,
         allowLooping = true,
-        transition = null
+        transition = null,
+        autoplaySpeed = null
       }: CarouselOptions = {}
   ) {
     if (slides.length < 1) {
@@ -154,6 +161,8 @@ export class Carousel {
       this.transition = transition || new CssClassesOnly();
     }
     this.transitionTarget = null;
+    this.autoplaySpeed = autoplaySpeed;
+    this.autoplayTimeout = null;
 
     this.init();
   }
@@ -445,6 +454,19 @@ export class Carousel {
   private init(): void {
     this.transition.init(this);
     this.raf.start();
+    this.resetAutoplayTimeout();
+  }
+
+  private resetAutoplayTimeout() {
+    if (this.autoplaySpeed !== null) {
+      console.log('Resetting autoplay');
+      clearTimeout(this.autoplayTimeout);
+      this.autoplayTimeout =
+          window.setTimeout(() => {
+            this.next();
+            console.log('Autoplay fired');
+          }, this.autoplaySpeed);
+    }
   }
 
   /**
@@ -456,11 +478,14 @@ export class Carousel {
         return;
       }
 
+      if (this.isBeingInteractedWith()) {
+        console.log('Resetting due to interaction');
+        this.resetAutoplayTimeout();
+      }
+
       const activeSlide = this.getActiveSlide();
       if (activeSlide !== this.lastActiveSlide) {
         this.lastActiveSlide = activeSlide;
-        this.onTransitionEndCallbacks.forEach((callback) => callback(this));
-
         if (activeSlide) {
           this.updateClasses(activeSlide);
         }
@@ -471,6 +496,9 @@ export class Carousel {
             this.transition.hasTransitionedTo(this.transitionTarget.element);
         if (hasTransitionedToTarget) {
           this.transitionTarget = null;
+          this.onTransitionEndCallbacks.forEach((callback) => callback(this));
+          console.log('Restting due to transition end');
+          this.resetAutoplayTimeout();
         } else {
           this.transition.transition(this.transitionTarget.element);
         }

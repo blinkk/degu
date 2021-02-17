@@ -23,6 +23,7 @@ export class CssClassesOnly implements Transition {
 
   init(carousel: Carousel) {
     this.carousel = carousel;
+    this.activeSlide = carousel.getFirstSlide();
   }
 
   getActiveSlide(): HTMLElement {
