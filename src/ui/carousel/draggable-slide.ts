@@ -6,6 +6,9 @@ import { arrayf } from '../../arrayf/arrayf';
 import { DefaultMap } from '../../map/default-map';
 import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
 
+/**
+ * Small enum for readability when traversing slide indices.
+ */
 enum Direction {
   LEFT = -1,
   RIGHT = 1
@@ -38,6 +41,9 @@ class TransitionTarget {
   }
 }
 
+/**
+ * Track the information associated with a user interaction.
+ */
 class Interaction {
   readonly startX: number;
   readonly startTime: number;
@@ -49,6 +55,9 @@ class Interaction {
   }
 }
 
+/**
+ * Return the x translation amount from the given element's transform.
+ */
 function getTranslateX(el: HTMLElement): number {
   const transform = dom.getComputedStyle(el).transform;
   if (!transform.length || transform === 'none') {
@@ -91,6 +100,11 @@ export class DraggableSlide implements Transition {
   private interaction: Interaction;
   private raf: Raf;
 
+  /**
+   * @param transitionTime Determines how long in ms it takes to transition from
+   *     one slide to another.
+   * @param easingFunction Easing function used to adjust slides transitions.
+   */
   constructor(
     {
       transitionTime = 500,
@@ -105,10 +119,19 @@ export class DraggableSlide implements Transition {
     this.resizeTimeout = null;
     this.mouseTracker = new CachedMouseTracker();
     this.interaction = null;
+    // Tracks the current X translation of each slide.
+    // Used so that slide can be adjusted for looping and dragging within the
+    // same frame without introducing layout thrashing by updating the DOM
+    // twice.
     this.xTranslate =
         DefaultMap.usingFunction((el: HTMLElement) => getTranslateX(el));
   }
 
+  /**
+   * This function is called by the carousel when the transition is passed to
+   * the carousel. Until this function is called the DraggableSlide instance is
+   * more or less inert.
+   */
   init(carousel: Carousel): void {
     this.initResizeHandler();
     this.carousel = carousel;
@@ -118,16 +141,25 @@ export class DraggableSlide implements Transition {
     this.raf.start();
   }
 
+  /**
+   * Updates slide positioning in response to user interaction and transition
+   * animations.
+   */
   loop(): void {
     this.raf.read(() => {
       if (!this.isInteracting() && this.transitionTarget) {
-        this.updateTransitionToTarget();
+        this.renderTransition();
       } else {
         if (this.isInteracting()) {
-          this.renderDrag();
+          this.renderInteraction();
         }
         this.splitSlides();
       }
+
+      // Applies the scheduled X translations set up in other functions.
+      // This ensures that splitting slides for looping, transitions and
+      // interactions can all adjust the X position without updating the DOM
+      // more than once per frame.
       this.applyXTranslations();
     });
   }
@@ -256,7 +288,7 @@ export class DraggableSlide implements Transition {
     });
   }
 
-  private renderDrag() {
+  private renderInteraction() {
     const currentMouseX = this.getMouseX();
     const delta = currentMouseX - this.interaction.lastMouseX;
     this.carousel.getSlides().forEach((slide) => {
@@ -302,7 +334,7 @@ export class DraggableSlide implements Transition {
   /**
    * Returns the eased transition percent.
    *
-   * Extracted from updateTransitionToTarget so its name can serve to help
+   * Extracted from renderTransition so its name can serve to help
    * readability.
    */
   private getEasedTransitionPercent(): number {
@@ -318,7 +350,7 @@ export class DraggableSlide implements Transition {
    * Adjust CSS properties to reflect the current state of the transition
    * animation to the current target.
    */
-  private updateTransitionToTarget() {
+  private renderTransition() {
     const target = this.transitionTarget;
     const easedPercent = this.getEasedTransitionPercent();
     const targetDistance = mathf.lerp(target.startDistance, 0, easedPercent);
