@@ -388,7 +388,6 @@ export class DraggableSlide implements Transition {
     // No matter what we need to loop adjust the target if we have one
     const activeSlide = this.carousel.getActiveSlide();
     const target: HTMLElement =
-      // (this.interaction && this.interactionTarget.target) || // NOTE: Used to check interacted slide
       (this.transitionTarget && this.transitionTarget.target) ||
       activeSlide;
 
