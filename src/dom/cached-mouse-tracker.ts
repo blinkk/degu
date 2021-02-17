@@ -27,75 +27,20 @@ interface ClientPositionData {
  * https://github.com/angusm/toolbox-v2/blob/130326ee6b26e652d4bf7442c65ffbfeccc31649/src/toolbox/utils/cached-vectors/cursor.ts
  */
 export class CachedMouseTracker {
-  /**
-   * Returns a singleton. `use` is passed to ensure the singleton is only
-   * actually disposed when it is done being used everywhere. This same `use`
-   * should be passed to the dispose call.
-   * @param use
-   */
-  static getSingleton(use: any): CachedMouseTracker {
-    CachedMouseTracker.singletonUses.add(use);
-    if (CachedMouseTracker.singleton === null) {
-      CachedMouseTracker.singleton = new CachedMouseTracker();
-    }
-    return CachedMouseTracker.singleton;
-  }
-
-  private static singleton: CachedMouseTracker = null;
-  private static singletonUses: Set<any> = new Set();
-  private readonly raf: Raf;
-  private clientPosition: Vector;
-  private domWatcher: DomWatcher;
-
-  constructor() {
-    if (CachedMouseTracker.singleton !== null) {
-      throw new Error(
-          'CachedMouseTracker must be instantiated via getSingleton()');
-    }
-
-    this.raf = new Raf();
-    this.clientPosition = Vector.ZERO;
-    this.domWatcher = new DomWatcher();
-    CURSOR_MOVE_EVENTS.forEach((cursorMoveEvent) => {
-      this.domWatcher.add({
-        element: window,
-        on: cursorMoveEvent,
-        callback: (e: Event) => this.updatePosition(e)
-      });
-    });
-  }
-
-  /**
-   * Return the current cached mouse position as determined by clientX and
-   * clientY values.
-   */
-  getClientPosition(): Vector {
-    return this.clientPosition;
-  }
-
-  /**
-   * Indicate that the given `use` is no longer using the CachedMouseTracker
-   * singleton.
-   * @param use
-   */
-  dispose(use: any): void {
-    if (this === CachedMouseTracker.singleton) {
-      CachedMouseTracker.singletonUses.delete(use);
-      if (CachedMouseTracker.singletonUses.size <= 0) {
-        CachedMouseTracker.singleton = null;
-        this.domWatcher.dispose();
-      }
-    } else {
-      this.domWatcher.dispose();
-    }
-  }
+  // Use static variables so that independent instances can operate as a
+  // singleton but be disposed separately without the user needing to worry
+  // about the singleton pattern.
+  private static uses: Set<any> = new Set();
+  private static clientPosition: Vector;
+  private static domWatcher: DomWatcher;
+  private static raf: Raf;
 
   /**
    * Updates the currently tracked position from either a touch event or a mouse
    * event.
    * @param event
    */
-  private updatePosition(event: Event): void {
+  private static updatePosition(event: Event): void {
     if (event instanceof MouseEvent) {
       this.updatePositionFromEvent(event);
     } else if (event instanceof TouchEvent) {
@@ -107,7 +52,7 @@ export class CachedMouseTracker {
    * Update the tracked position from the touch event.
    * @param touchEvent
    */
-  private updatePositionFromTouchEvent(touchEvent: TouchEvent): void {
+  private static updatePositionFromTouchEvent(touchEvent: TouchEvent): void {
     if (touchEvent.touches.length > 0) {
       this.updatePositionFromEvent(touchEvent.touches[0]);
     }
@@ -117,9 +62,45 @@ export class CachedMouseTracker {
    * Update the tracked position using event information.
    * @param data
    */
-  private updatePositionFromEvent(data: ClientPositionData): void {
+  private static updatePositionFromEvent(data: ClientPositionData): void {
     this.raf.preRead(() => {
       this.clientPosition = new Vector(data.clientX, data.clientY);
     });
+  }
+
+  constructor() {
+    if (CachedMouseTracker.uses.size === 0) {
+      CachedMouseTracker.raf = new Raf();
+      CachedMouseTracker.clientPosition = Vector.ZERO;
+      CachedMouseTracker.domWatcher = new DomWatcher();
+      CURSOR_MOVE_EVENTS.forEach((cursorMoveEvent) => {
+        CachedMouseTracker.domWatcher.add({
+          element: window,
+          on: cursorMoveEvent,
+          callback: (e: Event) => CachedMouseTracker.updatePosition(e)
+        });
+      });
+    }
+    CachedMouseTracker.uses.add(this);
+  }
+
+  /**
+   * Return the current cached mouse position as determined by clientX and
+   * clientY values.
+   */
+  getClientPosition(): Vector {
+    return CachedMouseTracker.clientPosition;
+  }
+
+  /**
+   * Dispose of the currently in use tracker.
+   */
+  dispose(): void {
+    CachedMouseTracker.uses.delete(this);
+    if (CachedMouseTracker.uses.size === 0) {
+      CachedMouseTracker.domWatcher.dispose();
+      CachedMouseTracker.raf.dispose();
+      CachedMouseTracker.clientPosition = null;
+    }
   }
 }

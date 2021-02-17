@@ -103,7 +103,7 @@ export class DraggableSlide implements Transition {
     this.transitionTime = transitionTime;
     this.transitionTarget = null;
     this.resizeTimeout = null;
-    this.mouseTracker = CachedMouseTracker.getSingleton(this);
+    this.mouseTracker = new CachedMouseTracker();
     this.interaction = null;
     this.xTranslate =
         DefaultMap.usingFunction((el: HTMLElement) => getTranslateX(el));
@@ -612,7 +612,7 @@ export class DraggableSlide implements Transition {
    */
   private dispose() {
     window.clearTimeout(this.resizeTimeout);
-    this.mouseTracker.dispose(this);
+    this.mouseTracker.dispose();
     this.domWatcher.dispose();
     this.xTranslate.clear();
   }
