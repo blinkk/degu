@@ -62,7 +62,7 @@ export class arrayf {
                     tieBreaker = scoreFns[i++];
                 }
 
-                if (tieBreaker(maxValue) > tieBreaker(value)) {
+                if (tieBreaker(maxValue) < tieBreaker(value)) {
                     maxValue = value;
                 }
             }
