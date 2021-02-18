@@ -423,24 +423,17 @@ export class DraggableSlide implements Transition {
       side.area -= slideToMove.offsetWidth;
 
       const desiredOffset =
-          this.getWidthBetweenSlides(target, slideToMove, side.direction);
+          this.getWidthBetweenSlides(target, slideToMove, side.direction) *
+          side.direction;
       const delta =
-          desiredOffset - this.getDistanceToTarget(target, slideToMove);
+          desiredOffset -
+          this.getVisibleDistanceBetweenCenters(slideToMove, target);
       if (delta !== 0) {
         this.translate(slideToMove, delta);
       }
 
       slidesToSplit.delete(slideToMove);
     }
-  }
-
-  /**
-   * Return the distance of the given slide to the target slide.
-   */
-  private getDistanceToTarget(target: HTMLElement, slide: HTMLElement): number {
-    return this.getVisibleDistanceBetweenCenters(slide, target) +
-      this.getAlteredXTranslation(slide) -
-      this.getAlteredXTranslation(target);
   }
 
   /**
@@ -556,7 +549,7 @@ export class DraggableSlide implements Transition {
     const inBetweenWidth = DraggableSlide.sumWidth(inBetweenSlides);
     const halfSlide = slide.offsetWidth / 2;
     const halfTarget = target.offsetWidth / 2;
-    return (halfSlide + inBetweenWidth + halfTarget) * direction;
+    return halfSlide + inBetweenWidth + halfTarget;
   }
 
   /**
