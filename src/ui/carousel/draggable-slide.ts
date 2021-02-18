@@ -458,12 +458,12 @@ export class DraggableSlide implements Transition {
       return;
     }
 
-    const interactionDuration = performance.now() - this.interaction.startTime;
+    const duration = performance.now() - this.interaction.startTime;
     const activeSlide = this.getActiveSlide();
     const distance = this.getDistanceToCenter(activeSlide);
 
     const interactionDelta = this.getMouseX() - this.interaction.startX;
-    const velocity = interactionDuration > 700 ? interactionDelta : 0;
+    const velocity = duration > 700 ? interactionDelta : 0;
 
     this.interaction = null;
 
@@ -507,14 +507,16 @@ export class DraggableSlide implements Transition {
     return this.mouseTracker.getClientPosition().x;
   }
 
-  private getAlteredXTranslation(el: HTMLElement): number {
-    return this.xTranslate.get(el) - getTranslateX(el);
-  }
-
+  /**
+   * Return the X position of the given elements center.
+   *
+   * Factors in upcoming X translation changes.
+   */
   private getVisibleCenter(el: HTMLElement): number {
     const rect = el.getBoundingClientRect();
     const raw = rect.left + rect.width / 2;
-    return raw + this.getAlteredXTranslation(el);
+    const xTranslationDelta = this.xTranslate.get(el) - getTranslateX(el);
+    return raw + xTranslationDelta;
   }
 
   private getVisibleDistanceBetweenCenters(
