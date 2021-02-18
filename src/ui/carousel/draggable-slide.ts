@@ -526,13 +526,11 @@ export class DraggableSlide implements Transition {
     const aCenter = this.getVisibleCenter(a);
     // Gather the info on the second element's center position or the root
     // element's center position.
-    let bCenter;
     if (b !== null) {
-      bCenter = this.getVisibleCenter(b);
+      return aCenter - this.getVisibleCenter(b);
     } else {
-      bCenter = document.children[0].clientWidth / 2;
+      return aCenter - (document.children[0].clientWidth / 2);
     }
-    return aCenter - bCenter;
   }
 
   /**
