@@ -405,9 +405,9 @@ export class DraggableSlide implements Transition {
         new Set(slides.filter((slide) => slide !== target));
 
     const left = {
-          area: Math.max(targetLeftEdge, 0),
-          index: targetIndex,
-          direction: Direction.LEFT
+          area: Math.max(targetLeftEdge, 0), // Area to cover on this side
+          index: targetIndex, // The index to start at
+          direction: Direction.LEFT // Direction to move in for the next slide
         };
     const clientWidth = dom.getScrollElement().clientWidth;
     const right = {
@@ -424,10 +424,10 @@ export class DraggableSlide implements Transition {
 
       const desiredOffset =
           this.getWidthBetweenSlides(target, slideToMove, side.direction);
-      const difference =
+      const delta =
           desiredOffset - this.getDistanceToTarget(target, slideToMove);
-      if (difference !== 0) {
-        this.translate(slideToMove, difference);
+      if (delta !== 0) {
+        this.translate(slideToMove, delta);
       }
 
       slidesToSplit.delete(slideToMove);
