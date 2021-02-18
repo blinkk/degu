@@ -201,7 +201,7 @@ export class DraggableSlide implements Transition {
       // Start with the one closest to the center
       (el) => {
         return Math.abs(
-          this.getVisibleDistanceBetweenCenters(
+          this.getDistanceBetween(
             <HTMLElement>el, this.carousel.getContainer()));
       },
       // If two slides are tied for distance to the center default to the one
@@ -302,7 +302,7 @@ export class DraggableSlide implements Transition {
    */
   private getDistanceToCenter(slide: HTMLElement): number {
     const container = this.carousel.getContainer();
-    return this.getVisibleDistanceBetweenCenters(slide, container);
+    return this.getDistanceBetween(slide, container);
   }
 
   /**
@@ -396,43 +396,40 @@ export class DraggableSlide implements Transition {
       (this.transitionTarget && this.transitionTarget.target) ||
         this.carousel.getActiveSlide();
 
-    const targetLeftEdge = target.getBoundingClientRect().left;
-    const targetRightEdge = targetLeftEdge + target.offsetWidth;
-
     const targetIndex = this.carousel.getSlideIndex(target);
     const slides = this.carousel.getSlides();
-    const slidesToSplit =
+    const slidesToAdjust =
         new Set(slides.filter((slide) => slide !== target));
 
+    const leftEdge = target.getBoundingClientRect().left;
     const left = {
-          area: Math.max(targetLeftEdge, 0), // Area to cover on this side
+          area: Math.max(leftEdge, 0), // Area to cover on this side
           index: targetIndex, // The index to start at
           direction: Direction.LEFT // Direction to move in for the next slide
         };
     const clientWidth = dom.getScrollElement().clientWidth;
+    const rightEdge = leftEdge + target.offsetWidth;
     const right = {
-          area: Math.min(clientWidth, clientWidth - targetRightEdge),
+          area: Math.min(clientWidth, clientWidth - rightEdge),
           index: targetIndex,
           direction: Direction.RIGHT
         };
     const sides = [left, right];
-    while (slidesToSplit.size > 0) {
+    while (slidesToAdjust.size > 0) {
       const side = arrayf.max(sides, (s) => s.area);
       side.index += side.direction;
-      const slideToMove = slides[mathf.wrap(side.index, 0, slides.length)];
-      side.area -= slideToMove.offsetWidth;
+      const slideToAdjust = slides[mathf.wrap(side.index, 0, slides.length)];
+      side.area -= slideToAdjust.offsetWidth;
 
       const desiredOffset =
-          this.getWidthBetweenSlides(target, slideToMove, side.direction) *
-          side.direction;
+          this.getDesiredDistanceBetween(target, slideToAdjust, side.direction);
       const delta =
-          desiredOffset -
-          this.getVisibleDistanceBetweenCenters(slideToMove, target);
+          desiredOffset - this.getDistanceBetween(slideToAdjust, target);
       if (delta !== 0) {
-        this.translate(slideToMove, delta);
+        this.translate(slideToAdjust, delta);
       }
 
-      slidesToSplit.delete(slideToMove);
+      slidesToAdjust.delete(slideToAdjust);
     }
   }
 
@@ -512,22 +509,25 @@ export class DraggableSlide implements Transition {
    *
    * Factors in upcoming X translation changes.
    */
-  private getVisibleCenter(el: HTMLElement): number {
+  private getCenter(el: HTMLElement): number {
     const rect = el.getBoundingClientRect();
     const raw = rect.left + rect.width / 2;
     const xTranslationDelta = this.xTranslate.get(el) - getTranslateX(el);
     return raw + xTranslationDelta;
   }
 
-  private getVisibleDistanceBetweenCenters(
-      a: HTMLElement, b: HTMLElement = null
-  ): number {
+  /**
+   * Returns the distance between the given elements centers.
+   *
+   * If no second element is given, the root element's center is used instead.
+   */
+  private getDistanceBetween(a: HTMLElement, b: HTMLElement = null): number {
     // Gather up the information on the first element's center position.
-    const aCenter = this.getVisibleCenter(a);
+    const aCenter = this.getCenter(a);
     // Gather the info on the second element's center position or the root
     // element's center position.
     if (b !== null) {
-      return aCenter - this.getVisibleCenter(b);
+      return aCenter - this.getCenter(b);
     } else {
       return aCenter - (document.children[0].clientWidth / 2);
     }
@@ -537,19 +537,19 @@ export class DraggableSlide implements Transition {
    * Return how far the given slide is from the given target slide in terms of
    * slide width in pixels.
    */
-  private getWidthBetweenSlides(
-      target: HTMLElement,
-      slide: HTMLElement,
+  private getDesiredDistanceBetween(
+      a: HTMLElement,
+      b: HTMLElement,
       direction: Direction
   ): number {
-    if (target === slide) {
+    if (a === b) {
       return 0;
     }
-    const inBetweenSlides = this.getInBetweenSlides(target, slide, direction);
+    const inBetweenSlides = this.getInBetweenSlides(a, b, direction);
     const inBetweenWidth = DraggableSlide.sumWidth(inBetweenSlides);
-    const halfSlide = slide.offsetWidth / 2;
-    const halfTarget = target.offsetWidth / 2;
-    return halfSlide + inBetweenWidth + halfTarget;
+    const halfSlide = b.offsetWidth / 2;
+    const halfTarget = a.offsetWidth / 2;
+    return (halfSlide + inBetweenWidth + halfTarget) * direction;
   }
 
   /**
