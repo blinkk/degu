@@ -153,7 +153,7 @@ export class DraggableSlide implements Transition {
         if (this.isInteracting()) {
           this.renderInteraction();
         }
-        this.splitSlides();
+        this.loopSlides();
       }
 
       // Applies the scheduled X translations set up in other functions.
@@ -360,7 +360,7 @@ export class DraggableSlide implements Transition {
     const xDelta = absDelta * currentDistanceSign;
     this.carousel.getSlides().forEach(
         (slide) => this.translate(slide, xDelta));
-    this.splitSlides();
+    this.loopSlides();
 
     // If we're close enough, let's call it
     if (easedPercent === 1) {
@@ -386,51 +386,51 @@ export class DraggableSlide implements Transition {
    * - Slides cover as much of the carousel as possible.
    * - Slides loop from one side to the other.
    */
-  private splitSlides(): void {
+  private loopSlides(): void {
     if (!this.carousel.allowsLooping()) {
       return;
     }
 
     // No matter what we need to loop adjust the target if we have one
-    const activeSlide = this.carousel.getActiveSlide();
     const target: HTMLElement =
       (this.transitionTarget && this.transitionTarget.target) ||
-      activeSlide;
+        this.carousel.getActiveSlide();
 
-    const targetLeft = target.getBoundingClientRect().left;
-    const targetRight = targetLeft + target.offsetWidth;
+    const targetLeftEdge = target.getBoundingClientRect().left;
+    const targetRightEdge = targetLeftEdge + target.offsetWidth;
 
-    const slides = this.carousel.getSlides();
     const targetIndex = this.carousel.getSlideIndex(target);
+    const slides = this.carousel.getSlides();
     const slidesToSplit =
         new Set(slides.filter((slide) => slide !== target));
 
+    const left = {
+          area: Math.max(targetLeftEdge, 0),
+          index: targetIndex,
+          direction: Direction.LEFT
+        };
     const clientWidth = dom.getScrollElement().clientWidth;
-    let leftDistanceToCover = Math.max(targetLeft, 0);
-    let rightDistanceToCover = Math.min(clientWidth, clientWidth - targetRight);
-
-    const indices = new Map([
-      [Direction.LEFT, targetIndex],
-      [Direction.RIGHT, targetIndex]]);
+    const right = {
+          area: Math.min(clientWidth, clientWidth - targetRightEdge),
+          index: targetIndex,
+          direction: Direction.RIGHT
+        };
+    const sides = [left, right];
     while (slidesToSplit.size > 0) {
-      const direction =
-          leftDistanceToCover > rightDistanceToCover ?
-              Direction.LEFT :
-              Direction.RIGHT;
-      const index =
-          mathf.wrap(indices.get(direction) + direction, 0, slides.length);
-      indices.set(direction, index);
-      const slideToSplit = slides[index];
-      if (index === targetIndex || !slidesToSplit.has(slideToSplit)) {
-        continue;
+      const side = arrayf.max(sides, (s) => s.area);
+      side.index += side.direction;
+      const slideToMove = slides[mathf.wrap(side.index, 0, slides.length)];
+      side.area -= slideToMove.offsetWidth;
+
+      const desiredOffset =
+          this.getWidthBetweenSlides(target, slideToMove, side.direction);
+      const difference =
+          desiredOffset - this.getDistanceToTarget(target, slideToMove);
+      if (difference !== 0) {
+        this.translate(slideToMove, difference);
       }
-      if (direction === Direction.LEFT) {
-        leftDistanceToCover -= slideToSplit.offsetWidth;
-      } else {
-        rightDistanceToCover -= slideToSplit.offsetWidth;
-      }
-      this.splitSlideForTarget(target, slideToSplit, direction);
-      slidesToSplit.delete(slideToSplit);
+
+      slidesToSplit.delete(slideToMove);
     }
   }
 
@@ -541,28 +541,10 @@ export class DraggableSlide implements Transition {
   }
 
   /**
-   * Adjusts the given slide within a carousel to keep slides split
-   * appropriately.
-   * @param target The slide to adjust around
-   * @param slide The slide to adjust
-   * @param direction The direction the slide should be split
-   */
-  private splitSlideForTarget(
-      target: HTMLElement, slide: HTMLElement, direction: Direction
-  ): void {
-    const desiredOffset =
-        this.getDesiredDistanceBetweenSlides(target, slide, direction);
-    const difference = desiredOffset - this.getDistanceToTarget(target, slide);
-    if (difference !== 0) {
-      this.translate(slide, difference);
-    }
-  }
-
-  /**
    * Return how far the given slide is from the given target slide in terms of
    * slide width in pixels.
    */
-  private getDesiredDistanceBetweenSlides(
+  private getWidthBetweenSlides(
       target: HTMLElement,
       slide: HTMLElement,
       direction: Direction
