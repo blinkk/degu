@@ -38,8 +38,7 @@ import { DefaultMap } from '../../map/default-map';
  *   {
  *     allowLooping: true,
  *   });
- * const syncInstance = CarouselSynchronizer.getSingleton();
- * syncInstance.sync(a, b);
+ * new CarouselSynchronizer(a, b);
  *
  * // At some point later, dispose.
  * a.dispose();
@@ -102,25 +101,11 @@ import { DefaultMap } from '../../map/default-map';
  * ```
  */
 export class CarouselSynchronizer {
-  /**
-   * Returns a singleton.
-   */
-  static getSingleton(): CarouselSynchronizer {
-    if (CarouselSynchronizer.singleton === null) {
-      CarouselSynchronizer.singleton = new CarouselSynchronizer();
-    }
-    return CarouselSynchronizer.singleton;
-  }
-
-  private static singleton: CarouselSynchronizer = null;
   private graph: DefaultMap<Carousel, Set<Carousel>>;
 
-  constructor() {
-    if (CarouselSynchronizer.singleton !== null) {
-      throw new Error(
-          'CarouselSynchronizer must be instantiated via getSingleton()');
-    }
+  constructor(...carousels: Carousel[]) {
     this.graph = DefaultMap.usingFunction((carousel: Carousel) => new Set());
+    this.sync(...carousels);
   }
 
   /**
@@ -174,14 +159,14 @@ export class CarouselSynchronizer {
       this.graph.get(syncedCarousel).delete(carousel);
     });
     this.graph.delete(carousel);
+  }
 
-    // If there are now no carousels being synchronized,
-    // dispose of the singleton.
-    if (
-        this.graph.size === 0 &&
-        CarouselSynchronizer.singleton === this
-    ) {
-      CarouselSynchronizer.singleton = null;
+  /**
+   * Dispose of all sync'd carousels
+   */
+  dispose() {
+    while (this.graph.size) {
+      this.removeCarousel(this.graph.keys().next().value);
     }
   }
 }
