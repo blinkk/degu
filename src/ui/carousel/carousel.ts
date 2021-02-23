@@ -1,5 +1,6 @@
-import {CssClassesOnly, DraggableSlide, Transition} from './transitions';
+import { CssClassesOnly, DraggableSlide, Transition } from './transitions';
 import { mathf, Raf } from '../..';
+import { EventDispatcher, EventManager } from '../events';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 
@@ -13,11 +14,17 @@ enum Direction {
 }
 
 /**
+ * Carousel events.
+ */
+export enum CarouselEvent {
+  TRANSITION_START = 'transitionStart',
+  TRANSITION_END = 'transitionEnd'
+}
+
+/**
  * Options provided to the constructor
  */
 export interface CarouselOptions {
-  onTransitionStartCallback?: (carousel: Carousel) => void;
-  onTransitionEndCallback?: (carousel: Carousel) => void;
   activeCssClass?: string;
   beforeCssClass?: string;
   afterCssClass?: string;
@@ -64,7 +71,7 @@ class TransitionTarget {
   }
 }
 
-export class Carousel {
+export class Carousel implements EventDispatcher {
   private readonly activeCssClass: string;
   private readonly beforeCssClass: string;
   private readonly afterCssClass: string;
@@ -74,11 +81,8 @@ export class Carousel {
   private readonly slides: HTMLElement[];
   private readonly transition: Transition;
   private readonly allowLooping: boolean;
-  private readonly onTransitionStartCallbacks:
-      Array<(carousel: Carousel) => void>;
-  private readonly onTransitionEndCallbacks:
-      Array<(carousel: Carousel) => void>;
   private readonly raf: Raf;
+  private readonly eventManager: EventManager;
   private transitionTarget: TransitionTarget;
   private lastActiveSlide: HTMLElement;
   private readonly autoplaySpeed: number;
@@ -92,10 +96,6 @@ export class Carousel {
    * @param slides HTMLElements containing slide content.
    *
    * @param condition Under what conditions the carousel should run
-   * @param onTransitionStartCallback Function to run when the active slide
-   *                                  changes.
-   * @param onTransitionEndCallback Function to run when the active slide
-   *                                changes.
    * @param activeCssClass Class to apply to active slide.
    * @param beforeCssClass Class to apply to slides before active slide.
    * @param afterCssClass Class to apply to slides after active slide.
@@ -111,8 +111,6 @@ export class Carousel {
       slides: HTMLElement[],
       {
         condition = () => true,
-        onTransitionStartCallback = null,
-        onTransitionEndCallback = null,
         activeCssClass = DefaultCssClass.ACTIVE_SLIDE,
         beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
         afterCssClass = DefaultCssClass.AFTER_SLIDE,
@@ -134,10 +132,7 @@ export class Carousel {
     this.condition = condition;
     this.container = container;
     this.lastActiveSlide = null;
-    this.onTransitionStartCallbacks =
-        onTransitionStartCallback ? [onTransitionStartCallback] : [];
-    this.onTransitionEndCallbacks =
-        onTransitionEndCallback ? [onTransitionEndCallback] : [];
+    this.eventManager = new EventManager();
     this.slides = slides;
     if (typeof transition === 'string') {
       switch (transition) {
@@ -191,7 +186,7 @@ export class Carousel {
       return;
     }
     this.transitionTarget = new TransitionTarget(targetSlide, drivenBySync);
-    this.onTransitionStartCallbacks.forEach((callback) => callback(this));
+    this.eventManager.dispatch(CarouselEvent.TRANSITION_START, this);
   }
 
   /**
@@ -318,19 +313,17 @@ export class Carousel {
   }
 
   /**
-   * Register a function to be called when the carousel starts a transition.
-   * @param callback
+   * Register a function to be called when the given event is fired.
    */
-  onTransitionStart(callback: (carousel: Carousel) => void) {
-    this.onTransitionStartCallbacks.push(callback);
+  on(event: CarouselEvent, callback: (carousel: Carousel) => void) {
+    this.eventManager.on(event, callback);
   }
 
   /**
-   * Register a function to be called when the carousel completes a transition.
-   * @param callback
+   * Remove a function that is called when the given event is fired.
    */
-  onTransitionEnd(callback: (carousel: Carousel) => void) {
-    this.onTransitionEndCallbacks.push(callback);
+  off(event: CarouselEvent, callback: (carousel: Carousel) => void) {
+    this.eventManager.off(event, callback);
   }
 
   /**
@@ -480,7 +473,7 @@ export class Carousel {
             this.transition.hasTransitionedTo(this.transitionTarget.element);
         if (hasTransitionedToTarget) {
           this.transitionTarget = null;
-          this.onTransitionEndCallbacks.forEach((callback) => callback(this));
+          this.eventManager.dispatch(CarouselEvent.TRANSITION_END, this);
           this.resetAutoplayTimeout();
         } else {
           this.transition.transition(this.transitionTarget.element);

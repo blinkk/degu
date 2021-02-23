@@ -1,4 +1,4 @@
-import { Carousel } from './carousel';
+import {Carousel, CarouselEvent} from './carousel';
 import { DefaultMap } from '../../map/default-map';
 
 /**
@@ -117,7 +117,8 @@ export class CarouselSynchronizer {
     // everything stays synchronized.
     carousels.forEach((carousel) => {
       if (!this.graph.has(carousel)) {
-        carousel.onTransitionStart(
+        carousel.on(
+            CarouselEvent.TRANSITION_START,
             () => this.handleCarouselTransition(carousel));
       }
 
