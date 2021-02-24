@@ -41,7 +41,7 @@ export default class CarouselSample {
         {
           allowLooping: true,
         });
-    new CarouselSynchronizer(a, b);
+    a.sync(b);
     const c = new Carousel(
         document.querySelector('.carousel--c'),
         Array.from(document.querySelectorAll('.carousel--c .slide')),

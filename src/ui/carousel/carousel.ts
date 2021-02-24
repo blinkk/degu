@@ -1,6 +1,7 @@
 import { CssClassesOnly, DraggableSlide, Transition } from './transitions';
 import { mathf, Raf } from '../..';
 import { EventDispatcher, EventManager } from '../events';
+import { CarouselSynchronizer } from './carousel-synchronizer';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 
@@ -87,6 +88,7 @@ export class Carousel implements EventDispatcher {
   private lastActiveSlide: HTMLElement;
   private readonly autoplaySpeed: number;
   private autoplayTimeout: number;
+  private carouselSynchronizer: CarouselSynchronizer = null;
 
   /**
    * @param container Parent element of slides.
@@ -347,6 +349,9 @@ export class Carousel implements EventDispatcher {
   dispose() {
     this.raf.dispose();
     this.transition.dispose();
+    if (this.carouselSynchronizer !== null) {
+      this.carouselSynchronizer.dispose();
+    }
   }
 
   /**
@@ -381,6 +386,17 @@ export class Carousel implements EventDispatcher {
    */
   getTransitionTarget(): TransitionTarget {
     return this.transitionTarget;
+  }
+
+  /**
+   * Synchronize this carousel with the given carousels.
+   */
+  sync(...carousels: Carousel[]): void {
+    if (this.carouselSynchronizer === null) {
+      this.carouselSynchronizer = new CarouselSynchronizer(this, ...carousels);
+    } else {
+      this.carouselSynchronizer.sync(...carousels);
+    }
   }
 
   /**
