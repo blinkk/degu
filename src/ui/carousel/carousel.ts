@@ -73,6 +73,7 @@ class TransitionTarget {
 }
 
 export class Carousel implements EventDispatcher {
+  autoplaySpeed: number;
   private readonly activeCssClass: string;
   private readonly beforeCssClass: string;
   private readonly afterCssClass: string;
@@ -86,7 +87,6 @@ export class Carousel implements EventDispatcher {
   private readonly eventManager: EventManager;
   private transitionTarget: TransitionTarget;
   private lastActiveSlide: HTMLElement;
-  private readonly autoplaySpeed: number;
   private autoplayTimeout: number;
   private carouselSynchronizer: CarouselSynchronizer = null;
 
