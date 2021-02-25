@@ -202,14 +202,14 @@ export class DraggableSlide implements Transition {
       (el) => {
         return Math.abs(
           this.getDistanceBetween(
-            <HTMLElement>el, this.carousel.getContainer()));
+            <HTMLElement>el, this.carousel.container));
       },
       // If two slides are tied for distance to the center default to the one
       // that was last active.
       (el) => el === lastActiveSlide ? 0 : 1,
       // If neither slide was last active default to the one that appears first
       // in the list of slides
-      (el) => -1 * this.carousel.getSlideIndex(el)
+      (el) => -1 * this.carousel.getIndex(el)
     );
   }
 
@@ -256,13 +256,13 @@ export class DraggableSlide implements Transition {
    * the carousel.
    */
   private constrainXTranslations() {
-    if (this.carousel.allowsLooping()) {
+    if (this.carousel.allowsLooping) {
       return;
     }
     const slides = this.carousel.getSlides();
 
     // Allow for centering the last slide
-    const halfContainer = this.carousel.getContainer().offsetWidth / 2;
+    const halfContainer = this.carousel.container.offsetWidth / 2;
     const totalSlideWidth = DraggableSlide.sumWidth(slides);
 
     const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
@@ -301,8 +301,7 @@ export class DraggableSlide implements Transition {
    * Return the distance between the given slide and the center of the carousel.
    */
   private getDistanceToCenter(slide: HTMLElement): number {
-    const container = this.carousel.getContainer();
-    return this.getDistanceBetween(slide, container);
+    return this.getDistanceBetween(slide, this.carousel.container);
   }
 
   /**
@@ -387,7 +386,7 @@ export class DraggableSlide implements Transition {
    * - Slides loop from one side to the other.
    */
   private loopSlides(): void {
-    if (!this.carousel.allowsLooping()) {
+    if (!this.carousel.allowsLooping) {
       return;
     }
 
@@ -396,7 +395,7 @@ export class DraggableSlide implements Transition {
       (this.transitionTarget && this.transitionTarget.target) ||
         this.carousel.getActiveSlide();
 
-    const targetIndex = this.carousel.getSlideIndex(target);
+    const targetIndex = this.carousel.getIndex(target);
     const slides = this.carousel.getSlides();
     const slidesToAdjust =
         new Set(slides.filter((slide) => slide !== target));
@@ -466,12 +465,12 @@ export class DraggableSlide implements Transition {
 
     const velocitySign = Math.sign(velocity);
     const distanceSign = Math.sign(distance) * -1;
-    const allowsLooping = this.carousel.allowsLooping();
+    const allowsLooping = this.carousel.allowsLooping;
 
     // If the slide is already centered, then it is clearly the slide to
     // transition to.
     if (distance === 0 || distanceSign === velocitySign || velocity === 0) {
-      this.carousel.transitionToSlide(activeSlide);
+      this.carousel.goToSlide(activeSlide);
     } else {
       // If the user was dragging to the right, transition in the opposite
       // direction.
@@ -481,7 +480,7 @@ export class DraggableSlide implements Transition {
         } else {
           // If we are already at the first slide and can't loop, transition
           // as is.
-          this.carousel.transitionToSlide(activeSlide);
+          this.carousel.goToSlide(activeSlide);
         }
       // If the user was dragging to the left, transition in the opposite
       // direction.
@@ -491,7 +490,7 @@ export class DraggableSlide implements Transition {
         } else {
           // If we are already at the last slide and can't loop, transition
           // as is.
-          this.carousel.transitionToSlide(activeSlide);
+          this.carousel.goToSlide(activeSlide);
         }
       }
     }
@@ -561,11 +560,11 @@ export class DraggableSlide implements Transition {
       endSlide: HTMLElement,
       direction: Direction
   ): HTMLElement[] {
-    const start = this.carousel.getSlideIndex(startSlide);
-    const end = this.carousel.getSlideIndex(endSlide) - direction;
+    const start = this.carousel.getIndex(startSlide);
+    const end = this.carousel.getIndex(endSlide) - direction;
     if (start === end) {
       return [];
-    } else if (this.carousel.allowsLooping()) {
+    } else if (this.carousel.allowsLooping) {
       return arrayf.loopSlice(
           this.carousel.getSlides(), end, start, -direction);
     } else {

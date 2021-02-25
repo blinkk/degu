@@ -44,6 +44,15 @@
       .slide:nth-child(3) {
         background: palegreen;
       }
+      .slide:nth-child(4) {
+        background: palegoldenrod;
+      }
+      .slide:nth-child(5) {
+        background: plum;
+      }
+      .slide:nth-child(6) {
+        background: coral;
+      }
       .nav {
         display: flex;
         justify-content: center;
@@ -70,20 +79,29 @@
   </style>
 
   <div class="parent" id="parent">
-    <h2>Carousel A - Using DraggableSlide transition</h2>
+    <h2>Carousel A - DraggableSlide transition, Synced to B and C</h2>
     <div class="carousel carousel--a">
       <div class="slide">1</div>
       <div class="slide">2</div>
       <div class="slide">3</div>
     </div>
-    <h2>Carousel B - Synchronized to Carousel A, styled on classes only</h2>
+    <h2>Carousel B - Styled on classes only, Synced to A and C</h2>
     <div class="nav">
       <div class="dot"></div>
       <div class="dot"></div>
       <div class="dot"></div>
     </div>
-    <h2>Carousel C - Not synchronized, DraggableSlide transition, no wrapping</h2>
+    <h2>Carousel C - DraggableSlide transition, no wrapping, with doubles slides, Synced to A and B</h2>
     <div class="carousel carousel--c">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+      <div class="slide">3</div>
+      <div class="slide">4</div>
+      <div class="slide">5</div>
+      <div class="slide">6</div>
+    </div>
+    <h2>Carousel D - Not synchronized, DraggableSlide transition, no wrapping</h2>
+    <div class="carousel carousel--d">
       <div class="slide">1</div>
       <div class="slide">2</div>
       <div class="slide">3</div>

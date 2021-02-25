@@ -1,7 +1,8 @@
 import { CssClassesOnly, DraggableSlide, Transition } from './transitions';
 import { mathf, Raf } from '../..';
 import { EventDispatcher, EventManager } from '../events';
-import { CarouselSynchronizer } from './carousel-synchronizer';
+import { setf } from '../../setf/setf';
+import { arrayf } from '../../arrayf/arrayf';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 
@@ -15,11 +16,20 @@ enum Direction {
 }
 
 /**
+ * Data sent by the carousel to event handlers.
+ */
+export interface CarouselEventData {
+  carousel: Carousel;
+  currentSlide: HTMLElement;
+  nextSlide: HTMLElement;
+}
+
+/**
  * Carousel events.
  */
 export enum CarouselEvent {
-  TRANSITION_START = 'transitionStart',
-  TRANSITION_END = 'transitionEnd'
+  BEFORE_CHANGE = 'beforeChange',
+  AFTER_CHANGE = 'afterChange'
 }
 
 /**
@@ -51,44 +61,23 @@ enum DefaultCssClass {
   AFTER_SLIDE = 'after'
 }
 
-/**
- * Tracks an element that should be transitioned to.
- *
- * Groups the two pieces of information that are needed to transition a carousel
- * to the given element.
- *
- * @param element The element that needs to be transitioned to.
- * @param drivenBySync Whether this transition is driven by a carousel sync.
- *                     If it is driven by sync, then we know that we don't need
- *                     to bother the CarouselSynchronizer for another sync.
- */
-class TransitionTarget {
-  readonly element: HTMLElement;
-  readonly drivenBySync: boolean;
-
-  constructor(element: HTMLElement, drivenBySync: boolean = false) {
-    this.element = element;
-    this.drivenBySync = drivenBySync;
-  }
-}
-
 export class Carousel implements EventDispatcher {
+  readonly allowsLooping: boolean;
+  readonly container: HTMLElement;
   autoplaySpeed: number;
   private readonly activeCssClass: string;
   private readonly beforeCssClass: string;
   private readonly afterCssClass: string;
   private readonly distanceToActiveSlideAttr: string;
   private readonly condition: () => boolean;
-  private readonly container: HTMLElement;
   private readonly slides: HTMLElement[];
   private readonly transition: Transition;
-  private readonly allowLooping: boolean;
   private readonly raf: Raf;
   private readonly eventManager: EventManager;
-  private transitionTarget: TransitionTarget;
+  private transitionTarget: HTMLElement;
   private lastActiveSlide: HTMLElement;
   private autoplayTimeout: number;
-  private carouselSynchronizer: CarouselSynchronizer = null;
+  private syncedCarousels: Set<Carousel>;
 
   /**
    * @param container Parent element of slides.
@@ -130,7 +119,7 @@ export class Carousel implements EventDispatcher {
     this.beforeCssClass = beforeCssClass;
     this.afterCssClass = afterCssClass;
     this.distanceToActiveSlideAttr = distanceToActiveSlideAttr;
-    this.allowLooping = allowLooping;
+    this.allowsLooping = allowLooping;
     this.condition = condition;
     this.container = container;
     this.lastActiveSlide = null;
@@ -155,15 +144,9 @@ export class Carousel implements EventDispatcher {
     this.transitionTarget = null;
     this.autoplaySpeed = autoplaySpeed;
     this.autoplayTimeout = null;
+    this.syncedCarousels = new Set<Carousel>([this]);
 
     this.init();
-  }
-
-  /**
-   * Returns true if the carousel loops.
-   */
-  allowsLooping() {
-    return this.allowLooping;
   }
 
   /**
@@ -174,28 +157,38 @@ export class Carousel implements EventDispatcher {
   }
 
   /**
-   * Transition the carousel to the given slide.
-   * If `drivenBySync` is set we know not to trigger another call to the
-   * synchronizer.
-   * @param targetSlide
-   * @param drivenBySync
+   * Change the active slide to the given slide by either index or element.
    */
-  transitionToSlide(
-      targetSlide: HTMLElement,
-      drivenBySync: boolean = false
-  ): void {
-    if (this.isBeingInteractedWith()) {
-      return;
+  goTo(target: number|HTMLElement, drivenBySync = false) {
+    if (target instanceof HTMLElement) {
+      this.goToSlide(target, drivenBySync);
+    } else {
+      this.goToIndex(target, drivenBySync);
     }
-    this.transitionTarget = new TransitionTarget(targetSlide, drivenBySync);
-    this.eventManager.dispatch(CarouselEvent.TRANSITION_START, this);
   }
 
   /**
-   * Returns true if the carousel is in the process of transitioning.
+   * Transition the carousel to the given slide.
    */
-  isTransitioning(): boolean {
-    return this.transitionTarget !== null;
+  goToSlide(targetSlide: HTMLElement, drivenBySync = false): void {
+    if (this.isBeingInteractedWith()) {
+      return;
+    }
+    if (this.transitionTarget === targetSlide) {
+      return;
+    }
+    this.transitionTarget = targetSlide;
+    this.eventManager.dispatch(
+        CarouselEvent.BEFORE_CHANGE,
+        this.generateEventData());
+    if (!drivenBySync) {
+      this.syncedCarousels.forEach(
+          (carousel) => {
+            if (carousel !== this) {
+              carousel.syncTo(this.getIndex(targetSlide), this);
+            }
+          });
+    }
   }
 
   /**
@@ -215,8 +208,8 @@ export class Carousel implements EventDispatcher {
   /**
    * Return the index of the currently active slide.
    */
-  getActiveSlideIndex(): number {
-    return this.getSlideIndex(this.getActiveSlide());
+  getActiveIndex(): number {
+    return this.getIndex(this.getActiveSlide());
   }
 
   /**
@@ -237,15 +230,8 @@ export class Carousel implements EventDispatcher {
    * Return the index of the given slide within the list of slides.
    * @param slide
    */
-  getSlideIndex(slide: HTMLElement): number {
+  getIndex(slide: HTMLElement): number {
     return this.getSlides().indexOf(slide);
-  }
-
-  /**
-   * Return the carousel container, the DOM element containing the slides.
-   */
-  getContainer(): HTMLElement {
-    return this.container;
   }
 
   /**
@@ -260,7 +246,7 @@ export class Carousel implements EventDispatcher {
    * @param slide
    */
   getSlidesBefore(slide: HTMLElement): HTMLElement[] {
-    if (this.allowsLooping()) {
+    if (this.allowsLooping) {
       return this.splitSlidesInHalf(slide, Direction.LEFT);
     } else {
       return this.getSlides().slice(0, this.getSlides().indexOf(slide));
@@ -272,7 +258,7 @@ export class Carousel implements EventDispatcher {
    * @param slide
    */
   getSlidesAfter(slide: HTMLElement): HTMLElement[] {
-    if (this.allowsLooping()) {
+    if (this.allowsLooping) {
       return this.splitSlidesInHalf(slide, Direction.RIGHT);
     } else {
       return this.getSlides().slice(this.getSlides().indexOf(slide) + 1);
@@ -280,51 +266,38 @@ export class Carousel implements EventDispatcher {
   }
 
   /**
-   * Transition to the next slide.
+   * Go to the next slide.
    */
   next(): void {
     this.transitionSlidesBy(1);
   }
 
   /**
-   * Transition to the previous slide.
+   * Go to the previous slide.
    */
   previous(): void {
     this.transitionSlidesBy(-1);
   }
 
   /**
-   * Transition to the slide `value` slides away.
-   * @param value
-   */
-  transitionSlidesBy(value: number): void {
-    const nextIndex =
-        this.getSlides().indexOf(this.getCurrentTransitionTarget()) + value;
-    this.transitionToIndex(nextIndex);
-  }
-
-  /**
    * Transition to the slide with the given index.
-   *
-   * @param index
-   * @param drivenBySync
    */
-  transitionToIndex(index: number, drivenBySync: boolean = false): void {
+  goToIndex(index: number, drivenBySync = false): void {
     const clampedIndex = this.getClampedIndex(index);
-    this.transitionToSlide(this.getSlideByIndex(clampedIndex), drivenBySync);
+    this.goToSlide(this.getSlideByIndex(clampedIndex), drivenBySync);
   }
 
   /**
    * Register a function to be called when the given event is fired.
    */
-  on(event: CarouselEvent, callback: (carousel: Carousel) => void) {
+  on(event: CarouselEvent, callback: (data: CarouselEventData) => void) {
     this.eventManager.on(event, callback);
   }
 
   /**
    * Remove a function that is called when the given event is fired.
    */
-  off(event: CarouselEvent, callback: (carousel: Carousel) => void) {
+  off(event: CarouselEvent, callback: (data: CarouselEventData) => void) {
     this.eventManager.off(event, callback);
   }
 
@@ -349,9 +322,6 @@ export class Carousel implements EventDispatcher {
   dispose() {
     this.raf.dispose();
     this.transition.dispose();
-    if (this.carouselSynchronizer !== null) {
-      this.carouselSynchronizer.dispose();
-    }
   }
 
   /**
@@ -367,7 +337,7 @@ export class Carousel implements EventDispatcher {
    */
   getClampedIndex(index: number): number {
     const slidesLength = this.getSlides().length;
-    if (this.allowsLooping()) {
+    if (this.allowsLooping) {
       return mathf.wrap(index, 0, slidesLength);
     } else {
       return mathf.clamp(0, slidesLength - 1, index);
@@ -375,27 +345,61 @@ export class Carousel implements EventDispatcher {
   }
 
   /**
-   * Return the index of the slide currently being transitioned to.
-   */
-  getTransitionTargetIndex(): number {
-    return this.getSlideIndex(this.getTransitionTarget().element);
-  }
-
-  /**
-   * Return the current transition target.
-   */
-  getTransitionTarget(): TransitionTarget {
-    return this.transitionTarget;
-  }
-
-  /**
    * Synchronize this carousel with the given carousels.
    */
   sync(...carousels: Carousel[]): void {
-    if (this.carouselSynchronizer === null) {
-      this.carouselSynchronizer = new CarouselSynchronizer(this, ...carousels);
-    } else {
-      this.carouselSynchronizer.sync(...carousels);
+    const masterSet = setf.merge(
+        this.syncedCarousels,
+        ...carousels.map((c) => c.syncedCarousels));
+    this.syncedCarousels = masterSet;
+    carousels.forEach((c) => c.syncedCarousels = masterSet);
+  }
+
+  /**
+   * Transition to the slide `value` slides away.
+   * @param value
+   */
+  private transitionSlidesBy(value: number): void {
+    const nextIndex =
+        this.getSlides()
+            .indexOf(this.transitionTarget || this.getActiveSlide()) +
+        value;
+    this.goToIndex(nextIndex);
+  }
+
+  /**
+   * Sync this carousel to the given index in the given carousel.
+   * @param index
+   * @param carousel
+   * @private
+   */
+  private syncTo(index: number, carousel: Carousel) {
+    // Allow for syncing with duplicate slides.
+    // If Carousel A needed its slides duplicated to meet design motion
+    // requirements, but Carousel B didn't, A's slide 2X is equivalent to B's
+    // slide X, so if B transitions to X and A is already at 2X, we can safely
+    // ignore that sync, to prevent what will seem to the user like an
+    // unnecessary transition.
+    if (
+        this.getIndex(this.transitionTarget) % carousel.getSlideCount() !==
+        index
+    ) {
+      // If the current carousel has more slides than the syncing carousel,
+      // then we want to grab the closest equivalent slide.
+      if (this.getSlideCount() > carousel.getSlideCount()) {
+        const equivalentIndices = [];
+        while (index < this.getSlideCount()) {
+          equivalentIndices.push(index);
+          index += carousel.getSlideCount();
+        }
+        this.goTo(
+            arrayf.min(
+                equivalentIndices,
+                (i) => Math.abs(this.getActiveIndex() - i)),
+            true);
+      } else {
+        this.goTo(index, true);
+      }
     }
   }
 
@@ -430,7 +434,7 @@ export class Carousel implements EventDispatcher {
     const targetLength =
         this.getHalfOfSlideCount(direction === Direction.RIGHT);
     const result = [];
-    let indexToAdd = this.getSlideIndex(slide);
+    let indexToAdd = this.getIndex(slide);
     while (result.length < targetLength) {
       // Build the looped index
       indexToAdd = mathf.wrap(indexToAdd + direction, 0, this.getSlideCount());
@@ -453,13 +457,15 @@ export class Carousel implements EventDispatcher {
     this.resetAutoplayTimeout();
   }
 
+  /**
+   * Clear the current autoplay timeout and prep a new one.
+   * @private
+   */
   private resetAutoplayTimeout() {
     if (this.autoplaySpeed !== null) {
       clearTimeout(this.autoplayTimeout);
       this.autoplayTimeout =
-          window.setTimeout(() => {
-            this.next();
-          }, this.autoplaySpeed);
+          window.setTimeout(() => this.next(), this.autoplaySpeed);
     }
   }
 
@@ -484,18 +490,33 @@ export class Carousel implements EventDispatcher {
         }
       }
 
-      if (this.isTransitioning()) {
+      if (this.transitionTarget !== null) {
         const hasTransitionedToTarget =
-            this.transition.hasTransitionedTo(this.transitionTarget.element);
+            this.transition.hasTransitionedTo(this.transitionTarget);
         if (hasTransitionedToTarget) {
           this.transitionTarget = null;
-          this.eventManager.dispatch(CarouselEvent.TRANSITION_END, this);
+          this.eventManager.dispatch(
+              CarouselEvent.AFTER_CHANGE, this.generateEventData());
           this.resetAutoplayTimeout();
         } else {
-          this.transition.transition(this.transitionTarget.element);
+          this.transition.transition(this.transitionTarget);
         }
       }
     });
+  }
+
+  /**
+   * Generates event data for carousel events.
+   * Uses an object for configuration to allow keyword argument style calling
+   * instead of relying on positional arguments, allowing room for growth if
+   * necessary.
+   */
+  private generateEventData(): CarouselEventData {
+    return {
+      carousel: this,
+      currentSlide: this.getActiveSlide(),
+      nextSlide: this.transitionTarget
+    };
   }
 
   /**
@@ -523,14 +544,5 @@ export class Carousel implements EventDispatcher {
         slide.setAttribute(this.distanceToActiveSlideAttr, `${index + 1}`);
       });
     });
-  }
-
-  /**
-   * Get the slide element the carousel is in the process of transitioning to.
-   */
-  private getCurrentTransitionTarget(): HTMLElement {
-    return this.isTransitioning() ?
-        this.transitionTarget.element :
-        this.getActiveSlide();
   }
 }

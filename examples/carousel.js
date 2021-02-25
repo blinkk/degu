@@ -6,7 +6,6 @@
  */
 import {Carousel} from '../lib/ui/carousel/carousel';
 import {DraggableSlide} from '../lib/ui/carousel/draggable-slide';
-import {CarouselSynchronizer} from '../lib/ui/carousel/carousel-synchronizer';
 
 export default class CarouselSample {
   constructor() {
@@ -41,10 +40,17 @@ export default class CarouselSample {
         {
           allowLooping: true,
         });
-    a.sync(b);
     const c = new Carousel(
         document.querySelector('.carousel--c'),
         Array.from(document.querySelectorAll('.carousel--c .slide')),
+        {
+          allowLooping: false,
+          transition: 'draggable',
+        });
+    a.sync(b, c);
+    const d = new Carousel(
+        document.querySelector('.carousel--d'),
+        Array.from(document.querySelectorAll('.carousel--d .slide')),
         {
           allowLooping: false,
           transition: 'draggable',
