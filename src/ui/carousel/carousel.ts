@@ -62,7 +62,7 @@ enum DefaultCssClass {
 }
 
 export class Carousel implements EventDispatcher {
-  readonly allowsLooping: boolean;
+  readonly loop: boolean;
   readonly container: HTMLElement;
   autoplaySpeed: number;
   private readonly activeCssClass: string;
@@ -114,12 +114,12 @@ export class Carousel implements EventDispatcher {
     if (slides.length < 1) {
       throw new Error('Cannot start carousel without slides');
     }
-    this.raf = new Raf(() => this.loop());
+    this.raf = new Raf(() => this.onRaf());
     this.activeCssClass = activeCssClass;
     this.beforeCssClass = beforeCssClass;
     this.afterCssClass = afterCssClass;
     this.distanceToActiveSlideAttr = distanceToActiveSlideAttr;
-    this.allowsLooping = allowLooping;
+    this.loop = allowLooping;
     this.condition = condition;
     this.container = container;
     this.lastActiveSlide = null;
@@ -246,7 +246,7 @@ export class Carousel implements EventDispatcher {
    * @param slide
    */
   getSlidesBefore(slide: HTMLElement): HTMLElement[] {
-    if (this.allowsLooping) {
+    if (this.loop) {
       return this.splitSlidesInHalf(slide, Direction.LEFT);
     } else {
       return this.getSlides().slice(0, this.getSlides().indexOf(slide));
@@ -258,7 +258,7 @@ export class Carousel implements EventDispatcher {
    * @param slide
    */
   getSlidesAfter(slide: HTMLElement): HTMLElement[] {
-    if (this.allowsLooping) {
+    if (this.loop) {
       return this.splitSlidesInHalf(slide, Direction.RIGHT);
     } else {
       return this.getSlides().slice(this.getSlides().indexOf(slide) + 1);
@@ -337,7 +337,7 @@ export class Carousel implements EventDispatcher {
    */
   getClampedIndex(index: number): number {
     const slidesLength = this.getSlides().length;
-    if (this.allowsLooping) {
+    if (this.loop) {
       return mathf.wrap(index, 0, slidesLength);
     } else {
       return mathf.clamp(0, slidesLength - 1, index);
@@ -472,7 +472,7 @@ export class Carousel implements EventDispatcher {
   /**
    * Run the loop to do all the necessary work for the carousel.
    */
-  private loop(): void {
+  private onRaf(): void {
     this.raf.read(() => {
       if (!this.condition()) {
         return;

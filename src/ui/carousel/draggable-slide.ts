@@ -111,7 +111,7 @@ export class DraggableSlide implements Transition {
       easingFunction = DraggableSlide.DEFAULT_EASING
     }: DraggableSlideConfig = {}
   ) {
-    this.raf = new Raf(() => this.loop());
+    this.raf = new Raf(() => this.onRaf());
     this.domWatcher = new DomWatcher();
     this.easingFunction = easingFunction;
     this.transitionTime = transitionTime;
@@ -145,7 +145,7 @@ export class DraggableSlide implements Transition {
    * Updates slide positioning in response to user interaction and transition
    * animations.
    */
-  loop(): void {
+  onRaf(): void {
     this.raf.read(() => {
       if (!this.isInteracting() && this.transitionTarget) {
         this.renderTransition();
@@ -256,7 +256,7 @@ export class DraggableSlide implements Transition {
    * the carousel.
    */
   private constrainXTranslations() {
-    if (this.carousel.allowsLooping) {
+    if (this.carousel.loop) {
       return;
     }
     const slides = this.carousel.getSlides();
@@ -386,7 +386,7 @@ export class DraggableSlide implements Transition {
    * - Slides loop from one side to the other.
    */
   private loopSlides(): void {
-    if (!this.carousel.allowsLooping) {
+    if (!this.carousel.loop) {
       return;
     }
 
@@ -465,7 +465,7 @@ export class DraggableSlide implements Transition {
 
     const velocitySign = Math.sign(velocity);
     const distanceSign = Math.sign(distance) * -1;
-    const allowsLooping = this.carousel.allowsLooping;
+    const allowsLooping = this.carousel.loop;
 
     // If the slide is already centered, then it is clearly the slide to
     // transition to.
@@ -564,7 +564,7 @@ export class DraggableSlide implements Transition {
     const end = this.carousel.getIndex(endSlide) - direction;
     if (start === end) {
       return [];
-    } else if (this.carousel.allowsLooping) {
+    } else if (this.carousel.loop) {
       return arrayf.loopSlice(
           this.carousel.getSlides(), end, start, -direction);
     } else {
