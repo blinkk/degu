@@ -195,7 +195,6 @@ export class DraggableSlide implements Transition {
    * Returns the currently active slide.
    */
   getActiveSlide(): HTMLElement {
-    const lastActiveSlide = this.carousel.getLastActiveSlide();
     return arrayf.min(
       this.carousel.getSlides(),
       // Start with the one closest to the center
@@ -204,9 +203,6 @@ export class DraggableSlide implements Transition {
           this.getDistanceBetween(
             <HTMLElement>el, this.carousel.container));
       },
-      // If two slides are tied for distance to the center default to the one
-      // that was last active.
-      (el) => el === lastActiveSlide ? 0 : 1,
       // If neither slide was last active default to the one that appears first
       // in the list of slides
       (el) => -1 * this.carousel.getIndex(el)
@@ -476,7 +472,7 @@ export class DraggableSlide implements Transition {
       // direction.
       if (velocitySign === Direction.RIGHT) {
         if (allowsLooping || activeSlide !== this.carousel.getFirstSlide()) {
-          this.carousel.previous();
+          this.carousel.prev();
         } else {
           // If we are already at the first slide and can't loop, transition
           // as is.

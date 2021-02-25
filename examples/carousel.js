@@ -28,7 +28,7 @@ export default class CarouselSample {
         Array.from(document.querySelectorAll('.carousel--a .slide')),
         {
           autoplaySpeed: 3000,
-          allowLooping: true,
+          loop: true,
           transition: new DraggableSlide({
             transitionTime: 2000,
             easingFunction: easeOutBounce
@@ -38,13 +38,13 @@ export default class CarouselSample {
         document.querySelector('.nav'),
         Array.from(document.querySelectorAll('.nav .dot')),
         {
-          allowLooping: true,
+          loop: true,
         });
     const c = new Carousel(
         document.querySelector('.carousel--c'),
         Array.from(document.querySelectorAll('.carousel--c .slide')),
         {
-          allowLooping: false,
+          loop: false,
           transition: 'draggable',
         });
     a.sync(b, c);
@@ -52,7 +52,7 @@ export default class CarouselSample {
         document.querySelector('.carousel--d'),
         Array.from(document.querySelectorAll('.carousel--d .slide')),
         {
-          allowLooping: false,
+          loop: false,
           transition: 'draggable',
         });
   }

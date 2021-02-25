@@ -18,11 +18,25 @@ enum Direction {
 /**
  * Data sent by the carousel to event handlers.
  */
-export interface CarouselEventData {
+export interface BeforeChangeEventData {
   carousel: Carousel;
   currentSlide: HTMLElement;
+  currentIndex: number;
   nextSlide: HTMLElement;
+  nextIndex: number;
 }
+
+/**
+ * Data sent by the carousel to event handlers.
+ */
+export interface AfterChangeEventData {
+  carousel: Carousel;
+  currentSlide: HTMLElement;
+  currentIndex: number;
+}
+
+export type CarouselEventData =
+    BeforeChangeEventData | AfterChangeEventData;
 
 /**
  * Carousel events.
@@ -39,7 +53,7 @@ export interface CarouselOptions {
   activeCssClass?: string;
   beforeCssClass?: string;
   afterCssClass?: string;
-  allowLooping?: boolean;
+  loop?: boolean;
   distanceToActiveSlideAttr?: string;
   // Transition used to iterate through slides.
   transition?: Transition|string;
@@ -92,7 +106,7 @@ export class Carousel implements EventDispatcher {
    * @param afterCssClass Class to apply to slides after active slide.
    * @param distanceToActiveSlideAttr Slide attribute on which the index
    *     distance to the currently active slide is set.
-   * @param allowLooping Whether the carousel should be allowed to loop.
+   * @param loop Whether the carousel should be allowed to loop.
    * @param transition How the Carousel should transition.
    * @param autoplaySpeed How long the carousel should stay on a slide (in ms)
    *     before transitioning to the next slide.
@@ -106,7 +120,7 @@ export class Carousel implements EventDispatcher {
         beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
         afterCssClass = DefaultCssClass.AFTER_SLIDE,
         distanceToActiveSlideAttr = DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR,
-        allowLooping = true,
+        loop = true,
         transition = null,
         autoplaySpeed = null
       }: CarouselOptions = {}
@@ -119,7 +133,7 @@ export class Carousel implements EventDispatcher {
     this.beforeCssClass = beforeCssClass;
     this.afterCssClass = afterCssClass;
     this.distanceToActiveSlideAttr = distanceToActiveSlideAttr;
-    this.loop = allowLooping;
+    this.loop = loop;
     this.condition = condition;
     this.container = container;
     this.lastActiveSlide = null;
@@ -150,20 +164,13 @@ export class Carousel implements EventDispatcher {
   }
 
   /**
-   * Returns the last known active slide.
-   */
-  getLastActiveSlide(): HTMLElement {
-    return this.lastActiveSlide;
-  }
-
-  /**
    * Change the active slide to the given slide by either index or element.
    */
   goTo(target: number|HTMLElement, drivenBySync = false) {
-    if (target instanceof HTMLElement) {
-      this.goToSlide(target, drivenBySync);
-    } else {
+    if (typeof target === 'number') {
       this.goToIndex(target, drivenBySync);
+    } else {
+      this.goToSlide(target, drivenBySync);
     }
   }
 
@@ -180,7 +187,13 @@ export class Carousel implements EventDispatcher {
     this.transitionTarget = targetSlide;
     this.eventManager.dispatch(
         CarouselEvent.BEFORE_CHANGE,
-        this.generateEventData());
+        {
+          carousel: this,
+          currentSlide: this.getActiveSlide(),
+          currentIndex: this.getActiveIndex(),
+          nextSlide: this.transitionTarget,
+          nextIndex: this.getIndex(this.transitionTarget)
+        });
     if (!drivenBySync) {
       this.syncedCarousels.forEach(
           (carousel) => {
@@ -275,7 +288,7 @@ export class Carousel implements EventDispatcher {
   /**
    * Go to the previous slide.
    */
-  previous(): void {
+  prev(): void {
     this.transitionSlidesBy(-1);
   }
 
@@ -352,7 +365,7 @@ export class Carousel implements EventDispatcher {
         this.syncedCarousels,
         ...carousels.map((c) => c.syncedCarousels));
     this.syncedCarousels = masterSet;
-    carousels.forEach((c) => c.syncedCarousels = masterSet);
+    masterSet.forEach((c) => c.syncedCarousels = masterSet);
   }
 
   /**
@@ -369,37 +382,99 @@ export class Carousel implements EventDispatcher {
 
   /**
    * Sync this carousel to the given index in the given carousel.
-   * @param index
+   * @param rawIndex
    * @param carousel
    * @private
    */
-  private syncTo(index: number, carousel: Carousel) {
-    // Allow for syncing with duplicate slides.
-    // If Carousel A needed its slides duplicated to meet design motion
-    // requirements, but Carousel B didn't, A's slide 2X is equivalent to B's
-    // slide X, so if B transitions to X and A is already at 2X, we can safely
-    // ignore that sync, to prevent what will seem to the user like an
-    // unnecessary transition.
-    if (
-        this.getIndex(this.transitionTarget) % carousel.getSlideCount() !==
-        index
-    ) {
-      // If the current carousel has more slides than the syncing carousel,
-      // then we want to grab the closest equivalent slide.
-      if (this.getSlideCount() > carousel.getSlideCount()) {
-        const equivalentIndices = [];
-        while (index < this.getSlideCount()) {
-          equivalentIndices.push(index);
-          index += carousel.getSlideCount();
-        }
-        this.goTo(
-            arrayf.min(
-                equivalentIndices,
-                (i) => Math.abs(this.getActiveIndex() - i)),
-            true);
-      } else {
-        this.goTo(index, true);
+  private syncTo(rawIndex: number, carousel: Carousel) {
+    /**
+     * Allow for syncing with duplicate slides.
+     *
+     * In some cases, to meet design requirements a carousel may need to
+     * duplicate some slides, for cases where a slide loops but due to a small
+     * number of slides, it may be visible on either side simultaneously.
+     *
+     * In this case, it may not be necessary to duplicate other synchronized
+     * carousels.
+     *
+     * Take the following case where there are images that loop that need to
+     * be duplicated, synchronized with dots acting as navigation, and a third
+     * carousel with copy that cross-fades depending on the active image.
+     *
+     * DOM Tags <a>, <b> and <c> are used as shorthand for the various slides.
+     *
+     * ```
+     * <div class="images">
+     *   <a></a>
+     *   <b></b>
+     *   <c></c>
+     *   <a></a>
+     *   <b></b>
+     *   <c></c>
+     * </div>
+     * <div class="nav-dots">
+     *   <a></a>
+     *   <b></b>
+     *   <c></c>
+     * </div>
+     * <div class="copy">
+     *   <a></a>
+     *   <b></b>
+     *   <c></c>
+     * </div>
+     * ```
+     *
+     * If the user has moved the images so that the fourth image (an <a>) tag
+     * is visible, we would want the first slide in the other two to be the
+     * active slide.
+     *
+     * If the user were to click on the navigation to go to the second slide, it
+     * would seem odd if the images went backwards past the third image, and
+     * then on to the second image.
+     *
+     * Instead it would seem more natural for the slide to advance to the
+     * nearest copy of the second image, in this case, the fifth slide in the
+     * images carousel.
+     *
+     * We also run a modulus on the given index, for the case where things are
+     * the other way around, and the carousel we are syncing to has more slides
+     * than the current carousel.
+     */
+    const index = rawIndex % this.getSlideCount();
+
+    /**
+     * Assuming this carousel has more slides than the carousel we are syncing
+     * to:
+     * Use modulus to get the equivalent index of the current transition
+     * target, as if it were a slide in the carousel we are syncing to.
+     * If the slide counts match up, this modulus operation will be a no-op and
+     * no harm is done.
+     */
+    const equivalentTransitionTargetIndex =
+        this.getIndex(this.transitionTarget) % carousel.getSlideCount();
+
+    // If we are already on an equivalent index, we can stop and return early.
+    if (equivalentTransitionTargetIndex === index) {
+      return;
+    }
+
+    // If the current carousel has more slides than the syncing carousel,
+    // then we want to grab the closest equivalent slide to transition to.
+    if (this.getSlideCount() > carousel.getSlideCount()) {
+      // Build a set of all equivalent indices.
+      const equivalentIndices = [];
+      let equivalentIndex = index;
+      while (equivalentIndex < this.getSlideCount()) {
+        equivalentIndices.push(equivalentIndex);
+        equivalentIndex += carousel.getSlideCount();
       }
+      this.goTo(
+          arrayf.min(
+              equivalentIndices,
+              (i) => Math.abs(this.getActiveIndex() - i)),
+          true);
+    } else {
+      this.goTo(index, true);
     }
   }
 
@@ -496,27 +571,18 @@ export class Carousel implements EventDispatcher {
         if (hasTransitionedToTarget) {
           this.transitionTarget = null;
           this.eventManager.dispatch(
-              CarouselEvent.AFTER_CHANGE, this.generateEventData());
+              CarouselEvent.AFTER_CHANGE,
+              {
+                carousel: this,
+                currentSlide: this.getActiveSlide(),
+                currentIndex: this.getActiveIndex()
+              });
           this.resetAutoplayTimeout();
         } else {
           this.transition.transition(this.transitionTarget);
         }
       }
     });
-  }
-
-  /**
-   * Generates event data for carousel events.
-   * Uses an object for configuration to allow keyword argument style calling
-   * instead of relying on positional arguments, allowing room for growth if
-   * necessary.
-   */
-  private generateEventData(): CarouselEventData {
-    return {
-      carousel: this,
-      currentSlide: this.getActiveSlide(),
-      nextSlide: this.transitionTarget
-    };
   }
 
   /**
