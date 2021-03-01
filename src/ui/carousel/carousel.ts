@@ -382,74 +382,72 @@ export class Carousel implements EventDispatcher {
 
   /**
    * Sync this carousel to the given index in the given carousel.
+   *
+   * Allow for syncing with duplicate slides.
+   *
+   * In some cases, to meet design requirements a carousel may need to
+   * duplicate some slides, for cases where a slide loops but due to a small
+   * number of slides, it may be visible on either side simultaneously.
+   *
+   * In this case, it may not be necessary to duplicate other synchronized
+   * carousels.
+   *
+   * Take the following case where there are images that loop that need to
+   * be duplicated, synchronized with dots acting as navigation, and a third
+   * carousel with copy that cross-fades depending on the active image.
+   *
+   * DOM Tags <a>, <b> and <c> are used as shorthand for the various slides.
+   *
+   * ```
+   * <div class="images">
+   *   <a></a>
+   *   <b></b>
+   *   <c></c>
+   *   <a></a>
+   *   <b></b>
+   *   <c></c>
+   * </div>
+   * <div class="nav-dots">
+   *   <a></a>
+   *   <b></b>
+   *   <c></c>
+   * </div>
+   * <div class="copy">
+   *   <a></a>
+   *   <b></b>
+   *   <c></c>
+   * </div>
+   * ```
+   *
+   * If the user has moved the images so that the fourth image (an <a>) tag
+   * is visible, we would want the first slide in the other two to be the
+   * active slide.
+   *
+   * If the user were to click on the navigation to go to the second slide, it
+   * would seem odd if the images went backwards past the third image, and
+   * then on to the second image.
+   *
+   * Instead it would seem more natural for the slide to advance to the
+   * nearest copy of the second image, in this case, the fifth slide in the
+   * images carousel.
+   *
+   * We also run a modulus on the given index, for the case where things are
+   * the other way around, and the carousel we are syncing to has more slides
+   * than the current carousel.
+   *
    * @param rawIndex
    * @param carousel
    * @private
    */
   private syncTo(rawIndex: number, carousel: Carousel) {
-    /**
-     * Allow for syncing with duplicate slides.
-     *
-     * In some cases, to meet design requirements a carousel may need to
-     * duplicate some slides, for cases where a slide loops but due to a small
-     * number of slides, it may be visible on either side simultaneously.
-     *
-     * In this case, it may not be necessary to duplicate other synchronized
-     * carousels.
-     *
-     * Take the following case where there are images that loop that need to
-     * be duplicated, synchronized with dots acting as navigation, and a third
-     * carousel with copy that cross-fades depending on the active image.
-     *
-     * DOM Tags <a>, <b> and <c> are used as shorthand for the various slides.
-     *
-     * ```
-     * <div class="images">
-     *   <a></a>
-     *   <b></b>
-     *   <c></c>
-     *   <a></a>
-     *   <b></b>
-     *   <c></c>
-     * </div>
-     * <div class="nav-dots">
-     *   <a></a>
-     *   <b></b>
-     *   <c></c>
-     * </div>
-     * <div class="copy">
-     *   <a></a>
-     *   <b></b>
-     *   <c></c>
-     * </div>
-     * ```
-     *
-     * If the user has moved the images so that the fourth image (an <a>) tag
-     * is visible, we would want the first slide in the other two to be the
-     * active slide.
-     *
-     * If the user were to click on the navigation to go to the second slide, it
-     * would seem odd if the images went backwards past the third image, and
-     * then on to the second image.
-     *
-     * Instead it would seem more natural for the slide to advance to the
-     * nearest copy of the second image, in this case, the fifth slide in the
-     * images carousel.
-     *
-     * We also run a modulus on the given index, for the case where things are
-     * the other way around, and the carousel we are syncing to has more slides
-     * than the current carousel.
-     */
     const index = rawIndex % this.getSlideCount();
 
-    /**
-     * Assuming this carousel has more slides than the carousel we are syncing
-     * to:
-     * Use modulus to get the equivalent index of the current transition
-     * target, as if it were a slide in the carousel we are syncing to.
-     * If the slide counts match up, this modulus operation will be a no-op and
-     * no harm is done.
-     */
+    // Assuming this carousel has more slides than the carousel we are syncing
+    // to:
+    // Use modulus to get the equivalent index of the current transition
+    // target, as if it were a slide in the carousel we are syncing to.
+    // If the slide counts match up, this modulus operation will be a no-op and
+    // no harm is done.
     const equivalentTransitionTargetIndex =
         this.getIndex(this.transitionTarget) % carousel.getSlideCount();
 
