@@ -16,6 +16,7 @@ import CanvasImageSequenceSample5 from '../canvas-image-sequence5';
 import CanvasImageSequenceSample7 from '../canvas-image-sequence7';
 import CanvasImageSequenceSample8 from '../canvas-image-sequence8';
 import CanvasImageSequenceSample9 from '../canvas-image-sequence9';
+import CarouselSample from '../carousel';
 import CatmullRomSample from '../catmull-rom';
 import CssVarInterpolateSample from '../css-var-interpolate';
 import CssVarInterpolateSample2 from '../css-var-interpolate2';
@@ -116,6 +117,7 @@ import InviewSample from '../inview';
 import WebGlSample from '../webgl';
 
 const samples = {
+  'carouselSample': CarouselSample,
   'easerDisableRafSample': EaserDisableRafSample,
   'easerSample': EaserSample,
   'interpolateSample': InterpolateSample,

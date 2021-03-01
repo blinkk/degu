@@ -859,7 +859,6 @@ export class dom {
         return style == 'none';
     }
 
-
     /**
      * Tests whether a given element and it's ancestors have
      * a display:none.  This is useful to see if a given element
@@ -879,8 +878,6 @@ export class dom {
         }
         return isDisplayNone;
     }
-
-
 
     /**
      * Removes all classes from an element that starts with a given prefix.
@@ -980,7 +977,6 @@ export class dom {
         allTextNodes.forEach((node)=> {
            node.nodeValue = node.nodeValue.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
         })
-
     }
 
     static getScrollElement(): Element {

@@ -858,9 +858,11 @@ export class mathf {
    * @return {number} The interporalated value.
    */
   static lerp(value1: number, value2: number, amount: number): number {
-    return value1 + (value2 - value1) * mathf.clamp01(amount);
-    // Alternative ways to calculate ler
-    // return (1 - amount) * value1 + amount * value2;
+    const clampedAmount = mathf.clamp01(amount);
+    return (1 - clampedAmount) * value1 + clampedAmount * value2;
+    // Alternative ways to calculate lerp.
+    // Neither behave properly for lerping from negative to positive
+    // return value1 + (value2 - value1) * mathf.clamp01(amount);
     // return ((value2 - value1) * amount) + amount
   }
 
@@ -1393,4 +1395,13 @@ export class mathf {
     const t = mathf.inverseLerp(minB, maxB, valueB);
     return mathf.lerp(minA, maxA, t);
   }
+
+  /**
+   * Total/sum/add-up the given values.
+   */
+  static sum(values: number[]) {
+    return values.reduce(
+        (result, value) => result + value, 0);
+  }
+
 }

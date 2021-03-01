@@ -1,6 +1,8 @@
 import { point } from './mathf';
 import { Vector } from './vector';
 
+export type EasingFunction = (percent: number) => number;
+
 /**
  * Implements a basic cubic beizer class.
  *
@@ -175,11 +177,11 @@ export class CubicBezier {
      * @param progress The progress of the interpolation.  Value between 0-1.
      * @return The interpolated value.
      */
-    public interpolate(progress: number): Number {
+    public interpolate(progress: number): number {
         return CubicBezier.interpolateProgress(
             progress,
             this.x2, this.y2, this.x3, this.y3
-        )
+        );
     }
 
 
@@ -188,7 +190,7 @@ export class CubicBezier {
      * used like other easing functions but used for instances.
      * @return A function that accepts a progresss value.
      */
-    public easingFunction(): Function {
+    public easingFunction(): EasingFunction {
         return (progress: number) => {
             return this.interpolate(progress);
         }
