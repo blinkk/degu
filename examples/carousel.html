@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carousel Demo</title>
+</head>
+<body init-sample="carouselSample">
+  <a href="index.html">Back to home</a>
+  <h1>Demo of Carousel</h1>
+  <style>
+      .parent {
+        position: relative;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .carousel {
+        position: relative;
+        height: 20vh;
+        width: 80vw;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: nowrap;
+      }
+      .slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 50%;
+        flex-shrink: 0;
+        font-size: 10vw;
+        user-select: none;
+      }
+      .slide:nth-child(1) {
+        background: paleturquoise;
+      }
+      .slide:nth-child(2) {
+        background: palevioletred;
+      }
+      .slide:nth-child(3) {
+        background: palegreen;
+      }
+      .slide:nth-child(4) {
+        background: palegoldenrod;
+      }
+      .slide:nth-child(5) {
+        background: plum;
+      }
+      .slide:nth-child(6) {
+        background: coral;
+      }
+      .nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .dot {
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        opacity: .25;
+        background: black;
+        transition: opacity 1s, transform 1s;
+        margin: 0 8px;
+      }
+      .dot.active {
+        transform: scale(1.25);
+        opacity: 1;
+      }
+      .dot.before, .dot.after {
+        transform: scale(0.9);
+      }
+  </style>
+
+  <div class="parent" id="parent">
+    <h2>Carousel A - DraggableSlide transition, Synced to B and C</h2>
+    <div class="carousel carousel--a">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+      <div class="slide">3</div>
+    </div>
+    <h2>Carousel B - Styled on classes only, Synced to A and C</h2>
+    <div class="nav">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <h2>Carousel C - DraggableSlide transition, no wrapping, with doubles slides, Synced to A and B</h2>
+    <div class="carousel carousel--c">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+      <div class="slide">3</div>
+      <div class="slide">4</div>
+      <div class="slide">5</div>
+      <div class="slide">6</div>
+    </div>
+    <h2>Carousel D - Not synchronized, DraggableSlide transition, no wrapping</h2>
+    <div class="carousel carousel--d">
+      <div class="slide">1</div>
+      <div class="slide">2</div>
+      <div class="slide">3</div>
+    </div>
+  </div>
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>

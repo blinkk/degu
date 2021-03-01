@@ -67,13 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A static class that helps with arrays.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -89,8 +82,11 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="arrayf.arrayf-1.html#contains" class="tsd-kind-icon">contains</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="arrayf.arrayf-1.html#deepcopy" class="tsd-kind-icon">deep<wbr>Copy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="arrayf.arrayf-1.html#loopslice" class="tsd-kind-icon">loop<wbr>Slice</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="arrayf.arrayf-1.html#max" class="tsd-kind-icon">max</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="arrayf.arrayf-1.html#min" class="tsd-kind-icon">min</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,6 +94,45 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="contains" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> contains</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">contains&lt;T&gt;<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/arrayf/arrayf.ts#L125">arrayf/arrayf.ts:125</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Determines if the given values contain the given value.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>values: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>value: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="deepcopy" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> deep<wbr>Copy</h3>
@@ -108,7 +143,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/arrayf/arrayf.ts#L12">arrayf/arrayf.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/arrayf/arrayf.ts#L13">arrayf/arrayf.ts:13</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -130,16 +165,63 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-					<a name="max" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> max</h3>
+					<a name="loopslice" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> loop<wbr>Slice</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">max&lt;T&gt;<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span>, scoreFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+						<li class="tsd-signature tsd-kind-icon">loop<wbr>Slice&lt;T&gt;<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span>, startIndex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, rawEndIndex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, direction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/arrayf/arrayf.ts#L42">arrayf/arrayf.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/arrayf/arrayf.ts#L104">arrayf/arrayf.ts:104</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Operates as per the built in slice with the option to wrap around from
+										the end of the array to the start and vice versa. Can also slice in the
+									reverse direction if given a negative value for <code>direction</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>values: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>startIndex: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>rawEndIndex: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> direction: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="max" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> max</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">max&lt;T&gt;<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span>, <span class="tsd-signature-symbol">...</span>scoreFns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/arrayf/arrayf.ts#L46">arrayf/arrayf.ts:46</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -147,6 +229,8 @@
 									<p>Return value from array that generates the highest return value when
 									passed as a parameter to the score function.</p>
 								</div>
+								<p>Multiple score functions can be passed with later functions used only to
+								break ties for values returned from the previous score function.</p>
 								<p>Example:</p>
 								<pre><code>const <span class="hljs-keyword">values</span> = [{<span class="hljs-string">'a'</span>: <span class="hljs-number">2</span>, <span class="hljs-string">'b'</span>: <span class="hljs-number">3</span>}, {<span class="hljs-string">'a'</span>: <span class="hljs-number">1</span>, <span class="hljs-string">'b'</span>: <span class="hljs-number">4</span>}];
 arrayf.max(<span class="hljs-keyword">values</span>, (x) =&gt; x.a); // <span class="hljs-keyword">Returns</span> {<span class="hljs-string">'a'</span>: <span class="hljs-number">2</span>, <span class="hljs-string">'b'</span>: <span class="hljs-number">3</span>}
@@ -164,25 +248,51 @@ arrayf.max(<span class="hljs-keyword">values</span>, (x) =&gt; x.b); // <span cl
 									<h5>values: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
-									<h5>scoreFn: <span class="tsd-signature-type">function</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>v<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>v: <span class="tsd-signature-type">T</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>scoreFns: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="min" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> min</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">min&lt;T&gt;<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span>, <span class="tsd-signature-symbol">...</span>scoreFns<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/arrayf/arrayf.ts#L87">arrayf/arrayf.ts:87</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return value from array that generates the lowest return value when
+									passed as a parameter to the score function.</p>
+								</div>
+								<p>Multiple score functions can be passed with later functions used only to
+								break ties for values returned from the previous score function.</p>
+								<p>Example:</p>
+								<pre><code>const <span class="hljs-keyword">values</span> = [{<span class="hljs-string">'a'</span>: <span class="hljs-number">2</span>, <span class="hljs-string">'b'</span>: <span class="hljs-number">3</span>}, {<span class="hljs-string">'a'</span>: <span class="hljs-number">1</span>, <span class="hljs-string">'b'</span>: <span class="hljs-number">4</span>}];
+arrayf.min(<span class="hljs-keyword">values</span>, (x) =&gt; x.a); // <span class="hljs-keyword">Returns</span> {<span class="hljs-string">'a'</span>: <span class="hljs-number">1</span>, <span class="hljs-string">'b'</span>: <span class="hljs-number">4</span>}
+arrayf.min(<span class="hljs-keyword">values</span>, (x) =&gt; x.b); // <span class="hljs-keyword">Returns</span> {<span class="hljs-string">'a'</span>: <span class="hljs-number">2</span>, <span class="hljs-string">'b'</span>: <span class="hljs-number">3</span>}</code></pre>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>values: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>scoreFns: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
@@ -249,6 +359,9 @@ arrayf.max(<span class="hljs-keyword">values</span>, (x) =&gt; x.b); // <span cl
 						<a href="../modules/raf.html">raf</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/setf.html">setf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/shaders.html">shaders</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -275,11 +388,20 @@ arrayf.max(<span class="hljs-keyword">values</span>, (x) =&gt; x.b); // <span cl
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
 						<a href="arrayf.arrayf-1.html" class="tsd-kind-icon">arrayf</a>
 						<ul>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="arrayf.arrayf-1.html#contains" class="tsd-kind-icon">contains</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="arrayf.arrayf-1.html#deepcopy" class="tsd-kind-icon">deep<wbr>Copy</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="arrayf.arrayf-1.html#loopslice" class="tsd-kind-icon">loop<wbr>Slice</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
 								<a href="arrayf.arrayf-1.html#max" class="tsd-kind-icon">max</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="arrayf.arrayf-1.html#min" class="tsd-kind-icon">min</a>
 							</li>
 						</ul>
 					</li>

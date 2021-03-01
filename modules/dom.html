@@ -80,6 +80,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/dom.accessibleoutline.html" class="tsd-kind-icon">Accessible<wbr>Outline</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/dom.animationelement.html" class="tsd-kind-icon">Animation<wbr>Element</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/dom.cachedmousetracker.html" class="tsd-kind-icon">Cached<wbr>Mouse<wbr>Tracker</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/dom.canvasimagesequence.html" class="tsd-kind-icon">Canvas<wbr>Image<wbr>Sequence</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/dom.cssparallaxer.html" class="tsd-kind-icon">Css<wbr>Parallaxer</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/dom.domwatcher.html" class="tsd-kind-icon">Dom<wbr>Watcher</a></li>
@@ -125,6 +126,7 @@
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/dom.canvasimagesequenceclipinterpolationconfig.html" class="tsd-kind-icon">Canvas<wbr>Image<wbr>Sequence<wbr>Clip<wbr>Interpolation<wbr>Config</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/dom.canvasimagesequenceimageset.html" class="tsd-kind-icon">Canvas<wbr>Image<wbr>Sequence<wbr>Image<wbr>Set</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/dom.canvasimagesequenceoptions.html" class="tsd-kind-icon">Canvas<wbr>Image<wbr>Sequence<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/dom.clientpositiondata.html" class="tsd-kind-icon">Client<wbr>Position<wbr>Data</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/dom.cssparallaxsettings.html" class="tsd-kind-icon">Css<wbr>Parallax<wbr>Settings</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/dom.domwatcherconfig.html" class="tsd-kind-icon">Dom<wbr>Watcher<wbr>Config</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/dom.elementvisibilityobject.html" class="tsd-kind-icon">Element<wbr>Visibility<wbr>Object</a></li>
@@ -162,6 +164,7 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="dom.html#cursor_move_events" class="tsd-kind-icon">CURSOR_<wbr>MOVE_<wbr>EVENTS</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="dom.html#documentmousetracker" class="tsd-kind-icon">document<wbr>Mouse<wbr>Tracker</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="dom.html#fragshader" class="tsd-kind-icon">frag<wbr>Shader</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="dom.html#globalwindow-1" class="tsd-kind-icon">global<wbr>Window</a></li>
@@ -193,13 +196,23 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="cursor_move_events" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> CURSOR_<wbr>MOVE_<wbr>EVENTS</h3>
+					<div class="tsd-signature tsd-kind-icon">CURSOR_<wbr>MOVE_<wbr>EVENTS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&#x27;mousemove&#x27;, &#x27;touchstart&#x27;, &#x27;touchmove&#x27;]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/cached-mouse-tracker.ts#L4">dom/cached-mouse-tracker.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
 					<a name="documentmousetracker" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> document<wbr>Mouse<wbr>Tracker</h3>
 					<div class="tsd-signature tsd-kind-icon">document<wbr>Mouse<wbr>Tracker<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MouseTracker</span><span class="tsd-signature-symbol"> =&nbsp;new MouseTracker(document.body, () &#x3D;&gt; { }, false)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/document-mouse-tracker.ts#L8">dom/document-mouse-tracker.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/document-mouse-tracker.ts#L8">dom/document-mouse-tracker.ts:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -214,7 +227,7 @@
 					<div class="tsd-signature tsd-kind-icon">frag<wbr>Shader<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"precision mediump float;uniform sampler2D u_image;// texCoords passed in from the vertex shader.varying vec2 v_texCoord;void main() {gl_FragColor &#x3D; texture2D(u_image, v_texCoord);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;precision mediump float;uniform sampler2D u_image;// texCoords passed in from the vertex shader.varying vec2 v_texCoord;void main() {gl_FragColor &#x3D; texture2D(u_image, v_texCoord);}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/webgl-image-sequence.ts#L14">dom/webgl-image-sequence.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/webgl-image-sequence.ts#L14">dom/webgl-image-sequence.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +237,7 @@
 					<div class="tsd-signature tsd-kind-icon">global<wbr>Window<span class="tsd-signature-symbol">:</span> <a href="../classes/dom.globalwindow.html" class="tsd-signature-type">GlobalWindow</a><span class="tsd-signature-symbol"> =&nbsp;new GlobalWindow()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/global-window.ts#L57">dom/global-window.ts:57</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/global-window.ts#L57">dom/global-window.ts:57</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -234,7 +247,7 @@
 					<div class="tsd-signature tsd-kind-icon">skip<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&#x27;progress&#x27;, &#x27;easingFunction&#x27;]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/vector-dom-timeline.ts#L38">dom/vector-dom-timeline.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/vector-dom-timeline.ts#L38">dom/vector-dom-timeline.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -249,7 +262,7 @@
 					<div class="tsd-signature tsd-kind-icon">vert<wbr>Shader<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"attribute vec2 a_position;uniform mat3 u_matrix;varying vec2 v_texCoord;void main() {gl_Position &#x3D; vec4(u_matrix * vec3(a_position, 1), 1);v_texCoord &#x3D; a_position;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;attribute vec2 a_position;uniform mat3 u_matrix;varying vec2 v_texCoord;void main() {gl_Position &#x3D; vec4(u_matrix * vec3(a_position, 1), 1);v_texCoord &#x3D; a_position;}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/webgl-image-sequence.ts#L24">dom/webgl-image-sequence.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/webgl-image-sequence.ts#L24">dom/webgl-image-sequence.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -266,7 +279,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/mouse-tracker.ts#L2">dom/mouse-tracker.ts:2</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/mouse-tracker.ts#L2">dom/mouse-tracker.ts:2</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -288,7 +301,7 @@
 					<div class="tsd-signature tsd-kind-icon">Horizontal<wbr>Scroll<wbr>Element<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/horizontal-scroll-element.ts#L10">dom/horizontal-scroll-element.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/horizontal-scroll-element.ts#L10">dom/horizontal-scroll-element.ts:10</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -297,7 +310,7 @@
 						<div class="tsd-signature tsd-kind-icon">INDEX_<wbr>CHANGE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;horizontal-scroll-element-index-change&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/horizontal-scroll-element.ts#L11">dom/horizontal-scroll-element.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/horizontal-scroll-element.ts#L11">dom/horizontal-scroll-element.ts:11</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -308,7 +321,7 @@
 					<div class="tsd-signature tsd-kind-icon">Inview<wbr>Default<wbr>Class<wbr>Names<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/inview.ts#L10">dom/inview.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/inview.ts#L10">dom/inview.ts:10</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -317,7 +330,7 @@
 						<div class="tsd-signature tsd-kind-icon">DOWN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;down&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/inview.ts#L15">dom/inview.ts:15</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/inview.ts#L15">dom/inview.ts:15</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -327,7 +340,7 @@
 						<div class="tsd-signature tsd-kind-icon">IN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;in&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/inview.ts#L12">dom/inview.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/inview.ts#L12">dom/inview.ts:12</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -337,7 +350,7 @@
 						<div class="tsd-signature tsd-kind-icon">IN_<wbr>FOLD<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;in-fold&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/inview.ts#L14">dom/inview.ts:14</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/inview.ts#L14">dom/inview.ts:14</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -347,7 +360,7 @@
 						<div class="tsd-signature tsd-kind-icon">IN_<wbr>ONCE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;in-once&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/inview.ts#L13">dom/inview.ts:13</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/inview.ts#L13">dom/inview.ts:13</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -357,7 +370,7 @@
 						<div class="tsd-signature tsd-kind-icon">OUT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;out&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/inview.ts#L17">dom/inview.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/inview.ts#L17">dom/inview.ts:17</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -367,7 +380,7 @@
 						<div class="tsd-signature tsd-kind-icon">READY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;ready&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/inview.ts#L11">dom/inview.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/inview.ts#L11">dom/inview.ts:11</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -377,7 +390,7 @@
 						<div class="tsd-signature tsd-kind-icon">UP<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;up&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/inview.ts#L16">dom/inview.ts:16</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/inview.ts#L16">dom/inview.ts:16</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -388,7 +401,7 @@
 					<div class="tsd-signature tsd-kind-icon">Lazy<wbr>Video<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lazy-video.ts#L9">dom/lazy-video.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lazy-video.ts#L9">dom/lazy-video.ts:9</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -397,7 +410,7 @@
 						<div class="tsd-signature tsd-kind-icon">LOAD_<wbr>LOADED<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;LOAD_LOADED&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lazy-video.ts#L11">dom/lazy-video.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lazy-video.ts#L11">dom/lazy-video.ts:11</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -407,7 +420,7 @@
 						<div class="tsd-signature tsd-kind-icon">LOAD_<wbr>START<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;LOAD_START&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lazy-video.ts#L10">dom/lazy-video.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lazy-video.ts#L10">dom/lazy-video.ts:10</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -418,7 +431,7 @@
 					<div class="tsd-signature tsd-kind-icon">Lottie<wbr>Button<wbr>Css<wbr>Classes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L14">dom/lottie-button.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L14">dom/lottie-button.ts:14</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -427,7 +440,7 @@
 						<div class="tsd-signature tsd-kind-icon">CLICK<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;click&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L18">dom/lottie-button.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L18">dom/lottie-button.ts:18</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -437,7 +450,7 @@
 						<div class="tsd-signature tsd-kind-icon">HOVER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;hover&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L17">dom/lottie-button.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L17">dom/lottie-button.ts:17</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -447,7 +460,7 @@
 						<div class="tsd-signature tsd-kind-icon">INVIEW<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;in&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L15">dom/lottie-button.ts:15</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L15">dom/lottie-button.ts:15</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -457,7 +470,7 @@
 						<div class="tsd-signature tsd-kind-icon">OUTVIEW<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;out&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L16">dom/lottie-button.ts:16</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L16">dom/lottie-button.ts:16</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -468,7 +481,7 @@
 					<div class="tsd-signature tsd-kind-icon">Lottie<wbr>Button<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L72">dom/lottie-button.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L72">dom/lottie-button.ts:72</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -477,7 +490,7 @@
 						<div class="tsd-signature tsd-kind-icon">CLICK<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;click&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L76">dom/lottie-button.ts:76</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L76">dom/lottie-button.ts:76</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -487,7 +500,7 @@
 						<div class="tsd-signature tsd-kind-icon">INVIEW<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;inview&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L73">dom/lottie-button.ts:73</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L73">dom/lottie-button.ts:73</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -497,7 +510,7 @@
 						<div class="tsd-signature tsd-kind-icon">MOUSEENTER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;mouseenter&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L74">dom/lottie-button.ts:74</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L74">dom/lottie-button.ts:74</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -507,7 +520,7 @@
 						<div class="tsd-signature tsd-kind-icon">MOUSELEAVE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;mouseleave&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L75">dom/lottie-button.ts:75</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L75">dom/lottie-button.ts:75</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -517,7 +530,7 @@
 						<div class="tsd-signature tsd-kind-icon">OUTVIEW<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;outview&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/lottie-button.ts#L77">dom/lottie-button.ts:77</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/lottie-button.ts#L77">dom/lottie-button.ts:77</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -528,7 +541,7 @@
 					<div class="tsd-signature tsd-kind-icon">Scroll<wbr>Smooth<wbr>Render<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/scroll-smooth-render.ts#L20">dom/scroll-smooth-render.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/scroll-smooth-render.ts#L20">dom/scroll-smooth-render.ts:20</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -537,7 +550,7 @@
 						<div class="tsd-signature tsd-kind-icon">DISABLE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;DEGU_SCROLL_SMOOTH_RENDER_DISABLE&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/scroll-smooth-render.ts#L21">dom/scroll-smooth-render.ts:21</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/scroll-smooth-render.ts#L21">dom/scroll-smooth-render.ts:21</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -547,7 +560,7 @@
 						<div class="tsd-signature tsd-kind-icon">ENABLE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;DEGU_SCROLL_SMOOTH_RENDER_ENABLE&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/scroll-smooth-render.ts#L22">dom/scroll-smooth-render.ts:22</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/scroll-smooth-render.ts#L22">dom/scroll-smooth-render.ts:22</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -558,7 +571,7 @@
 					<div class="tsd-signature tsd-kind-icon">Web<wbr>GlImage<wbr>Sequence<wbr>Errors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/webgl-image-sequence.ts#L202">dom/webgl-image-sequence.ts:202</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/webgl-image-sequence.ts#L202">dom/webgl-image-sequence.ts:202</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -567,7 +580,7 @@
 						<div class="tsd-signature tsd-kind-icon">NO_<wbr>ELEMENT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;An element is required for webgl image sequence&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/webgl-image-sequence.ts#L203">dom/webgl-image-sequence.ts:203</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/webgl-image-sequence.ts#L203">dom/webgl-image-sequence.ts:203</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -577,7 +590,7 @@
 						<div class="tsd-signature tsd-kind-icon">NO_<wbr>IMAGES<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;There are no images defined in your webgl image sequence image set&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/webgl-image-sequence.ts#L205">dom/webgl-image-sequence.ts:205</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/webgl-image-sequence.ts#L205">dom/webgl-image-sequence.ts:205</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -587,7 +600,7 @@
 						<div class="tsd-signature tsd-kind-icon">NO_<wbr>IMAGE_<wbr>SETS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;Image sets are required for webgl image sequence&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/webgl-image-sequence.ts#L204">dom/webgl-image-sequence.ts:204</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/webgl-image-sequence.ts#L204">dom/webgl-image-sequence.ts:204</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -598,7 +611,7 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<wbr>Image<wbr>Sequence<wbr>Errors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/canvas-image-sequence.ts#L183">dom/canvas-image-sequence.ts:183</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/canvas-image-sequence.ts#L183">dom/canvas-image-sequence.ts:183</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -607,7 +620,7 @@
 						<div class="tsd-signature tsd-kind-icon">NO_<wbr>ELEMENT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;An element is required for canvas image sequence&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/canvas-image-sequence.ts#L184">dom/canvas-image-sequence.ts:184</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/canvas-image-sequence.ts#L184">dom/canvas-image-sequence.ts:184</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -617,7 +630,7 @@
 						<div class="tsd-signature tsd-kind-icon">NO_<wbr>IMAGES<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;There are no images defined in your canvas image sequence image set&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/canvas-image-sequence.ts#L186">dom/canvas-image-sequence.ts:186</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/canvas-image-sequence.ts#L186">dom/canvas-image-sequence.ts:186</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -627,7 +640,7 @@
 						<div class="tsd-signature tsd-kind-icon">NO_<wbr>IMAGE_<wbr>SETS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;Image sets are required for canvas image sequence&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/652dd0d/src/dom/canvas-image-sequence.ts#L185">dom/canvas-image-sequence.ts:185</a></li>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/f5d5af0/src/dom/canvas-image-sequence.ts#L185">dom/canvas-image-sequence.ts:185</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -692,6 +705,9 @@
 						<a href="raf.html">raf</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="setf.html">setf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="shaders.html">shaders</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -724,6 +740,9 @@
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/dom.animationelement.html" class="tsd-kind-icon">Animation<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/dom.cachedmousetracker.html" class="tsd-kind-icon">Cached<wbr>Mouse<wbr>Tracker</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/dom.canvasimagesequence.html" class="tsd-kind-icon">Canvas<wbr>Image<wbr>Sequence</a>
@@ -845,6 +864,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/dom.canvasimagesequenceoptions.html" class="tsd-kind-icon">Canvas<wbr>Image<wbr>Sequence<wbr>Options</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../interfaces/dom.clientpositiondata.html" class="tsd-kind-icon">Client<wbr>Position<wbr>Data</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/dom.cssparallaxsettings.html" class="tsd-kind-icon">Css<wbr>Parallax<wbr>Settings</a>
 					</li>
@@ -940,6 +962,9 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/dom.textsplitconfig.html" class="tsd-kind-icon">text<wbr>Split<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="dom.html#cursor_move_events" class="tsd-kind-icon">CURSOR_<wbr>MOVE_<wbr>EVENTS</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="dom.html#documentmousetracker" class="tsd-kind-icon">document<wbr>Mouse<wbr>Tracker</a>
