@@ -164,6 +164,20 @@ export class Carousel implements EventDispatcher {
   }
 
   /**
+   * Returns true if the carousel is disabled, false otherwise.
+   */
+  isDisabled() {
+    return !this.condition();
+  }
+
+  /**
+   * Returns true if the carousel is enabled, false otherwise.
+   */
+  isEnabled() {
+    return this.condition();
+  }
+
+  /**
    * Change the active slide to the given slide by either index or element.
    */
   goTo(target: number|HTMLElement, drivenBySync = false) {
