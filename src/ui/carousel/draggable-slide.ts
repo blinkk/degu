@@ -94,6 +94,7 @@ export class DraggableSlide implements Transition {
   private readonly transitionTime: number;
   private readonly mouseTracker: CachedMouseTracker;
   private readonly xTranslate: DefaultMap<HTMLElement, number>;
+  private readonly lastXTranslate: DefaultMap<HTMLElement, number>;
   private transitionTarget: TransitionTarget;
   private carousel: Carousel;
   private resizeTimeout: number;
@@ -125,6 +126,8 @@ export class DraggableSlide implements Transition {
     // twice.
     this.xTranslate =
         DefaultMap.usingFunction((el: HTMLElement) => getTranslateX(el));
+    this.lastXTranslate =
+        DefaultMap.usingFunction((el: HTMLElement) => null);
   }
 
   /**
@@ -232,6 +235,7 @@ export class DraggableSlide implements Transition {
     this.mouseTracker.dispose();
     this.domWatcher.dispose();
     this.xTranslate.clear();
+    this.lastXTranslate.clear();
   }
 
   private initResizeHandler(): void {
@@ -279,7 +283,10 @@ export class DraggableSlide implements Transition {
     // Apply all X Translates in a single step
     this.raf.write(() => {
       this.xTranslate.forEach((xTranslate, slide) => {
-        slide.style.transform = `translateX(${xTranslate}px)`;
+        if (this.lastXTranslate.get(slide) !== xTranslate) {
+          slide.style.transform = `translateX(${xTranslate}px)`;
+          this.lastXTranslate.set(slide, xTranslate);
+        }
       });
     });
   }
