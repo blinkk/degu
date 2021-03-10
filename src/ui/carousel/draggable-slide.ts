@@ -149,6 +149,9 @@ export class DraggableSlide implements Transition {
    * animations.
    */
   onRaf(): void {
+    if (this.carousel.isDisabled()) {
+      return;
+    }
     this.raf.read(() => {
       if (!this.isInteracting() && this.transitionTarget) {
         this.renderTransition();
