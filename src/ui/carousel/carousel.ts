@@ -75,6 +75,47 @@ enum DefaultCssClass {
   AFTER_SLIDE = 'after'
 }
 
+class AutoplayTimeout {
+  private timeout: number;
+  private readonly callback: TimerHandler;
+  private readonly delay: number;
+  private readonly startTime: number;
+  private timePassedWhenPaused: number;
+
+  constructor(callback: TimerHandler, delay: number) {
+    this.startTime = +new Date();
+    this.callback = callback;
+    this.delay = delay;
+    this.timeout = setTimeout(callback, delay);
+    this.timePassedWhenPaused = null;
+  }
+
+  isPaused(): boolean {
+    return this.timePassedWhenPaused !== null;
+  }
+
+  pause(): void {
+    this.clear();
+    this.timePassedWhenPaused = +new Date() - this.startTime;
+  }
+
+  unpause(): void {
+    if (!this.isPaused()) {
+      return;
+    }
+    this.timeout =
+        setTimeout(this.callback, this.delay - this.timePassedWhenPaused);
+  }
+
+  dispose(): void {
+    this.clear();
+  }
+
+  private clear(): void {
+    clearTimeout(this.timeout);
+  }
+}
+
 export class Carousel implements EventDispatcher {
   readonly loop: boolean;
   readonly container: HTMLElement;
@@ -90,7 +131,7 @@ export class Carousel implements EventDispatcher {
   private readonly eventManager: EventManager;
   private transitionTarget: HTMLElement;
   private lastActiveSlide: HTMLElement;
-  private autoplayTimeout: number;
+  private autoplayTimeout: AutoplayTimeout;
   private syncedCarousels: Set<Carousel>;
 
   /**
@@ -383,6 +424,24 @@ export class Carousel implements EventDispatcher {
   }
 
   /**
+   * Pause the autoplay functionality of the carousel.
+   */
+  pause(): void {
+    this.autoplayTimeout.pause();
+  }
+
+  /**
+   * Unpause the autoplay functionality of the carousel.
+   */
+  unpause(): void {
+    this.autoplayTimeout.unpause();
+  }
+
+  isPaused(): boolean {
+    return this.autoplayTimeout.isPaused();
+  }
+
+  /**
    * Transition to the slide `value` slides away.
    * @param value
    */
@@ -550,9 +609,11 @@ export class Carousel implements EventDispatcher {
    */
   private resetAutoplayTimeout() {
     if (this.autoplaySpeed !== null) {
-      clearTimeout(this.autoplayTimeout);
+      if (this.autoplayTimeout !== null) {
+        this.autoplayTimeout.dispose();
+      }
       this.autoplayTimeout =
-          window.setTimeout(() => this.next(), this.autoplaySpeed);
+          new AutoplayTimeout(() => this.next(), this.autoplaySpeed);
     }
   }
 
