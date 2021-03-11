@@ -94,6 +94,13 @@ export class DraggableSlide implements Transition {
   private readonly transitionTime: number;
   private readonly mouseTracker: CachedMouseTracker;
   private readonly xTranslate: DefaultMap<HTMLElement, number>;
+  /**
+   * Stores the last xTranslation value that was applied to a given slide.
+   *
+   * This is used to prevent duplicate styles from being re-applied and clogging
+   * up the inspector view.
+   * @private
+   */
   private readonly lastXTranslate: DefaultMap<HTMLElement, number>;
   private transitionTarget: TransitionTarget;
   private carousel: Carousel;
@@ -286,6 +293,8 @@ export class DraggableSlide implements Transition {
     // Apply all X Translates in a single step
     this.raf.write(() => {
       this.xTranslate.forEach((xTranslate, slide) => {
+        // Don't re-apply the same style twice, it will just clog up the
+        // inspector and make debugging difficult.
         if (this.lastXTranslate.get(slide) !== xTranslate) {
           slide.style.transform = `translateX(${xTranslate}px)`;
           this.lastXTranslate.set(slide, xTranslate);

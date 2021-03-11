@@ -75,6 +75,12 @@ enum DefaultCssClass {
   AFTER_SLIDE = 'after'
 }
 
+/**
+ * Internal class used to manage autoplay behaviour.
+ *
+ * Stores and handles the information needed to pause and resume triggers using
+ * a timeout.
+ */
 class AutoplayTimeout {
   private timeout: number;
   private readonly callback: TimerHandler;
@@ -90,15 +96,24 @@ class AutoplayTimeout {
     this.lastStartTime = +new Date();
   }
 
+  /**
+   * Returns true if the timeout autoplay timeout is currently paused/disabled.
+   */
   isPaused(): boolean {
     return this.timeout !== null;
   }
 
+  /**
+   * Disable the timeout to pause the autplay.
+   */
   pause(): void {
     this.timePassed += +new Date() - this.lastStartTime;
     this.clear();
   }
 
+  /**
+   * Create a new timeout with the time remaining when the autoplay was paused.
+   */
   unpause(): void {
     if (!this.isPaused()) {
       return;
@@ -107,6 +122,9 @@ class AutoplayTimeout {
     this.lastStartTime = +new Date();
   }
 
+  /**
+   * Dispose of the timeout.
+   */
   dispose(): void {
     this.clear();
   }
@@ -438,6 +456,9 @@ export class Carousel implements EventDispatcher {
     this.autoplayTimeout.unpause();
   }
 
+  /**
+   * Returns true if the carousel autoplay is currently paused.
+   */
   isPaused(): boolean {
     return this.autoplayTimeout.isPaused();
   }
