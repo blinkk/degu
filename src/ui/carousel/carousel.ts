@@ -79,32 +79,32 @@ class AutoplayTimeout {
   private timeout: number;
   private readonly callback: TimerHandler;
   private readonly delay: number;
-  private readonly startTime: number;
-  private timePassedWhenPaused: number;
+  private lastStartTime: number;
+  private timePassed: number;
 
   constructor(callback: TimerHandler, delay: number) {
-    this.startTime = +new Date();
     this.callback = callback;
     this.delay = delay;
+    this.timePassed = 0;
     this.timeout = setTimeout(callback, delay);
-    this.timePassedWhenPaused = null;
+    this.lastStartTime = +new Date();
   }
 
   isPaused(): boolean {
-    return this.timePassedWhenPaused !== null;
+    return this.timeout !== null;
   }
 
   pause(): void {
+    this.timePassed += +new Date() - this.lastStartTime;
     this.clear();
-    this.timePassedWhenPaused = +new Date() - this.startTime;
   }
 
   unpause(): void {
     if (!this.isPaused()) {
       return;
     }
-    this.timeout =
-        setTimeout(this.callback, this.delay - this.timePassedWhenPaused);
+    this.timeout = setTimeout(this.callback, this.delay - this.timePassed);
+    this.lastStartTime = +new Date();
   }
 
   dispose(): void {
@@ -113,6 +113,7 @@ class AutoplayTimeout {
 
   private clear(): void {
     clearTimeout(this.timeout);
+    this.timeout = null;
   }
 }
 
