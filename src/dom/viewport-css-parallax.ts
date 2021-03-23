@@ -378,9 +378,9 @@ export class ViewportCssParallax{
 
 
     public dispose(): void {
-        this.rafEv.dispose();
-        this.raf.dispose();
-        this.domWatcher.dispose();
+        this.rafEv && this.rafEv.dispose();
+        this.raf && this.raf.dispose();
+        this.domWatcher && this.domWatcher.dispose();
     }
 }
 
