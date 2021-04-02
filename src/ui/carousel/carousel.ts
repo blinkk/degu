@@ -100,7 +100,7 @@ class AutoplayTimeout {
    * Returns true if the timeout autoplay timeout is currently paused/disabled.
    */
   isPaused(): boolean {
-    return this.timeout !== null;
+    return this.timeout === null;
   }
 
   /**
@@ -460,7 +460,7 @@ export class Carousel implements EventDispatcher {
    * Returns true if the carousel autoplay is currently paused.
    */
   isPaused(): boolean {
-    return this.autoplayTimeout.isPaused();
+    return this.autoplayTimeout === null || this.autoplayTimeout.isPaused();
   }
 
   /**
