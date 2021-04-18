@@ -22,6 +22,9 @@ npm run dev
     and also run the examples project (basically npm start) and run ava
     (unit testing).
 
+npm run dev-no-test
+    Run the project without test.
+
 npm run test
 npm run test -- --watch
     Run ava unit testing
