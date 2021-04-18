@@ -286,6 +286,14 @@ export class CssParallaxer {
     }
 
 
+    /**
+     * Returns the internal multi interpolator.
+     */
+    public getInterpolator() {
+        return this.interpolator;
+    }
+
+
 
     /**
      * Calculates the current progress and returns a value between 0-1.
