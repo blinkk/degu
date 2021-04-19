@@ -154,7 +154,6 @@ export class AttributeHighlighter {
               // If this element is not visible on the page,
               // then skip.
               if(dom.isDisplayNoneWithAncestors(attributeEl)) {
-                console.log("skip");
                 return;
               }
 
