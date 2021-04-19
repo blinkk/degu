@@ -374,6 +374,7 @@ export class CssParallaxer {
     protected onWindowResize() {
         this.windowWidth = window.innerWidth;
         this.calculateProgressOffsets();
+        this.interpolator.flush();
         this.updateImmediately();
     }
 
