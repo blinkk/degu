@@ -1,4 +1,5 @@
 import { bom } from '../dom/bom';
+import { is } from '../is/is';
 
 export interface DomWatcherConfig {
     // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
@@ -13,7 +14,7 @@ export interface DomWatcherConfig {
     /**
      * The name of the event to watch.
      */
-    on: string;
+    on: string | string[];
 
     /**
      * The callback to execute.
@@ -67,6 +68,14 @@ export interface DomWatcherConfig {
  * watcher.add({
  *   element: element,
  *   on: 'click',
+ *   callback: ()=> {},
+ * );
+ *
+ *
+ * # Add multiple events
+ * watcher.add({
+ *   element: element,
+ *   on: ['click', 'mousemove'],
  *   callback: ()=> {},
  * );
  *
@@ -197,6 +206,27 @@ export class DomWatcher {
      * @param config
      */
     add(config: DomWatcherConfig) {
+        // Check whether config.on is a array with multiple events such
+        // as ['click', 'mousemove'] or is a single event.
+        if (is.array(config.on)) {
+            const events = config.on as string[];
+            events.forEach((eventName: string)=> {
+                const clone = Object.assign({}, config);
+                clone.on = eventName;
+                this.addSingleEvent(clone);
+            })
+        } else {
+            this.addSingleEvent(config)
+        }
+    }
+
+
+
+    /**
+     * Adds a single event.
+     * @param config
+     */
+    private addSingleEvent(config: DomWatcherConfig) {
         let listener = (event: any) => {
             if (config.runWhen) {
                 config.runWhen() && config.callback(event);
@@ -214,7 +244,7 @@ export class DomWatcher {
         } else {
             // Add listening.
             config.element.addEventListener(
-                config.on,
+                config.on as string,
                 listener,
                 config.eventOptions || {}
             )
@@ -222,7 +252,7 @@ export class DomWatcher {
             // Generate the remover.
             config.remover = () => {
                 config.element.removeEventListener(
-                    config.on,
+                    config.on as string,
                     listener,
                     config.eventOptions || {}
                 );
@@ -231,7 +261,9 @@ export class DomWatcher {
 
 
         this.watcherConfigs.push(config);
+
     }
+
 
     /**
      * Removes a given watcher by id.
