@@ -22,7 +22,7 @@ export interface MarginOutlinerConfig {
 }
 
 /**
- * A class that will visibility highlight margins on your page.
+ * A class that will visibly highlight margins on your page.
  *
  *
  * Setup:
