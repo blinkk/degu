@@ -1,24 +1,30 @@
 
 import { DomWatcher } from '../dom/dom-watcher';
+import { urlParams } from '../dom/url-params';
 
 
 export interface MarginOutlinerConfig {
-    /**
-     * A list of margin sizes you want to highlight.
-     * Example: [4,8,12,16,20,24]
-     */
-    sizes: number[];
+  /**
+   * A list of margin sizes you want to highlight.
+   * Example: [4,8,12,16,20,24]
+   */
+  sizes: number[];
 
-    /**
-     * The name of the css class to attached to each generated spacer item.
-     */
-    cssClassName: string
+  /**
+   * The name of the css class to attached to each generated spacer item.
+   */
+  cssClassName: string
 
-    /**
-     * The query selector of all elements you want to check for margins / paddings
-     * on the page.
-     */
-    querySelector: string
+  /**
+   * The query selector of all elements you want to check for margins / paddings
+   * on the page.
+   */
+  querySelector: string,
+
+  /**
+   * Specify an option url to enable outliner via url params.
+   */
+  urlParamName?: string,
 }
 
 /**
@@ -57,97 +63,123 @@ export interface MarginOutlinerConfig {
  *      querySelector: '.my-module > div'
  * })
  *
+ *
+ *
+ * Url param option:
+ * You can optionally, enable outliner via url params.
+ * Setting the urlParamName in outliner will ONLY enable
+ * outliner when the urlParam is in the url.
+ *
+ * new MarginOutliner({
+ *      sizes: [4,8,12,16,20,24],
+ *      cssClassName: 'my-spacer',
+ *      querySelector: '.my-module > div'
+ *      urlParamName: 'outliner'
+ * })
+ *
+ *
+ * Now do:
+ * ```
+ * xxx.com?outliner=true
+ * ```
  */
 export class MarginOutliner {
 
-    private watcher: DomWatcher;
-    private config: MarginOutlinerConfig;
+  private watcher: DomWatcher;
+  private config: MarginOutlinerConfig;
 
-    constructor(config: MarginOutlinerConfig) {
-        this.config = config;
-        this.watcher = new DomWatcher();
-        this.watcher.add({
-            element: window,
-            on: ['click', 'resize', 'scroll'],
-            callback: this.run.bind(this)
-        })
-        this.run();
+  constructor(config: MarginOutlinerConfig) {
+    this.config = config;
+
+    if (this.config.urlParamName) {
+      // Disable if url param is specified and the value is not true.
+      if (!urlParams.isTrue(this.config.urlParamName)) {
+        return;
+      }
     }
+    this.watcher = new DomWatcher();
+    this.watcher.add({
+      element: window,
+      on: ['click', 'resize', 'scroll'],
+      callback: this.run.bind(this)
+    })
+    this.run();
+  }
 
 
-    private createSpacer(
-      el: HTMLDivElement,
-      top: string,
-      left: number,
-      size: number,
-      isPadding: boolean
-    ) {
-        const spacerEl = document.createElement('div');
-        spacerEl.classList.add(this.config.cssClassName);
+  private createSpacer(
+    el: HTMLDivElement,
+    top: string,
+    left: number,
+    size: number,
+    isPadding: boolean
+  ) {
+    const spacerEl = document.createElement('div');
+    spacerEl.classList.add(this.config.cssClassName);
 
-        spacerEl.style.setProperty('--left', `${left}px`);
-        spacerEl.style.setProperty('--top', top);
-        spacerEl.style.setProperty('--width', `${el.offsetWidth}px`);
-        spacerEl.style.setProperty('--height', `${size}px`);
-        if (isPadding) {
-            spacerEl.classList.add(`${this.config.cssClassName}--padding`);
-        }
-        spacerEl.innerText = `${size}px`;
-        el.parentElement.appendChild(spacerEl);
+    spacerEl.style.setProperty('--left', `${left}px`);
+    spacerEl.style.setProperty('--top', top);
+    spacerEl.style.setProperty('--width', `${el.offsetWidth}px`);
+    spacerEl.style.setProperty('--height', `${size}px`);
+    if (isPadding) {
+      spacerEl.classList.add(`${this.config.cssClassName}--padding`);
     }
+    spacerEl.innerText = `${size}px`;
+    el.parentElement.appendChild(spacerEl);
+  }
 
 
-    public run() {
-        this.removeSpacers();
-        this.createSpacers();
-    }
+  public run() {
+    this.removeSpacers();
+    this.createSpacers();
+  }
 
 
-    private createSpacers() {
-      [].forEach.call(
-        document.querySelectorAll(this.config.querySelector),
-        (el: HTMLDivElement) => {
-          this.config.sizes.forEach(size => {
-            // Element is hidden, don't highlight it.
-            if (!el.offsetWidth) {
-              return;
-            }
-            const style = window.getComputedStyle(el);
-            const rect = el.getBoundingClientRect();
-            if (style.marginTop == `${size}px`) {
-              this.createSpacer(el, `${rect.top - size}px`, rect.left, size, false);
-            }
-            if (style.marginBottom == `${size}px`) {
-              this.createSpacer(el, `${rect.bottom}px`, rect.left, size, false);
-            }
-            if (style.paddingTop == `${size}px`) {
-              this.createSpacer(el, `${rect.top}px`, rect.left, size, true);
-            }
-            if (style.paddingBottom == `${size}px`) {
-              this.createSpacer(
-                el,
-                `${rect.bottom - size}px`,
-                rect.left,
-                size,
-                true
-              );
-            }
-          });
-        }
-      );
-    }
+  private createSpacers() {
+    [].forEach.call(
+      document.querySelectorAll(this.config.querySelector),
+      (el: HTMLDivElement) => {
+        this.config.sizes.forEach(size => {
+          // Element is hidden, don't highlight it.
+          if (!el.offsetWidth) {
+            return;
+          }
+          const style = window.getComputedStyle(el);
+          const rect = el.getBoundingClientRect();
+          if (style.marginTop == `${size}px`) {
+            this.createSpacer(el, `${rect.top - size}px`, rect.left, size, false);
+          }
+          if (style.marginBottom == `${size}px`) {
+            this.createSpacer(el, `${rect.bottom}px`, rect.left, size, false);
+          }
+          if (style.paddingTop == `${size}px`) {
+            this.createSpacer(el, `${rect.top}px`, rect.left, size, true);
+          }
+          if (style.paddingBottom == `${size}px`) {
+            this.createSpacer(
+              el,
+              `${rect.bottom - size}px`,
+              rect.left,
+              size,
+              true
+            );
+          }
+        });
+      }
+    );
+  }
 
 
-    private removeSpacers() {
-      [].forEach.call(
-        document.querySelectorAll(`.${this.config.cssClassName}`),
-        (el: HTMLDivElement) => {
-          el.parentNode.removeChild(el);
-        }
-      );
-    }
+  private removeSpacers() {
+    [].forEach.call(
+      document.querySelectorAll(`.${this.config.cssClassName}`),
+      (el: HTMLDivElement) => {
+        el.parentNode.removeChild(el);
+      }
+    );
+  }
 
-    public dispose() {
-      this.watcher && this.watcher.dispose();
-    }
+  public dispose() {
+    this.watcher && this.watcher.dispose();
+  }
 }

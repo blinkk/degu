@@ -24,8 +24,7 @@ export interface AttributeHighlighterConfig {
 
 
   /**
-   * If using url params to autopopulate, the url parameter name.
-   * If not using url params, omit this option.
+   * Specify an option url to enable attribute specification via url params.
    */
   urlParamName?: string,
 }
