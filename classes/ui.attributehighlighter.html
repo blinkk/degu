@@ -122,6 +122,18 @@
 						&#39;aria-label&#39;
 						]
 					})</p>
+					<p>Optional url param:</p>
+					<p>You can optionally, configure it so that a url param
+					populates the attributes list.</p>
+					<pre><code> <span class="hljs-keyword">const</span> attributeHighlighter = <span class="hljs-keyword">new</span> AttributeHighlighter({
+   cssClassName: <span class="hljs-string">'.my-highlighter'</span>,
+   scopeQuerySelector: <span class="hljs-string">'.my-module'</span>,
+   attributes: [],
+   urlParamName: <span class="hljs-string">'attributeHighlight'</span>
+ })</code></pre><p>Now you can do the following.  Use comma separation for multiple.</p>
+					<pre><code>xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt
+xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</code></pre><p>If no url param is specified, it defaults to the attributes originally
+					specified in the config.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -164,7 +176,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/da9d0e7/src/ui/attribute-highlighter.ts#L89">ui/attribute-highlighter.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3166ca3/src/ui/attribute-highlighter.ts#L120">ui/attribute-highlighter.ts:120</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -190,7 +202,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/da9d0e7/src/ui/attribute-highlighter.ts#L190">ui/attribute-highlighter.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3166ca3/src/ui/attribute-highlighter.ts#L230">ui/attribute-highlighter.ts:230</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -207,7 +219,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/da9d0e7/src/ui/attribute-highlighter.ts#L121">ui/attribute-highlighter.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/3166ca3/src/ui/attribute-highlighter.ts#L163">ui/attribute-highlighter.ts:163</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
