@@ -2,6 +2,7 @@
 import { dom } from '..';
 import { DomWatcher } from '../dom/dom-watcher';
 import { func } from '../func/func';
+import { urlParams } from '../dom/url-params';
 
 export interface AttributeHighlighterConfig {
   /**
@@ -19,7 +20,14 @@ export interface AttributeHighlighterConfig {
   /**
    * A list of all attributes you want to highlight on the page.
    */
-  attributes: string[]
+  attributes: string[],
+
+
+  /**
+   * If using url params to autopopulate, the url parameter name.
+   * If not using url params, omit this option.
+   */
+  urlParamName?: string,
 }
 
 /**
@@ -82,6 +90,29 @@ export interface AttributeHighlighterConfig {
  *    ]
  *  })
  *
+ *
+ * Optional url param:
+ *
+ * You can optionally, configure it so that a url param
+ * populates the attributes list.
+ *
+ * ```
+ *  const attributeHighlighter = new AttributeHighlighter({
+ *    cssClassName: '.my-highlighter',
+ *    scopeQuerySelector: '.my-module',
+ *    attributes: [],
+ *    urlParamName: 'attributeHighlight'
+ *  })
+ * ```
+ *
+ * Now you can do the following.  Use comma separation for multiple.
+ * ```
+ * xxx.com?attributeHightlight=alt
+ * xxx.com?attributeHightlight=alt,aria-label
+ * ```
+ * If no url param is specified, it defaults to the attributes originally
+ * specified in the config.
+ *
  */
 export class AttributeHighlighter {
   private watcher: DomWatcher;
@@ -90,6 +121,17 @@ export class AttributeHighlighter {
 
   constructor(config: AttributeHighlighterConfig) {
     this.config = config;
+
+
+    // Allow url params to specify the attributes.
+    if (this.config.urlParamName) {
+      const paramValue = urlParams.getValue(this.config.urlParamName);
+      if(paramValue) {
+        this.config.attributes = paramValue.split(',');
+      }
+    }
+
+
     this.watcher = new DomWatcher();
     this.watcher.add({
       element: window,
@@ -147,24 +189,22 @@ export class AttributeHighlighter {
       document.querySelectorAll(this.config.scopeQuerySelector),
       (el: HTMLDivElement) => {
         this.config.attributes.forEach(attribute => {
-            [].forEach.call(
+          [].forEach.call(
             el.querySelectorAll(`[${attribute}]`),
             (attributeEl: HTMLDivElement) => {
 
               // If this element is not visible on the page,
               // then skip.
-              if(dom.isDisplayNoneWithAncestors(attributeEl)) {
+              if (dom.isDisplayNoneWithAncestors(attributeEl)) {
                 return;
               }
 
-              const style = window.getComputedStyle(attributeEl);
               const rect = attributeEl.getBoundingClientRect();
-              const text = attributeEl.getAttribute(attribute) ;
-
+              const text = attributeEl.getAttribute(attribute);
 
               this.createHighlighter(
                 el,
-                `${ (rect.top + rect.bottom) / 2}px`,
+                `${(rect.top + rect.bottom) / 2}px`,
                 (rect.left + rect.right) / 2,
                 attribute,
                 text
