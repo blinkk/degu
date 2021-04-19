@@ -1,7 +1,5 @@
 
 import { DomWatcher } from '../dom/dom-watcher';
-import { dom } from '../dom/dom';
-import { ConeGeometry } from 'three';
 
 
 export interface MarginOutlinerConfig {
