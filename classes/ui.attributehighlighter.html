@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ColorRGB | @blinkk/degu</title>
+	<title>AttributeHighlighter | @blinkk/degu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,24 +54,81 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/mathf.html">mathf</a>
+					<a href="../modules/ui.html">ui</a>
 				</li>
 				<li>
-					<a href="mathf.colorrgb.html">ColorRGB</a>
+					<a href="ui.attributehighlighter.html">AttributeHighlighter</a>
 				</li>
 			</ul>
-			<h1>Interface ColorRGB</h1>
+			<h1>Class AttributeHighlighter</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A class that will visibly highlight element attribute on your page.</p>
+					</div>
+					<p>Setup:</p>
+					<p>1) Create your highlighter css class.
+						.my-highlighter
+						align-items: left
+						color: #FFF
+						background: rgba(#000, 0.8)
+						border-radius: 3px
+						box-shadow: none !important
+						display: flex
+						font-size: 12px
+						height: var(--height)
+						justify-content: center
+						left: var(--left)
+						margin: 0 !important
+						padding: 0px 8px
+						//pointer-events: none
+						position: fixed !important
+						top: var(--top)
+						transform: translateX(-50%) translateY(100%)
+						z-index: 9
+						&amp;:hover
+						z-index: 100
+						transform: translateX(-50%) translateY(100%) scale(1.2)
+						&amp;:after
+						content: &#39;&#39;
+						position: fixed !important
+						transform: translateX(0%) translateY(-100%)
+						width: 0
+						height: 0
+						border-left: 5px solid transparent
+						border-right: 5px solid transparent
+					border-bottom: 5px solid rgba(#000, 0.8)</p>
+					<p> // To use a different color per attribute just do:
+						&amp;.alt
+						background: rgba(red, 0.8)
+						&amp;:after
+						background: rgba(red, 0.8)
+						&amp;.aria-label
+						background: rgba(blue, 0.8)
+						&amp;:after
+					background: rgba(blue, 0.8)</p>
+					<p>2) Instantiate attributeHighlighter.
+						const attributeHighlighter = new AttributeHighlighter({
+						cssClassName: &#39;.my-highlighter&#39;,
+						scopeQuerySelector: &#39;.my-module&#39;,
+						attributes: [
+						&#39;alt&#39;,
+						&#39;aria-label&#39;
+						]
+					})</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ColorRGB</span>
+						<span class="target">AttributeHighlighter</span>
 					</li>
 				</ul>
 			</section>
@@ -80,47 +137,82 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mathf.colorrgb.html#b" class="tsd-kind-icon">b</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mathf.colorrgb.html#g" class="tsd-kind-icon">g</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="mathf.colorrgb.html#r" class="tsd-kind-icon">r</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="ui.attributehighlighter.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.attributehighlighter.html#dispose" class="tsd-kind-icon">dispose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.attributehighlighter.html#run" class="tsd-kind-icon">run</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="b" class="tsd-anchor"></a>
-					<h3>b</h3>
-					<div class="tsd-signature tsd-kind-icon">b<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/06dd8fe/src/mathf/color.ts#L14">mathf/color.ts:14</a></li>
-						</ul>
-					</aside>
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Attribute<wbr>Highlighter<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/ui.attributehighlighterconfig.html" class="tsd-signature-type">AttributeHighlighterConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ui.attributehighlighter.html" class="tsd-signature-type">AttributeHighlighter</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/06dd8fe/src/ui/attribute-highlighter.ts#L89">ui/attribute-highlighter.ts:89</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <a href="../interfaces/ui.attributehighlighterconfig.html" class="tsd-signature-type">AttributeHighlighterConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="ui.attributehighlighter.html" class="tsd-signature-type">AttributeHighlighter</a></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="g" class="tsd-anchor"></a>
-					<h3>g</h3>
-					<div class="tsd-signature tsd-kind-icon">g<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/06dd8fe/src/mathf/color.ts#L13">mathf/color.ts:13</a></li>
-						</ul>
-					</aside>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="dispose" class="tsd-anchor"></a>
+					<h3>dispose</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/06dd8fe/src/ui/attribute-highlighter.ts#L191">ui/attribute-highlighter.ts:191</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="r" class="tsd-anchor"></a>
-					<h3>r</h3>
-					<div class="tsd-signature tsd-kind-icon">r<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/06dd8fe/src/mathf/color.ts#L12">mathf/color.ts:12</a></li>
-						</ul>
-					</aside>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="run" class="tsd-anchor"></a>
+					<h3>run</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/06dd8fe/src/ui/attribute-highlighter.ts#L121">ui/attribute-highlighter.ts:121</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -169,7 +261,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/map.html">map</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/mathf.html">mathf</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -196,7 +288,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/time.html">time</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/ui.html">ui</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -206,83 +298,98 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.catmullrom.html" class="tsd-kind-icon">Catmull<wbr>Rom</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="../enums/ui.carouselevent.html" class="tsd-kind-icon">Carousel<wbr>Event</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.cubicbezier.html" class="tsd-kind-icon">Cubic<wbr>Bezier</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../enums/ui.defaultcssclass.html" class="tsd-kind-icon">Default<wbr>Css<wbr>Class</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.hermitecurve.html" class="tsd-kind-icon">Hermite<wbr>Curve</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../enums/ui.direction.html" class="tsd-kind-icon">Direction</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.matrixiv.html" class="tsd-kind-icon">MatrixIV</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.perlinnoise.html" class="tsd-kind-icon">Perlin<wbr>Noise</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.quaternion.html" class="tsd-kind-icon">Quaternion</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.raycast.html" class="tsd-kind-icon">Raycast</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.vector.html" class="tsd-kind-icon">Vector</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.wave.html" class="tsd-kind-icon">Wave</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.color.html" class="tsd-kind-icon">color</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.latlong.html" class="tsd-kind-icon">latlong</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/mathf.mathf-1.html" class="tsd-kind-icon">mathf</a>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../enums/ui.direction-1.html" class="tsd-kind-icon">Direction</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="mathf.colorrgb.html" class="tsd-kind-icon">ColorRGB</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="ui.attributehighlighter.html" class="tsd-kind-icon">Attribute<wbr>Highlighter</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="mathf.colorrgb.html#b" class="tsd-kind-icon">b</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="ui.attributehighlighter.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="mathf.colorrgb.html#g" class="tsd-kind-icon">g</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="ui.attributehighlighter.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="mathf.colorrgb.html#r" class="tsd-kind-icon">r</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="ui.attributehighlighter.html#run" class="tsd-kind-icon">run</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="mathf.colorrgba.html" class="tsd-kind-icon">ColorRGBA</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="ui.autoplaytimeout.html" class="tsd-kind-icon">Autoplay<wbr>Timeout</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="mathf.raycastobject.html" class="tsd-kind-icon">Ray<wbr>Cast<wbr>Object</a>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="ui.carousel.html" class="tsd-kind-icon">Carousel</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="ui.cssclassesonly.html" class="tsd-kind-icon">Css<wbr>Classes<wbr>Only</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="ui.dragdropfile.html" class="tsd-kind-icon">Drag<wbr>Drop<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="ui.draggableslide.html" class="tsd-kind-icon">Draggable<wbr>Slide</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="ui.eventmanager.html" class="tsd-kind-icon">Event<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="ui.interaction.html" class="tsd-kind-icon">Interaction</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="ui.marginoutliner.html" class="tsd-kind-icon">Margin<wbr>Outliner</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="ui.transitiontarget.html" class="tsd-kind-icon">Transition<wbr>Target</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="mathf.backgroundcoverbox.html" class="tsd-kind-icon">background<wbr>Cover<wbr>Box</a>
+						<a href="../interfaces/ui.afterchangeeventdata.html" class="tsd-kind-icon">After<wbr>Change<wbr>Event<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="mathf.box.html" class="tsd-kind-icon">box</a>
+						<a href="../interfaces/ui.attributehighlighterconfig.html" class="tsd-kind-icon">Attribute<wbr>Highlighter<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="mathf.circ.html" class="tsd-kind-icon">circ</a>
+						<a href="../interfaces/ui.beforechangeeventdata.html" class="tsd-kind-icon">Before<wbr>Change<wbr>Event<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="mathf.dimensionalbox.html" class="tsd-kind-icon">dimensional<wbr>Box</a>
+						<a href="../interfaces/ui.carouseloptions.html" class="tsd-kind-icon">Carousel<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="mathf.point.html" class="tsd-kind-icon">point</a>
+						<a href="../interfaces/ui.draggableslideconfig.html" class="tsd-kind-icon">Draggable<wbr>Slide<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/ui.eventdispatcher.html" class="tsd-kind-icon">Event<wbr>Dispatcher</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/ui.marginoutlinerconfig.html" class="tsd-kind-icon">Margin<wbr>Outliner<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/ui.transition.html" class="tsd-kind-icon">Transition</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/ui.html#callback" class="tsd-kind-icon">Callback</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
-						<a href="../modules/mathf.html#easingfunction" class="tsd-kind-icon">Easing<wbr>Function</a>
+						<a href="../modules/ui.html#carouseleventdata" class="tsd-kind-icon">Carousel<wbr>Event<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/ui.html#default_distance_to_active_slide_attr" class="tsd-kind-icon">DEFAULT_<wbr>DISTANCE_<wbr>TO_<wbr>ACTIVE_<wbr>SLIDE_<wbr>ATTR</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/ui.html#gettranslatex" class="tsd-kind-icon">get<wbr>TranslateX</a>
 					</li>
 				</ul>
 			</nav>
