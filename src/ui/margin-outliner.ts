@@ -145,7 +145,9 @@ export class MarginOutliner {
           el.parentNode.removeChild(el);
         }
       );
-
     }
 
+    public dispose() {
+      this.watcher && this.watcher.dispose();
+    }
 }
