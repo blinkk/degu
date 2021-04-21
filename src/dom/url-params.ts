@@ -60,6 +60,16 @@ export class urlParams {
 
 
     /**
+     * Tests if the given param is in the url.
+     * @param paramName
+     */
+    static hasParam(paramName: string):boolean {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.has(paramName);
+    }
+
+
+    /**
      * Updates the current URL params with the provided value.
      * Uses history.replaceState.
      *
@@ -71,7 +81,6 @@ export class urlParams {
      */
     static addParamNow(paramName: string, value: string) {
         var url = new URL(window.location.href);
-        console.log(window.location.href);
         url.searchParams.set(paramName, value);
         if (window.history.replaceState) {
             window.history.replaceState({}, null, url.toString());
@@ -97,6 +106,7 @@ export class urlParams {
             window.history.replaceState({}, null, url.toString());
         }
     }
+
 
 
     /**
