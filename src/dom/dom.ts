@@ -197,8 +197,8 @@ export class dom {
      * @param style
      */
     static setCssVariables(element: HTMLElement, variables: Object) {
-        for (let key in variables){
-          element.style.setProperty(key, variables[key]);
+        for (let key in variables) {
+            element.style.setProperty(key, variables[key]);
         }
     }
 
@@ -739,14 +739,14 @@ export class dom {
      */
     static getScrollTop(el: HTMLElement, includeParent: boolean = false): number {
         // Safe guard.
-        if(!el) {
+        if (!el) {
             return 0;
         }
 
-        if(includeParent && el.offsetParent) {
-          return el.getBoundingClientRect().top - el.offsetParent.getBoundingClientRect().top + window.scrollY;
+        if (includeParent && el.offsetParent) {
+            return el.getBoundingClientRect().top - el.offsetParent.getBoundingClientRect().top + window.scrollY;
         } else {
-          return el.getBoundingClientRect().top + window.scrollY;
+            return el.getBoundingClientRect().top + window.scrollY;
         }
     }
 
@@ -879,6 +879,35 @@ export class dom {
         return isDisplayNone;
     }
 
+
+
+    /**
+     * Tries to determine if the element is currently visible on the
+     * screen.  Note this is an attempt and is not a guarantee as is based
+     * on whether the element or its parents have opacity, visibility or
+     * display set to a hidden state.
+     * @param el
+     */
+    static isVisibleOnScreen(el: HTMLElement): boolean {
+
+        const checkVisibility = (el: HTMLElement): boolean => {
+            const styles = dom.getComputedStyle(el as HTMLElement);
+            return !(styles.opacity !== '1' ||
+                styles.visibility == 'hidden' ||
+                styles.display == 'none');
+        }
+
+
+        let isVisible = checkVisibility(el);
+        while (el = el.parentElement) {
+            if (isVisible) {
+                isVisible = checkVisibility(el);
+            }
+        }
+
+        return isVisible;
+    }
+
     /**
      * Removes all classes from an element that starts with a given prefix.
      * https://stackoverflow.com/questions/28608587/how-to-remove-a-class-that-starts-with
@@ -897,14 +926,14 @@ export class dom {
      * https://stackoverflow.com/questions/10730309/find-all-text-nodes-in-html-page
      * @param el
      */
-    static getAllTextNodes(el: HTMLElement):Array<Node> {
+    static getAllTextNodes(el: HTMLElement): Array<Node> {
         var n, a = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
         while (n = walk.nextNode()) a.push(n);
         return a;
     }
 
 
-    static appendAfter(nodeToAdd:HTMLElement, nodeToAddAfter:HTMLElement) {
+    static appendAfter(nodeToAdd: HTMLElement, nodeToAddAfter: HTMLElement) {
         nodeToAddAfter.parentNode.insertBefore(nodeToAdd, nodeToAddAfter.nextSibling);
     }
 
@@ -923,7 +952,7 @@ export class dom {
      * ```
      */
     static disableScrolling() {
-        const disabler = (e:any)=> {
+        const disabler = (e: any) => {
             e.preventDefault();
         }
 
@@ -946,7 +975,7 @@ export class dom {
         });
 
 
-        return ()=> {
+        return () => {
             domWatcher.dispose();
         }
     }
@@ -966,7 +995,7 @@ export class dom {
      * ```
      * @param el
      */
-    static unorphan(el:HTMLElement, lastOnly: boolean = false):void {
+    static unorphan(el: HTMLElement, lastOnly: boolean = false): void {
 
         let allTextNodes = dom.getAllTextNodes(el as HTMLElement);
         if (lastOnly) {
@@ -974,8 +1003,8 @@ export class dom {
         }
 
         var nbsp = '\xA0';
-        allTextNodes.forEach((node)=> {
-           node.nodeValue = node.nodeValue.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
+        allTextNodes.forEach((node) => {
+            node.nodeValue = node.nodeValue.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
         })
     }
 
