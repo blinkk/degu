@@ -104,6 +104,11 @@
 						border-left: 5px solid transparent
 						border-right: 5px solid transparent
 					border-bottom: 5px solid rgba(#000, 0.8)</p>
+					<p> // If text is missing, the highlighter gets a missing-text class
+						&amp;.missing-text
+						background: rgba(red, 0.8)
+						&amp;:after
+					border-bottom: 5px solid rgba(red, 0.8)</p>
 					<p> // To use a different color per attribute just do:
 						&amp;.alt
 						background: rgba(red, 0.8)
@@ -113,6 +118,9 @@
 						background: rgba(blue, 0.8)
 						&amp;:after
 					background: rgba(blue, 0.8)</p>
+					<p>// When hovering over a highlighter, it can highlight the associated
+						// element.  The element gets .attribute-highlighter-active
+					.attribute-highlighter-active</p>
 					<p>2) Instantiate attributeHighlighter.
 						const attributeHighlighter = new AttributeHighlighter({
 						cssClassName: &#39;.my-highlighter&#39;,
@@ -122,6 +130,17 @@
 						&#39;aria-label&#39;
 						]
 					})</p>
+					<p>Scoped Search:
+						Attributes accepts AttributeScopedConfig so you can do more complex
+					queries.</p>
+					<pre><code>   <span class="hljs-attribute">attributes</span>: [
+      <span class="hljs-string">'alt'</span>,
+      {
+         <span class="hljs-attribute">attribute</span>: <span class="hljs-string">'aria-label'</span>,
+         <span class="hljs-attribute">querySelector</span>: <span class="hljs-string">'.button'</span>
+      }
+   ]</code></pre><p>Now all &#39;alt&#39; and only aria-labels of classes with .button will be
+					highlighted on the page.</p>
 					<p>Optional url param:</p>
 					<p>You can optionally, configure it so that a url param
 					populates the attributes list.</p>
@@ -176,7 +195,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/5a6cce2/src/ui/attribute-highlighter.ts#L119">ui/attribute-highlighter.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L201">ui/attribute-highlighter.ts:201</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -202,7 +221,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/5a6cce2/src/ui/attribute-highlighter.ts#L229">ui/attribute-highlighter.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L418">ui/attribute-highlighter.ts:418</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -219,7 +238,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/5a6cce2/src/ui/attribute-highlighter.ts#L162">ui/attribute-highlighter.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L247">ui/attribute-highlighter.ts:247</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -372,6 +391,9 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/ui.attributehighlighterconfig.html" class="tsd-kind-icon">Attribute<wbr>Highlighter<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/ui.attributescopeconfig.html" class="tsd-kind-icon">Attribute<wbr>Scope<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/ui.beforechangeeventdata.html" class="tsd-kind-icon">Before<wbr>Change<wbr>Event<wbr>Data</a>

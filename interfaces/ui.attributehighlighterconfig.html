@@ -86,6 +86,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ui.attributehighlighterconfig.html#cssclassname" class="tsd-kind-icon">css<wbr>Class<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ui.attributehighlighterconfig.html#scopequeryselector" class="tsd-kind-icon">scope<wbr>Query<wbr>Selector</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ui.attributehighlighterconfig.html#urlparamname" class="tsd-kind-icon">url<wbr>Param<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ui.attributehighlighterconfig.html#warnmissingattributes" class="tsd-kind-icon">warn<wbr>Missing<wbr>Attributes</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,16 +97,31 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="attributes" class="tsd-anchor"></a>
 					<h3>attributes</h3>
-					<div class="tsd-signature tsd-kind-icon">attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="ui.attributescopeconfig.html" class="tsd-signature-type">AttributeScopeConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/5a6cce2/src/ui/attribute-highlighter.ts#L23">ui/attribute-highlighter.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L55">ui/attribute-highlighter.ts:55</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>A list of all attributes you want to highlight on the page.</p>
 						</div>
+						<p>Typically this would be:</p>
+						<pre><code><span class="hljs-string">attributes:</span> [<span class="hljs-string">'alt'</span>, <span class="hljs-string">'aria-label'</span>]</code></pre><p>You can also pass in a AttributeScopeConfig.
+							This is useful if you want to scope your search to specific elements.
+							For example, let&#39;s say you want to highlight, aria-labels ONLY on
+						video elements.</p>
+						<p>You can do:</p>
+						<p>attributes: [{
+							attribute: &#39;aria-label&#39;,
+							querySelector: &#39;video&#39;
+						}]</p>
+						<p>or perhaps you want to show aria-label only on buttons.</p>
+						<p>attributes: [{
+							attribute: &#39;aria-label&#39;,
+							querySelector: &#39;.button&#39;
+						}]</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -114,7 +130,7 @@
 					<div class="tsd-signature tsd-kind-icon">css<wbr>Class<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/5a6cce2/src/ui/attribute-highlighter.ts#L11">ui/attribute-highlighter.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L17">ui/attribute-highlighter.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -129,7 +145,7 @@
 					<div class="tsd-signature tsd-kind-icon">scope<wbr>Query<wbr>Selector<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/5a6cce2/src/ui/attribute-highlighter.ts#L17">ui/attribute-highlighter.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L23">ui/attribute-highlighter.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -145,13 +161,42 @@
 					<div class="tsd-signature tsd-kind-icon">url<wbr>Param<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/5a6cce2/src/ui/attribute-highlighter.ts#L29">ui/attribute-highlighter.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L84">ui/attribute-highlighter.ts:84</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Specify an option url to enable attribute specification via url params.</p>
 						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="warnmissingattributes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> warn<wbr>Missing<wbr>Attributes</h3>
+					<div class="tsd-signature tsd-kind-icon">warn<wbr>Missing<wbr>Attributes<span class="tsd-signature-symbol">:</span> <a href="ui.attributescopeconfig.html" class="tsd-signature-type">AttributeScopeConfig</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L79">ui/attribute-highlighter.ts:79</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Allows you to search and highlight cases in which an attribute is missing
+							or empty.</p>
+						</div>
+						<p>Here is an example of where we would want to highlight a case in which
+							we scan for all <img> that are missing alts and any videos that
+						are missing the aria-label.</p>
+						<pre><code><span class="hljs-attribute">warnMissingAttributes</span>: [
+ {
+   <span class="hljs-attribute">attribute</span>: <span class="hljs-string">'alt'</span>,
+   <span class="hljs-attribute">querySelector</span>: <span class="hljs-string">'img'</span>
+ },
+ {
+   <span class="hljs-attribute">attribute</span>: <span class="hljs-string">'aria-label'</span>,
+   <span class="hljs-attribute">querySelector</span>: <span class="hljs-string">'video'</span>
+ },
+]</code></pre>
 					</div>
 				</section>
 			</section>
@@ -300,10 +345,16 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ui.attributehighlighterconfig.html#urlparamname" class="tsd-kind-icon">url<wbr>Param<wbr>Name</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ui.attributehighlighterconfig.html#warnmissingattributes" class="tsd-kind-icon">warn<wbr>Missing<wbr>Attributes</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="ui.attributescopeconfig.html" class="tsd-kind-icon">Attribute<wbr>Scope<wbr>Config</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="ui.beforechangeeventdata.html" class="tsd-kind-icon">Before<wbr>Change<wbr>Event<wbr>Data</a>
 					</li>
