@@ -118,9 +118,11 @@
 						background: rgba(blue, 0.8)
 						&amp;:after
 					background: rgba(blue, 0.8)</p>
-					<p>// When hovering over a highlighter, it can highlight the associated
+					<p>// When clicking on a highlighter, it can highlight the associated
 						// element.  The element gets .attribute-highlighter-active
-					.attribute-highlighter-active</p>
+						.attribute-highlighter-active
+						border: 3px solid red !important
+					transition: border 0s ease !important</p>
 					<p>2) Instantiate attributeHighlighter.
 						const attributeHighlighter = new AttributeHighlighter({
 						cssClassName: &#39;.my-highlighter&#39;,
@@ -177,7 +179,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.attributehighlighter.html#dispose" class="tsd-kind-icon">dispose</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.attributehighlighter.html#run" class="tsd-kind-icon">run</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.attributehighlighter.html#refresh" class="tsd-kind-icon">refresh</a></li>
 							</ul>
 						</section>
 					</div>
@@ -195,7 +197,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L201">ui/attribute-highlighter.ts:201</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6ffea7d/src/ui/attribute-highlighter.ts#L222">ui/attribute-highlighter.ts:222</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -221,7 +223,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L418">ui/attribute-highlighter.ts:418</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6ffea7d/src/ui/attribute-highlighter.ts#L459">ui/attribute-highlighter.ts:459</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -229,16 +231,16 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="run" class="tsd-anchor"></a>
-					<h3>run</h3>
+					<a name="refresh" class="tsd-anchor"></a>
+					<h3>refresh</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">refresh<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/8340e13/src/ui/attribute-highlighter.ts#L247">ui/attribute-highlighter.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6ffea7d/src/ui/attribute-highlighter.ts#L286">ui/attribute-highlighter.ts:286</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -353,7 +355,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 								<a href="ui.attributehighlighter.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="ui.attributehighlighter.html#run" class="tsd-kind-icon">run</a>
+								<a href="ui.attributehighlighter.html#refresh" class="tsd-kind-icon">refresh</a>
 							</li>
 						</ul>
 					</li>
@@ -406,6 +408,9 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/ui.eventdispatcher.html" class="tsd-kind-icon">Event<wbr>Dispatcher</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/ui.highlightattributepairs.html" class="tsd-kind-icon">Highlight<wbr>Attribute<wbr>Pairs</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/ui.marginoutlinerconfig.html" class="tsd-kind-icon">Margin<wbr>Outliner<wbr>Config</a>
