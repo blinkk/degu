@@ -4,6 +4,10 @@ import { DomWatcher } from '../dom/dom-watcher';
 import { func } from '../func/func';
 import { urlParams } from '../dom/url-params';
 
+export interface HighlightAttributePairs {
+  highlighterEl: HTMLElement;
+  attributeEl: HTMLElement;
+}
 
 export interface AttributeScopeConfig {
   attribute: string,
@@ -82,6 +86,17 @@ export interface AttributeHighlighterConfig {
    * Specify an option url to enable attribute specification via url params.
    */
   urlParamName?: string,
+
+  /**
+   * Upon every mutation change,  refresh is called repeatedly for a set
+   * period.
+   *
+   * Normally this is set to 500ms but you can change it depending on
+   * your application.  A common case to change this might be say having
+   * a carousel that changes slides and the slide transition is longer than
+   * 500ms.
+   */
+  refreshPeriod?: number,
 }
 
 /**
@@ -139,9 +154,11 @@ export interface AttributeHighlighterConfig {
  *    &:after
  *      background: rgba(blue, 0.8)
  *
- * // When hovering over a highlighter, it can highlight the associated
+ * // When clicking on a highlighter, it can highlight the associated
  * // element.  The element gets .attribute-highlighter-active
  * .attribute-highlighter-active
+ *   border: 3px solid red !important
+ *   transition: border 0s ease !important
  *
  * 2) Instantiate attributeHighlighter.
  *  const attributeHighlighter = new AttributeHighlighter({
@@ -197,11 +214,19 @@ export interface AttributeHighlighterConfig {
 export class AttributeHighlighter {
   private watcher: DomWatcher;
   private attributeWatcher: DomWatcher;
+
   private config: AttributeHighlighterConfig;
   private observer: MutationObserver;
 
+  // A list of all highlighters on the page.
+  private highlighters: HighlightAttributePairs[] = [];
+
   constructor(config: AttributeHighlighterConfig) {
     this.config = config;
+
+    if (!this.config.refreshPeriod) {
+      this.config.refreshPeriod == 500;
+    }
 
 
     // Allow url params to specify the attributes.
@@ -217,17 +242,29 @@ export class AttributeHighlighter {
     this.watcher.add({
       element: window,
       on: ['click', 'resize', 'scroll'],
-      callback: this.run.bind(this)
+      callback: func.debounce(this.refresh.bind(this), 1)
     })
 
     // Dedicated watcher for attributes.
     this.attributeWatcher = new DomWatcher();
 
-    const callback = func.debounce(this.run.bind(this), 500) as MutationCallback;
+
+    const callback = func.debounce(() => {
+      // We call this twice with a 500 ms delay.
+      this.refresh();
+      const startY = window.scrollY;
+      func.repeatUntil(() => {
+        if (startY == window.scrollY) {
+          this.refresh();
+        }
+      }, () => { return false; },
+        this.config.refreshPeriod, 50);
+
+    }, 1) as MutationCallback;
     this.observer = new MutationObserver(callback);
     this.startMutationObservation();
 
-    this.run();
+    this.refresh();
   }
 
   private startMutationObservation() {
@@ -244,7 +281,9 @@ export class AttributeHighlighter {
     this.observer && this.observer.disconnect();
   }
 
-  public run() {
+
+
+  public refresh() {
     this.removeHighlighters();
     this.createHighlighters();
   }
@@ -287,33 +326,10 @@ export class AttributeHighlighter {
       return;
     }
 
-
     const top = `${(rect.top + rect.bottom) / 2}px`;
     const left = (rect.left + rect.right) / 2;
 
     const spacerEl = document.createElement('div');
-
-    // On hovering this spacerEl, we should highlight the associated
-    // element.
-    this.attributeWatcher.add({
-        element: spacerEl,
-        on: ['mouseenter'],
-        callback: () => {
-          this.stopMutationObservation();
-          attributeEl.classList.add('attribute-highlighter-active');
-        }
-    })
-
-
-    this.attributeWatcher.add({
-        element: spacerEl,
-        on: ['mouseleave'],
-        callback: () => {
-          this.startMutationObservation();
-          attributeEl.classList.remove('attribute-highlighter-active');
-        }
-    })
-
 
     spacerEl.classList.add(this.config.cssClassName);
     spacerEl.classList.add(attribute);
@@ -334,13 +350,39 @@ export class AttributeHighlighter {
       spacerEl.innerText = `${attribute}: ${text}`;
     }
     el.parentElement.appendChild(spacerEl);
+
+
+    // On hovering this spacerEl, we should highlight the associated
+    // element.
+    this.attributeWatcher.add({
+      element: spacerEl,
+      on: ['mousedown'],
+      callback: () => {
+        this.stopMutationObservation();
+        attributeEl.classList.add('attribute-highlighter-active');
+      }
+    })
+
+
+    this.attributeWatcher.add({
+      element: spacerEl,
+      on: ['mouseup'],
+      callback: () => {
+        this.startMutationObservation();
+        attributeEl.classList.remove('attribute-highlighter-active');
+      }
+    })
+
+    this.highlighters.push({
+      highlighterEl: spacerEl,
+      attributeEl: attributeEl,
+    });
   }
 
 
 
   private createHighlighters() {
-
-    // Flush attributeDom Watcher.
+    // // Flush attributeDom Watcher.
     this.attributeWatcher.removeAll();
 
     [].forEach.call(
@@ -399,18 +441,17 @@ export class AttributeHighlighter {
         }
 
       })
+
   }
 
 
 
 
   private removeHighlighters() {
-    [].forEach.call(
-      document.querySelectorAll(`.${this.config.cssClassName}`),
-      (el: HTMLDivElement) => {
-        el.parentNode.removeChild(el);
-      }
-    );
+    this.highlighters.forEach((highlighter) => {
+      dom.removeElement(highlighter.highlighterEl);
+    })
+    this.highlighters = [];
   }
 
 
