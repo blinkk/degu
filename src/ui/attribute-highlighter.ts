@@ -220,6 +220,7 @@ export class AttributeHighlighter {
 
   // A list of all highlighters on the page.
   private highlighters: HighlightAttributePairs[] = [];
+  private isClickingHighlighter: boolean = false;
 
   constructor(config: AttributeHighlighterConfig) {
     this.config = config;
@@ -244,6 +245,7 @@ export class AttributeHighlighter {
       on: ['click', 'resize', 'scroll'],
       callback: func.debounce(this.refresh.bind(this), 1)
     })
+
 
     // Dedicated watcher for attributes.
     this.attributeWatcher = new DomWatcher();
@@ -284,6 +286,9 @@ export class AttributeHighlighter {
 
 
   public refresh() {
+    if (this.isClickingHighlighter) {
+      return;
+    }
     this.removeHighlighters();
     this.createHighlighters();
   }
@@ -358,7 +363,7 @@ export class AttributeHighlighter {
       element: spacerEl,
       on: ['mousedown'],
       callback: () => {
-        this.stopMutationObservation();
+        this.isClickingHighlighter = true;
         attributeEl.classList.add('attribute-highlighter-active');
       }
     })
@@ -368,7 +373,7 @@ export class AttributeHighlighter {
       element: spacerEl,
       on: ['mouseup'],
       callback: () => {
-        this.startMutationObservation();
+        this.isClickingHighlighter = false;
         attributeEl.classList.remove('attribute-highlighter-active');
       }
     })
@@ -382,6 +387,7 @@ export class AttributeHighlighter {
 
 
   private createHighlighters() {
+
     // // Flush attributeDom Watcher.
     this.attributeWatcher.removeAll();
 
