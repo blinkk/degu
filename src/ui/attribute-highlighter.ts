@@ -1,8 +1,14 @@
 
-import { dom } from '..';
+import { dom, is } from '..';
 import { DomWatcher } from '../dom/dom-watcher';
 import { func } from '../func/func';
 import { urlParams } from '../dom/url-params';
+
+
+export interface AttributeScopeConfig {
+  attribute: string,
+  querySelector: string
+}
 
 export interface AttributeHighlighterConfig {
   /**
@@ -16,12 +22,61 @@ export interface AttributeHighlighterConfig {
    */
   scopeQuerySelector: string
 
-
   /**
    * A list of all attributes you want to highlight on the page.
+   *
+   * Typically this would be:
+   *
+   * ```
+   * attributes: ['alt', 'aria-label']
+   * ```
+   *
+   * You can also pass in a AttributeScopeConfig.
+   * This is useful if you want to scope your search to specific elements.
+   * For example, let's say you want to highlight, aria-labels ONLY on
+   * video elements.
+   *
+   * You can do:
+   *
+   * attributes: [{
+   *  attribute: 'aria-label',
+   *  querySelector: 'video'
+   * }]
+   *
+   * or perhaps you want to show aria-label only on buttons.
+   *
+   * attributes: [{
+   *  attribute: 'aria-label',
+   *  querySelector: '.button'
+   * }]
+   *
+   *
    */
-  attributes: string[],
+  attributes: (string | AttributeScopeConfig)[],
 
+
+  /**
+   * Allows you to search and highlight cases in which an attribute is missing
+   * or empty.
+   *
+   *
+   * Here is an example of where we would want to highlight a case in which
+   * we scan for all <img> that are missing alts and any videos that
+   * are missing the aria-label.
+   * ```
+   * warnMissingAttributes: [
+   *  {
+   *    attribute: 'alt',
+   *    querySelector: 'img'
+   *  },
+   *  {
+   *    attribute: 'aria-label',
+   *    querySelector: 'video'
+   *  },
+   * ]
+   * ```
+   */
+  warnMissingAttributes?: (AttributeScopeConfig)[],
 
   /**
    * Specify an option url to enable attribute specification via url params.
@@ -67,6 +122,13 @@ export interface AttributeHighlighterConfig {
  *    border-right: 5px solid transparent
  *    border-bottom: 5px solid rgba(#000, 0.8)
  *
+ *
+ *  // If text is missing, the highlighter gets a missing-text class
+ *  &.missing-text
+ *   background: rgba(red, 0.8)
+ *   &:after
+ *     border-bottom: 5px solid rgba(red, 0.8)
+ *
  *  // To use a different color per attribute just do:
  *  &.alt
  *    background: rgba(red, 0.8)
@@ -77,7 +139,9 @@ export interface AttributeHighlighterConfig {
  *    &:after
  *      background: rgba(blue, 0.8)
  *
- *
+ * // When hovering over a highlighter, it can highlight the associated
+ * // element.  The element gets .attribute-highlighter-active
+ * .attribute-highlighter-active
  *
  * 2) Instantiate attributeHighlighter.
  *  const attributeHighlighter = new AttributeHighlighter({
@@ -88,6 +152,23 @@ export interface AttributeHighlighterConfig {
  *       'aria-label'
  *    ]
  *  })
+ *
+ * Scoped Search:
+ * Attributes accepts AttributeScopedConfig so you can do more complex
+ * queries.
+ *
+ *
+ * ```
+ *    attributes: [
+ *       'alt',
+ *       {
+ *          attribute: 'aria-label',
+ *          querySelector: '.button'
+ *       }
+ *    ]
+ * ```
+ * Now all 'alt' and only aria-labels of classes with .button will be
+ * highlighted on the page.
  *
  *
  * Optional url param:
@@ -115,6 +196,7 @@ export interface AttributeHighlighterConfig {
  */
 export class AttributeHighlighter {
   private watcher: DomWatcher;
+  private attributeWatcher: DomWatcher;
   private config: AttributeHighlighterConfig;
   private observer: MutationObserver;
 
@@ -125,7 +207,7 @@ export class AttributeHighlighter {
     // Allow url params to specify the attributes.
     if (this.config.urlParamName) {
       const paramValue = urlParams.getValue(this.config.urlParamName);
-      if(paramValue) {
+      if (paramValue) {
         this.config.attributes = paramValue.split(',');
       }
     }
@@ -137,6 +219,9 @@ export class AttributeHighlighter {
       on: ['click', 'resize', 'scroll'],
       callback: this.run.bind(this)
     })
+
+    // Dedicated watcher for attributes.
+    this.attributeWatcher = new DomWatcher();
 
     const callback = func.debounce(this.run.bind(this), 500) as MutationCallback;
     this.observer = new MutationObserver(callback);
@@ -155,7 +240,7 @@ export class AttributeHighlighter {
   }
 
 
-  private stopMutationObseration() {
+  private stopMutationObservation() {
     this.observer && this.observer.disconnect();
   }
 
@@ -164,55 +249,159 @@ export class AttributeHighlighter {
     this.createHighlighters();
   }
 
+
+  /**
+   * Creates a highlighter element.
+   * @param el  The root scope element.
+   * @param attributeEl  The element in which the attribute belongs to.
+   * @param attribute  The attribute name.
+   * @param isTypeMissing  Whether this is "missing" attribute.
+   * @returns
+   */
   private createHighlighter(
     el: HTMLDivElement,
-    top: string,
-    left: number,
-    type: string,
-    text: string,
+    attributeEl: HTMLDivElement,
+    attribute: string,
+    isTypeMissing: boolean
   ) {
+
+
+    // If this element is not visible on the page,
+    // then skip.
+    if (!dom.isVisibleOnScreen(attributeEl) && !isTypeMissing) {
+      return;
+    }
+
+    let isMissingText = false;
+
+    const rect = attributeEl.getBoundingClientRect();
+    let text = attributeEl.getAttribute(attribute);
+
+    if (text == 'None' || text == '' || !text) {
+      isMissingText = true;
+    }
+
+    // We were looking to see if the attribute was missing or not, but this
+    // one passed.
+    if (isTypeMissing && attributeEl.hasAttribute(attribute)) {
+      return;
+    }
+
+
+    const top = `${(rect.top + rect.bottom) / 2}px`;
+    const left = (rect.left + rect.right) / 2;
+
     const spacerEl = document.createElement('div');
+
+    // On hovering this spacerEl, we should highlight the associated
+    // element.
+    this.attributeWatcher.add({
+        element: spacerEl,
+        on: ['mouseenter'],
+        callback: () => {
+          this.stopMutationObservation();
+          attributeEl.classList.add('attribute-highlighter-active');
+        }
+    })
+
+
+    this.attributeWatcher.add({
+        element: spacerEl,
+        on: ['mouseleave'],
+        callback: () => {
+          this.startMutationObservation();
+          attributeEl.classList.remove('attribute-highlighter-active');
+        }
+    })
+
+
     spacerEl.classList.add(this.config.cssClassName);
-    spacerEl.classList.add(type);
+    spacerEl.classList.add(attribute);
+    if (isMissingText) {
+      spacerEl.classList.add('missing-text');
+    }
+
+    if (isTypeMissing) {
+      spacerEl.classList.add('missing');
+    }
 
     spacerEl.style.setProperty('--left', `${left}px`);
     spacerEl.style.setProperty('--top', top);
-    spacerEl.innerText = `${type}: ${text}`;
+
+    if (isTypeMissing) {
+      spacerEl.innerText = `Missing: ${attribute}`;
+    } else {
+      spacerEl.innerText = `${attribute}: ${text}`;
+    }
     el.parentElement.appendChild(spacerEl);
   }
 
 
 
   private createHighlighters() {
+
+    // Flush attributeDom Watcher.
+    this.attributeWatcher.removeAll();
+
     [].forEach.call(
       document.querySelectorAll(this.config.scopeQuerySelector),
       (el: HTMLDivElement) => {
+        // Look for attributes.
         this.config.attributes.forEach(attribute => {
-          [].forEach.call(
-            el.querySelectorAll(`[${attribute}]`),
-            (attributeEl: HTMLDivElement) => {
+          if (is.string(attribute)) {
+            const attr = attribute as string;
+            [].forEach.call(
+              el.querySelectorAll(`[${attribute}]`),
+              (attributeEl: HTMLDivElement) => {
+                this.createHighlighter(
+                  el,
+                  attributeEl,
+                  attr,
+                  false
+                );
+              })
+          } else {
 
-              // If this element is not visible on the page,
-              // then skip.
-              if (dom.isDisplayNoneWithAncestors(attributeEl)) {
-                return;
-              }
-
-              const rect = attributeEl.getBoundingClientRect();
-              const text = attributeEl.getAttribute(attribute);
-
-              this.createHighlighter(
-                el,
-                `${(rect.top + rect.bottom) / 2}px`,
-                (rect.left + rect.right) / 2,
-                attribute,
-                text
-              );
-            })
+            // If this is a AttributeHighlighterConfig
+            const attr = attribute as AttributeScopeConfig;
+            const attrValue = attr.attribute;
+            const query = attr.querySelector;
+            [].forEach.call(
+              el.querySelectorAll(`${query}`),
+              (attributeEl: HTMLDivElement) => {
+                this.createHighlighter(
+                  el,
+                  attributeEl,
+                  attrValue,
+                  false
+                );
+              })
+          }
         })
-      })
 
+        if (this.config.warnMissingAttributes) {
+          this.config.warnMissingAttributes.forEach(attribute => {
+            // Highlights missing attributes
+            const attr = attribute as AttributeScopeConfig;
+            const attrValue = attr.attribute;
+            const query = attr.querySelector;
+            [].forEach.call(
+              el.querySelectorAll(`${query}`),
+              (attributeEl: HTMLDivElement) => {
+                this.createHighlighter(
+                  el,
+                  attributeEl,
+                  attrValue,
+                  true
+                );
+              })
+          });
+        }
+
+      })
   }
+
+
 
 
   private removeHighlighters() {
@@ -228,6 +417,7 @@ export class AttributeHighlighter {
 
   public dispose() {
     this.watcher && this.watcher.dispose();
-    this.stopMutationObseration();
+    this.attributeWatcher && this.attributeWatcher.dispose();
+    this.stopMutationObservation();
   }
 }
