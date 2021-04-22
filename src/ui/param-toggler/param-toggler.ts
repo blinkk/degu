@@ -94,18 +94,18 @@ export class ParamToggler {
             <div class="${this.nameSpace} hide-panel">
                <div class="${this.nameSpace}__title">${this.config.togglerTitle}</div>
             </div>
-        `)
+        `, true)
 
         this.mainPanelElement = dom.createElementFromString(`
             <div class="${this.nameSpace}__panel"></div>
-        `)
+        `, true)
 
         this.mainPanelRefreshButton = dom.createElementFromString(`
             <div class="${this.nameSpace}__button">Refresh</div>
-        `)
+        `, true)
 
         this.mainPanelCloseButton = dom.createElementFromString(
-            `<div class="${this.nameSpace}__close">✖️</div>`
+            `<div class="${this.nameSpace}__close">✖️</div>`, true
         )
 
 
@@ -186,19 +186,19 @@ export class ParamToggler {
 
         const el = dom.createElementFromString(`
             <label class="${this.nameSpace}__option"></label>
-        `);
+        `, true);
 
         field.element = el;
 
         const title = dom.createElementFromString(`
             <div class="${this.nameSpace}__option__title">${field.displayName}</div>
-        `)
+        `, true)
 
         const checkbox = dom.createElementFromString(`
             <input type="checkbox"
                 name=${field.paramName}
                 id="${this.nameSpace}-${field.paramName}">
-        `) as HTMLInputElement;
+        `, true) as HTMLInputElement;
 
         checkbox.setAttribute('checked', urlParams.isTrue(field.paramName) ? 'true' : 'false');
         checkbox.checked = urlParams.isTrue(field.paramName);

@@ -396,11 +396,21 @@ export class dom {
      * dom.createElementFromString("<div>Hohohoho</div>");
      * ```
      * @param htmlString
+     * @param fragMethod Uses a method to create dom from string WITHOUT using innerHTML
      */
-    static createElementFromString(htmlString: string): HTMLElement {
-        var div = document.createElement('div');
-        div.innerHTML = htmlString.trim();
-        return div.firstChild as HTMLElement;
+    static createElementFromString(htmlString: string,
+            fragMethod:boolean = false): HTMLElement {
+        if(fragMethod) {
+            var holder = document.createElement('div') as HTMLElement;
+            let frag = document.createRange().createContextualFragment(htmlString);
+            holder.appendChild(frag);
+            return holder.firstElementChild as HTMLElement;
+        } else {
+            var div = document.createElement('div');
+            div.innerHTML = htmlString.trim();
+
+            return div.firstChild as HTMLElement;
+        }
     }
 
 
