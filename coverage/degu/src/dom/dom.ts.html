@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.97% </span>
+        <span class="strong">2.9% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>6/202</span>
+        <span class='fraction'>6/207</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/79</span>
+        <span class='fraction'>0/82</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/72</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">3.02% </span>
+        <span class="strong">2.94% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>6/199</span>
+        <span class='fraction'>6/204</span>
       </div>
     </div>
     <p class="quiet">
@@ -1060,7 +1060,17 @@
 <a name='L1012'></a><a href='#L1012'>1012</a>
 <a name='L1013'></a><a href='#L1013'>1013</a>
 <a name='L1014'></a><a href='#L1014'>1014</a>
-<a name='L1015'></a><a href='#L1015'>1015</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<a name='L1015'></a><a href='#L1015'>1015</a>
+<a name='L1016'></a><a href='#L1016'>1016</a>
+<a name='L1017'></a><a href='#L1017'>1017</a>
+<a name='L1018'></a><a href='#L1018'>1018</a>
+<a name='L1019'></a><a href='#L1019'>1019</a>
+<a name='L1020'></a><a href='#L1020'>1020</a>
+<a name='L1021'></a><a href='#L1021'>1021</a>
+<a name='L1022'></a><a href='#L1022'>1022</a>
+<a name='L1023'></a><a href='#L1023'>1023</a>
+<a name='L1024'></a><a href='#L1024'>1024</a>
+<a name='L1025'></a><a href='#L1025'>1025</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -1460,9 +1470,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2472,11 +2492,21 @@ export class dom {
      * dom.createElementFromString("&lt;div&gt;Hohohoho&lt;/div&gt;");
      * ```
      * @param htmlString
+     * @param fragMethod Uses a method to create dom from string WITHOUT using innerHTML
      */
-<span class="fstat-no" title="function not covered" >    static </span>createElementFromString(htmlString: string): HTMLElement {
-        var div = <span class="cstat-no" title="statement not covered" >document.createElement('div');</span>
-<span class="cstat-no" title="statement not covered" >        div.innerHTML = htmlString.trim();</span>
-<span class="cstat-no" title="statement not covered" >        return div.firstChild as HTMLElement;</span>
+<span class="fstat-no" title="function not covered" >    static </span>createElementFromString(htmlString: string,
+            fragMethod:boolean = <span class="branch-0 cbranch-no" title="branch not covered" >false)</span>: HTMLElement {
+<span class="cstat-no" title="statement not covered" >        if(fragMethod) {</span>
+            var holder = <span class="cstat-no" title="statement not covered" >document.createElement('div') as HTMLElement;</span>
+            let frag = <span class="cstat-no" title="statement not covered" >document.createRange().createContextualFragment(htmlString);</span>
+<span class="cstat-no" title="statement not covered" >            holder.appendChild(frag);</span>
+<span class="cstat-no" title="statement not covered" >            return holder.firstElementChild as HTMLElement;</span>
+        } else {
+            var div = <span class="cstat-no" title="statement not covered" >document.createElement('div');</span>
+<span class="cstat-no" title="statement not covered" >            div.innerHTML = htmlString.trim();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            return div.firstChild as HTMLElement;</span>
+        }
     }
 &nbsp;
 &nbsp;
@@ -3094,7 +3124,7 @@ export class dom {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Apr 22 2021 01:15:47 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Apr 22 2021 06:18:19 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
