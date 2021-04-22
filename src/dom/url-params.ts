@@ -253,4 +253,37 @@ export class urlParams {
              urlParams.getHostName(window.location.href));
     }
 
+
+
+    /**
+     * Updates a particular URL param value.
+     * This internally, updates window.location.search
+     * value.
+     *
+     * ```
+     * // Immediately update the url search params.
+     * window.location.search =
+     *  urlParams.updateUrlParam('myparam', 'true').toString();
+     *
+     * // Update multiple
+     * const params = new URLSearchParams(window.location.search);
+     * params = urlParams.updateUrlParam('hello', 'true', params);
+     * params = urlParams.updateUrlParam('name', 'scott', params);
+     * params = urlParams.updateUrlParam('favFood', 'mikan', params);
+     * // Update
+     * window.location.search = params.toString();
+     *
+     * ```
+     */
+    static updateSearchParams(param:string, value:string, urlSearchParams?:URLSearchParams):URLSearchParams {
+        if ('URLSearchParams' in window) {
+            if(!urlSearchParams) {
+              urlSearchParams = new URLSearchParams(window.location.search);
+            }
+
+            urlSearchParams.set(param, value);
+            return urlSearchParams;
+        }
+    }
+
 }

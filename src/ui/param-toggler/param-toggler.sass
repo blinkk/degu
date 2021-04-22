@@ -1,0 +1,61 @@
+.degu-param-toggler
+    height: 100vh
+    position: fixed
+    top: 0
+    left: 0
+    width: 300px
+    background-color: white
+    border-right: 3px solid #efefef
+    z-index: 9999
+    padding: 20px
+    display: flex
+    flex-direction: column
+    justify-content: flex-start
+    transition: 0.3s ease all
+    // box-shadow: rgb(0 0 0 / 20%) 0 18px 50px -10px
+    &.hide-panel
+        transform: translateX(-100%)
+
+.degu-param-toggler__close
+    display: inline
+    position: absolute
+    top: 20px
+    right: 10px
+    font-size: 30px
+    &:hover
+        cursor: pointer
+
+.degu-param-toggler__title
+    margin-top: 20px
+    font-size: 20px
+    text-align: center
+
+
+.degu-param-toggler__body
+    margin-top: 12px
+
+.degu-param-toggler__panel
+    // flex: 1
+    margin-top: 20px
+
+.degu-param-toggler__option
+    text-align: left
+    padding: 12px 0px
+    border-bottom: 1px solid #efefef
+    display: flex
+    justify-content: flex-start
+    align-items: center
+
+.degu-param-toggler__option__title
+    font-size: 12px
+    margin-left: 6px
+
+.degu-param-toggler__button
+    display: inline-block
+    padding: 10px 20px
+    border-radius: 5px
+    margin-top: 40px
+    border: 1px solid #333333
+    text-align: center
+    &:hover
+        cursor: pointer
