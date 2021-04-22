@@ -88,26 +88,28 @@ export class ParamToggler {
             this.listenToKeyEvents();
         }
 
+        this.mainPanelRootElement = this.createElementWithClass(this.nameSpace);
+        this.mainPanelRootElement.classList.add('hide-panel');
+
+        const title = this.createElementWithClass(this.nameSpace + '__title');
+        title.textContent = this.config.togglerTitle;
+
+        this.mainPanelRootElement.appendChild(title);
 
 
-        this.mainPanelRootElement = dom.createElementFromString(`
-            <div class="${this.nameSpace} hide-panel">
-               <div class="${this.nameSpace}__title">${this.config.togglerTitle}</div>
-            </div>
-        `, true)
+        this.mainPanelElement =
+            this.createElementWithClass(this.nameSpace + '__panel');
 
-        this.mainPanelElement = dom.createElementFromString(`
-            <div class="${this.nameSpace}__panel"></div>
-        `, true)
 
-        this.mainPanelRefreshButton = dom.createElementFromString(`
-            <div class="${this.nameSpace}__button">Refresh</div>
-        `, true)
+        this.mainPanelRefreshButton =
+            this.createElementWithClass(this.nameSpace + '__button');
+        this.mainPanelRefreshButton.textContent = 'Refresh';
 
-        this.mainPanelCloseButton = dom.createElementFromString(
-            `<div class="${this.nameSpace}__close">✖️</div>`, true
-        )
 
+        this.mainPanelCloseButton =
+            this.createElementWithClass(this.nameSpace + '__close');
+
+        this.mainPanelCloseButton.textContent =  "✖️";
 
         this.mainPanelRootElement.append(this.mainPanelCloseButton);
         this.mainPanelRootElement.append(this.mainPanelElement);
@@ -118,6 +120,13 @@ export class ParamToggler {
             this.init();
             this.open(false);
         }
+    }
+
+
+    private createElementWithClass(className:string, type: string = 'div') {
+        var holder = document.createElement(type) as HTMLElement;
+        holder.classList.add(className);
+        return holder;
     }
 
     private listenToKeyEvents() {
@@ -184,21 +193,19 @@ export class ParamToggler {
 
     private createBooleanOptionElement(field: ParamTogglerOption) {
 
-        const el = dom.createElementFromString(`
-            <label class="${this.nameSpace}__option"></label>
-        `, true);
-
+        const el = this.createElementWithClass(
+            this.nameSpace + '__option', 'label');
         field.element = el;
 
-        const title = dom.createElementFromString(`
-            <div class="${this.nameSpace}__option__title">${field.displayName}</div>
-        `, true)
+        const title =
+            this.createElementWithClass(this.nameSpace + '__option__title');
+        title.textContent = field.displayName;
 
-        const checkbox = dom.createElementFromString(`
-            <input type="checkbox"
-                name=${field.paramName}
-                id="${this.nameSpace}-${field.paramName}">
-        `, true) as HTMLInputElement;
+        const checkbox =
+            this.createElementWithClass(this.nameSpace + '__option__checkbox', 'input') as HTMLInputElement;
+        checkbox.type = 'checkbox';
+        checkbox.name = field.paramType;
+        checkbox.id = this.nameSpace + '-' + field.paramName;
 
         checkbox.setAttribute('checked', urlParams.isTrue(field.paramName) ? 'true' : 'false');
         checkbox.checked = urlParams.isTrue(field.paramName);
