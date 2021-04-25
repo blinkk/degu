@@ -81,43 +81,34 @@
 						border-radius: 3px
 						box-shadow: none !important
 						display: flex
-						font-size: 12px
-						height: var(--height)
+						flex-direction: column
+						font-size: 11px
+						height: auto
 						justify-content: center
 						left: var(--left)
 						margin: 0 !important
+						max-width: var(--max-width)
 						padding: 0px 8px
-						//pointer-events: none
 						position: fixed !important
-						top: var(--top)
-						transform: translateX(-50%) translateY(100%)
-						z-index: 9
-						&amp;:hover
-						z-index: 100
-						transform: translateX(-50%) translateY(100%) scale(1.2)
-						&amp;:after
-						content: &#39;&#39;
-						position: fixed !important
-						transform: translateX(0%) translateY(-100%)
-						width: 0
-						height: 0
-						border-left: 5px solid transparent
-						border-right: 5px solid transparent
-					border-bottom: 5px solid rgba(#000, 0.8)</p>
-					<p> // If text is missing, the highlighter gets a missing-text class
-						&amp;.missing-text
-						background: rgba(red, 0.8)
-						&amp;:after
-					border-bottom: 5px solid rgba(red, 0.8)</p>
-					<p> // To use a different color per attribute just do:
-						&amp;.alt
-						background: rgba(red, 0.8)
-						&amp;:after
-						background: rgba(red, 0.8)
-						&amp;.aria-label
-						background: rgba(blue, 0.8)
-						&amp;:after
-					background: rgba(blue, 0.8)</p>
+						// Slight off center.
+						top: calc(var(--center) + 10px)
+						transform: translateX(-50%) translateY(0%)
+						transition: transform 0.3s ease
+						transform-origin: top center
+						z-index: 9999
+						cursor: pointer
+						span
+						display: block
+						&amp;.active,
+						transform: translateX(-50%) translateY(0%) scale(1.2)
+						&amp;:hover,
+						cursor: pointer
+						z-index: 10000
+						&amp;:active
+						z-index: 10000
+					transform: translateX(-50%) translateY(10px) scale(1.2)</p>
+					<p> &amp;.up
+					top: calc(var(--center) - 10px + (var(--height)  * -1))</p>
 					<p>// When clicking on a highlighter, it can highlight the associated
 						// element.  The element gets .attribute-highlighter-active
 						.attribute-highlighter-active
@@ -197,7 +188,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/758a1b7/src/ui/attribute-highlighter.ts#L223">ui/attribute-highlighter.ts:223</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/43412ea/src/ui/attribute-highlighter.ts#L211">ui/attribute-highlighter.ts:211</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -223,7 +214,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/758a1b7/src/ui/attribute-highlighter.ts#L465">ui/attribute-highlighter.ts:465</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/43412ea/src/ui/attribute-highlighter.ts#L479">ui/attribute-highlighter.ts:479</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -240,7 +231,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/758a1b7/src/ui/attribute-highlighter.ts#L288">ui/attribute-highlighter.ts:288</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/43412ea/src/ui/attribute-highlighter.ts#L248">ui/attribute-highlighter.ts:248</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -416,7 +407,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<a href="../interfaces/ui.eventdispatcher.html" class="tsd-kind-icon">Event<wbr>Dispatcher</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/ui.highlightattributepairs.html" class="tsd-kind-icon">Highlight<wbr>Attribute<wbr>Pairs</a>
+						<a href="../interfaces/ui.highlightelementgroup.html" class="tsd-kind-icon">Highlight<wbr>Element<wbr>Group</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/ui.marginoutlinerconfig.html" class="tsd-kind-icon">Margin<wbr>Outliner<wbr>Config</a>
