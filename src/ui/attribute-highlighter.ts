@@ -1,12 +1,12 @@
 
-import { dom, is } from '..';
+import { dom, is, Raf } from '..';
 import { DomWatcher } from '../dom/dom-watcher';
 import { func } from '../func/func';
 import { urlParams } from '../dom/url-params';
 
-export interface HighlightAttributePairs {
+export interface HighlightElementGroup {
   highlighterEl: HTMLElement;
-  attributeEl: HTMLElement;
+  attributeEls: HTMLElement[];
 }
 
 export interface AttributeScopeConfig {
@@ -88,15 +88,10 @@ export interface AttributeHighlighterConfig {
   urlParamName?: string,
 
   /**
-   * Upon every mutation change,  refresh is called repeatedly for a set
-   * period.
-   *
-   * Normally this is set to 500ms but you can change it depending on
-   * your application.  A common case to change this might be say having
-   * a carousel that changes slides and the slide transition is longer than
-   * 500ms.
+   * This classes uses Raf to continously update the attributes.
+   * Set the raf FPS.
    */
-  refreshPeriod?: number,
+  rafFps?: number,
 }
 
 /**
@@ -106,53 +101,44 @@ export interface AttributeHighlighterConfig {
  * Setup:
  *
  * 1) Create your highlighter css class.
- * .my-highlighter
+ *.my-highlighter
  *  align-items: left
  *  color: #FFF
  *  background: rgba(#000, 0.8)
  *  border-radius: 3px
  *  box-shadow: none !important
  *  display: flex
- *  font-size: 12px
- *  height: var(--height)
+ *  flex-direction: column
+ *  font-size: 11px
+ *  height: auto
  *  justify-content: center
  *  left: var(--left)
  *  margin: 0 !important
+ *  max-width: var(--max-width)
  *  padding: 0px 8px
- *  //pointer-events: none
  *  position: fixed !important
- *  top: var(--top)
- *  transform: translateX(-50%) translateY(100%)
- *  z-index: 9
- *  &:hover
- *     z-index: 100
- *     transform: translateX(-50%) translateY(100%) scale(1.2)
- *  &:after
- *    content: ''
- *    position: fixed !important
- *    transform: translateX(0%) translateY(-100%)
- *    width: 0
- *    height: 0
- *    border-left: 5px solid transparent
- *    border-right: 5px solid transparent
- *    border-bottom: 5px solid rgba(#000, 0.8)
+ *  // Slight off center.
+ *  top: calc(var(--center) + 10px)
+ *  transform: translateX(-50%) translateY(0%)
+ *  transition: transform 0.3s ease
+ *  transform-origin: top center
+ *  z-index: 9999
+ *  cursor: pointer
+ *  span
+ *    display: block
+ *  &.active,
+ *   transform: translateX(-50%) translateY(0%) scale(1.2)
+ *  &:hover,
+ *    cursor: pointer
+ *    z-index: 10000
+ *  &:active
+ *    z-index: 10000
+ *    transform: translateX(-50%) translateY(10px) scale(1.2)
+ *
+ *  &.up
+ *    top: calc(var(--center) - 10px + (var(--height)  * -1))
  *
  *
- *  // If text is missing, the highlighter gets a missing-text class
- *  &.missing-text
- *   background: rgba(red, 0.8)
- *   &:after
- *     border-bottom: 5px solid rgba(red, 0.8)
- *
- *  // To use a different color per attribute just do:
- *  &.alt
- *    background: rgba(red, 0.8)
- *    &:after
- *      background: rgba(red, 0.8)
- *  &.aria-label
- *    background: rgba(blue, 0.8)
- *    &:after
- *      background: rgba(blue, 0.8)
  *
  * // When clicking on a highlighter, it can highlight the associated
  * // element.  The element gets .attribute-highlighter-active
@@ -219,14 +205,16 @@ export class AttributeHighlighter {
   private observer: MutationObserver;
 
   // A list of all highlighters on the page.
-  private highlighters: HighlightAttributePairs[] = [];
-  private isClickingHighlighter: boolean = false;
+  private highlighters: HighlightElementGroup[] = [];
+  private noRefresh: boolean = false;
+
+  private raf: Raf;
 
   constructor(config: AttributeHighlighterConfig) {
     this.config = config;
 
-    if (!this.config.refreshPeriod) {
-      this.config.refreshPeriod == 500;
+    if (!this.config.rafFps) {
+      this.config.rafFps = 5;
     }
 
 
@@ -251,44 +239,13 @@ export class AttributeHighlighter {
     this.attributeWatcher = new DomWatcher();
 
 
-    const callback = func.debounce(() => {
-      // We call this twice with a 500 ms delay.
-      this.refresh();
-      const startY = window.scrollY;
-      func.repeatUntil(() => {
-        if (startY == window.scrollY) {
-          this.refresh();
-        }
-      }, () => { return false; },
-        this.config.refreshPeriod, 50);
-
-    }, 1) as MutationCallback;
-    this.observer = new MutationObserver(callback);
-    this.startMutationObservation();
-
-    this.refresh();
+    this.raf = new Raf(this.refresh.bind(this));
+    this.raf.setFps(this.config.rafFps);
+    this.raf.start();
   }
-
-  private startMutationObservation() {
-    this.observer.observe(
-      document.documentElement,
-      {
-        attributes: true, childList: false, subtree: true
-      }
-    )
-  }
-
-
-  private stopMutationObservation() {
-    this.observer && this.observer.disconnect();
-  }
-
 
 
   public refresh() {
-    if (this.isClickingHighlighter) {
-      return;
-    }
     this.removeHighlighters();
     this.createHighlighters();
   }
@@ -317,8 +274,6 @@ export class AttributeHighlighter {
     }
 
     let isMissingText = false;
-
-    const rect = attributeEl.getBoundingClientRect();
     let text = attributeEl.getAttribute(attribute);
 
     if (text == 'None' || text == '' || !text) {
@@ -331,10 +286,17 @@ export class AttributeHighlighter {
       return;
     }
 
-    const top = `${(rect.top + rect.bottom) / 2}px`;
-    const left = (rect.left + rect.right) / 2;
+    // Search for an existing highlightEl containing this attribute.
+    let spacerElGroup = this.highlighters.filter((h) => {
+      return ~h.attributeEls.indexOf(attributeEl)
+    })[0];
 
-    const spacerEl = document.createElement('div');
+    let isNew: boolean = true;
+    let spacerEl = document.createElement('div');
+    if (spacerElGroup) {
+      spacerEl = spacerElGroup.highlighterEl as HTMLDivElement;
+      isNew = false;
+    }
 
     spacerEl.classList.add(this.config.cssClassName);
     spacerEl.classList.add(attribute);
@@ -346,42 +308,97 @@ export class AttributeHighlighter {
       spacerEl.classList.add('missing');
     }
 
-    spacerEl.style.setProperty('--left', `${left}px`);
-    spacerEl.style.setProperty('--top', top);
-
+    const textEl = document.createElement('span');
     if (isTypeMissing) {
-      spacerEl.innerText = `Missing: ${attribute}`;
+      textEl.innerText = `Missing: ${attribute}`;
     } else {
-      spacerEl.innerText = `${attribute}: ${text}`;
+      textEl.innerText = `${attribute}: ${text}`;
     }
-    el.parentElement.appendChild(spacerEl);
+
+    spacerEl.appendChild(textEl);
+
+    if (isNew) {
+      const rect = attributeEl.getBoundingClientRect();
+      const center = `${(rect.top + rect.height / 2)}px`;
+      const bottom = `${(rect.bottom)}px`;
+      const top = `${(rect.top)}px`;
+      const left = (rect.left + rect.right) / 2;
+
+      if (rect.width > 80) {
+        spacerEl.style.setProperty('--max-width', `${rect.width * 1.5}px`);
+      } else {
+        spacerEl.style.setProperty('--max-width', `80px`);
+      }
+      spacerEl.style.setProperty('--left', `${left}px`);
+      spacerEl.style.setProperty('--center', center);
+      spacerEl.style.setProperty('--top', top);
+      spacerEl.style.setProperty('--bottom', bottom);
 
 
-    // On hovering this spacerEl, we should highlight the associated
-    // element.
-    this.attributeWatcher.add({
-      element: spacerEl,
-      on: ['mousedown'],
-      callback: () => {
-        this.isClickingHighlighter = true;
-        attributeEl.classList.add('attribute-highlighter-active');
+      // On hovering this spacerEl, we should highlight the associated
+      // element.
+      this.attributeWatcher.add({
+        element: spacerEl,
+        on: ['mousedown'],
+        callback: (e: any) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.raf.stop();
+          window.setTimeout(() => {
+            attributeEl.classList.add('attribute-highlighter-active');
+          })
+        }
+      })
+
+
+      this.attributeWatcher.add({
+        element: spacerEl,
+        on: ['mouseup'],
+        callback: (e: any) => {
+          e.preventDefault();
+          e.stopPropagation();
+          attributeEl.classList.remove('attribute-highlighter-active');
+          window.setTimeout(() => {
+            this.raf.start();
+          }, 100);
+        }
+      })
+
+      this.highlighters.push({
+        highlighterEl: spacerEl,
+        attributeEls: [attributeEl],
+      });
+
+      spacerEl.classList.remove('up');
+      el.parentElement.appendChild(spacerEl);
+    } else {
+
+      // Update.
+      this.highlighters.forEach((h) => {
+        if (~h.attributeEls.indexOf(attributeEl)) {
+          h.attributeEls.push(attributeEl);
+        }
+      });
+    }
+
+
+    // Avoid overlap.
+    this.highlighters.forEach((aHighlighter) => {
+      const a = aHighlighter.highlighterEl;
+      const isOverlapping = dom.isOverlapping(a, spacerEl);
+      if (isOverlapping) {
+        if (a.classList.contains('up')) {
+          spacerEl.classList.add('up');
+          spacerEl.style.setProperty('--height', spacerEl.offsetHeight + 'px');
+          spacerEl.style.setProperty('--center', a.offsetTop + 'px');
+        } else {
+          spacerEl.classList.add('up');
+          spacerEl.style.setProperty('--height', spacerEl.offsetHeight + 'px');
+        }
       }
     })
 
 
-    this.attributeWatcher.add({
-      element: spacerEl,
-      on: ['mouseup'],
-      callback: () => {
-        this.isClickingHighlighter = false;
-        attributeEl.classList.remove('attribute-highlighter-active');
-      }
-    })
-
-    this.highlighters.push({
-      highlighterEl: spacerEl,
-      attributeEl: attributeEl,
-    });
   }
 
 
@@ -451,8 +468,6 @@ export class AttributeHighlighter {
   }
 
 
-
-
   private removeHighlighters() {
     this.highlighters.forEach((highlighter) => {
       dom.removeElement(highlighter.highlighterEl);
@@ -461,10 +476,9 @@ export class AttributeHighlighter {
   }
 
 
-
   public dispose() {
     this.watcher && this.watcher.dispose();
     this.attributeWatcher && this.attributeWatcher.dispose();
-    this.stopMutationObservation();
+    this.raf && this.raf.dispose();
   }
 }

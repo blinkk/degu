@@ -1021,4 +1021,26 @@ export class dom {
     static getScrollElement(): Element {
         return document.scrollingElement || document.documentElement;
     }
+
+
+
+    /**
+     * Determines if two elements are overlapping or not.
+     * @param aElement
+     * @param bElement
+     * https://stackoverflow.com/questions/12066870/how-to-check-if-an-element-is-overlapping-other-elements
+     */
+    static isOverlapping(aElement:HTMLElement, bElement:HTMLElement):boolean {
+        // Element Can't overlap with itself.
+        if (aElement == bElement) {
+            return false;
+        }
+
+        const rect1 = aElement.getBoundingClientRect();
+        const rect2 = bElement.getBoundingClientRect();
+        return !(rect1.right < rect2.left ||
+            rect1.left > rect2.right ||
+            rect1.bottom < rect2.top ||
+            rect1.top > rect2.bottom)
+    }
 }
