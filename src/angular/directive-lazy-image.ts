@@ -208,7 +208,7 @@ export class LazyImage implements INgDisposable {
 
 
 
-    loadImage() {
+    loadImage(): Promise<void> {
         return new Promise((resolve, reject) => {
             if (this.useGoogleImageTryWebp) {
                 this.url = this.appendGoogleImageWebpParamToUrl(this.url);
@@ -216,6 +216,8 @@ export class LazyImage implements INgDisposable {
             if (this.useGoogleImageAutosize) {
                 this.url = this.autosizeGoogleImage(this.url);
             }
+
+            this.url = this.appendGoogleCachePolicy(this.url);
 
             if(this.shouldSwapForWebp) {
                 this.url = this.swapForWebp(this.url);
@@ -342,6 +344,12 @@ export class LazyImage implements INgDisposable {
         }
     }
 
+    private appendGoogleCachePolicy(url: string): string {
+        if (!is.isGoogleCloudLikeUrl(url)) {
+            return url;
+        }
+        return url + '-e365';
+    }
 
     private appendGoogleImageWebpParamToUrl(url: string): string {
         if (!this.isWebpSupported || !is.isGoogleCloudLikeUrl(url)) {
