@@ -112,7 +112,7 @@ export class BlobLoader {
         });
     }
 
-    loadBlobAsBase64Image(source: string, retryCount: number = 0): Promise<Blob|undefined> {
+    loadBlobAsBase64Image(source: string, retryCount: number = 0): Promise<Blob|undefined|void> {
         return new Promise(resolve => {
             fetch(source)
                 .then((response) => {
