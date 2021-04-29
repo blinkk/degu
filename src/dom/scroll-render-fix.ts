@@ -1,6 +1,21 @@
 
 import {Raf} from '../raf/raf';
 import { DomWatcher } from './dom-watcher';
+import {noop} from '../func/noop';
+
+
+export interface ScrollRenderFixConfig {
+  /**
+   * Callback run immediately before the document is manually scrolled.
+   * Run during the RAF postWrite step.
+   */
+  beforeScrollCallback?: () => void;
+  /**
+   * Callback run immediately after the document is manually scrolled.
+   * Run during the RAF postWrite step.
+   */
+  afterScrollCallback?: () => void;
+}
 
 /**
  * What this class does is, it eats the window.wheel event
@@ -49,30 +64,22 @@ export class ScrollRenderFix {
     private targetY: number;
     private domWatcher: DomWatcher;
     /**
-     * Callbacks run immediately before the document is manually scrolled.
+     * Callback run immediately before the document is manually scrolled.
      * Run during the RAF postWrite step.
      * @private
      */
-    private readonly beforeScrollCallbacks: Array<() => void>;
+    private readonly beforeScrollCallback: () => void;
     /**
-     * Callbacks run immediately after the document is manually scrolled.
+     * Callback run immediately after the document is manually scrolled.
      * Run during the RAF postWrite step.
      * @private
      */
-    private readonly afterScrollCallbacks: Array<() => void>;
+    private readonly afterScrollCallback: () => void;
 
-    constructor(
-        {
-          beforeScrollCallbacks = [],
-          afterScrollCallbacks = [],
-        }: {
-          beforeScrollCallbacks?: Array<() => void>,
-          afterScrollCallbacks?: Array<() => void>,
-        } = {}
-    ) {
+    constructor(config: ScrollRenderFixConfig = {}) {
         this.raf = new Raf();
-        this.beforeScrollCallbacks = beforeScrollCallbacks;
-        this.afterScrollCallbacks = afterScrollCallbacks;
+        this.beforeScrollCallback = config.beforeScrollCallback || noop;
+        this.afterScrollCallback = config.afterScrollCallback || noop;
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             // @ts-ignore
@@ -93,12 +100,12 @@ export class ScrollRenderFix {
         this.raf.read(()=> {
           this.targetY = this.getScrollElement().scrollTop + e.deltaY;
           this.raf.postWrite(()=> {
-              this.beforeScrollCallbacks.forEach((cb) => cb());
+              this.beforeScrollCallback();
               if (this.currentY !== this.targetY) {
                 this.getScrollElement().scrollTop = this.targetY;
                 this.currentY = this.targetY;
               }
-              this.afterScrollCallbacks.forEach((cb) => cb());
+              this.afterScrollCallback();
           });
         });
     }
