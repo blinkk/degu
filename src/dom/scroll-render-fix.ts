@@ -48,9 +48,31 @@ export class ScrollRenderFix {
     private currentY: number;
     private targetY: number;
     private domWatcher: DomWatcher;
+    /**
+     * Callbacks run immediately before the document is manually scrolled.
+     * Run during the RAF postWrite step.
+     * @private
+     */
+    private readonly beforeScrollCallbacks: Array<() => void>;
+    /**
+     * Callbacks run immediately after the document is manually scrolled.
+     * Run during the RAF postWrite step.
+     * @private
+     */
+    private readonly afterScrollCallbacks: Array<() => void>;
 
-    constructor() {
+    constructor(
+        {
+          beforeScrollCallbacks = [],
+          afterScrollCallbacks = [],
+        }: {
+          beforeScrollCallbacks?: Array<() => void>,
+          afterScrollCallbacks?: Array<() => void>,
+        } = {}
+    ) {
         this.raf = new Raf();
+        this.beforeScrollCallbacks = beforeScrollCallbacks;
+        this.afterScrollCallbacks = afterScrollCallbacks;
         this.domWatcher = new DomWatcher();
         this.domWatcher.add({
             // @ts-ignore
@@ -71,10 +93,12 @@ export class ScrollRenderFix {
         this.raf.read(()=> {
           this.targetY = this.getScrollElement().scrollTop + e.deltaY;
           this.raf.postWrite(()=> {
+              this.beforeScrollCallbacks.forEach((cb) => cb());
               if (this.currentY !== this.targetY) {
                 this.getScrollElement().scrollTop = this.targetY;
                 this.currentY = this.targetY;
               }
+              this.afterScrollCallbacks.forEach((cb) => cb());
           });
         });
     }
