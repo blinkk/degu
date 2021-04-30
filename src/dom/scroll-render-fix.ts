@@ -113,5 +113,6 @@ export class ScrollRenderFix {
 
     public dispose() {
       this.domWatcher && this.domWatcher.dispose();
+      this.raf && this.raf.dispose();
     }
 }
