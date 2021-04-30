@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ScrollToOnFocusConfig | @blinkk/degu</title>
+	<title>ScrollRenderFixConfig | @blinkk/degu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,10 +57,10 @@
 					<a href="../modules/dom.html">dom</a>
 				</li>
 				<li>
-					<a href="dom.scrolltoonfocusconfig.html">ScrollToOnFocusConfig</a>
+					<a href="dom.scrollrenderfixconfig.html">ScrollRenderFixConfig</a>
 				</li>
 			</ul>
-			<h1>Interface ScrollToOnFocusConfig</h1>
+			<h1>Interface ScrollRenderFixConfig</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ScrollToOnFocusConfig</span>
+						<span class="target">ScrollRenderFixConfig</span>
 					</li>
 				</ul>
 			</section>
@@ -82,13 +82,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrolltoonfocusconfig.html#bottomprogressoffset" class="tsd-kind-icon">bottom<wbr>Progress<wbr>Offset</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrolltoonfocusconfig.html#debug" class="tsd-kind-icon">debug</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrolltoonfocusconfig.html#element" class="tsd-kind-icon">element</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrolltoonfocusconfig.html#mousedown" class="tsd-kind-icon">mouse<wbr>Down</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrolltoonfocusconfig.html#setariarole" class="tsd-kind-icon">set<wbr>Aria<wbr>Role</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrolltoonfocusconfig.html#settabindex" class="tsd-kind-icon">set<wbr>Tab<wbr>Index</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrolltoonfocusconfig.html#topprogressoffset" class="tsd-kind-icon">top<wbr>Progress<wbr>Offset</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrollrenderfixconfig.html#afterscrollcallback" class="tsd-kind-icon">after<wbr>Scroll<wbr>Callback</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.scrollrenderfixconfig.html#beforescrollcallback" class="tsd-kind-icon">before<wbr>Scroll<wbr>Callback</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,112 +92,65 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="bottomprogressoffset" class="tsd-anchor"></a>
-					<h3>bottom<wbr>Progress<wbr>Offset</h3>
-					<div class="tsd-signature tsd-kind-icon">bottom<wbr>Progress<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="afterscrollcallback" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> after<wbr>Scroll<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">after<wbr>Scroll<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-to-on-focus.ts#L22">dom/scroll-to-on-focus.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-render-fix.ts#L17">dom/scroll-render-fix.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The bottom offset of the progress.</p>
+							<p>Callback run immediately after the document is manually scrolled.
+							Run during the RAF postWrite step.</p>
 						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="debug" class="tsd-anchor"></a>
-					<h3>debug</h3>
-					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="beforescrollcallback" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> before<wbr>Scroll<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">before<wbr>Scroll<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-to-on-focus.ts#L47">dom/scroll-to-on-focus.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-render-fix.ts#L12">dom/scroll-render-fix.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Enables debug mode which outputs additional info to the console for
-							debugging.</p>
+							<p>Callback run immediately before the document is manually scrolled.
+							Run during the RAF postWrite step.</p>
 						</div>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="element" class="tsd-anchor"></a>
-					<h3>element</h3>
-					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-to-on-focus.ts#L12">dom/scroll-to-on-focus.ts:12</a></li>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
 						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The root parent element.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="mousedown" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> mouse<wbr>Down</h3>
-					<div class="tsd-signature tsd-kind-icon">mouse<wbr>Down<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-to-on-focus.ts#L28">dom/scroll-to-on-focus.ts:28</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Whether to scroll to the element when its click on.
-							Handy for debuggin.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="setariarole" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> set<wbr>Aria<wbr>Role</h3>
-					<div class="tsd-signature tsd-kind-icon">set<wbr>Aria<wbr>Role<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-to-on-focus.ts#L40">dom/scroll-to-on-focus.ts:40</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Automatically sets the aria region to what is specified.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="settabindex" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> set<wbr>Tab<wbr>Index</h3>
-					<div class="tsd-signature tsd-kind-icon">set<wbr>Tab<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-to-on-focus.ts#L35">dom/scroll-to-on-focus.ts:35</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>For any element with data-scroll-to-on-focus automatically set
-								the tabindex=0.  For VO focus to be acquired, tabindex=0 is required
-							so generally you can set this to true.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="topprogressoffset" class="tsd-anchor"></a>
-					<h3>top<wbr>Progress<wbr>Offset</h3>
-					<div class="tsd-signature tsd-kind-icon">top<wbr>Progress<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/05eba69/src/dom/scroll-to-on-focus.ts#L17">dom/scroll-to-on-focus.ts:17</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The top offset of the progress.</p>
-						</div>
 					</div>
 				</section>
 			</section>
@@ -292,28 +240,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="dom.scrolltoonfocusconfig.html" class="tsd-kind-icon">Scroll<wbr>ToOn<wbr>Focus<wbr>Config</a>
+						<a href="dom.scrollrenderfixconfig.html" class="tsd-kind-icon">Scroll<wbr>Render<wbr>Fix<wbr>Config</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dom.scrolltoonfocusconfig.html#bottomprogressoffset" class="tsd-kind-icon">bottom<wbr>Progress<wbr>Offset</a>
+								<a href="dom.scrollrenderfixconfig.html#afterscrollcallback" class="tsd-kind-icon">after<wbr>Scroll<wbr>Callback</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dom.scrolltoonfocusconfig.html#debug" class="tsd-kind-icon">debug</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dom.scrolltoonfocusconfig.html#element" class="tsd-kind-icon">element</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dom.scrolltoonfocusconfig.html#mousedown" class="tsd-kind-icon">mouse<wbr>Down</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dom.scrolltoonfocusconfig.html#setariarole" class="tsd-kind-icon">set<wbr>Aria<wbr>Role</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dom.scrolltoonfocusconfig.html#settabindex" class="tsd-kind-icon">set<wbr>Tab<wbr>Index</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dom.scrolltoonfocusconfig.html#topprogressoffset" class="tsd-kind-icon">top<wbr>Progress<wbr>Offset</a>
+								<a href="dom.scrollrenderfixconfig.html#beforescrollcallback" class="tsd-kind-icon">before<wbr>Scroll<wbr>Callback</a>
 							</li>
 						</ul>
 					</li>
