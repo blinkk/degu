@@ -1,5 +1,3 @@
-import { time } from '../time/time';
-
 export interface ScriptLoaderConfig {
   /**
    * A function used to verify the script has successfully loaded.
@@ -57,7 +55,7 @@ export class ScriptLoader {
       this.renderDom(url);
 
       // Using RAF, repeatedly check if the script has been loaded.
-      const startTime = time.now();
+      const startTime = Date.now();
       const timeout = options.timeout || 5000;
       const callback = () => {
         if (this.disposed) {
@@ -68,7 +66,7 @@ export class ScriptLoader {
           resolve();
           return;
         }
-        const elapsed = time.now() - startTime;
+        const elapsed = Date.now() - startTime;
         if (elapsed > timeout) {
           reject(`failed to load ${url} due to timeout`);
           return;
