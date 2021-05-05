@@ -30,6 +30,7 @@ export interface ScriptLoaderConfig {
  */
 export class ScriptLoader {
   private loadedScripts: Record<string, Promise<void>> = {};
+  private disposed = false;
 
   /**
    * Loads a script element onto the page.
@@ -59,6 +60,10 @@ export class ScriptLoader {
       const startTime = time.now();
       const timeout = options.timeout || 5000;
       const callback = () => {
+        if (this.disposed) {
+          reject('script loader is disposed');
+          return;
+        }
         if (options.test()) {
           resolve();
           return;
@@ -85,5 +90,10 @@ export class ScriptLoader {
     const script = document.createElement('script');
     script.src = url;
     document.body.appendChild(script);
+  }
+
+  dispose() {
+    this.loadedScripts = {};
+    this.disposed = true;
   }
 }
