@@ -29,6 +29,8 @@ export interface ScriptLoaderConfig {
  * ```
  */
 export class ScriptLoader {
+  private loadedScripts: Record<string, Promise<void>> = {};
+
   /**
    * Loads a script element onto the page.
    *
@@ -37,8 +39,13 @@ export class ScriptLoader {
    * @param options Config options for loading the script.
    */
   public load(url: string, options: ScriptLoaderConfig): Promise<void> {
-    const timeout = options.timeout || 5000;
-    return new Promise((resolve, reject) => {
+    // Avoid repeated calls to the same URL by returning the previous promise.
+    const previousPromise = this.loadedScripts[url];
+    if (previousPromise) {
+      return previousPromise;
+    }
+
+    const promise: Promise<void> = new Promise((resolve, reject) => {
       // Avoid adding the script to the page if the test fn already passes.
       if (options.test()) {
         resolve();
@@ -50,6 +57,7 @@ export class ScriptLoader {
 
       // Using RAF, repeatedly check if the script has been loaded.
       const startTime = time.now();
+      const timeout = options.timeout || 5000;
       const callback = () => {
         if (options.test()) {
           resolve();
@@ -64,6 +72,9 @@ export class ScriptLoader {
       };
       window.requestAnimationFrame(callback);
     });
+
+    this.loadedScripts[url] = promise;
+    return promise;
   }
 
   /**
