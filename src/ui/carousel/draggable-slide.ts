@@ -252,6 +252,7 @@ export class DraggableSlide implements Transition {
     this.domWatcher.add({
       element: window,
       on: 'resize',
+      eventOptions: {passive: true},
       callback: () => {
         window.clearTimeout(this.resizeTimeout);
         this.resizeTimeout =
@@ -331,6 +332,7 @@ export class DraggableSlide implements Transition {
                 this.domWatcher.add({
                   element: slide,
                   on: event,
+                  eventOptions: {passive: true},
                   callback: (e: Event) => this.startInteraction(e)
                 });
               });
@@ -339,6 +341,7 @@ export class DraggableSlide implements Transition {
                 this.domWatcher.add({
                   element: window,
                   on: event,
+                  eventOptions: {passive: true},
                   callback: (e: Event) => this.endInteraction(e)
                 });
               });

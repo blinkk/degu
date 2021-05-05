@@ -77,6 +77,7 @@ export class CachedMouseTracker {
         CachedMouseTracker.domWatcher.add({
           element: window,
           on: cursorMoveEvent,
+          eventOptions: {passive: true},
           callback: (e: Event) => CachedMouseTracker.updatePosition(e)
         });
       });
