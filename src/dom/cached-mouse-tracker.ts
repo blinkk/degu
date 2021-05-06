@@ -31,7 +31,7 @@ export class CachedMouseTracker {
   // singleton but be disposed separately without the user needing to worry
   // about the singleton pattern.
   private static uses: Set<any> = new Set();
-  private static clientPosition: Vector;
+  private static clientPosition: Vector | null;
   private static domWatcher: DomWatcher;
   private static raf: Raf;
 
@@ -89,7 +89,7 @@ export class CachedMouseTracker {
    * Return the current cached mouse position as determined by clientX and
    * clientY values.
    */
-  getClientPosition(): Vector {
+  getClientPosition(): Vector | null {
     return CachedMouseTracker.clientPosition;
   }
 
