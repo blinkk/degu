@@ -19,7 +19,7 @@ export interface ScriptLoaderConfig {
  * ```
  * const scriptLoader = new RAFScriptLoader();
  * scriptLoader.load('https://www.youtube.com/iframe_api', {
- *   test: () => window.YT,
+ *   test: () => window.YT && window.YT['loaded'] === 1,
  * }).then(() => {
  *   // The YT API should be loaded now.
  *   const player = new YT.Player(...);
