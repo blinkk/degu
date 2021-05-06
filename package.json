@@ -99,12 +99,14 @@
     "typedoc": "0.14.2",
     "typedoc-plugin-external-module-map": "1.0.0",
     "typedoc-plugin-no-inherit": "1.1.8",
-    "typescript": "3.4.1",
+    "typescript": "^4.0.3",
     "webpack": "4.29.6",
     "webpack-cli": "3.3.0",
     "webpack-dev-middleware": "3.7.0",
     "webpack-dev-server": "3.2.1",
-    "webpack-merge": "4.2.1"
+    "webpack-merge": "4.2.1",
+    "gts": "^3.1.0",
+    "@types/node": "^14.11.2"
   },
   "scripts": {
     "build": "rm -rf lib && mkdir lib && tsc",
@@ -114,16 +116,22 @@
     "dev-no-test": "concurrently \"tsc --watch\" \"npm run start\"",
     "doc": "typedoc",
     "doc-server": "simplehttpserver ./docs",
-    "lint": "tslint -c tslint.json \"src/**/*.ts\"",
+    "lint": "gts lint",
     "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\"",
     "prepare": "npm run build",
     "server": "node server",
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
-    "test": "ava"
+    "test": "ava",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "gts": "^3.1.0",
     "jquery": "^3.4.1",
     "save-dev": "0.0.1-security"
   }
