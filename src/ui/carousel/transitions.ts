@@ -19,11 +19,9 @@ export interface Transition {
  * default active/before/after classes.
  */
 export class CssClassesOnly implements Transition {
-  private activeSlide: HTMLElement = null;
-  private carousel: Carousel = null;
+  private activeSlide: HTMLElement;
 
   init(carousel: Carousel) {
-    this.carousel = carousel;
     this.activeSlide = carousel.getFirstSlide();
   }
 

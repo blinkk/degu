@@ -41,18 +41,18 @@ export class urlParams {
      * ```
      * urlParams.getValue('sup');
      *
-     * // http://mydomain.com?sup=hello --> hello
-     * // http://mydomain.com?hello&sup=hello  --> hello
+     * // http://mydomain.com/?sup=hello --> hello
+     * // http://mydomain.com/?hello&sup=hello  --> hello
      *
      * // http://mydomain.com --> null
-     * // http://mydomain.com?sup --> null
+     * // http://mydomain.com/?sup --> null
      *
      *
      * // For quick sanitization.
      * const myvalue = stringf.alphaNumeric(urlParams.getValue('sup'));
      * ```
      */
-    static getValue(paramName: string): string {
+    static getValue(paramName: string): string | null {
         let param = window.location.search.split(paramName + '=')[1];
         param = param && param.split('&')[0];
         return param || null;
@@ -63,7 +63,7 @@ export class urlParams {
      * Tests if the given param is in the url.
      * @param paramName
      */
-    static hasParam(paramName: string):boolean {
+    static hasParam(paramName: string): boolean {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.has(paramName);
     }
@@ -83,7 +83,7 @@ export class urlParams {
         var url = new URL(window.location.href);
         url.searchParams.set(paramName, value);
         if (window.history.replaceState) {
-            window.history.replaceState({}, null, url.toString());
+            window.history.replaceState({}, '', url.toString());
         }
     }
 
@@ -103,7 +103,7 @@ export class urlParams {
         var url = new URL(window.location.href);
         url.searchParams.delete(paramName);
         if (window.history.replaceState) {
-            window.history.replaceState({}, null, url.toString());
+            window.history.replaceState({}, '', url.toString());
         }
     }
 
@@ -122,9 +122,9 @@ export class urlParams {
      * ```
      * @param callback
      */
-    static asObject(url: string): Object {
+    static asObject(url: string): Record<string, string> {
         const query = url.substr(1);
-        let result = {};
+        let result: Record<string, string> = {};
         query.split("&").forEach((section: any) => {
             let item = section.split("=");
 
@@ -181,7 +181,6 @@ export class urlParams {
 
                 let url = new URL(el.href);
                 objectf.forEach(params, (key: string, value: string) => {
-                    let params = new URLSearchParams(url.search.slice(1));
                     if (!url.searchParams.has(key)) {
                         if (whiteListKeys && whiteListKeys.length >= 1) {
                             if (~whiteListKeys.indexOf(key)) {
@@ -275,15 +274,13 @@ export class urlParams {
      *
      * ```
      */
-    static updateSearchParams(param:string, value:string, urlSearchParams?:URLSearchParams):URLSearchParams {
-        if ('URLSearchParams' in window) {
-            if(!urlSearchParams) {
-              urlSearchParams = new URLSearchParams(window.location.search);
-            }
-
-            urlSearchParams.set(param, value);
-            return urlSearchParams;
+    static updateSearchParams(param:string, value:string, urlSearchParams?: URLSearchParams): URLSearchParams {
+        if(!urlSearchParams) {
+            urlSearchParams = new URLSearchParams(window.location.search);
         }
+
+        urlSearchParams.set(param, value);
+        return urlSearchParams;
     }
 
 }
