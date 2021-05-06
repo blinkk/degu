@@ -305,16 +305,16 @@ export class HorizontalScrollElement {
     private useSnapToClosest: boolean = false;
     private shouldLeftAlign: boolean = false;
     private items: Array<HTMLElement>;
-    private childrenPositions: Array<HorizontalScrollElementPositions>;
+    private childrenPositions: Array<HorizontalScrollElementPositions> = [];
     private index: number = 0;
     private useSlideDeltaValues: boolean = false;
-    private rootWidth: number;
-    private scrollWidth: number;
-    private firstItemCenterOffset: number;
-    private lastItemCenterOffset: number;
+    private rootWidth: number = 0;
+    private scrollWidth: number = 0;
+    private firstItemCenterOffset: number = 0;
+    private lastItemCenterOffset: number = 0;
     private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
     private ranFirstEv: boolean = false;
-    private windowWidth: number;
+    private windowWidth: number = 0;
     private dragBounce: number;
     private resizing: boolean = false;
     private itemCount: number = 0;
@@ -416,29 +416,29 @@ export class HorizontalScrollElement {
                 const quartPercent = mathf.inverseLerp(0, 0.25, percent, true);
 
                 dom.setCssVariables(child.el, {
-                    '--horizontal-scroll-in-x': percent,
-                    '--horizontal-scroll-in-x-half': halfPercent,
-                    '--horizontal-scroll-in-x-quart': quartPercent,
-                    '--horizontal-scroll-in-x-abs': Math.abs(percent),
-                    '--horizontal-scroll-in-x-abs-half': Math.abs(halfPercent),
-                    '--horizontal-scroll-in-x-abs-quart': Math.abs(quartPercent),
-                    '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
-                    '--horizontal-scroll-in-x-abs-inv-half': 1 - Math.abs(halfPercent),
-                    '--horizontal-scroll-in-x-abs-inv-quart': 1 - Math.abs(quartPercent),
+                    '--horizontal-scroll-in-x': String(percent),
+                    '--horizontal-scroll-in-x-half': String(halfPercent),
+                    '--horizontal-scroll-in-x-quart': String(quartPercent),
+                    '--horizontal-scroll-in-x-abs': String(Math.abs(percent)),
+                    '--horizontal-scroll-in-x-abs-half': String(Math.abs(halfPercent)),
+                    '--horizontal-scroll-in-x-abs-quart': String(Math.abs(quartPercent)),
+                    '--horizontal-scroll-in-x-abs-inv': String(1 - Math.abs(percent)),
+                    '--horizontal-scroll-in-x-abs-inv-half': String(1 - Math.abs(halfPercent)),
+                    '--horizontal-scroll-in-x-abs-inv-quart': String(1 - Math.abs(quartPercent)),
                 })
 
                 // Add the same css value to associated slieDeltaValueElements
                 this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
                     dom.setCssVariables(group[i], {
-                        '--horizontal-scroll-in-x': percent,
-                        '--horizontal-scroll-in-x-half': halfPercent,
-                        '--horizontal-scroll-in-x-quart': quartPercent,
-                        '--horizontal-scroll-in-x-abs': Math.abs(percent),
-                        '--horizontal-scroll-in-x-abs-half': Math.abs(halfPercent),
-                        '--horizontal-scroll-in-x-abs-quart': Math.abs(quartPercent),
-                        '--horizontal-scroll-in-x-abs-inv': 1 - Math.abs(percent),
-                        '--horizontal-scroll-in-x-abs-inv-half': 1 - Math.abs(halfPercent),
-                        '--horizontal-scroll-in-x-abs-inv-quart': 1 - Math.abs(quartPercent),
+                        '--horizontal-scroll-in-x': String(percent),
+                        '--horizontal-scroll-in-x-half': String(halfPercent),
+                        '--horizontal-scroll-in-x-quart': String(quartPercent),
+                        '--horizontal-scroll-in-x-abs': String(Math.abs(percent)),
+                        '--horizontal-scroll-in-x-abs-half': String(Math.abs(halfPercent)),
+                        '--horizontal-scroll-in-x-abs-quart': String(Math.abs(quartPercent)),
+                        '--horizontal-scroll-in-x-abs-inv': String(1 - Math.abs(percent)),
+                        '--horizontal-scroll-in-x-abs-inv-half': String(1 - Math.abs(halfPercent)),
+                        '--horizontal-scroll-in-x-abs-inv-quart': String(1 - Math.abs(quartPercent)),
                     })
                 })
             });
@@ -760,8 +760,8 @@ export class HorizontalScrollElement {
 
 
 
-    findClosestIndexToX(x: number) {
-        let index;
+    findClosestIndexToX(x: number): number {
+        let index = -1;
         let distance = 10000;
 
         this.childrenPositions.forEach((position, i) => {
