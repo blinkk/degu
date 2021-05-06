@@ -15,12 +15,12 @@ class LottieButtonController {
         this.el = $element[0];
 
 
-        const playSettings = JSON.parse(this.el.getAttribute('lottie-play-settings')) as any;
+        const playSettings = JSON.parse(this.el.getAttribute('lottie-play-settings')!) as any;
 
         this.lottieButton = new LottieButton({
             rootElement: this.el,
-            lottieElement: this.el.querySelector('[lottie-element]'),
-            lottieJson: this.el.getAttribute('lottie-json-path'),
+            lottieElement: this.el.querySelector('[lottie-element]')!,
+            lottieJson: this.el.getAttribute('lottie-json-path')!,
             inview: playSettings.inview as LottieButtonRange,
             click: playSettings.click as LottieButtonRange,
             mouseleave: playSettings.mouseleave as LottieButtonRange,
