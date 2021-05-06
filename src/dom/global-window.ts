@@ -1,5 +1,11 @@
 import { DomWatcher } from './dom-watcher';
 
+declare global {
+    interface Window {
+        DEGU_JS_GLOBAL_WINDOW: GlobalWindow;
+    }
+}
+
 class GlobalWindow {
 
     private watcher: DomWatcher;
@@ -54,17 +60,18 @@ class GlobalWindow {
     }
 }
 
-let globalWindow = new GlobalWindow();
+let globalWindow;
 
 // Not really a fan of this pattern but to support
 // some cases where global-window is executed
 // on different scopes at different times we
 // preserve it in a global window object to
 // guarantee it's a singleton instance.
-if (window['DEGU_JS_GLOBAL_WINDOW']) {
-    globalWindow = window['DEGU_JS_GLOBAL_WINDOW'];
+if (window.DEGU_JS_GLOBAL_WINDOW) {
+    globalWindow = window.DEGU_JS_GLOBAL_WINDOW;
 } else {
-    window['DEGU_JS_GLOBAL_WINDOW'] = globalWindow;
+    globalWindow = new GlobalWindow();
+    window.DEGU_JS_GLOBAL_WINDOW = globalWindow;
 }
 
 export default globalWindow;
