@@ -32,14 +32,14 @@ export class DragDropFile {
     private dropCallback: Function;
 
     constructor(dropzoneElement: HTMLElement, dropCallback: Function) {
+        this.dropElement = dropzoneElement;
+        this.dropCallback = dropCallback;
+        this.watcher = new DomWatcher();
+
         if (!is.supportingFileApis()) {
             console.log('The file apis are not supported for this browser');
             return;
         }
-
-        this.dropElement = dropzoneElement;
-        this.dropCallback = dropCallback;
-        this.watcher = new DomWatcher();
         this.watcher.add({
             element: this.dropElement,
             on: 'dragover',
@@ -57,7 +57,7 @@ export class DragDropFile {
         e.preventDefault();
     }
 
-    private handleDrop(e: any): void {
+    private handleDrop(e: DragEvent): void {
         e.stopPropagation();
         e.preventDefault();
 
@@ -66,8 +66,8 @@ export class DragDropFile {
 
         // Currently support only 1 file.
         let entries;
-        if (e.dataTransfer.items) {
-            entries = [].slice.call(e.dataTransfer.items)
+        if (e.dataTransfer?.items) {
+            entries = Array.from(e.dataTransfer.items)
                 .map((item) => item.webkitGetAsEntry());
             const file = e.dataTransfer.files[0];
             this.dropCallback(
