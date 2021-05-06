@@ -154,12 +154,12 @@ export class LazyVideo {
 
         const forwardScalar = this.el.getAttribute('lazy-video-forward-scalar');
         this.forwardLoadScalar =
-            is.defined(forwardScalar) ? +forwardScalar : 1;
+            is.defined(forwardScalar) ? +forwardScalar! : 1;
 
         /**
          * The Video source.
          */
-        this.url = this.el.getAttribute('lazy-video');
+        this.url = this.el.getAttribute('lazy-video') || '';
 
         /**
          * Whether this directive has finished setting the video.
