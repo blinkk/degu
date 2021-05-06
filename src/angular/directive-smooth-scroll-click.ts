@@ -48,7 +48,7 @@ class SmoothScrollController {
         this.animating = true;
 
         var page = this.jQuery('body, html');
-        let top = this.jQuery('#' + this.id).offset().top - this.offset;
+        let top = this.jQuery('#' + this.id).offset()!.top - this.offset;
 
         let animationComplete = () => {
             this.animating = false;

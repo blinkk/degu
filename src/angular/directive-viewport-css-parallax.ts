@@ -12,7 +12,7 @@ export class ViewportCssParallaxController {
 
     constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
         this.element = $element[0];
-        const parallaxData = JSON.parse(this.element.getAttribute('viewport-css-parallax'));
+        const parallaxData = JSON.parse(this.element.getAttribute('viewport-css-parallax')!);
         this.viewportCssParallax = new ViewportCssParallax();
 
         // Add the root element.
