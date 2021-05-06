@@ -14,7 +14,7 @@ export class CssVarWidth implements INgDisposable {
     private margin:number;
     private max: number|null;
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
         this.el = $element[0];
         this.watcher = new DomWatcher();
 
