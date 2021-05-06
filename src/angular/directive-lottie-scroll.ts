@@ -1,5 +1,5 @@
 
-import * as lottie from 'lottie-web';
+import lottie, { AnimationItem } from 'lottie-web/build/player/lottie_light';
 import { RafProgress } from '../raf/raf-progress';
 import { DomWatcher } from '../dom/dom-watcher';
 import { dom } from '../dom/dom';
@@ -124,7 +124,7 @@ export interface LottieObject {
 
     // Instance of css var interpolate associated.  This is added once
     // lottie is created.
-    cssInterpolatorInstance: CssVarInterpolate
+    cssInterpolatorInstance: CssVarInterpolate | null,
 
     // Whether the lottie container associated to this LottieObject is
     // currently on the screen.  This is determined based on whether the
@@ -153,8 +153,8 @@ export class LottieController {
     private currentProgress: number = 0;
 
     // The top and bottom offsets in pixel number values.
-    private progressTopOffset: number;
-    private progressBottomOffset: number;
+    private progressTopOffset: number = 0;
+    private progressBottomOffset: number = 0;
 
 
     static get $inject() {
@@ -203,7 +203,7 @@ export class LottieController {
             eventOptions: { passive: true }
         })
 
-        const configData = JSON.parse(this.element.getAttribute('lottie-scroll'));
+        const configData = JSON.parse(this.element.getAttribute('lottie-scroll')!);
 
         const settings = configData.settings || {}
         this.lottieScrollSettings = {
@@ -285,7 +285,7 @@ export class LottieController {
         // On each window resize, test if the root lottie element is visible.
         // If not, mark the lottieScroll to not render or paint.
         this.lottieObjects.map((lottieObject, i) => {
-            const container = this.element.querySelector(lottieObject.container_selector);
+            const container = this.element.querySelector(lottieObject.container_selector)!;
             lottieObject.isOnScreen = !dom.isDisplayNoneWithAncestors(container);
             return lottieObject;
         });
@@ -340,7 +340,7 @@ export class LottieController {
         this.lottieObjects.forEach((lottieObject, i) => {
             is.supportingWebpAsync().then((supportsWebp) => {
                 const jsonPath = (lottieObject.json_path_webp && supportsWebp) ? lottieObject.json_path_webp : lottieObject.json_path;
-                const settings = {
+                const settings: any = {
                     container: this.element.querySelector(lottieObject.container_selector),
                     loop: true,
                     autoplay: false,
@@ -364,7 +364,7 @@ export class LottieController {
                     }
                 }
 
-                const lottieInstance = lottie['loadAnimation'](settings)
+                const lottieInstance = <AnimationItem>lottie.loadAnimation(settings);
 
                 // Supposed lottie optimization.
                 lottieInstance.setSubframe(false);
@@ -441,7 +441,7 @@ export class LottieController {
                                 interpolations: this.lottieObjects[i].interpolations,
                             }
                         );
-                        this.lottieObjects[i].cssInterpolatorInstance.useBatchUpdate(true);
+                        this.lottieObjects[i].cssInterpolatorInstance!.useBatchUpdate(true);
 
                         this.lottieObjects[i].lottieInDom = true;
 
@@ -480,7 +480,7 @@ export class LottieController {
 
 
     protected onWindowScroll(): void {
-        this.rafProgress.dampTo(this.getPercent(), this.lottieScrollSettings.lerp, this.lottieScrollSettings.damp);
+        this.rafProgress.dampTo(this.getPercent(), this.lottieScrollSettings.lerp, this.lottieScrollSettings.damp || 1);
     }
 
 
