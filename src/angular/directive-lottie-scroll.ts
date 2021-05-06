@@ -6,12 +6,21 @@ import { dom } from '../dom/dom';
 import { mathf } from '../mathf/mathf';
 import { func } from '../func/func';
 import { cssUnit, CssUnitObject } from '../string/css-unit';
-import { interpolateSettings } from '../interpolate/multi-interpolate';
+import { interpolateSettings, rangedProgress } from '../interpolate/multi-interpolate';
 import { CssVarInterpolate } from '../interpolate/css-var-interpolate';
 import { RafTimer } from '../raf/raf-timer';
 import { is } from '../is/is';
 import { CubicBezier } from '../mathf/cubic-bezier';
 
+export interface lottieRangedProgress extends rangedProgress {
+    fromFrame?: number;
+    toFrame?: number;
+    cubic_ease: string;
+}
+
+export interface lottieInterpolateSettings extends interpolateSettings {
+    progress: Array<lottieRangedProgress>;
+}
 
 export const LottieScrollEvents = {
     INIT: 'INIT',
@@ -73,7 +82,7 @@ export interface LottieClassTrigger {
 export interface LottieScrollIntro {
     startFrame: number,
     duration: number,
-    interpolations: Array<interpolateSettings>
+    interpolations: Array<lottieInterpolateSettings>
 }
 
 
@@ -115,7 +124,7 @@ export interface LottieObject {
     activeTriggerClasses: Array<string>,
 
     // Css var interpolations associated with this lottie scroll.
-    interpolations: Array<interpolateSettings>,
+    interpolations: Array<lottieInterpolateSettings>,
 
     // The lottie instance added once it is created.
     lottieInstance: any,
@@ -407,14 +416,14 @@ export class LottieController {
                             const endFrame = this.lottieObjects[i].endFrame;
                             interpolation.progress.map((progress) => {
                                 // TODO (uxder): Technically this a type violation.
-                                if (is.defined(progress['fromFrame'])) {
-                                    progress.from = mathf.inverseLerp(startFrame, endFrame, progress['fromFrame'], true);
+                                if (is.defined(progress.fromFrame)) {
+                                    progress.from = mathf.inverseLerp(startFrame, endFrame, progress.fromFrame!, true);
                                 }
-                                if (is.defined(progress['toFrame'])) {
-                                    let toFrame = progress['toFrame'];
+                                if (is.defined(progress.toFrame)) {
+                                    let toFrame = progress.toFrame!;
                                     // Allows toFrame to use addition.
                                     if (String(toFrame).startsWith('+')) {
-                                        toFrame = progress['fromFrame'] + +(String(toFrame).replace('+', ''));
+                                        toFrame = progress.fromFrame! + +(String(toFrame).replace('+', ''));
                                     }
                                     progress.to = mathf.inverseLerp(startFrame, endFrame, toFrame, true);
                                 }
@@ -422,7 +431,7 @@ export class LottieController {
                                 if (is.defined(progress['cubic_ease'])) {
                                     const ease = progress['cubic_ease'].split(',');
                                     progress.easingFunction = CubicBezier.makeEasingFunction(
-                                        ease[0], ease[1], ease[2], ease[3]
+                                        +ease[0], +ease[1], +ease[2], +ease[3]
                                     );
                                 }
 
@@ -473,7 +482,7 @@ export class LottieController {
 
                     // Update and render immediately after it loads.
                     this.updateImmediately();
-                }, { once: true });
+                });
             });
         })
     }
