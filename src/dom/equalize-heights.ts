@@ -92,7 +92,7 @@ export class EqualizeHeights {
    * Takes all elements and sets the minimum height to the tallest element.
    */
   setToTallestElement() {
-    this.elements = [...this.root.querySelectorAll(this.selector)];
+    this.elements = Array.from(this.root.querySelectorAll(this.selector));
     let largestHeight = 0;
     this.forEachElement((element: HTMLElement) => {
       element.style.minHeight = '';
@@ -113,7 +113,7 @@ export class EqualizeHeights {
    * Takes all elements and sets the maximum height to the shortest element.
    */
   setToShortestElement() {
-    this.elements = [...this.root.querySelectorAll(this.selector)];
+    this.elements = Array.from(this.root.querySelectorAll(this.selector));
     let shortestHeight = 10000;
     this.forEachElement((element: HTMLElement) => {
       element.style.maxHeight = 'none';
@@ -132,7 +132,7 @@ export class EqualizeHeights {
 
 
   removeEqualHeights() {
-    this.elements = [...this.root.querySelectorAll(this.selector)];
+    this.elements = Array.from(this.root.querySelectorAll(this.selector));
     this.forEachElement((element: HTMLElement) => {
       element.style.maxHeight = '';
       element.style.minHeight = '';
@@ -143,7 +143,7 @@ export class EqualizeHeights {
   dispose() {
     this.removeEqualHeights();
     this.watcher.dispose();
-    this.elements = null;
+    this.elements = [];
   }
 
 }
