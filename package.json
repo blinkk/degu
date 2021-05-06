@@ -111,6 +111,7 @@
   "scripts": {
     "build": "rm -rf lib && mkdir lib && tsc",
     "build-watch": "tsc --watch",
+    "compile": "tsc",
     "coverage": "nyc ava",
     "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
     "dev-no-test": "concurrently \"tsc --watch\" \"npm run start\"",

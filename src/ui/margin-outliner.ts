@@ -90,6 +90,7 @@ export class MarginOutliner {
 
   constructor(config: MarginOutlinerConfig) {
     this.config = config;
+    this.watcher = new DomWatcher();
 
     if (this.config.urlParamName) {
       // Disable if url param is specified and the value is not true.
@@ -97,7 +98,6 @@ export class MarginOutliner {
         return;
       }
     }
-    this.watcher = new DomWatcher();
     this.watcher.add({
       element: window,
       on: ['click', 'resize', 'scroll'],
@@ -125,7 +125,7 @@ export class MarginOutliner {
       spacerEl.classList.add(`${this.config.cssClassName}--padding`);
     }
     spacerEl.innerText = `${size}px`;
-    el.parentElement.appendChild(spacerEl);
+    el.parentElement!.appendChild(spacerEl);
   }
 
 
@@ -174,7 +174,7 @@ export class MarginOutliner {
     [].forEach.call(
       document.querySelectorAll(`.${this.config.cssClassName}`),
       (el: HTMLDivElement) => {
-        el.parentNode.removeChild(el);
+        el.parentNode!.removeChild(el);
       }
     );
   }

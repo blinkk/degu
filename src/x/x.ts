@@ -7,6 +7,14 @@ import { XPointer } from './x-pointer';
 import { XText } from './x-text';
 import { DomWatcher } from '../dom/dom-watcher';
 
+declare global {
+    interface Window {
+        X: any;
+        X_STAGE: any;
+    }
+}
+
+
 interface XConfig {
     canvasElement: HTMLCanvasElement;
     debugMode?: boolean;
