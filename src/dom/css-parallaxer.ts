@@ -19,7 +19,7 @@ export interface CssParallaxSettings {
     //  bottom: '0px' (string) A css number to offset the progress ends.  Accepts %, px, vh.
     bottom?: string,
     //  height: '100px' (string) Optional.  An absolute height to use to calculate the percent.  Accepts %, px, vh.  In most cases you won't need this.
-    height?: string,
+    height?: string | null,
     // http://degu.surge.sh/classes/mathf.mathf-1.html#damp
     //  lerp: 0.18 Optional lerp.  Defaults to 1 assuming no asymptotic averaging.
     lerp?: number,
@@ -53,7 +53,7 @@ export interface CssParallaxSettings {
 
     // Optionally pass inviewProgress.
     // This can be used to trigger css classes at specific breakpoints.
-    inviewProgress?: InviewProgress
+    inviewProgress?: InviewProgress | null
 }
 
 /**
@@ -145,28 +145,28 @@ export interface CssParallaxSettings {
  */
 export class CssParallaxer {
     private element: HTMLElement;
-    private rafEv: ElementVisibilityObject;
+    private rafEv: ElementVisibilityObject | null = null;
     private domWatcher: DomWatcher;
-    private interpolator: CssVarInterpolate;
+    private interpolator: CssVarInterpolate | null = null;
     private raf: Raf;
     private initialized: boolean = false;
-    private settingsData: CssParallaxSettings;
+    private settingsData: CssParallaxSettings | null = null;
     private currentProgress: number = 0;
     /**
      * The top offset for progress
      */
-    private topOffset: number;
+    private topOffset: number = 0;
     /**
      * The bottom offset for progress
      */
-    private bottomOffset: number;
+    private bottomOffset: number = 0;
 
     /**
      * The height value if specified.
      */
-    private height: number;
+    private height: number | null = null;
 
-    private windowWidth: number;
+    private windowWidth: number | null = null;
 
 
 
@@ -205,7 +205,7 @@ export class CssParallaxer {
             this.interpolator.useBatchUpdate(true);
             this.interpolator.useSubPixelRendering(false);
             this.element.classList.add('css-parallax-ready');
-            this.rafEv = elementVisibility.inview(this.element, this.settingsData.rafEvOptions,
+            this.rafEv = elementVisibility.inview(this.element, this.settingsData!.rafEvOptions,
                 (element: any, changes: any) => {
                     if (changes.isIntersecting) {
                         this.updateImmediately();
@@ -218,7 +218,7 @@ export class CssParallaxer {
             this.initialized = true;
         } else {
             // Update if already set.
-            this.interpolator.setInterpolations({interpolations: interpolations || []});
+            this.interpolator!.setInterpolations({interpolations: interpolations || []});
         }
 
 
@@ -305,7 +305,7 @@ export class CssParallaxer {
         // The problem is that if you apply damp / lerp out of range,
         // Animations that depend on start (0) and end (1) end up
         // getting slightly delayed causing FOUC.
-        if (this.settingsData.lerpOnlyInRange && progress <= 0 || progress >= 1) {
+        if (this.settingsData!.lerpOnlyInRange && progress <= 0 || progress >= 1) {
             this.currentProgress = progress;
         } else {
             // If no lerping, bypass.
@@ -324,18 +324,18 @@ export class CssParallaxer {
 
 
 
-        if (this.settingsData.clamp) {
+        if (this.settingsData!.clamp) {
             this.currentProgress = mathf.clamp01(this.currentProgress);
         }
 
-        if (this.settingsData.debug) {
+        if (this.settingsData!.debug) {
             console.log(this.currentProgress, this.topOffset, this.bottomOffset);
         }
 
 
         // Update inviewProgress if provided.
-        if(this.settingsData.inviewProgress) {
-            this.settingsData.inviewProgress.setProgress(this.currentProgress);
+        if(this.settingsData!.inviewProgress) {
+            this.settingsData!.inviewProgress.setProgress(this.currentProgress);
         }
 
         return this.currentProgress;
@@ -344,7 +344,7 @@ export class CssParallaxer {
 
     public updateImmediately() {
         this.updateProgress(1, 1);
-        this.interpolator.update(
+        this.interpolator!.update(
             this.currentProgress
         );
     }
@@ -352,13 +352,13 @@ export class CssParallaxer {
 
     protected calculateProgressOffsets() {
         this.topOffset = func.setDefault(
-            this.getPixelValue(this.settingsData.top), 0
+            this.getPixelValue(this.settingsData!.top!), 0
         )
 
         this.bottomOffset = func.setDefault(
-            this.getPixelValue(this.settingsData.bottom), 0
+            this.getPixelValue(this.settingsData!.bottom!), 0
         )
-        this.height = is.string(this.settingsData.height) ? this.getPixelValue(this.settingsData.height) : null;
+        this.height = is.string(this.settingsData!.height) ? this.getPixelValue(this.settingsData!.height!) : null;
 
         // If height is specified, we basically want to "shorten" the element
         // by the delta amount.
@@ -374,7 +374,7 @@ export class CssParallaxer {
     protected onWindowResize() {
         this.windowWidth = window.innerWidth;
         this.calculateProgressOffsets();
-        this.interpolator.flush();
+        this.interpolator!.flush();
         this.updateImmediately();
     }
 
@@ -382,15 +382,15 @@ export class CssParallaxer {
     protected onRaf() {
         this.raf.read(() => {
             // Mobile case.
-            if (this.settingsData.mobileBreakpoint &&
-                window.innerWidth < this.settingsData.mobileBreakpoint &&
-                this.settingsData.dampMobile &&
-                this.settingsData.lerpMobile
+            if (this.settingsData!.mobileBreakpoint &&
+                window.innerWidth < this.settingsData!.mobileBreakpoint &&
+                this.settingsData!.dampMobile &&
+                this.settingsData!.lerpMobile
             ) {
-                this.updateProgress(this.settingsData.lerpMobile, this.settingsData.dampMobile);
+                this.updateProgress(this.settingsData!.lerpMobile, this.settingsData!.dampMobile);
             } else {
                 // All others.
-                this.updateProgress(this.settingsData.lerp, this.settingsData.damp);
+                this.updateProgress(this.settingsData!.lerp!, this.settingsData!.damp!);
             }
         })
 
@@ -398,8 +398,8 @@ export class CssParallaxer {
             // Use a rounded progress to pass to css var interpolate which
             // will cull updates that are repetitive.
             const roundedProgress =
-                mathf.roundToPrecision(this.currentProgress, this.settingsData.precision);
-            this.interpolator.update(
+                mathf.roundToPrecision(this.currentProgress, this.settingsData!.precision!);
+            this.interpolator!.update(
                 roundedProgress
             );
         })
@@ -417,6 +417,6 @@ export class CssParallaxer {
     public dispose() {
         this.raf && this.raf.stop();
         this.domWatcher.dispose();
-        this.rafEv.dispose();
+        this.rafEv!.dispose();
     }
 }
