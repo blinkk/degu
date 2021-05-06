@@ -71,7 +71,7 @@ export class bom {
      * @param element
      */
     static appendBrowserNameToElement(element: HTMLElement) {
-        const checks = {
+        const checks: { [key : string]: Function } = {
             'ieOrEdge': is.ieOrEdge,
             'edge': is.edge,
             'ie': is.ie,
