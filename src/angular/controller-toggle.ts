@@ -38,7 +38,7 @@ export class ToggleController {
         return ['$scope', '$element'];
     }
 
-    constructor($element: ng.IAngularStatic) {
+    constructor($element: ng.IAugmentedJQuery) {
         this.el = $element[0];
         this.expanded = false;
     }
