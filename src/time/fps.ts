@@ -79,12 +79,12 @@ export class Fps {
     /**
      * The time measurement used to measure internal fps.
      */
-    private lastUpdateTime: number;
+    private lastUpdateTime: number = 0;
 
     /**
      * A timeout that is used for scheduling.
      */
-    private scheduleTimeout: number;
+    private scheduleTimeout: number = 0;
 
 
     constructor(fps:number) {
@@ -137,11 +137,12 @@ export class Fps {
      */
     schedule(callback:Function) {
         this.cancelSchedule();
+        const fps = this.fps || 0;
         this.scheduleTimeout = window.setTimeout(()=> {
             this.locked = false;
             callback();
             this.locked = true;
-        }, 1000 / this.fps + 1);
+        }, 1000 / fps + 1);
     }
 
 
@@ -160,7 +161,7 @@ export class Fps {
      * of being allowed to run.  This method would return true if it's okay
      * to run but return false a call should be culled.
      */
-    canRun():boolean {
+    canRun(): boolean {
         this.cancelSchedule();
 
         // If the FPS is unlocked always return true.
@@ -186,6 +187,8 @@ export class Fps {
             this.lastUpdateTime = time.now();
             return true;
         }
+
+        return false;
     }
 
 }

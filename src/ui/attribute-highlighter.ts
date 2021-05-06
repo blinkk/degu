@@ -202,11 +202,9 @@ export class AttributeHighlighter {
   private attributeWatcher: DomWatcher;
 
   private config: AttributeHighlighterConfig;
-  private observer: MutationObserver;
 
   // A list of all highlighters on the page.
   private highlighters: HighlightElementGroup[] = [];
-  private noRefresh: boolean = false;
 
   private raf: Raf;
 
@@ -370,7 +368,7 @@ export class AttributeHighlighter {
       });
 
       spacerEl.classList.remove('up');
-      el.parentElement.appendChild(spacerEl);
+      el.parentElement!.appendChild(spacerEl);
     } else {
 
       // Update.
