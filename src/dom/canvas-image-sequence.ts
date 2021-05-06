@@ -627,7 +627,7 @@ export class CanvasImageSequence {
     /**
      * The main element to add canvas to.
      */
-    private element: HTMLElement;
+    private element: HTMLElement | null;
 
     /**
      * A list canvas image sets.
@@ -659,7 +659,7 @@ export class CanvasImageSequence {
      * Blobs are stored to this dictionary.  These are
      * held in memory.
      */
-    private blobCache: Object;
+    private blobCache: { [key: string]: any} | null;
 
     /**
      * The current frame that is rendered on the screen.
@@ -697,7 +697,7 @@ export class CanvasImageSequence {
      */
     private playDefer: Defer | null;
 
-    private canvasElement: HTMLCanvasElement;
+    private canvasElement: HTMLCanvasElement | null;
     private context: CanvasRenderingContext2D;
     private dpr: number;
     private canvasWidth: number;
@@ -750,7 +750,7 @@ export class CanvasImageSequence {
      */
     private disposed: boolean;
 
-    private cacheImage: HTMLImageElement;
+    private cacheImage: HTMLImageElement | null;
 
     constructor(element: HTMLElement,
         imageSets: Array<CanvasImageSequenceImageSet>,
@@ -910,16 +910,16 @@ export class CanvasImageSequence {
 
 
     resize() {
-        this.canvasWidth = this.element.offsetWidth;
-        this.canvasHeight = this.element.offsetHeight;
+        this.canvasWidth = this.element!.offsetWidth;
+        this.canvasHeight = this.element!.offsetHeight;
 
         // Set canvas to high dpr, the actual width to the size.
         // @see https://gist.github.com/callumlocke/cc258a193839691f60dd
         // for inspiration.
-        this.canvasElement.width = this.element.offsetWidth * this.dpr;
-        this.canvasElement.height = this.element.offsetHeight * this.dpr;
-        this.canvasElement.style.width = this.canvasWidth + 'px';
-        this.canvasElement.style.height = this.canvasHeight + 'px';
+        this.canvasElement!.width = this.element!.offsetWidth * this.dpr;
+        this.canvasElement!.height = this.element!.offsetHeight * this.dpr;
+        this.canvasElement!.style.width = this.canvasWidth + 'px';
+        this.canvasElement!.style.height = this.canvasHeight + 'px';
 
         // Scale up the canvas to compensate DPR.
         this.context.scale(this.dpr, this.dpr);
@@ -940,10 +940,10 @@ export class CanvasImageSequence {
         }
 
         let loadAllBlobs = () => {
-            this.blobLoader.load().then((results) => {
+            this.blobLoader!.load().then((results) => {
                 this.blobCache = results;
                 this.setImageDimensions().then(() => {
-                    this.blobLoader.dispose();
+                    this.blobLoader!.dispose();
                     this.readyPromise.resolve(results);
                 });
             })
@@ -1014,19 +1014,19 @@ export class CanvasImageSequence {
      */
     makeImage(source: string): Promise<HTMLImageElement | null> {
         return new Promise(resolve => {
-            if (!source || !this.blobCache[source]) {
+            if (!source || !this.blobCache![source]) {
                 resolve(null);
                 return;
             }
 
             // Remove the objectURL Blob from locale cache.
-            URL.revokeObjectURL(this.cacheImage.src);
-            this.cacheImage.onload = () => {
+            URL.revokeObjectURL(this.cacheImage!.src);
+            this.cacheImage!.onload = () => {
                 resolve(this.cacheImage);
             }
 
             // Create a new temporary ObjectURl to store.
-            this.cacheImage.src = URL.createObjectURL(this.blobCache[source]);
+            this.cacheImage!.src = URL.createObjectURL(this.blobCache![source]);
         });
     }
 
@@ -1037,19 +1037,19 @@ export class CanvasImageSequence {
      */
     private setImageDimensions(): Promise<void> {
         return new Promise(resolve => {
-            const source = this.activeImageSet.images[0];
-            const blob = this.blobCache[source];
+            const source = this.activeImageSet!.images[0];
+            const blob = this.blobCache![source];
 
             // Generate an image from teh first blob.
-            dom.makeImageFromBlob(blob).then((image) => {
-                const bitMapsLoaded = !image.naturalWidth;
+            dom.makeImageFromBlob(blob).then((image: HTMLImageElement | null) => {
+                const bitMapsLoaded = !image!.naturalWidth;
                 this.imageNaturalHeight =
-                    bitMapsLoaded ? image.height : image.naturalHeight;
+                    bitMapsLoaded ? image!.height : image!.naturalHeight;
                 this.imageNaturalWidth =
-                    bitMapsLoaded ? image.width : image.naturalWidth;
+                    bitMapsLoaded ? image!.width : image!.naturalWidth;
 
                 // Release it from memory.
-                dom.deleteImage(image);
+                dom.deleteImage(image!);
                 image = null;
                 resolve();
             })
@@ -1061,7 +1061,7 @@ export class CanvasImageSequence {
      * Gets internally used current image seet.
      */
     getActiveImages(): Array<string> {
-        return this.activeImageSet.images;
+        return this.activeImageSet!.images;
     }
 
 
@@ -1141,7 +1141,7 @@ export class CanvasImageSequence {
         // If the optional multiinterpolate is set, then use multiInterpolate
         // to figure out what the correct frame should be.
         if (this.multiInterpolate && !noMultiInterpolate) {
-            let interpolateMap = this.multiInterpolate.calculate(progress);
+            let interpolateMap: any = this.multiInterpolate.calculate(progress);
             progress = mathf.clamp01(interpolateMap['sequence']);
         }
 
@@ -1270,7 +1270,7 @@ export class CanvasImageSequence {
         // - right: 50% would mean the right half is missing
         // - left: 50% would mean the left half is missing
         if (this.clipPathType == 'inset') {
-            let results = this.clipMultiInterpolate!.getCalculations() || {};
+            let results:any = this.clipMultiInterpolate!.getCalculations() || {};
             let top = results['top'] || 0;
             let bottom = results['bottom'] || 0;
             let left = results['left'] || 0;
@@ -1375,7 +1375,7 @@ export class CanvasImageSequence {
                     (containerBox.height - (imageBox.height * cover.scalar)) * -this.options.top;
             }
 
-            this.context.drawImage(
+            this.context!.drawImage(
                 image,
                 -cover.xOffset >> 0, -cover.yOffset >> 0,
                 imageBox.width * cover.scalar >> 0,
@@ -1462,7 +1462,7 @@ export class CanvasImageSequence {
             }
 
 
-            this.context.drawImage(
+            this.context!.drawImage(
                 image,
                 diffX >> 0, diffY >> 0,
                 imageBox.width * this.containScale >> 0,
@@ -1472,7 +1472,7 @@ export class CanvasImageSequence {
         }
 
         if (!is.null(this.clipPathType)) {
-            this.context.restore();
+            this.context!.restore();
         }
 
         this.lastRenderSource = imageSource;
@@ -1539,7 +1539,7 @@ export class CanvasImageSequence {
      * @param coords
      */
     getHexColorAtPoint(coords: Vector) {
-        return domCanvas.getColorAtPointAsHex(this.context, coords);
+        return domCanvas.getColorAtPointAsHex(this.context!, coords);
     }
 
 
@@ -1575,9 +1575,7 @@ export class CanvasImageSequence {
         this.element = null;
         this.blobCache = null;
         this.canvasElement = null;
-        dom.deleteImage(this.cacheImage);
+        dom.deleteImage(this.cacheImage!);
         this.cacheImage = null;
-        this.context = null;
     }
-
 }
