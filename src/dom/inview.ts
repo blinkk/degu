@@ -1,13 +1,9 @@
-
-
-
 import { Raf } from '../raf/raf';
 import { DomWatcher } from '../dom/dom-watcher';
 import { mathf } from '../mathf/mathf';
-import { dom } from '../dom/dom';
 
 
-const InviewDefaultClassNames: Object = {
+const InviewDefaultClassNames: Record<string, string> = {
     READY: 'ready',
     IN: 'in',
     IN_ONCE: 'in-once',
@@ -228,13 +224,13 @@ export class Inview {
     /**
      * Last known scroll direction. 1 down, -1 up, 0 no direction.
      */
-    private scrollDirection: number;
+    private scrollDirection: number = 0;
 
 
     /**
      * A flag to keep track of whether the element was inview atleast once.
      */
-    private inOnce: boolean;
+    private inOnce: boolean = false;
 
 
     /**
@@ -252,7 +248,7 @@ export class Inview {
     /**
      * A list of inview classnames.
      */
-    private inviewClassNames: Object;
+    private inviewClassNames: Record<string, string>;
 
     constructor(config: InviewConfig) {
         this.config = Object.assign(
@@ -372,7 +368,7 @@ export class Inview {
             let wh = window.innerHeight;
             let box = this.config.element.getBoundingClientRect();
             let elementBaseline =
-                box.top + (this.config.elementBaseline * box.height);
+                box.top + (this.config.elementBaseline! * box.height);
 
 
             // This is the percent of where element baseline is.
@@ -395,7 +391,7 @@ export class Inview {
                 let bottomPercent = outPercent;
                 const completelyOutOfView = !mathf.isBetween(topPercent, 0, 1) && !mathf.isBetween(bottomPercent, 0, 1);
 
-                if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+                if (inPercent < this.config.viewportOffset! || outPercent >= 1) {
                     if (
                         completelyOutOfView
                     ) {
@@ -412,7 +408,7 @@ export class Inview {
                 // Down only mode.
                 const topOfElementIsBelowViewport = topPercent < 0;
                 const bottomOfElementIsAboveViewport = bottomPercent >= 1;
-                if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+                if (inPercent < this.config.viewportOffset! || outPercent >= 1) {
                     if (
                         topOfElementIsBelowViewport
                     ) {
@@ -433,7 +429,7 @@ export class Inview {
                 // NORMAL INVIEW
                 // The outview conditions are in the outpercent (bottom of the element) is greater than 1
                 // or the inpercent (the element baseline) is below 0 under the screen.
-                if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+                if (inPercent < this.config.viewportOffset! || outPercent >= 1) {
                     this.runOutviewState(force);
                 } else {
                     this.runInviewState(force);
