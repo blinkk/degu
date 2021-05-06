@@ -12,7 +12,7 @@ export const LazyVideoEvents = {
 
 export class LazyVideoController {
     private el: HTMLElement;
-    private parent: HTMLElement;
+    private parent: HTMLVideoElement;
     private url: string;
     private setComplete: boolean;
     private ev: ElementVisibilityObject;
@@ -33,7 +33,7 @@ export class LazyVideoController {
     constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
 
         this.el = $element[0];
-        this.parent = this.el.parentElement;
+        this.parent = <HTMLVideoElement>this.el.parentElement!;
 
         this.watcher = new DomWatcher();
         this.watcher.add({
@@ -91,7 +91,7 @@ export class LazyVideoController {
             this.el.setAttribute('src', this.url);
 
             // Tell the parent element (video) to load.
-            this.parent['load']();
+            this.parent.load();
             dom.event(this.parent, LazyVideoEvents.LOAD_START, {});
 
             // Once it's loaded, dispose of this module.
