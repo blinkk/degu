@@ -196,7 +196,7 @@ export class dom {
      * @param element
      * @param style
      */
-    static setCssVariables(element: HTMLElement, variables: Object) {
+    static setCssVariables(element: HTMLElement, variables: Record<string, string>) {
         for (let key in variables) {
             element.style.setProperty(key, variables[key]);
         }
@@ -851,7 +851,7 @@ export class dom {
      * ```
      */
     static getStyle(el: Element): CSSStyleDeclaration {
-        return el['currentStyle'] || window.getComputedStyle(el);
+        return window.getComputedStyle(el);
     }
 
     /**
@@ -873,13 +873,13 @@ export class dom {
      * ```
      */
     static isDisplayNoneWithAncestors(el: Element): boolean {
-        let isDisplayNone = dom.isDisplayNone(el);
-        while (el = el.parentElement) {
-            if (!isDisplayNone) {
-                isDisplayNone = dom.isDisplayNone(el);
-            }
+        if (dom.isDisplayNone(el)) {
+            return true;
         }
-        return isDisplayNone;
+        if (el.parentElement) {
+            return dom.isDisplayNoneWithAncestors(el.parentElement);
+        }
+        return false;
     }
 
 
@@ -902,13 +902,13 @@ export class dom {
 
 
         let isVisible = checkVisibility(el);
-        while (el = el.parentElement) {
-            if (isVisible) {
-                isVisible = checkVisibility(el);
-            }
+        if (!isVisible) {
+            return false;
         }
-
-        return isVisible;
+        if (el.parentElement) {
+            return this.isVisibleOnScreen(el.parentElement);
+        }
+        return true;
     }
 
     /**
