@@ -213,7 +213,7 @@ export class dom {
      * @param element
      * @param style
      */
-    static addStyles(element: HTMLElement, styles: Object) {
+    static addStyles(element: HTMLElement, styles: { [key:string]: string}) {
         for (var key in styles) {
             if (key.startsWith('--')) {
                 dom.setCssVariable(element, key, styles[key]);
@@ -266,7 +266,7 @@ export class dom {
      * @param element The element to search videos in for.
      */
     static resetAllVideosInElement(element: HTMLElement) {
-        let videos = [...element.querySelectorAll('video')];
+        let videos = Array.from(element.querySelectorAll('video'));
         videos.forEach((video) => {
             video.currentTime = 0;
         });
@@ -278,7 +278,7 @@ export class dom {
      * @param reset Whether to pause and reset the video to 0 seconds (start).
      */
     static pauseAllVideosInElement(element: HTMLElement, reset: boolean = false) {
-        let videos = [...element.querySelectorAll('video')];
+        let videos = Array.from(element.querySelectorAll('video'));
         videos.forEach((video) => {
             if (reset) {
                 video.currentTime = 0;
@@ -293,7 +293,7 @@ export class dom {
      * @param reset Whether to start playing from currentTime 0.
      */
     static playAllVideosInElement(element: HTMLElement, reset: boolean = false) {
-        let videos = [...element.querySelectorAll('video')];
+        let videos = Array.from(element.querySelectorAll('video'));
         videos.forEach((video) => {
             // try {
             if (reset) {
@@ -329,7 +329,7 @@ export class dom {
      */
     static whenVideosLoadedInElement(element: HTMLElement,
         timeout: number = 10000): Promise<any> {
-        let videos = [...element.querySelectorAll('video')];
+        let videos = Array.from(element.querySelectorAll('video'));
         return this.whenVideosLoaded(videos);
     }
 
@@ -618,7 +618,7 @@ export class dom {
      * Deletes an image from memory.  Inverse action of
      * dom.makeBase64ImageFromBlob or dom.makeImageFromBlob.
      */
-    static deleteImage(image: HTMLImageElement) {
+    static deleteImage(image: HTMLImageElement | null) {
         if (image) {
             // Delete ObjectURLs or base64
             if (image.src && (image.src.startsWith('blob:') || image.src.startsWith('data:'))) {
@@ -689,21 +689,18 @@ export class dom {
      *   video source from.
      */
     static flushVideos(el: HTMLElement, sourceAttribute: string = '') {
-        let videos = [...el.querySelectorAll('video')];
+        let videos = Array.from(el.querySelectorAll('video'));
         videos.forEach((video) => {
-            let sources = [...video.querySelectorAll('source')];
-            sources.forEach((source) => {
-                const src = source.getAttribute(sourceAttribute) || source.src;
-                source.setAttribute('data-video-src', src);
-                source.removeAttribute('src');
+            let sources = Array.from(video.querySelectorAll('source'));
+            sources.forEach((source : HTMLSourceElement | null) => {
+                const src = source!.getAttribute(sourceAttribute) || source!.src;
+                source!.setAttribute('data-video-src', src);
+                source!.removeAttribute('src');
                 source = null;
             });
 
-            sources = null;
             video.load();
         });
-
-        videos = null;
     }
 
 
@@ -714,23 +711,19 @@ export class dom {
      *   unflushed.
      */
     static unflushVideos(el: HTMLElement, noPlay: boolean = false) {
-        let videos = [...el.querySelectorAll('video')];
+        let videos = Array.from(el.querySelectorAll('video'));
         videos.forEach((video) => {
-            let sources = [...video.querySelectorAll('source')];
+            let sources = Array.from(video.querySelectorAll('source'));
             sources.forEach((source) => {
                 if (!source.hasAttribute('data-video-src')) {
                     return;
                 }
-                const src = source.getAttribute('data-video-src');
+                const src = source.getAttribute('data-video-src')!;
                 source.setAttribute('src', src);
             });
 
-            sources = null;
-
             video.load();
         });
-
-        videos = null;
 
         if (!noPlay) {
             dom.playAllVideosInElement(el);
@@ -792,7 +785,7 @@ export class dom {
 
         const currentIndex = el.getAttribute('tabindex');
         if (is.defined(currentIndex) && !is.null(currentIndex)) {
-            el.setAttribute('forcetabindex', currentIndex);
+            el.setAttribute('forcetabindex', currentIndex!);
         } else {
             el.setAttribute('forcetabindex', 'none');
         }
@@ -811,7 +804,7 @@ export class dom {
         previouslyFocusedElement.forEach((element) => {
             const tabIndex = element.getAttribute('forcetabindex');
             if (is.defined(tabIndex) && !is.null(tabIndex) && tabIndex !== 'none') {
-                element.setAttribute('tabindex', tabIndex);
+                element.setAttribute('tabindex', tabIndex!);
             } else {
                 element.removeAttribute('tabindex');
             }
@@ -944,7 +937,7 @@ export class dom {
 
 
     static appendAfter(nodeToAdd: HTMLElement, nodeToAddAfter: HTMLElement) {
-        nodeToAddAfter.parentNode.insertBefore(nodeToAdd, nodeToAddAfter.nextSibling);
+        nodeToAddAfter.parentNode!.insertBefore(nodeToAdd, nodeToAddAfter.nextSibling);
     }
 
 
@@ -1014,7 +1007,7 @@ export class dom {
 
         var nbsp = '\xA0';
         allTextNodes.forEach((node) => {
-            node.nodeValue = node.nodeValue.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
+            node.nodeValue = node.nodeValue!.replace(/\s+([^\s]*)\s*$/, nbsp + '$1')
         })
     }
 
