@@ -26,15 +26,16 @@ export class HorizontalScrollElementController implements INgDisposable {
     private el: HTMLElement;
     private scrollElement: HTMLElement;
     private $scope: ng.IScope;
-    private horizontalScroll: HorizontalScrollElement;
-    private domWatcher: DomWatcher;
+    private horizontalScroll: HorizontalScrollElement | null = null;
+    private domWatcher: DomWatcher | null = null;
     static get $inject() {
         return ['$scope', '$element', '$attrs'];
     }
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
         this.$scope = $scope;
         this.el = $element[0];
+        this.scrollElement = this.el;
         $scope.$on('$destroy', () => {
             this.dispose();
         });
@@ -42,12 +43,10 @@ export class HorizontalScrollElementController implements INgDisposable {
 
 
     public init(config: HorizontalScrollElementControllerInitConfig) {
-        this.scrollElement = this.el;
         this.domWatcher = new DomWatcher();
 
-
         if(config.scrollSelector) {
-            this.scrollElement = this.el.querySelector(config.scrollSelector);
+            this.scrollElement = this.el.querySelector(config.scrollSelector)!;
             if(!this.scrollElement) {
                 throw new Error('An element with the selector ' + config.scrollSelector + ' was not found');
             }
@@ -82,7 +81,6 @@ export class HorizontalScrollElementController implements INgDisposable {
             }
 
         })
-
     }
 
 
