@@ -1019,7 +1019,7 @@ export class LottieController {
  *     }
  *     private el: HTMLElement;
  *     private $scope: ng.IScope;
- *     constructor($scope: ng.IScope, $element: ng.IAngularStatic) {
+ *     constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
  *       this.el = $element[0];
  *       this.el.addEventListener(LottieScrollEvents.INIT, (e:any)=> {
  *           const scrollEvent:LottieScrollInitPayload = e.detail;

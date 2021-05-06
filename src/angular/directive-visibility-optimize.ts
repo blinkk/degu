@@ -13,7 +13,7 @@ export class VisibilityOptimizeController {
     private ev: ElementVisibilityObject;
     private raf: Raf;
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
         this.element = $element[0];
         this.raf = new Raf();
         this.ev = elementVisibility.inview(this.element, {

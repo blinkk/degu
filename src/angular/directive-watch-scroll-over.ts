@@ -14,7 +14,7 @@ class WatchScrollOverController implements INgDisposable {
         return ['$scope', '$element', '$attrs'];
     }
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
         this.$scope = $scope;
         this.el = $element[0];
         this.$attrs = $attrs;

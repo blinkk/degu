@@ -30,7 +30,7 @@ export class LazyVideoController {
         return ['$scope', '$element', '$attrs'];
     }
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
 
         this.el = $element[0];
         this.parent = this.el.parentElement;

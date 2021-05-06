@@ -12,7 +12,7 @@ class TextSplitController implements INgDisposable {
     private $scope: ng.IScope;
     private textSplitter: TextSplit2;
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
         this.$scope = $scope;
         this.el = $element[0];
         this.textSplitter = new TextSplit2({
