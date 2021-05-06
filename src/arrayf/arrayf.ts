@@ -10,8 +10,8 @@ export class arrayf {
     /**
      * A deep copy that works with objects or arrays.
      */
-    static deepCopy(input: Array<any> | Object):Array<any>|Object {
-        let output, value, key;
+    static deepCopy(input: Array<any> | [key:string]):Array<any>|Object {
+        let output: any, value, key;
 
         if (typeof input !== "object" || input === null) {
             return input;
@@ -20,7 +20,7 @@ export class arrayf {
         output = Array.isArray(input) ? [] : {}
 
         for (key in input) {
-            value = input[key]
+            value = input[key];
 
             output[key] = (typeof value === "object" && value !== null) ?
                 arrayf.deepCopy(value) : value;
@@ -44,7 +44,7 @@ export class arrayf {
      * ```
      */
     static max<T>(values: T[], ...scoreFns: Array<(v: T) => number>): T {
-        let maxValue: T;
+        let maxValue: T | null = null;
         let maxScore = Number.NEGATIVE_INFINITY;
         const scoreFn = scoreFns[0];
         values.forEach((value) => {
@@ -57,17 +57,17 @@ export class arrayf {
                 let tieBreaker = scoreFns[i];
                 while (
                     i < scoreFns.length &&
-                    tieBreaker(maxValue) === tieBreaker(value)
+                    tieBreaker(<T>maxValue) === tieBreaker(value)
                 ) {
                     tieBreaker = scoreFns[i++];
                 }
 
-                if (tieBreaker(maxValue) < tieBreaker(value)) {
+                if (tieBreaker(<T>maxValue) < tieBreaker(value)) {
                     maxValue = value;
                 }
             }
         });
-        return maxValue;
+        return maxValue!;
     }
 
     /**

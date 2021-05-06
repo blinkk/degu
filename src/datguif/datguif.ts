@@ -117,7 +117,7 @@ export class Datguif {
         guiParams: dat.GUIParams
        ) {
 
-        let options = guiParams;
+        let options:any = guiParams;
         if(!options) {
             options.load = JSON;
         }
@@ -151,7 +151,7 @@ export class Datguif {
     // Adds a to level button
     addButton(label:string, callback:Function) {
         const id = label.replace(' ', '_');
-        const obj = {};
+        const obj:any = {};
         obj[id] = callback;
         this.gui.add(obj, label.replace(' ', '_'));
     }
@@ -215,7 +215,7 @@ export class Datguif {
     }
 
 
-    addObjectPropertyToFolder(folderName: string, obj: Object, config: guiDisplayConfig) {
+    addObjectPropertyToFolder(folderName: string, obj: any, config: guiDisplayConfig) {
         const folder = this.getFolder(folderName);
         const value = obj[config.keyName];
 
@@ -227,7 +227,7 @@ export class Datguif {
         // If this looks "color" like.  Convert it to color and then handle
         // the update when it comes back. (Support for Three.Color)
         if(value.r && value.g && value.b) {
-            const colorObj = {};
+            const colorObj:any = {};
             colorObj[config.keyName] = color.normalizedRgbToRgb(
                 color.colorRgbToRgb(value));
 
@@ -272,7 +272,7 @@ export class Datguif {
         }
 
         if (is.defined(config.min) && is.defined(config.max)) {
-            folder.gui.add(obj, config.keyName, +config.min, +config.max).step(config.step || 0.1)
+            folder.gui.add(obj, config.keyName, +config.min!, +config.max!).step(config.step || 0.1)
              .onChange(()=> {
                  config.callback && config.callback();
                  this.runUpdate();
