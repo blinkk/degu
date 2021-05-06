@@ -17,14 +17,14 @@ export class InviewController {
         return ['$scope', '$element', '$attrs'];
     }
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
         this.element = $element[0];
 
         this.inview = new Inview({
             element: this.element,
-            childSelector: this.element.getAttribute('inview-selector') || null,
-            elementBaseline: +this.element.getAttribute('inview-element-baseline') || 0,
-            viewportOffset: +this.element.getAttribute('inview-viewport-offset') || 0,
+            childSelector: this.element.getAttribute('inview-selector') || undefined,
+            elementBaseline: +this.element.getAttribute('inview-element-baseline')! || undefined,
+            viewportOffset: +this.element.getAttribute('inview-viewport-offset')! || undefined,
             // outviewOnlyOnElementExit: true
             downOnlyMode: true
         });

@@ -26,7 +26,7 @@ export class LazyImageSimple implements INgDisposable {
     // the current fold.
     private forwardLoadScalar: number;
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
         this.el = $element[0];
         this.url = $attrs.lazyImageSimple;
         this.setAsBackgroundImage = !!$attrs.lazyImageSimpleAsBackground;
@@ -83,7 +83,7 @@ export class LazyImageSimple implements INgDisposable {
         })
     }
 
-    loadImage() {
+    loadImage():Promise<void> {
         return new Promise((resolve, reject) => {
             let element = this.el;
 

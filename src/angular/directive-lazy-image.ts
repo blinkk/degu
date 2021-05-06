@@ -11,14 +11,14 @@ export class LazyImage implements INgDisposable {
         return ['$scope', '$element', '$attrs'];
     }
 
-    private el: HTMLElement;
+    private el: HTMLElement | HTMLImageElement;
     // The url to set.
     private url: string;
     // Whether this directive has finished setting the background image.
     private imageSet: boolean;
     private setAsBackgroundImage: boolean;
-    private watcher: DomWatcher;
-    private ev: ElementVisibilityObject;
+    private watcher: DomWatcher | null = null;
+    private ev: ElementVisibilityObject | null = null;
     private readWrite: Raf;
 
     // The amount of rootMargin offset to apply to lazyimage.
@@ -31,7 +31,7 @@ export class LazyImage implements INgDisposable {
 
 
     // Whether the current browser environment supports webp.
-    private isWebpSupported: boolean;
+    private isWebpSupported: boolean = false;
 
     // Whether we should try to append 'rw' to the url to serve webp.
     private useGoogleImageTryWebp: boolean;
@@ -54,14 +54,14 @@ export class LazyImage implements INgDisposable {
     // The root element that triggers lazy load when it's inview.  This is usually
     // the element that has the lazy-image attribute but can be modified if
     // triggerElementSelector is specified.
-    private triggerElement: HTMLElement;
+    private triggerElement: HTMLElement | null = null;
 
 
     private waitForBgLoad: boolean = false;
 
 
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
         this.el = $element[0];
         this.url = $attrs.lazyImage;
         this.readWrite = new Raf();
@@ -143,7 +143,7 @@ export class LazyImage implements INgDisposable {
      */
     paint() {
         this.readWrite.read(() => {
-            if (this.isPaintedOnScreen() && !this.imageSet && this.ev.state().inview) {
+            if (this.isPaintedOnScreen() && !this.imageSet && this.ev!.state().inview) {
                 this.startLoad();
             }
         })
@@ -178,7 +178,7 @@ export class LazyImage implements INgDisposable {
                 if (this.setAsBackgroundImage) {
                     this.el.style.backgroundImage = `url(${this.url})`;
                 } else {
-                    this.el['src'] = this.url;
+                    this.el.setAttribute('src', this.url);
                 }
             })
         }
@@ -191,10 +191,10 @@ export class LazyImage implements INgDisposable {
 
         // Get rid of watchers unless we need resize processing.
         if (!this.useGoogleImageAutosize) {
-            this.watcher.dispose();
+            this.watcher && this.watcher.dispose();
         }
 
-        this.ev.dispose();
+        this.ev && this.ev.dispose();
         this.loadImage().then(() => {
             dom.event(this.el, 'lazy-image-loaded', {
                 element: this.el
@@ -401,8 +401,8 @@ export class LazyImage implements INgDisposable {
 
 
     dispose() {
-        this.ev.dispose();
-        this.watcher.dispose();
+        this.ev && this.ev.dispose();
+        this.watcher && this.watcher.dispose();
     }
 }
 
