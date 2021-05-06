@@ -67,7 +67,7 @@ export class Fps {
     /**
      * An fps rate limiter.
      */
-    private fps: number | null;
+    private fps: number;
 
     /**
      * Whether the fps is in a locked state.  A locked state
@@ -87,7 +87,7 @@ export class Fps {
     private scheduleTimeout: number = 0;
 
 
-    constructor(fps:number) {
+    constructor(fps: number) {
         this.fps = fps;
         this.locked = true;
     }
@@ -137,12 +137,11 @@ export class Fps {
      */
     schedule(callback:Function) {
         this.cancelSchedule();
-        const fps = this.fps || 0;
         this.scheduleTimeout = window.setTimeout(()=> {
             this.locked = false;
             callback();
             this.locked = true;
-        }, 1000 / fps + 1);
+        }, 1000 / this.fps + 1);
     }
 
 
@@ -173,7 +172,7 @@ export class Fps {
         if (this.lastUpdateTime) {
             const current = time.now();
             const elapsed = current - this.lastUpdateTime;
-            const fps = this.fps == 0 ? 0 : 1000 / this.fps;
+            const fps = this.fps === 0 ? 0 : 1000 / this.fps;
             if (elapsed > fps) {
                 this.lastUpdateTime = time.now();
                 return true;
