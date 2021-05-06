@@ -10,7 +10,7 @@ export class CssParallaxController {
 
     constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
         this.element = $element[0];
-        const parallaxData = JSON.parse(this.element.getAttribute('css-parallax'));
+        const parallaxData = JSON.parse(this.element.getAttribute('css-parallax')!);
         this.cssParallaxer = new CssParallaxer(this.element);
         this.cssParallaxer.init(
             parallaxData['settings'], parallaxData['interpolations']
