@@ -1,4 +1,3 @@
-
 import { time } from '../time/time';
 
 /**
@@ -318,15 +317,16 @@ export class func {
      * @tested
      */
     static memoize(callback: Function): Function {
-        let cachedResults: Object = {};
+        const cachedResults: Record<string, any> = {};
         return (...args: any[]) => {
             let stringifiedArgs = JSON.stringify(args);
 
             if (cachedResults[stringifiedArgs]) {
-                return cachedResults[stringifiedArgs]
-            } else {
-                return cachedResults[stringifiedArgs] = callback.apply(null, args);
+                return cachedResults[stringifiedArgs];
             }
+            const result = callback.apply(null, args);
+            cachedResults[stringifiedArgs] = result;
+            return result;
         };
     }
 
