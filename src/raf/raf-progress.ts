@@ -126,13 +126,13 @@ export class RafProgress {
     public currentProgress: number;
     private targetProgress: number;
     private easeAmount: number;
-    private damp: number;
-    private easingFunction: Function;
+    private damp: number | null;
+    private easingFunction: Function | null;
     private precision: number;
     private rangeWatchers: Array<RafProgressRangeWatcher>;
     private callbacks: Array<Function>;
     // The current scroll direction.
-    private direction:number;
+    private direction: number = 0;
 
     /**
      * @param {Function} progressRafLoop  Optional function to be called on each
@@ -277,7 +277,7 @@ export class RafProgress {
     private rafLoop() {
         let previousProgress = this.currentProgress;
 
-        if(!is.null(this.damp)) {
+        if(typeof this.damp === 'number') {
             this.currentProgress =
                 mathf.damp(this.currentProgress,
                     this.targetProgress,
@@ -288,7 +288,7 @@ export class RafProgress {
                 mathf.ease(this.currentProgress,
                     this.targetProgress,
                     this.easeAmount,
-                    this.easingFunction);
+                    this.easingFunction || EASE.linear);
         }
 
         // Reduce the precision of progress.  We dont need to report progress differences
@@ -317,7 +317,7 @@ export class RafProgress {
         // Loop through watchers.
         this.rangeWatchers.forEach((watcher: RafProgressRangeWatcher) => {
             let isBetween = false;
-            if (is.array(watcher.range)) {
+            if (Array.isArray(watcher.range)) {
                 isBetween = mathf.isBetween(this.currentProgress,
                     watcher.range[0], watcher.range[1]);
             } else {
