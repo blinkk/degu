@@ -1,7 +1,12 @@
 import { time } from '../time/time';
 import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
 
-
+declare global {
+    interface Window {
+        DEGU_RAF_REGISTRY: RafRegistry;
+        DEGU_RAF_REGISTRY_DEBUG: boolean;
+    }
+}
 
 /**
  * A class that creates a RAF loop and calls a specific callback.  Setting the
@@ -198,7 +203,7 @@ export class Raf {
      * Internal element visibility object used to track element visibility
      * when runWhenElementIsInview option is used.
      */
-    private ev: ElementVisibilityObject;
+    private ev?: ElementVisibilityObject;
 
     /**
      * @param {Function} rafLoop  Optional function to be called on each
@@ -290,8 +295,9 @@ export class Raf {
 
 
         // Register self to global registry.
-        window['DEGU_RAF_REGISTRY'] &&
-            window['DEGU_RAF_REGISTRY'].register(this);
+        if (window.DEGU_RAF_REGISTRY) {
+            window.DEGU_RAF_REGISTRY.register(this);
+        }
     }
 
     /**
@@ -317,8 +323,8 @@ export class Raf {
      * @param callback
      */
     preRead(callback: any) {
-        window['DEGU_RAF_REGISTRY'] &&
-            window['DEGU_RAF_REGISTRY'].addOneTimePreRead({
+        window.DEGU_RAF_REGISTRY &&
+            window.DEGU_RAF_REGISTRY.addOneTimePreRead({
                 callback: callback,
                 raf: this
             });
@@ -331,8 +337,8 @@ export class Raf {
      * @param callback
      */
     read(callback: any) {
-        window['DEGU_RAF_REGISTRY'] &&
-            window['DEGU_RAF_REGISTRY'].addOneTimeRead({
+        window.DEGU_RAF_REGISTRY &&
+            window.DEGU_RAF_REGISTRY.addOneTimeRead({
                 callback: callback,
                 raf: this
             });
@@ -344,8 +350,8 @@ export class Raf {
      * @param callback
      */
     write(callback: any) {
-        window['DEGU_RAF_REGISTRY'] &&
-            window['DEGU_RAF_REGISTRY'].addOneTimeWrite({
+        window.DEGU_RAF_REGISTRY &&
+            window.DEGU_RAF_REGISTRY.addOneTimeWrite({
                 callback: callback,
                 raf: this
             });
@@ -357,8 +363,8 @@ export class Raf {
      * @param callback
      */
     postWrite(callback: any) {
-        window['DEGU_RAF_REGISTRY'] &&
-            window['DEGU_RAF_REGISTRY'].addOneTimePostWrite({
+        window.DEGU_RAF_REGISTRY &&
+            window.DEGU_RAF_REGISTRY.addOneTimePostWrite({
                 callback: callback,
                 raf: this
             });
@@ -429,7 +435,7 @@ export class Raf {
 
         // Set the run when condition.
         this.runWhen(()=> {
-            return this.ev.state().inview;
+            return this.ev && this.ev.state().inview;
         })
 
 
@@ -469,12 +475,12 @@ export class Raf {
 
     dispose() {
         this.ev && this.ev.dispose();
-        this.callbacks = null;
+        this.callbacks = [];
         this.isDisposed = true;
         this.stop();
         // Deregister self to global registry.
-        window['DEGU_RAF_REGISTRY'] &&
-            window['DEGU_RAF_REGISTRY'].unregister(this);
+        window.DEGU_RAF_REGISTRY &&
+            window.DEGU_RAF_REGISTRY.unregister(this);
     }
 
     /**
@@ -654,8 +660,7 @@ class RafRegistry {
     }
 
     private rafs: Array<Raf>;
-    private flushScheduled: boolean;
-    private raf_: any;
+    private flushScheduled: boolean = false;
     private readonly preReads: Array<RafRegistryObject> = [];
     private readonly reads: Array<RafRegistryObject> = [];
     private readonly writes: Array<RafRegistryObject> = [];
@@ -680,7 +685,7 @@ class RafRegistry {
         //
         // DEGU_RAF_REGISTRY_DEBUG = true;
         //
-        if (window['DEGU_RAF_REGISTRY_DEBUG']) {
+        if (window.DEGU_RAF_REGISTRY_DEBUG) {
             console.log("Running raf", this.reads.length, this.writes.length);
         }
 
@@ -703,7 +708,7 @@ class RafRegistry {
      * Add a single addOneTimePreRead to the batch read / write system.
      * @param read
      */
-    private addOneTimePreRead(read: RafRegistryObject) {
+    addOneTimePreRead(read: RafRegistryObject) {
         this.preReads.push(read);
         this.start();
     }
@@ -712,7 +717,7 @@ class RafRegistry {
      * Add a single addOneTimeRead to the batch read / write system.
      * @param read
      */
-    private addOneTimeRead(read: RafRegistryObject) {
+    addOneTimeRead(read: RafRegistryObject) {
         this.reads.push(read);
         this.start();
     }
@@ -721,7 +726,7 @@ class RafRegistry {
      * Add a single addOneTimeWrite to the batch read / write system.
      * @param read
      */
-    private addOneTimeWrite(write: RafRegistryObject) {
+    addOneTimeWrite(write: RafRegistryObject) {
         this.writes.push(write);
         this.start();
     }
@@ -731,7 +736,7 @@ class RafRegistry {
      * Add a single addOneTimeWrite to the batch read / write system.
      * @param read
      */
-    private addOneTimePostWrite(postWrite: RafRegistryObject) {
+    addOneTimePostWrite(postWrite: RafRegistryObject) {
         this.postWrites.push(postWrite);
         this.start();
     }
@@ -777,6 +782,6 @@ class RafRegistry {
 }
 
 // Create raf registry as a global.
-if (window && !window['DEGU_RAF_REGISTRY']) {
-    window['DEGU_RAF_REGISTRY'] = new RafRegistry();
+if (window && !window.DEGU_RAF_REGISTRY) {
+    window.DEGU_RAF_REGISTRY = new RafRegistry();
 }
