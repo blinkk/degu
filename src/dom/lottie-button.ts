@@ -1,5 +1,5 @@
 
-import * as lottie from 'lottie-web';
+import lottie, { AnimationItem } from 'lottie-web';
 import { DomWatcher } from '../dom/dom-watcher';
 import { elementVisibility, ElementVisibilityObject } from './element-visibility';
 import { Raf } from '../raf/raf';
@@ -313,12 +313,7 @@ export class LottieButton {
             path: this.config.lottieJson
         }
 
-        // NOTE(stevenle): this is a hacky way of getting the compiler to not
-        // complain about `loadAnimation()` not existing on lottie. Ideally the
-        // lottie-web project would have a type definition somewhere like
-        // @types/lottie-web.
-        const typedLottie = lottie as any;
-        this.lottieInstance = typedLottie.loadAnimation(settings);
+        this.lottieInstance = <AnimationItem>lottie.loadAnimation(settings);
 
         this.watcher.add({
             element: this.lottieInstance as HTMLElement,
