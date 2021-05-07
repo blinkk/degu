@@ -186,8 +186,11 @@ export class is {
     }
 
     static ipad(): boolean {
-        return (navigator.userAgent.toLowerCase().indexOf('macintosh') !== -1
-          && navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
+        return (
+            navigator.userAgent.toLowerCase().indexOf('macintosh') !== -1
+            && Boolean(navigator.maxTouchPoints)
+            && navigator.maxTouchPoints > 2
+        );
     }
 
     static edge(): boolean {
@@ -299,7 +302,11 @@ export class is {
      * Whether touch is supported or not.
      */
     static supportingTouch(): boolean {
-        return (('ontouchstart' in window) || window['DocumentTouch'] && document instanceof window['DocumentTouch']);
+        return (
+            'ontouchstart' in window
+            || navigator.maxTouchPoints > 0
+            || navigator.msMaxTouchPoints > 0
+        );
     }
 
 
