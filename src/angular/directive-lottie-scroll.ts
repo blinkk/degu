@@ -1,5 +1,5 @@
 
-import lottie, { AnimationItem } from 'lottie-web/build/player/lottie_light';
+import lottie, { AnimationItem } from 'lottie-web';
 import { RafProgress } from '../raf/raf-progress';
 import { DomWatcher } from '../dom/dom-watcher';
 import { dom } from '../dom/dom';
