@@ -2,7 +2,6 @@
 import { Raf } from '../raf/raf';
 import { mathf } from '../mathf/mathf';
 import { dom } from '../dom/dom';
-import { func } from '../func/func';
 
 import { DomWatcher } from './dom-watcher';
 
@@ -103,8 +102,8 @@ export const ScrollSmoothRenderEvents = {
  */
 export class ScrollSmoothRender {
     private raf: Raf;
-    private currentY: number;
-    private targetY: number;
+    private currentY: number = 0;
+    private targetY: number = 0;
     private isWheeling: boolean = false;
     private config: ScrollSmoothRenderConfig;
     private domWatcher: DomWatcher;
@@ -192,8 +191,8 @@ export class ScrollSmoothRender {
 
     }
 
-    private getScrollTop():number {
-        return document.scrollingElement.scrollTop;
+    private getScrollTop(): number {
+        return document.scrollingElement!.scrollTop;
     }
 
 
@@ -211,7 +210,7 @@ export class ScrollSmoothRender {
 
             if (this.currentY !== value) {
                 // Use scrollingElement to normalize diff between chrome and safari.
-                document.scrollingElement.scrollTop = value >> 0;
+                document.scrollingElement!.scrollTop = value >> 0;
                 this.currentY = value;
             } else {
                 this.stopWheelJack();
@@ -291,7 +290,7 @@ export class ScrollSmoothRender {
         // large jumps.  Track pads typically have smaller jumps whereas,
         // mouse wheels can have very large deltas.
         if(this.config.dynamicSensitivity) {
-            let normalized = e.deltaY ? e.deltaY : -e['wheelDeltaY'] / 120;
+            let normalized = e.deltaY ? e.deltaY : -(e as any).wheelDeltaY / 120;
             normalized = mathf.clamp(-80, 80, normalized);
             delta = normalized;
         }
