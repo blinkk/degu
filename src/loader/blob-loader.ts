@@ -80,9 +80,9 @@ export class BlobLoader {
                     if (!response.ok) {
                         retryCount++;
                         if (retryCount >= this.maxRetries) {
-                            reject(`failed after ${retryCount} tries`);
+                            throw new Error(`failed after ${retryCount} tries`);
                         } else {
-                            resolve(this.loadBlob(source, retryCount));
+                            return this.loadBlob(source, retryCount);
                         }
                     } else {
                         return response.blob();
@@ -113,17 +113,16 @@ export class BlobLoader {
     }
 
     loadBlobAsBase64Image(source: string, retryCount: number = 0): Promise<Blob|undefined|void> {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             fetch(source)
                 .then((response) => {
                     // If status was not okay retry.
                     if (!response.ok) {
                         retryCount++;
                         if (retryCount >= this.maxRetries) {
-                            resolve();
-                        } else {
-                            this.loadBlobAsBase64Image(source, retryCount);
+                            reject(`failed after ${retryCount} tries`);
                         }
+                        return this.loadBlobAsBase64Image(source, retryCount);
                     } else {
                         return response.blob();
                     }
