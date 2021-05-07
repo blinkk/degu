@@ -38,12 +38,12 @@ export class BlobLoader {
     /**
      * An object with the key as the source URL and value as blob.
      */
-    private blobs: Object;
+    private blobs: Record<string, Blob>;
 
     /**
      * An object with the key as the source URL and value as base64 images.
      */
-    private images64: Object;
+    private images64: Record<string, HTMLImageElement>;
 
     /**
      * The number of times to refetch an image if unsuccessful.
@@ -73,23 +73,23 @@ export class BlobLoader {
     }
 
     loadBlob(source: string, retryCount: number = 0): Promise<Blob|undefined> {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             fetch(source)
                 .then((response) => {
                     // If status was not okay retry.
                     if (!response.ok) {
                         retryCount++;
                         if (retryCount >= this.maxRetries) {
-                            resolve();
+                            reject(`failed after ${retryCount} tries`);
                         } else {
-                            this.loadBlob(source, retryCount);
+                            resolve(this.loadBlob(source, retryCount));
                         }
                     } else {
                         return response.blob();
                     }
                 })
                 .then((response) => {
-                    if (this.blobs) {
+                    if (this.blobs && response) {
                         this.blobs[source] = response;
                     }
                     resolve(response);
@@ -129,17 +129,19 @@ export class BlobLoader {
                     }
                 })
                 .then((response) => {
-                    dom.makeBase64ImageFromBlob(response).then((image)=> {
-                      this.images64[source] = image;
-                      resolve(response);
-                    })
+                    if (response) {
+                        dom.makeBase64ImageFromBlob(response).then((image)=> {
+                          this.images64[source] = image;
+                          resolve(response);
+                        })
+                    }
                 });
         });
     }
 
     dispose() {
-        this.imageSources = null;
-        this.images64 = null;
-        this.blobs = null;
+        this.imageSources = [];
+        this.images64 = {};
+        this.blobs = {};
     }
 }
