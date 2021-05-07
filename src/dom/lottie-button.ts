@@ -210,10 +210,9 @@ export class LottieButton {
     private watcher: DomWatcher;
     private lottieInstance: any;
     private mouseState: LottieButtonMouseState;
-    private lottieLoaded: boolean;
-    private currentFrame: number;
-    private stopFrame: number;
-    private ev: ElementVisibilityObject;
+    private currentFrame: number = 0;
+    private stopFrame: number = 0;
+    private ev?: ElementVisibilityObject;
     private isInview: boolean = false;
     private loadImmediately: boolean = false;
     private raf: Raf;
@@ -227,7 +226,7 @@ export class LottieButton {
      * transition but with mouseenter states, it can cause delays.
      */
     private usePlayQueue: boolean = false;;
-    private currentState: string;
+    private currentState: string = '';
 
     constructor(config: LottieButtonConfig) {
         this.config = config;
@@ -314,8 +313,12 @@ export class LottieButton {
             path: this.config.lottieJson
         }
 
-
-        this.lottieInstance = lottie['loadAnimation'](settings);
+        // NOTE(stevenle): this is a hacky way of getting the compiler to not
+        // complain about `loadAnimation()` not existing on lottie. Ideally the
+        // lottie-web project would have a type definition somewhere like
+        // @types/lottie-web.
+        const typedLottie = lottie as any;
+        this.lottieInstance = typedLottie.loadAnimation(settings);
 
         this.watcher.add({
             element: this.lottieInstance as HTMLElement,
