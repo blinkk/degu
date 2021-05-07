@@ -55,7 +55,7 @@ export class ImageLoader {
     /**
      * An object with the key as the URL of the image or blob.
      */
-    private images: Object;
+    private images: Record<string, HTMLImageElement | ImageBitmap | string>;
 
     /**
      * The number of times to refetch an image if unsuccessful.
@@ -201,17 +201,17 @@ export class ImageLoader {
      * "preload" images into the browser cache but not hold the image data in
      * memory.
      */
-    pingSource(source: string, retryCount: number = 0): Promise<string|undefined> {
-        return new Promise(resolve => {
+    pingSource(source: string, retryCount: number = 0): Promise<string> {
+        return new Promise((resolve, reject) => {
             fetch(source)
                 .then((response) => {
                     // If status was not okay retry.
                     if (!response.ok) {
                         retryCount++;
                         if (retryCount >= this.maxRetries) {
-                            resolve();
+                            reject(`failed after ${retryCount} tries`);
                         } else {
-                            this.pingSource(source, retryCount);
+                            resolve(this.pingSource(source, retryCount));
                         }
                     } else {
                         resolve(source);
@@ -357,16 +357,16 @@ export class ImageLoader {
 
             // If we loaded bitmaps and we can dispose.
             // https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap/close
-            if (this.images[key].close) {
-                this.images[key].close();
-            } else {
-                // Dispose url.
-                URL.revokeObjectURL(this.images[key]);
-                dom.deleteImage(this.images[key]);
-                this.images[key] = null;
+            const item = this.images[key];
+            if (item instanceof ImageBitmap) {
+                item.close();
+            } else if (typeof item === 'string') {
+                URL.revokeObjectURL(item);
+            } else if (item instanceof HTMLImageElement) {
+                dom.deleteImage(item);
             }
         }
 
-        this.images = null;
+        this.images = {};
     }
 }
