@@ -286,8 +286,7 @@ export const multiInterpolateHelper = {
 export class MultiInterpolate {
 
     private parentProgress: number;
-    private currentValues: Object;
-    private interpolations = Object;
+    private currentValues: Record<string, string | number>;
     private config: multiInterpolateConfig;
 
 
@@ -358,10 +357,10 @@ export class MultiInterpolate {
 
                     newItem.progress = newItem.progress.map((progress)=> {
                         progress = Object.assign({}, progress);
-                        progress.to += i * item.stagger.progressOffset;
-                        progress.from += i * item.stagger.progressOffset;
+                        progress.to += i * item.stagger!.progressOffset;
+                        progress.from += i * item.stagger!.progressOffset;
                         newItem.id = item.id + '-' + i;
-                        newItem.stagger = null;
+                        // newItem.stagger = null;
                         newItem.staggerItem = true;
                         return progress;
                     })
