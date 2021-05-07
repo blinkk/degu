@@ -177,12 +177,12 @@ export class dom {
      * @param name The name of the css variable.  Should start with --.  Exampe: --height
      * @param value The value to set.
      */
-    static setCssVariable(element: HTMLElement, name: string, value: string) {
+    static setCssVariable(element: HTMLElement, name: string, value: string | number) {
         if (!element) {
             throw new Error(
                 'You need specificy a valid element to apply a css variable');
         }
-        element.style.setProperty(name, value);
+        element.style.setProperty(name, String(value));
     }
 
 
@@ -196,9 +196,9 @@ export class dom {
      * @param element
      * @param style
      */
-    static setCssVariables(element: HTMLElement, variables: Record<string, string>) {
+    static setCssVariables(element: HTMLElement, variables: Record<string, string | number>) {
         for (let key in variables) {
-            element.style.setProperty(key, variables[key]);
+            element.style.setProperty(key, String(variables[key]));
         }
     }
 

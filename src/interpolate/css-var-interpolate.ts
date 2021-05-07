@@ -216,7 +216,7 @@ import { objectf } from '../objectf/objectf';
  */
 export class CssVarInterpolate {
     private mainProgress: number | null;
-    private currentValues: Object;
+    private currentValues: Record<string, string | number>;
     private multiInterpolate: MultiInterpolate | null;
 
     /**
@@ -519,24 +519,23 @@ export class CssVarInterpolate {
         }
 
         for (var key in this.currentValues) {
-            if (!this.renderSubPixels && is.string(this.currentValues[key])) {
-                let cssUnitValue = cssUnit.parse(this.currentValues[key]);
+            let value = this.currentValues[key];
+            if (!this.renderSubPixels && typeof value === 'string') {
+                let cssUnitValue = cssUnit.parse(value);
                 if (cssUnitValue.unit == 'px') {
-                    this.currentValues[key] =
-                        (cssUnitValue.value as number >> 0) + 'px';
+                    value = (cssUnitValue.value as number >> 0) + 'px';
+                    this.currentValues[key] = value;
                 }
             }
-
             if (!this.batchUpdate) {
-              dom.setCssVariable(this.element, key, this.currentValues[key]);
+              dom.setCssVariable(this.element, key, String(value));
             }
         }
 
         // Update values in batch.
         if (this.batchUpdate) {
-          dom.setCssVariables(this.element, this.currentValues);
+            dom.setCssVariables(this.element, this.currentValues);
         }
-
     }
 
 
@@ -558,7 +557,7 @@ export class CssVarInterpolate {
      * object if no updates / calculations have been run.  If updates have
      * been executed, it will return an object with each css-var property value.
      */
-    getValues(): Object {
+    getValues(): Record<string, string | number> {
         return this.currentValues;
     }
 
