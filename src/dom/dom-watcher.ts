@@ -275,9 +275,9 @@ export class DomWatcher {
                 // Save as var to avoid typescript null error.
                 const remover = config.remover;
                 remover && remover();
-            } else {
-                return config;
+                return false;
             }
+            return config;
         });
     }
 

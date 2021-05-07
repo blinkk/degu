@@ -158,7 +158,7 @@ export class OffScreenCanvas {
     /**
      * Sends the first message to the worker with the transferable canvas
      */
-    init(message: Object) {
+    init(message: Record<string, any>) {
         if (!this.canvas) {
             throw new Error('Set your canvas first.')
         }
