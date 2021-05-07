@@ -57,7 +57,7 @@ export class BlobLoader {
         this.maxRetries = 3;
     }
 
-    load(): Promise<Object> {
+    load(): Promise<Record<string, Blob>> {
         return new Promise((resolve) => {
             if (!this.imageSources) {
                 resolve(this.blobs);

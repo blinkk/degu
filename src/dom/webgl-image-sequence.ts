@@ -487,7 +487,7 @@ export class WebGlImageSequence {
      * Blobs are stored to this dictionary.  These are
      * held in memory.
      */
-    private blobCache: Object;
+    private blobCache: Record<string, Blob>;
 
     /**
      * The current frame that is rendered on the screen.
@@ -526,7 +526,7 @@ export class WebGlImageSequence {
     private playDefer: Defer | null;
 
     private canvasElement: HTMLCanvasElement;
-    private gl: WebGLRenderingContext;
+    private gl: WebGLRenderingContext | null;
     private program: WebGLProgram;
     private dpr: number;
     private canvasWidth: number;
@@ -610,7 +610,7 @@ export class WebGlImageSequence {
             antialias: false,
             depth: false
         });
-        this.program = webgl.createProgram(this.gl, vertShader, fragShader);
+        this.program = webgl.createProgram(this.gl!, vertShader, fragShader);
 
         this.dpr = func.setDefault(dpr, window.devicePixelRatio || 1);
         this.canvasWidth = 0;
@@ -744,7 +744,7 @@ export class WebGlImageSequence {
     /**
      * Starts loading the images.
      */
-    load(): Promise<any> {
+    load(): Promise<Record<string, Blob>> {
         // If there is no matching imageSet there is nothing to load.
         if (!this.blobLoader || !this.activeImageSet) {
             // Defer resolution.
@@ -755,10 +755,11 @@ export class WebGlImageSequence {
         }
 
         let loadAllBlobs = () => {
-            this.blobLoader.load().then((results) => {
+            this.blobLoader!.load().then((results) => {
                 this.blobCache = results;
                 this.setImageDimensions().then(() => {
-                    this.blobLoader.dispose();
+                    this.blobLoader!.dispose();
+                    this.blobLoader = null;
                     this.readyPromise.resolve(results);
                 });
             })
@@ -852,7 +853,7 @@ export class WebGlImageSequence {
      */
     private setImageDimensions(): Promise<void> {
         return new Promise(resolve => {
-            const source = this.activeImageSet.images[0];
+            const source = this.activeImageSet!.images[0];
             const blob = this.blobCache[source];
 
             // Generate an image from teh first blob.
@@ -865,7 +866,6 @@ export class WebGlImageSequence {
 
                 // Release it from memory.
                 dom.deleteImage(image);
-                image = null;
                 resolve();
             })
         });
@@ -876,7 +876,7 @@ export class WebGlImageSequence {
      * Gets internally used current image seet.
      */
     getActiveImages(): Array<string> {
-        return this.activeImageSet.images;
+        return this.activeImageSet!.images;
     }
 
 
@@ -912,7 +912,7 @@ export class WebGlImageSequence {
         // to figure out what the correct frame should be.
         if (this.multiInterpolate && !noMultiInterpolate) {
             let interpolateMap = this.multiInterpolate.calculate(progress);
-            progress = mathf.clamp01(interpolateMap['sequence']);
+            progress = mathf.clamp01(interpolateMap['sequence'] as number);
         }
 
         // Flush cache if progress is 0 or 1 to ensure final frame is always
@@ -1160,7 +1160,7 @@ export class WebGlImageSequence {
 
 
         // WebGL Draw.
-        const gl = this.gl;
+        const gl = this.gl!;
         const program = this.program;
 
         var aPosition = gl.getAttribLocation(program, "a_position");
@@ -1291,11 +1291,11 @@ export class WebGlImageSequence {
         this.domWatcher.dispose();
         this.rafTimer && this.rafTimer.dispose();
         this.blobLoader && this.blobLoader.dispose();
-        this.element = null;
-        this.blobCache = null;
-        this.canvasElement = null;
+        // this.element = null;
+        // this.blobCache = null;
+        // this.canvasElement = null;
         dom.deleteImage(this.cacheImage);
-        this.cacheImage = null;
+        // this.cacheImage = null;
         this.gl = null;
     }
 
