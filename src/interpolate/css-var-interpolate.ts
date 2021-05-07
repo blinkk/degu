@@ -132,9 +132,6 @@ import { objectf } from '../objectf/objectf';
  *      ]}
  *  )
  *
- * // A feature introduced since v0.0.103 and recommended.
- * this.cssVarInterpolate.useBatchUpdate(true);
- *
  * // For perf boost
  * this.interpolator.useSubPixelRendering(false);
  *
@@ -273,13 +270,6 @@ export class CssVarInterpolate {
     private precision:number;
 
     /**
-     * Whether to batch update css styles.  This is generally recommended but set
-     * as false by default for backward compatability.
-     */
-    private batchUpdate: boolean;
-
-
-    /**
      * Whether to prevent css_var from writing to the dom.  This is useful in cases,
      * you just want css-var-interpolate to calculate values and you take control
      * of when and where the css-variables are applied.  You can extract the current
@@ -321,7 +311,6 @@ export class CssVarInterpolate {
         this.runOnceAfterOutView = true;
         this.renderOnlyWhenInview = true;
         this.ranOutViewUpdate = false;
-        this.batchUpdate = false;
         this.precision = 4;
         this.noWrite = false;
 
@@ -423,7 +412,8 @@ export class CssVarInterpolate {
      * performance.
      */
     useBatchUpdate(value: boolean) {
-        this.batchUpdate = value;
+        // This performance optimization is no longer needed, so setting this
+        // is a no-op.
     }
 
     /**
@@ -527,14 +517,7 @@ export class CssVarInterpolate {
                     this.currentValues[key] = value;
                 }
             }
-            if (!this.batchUpdate) {
-              dom.setCssVariable(this.element, key, String(value));
-            }
-        }
-
-        // Update values in batch.
-        if (this.batchUpdate) {
-            dom.setCssVariables(this.element, this.currentValues);
+            dom.setCssVariable(this.element, key, String(value));
         }
     }
 
