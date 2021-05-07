@@ -101,11 +101,11 @@ export class DraggableSlide implements Transition {
    * up the inspector view.
    * @private
    */
-  private readonly lastXTranslate: DefaultMap<HTMLElement, number>;
-  private transitionTarget: TransitionTarget;
-  private carousel: Carousel;
-  private resizeTimeout: number;
-  private interaction: Interaction;
+  private readonly lastXTranslate: DefaultMap<HTMLElement, number | null>;
+  private transitionTarget: TransitionTarget | null;
+  private carousel?: Carousel;
+  private resizeTimeout: number | null;
+  private interaction: Interaction | null;
   private raf: Raf;
 
   /**
@@ -156,7 +156,7 @@ export class DraggableSlide implements Transition {
    * animations.
    */
   onRaf(): void {
-    if (this.carousel.isDisabled()) {
+    if (this.carousel!.isDisabled()) {
       return;
     }
     this.raf.read(() => {
@@ -185,7 +185,7 @@ export class DraggableSlide implements Transition {
    */
   transition(
     targetEl: HTMLElement,
-    optTransitionTime: number = null
+    optTransitionTime: number | null = null
   ): void {
     if (
       this.transitionTarget !== null &&
@@ -209,16 +209,16 @@ export class DraggableSlide implements Transition {
    */
   getActiveSlide(): HTMLElement {
     return arrayf.min(
-      this.carousel.getSlides(),
+      this.carousel!.getSlides(),
       // Start with the one closest to the center
       (el) => {
         return Math.abs(
           this.getDistanceBetween(
-            <HTMLElement>el, this.carousel.container));
+            <HTMLElement>el, this.carousel!.container));
       },
       // If neither slide was last active default to the one that appears first
       // in the list of slides
-      (el) => -1 * this.carousel.getIndex(el)
+      (el) => -1 * this.carousel!.getIndex(el)
     );
   }
 
@@ -241,7 +241,7 @@ export class DraggableSlide implements Transition {
    * Dispose of the transition.
    */
   dispose() {
-    window.clearTimeout(this.resizeTimeout);
+    this.resizeTimeout && window.clearTimeout(this.resizeTimeout);
     this.mouseTracker.dispose();
     this.domWatcher.dispose();
     this.xTranslate.clear();
@@ -254,10 +254,12 @@ export class DraggableSlide implements Transition {
       on: 'resize',
       eventOptions: {passive: true},
       callback: () => {
-        window.clearTimeout(this.resizeTimeout);
+        if (this.resizeTimeout) {
+          window.clearTimeout(this.resizeTimeout);
+        }
         this.resizeTimeout =
             window.setTimeout(
-                () => this.transition(this.carousel.getActiveSlide(), 0));
+                () => this.transition(this.carousel!.getActiveSlide(), 0));
       }
     });
   }
@@ -267,13 +269,13 @@ export class DraggableSlide implements Transition {
    * the carousel.
    */
   private constrainXTranslations() {
-    if (this.carousel.loop) {
+    if (this.carousel!.loop) {
       return;
     }
-    const slides = this.carousel.getSlides();
+    const slides = this.carousel!.getSlides();
 
     // Allow for centering the last slide
-    const halfContainer = this.carousel.container.offsetWidth / 2;
+    const halfContainer = this.carousel!.container.offsetWidth / 2;
     const totalSlideWidth = DraggableSlide.sumWidth(slides);
 
     const lastSlideWidth = slides.slice(-1)[0].offsetWidth;
@@ -306,25 +308,25 @@ export class DraggableSlide implements Transition {
 
   private renderInteraction() {
     const currentMouseX = this.getMouseX();
-    const delta = currentMouseX - this.interaction.lastMouseX;
-    this.carousel.getSlides().forEach((slide) => {
+    const delta = currentMouseX - this.interaction!.lastMouseX;
+    this.carousel!.getSlides().forEach((slide) => {
       this.xTranslate.set(slide, this.xTranslate.get(slide) + delta);
     });
-    this.interaction.lastMouseX = currentMouseX;
+    this.interaction!.lastMouseX = currentMouseX;
   }
 
   /**
    * Return the distance between the given slide and the center of the carousel.
    */
   private getDistanceToCenter(slide: HTMLElement): number {
-    return this.getDistanceBetween(slide, this.carousel.container);
+    return this.getDistanceBetween(slide, this.carousel!.container);
   }
 
   /**
    * Setup the Draggable instances that will correspond to the slide elements.
    */
   private initDraggableSlides(): void {
-    this.carousel.getSlides()
+    this.carousel!.getSlides()
       .forEach(
         (slide) => {
           ['touchstart', 'mousedown']
@@ -357,8 +359,8 @@ export class DraggableSlide implements Transition {
   private getEasedTransitionPercent(): number {
     const transitionPercent =
         mathf.inverseLerp(
-            this.transitionTarget.timeRange[0],
-            this.transitionTarget.timeRange[1],
+            this.transitionTarget!.timeRange[0],
+            this.transitionTarget!.timeRange[1],
             performance.now());
     return this.easingFunction(transitionPercent);
   }
@@ -369,13 +371,16 @@ export class DraggableSlide implements Transition {
    */
   private renderTransition() {
     const target = this.transitionTarget;
+    if (!target) {
+      return;
+    }
     const easedPercent = this.getEasedTransitionPercent();
     const targetDistance = mathf.lerp(target.startDistance, 0, easedPercent);
     const currentDistance = this.getDistanceToCenter(target.target);
     const absDelta = Math.abs(targetDistance) - Math.abs(currentDistance);
     const currentDistanceSign = Math.sign(currentDistance);
     const xDelta = absDelta * currentDistanceSign;
-    this.carousel.getSlides().forEach(
+    this.carousel!.getSlides().forEach(
         (slide) => this.translate(slide, xDelta));
     this.loopSlides();
 
@@ -404,17 +409,17 @@ export class DraggableSlide implements Transition {
    * - Slides loop from one side to the other.
    */
   private loopSlides(): void {
-    if (!this.carousel.loop) {
+    if (!this.carousel!.loop) {
       return;
     }
 
     // No matter what we need to loop adjust the target if we have one
     const target: HTMLElement =
       (this.transitionTarget && this.transitionTarget.target) ||
-        this.carousel.getActiveSlide();
+        this.carousel!.getActiveSlide();
 
-    const targetIndex = this.carousel.getIndex(target);
-    const slides = this.carousel.getSlides();
+    const targetIndex = this.carousel!.getIndex(target);
+    const slides = this.carousel!.getSlides();
     const slidesToAdjust =
         new Set(slides.filter((slide) => slide !== target));
 
@@ -460,7 +465,7 @@ export class DraggableSlide implements Transition {
     }
     this.interaction = new Interaction(this.getMouseX(), performance.now());
     this.transitionTarget = null;
-    this.carousel.stopTransition();
+    this.carousel!.stopTransition();
   }
 
   /**
@@ -483,32 +488,32 @@ export class DraggableSlide implements Transition {
 
     const velocitySign = Math.sign(velocity);
     const distanceSign = Math.sign(distance) * -1;
-    const allowsLooping = this.carousel.loop;
+    const allowsLooping = this.carousel!.loop;
 
     // If the slide is already centered, then it is clearly the slide to
     // transition to.
     if (distance === 0 || distanceSign === velocitySign || velocity === 0) {
-      this.carousel.goToSlide(activeSlide);
+      this.carousel!.goToSlide(activeSlide);
     } else {
       // If the user was dragging to the right, transition in the opposite
       // direction.
       if (velocitySign === Direction.RIGHT) {
-        if (allowsLooping || activeSlide !== this.carousel.getFirstSlide()) {
-          this.carousel.prev();
+        if (allowsLooping || activeSlide !== this.carousel!.getFirstSlide()) {
+          this.carousel!.prev();
         } else {
           // If we are already at the first slide and can't loop, transition
           // as is.
-          this.carousel.goToSlide(activeSlide);
+          this.carousel!.goToSlide(activeSlide);
         }
       // If the user was dragging to the left, transition in the opposite
       // direction.
       } else {
-        if (allowsLooping || activeSlide !== this.carousel.getLastSlide()) {
-          this.carousel.next();
+        if (allowsLooping || activeSlide !== this.carousel!.getLastSlide()) {
+          this.carousel!.next();
         } else {
           // If we are already at the last slide and can't loop, transition
           // as is.
-          this.carousel.goToSlide(activeSlide);
+          this.carousel!.goToSlide(activeSlide);
         }
       }
     }
@@ -518,7 +523,7 @@ export class DraggableSlide implements Transition {
    * Return the current mouse position.
    */
   private getMouseX(): number {
-    return this.mouseTracker.getClientPosition().x;
+    return this.mouseTracker!.getClientPosition()!.x;
   }
 
   /**
@@ -538,7 +543,7 @@ export class DraggableSlide implements Transition {
    *
    * If no second element is given, the root element's center is used instead.
    */
-  private getDistanceBetween(a: HTMLElement, b: HTMLElement = null): number {
+  private getDistanceBetween(a: HTMLElement, b: HTMLElement | null = null): number {
     // Gather up the information on the first element's center position.
     const aCenter = this.getCenter(a);
     // Gather the info on the second element's center position or the root
@@ -578,16 +583,16 @@ export class DraggableSlide implements Transition {
       endSlide: HTMLElement,
       direction: Direction
   ): HTMLElement[] {
-    const start = this.carousel.getIndex(startSlide);
-    const end = this.carousel.getIndex(endSlide) - direction;
+    const start = this.carousel!.getIndex(startSlide);
+    const end = this.carousel!.getIndex(endSlide) - direction;
     if (start === end) {
       return [];
-    } else if (this.carousel.loop) {
+    } else if (this.carousel!.loop) {
       return arrayf.loopSlice(
-          this.carousel.getSlides(), end, start, -direction);
+          this.carousel!.getSlides(), end, start, -direction);
     } else {
       // Use min and max to ensure that we slice in the right direction.
-      return this.carousel.getSlides().slice(
+      return this.carousel!.getSlides().slice(
           Math.min(start + 1, end),
           Math.max(start, end + direction));
     }

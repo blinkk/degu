@@ -82,7 +82,7 @@ enum DefaultCssClass {
  * a timeout.
  */
 class AutoplayTimeout {
-  private timeout: number;
+  private timeout: number | null;
   private readonly callback: TimerHandler;
   private readonly delay: number;
   private lastStartTime: number;
@@ -130,15 +130,17 @@ class AutoplayTimeout {
   }
 
   private clear(): void {
-    clearTimeout(this.timeout);
-    this.timeout = null;
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
   }
 }
 
 export class Carousel implements EventDispatcher {
   readonly loop: boolean;
   readonly container: HTMLElement;
-  autoplaySpeed: number;
+  autoplaySpeed?: number;
   private readonly activeCssClass: string;
   private readonly beforeCssClass: string;
   private readonly afterCssClass: string;
@@ -148,9 +150,9 @@ export class Carousel implements EventDispatcher {
   private readonly transition: Transition;
   private readonly raf: Raf;
   private readonly eventManager: EventManager;
-  private transitionTarget: HTMLElement;
-  private lastActiveSlide: HTMLElement;
-  private autoplayTimeout: AutoplayTimeout;
+  private transitionTarget: HTMLElement | null;
+  private lastActiveSlide: HTMLElement | null;
+  private autoplayTimeout: AutoplayTimeout | null;
   private syncedCarousels: Set<Carousel>;
 
   /**
@@ -181,8 +183,8 @@ export class Carousel implements EventDispatcher {
         afterCssClass = DefaultCssClass.AFTER_SLIDE,
         distanceToActiveSlideAttr = DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR,
         loop = true,
-        transition = null,
-        autoplaySpeed = null
+        transition = undefined,
+        autoplaySpeed = undefined
       }: CarouselOptions = {}
   ) {
     if (slides.length < 1) {
@@ -446,14 +448,18 @@ export class Carousel implements EventDispatcher {
    * Pause the autoplay functionality of the carousel.
    */
   pause(): void {
-    this.autoplayTimeout.pause();
+    if (this.autoplayTimeout) {
+      this.autoplayTimeout.pause();
+    }
   }
 
   /**
    * Unpause the autoplay functionality of the carousel.
    */
   unpause(): void {
-    this.autoplayTimeout.unpause();
+    if (this.autoplayTimeout) {
+      this.autoplayTimeout.unpause();
+    }
   }
 
   /**
@@ -544,7 +550,7 @@ export class Carousel implements EventDispatcher {
     // If the slide counts match up, this modulus operation will be a no-op and
     // no harm is done.
     const equivalentTransitionTargetIndex =
-        this.getIndex(this.transitionTarget) % carousel.getSlideCount();
+        this.getIndex(this.transitionTarget!) % carousel.getSlideCount();
 
     // If we are already on an equivalent index, we can stop and return early.
     if (equivalentTransitionTargetIndex === index) {
@@ -630,8 +636,8 @@ export class Carousel implements EventDispatcher {
    * @private
    */
   private resetAutoplayTimeout() {
-    if (this.autoplaySpeed !== null) {
-      if (this.autoplayTimeout !== null) {
+    if (this.autoplaySpeed) {
+      if (this.autoplayTimeout) {
         this.autoplayTimeout.dispose();
       }
       this.autoplayTimeout =
