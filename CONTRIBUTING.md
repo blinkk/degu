@@ -83,6 +83,10 @@ When writing a class
   lot of methods and classes that are unfamiliar.  The exception would be
   for advanced examples.
 
+Use release-please style commit messages, e.g. 
+- feat: add some new feature 
+- chore: update docs 
+- refactor: move some file into another place
 
 ### Testing with Ava
 Tests use wonderful [ava](https://github.com/avajs/ava).
