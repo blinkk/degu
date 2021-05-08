@@ -216,6 +216,26 @@ export interface InviewConfig {
  *
  */
 export class Inview {
+  private static gatherTargetElements(config: InviewConfig): HTMLElement[] {
+    const targetElements = [config.element];
+    if (config.childSelector) {
+      Array.from(config.element.querySelectorAll(config.childSelector))
+          .forEach((el) => targetElements.push(<HTMLElement>el));
+    }
+    return targetElements;
+  }
+
+  private static assignDefaultsToConfig(config: InviewConfig): InviewConfig {
+    return Object.assign(
+        {
+          elementBaseline: 0,
+          viewportOffset: 0,
+          outviewOnlyOnElementExit: false,
+          downOnlyMode: false
+        },
+        config
+    );
+  }
   private readonly raf: Raf;
   private readonly watcher: DomWatcher;
   private readonly config: InviewConfig;
@@ -250,89 +270,32 @@ export class Inview {
    */
   private readonly inviewClassNames: InviewClassNames;
 
+  /**
+   * A caching flag. Set on events that would change the inview status of an
+   * element, cleared when a RAF loop has run.
+   * This will improve performance by culling RAF runs before work is done.
+   */
+  private shouldRun: boolean;
+
   constructor(config: InviewConfig) {
-    // Initialize values that are eventually disposed
-    this.raf = new Raf(() => this.onRaf());
-    this.watcher = new DomWatcher();
-
-    this.config = Object.assign(
-        {
-          elementBaseline: 0,
-          viewportOffset: 0,
-          outviewOnlyOnElementExit: false,
-          downOnlyMode: false
-        },
-        config
-    );
-
-    // Merge the inview class names.
-    this.inviewClassNames = Object.assign({}, InviewDefaultClassNames);
-    if (config.inviewClassNames) {
-      this.inviewClassNames = Object.assign(this.inviewClassNames,
-          config.inviewClassNames);
-    }
-
-    this.scrollY = window.scrollY;
-    this.watcher.add({
-      element: window,
-      on: 'scroll',
-      callback: this.onWindowScroll.bind(this),
-      eventOptions: { passive: true }
-    });
-    this.watcher.add({
-      element: window,
-      on: 'smartResize',
-      callback: this.onWindowScroll.bind(this),
-      eventOptions: { passive: true }
-    });
-
-    this.onWindowScroll();
-
+    // Establish defaults on the config as needed and then handle errors for bad
+    // configs.
+    this.config = Inview.assignDefaultsToConfig(config);
     if (!this.config.element) {
       throw new Error('No element is defined for inview');
     }
 
-    this.targetElements = [this.config.element];
-    if (this.config.childSelector) {
-      const childSelectors: HTMLElement[] =
-          Array.from(
-              this.config.element.querySelectorAll(this.config.childSelector));
-      this.targetElements = [...this.targetElements, ...childSelectors];
+    // Assign property values
+    this.raf = new Raf(() => this.onRaf());
+    this.watcher = new DomWatcher();
+    this.inviewClassNames =
+        Object.assign(
+            {}, InviewDefaultClassNames, config.inviewClassNames || {});
+    this.scrollY = window.scrollY;
+    this.targetElements = Inview.gatherTargetElements(this.config);
 
-      // Add inview index
-      this.raf.write(() => {
-        this.targetElements.forEach((target: HTMLElement, i: number) => {
-          target.setAttribute('inview-index', i + '');
-        });
-      });
-    }
+    // Initialize the class and properties
     this.init();
-  }
-
-  private init(): void {
-    this.readyTargetElements();
-    this.initInview();
-
-    // Force update the state.
-    this.onRaf(true);
-  }
-
-  private readyTargetElements(): void {
-    this.targetElements.forEach((target: HTMLElement) => {
-      this.raf.write(() => {
-        target.classList.add(this.inviewClassNames.READY);
-      });
-    });
-  }
-
-  private initInview(): void {
-    const intersectionObserverOptions =
-        this.config.evIntersectionObserverOptions ||
-        { rootMargin: '100px 0px 100px 0px' };
-    const inviewPromise =
-        this.raf.runWhenElementIsInview(
-            this.config.element,  intersectionObserverOptions);
-    inviewPromise.then(() => this.raf.start());
   }
 
   runInviewState(force?: boolean) {
@@ -394,25 +357,84 @@ export class Inview {
     this.watcher.dispose();
   }
 
+  private init(): void {
+    this.initDomWatcher();
+    this.addInviewIndicesToTargetElements();
+    this.readyTargetElements();
+    this.initInview();
+
+    // Force update the state.
+    this.onRaf(true);
+  }
+
+  private initDomWatcher(): void {
+    this.watcher.add({
+      element: window,
+      on: 'scroll',
+      callback: () => this.onWindowScroll(),
+      eventOptions: { passive: true }
+    });
+    this.watcher.add({
+      element: window,
+      on: 'smartResize',
+      callback: () => this.onWindowScroll(),
+      eventOptions: { passive: true }
+    });
+  }
+
+  private addInviewIndicesToTargetElements(): void {
+    // Do nothing if there is only a single target element
+    if (this.targetElements.length <= 1) {
+      return;
+    }
+    this.raf.write(() => {
+      this.targetElements.forEach((target, i) => {
+        target.setAttribute('inview-index', `${i}`);
+      });
+    });
+  }
+
+  private readyTargetElements(): void {
+    this.targetElements.forEach((target: HTMLElement) => {
+      this.raf.write(() => {
+        target.classList.add(this.inviewClassNames.READY);
+      });
+    });
+  }
+
+  private initInview(): void {
+    const intersectionObserverOptions =
+        this.config.evIntersectionObserverOptions ||
+        { rootMargin: '100px 0px 100px 0px' };
+    const inviewPromise =
+        this.raf.runWhenElementIsInview(
+            this.config.element,  intersectionObserverOptions);
+    inviewPromise.then(() => this.raf.start());
+  }
+
   private onWindowScroll(): void {
     this.raf.read(() => {
       // Calculate the scroll direction.
       const scrollY = window.scrollY;
       this.scrollDirection = mathf.direction(this.scrollY, scrollY);
       this.scrollY = scrollY;
+      this.shouldRun = true;
     });
   }
 
   /**
    * Request Animation Frame handle.  This runs only when the element is
    * in the viewport.
-   *
-   * TODO (uxder): Some of these values can be cached.
    */
   private onRaf(force?: boolean): void {
+    if (!force && !this.shouldRun) {
+      // Flag was not set, skip this iteration as there is not reason to expect
+      // any changes.
+      return;
+    }
+    this.shouldRun = false; // Clear the flag as the iteration is set to run
     // Figure out how much of this element is visible.
     this.raf.read(() => {
-
       // Since generally, since we think in terms of scrolling down, 0 - 1 would
       // be represented as:
       // 1 ---> top of screen
@@ -422,13 +444,12 @@ export class Inview {
       // Therefore, progress is represented as 0-1 where it goes from the bottom
       // of the screen to the top.
       //
+      // Additionally, we need to know, what point in the element should be used
+      // to see where the element resides.  We could use the top, center or
+      // bottom.
       //
-      // Additionally, we need to know, what point in the element should be
-      // use to see where the element resides.  We could use the top,
-      // center or bottom.
-      //
-      // The elementBaseline is used to factor this in.  The default state
-      // is calculated from teh top of the element.
+      // The elementBaseline is used to factor this in.  The default state is
+      // calculated from the top of the element.
       const wh = window.innerHeight;
       const box = this.config.element.getBoundingClientRect();
       const elementBaseline =
@@ -456,7 +477,6 @@ export class Inview {
         const completelyOutOfView =
             !mathf.isBetween(topPercent, 0, 1) &&
             !mathf.isBetween(bottomPercent, 0, 1);
-
         if (inPercent < this.config.viewportOffset || outPercent >= 1) {
           if (
               completelyOutOfView
@@ -466,7 +486,6 @@ export class Inview {
         } else {
           this.runInviewState(force);
         }
-
       } else if (this.config.downOnlyMode) {
         // This is the percent where the TOP of the element is in the viewport.
         const topPercent = 1 - mathf.inverseLerp(0, wh, box.top, true);
@@ -492,7 +511,6 @@ export class Inview {
           this.runInviewState(force);
         }
       } else {
-
         // NORMAL INVIEW
         // The outview conditions are in the outpercent (bottom of the element)
         // is greater than 1
@@ -503,8 +521,6 @@ export class Inview {
           this.runInviewState(force);
         }
       }
-
     });
-
   }
 }
