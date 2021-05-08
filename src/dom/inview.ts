@@ -217,7 +217,6 @@ export interface InviewConfig {
  */
 export class Inview {
   private readonly raf: Raf;
-  private readonly readWrite: Raf;
   private readonly watcher: DomWatcher;
   private readonly config: InviewConfig;
 
@@ -254,7 +253,6 @@ export class Inview {
   constructor(config: InviewConfig) {
     // Initialize values that are eventually disposed
     this.raf = new Raf(() => this.onRaf());
-    this.readWrite = new Raf();
     this.watcher = new DomWatcher();
 
     this.config = Object.assign(
@@ -302,36 +300,46 @@ export class Inview {
       this.targetElements = [...this.targetElements, ...childSelectors];
 
       // Add inview index
-      this.readWrite.write(() => {
+      this.raf.write(() => {
         this.targetElements.forEach((target: HTMLElement, i: number) => {
           target.setAttribute('inview-index', i + '');
         });
       });
     }
+    this.init();
+  }
 
-    this.targetElements.forEach((target: HTMLElement, i: number) => {
-      this.readWrite.write(() => {
+  private init(): void {
+    this.readyTargetElements();
+    this.initInview();
+
+    // Force update the state.
+    this.onRaf(true);
+  }
+
+  private readyTargetElements(): void {
+    this.targetElements.forEach((target: HTMLElement) => {
+      this.raf.write(() => {
         target.classList.add(this.inviewClassNames.READY);
       });
     });
+  }
 
+  private initInview(): void {
     const intersectionObserverOptions =
         this.config.evIntersectionObserverOptions ||
         { rootMargin: '100px 0px 100px 0px' };
     const inviewPromise =
-      this.raf.runWhenElementIsInview(
-          this.config.element,  intersectionObserverOptions);
+        this.raf.runWhenElementIsInview(
+            this.config.element,  intersectionObserverOptions);
     inviewPromise.then(() => this.raf.start());
-
-    // Force update the state.
-    this.onRaf(true);
   }
 
   runInviewState(force?: boolean) {
     if (this.isInState) {
       return;
     }
-    this.readWrite.write(() => {
+    this.raf.write(() => {
       this.targetElements.forEach((el) => {
         el.classList.remove(this.inviewClassNames.OUT);
         el.classList.add(this.inviewClassNames.IN);
@@ -364,7 +372,7 @@ export class Inview {
     if (!this.isInState && !force) {
       return;
     }
-    this.readWrite.write(() => {
+    this.raf.write(() => {
       this.targetElements.forEach((el) => {
         el.classList.add(this.inviewClassNames.OUT);
         el.classList.remove(this.inviewClassNames.IN);
@@ -382,7 +390,7 @@ export class Inview {
 
   dispose(): void {
     this.raf.dispose();
-    this.readWrite.dispose();
+    this.raf.dispose();
     this.watcher.dispose();
   }
 
@@ -402,10 +410,8 @@ export class Inview {
    * TODO (uxder): Some of these values can be cached.
    */
   private onRaf(force?: boolean): void {
-    const writer = force ? this.readWrite : this.raf;
-
     // Figure out how much of this element is visible.
-    writer.read(() => {
+    this.raf.read(() => {
 
       // Since generally, since we think in terms of scrolling down, 0 - 1 would
       // be represented as:
