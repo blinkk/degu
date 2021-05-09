@@ -642,7 +642,7 @@ export class threef {
                 element.style.transform = `rotateX(${deg.x}deg) rotateY(${deg.y}deg) rotateZ(${deg.z}deg)`;
             }
         } else {
-            element.style.transform = `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) scale(${v.z})`;
+            element.style.transform = `translate(-50%, -50%) translate(${v?.x}px, ${v?.y}px) scale(${v?.z})`;
         }
     }
 
