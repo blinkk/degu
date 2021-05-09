@@ -174,12 +174,12 @@ export class is {
   }
 
   static chrome(): boolean {
-    return navigator.userAgent.indexOf('Chrome') != -1 && !is.edge();
+    return navigator.userAgent.indexOf('Chrome') !== -1 && !is.edge();
   }
 
   static safari(): boolean {
     return (
-      !is.chrome() && navigator.userAgent.indexOf('Safari') != -1 && !is.edge()
+      !is.chrome() && navigator.userAgent.indexOf('Safari') !== -1 && !is.edge()
     );
   }
 
@@ -192,11 +192,11 @@ export class is {
   }
 
   static edge(): boolean {
-    return navigator.userAgent.indexOf('Edge') != -1;
+    return navigator.userAgent.indexOf('Edge') !== -1;
   }
 
   static firefox(): boolean {
-    return navigator.userAgent.indexOf('Firefox') != -1;
+    return navigator.userAgent.indexOf('Firefox') !== -1;
   }
 
   static ie(): boolean {
@@ -288,7 +288,7 @@ export class is {
   static supportingAdvancedCssCalc(): boolean {
     document.body.style.transitionTimingFunction =
       'cubic-bezier(calc(1 * 1),1,1,1)';
-    return getComputedStyle(document.body).transitionTimingFunction != 'ease';
+    return getComputedStyle(document.body).transitionTimingFunction !== 'ease';
   }
 
   /**

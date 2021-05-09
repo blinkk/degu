@@ -467,7 +467,7 @@ export class MatrixIV {
     let a = axis.x,
       b = axis.y,
       c = axis.z;
-    if (mg != 1) {
+    if (mg !== 1) {
       mg = 1 / mg;
       a *= mg;
       b *= mg;
@@ -680,7 +680,7 @@ export class MatrixIV {
     this.value[12] = 0;
     this.value[13] = 0;
     this.value[15] = 0;
-    if (far != null && far !== Infinity) {
+    if (far !== null && far !== Infinity) {
       nf = 1 / (near - far);
       this.value[10] = (far + near) * nf;
       this.value[14] = 2 * far * near * nf;

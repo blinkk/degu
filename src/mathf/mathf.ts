@@ -433,7 +433,7 @@ export class mathf {
       const polyB = poly[pointPolyBIndex];
 
       const intersects =
-        polyA.y > point.y != polyB.y > point.y &&
+        polyA.y > point.y !== polyB.y > point.y &&
         point.x <
           ((polyB.x - polyA.x) * (point.y - polyA.y)) / (polyB.y - polyA.y) +
             polyA.x;

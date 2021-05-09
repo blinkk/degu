@@ -32,7 +32,7 @@ export class objectf {
     const bProps = Object.getOwnPropertyNames(b);
 
     // If the length of object isn't equal, we know they are equal.
-    if (aProps.length != bProps.length) {
+    if (aProps.length !== bProps.length) {
       return false;
     }
 

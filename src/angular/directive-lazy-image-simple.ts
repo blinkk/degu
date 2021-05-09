@@ -145,7 +145,7 @@ export class LazyImageSimple implements INgDisposable {
    */
   isPaintedOnScreen() {
     const style = window.getComputedStyle(this.el, null).display;
-    return style != 'none';
+    return style !== 'none';
   }
 
   dispose() {
