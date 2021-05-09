@@ -80,7 +80,6 @@ prettier --write "src/**/*.ts"
 ### Development Practices / Guidelines
 
 - Use [typedoc](https://typedoc.org/guides/doccomments/)
-- Linting - tslint is used.  See tslinkt.json
 
 When writing a class
 - create an example in /examples.  The example should focus on just using that
