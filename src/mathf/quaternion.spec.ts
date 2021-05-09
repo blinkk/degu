@@ -109,7 +109,7 @@ test('To EulerVector', t => {
 });
 
 
-test('fromRotationMatrixIV', t => {
+test('fromRotationMatrixIV', (t:any) => {
     let s = new Quaternion(0, 0, 0, 1);
     let m1 = MatrixIV.fromQuaternion(s);
     let q = Quaternion.fromRotationMatrixIV(m1);

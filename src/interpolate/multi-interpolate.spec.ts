@@ -180,23 +180,24 @@ test('Multi Interpolation Complex', t => {
         ]
     })
 
+
     // 0%
-    t.is(Math.round(inter.calculate(0)['x']), Math.round(50));
-    t.is(Math.round(inter.calculate(0)['y']), Math.round(0));
-    t.is(Math.round(inter.calculate(0)['z']), Math.round(0));
+    t.is(Math.round(+inter.calculate(0)['x']), Math.round(50));
+    t.is(Math.round(+inter.calculate(0)['y']), Math.round(0));
+    t.is(Math.round(+inter.calculate(0)['z']), Math.round(0));
 
     // 30%
-    t.is(Math.round(inter.calculate(0.3)['x']), Math.round(50));
-    t.is(Math.round(inter.calculate(0.3)['y']), Math.round(60));
-    t.is(Math.round(inter.calculate(0.3)['z']), Math.round(30));
+    t.is(Math.round(+inter.calculate(0.3)['x']), Math.round(50));
+    t.is(Math.round(+inter.calculate(0.3)['y']), Math.round(60));
+    t.is(Math.round(+inter.calculate(0.3)['z']), Math.round(30));
 
     // 70%
-    t.is(Math.round(inter.calculate(0.7)['x']), Math.round(7441));
-    t.is(Math.round(inter.calculate(0.7)['y']), Math.round(100));
-    t.is(Math.round(inter.calculate(0.7)['z']), Math.round(70));
+    t.is(Math.round(+inter.calculate(0.7)['x']), Math.round(7441));
+    t.is(Math.round(+inter.calculate(0.7)['y']), Math.round(100));
+    t.is(Math.round(+inter.calculate(0.7)['z']), Math.round(70));
 
     // 100%
-    t.is(Math.round(inter.calculate(1)['x']), Math.round(8000));
-    t.is(Math.round(inter.calculate(1)['y']), Math.round(100));
-    t.is(Math.round(inter.calculate(1)['z']), Math.round(100));
+    t.is(Math.round(+inter.calculate(1)['x']), Math.round(8000));
+    t.is(Math.round(+inter.calculate(1)['y']), Math.round(100));
+    t.is(Math.round(+inter.calculate(1)['z']), Math.round(100));
 })

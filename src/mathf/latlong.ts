@@ -56,7 +56,7 @@ export class latlong {
         }
 
         return {
-            closestLocation: locations[closest],
+            closestLocation: closest ? locations[closest] : null,
             closestIndex: closest
         }
     }

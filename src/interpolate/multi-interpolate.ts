@@ -388,7 +388,7 @@ export class MultiInterpolate {
      *
      * ```
      */
-    getCalculations(): Object {
+    getCalculations(): Record<string, string | number> {
         return this.currentValues;
     }
 
@@ -398,7 +398,7 @@ export class MultiInterpolate {
      * @return {Object} An object with all interpolation ids as the keys and their
      *     relative values.
      */
-    calculate(progress: number) {
+    calculate(progress: number): Record<string, string | number> {
         this.parentProgress = progress;
 
         const previousValues = this.currentValues;
