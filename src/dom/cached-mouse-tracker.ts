@@ -1,5 +1,5 @@
-import { DomWatcher, Raf } from '..';
-import { Vector } from '../mathf/vector';
+import {DomWatcher, Raf} from '..';
+import {Vector} from '../mathf/vector';
 
 const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchstart', 'touchmove'];
 
@@ -73,12 +73,12 @@ export class CachedMouseTracker {
       CachedMouseTracker.raf = new Raf();
       CachedMouseTracker.clientPosition = Vector.ZERO;
       CachedMouseTracker.domWatcher = new DomWatcher();
-      CURSOR_MOVE_EVENTS.forEach((cursorMoveEvent) => {
+      CURSOR_MOVE_EVENTS.forEach(cursorMoveEvent => {
         CachedMouseTracker.domWatcher.add({
           element: window,
           on: cursorMoveEvent,
           eventOptions: {passive: true},
-          callback: (e: Event) => CachedMouseTracker.updatePosition(e)
+          callback: (e: Event) => CachedMouseTracker.updatePosition(e),
         });
       });
     }

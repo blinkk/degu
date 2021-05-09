@@ -1,35 +1,35 @@
-import { CssParallaxer } from '../dom/css-parallaxer';
+import {CssParallaxer} from '../dom/css-parallaxer';
 
 export class CssParallaxController {
-    private element: HTMLElement;
-    private cssParallaxer: CssParallaxer;
+  private element: HTMLElement;
+  private cssParallaxer: CssParallaxer;
 
-    static get $inject() {
-        return ['$element', '$scope', '$attrs'];
-    }
+  static get $inject() {
+    return ['$element', '$scope', '$attrs'];
+  }
 
-    constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
-        this.element = $element[0];
-        const parallaxData = JSON.parse(this.element.getAttribute('css-parallax')!);
-        this.cssParallaxer = new CssParallaxer(this.element);
-        this.cssParallaxer.init(
-            parallaxData['settings'], parallaxData['interpolations']
-        );
+  constructor(
+    $element: ng.IRootElementService,
+    $scope: ng.IScope,
+    $attrs: ng.IAttributes
+  ) {
+    this.element = $element[0];
+    const parallaxData = JSON.parse(this.element.getAttribute('css-parallax')!);
+    this.cssParallaxer = new CssParallaxer(this.element);
+    this.cssParallaxer.init(
+      parallaxData['settings'],
+      parallaxData['interpolations']
+    );
 
+    $scope.$on('$destroy', () => {
+      this.dispose();
+    });
+  }
 
-        $scope.$on('$destroy', () => {
-            this.dispose();
-        });
-    }
-
-
-
-    protected dispose(): void {
-        this.cssParallaxer.dispose();
-    }
+  protected dispose(): void {
+    this.cssParallaxer.dispose();
+  }
 }
-
-
 
 /**
  *
@@ -111,8 +111,8 @@ export class CssParallaxController {
  *
  */
 export const cssParallaxDirective = function () {
-    return {
-        restrict: 'A',
-        controller: CssParallaxController
-    }
-}
+  return {
+    restrict: 'A',
+    controller: CssParallaxController,
+  };
+};

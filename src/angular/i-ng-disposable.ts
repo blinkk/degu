@@ -1,3 +1,3 @@
 export interface INgDisposable {
-    dispose(): void;
+  dispose(): void;
 }

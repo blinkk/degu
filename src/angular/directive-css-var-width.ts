@@ -1,55 +1,57 @@
-import { DomWatcher } from '../dom/dom-watcher';
-import { INgDisposable } from './i-ng-disposable';
-import { dom } from '../dom/dom';
-import { func } from '../func/func';
+import {DomWatcher} from '../dom/dom-watcher';
+import {INgDisposable} from './i-ng-disposable';
+import {dom} from '../dom/dom';
+import {func} from '../func/func';
 
 export class CssVarWidth implements INgDisposable {
-    static get $inject() {
-        return ['$scope', '$element', '$attrs'];
+  static get $inject() {
+    return ['$scope', '$element', '$attrs'];
+  }
+
+  private el: HTMLElement;
+  private watcher: DomWatcher;
+  private scalar: number;
+  private margin: number;
+  private max: number | null;
+
+  constructor(
+    $scope: ng.IScope,
+    $element: ng.IAugmentedJQuery,
+    $attrs: ng.IAttributes
+  ) {
+    this.el = $element[0];
+    this.watcher = new DomWatcher();
+
+    this.scalar = $attrs.cssVarWidthScalar || 1;
+    this.margin = $attrs.cssVarWidthMargin || 0;
+    this.max = func.setDefault($attrs.cssVarWidthMax, null);
+    this.watcher.add({
+      element: window,
+      on: 'smartResize',
+      callback: this.paint.bind(this),
+    });
+
+    this.paint();
+
+    $scope.$on('$destroy', () => {
+      this.dispose();
+    });
+  }
+
+  paint() {
+    let width = this.el.offsetWidth;
+    width *= this.scalar;
+    width -= this.margin * 2;
+    if (this.max) {
+      width = Math.min(width, this.max);
     }
+    dom.setCssVariable(this.el, '--width', String(width));
+  }
 
-    private el: HTMLElement;
-    private watcher: DomWatcher;
-    private scalar:number;
-    private margin:number;
-    private max: number|null;
-
-    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery, $attrs: ng.IAttributes) {
-        this.el = $element[0];
-        this.watcher = new DomWatcher();
-
-        this.scalar = $attrs.cssVarWidthScalar || 1;
-        this.margin = $attrs.cssVarWidthMargin || 0;
-        this.max = func.setDefault($attrs.cssVarWidthMax, null);
-        this.watcher.add({
-            element: window,
-            on: 'smartResize',
-            callback: this.paint.bind(this)
-        });
-
-        this.paint();
-
-        $scope.$on('$destroy', () => {
-            this.dispose();
-        });
-    }
-
-    paint() {
-        let width = this.el.offsetWidth;
-        width *= this.scalar;
-        width -= (this.margin * 2);
-        if(this.max) {
-            width = Math.min(width, this.max);
-        }
-        dom.setCssVariable(this.el, '--width', String(width));
-    }
-
-    dispose() {
-        this.watcher.dispose();
-    }
+  dispose() {
+    this.watcher.dispose();
+  }
 }
-
-
 
 /*
  Usage:
@@ -71,9 +73,8 @@ export class CssVarWidth implements INgDisposable {
 
  */
 export const cssVarWidthDirective = function () {
-    return {
-        restrict: 'A',
-        controller: CssVarWidth,
-    };
-}
-
+  return {
+    restrict: 'A',
+    controller: CssVarWidth,
+  };
+};

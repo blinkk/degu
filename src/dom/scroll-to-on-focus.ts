@@ -1,53 +1,48 @@
-
-import { DomWatcher } from './dom-watcher';
-import { dom } from './dom';
-import { func } from '../func/func';
-import { is } from '../is/is';
-
+import {DomWatcher} from './dom-watcher';
+import {dom} from './dom';
+import {func} from '../func/func';
+import {is} from '../is/is';
 
 export interface ScrollToOnFocusConfig {
-    /**
-     * The root parent element.
-     */
-    element: HTMLElement;
+  /**
+   * The root parent element.
+   */
+  element: HTMLElement;
 
-    /**
-     * The top offset of the progress.
-     */
-    topProgressOffset: number,
+  /**
+   * The top offset of the progress.
+   */
+  topProgressOffset: number;
 
-    /**
-     * The bottom offset of the progress.
-     */
-    bottomProgressOffset: number,
+  /**
+   * The bottom offset of the progress.
+   */
+  bottomProgressOffset: number;
 
-    /**
-     * Whether to scroll to the element when its click on.
-     * Handy for debuggin.
-     */
-    mouseDown?: boolean
+  /**
+   * Whether to scroll to the element when its click on.
+   * Handy for debuggin.
+   */
+  mouseDown?: boolean;
 
-    /**
-     * For any element with data-scroll-to-on-focus automatically set
-     * the tabindex=0.  For VO focus to be acquired, tabindex=0 is required
-     * so generally you can set this to true.
-     */
-    setTabIndex?: boolean,
+  /**
+   * For any element with data-scroll-to-on-focus automatically set
+   * the tabindex=0.  For VO focus to be acquired, tabindex=0 is required
+   * so generally you can set this to true.
+   */
+  setTabIndex?: boolean;
 
-    /**
-     * Automatically sets the aria region to what is specified.
-     */
-    setAriaRole?: string,
+  /**
+   * Automatically sets the aria region to what is specified.
+   */
+  setAriaRole?: string;
 
-
-    /**
-     * Enables debug mode which outputs additional info to the console for
-     * debugging.
-     */
-    debug: boolean,
+  /**
+   * Enables debug mode which outputs additional info to the console for
+   * debugging.
+   */
+  debug: boolean;
 }
-
-
 
 /**
  * A class that jumps to a specific scroll point when a given
@@ -154,129 +149,126 @@ export interface ScrollToOnFocusConfig {
  *
  */
 export class ScrollToOnFocus {
-    private element: HTMLElement;
-    private watcher: DomWatcher;
-    private selector: string;
-    private topProgressOffset: number;
-    private bottomProgressOffset: number;
-    private debug: boolean = false;
-    private config: ScrollToOnFocusConfig;
+  private element: HTMLElement;
+  private watcher: DomWatcher;
+  private selector: string;
+  private topProgressOffset: number;
+  private bottomProgressOffset: number;
+  private debug: boolean = false;
+  private config: ScrollToOnFocusConfig;
 
+  constructor(config: ScrollToOnFocusConfig) {
+    this.element = config.element;
+    this.watcher = new DomWatcher();
+    this.selector = 'data-scroll-to-on-focus';
+    this.topProgressOffset = func.setDefault(config.topProgressOffset, 0);
+    this.bottomProgressOffset = func.setDefault(config.bottomProgressOffset, 0);
+    this.debug = func.setDefault(config.debug, false);
+    this.config = config;
 
-    constructor(config: ScrollToOnFocusConfig) {
+    const elements: Array<HTMLElement> = Array.from(
+      this.element.querySelectorAll(`[${this.selector}]`)
+    );
 
-        this.element = config.element;
-        this.watcher = new DomWatcher();
-        this.selector = 'data-scroll-to-on-focus';
-        this.topProgressOffset = func.setDefault(config.topProgressOffset, 0);
-        this.bottomProgressOffset = func.setDefault(config.bottomProgressOffset,0);
-        this.debug = func.setDefault(config.debug, false);
-        this.config = config;
+    elements.forEach(el => {
+      this.watchElement(el);
+    });
+  }
 
-
-        const elements: Array<HTMLElement> =
-            Array.from(this.element.querySelectorAll(`[${this.selector}]`));
-
-        elements.forEach((el) => {
-            this.watchElement(el);
-        })
+  public watchElement(el: HTMLElement, progress?: number) {
+    // If a progress is declared, then set the attribute on the element.
+    if (is.defined(progress)) {
+      el.setAttribute(this.selector, progress + '');
     }
 
-
-    public watchElement(el: HTMLElement, progress?: number) {
-
-            // If a progress is declared, then set the attribute on the element.
-            if(is.defined(progress)) {
-                el.setAttribute(this.selector, progress + '')
-            }
-
-            if(this.config.setTabIndex) {
-                el.tabIndex = 0;
-            }
-
-            if(this.config.setAriaRole) {
-                el.setAttribute('role', this.config.setAriaRole);
-            }
-
-
-            this.watcher.add({
-                element: el,
-                on: 'focus',
-                callback: () => {
-                    this.handleFocus(el);
-                },
-                eventOptions: { capture: true }
-            });
-
-            if (this.config.mouseDown || this.debug) {
-                this.watcher.add({
-                    element: el,
-                    on: 'mousedown',
-                    callback: () => {
-                        this.handleFocus(el);
-                    }
-                });
-            }
-            if (this.debug) {
-                this.watcher.add({
-                    element: window,
-                    on: 'scroll',
-                    callback: () => {
-                        // Display out the progress.
-                        console.log('progress',
-                            dom.getElementScrolledPercent(this.element, this.topProgressOffset, this.bottomProgressOffset))
-                    }
-                });
-            }
+    if (this.config.setTabIndex) {
+      el.tabIndex = 0;
     }
 
-
-    /**
-     * Update / Set the internal top and bottom offset.
-     */
-    public updateOffset(top: number, bottom: number) {
-        this.topProgressOffset = top;
-        this.bottomProgressOffset = bottom;
+    if (this.config.setAriaRole) {
+      el.setAttribute('role', this.config.setAriaRole);
     }
 
+    this.watcher.add({
+      element: el,
+      on: 'focus',
+      callback: () => {
+        this.handleFocus(el);
+      },
+      eventOptions: {capture: true},
+    });
 
-    /**
-     * Handle focus on an element.
-     */
-    private handleFocus(focusedElement: HTMLElement) {
-        const targetPercent = focusedElement.getAttribute(this.selector);
+    if (this.config.mouseDown || this.debug) {
+      this.watcher.add({
+        element: el,
+        on: 'mousedown',
+        callback: () => {
+          this.handleFocus(el);
+        },
+      });
+    }
+    if (this.debug) {
+      this.watcher.add({
+        element: window,
+        on: 'scroll',
+        callback: () => {
+          // Display out the progress.
+          console.log(
+            'progress',
+            dom.getElementScrolledPercent(
+              this.element,
+              this.topProgressOffset,
+              this.bottomProgressOffset
+            )
+          );
+        },
+      });
+    }
+  }
 
-        if(this.debug) {
-            console.log('el' + focusedElement);
-            console.log('targetPercent' + targetPercent);
-        }
+  /**
+   * Update / Set the internal top and bottom offset.
+   */
+  public updateOffset(top: number, bottom: number) {
+    this.topProgressOffset = top;
+    this.bottomProgressOffset = bottom;
+  }
 
-        if (targetPercent) {
-            this.scrollTo(+targetPercent);
-        }
+  /**
+   * Handle focus on an element.
+   */
+  private handleFocus(focusedElement: HTMLElement) {
+    const targetPercent = focusedElement.getAttribute(this.selector);
+
+    if (this.debug) {
+      console.log('el' + focusedElement);
+      console.log('targetPercent' + targetPercent);
     }
 
-
-
-    /**
-     * Scroll to a specific window position
-     * @param targetPercent
-     */
-    private scrollTo(targetPercent: number) {
-        // Given the top and bottom progress offset, get the windowY value of
-        // the provided percent.
-        const scrollY = dom.getScrollYAtPercent(
-            this.element,
-            this.topProgressOffset, this.bottomProgressOffset,
-            targetPercent
-        );
-
-        // Scroll To that point.
-        window.scrollTo(0, scrollY);
+    if (targetPercent) {
+      this.scrollTo(+targetPercent);
     }
+  }
 
-    public dispose() {
-        this.watcher && this.watcher.dispose();
-    }
+  /**
+   * Scroll to a specific window position
+   * @param targetPercent
+   */
+  private scrollTo(targetPercent: number) {
+    // Given the top and bottom progress offset, get the windowY value of
+    // the provided percent.
+    const scrollY = dom.getScrollYAtPercent(
+      this.element,
+      this.topProgressOffset,
+      this.bottomProgressOffset,
+      targetPercent
+    );
 
+    // Scroll To that point.
+    window.scrollTo(0, scrollY);
+  }
+
+  public dispose() {
+    this.watcher && this.watcher.dispose();
+  }
 }

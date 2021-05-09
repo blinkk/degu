@@ -1,8 +1,8 @@
-import { CssClassesOnly, DraggableSlide, Transition } from './transitions';
-import { mathf, Raf } from '../..';
-import { EventDispatcher, EventManager } from '../events';
-import { setf } from '../../setf/setf';
-import { arrayf } from '../../arrayf/arrayf';
+import {CssClassesOnly, DraggableSlide, Transition} from './transitions';
+import {mathf, Raf} from '../..';
+import {EventDispatcher, EventManager} from '../events';
+import {setf} from '../../setf/setf';
+import {arrayf} from '../../arrayf/arrayf';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 
@@ -12,7 +12,7 @@ const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
  */
 enum Direction {
   LEFT = -1,
-  RIGHT = 1
+  RIGHT = 1,
 }
 
 /**
@@ -35,15 +35,14 @@ export interface AfterChangeEventData {
   currentIndex: number;
 }
 
-export type CarouselEventData =
-    BeforeChangeEventData | AfterChangeEventData;
+export type CarouselEventData = BeforeChangeEventData | AfterChangeEventData;
 
 /**
  * Carousel events.
  */
 export enum CarouselEvent {
   BEFORE_CHANGE = 'beforeChange',
-  AFTER_CHANGE = 'afterChange'
+  AFTER_CHANGE = 'afterChange',
 }
 
 /**
@@ -56,7 +55,7 @@ export interface CarouselOptions {
   loop?: boolean;
   distanceToActiveSlideAttr?: string;
   // Transition used to iterate through slides.
-  transition?: Transition|string;
+  transition?: Transition | string;
   // Carousel code won't run if the condition is not met.
   // Used for establishing multiple types of carousels on the same DOM varied
   // by breakpoint.
@@ -72,7 +71,7 @@ export interface CarouselOptions {
 enum DefaultCssClass {
   ACTIVE_SLIDE = 'active',
   BEFORE_SLIDE = 'before',
-  AFTER_SLIDE = 'after'
+  AFTER_SLIDE = 'after',
 }
 
 /**
@@ -174,18 +173,18 @@ export class Carousel implements EventDispatcher {
    *     before transitioning to the next slide.
    */
   constructor(
-      container: HTMLElement,
-      slides: HTMLElement[],
-      {
-        condition = () => true,
-        activeCssClass = DefaultCssClass.ACTIVE_SLIDE,
-        beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
-        afterCssClass = DefaultCssClass.AFTER_SLIDE,
-        distanceToActiveSlideAttr = DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR,
-        loop = true,
-        transition = undefined,
-        autoplaySpeed = undefined
-      }: CarouselOptions = {}
+    container: HTMLElement,
+    slides: HTMLElement[],
+    {
+      condition = () => true,
+      activeCssClass = DefaultCssClass.ACTIVE_SLIDE,
+      beforeCssClass = DefaultCssClass.BEFORE_SLIDE,
+      afterCssClass = DefaultCssClass.AFTER_SLIDE,
+      distanceToActiveSlideAttr = DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR,
+      loop = true,
+      transition = undefined,
+      autoplaySpeed = undefined,
+    }: CarouselOptions = {}
   ) {
     if (slides.length < 1) {
       throw new Error('Cannot start carousel without slides');
@@ -211,8 +210,9 @@ export class Carousel implements EventDispatcher {
           break;
         default:
           throw new Error(
-              `Unrecognized transition type "${transition}" passed to ` +
-              `Carousel.`);
+            `Unrecognized transition type "${transition}" passed to ` +
+              `Carousel.`
+          );
       }
     } else {
       this.transition = transition || new CssClassesOnly();
@@ -242,7 +242,7 @@ export class Carousel implements EventDispatcher {
   /**
    * Change the active slide to the given slide by either index or element.
    */
-  goTo(target: number|HTMLElement, drivenBySync = false) {
+  goTo(target: number | HTMLElement, drivenBySync = false) {
     if (typeof target === 'number') {
       this.goToIndex(target, drivenBySync);
     } else {
@@ -261,22 +261,19 @@ export class Carousel implements EventDispatcher {
       return;
     }
     this.transitionTarget = targetSlide;
-    this.eventManager.dispatch(
-        CarouselEvent.BEFORE_CHANGE,
-        {
-          carousel: this,
-          currentSlide: this.getActiveSlide(),
-          currentIndex: this.getActiveIndex(),
-          nextSlide: this.transitionTarget,
-          nextIndex: this.getIndex(this.transitionTarget)
-        });
+    this.eventManager.dispatch(CarouselEvent.BEFORE_CHANGE, {
+      carousel: this,
+      currentSlide: this.getActiveSlide(),
+      currentIndex: this.getActiveIndex(),
+      nextSlide: this.transitionTarget,
+      nextIndex: this.getIndex(this.transitionTarget),
+    });
     if (!drivenBySync) {
-      this.syncedCarousels.forEach(
-          (carousel) => {
-            if (carousel !== this) {
-              carousel.syncTo(this.getIndex(targetSlide), this);
-            }
-          });
+      this.syncedCarousels.forEach(carousel => {
+        if (carousel !== this) {
+          carousel.syncTo(this.getIndex(targetSlide), this);
+        }
+      });
     }
   }
 
@@ -438,10 +435,11 @@ export class Carousel implements EventDispatcher {
    */
   sync(...carousels: Carousel[]): void {
     const masterSet = setf.merge(
-        this.syncedCarousels,
-        ...carousels.map((c) => c.syncedCarousels));
+      this.syncedCarousels,
+      ...carousels.map(c => c.syncedCarousels)
+    );
     this.syncedCarousels = masterSet;
-    masterSet.forEach((c) => c.syncedCarousels = masterSet);
+    masterSet.forEach(c => (c.syncedCarousels = masterSet));
   }
 
   /**
@@ -475,9 +473,8 @@ export class Carousel implements EventDispatcher {
    */
   private transitionSlidesBy(value: number): void {
     const nextIndex =
-        this.getSlides()
-            .indexOf(this.transitionTarget || this.getActiveSlide()) +
-        value;
+      this.getSlides().indexOf(this.transitionTarget || this.getActiveSlide()) +
+      value;
     this.goToIndex(nextIndex);
   }
 
@@ -550,7 +547,7 @@ export class Carousel implements EventDispatcher {
     // If the slide counts match up, this modulus operation will be a no-op and
     // no harm is done.
     const equivalentTransitionTargetIndex =
-        this.getIndex(this.transitionTarget!) % carousel.getSlideCount();
+      this.getIndex(this.transitionTarget!) % carousel.getSlideCount();
 
     // If we are already on an equivalent index, we can stop and return early.
     if (equivalentTransitionTargetIndex === index) {
@@ -568,10 +565,9 @@ export class Carousel implements EventDispatcher {
         equivalentIndex += carousel.getSlideCount();
       }
       this.goTo(
-          arrayf.min(
-              equivalentIndices,
-              (i) => Math.abs(this.getActiveIndex() - i)),
-          true);
+        arrayf.min(equivalentIndices, i => Math.abs(this.getActiveIndex() - i)),
+        true
+      );
     } else {
       this.goTo(index, true);
     }
@@ -603,10 +599,12 @@ export class Carousel implements EventDispatcher {
    * half of the slides.
    */
   private splitSlidesInHalf(
-      slide: HTMLElement, direction: Direction
+    slide: HTMLElement,
+    direction: Direction
   ): HTMLElement[] {
-    const targetLength =
-        this.getHalfOfSlideCount(direction === Direction.RIGHT);
+    const targetLength = this.getHalfOfSlideCount(
+      direction === Direction.RIGHT
+    );
     const result = [];
     let indexToAdd = this.getIndex(slide);
     while (result.length < targetLength) {
@@ -640,8 +638,10 @@ export class Carousel implements EventDispatcher {
       if (this.autoplayTimeout) {
         this.autoplayTimeout.dispose();
       }
-      this.autoplayTimeout =
-          new AutoplayTimeout(() => this.next(), this.autoplaySpeed);
+      this.autoplayTimeout = new AutoplayTimeout(
+        () => this.next(),
+        this.autoplaySpeed
+      );
     }
   }
 
@@ -667,17 +667,16 @@ export class Carousel implements EventDispatcher {
       }
 
       if (this.transitionTarget !== null) {
-        const hasTransitionedToTarget =
-            this.transition.hasTransitionedTo(this.transitionTarget);
+        const hasTransitionedToTarget = this.transition.hasTransitionedTo(
+          this.transitionTarget
+        );
         if (hasTransitionedToTarget) {
           this.transitionTarget = null;
-          this.eventManager.dispatch(
-              CarouselEvent.AFTER_CHANGE,
-              {
-                carousel: this,
-                currentSlide: this.getActiveSlide(),
-                currentIndex: this.getActiveIndex()
-              });
+          this.eventManager.dispatch(CarouselEvent.AFTER_CHANGE, {
+            carousel: this,
+            currentSlide: this.getActiveSlide(),
+            currentIndex: this.getActiveIndex(),
+          });
           this.resetAutoplayTimeout();
         } else {
           this.transition.transition(this.transitionTarget);

@@ -1,203 +1,203 @@
-
-import { dom } from '../dom/dom';
-import { is } from '../is/is';
-import { func } from '../func/func';
-import { Defer } from '../func/defer';
-import { BlobLoader } from '../loader/blob-loader';
-import { mathf } from '../mathf/mathf';
-import { DomWatcher } from '../dom/dom-watcher';
-import { MultiInterpolate, rangedProgress, interpolateSettings } from '../interpolate/multi-interpolate';
-import { RafTimer } from '../raf/raf-timer';
-import { Fps } from '../time/fps';
-import { domCanvas } from '../dom/dom-canvas';
-import { Vector } from '../mathf/vector';
+import {dom} from '../dom/dom';
+import {is} from '../is/is';
+import {func} from '../func/func';
+import {Defer} from '../func/defer';
+import {BlobLoader} from '../loader/blob-loader';
+import {mathf} from '../mathf/mathf';
+import {DomWatcher} from '../dom/dom-watcher';
+import {
+  MultiInterpolate,
+  rangedProgress,
+  interpolateSettings,
+} from '../interpolate/multi-interpolate';
+import {RafTimer} from '../raf/raf-timer';
+import {Fps} from '../time/fps';
+import {domCanvas} from '../dom/dom-canvas';
+import {Vector} from '../mathf/vector';
 
 export interface CanvasImageSequenceImageSet {
-    /**
-     * A list of image sources.
-     */
-    images: Array<string>,
+  /**
+   * A list of image sources.
+   */
+  images: Array<string>;
 
-    /**
-     * An optional condition for when this image set should be loaded.
-     * Note that this only gets evaluated when the window resizes.
-     */
-    when?: Function
+  /**
+   * An optional condition for when this image set should be loaded.
+   * Note that this only gets evaluated when the window resizes.
+   */
+  when?: Function;
 }
 
 export interface CanvasImageSequenceOptions {
-    /**
-     * Whether the sizing should use cover insted of contain.
-     */
-    cover: boolean,
-    /**
-     * When using "contain" or "cover" mode, the amount to position FROM the vertical bottom.
-     * By default, contain mode will vertically center your image.  Setting this
-     * option will adjust the vertical position of the image.
-     *
-     * This is designed to mimic behavior of background-position as much as possible.
-     *
-     * Example: bottom: 0 ---> the bottom of the image should align with the
-     *                         bottom of the canvas element.
-     * Example: bottom: 0.2 ---> the bottom of the image should align from the
-     *                         bottom 20% of the canvas element.
-     */
-    bottom: number,
+  /**
+   * Whether the sizing should use cover insted of contain.
+   */
+  cover: boolean;
+  /**
+   * When using "contain" or "cover" mode, the amount to position FROM the vertical bottom.
+   * By default, contain mode will vertically center your image.  Setting this
+   * option will adjust the vertical position of the image.
+   *
+   * This is designed to mimic behavior of background-position as much as possible.
+   *
+   * Example: bottom: 0 ---> the bottom of the image should align with the
+   *                         bottom of the canvas element.
+   * Example: bottom: 0.2 ---> the bottom of the image should align from the
+   *                         bottom 20% of the canvas element.
+   */
+  bottom: number;
 
-    /**
-     * When calculating the bottom, whether to allow the image clip.   Basically,
-     * says, move this from the top from 0-1 without clipping the image and
-     * alters the position algo.
-     *
-     * By default, position calculation will allow clipping and the specified
-     * percentage is based on the size of the canvas.  Using this option,
-     * will alter the values to never clip.
-     *
-     * This option is NOT available when using cover mode.
-     *
-     * Use by setting to false.
-     * bottomClipping: false
-     *
-     * Example: bottom: 0 ---> the bottom of the image should align to the
-     *                         bottom of the canvas.
-     * Example: bottom: 0.5 ---> the bottom of the image should move up 50%
-     *                         from the bottom without clipping the top of the
-     *                         image.
-     * Example: bottom: 1 ---> the bottom of the image should move up 100%
-     *                         from the bottom without clipping the top of the
-     *                         image.
-     */
-    bottomNoClip: boolean,
+  /**
+   * When calculating the bottom, whether to allow the image clip.   Basically,
+   * says, move this from the top from 0-1 without clipping the image and
+   * alters the position algo.
+   *
+   * By default, position calculation will allow clipping and the specified
+   * percentage is based on the size of the canvas.  Using this option,
+   * will alter the values to never clip.
+   *
+   * This option is NOT available when using cover mode.
+   *
+   * Use by setting to false.
+   * bottomClipping: false
+   *
+   * Example: bottom: 0 ---> the bottom of the image should align to the
+   *                         bottom of the canvas.
+   * Example: bottom: 0.5 ---> the bottom of the image should move up 50%
+   *                         from the bottom without clipping the top of the
+   *                         image.
+   * Example: bottom: 1 ---> the bottom of the image should move up 100%
+   *                         from the bottom without clipping the top of the
+   *                         image.
+   */
+  bottomNoClip: boolean;
 
+  /**
+   * When using "contain" mode, the amount to position FROM the vertical top.
+   * By default, contain mode will vertically center your image.  Setting this
+   * option will adjust the vertical position of the image.
+   *
+   * Example: top: 0 ---> the top of the image should align with the
+   *                         top of the canvas element.
+   * Example: top: 0.2 ---> the top of the image should align from the
+   *                         top 20% of the canvas element.
+   */
+  top: number;
 
-    /**
-     * When using "contain" mode, the amount to position FROM the vertical top.
-     * By default, contain mode will vertically center your image.  Setting this
-     * option will adjust the vertical position of the image.
-     *
-     * Example: top: 0 ---> the top of the image should align with the
-     *                         top of the canvas element.
-     * Example: top: 0.2 ---> the top of the image should align from the
-     *                         top 20% of the canvas element.
-     */
-    top: number,
+  /**
+   * When calculating the top, whether to allow the image clip.   Basically,
+   * says, move this from the top from 0-1 without clipping the image and
+   * alters the position algo.
+   *
+   * By default, position calculation will allow clipping and the specified
+   * percentage is based on the size of the canvas.  Using this option,
+   * will alter the values to never clip.
+   *
+   * This option is NOT available when using cover mode.
+   *
+   * Example: top: 0 ---> the top of the image should align to the
+   *                         top of the canvas.
+   * Example: top: 0.5 ---> the bottom of the image should move up 50%
+   *                         from the bottom without clipping the top of the
+   *                         image.
+   * Example: top: 1 ---> the top of the image should move down 100%
+   *                         from the top without clipping the bottom of the
+   *                         image.
+   */
+  topNoClip: boolean;
 
-    /**
-     * When calculating the top, whether to allow the image clip.   Basically,
-     * says, move this from the top from 0-1 without clipping the image and
-     * alters the position algo.
-     *
-     * By default, position calculation will allow clipping and the specified
-     * percentage is based on the size of the canvas.  Using this option,
-     * will alter the values to never clip.
-     *
-     * This option is NOT available when using cover mode.
-     *
-     * Example: top: 0 ---> the top of the image should align to the
-     *                         top of the canvas.
-     * Example: top: 0.5 ---> the bottom of the image should move up 50%
-     *                         from the bottom without clipping the top of the
-     *                         image.
-     * Example: top: 1 ---> the top of the image should move down 100%
-     *                         from the top without clipping the bottom of the
-     *                         image.
-     */
-    topNoClip: boolean,
+  /**
+   * When using "contain" mode, the amount to position FROM the horizontal left.
+   * By default, contain mode will horizontall center your image.  Setting this
+   * option will adjust the horizontal position of the image.
+   *
+   * Example: left: 0 ---> the left of the image should align with the
+   *                         left of the canvas element.
+   * Example: left: 0.2 ---> the left of the image should align from the
+   *                         top left% of the canvas element.
+   */
+  left: number;
 
-    /**
-     * When using "contain" mode, the amount to position FROM the horizontal left.
-     * By default, contain mode will horizontall center your image.  Setting this
-     * option will adjust the horizontal position of the image.
-     *
-     * Example: left: 0 ---> the left of the image should align with the
-     *                         left of the canvas element.
-     * Example: left: 0.2 ---> the left of the image should align from the
-     *                         top left% of the canvas element.
-     */
-    left: number,
+  /**
+   * When calculating the left, whether to allow the image clip.   Basically,
+   * says, move this from the left from 0-1 without clipping the image and
+   * alters the position algo.
+   *
+   * By default, position calculation will allow clipping and the specified
+   * percentage is based on the size of the canvas.  Using this option,
+   * will alter the values to never clip.
+   *
+   * This option is NOT available when using cover mode.
+   *
+   * Example: left: 0 ---> the left of the image should align to the
+   *                         left of the canvas.
+   * Example: left: 0.5 ---> the left of the image should move right 50%
+   *                         from the left without clipping the right of the
+   *                         image.
+   * Example: left: 1 ---> the left of the image should move right 100%
+   *                         from the left without clipping the right of the
+   *                         image.
+   */
+  leftNoClip: boolean;
 
-    /**
-     * When calculating the left, whether to allow the image clip.   Basically,
-     * says, move this from the left from 0-1 without clipping the image and
-     * alters the position algo.
-     *
-     * By default, position calculation will allow clipping and the specified
-     * percentage is based on the size of the canvas.  Using this option,
-     * will alter the values to never clip.
-     *
-     * This option is NOT available when using cover mode.
-     *
-     * Example: left: 0 ---> the left of the image should align to the
-     *                         left of the canvas.
-     * Example: left: 0.5 ---> the left of the image should move right 50%
-     *                         from the left without clipping the right of the
-     *                         image.
-     * Example: left: 1 ---> the left of the image should move right 100%
-     *                         from the left without clipping the right of the
-     *                         image.
-     */
-    leftNoClip: boolean,
+  /**
+   * When using "contain" mode, the amount to position FROM the horizontal right.
+   * By default, contain mode will horizontall center your image.  Setting this
+   * option will adjust the horizontal position of the image.
+   *
+   * Example: right: 0 ---> the right of the image should align with the
+   *                         right of the canvas element.
+   * Example: right: 0.2 ---> the right of the image should align from the
+   *                         top right% of the canvas element.
+   */
+  right: number;
 
+  /**
+   * When calculating the right, whether to allow the image clip.   Basically,
+   * says, move this from the right from 0-1 without clipping the image and
+   * alters the position algo.
+   *
+   * By default, position calculation will allow clipping and the specified
+   * percentage is based on the size of the canvas.  Using this option,
+   * will alter the values to never clip.
+   *
+   * This option is NOT available when using cover mode.
+   *
+   * Example: right: 0 ---> the right of the image should align to the
+   *                         left of the canvas.
+   * Example: right: 0.5 ---> the right of the image should move right 50%
+   *                         from the right without clipping the left of the
+   *                         image.
+   * Example: right: 1 ---> the right of the image should move right 100%
+   *                         from the right without clipping the left of the
+   *                         image.
+   */
+  rightNoClip: boolean;
 
-    /**
-     * When using "contain" mode, the amount to position FROM the horizontal right.
-     * By default, contain mode will horizontall center your image.  Setting this
-     * option will adjust the horizontal position of the image.
-     *
-     * Example: right: 0 ---> the right of the image should align with the
-     *                         right of the canvas element.
-     * Example: right: 0.2 ---> the right of the image should align from the
-     *                         top right% of the canvas element.
-     */
-    right: number
-
-    /**
-     * When calculating the right, whether to allow the image clip.   Basically,
-     * says, move this from the right from 0-1 without clipping the image and
-     * alters the position algo.
-     *
-     * By default, position calculation will allow clipping and the specified
-     * percentage is based on the size of the canvas.  Using this option,
-     * will alter the values to never clip.
-     *
-     * This option is NOT available when using cover mode.
-     *
-     * Example: right: 0 ---> the right of the image should align to the
-     *                         left of the canvas.
-     * Example: right: 0.5 ---> the right of the image should move right 50%
-     *                         from the right without clipping the left of the
-     *                         image.
-     * Example: right: 1 ---> the right of the image should move right 100%
-     *                         from the right without clipping the left of the
-     *                         image.
-     */
-    rightNoClip: boolean,
-
-    /**
-     * Optional aria label to add to the generated canvas.
-     */
-    ariaLabel: string
-
+  /**
+   * Optional aria label to add to the generated canvas.
+   */
+  ariaLabel: string;
 }
 
 export const canvasImageSequenceErrors = {
-    NO_ELEMENT: 'An element is required for canvas image sequence',
-    NO_IMAGE_SETS: 'Image sets are required for canvas image sequence',
-    NO_IMAGES: 'There are no images defined in your canvas image sequence image set',
-}
-
+  NO_ELEMENT: 'An element is required for canvas image sequence',
+  NO_IMAGE_SETS: 'Image sets are required for canvas image sequence',
+  NO_IMAGES:
+    'There are no images defined in your canvas image sequence image set',
+};
 
 export interface CanvasImageSequenceClipInterpolationConfig {
-    type: string,
-    interpolations: Array<interpolateSettings>
+  type: string;
+  interpolations: Array<interpolateSettings>;
 }
 
 interface rectConfig {
-    top: number,
-    bottom: number,
-    right: number,
-    left: number,
-    radius: number
+  top: number;
+  bottom: number;
+  right: number;
+  left: number;
+  radius: number;
 }
 
 /**
@@ -624,958 +624,955 @@ interface rectConfig {
  * @unstable
  */
 export class CanvasImageSequence {
-    /**
-     * The main element to add canvas to.
-     */
-    private element: HTMLElement | null;
+  /**
+   * The main element to add canvas to.
+   */
+  private element: HTMLElement | null;
 
-    /**
-     * A list canvas image sets.
-     */
-    private imageSets: Array<CanvasImageSequenceImageSet>;
+  /**
+   * A list canvas image sets.
+   */
+  private imageSets: Array<CanvasImageSequenceImageSet>;
 
-    /**
-     * The last known progress value passed to renderByProgress
-     */
-    private progress: number | null;
+  /**
+   * The last known progress value passed to renderByProgress
+   */
+  private progress: number | null;
 
-    /**
-     * The currently loaded / active image set.
-     */
-    private activeImageSet: CanvasImageSequenceImageSet | null;
+  /**
+   * The currently loaded / active image set.
+   */
+  private activeImageSet: CanvasImageSequenceImageSet | null;
 
-    /**
-     * Internal instance of BlobLoader.
-     */
-    private blobLoader: BlobLoader | null;
+  /**
+   * Internal instance of BlobLoader.
+   */
+  private blobLoader: BlobLoader | null;
 
-    /**
-     * A deferred promised that completes when all images have been loaded.
-     */
-    private readyPromise: Defer;
-    private domWatcher: DomWatcher;
+  /**
+   * A deferred promised that completes when all images have been loaded.
+   */
+  private readyPromise: Defer;
+  private domWatcher: DomWatcher;
 
-    /**
-     * Blobs are stored to this dictionary.  These are
-     * held in memory.
-     */
-    private blobCache: { [key: string]: any} | null;
+  /**
+   * Blobs are stored to this dictionary.  These are
+   * held in memory.
+   */
+  private blobCache: {[key: string]: any} | null;
 
-    /**
-     * The current frame that is rendered on the screen.
-     */
-    private currentFrame: number;
-    /**
-     * The target frame to be rendered.  This can have a delta between
-     * currentFrame (especially when lerp is used).
-     */
-    private targetFrame: number;
+  /**
+   * The current frame that is rendered on the screen.
+   */
+  private currentFrame: number;
+  /**
+   * The target frame to be rendered.  This can have a delta between
+   * currentFrame (especially when lerp is used).
+   */
+  private targetFrame: number;
 
-    /**
-       * Allows you to lerp the frame updates.  This defaults to 1 where by
-       * update to the frames are immediate.
-       */
-    private rafTimer: RafTimer | null;
+  /**
+   * Allows you to lerp the frame updates.  This defaults to 1 where by
+   * update to the frames are immediate.
+   */
+  private rafTimer: RafTimer | null;
 
-    /**
-     * The lerp amount when there is a delta between target and current frame
-     * greater than 1.  This defaults to 1 (meaning no lerp).  Change this value
-     * if you want canvasImageSequennce to smoothly interpolate between large
-     * deltas between the target and current frames.
-     */
-    public lerpAmount = 1;
+  /**
+   * The lerp amount when there is a delta between target and current frame
+   * greater than 1.  This defaults to 1 (meaning no lerp).  Change this value
+   * if you want canvasImageSequennce to smoothly interpolate between large
+   * deltas between the target and current frames.
+   */
+  public lerpAmount = 1;
 
-    /**
-     * A flag to note whether the canvas-image-sequence is being "played" using
-     * the play method.
-     */
-    public isPlaying: boolean;
+  /**
+   * A flag to note whether the canvas-image-sequence is being "played" using
+   * the play method.
+   */
+  public isPlaying: boolean;
 
-    /**
-     * When using the play feature of the canvasImageSequence the instance
-     * of defer that needs to be resolved.
-     */
-    private playDefer: Defer | null;
+  /**
+   * When using the play feature of the canvasImageSequence the instance
+   * of defer that needs to be resolved.
+   */
+  private playDefer: Defer | null;
 
-    private canvasElement: HTMLCanvasElement | null;
-    private context: CanvasRenderingContext2D;
-    private dpr: number;
-    private canvasWidth: number;
-    private canvasHeight: number;
-    private imageNaturalWidth: number;
-    private imageNaturalHeight: number;
+  private canvasElement: HTMLCanvasElement | null;
+  private context: CanvasRenderingContext2D;
+  private dpr: number;
+  private canvasWidth: number;
+  private canvasHeight: number;
+  private imageNaturalWidth: number;
+  private imageNaturalHeight: number;
 
+  /**
+   * When using contain mode, the amount of scale that
+   * was applied to the image in order to make it fit.
+   */
+  private containScale: number | null;
 
-    /**
-     * When using contain mode, the amount of scale that
-     * was applied to the image in order to make it fit.
-     */
-    private containScale: number | null;
+  /**
+   * An fps rate limiter.
+   */
+  private fps: Fps;
 
-    /**
-     * An fps rate limiter.
-     */
-    private fps: Fps;
+  /**
+   *  The previously rendered image source.
+   */
+  private lastRenderSource: string | null;
 
-    /**
-     *  The previously rendered image source.
-     */
-    private lastRenderSource: string | null;
+  /**
+   * The last known request to draw a specific image.  Different from
+   * lastRenderSource in that, this image may not have been drawn.
+   */
+  private lastDrawSource: string | null;
 
-    /**
-     * The last known request to draw a specific image.  Different from
-     * lastRenderSource in that, this image may not have been drawn.
-     */
-    private lastDrawSource: string | null;
+  private multiInterpolate: MultiInterpolate | null;
 
-    private multiInterpolate: MultiInterpolate | null;
+  /**
+   * MultiInterpolations if using the clip option.
+   */
+  private clipMultiInterpolate: MultiInterpolate | null;
 
-    /**
-     * MultiInterpolations if using the clip option.
-     */
-    private clipMultiInterpolate: MultiInterpolate | null;
+  /**
+   * The type of clip path rendering.  Currently 'inset' or null (default).
+   */
+  private clipPathType: string | null;
 
-    /**
-     * The type of clip path rendering.  Currently 'inset' or null (default).
-     */
-    private clipPathType: string | null;
+  /**
+   * Sizing options for CanvasImageSequence.
+   */
+  private options: CanvasImageSequenceOptions | undefined;
 
-    /**
-     * Sizing options for CanvasImageSequence.
-     */
-    private options: CanvasImageSequenceOptions | undefined;
+  /**
+   * Whether the instance has been disposed or not.
+   */
+  private disposed: boolean;
 
-    /**
-     * Whether the instance has been disposed or not.
-     */
-    private disposed: boolean;
+  private cacheImage: HTMLImageElement | null;
 
-    private cacheImage: HTMLImageElement | null;
+  constructor(
+    element: HTMLElement,
+    imageSets: Array<CanvasImageSequenceImageSet>,
+    options?: CanvasImageSequenceOptions,
+    dpr?: number
+  ) {
+    this.element = element;
+    if (!element) {
+      throw new Error(canvasImageSequenceErrors.NO_ELEMENT);
+    }
 
-    constructor(element: HTMLElement,
-        imageSets: Array<CanvasImageSequenceImageSet>,
-        options?: CanvasImageSequenceOptions,
-        dpr?: number) {
+    if (!imageSets) {
+      throw new Error(canvasImageSequenceErrors.NO_IMAGE_SETS);
+    }
 
+    this.imageSets = imageSets;
+    this.activeImageSet = null;
+    this.blobCache = {};
 
-        this.element = element;
-        if (!element) {
-            throw new Error(canvasImageSequenceErrors.NO_ELEMENT);
-        }
+    this.options = options;
 
-        if (!imageSets) {
-            throw new Error(canvasImageSequenceErrors.NO_IMAGE_SETS);
-        }
+    this.isPlaying = false;
+    // this.useBitmapImageIfPossible = false;
 
-        this.imageSets = imageSets;
-        this.activeImageSet = null;
-        this.blobCache = {};
+    // Create canvas.
+    this.canvasElement = document.createElement('canvas');
 
-        this.options = options;
+    // Add aria label if available.
+    if (this.options && this.options.ariaLabel) {
+      this.canvasElement.setAttribute('aria-label', this.options.ariaLabel);
+      this.canvasElement.setAttribute('role', 'img');
+    } else {
+      this.canvasElement.setAttribute('aria-hidden', 'true');
+    }
 
-        this.isPlaying = false;
-        // this.useBitmapImageIfPossible = false;
+    this.context = this.canvasElement.getContext('2d')!;
+    this.dpr = func.setDefault(dpr, window.devicePixelRatio || 1);
+    this.canvasWidth = 0;
+    this.canvasHeight = 0;
+    this.imageNaturalHeight = 0;
+    this.imageNaturalWidth = 0;
+    this.currentFrame = 0;
+    this.lastDrawSource = null;
+    this.targetFrame = 0;
+    this.containScale = null;
+    this.disposed = false;
+    // Set FPS to 30 for Safari to limit computation.  Safari takes a lot
+    // more time to decode images so this prevents high CPU usage crashes
+    // in Safari.
+    this.fps = new Fps(is.safari() ? 30 : 60);
+    this.cacheImage = new Image();
 
-        // Create canvas.
-        this.canvasElement = document.createElement('canvas');
+    this.rafTimer = null;
+    this.multiInterpolate = null;
+    this.clipMultiInterpolate = null;
+    this.clipPathType = null;
+    this.blobLoader = null;
+    this.progress = null;
+    this.playDefer = null;
 
-        // Add aria label if available.
-        if (this.options && this.options.ariaLabel) {
-            this.canvasElement.setAttribute('aria-label', this.options.ariaLabel);
-            this.canvasElement.setAttribute('role', 'img');
-        } else {
-            this.canvasElement.setAttribute('aria-hidden', 'true');
-        }
-
-
-        this.context = this.canvasElement.getContext('2d')!;
-        this.dpr = func.setDefault(dpr, window.devicePixelRatio || 1);
-        this.canvasWidth = 0;
-        this.canvasHeight = 0;
-        this.imageNaturalHeight = 0;
-        this.imageNaturalWidth = 0;
-        this.currentFrame = 0;
-        this.lastDrawSource = null;
-        this.targetFrame = 0;
-        this.containScale = null;
-        this.disposed = false;
-        // Set FPS to 30 for Safari to limit computation.  Safari takes a lot
-        // more time to decode images so this prevents high CPU usage crashes
-        // in Safari.
-        this.fps = new Fps(is.safari() ? 30 : 60);
-        this.cacheImage = new Image();
-
-        this.rafTimer = null;
-        this.multiInterpolate = null;
-        this.clipMultiInterpolate = null;
-        this.clipPathType = null;
-        this.blobLoader = null;
-        this.progress = null;
-        this.playDefer = null;
-
-        this.domWatcher = new DomWatcher();
-        this.domWatcher.add({
-            element: window,
-            // Ensure we use smart resize here because resizing canvas will make
-            // it flash (due to clearing the canvas).
-            on: 'smartResize',
-            callback: () => {
-                this.resize();
-
-                this.flush(); // Make a empty call to clear the memoize cache.
-                // Rerender the last known image.
-                this.lastDrawSource = null;
-                this.fps.lock(false);
-                this.lastRenderSource && this.draw(this.lastRenderSource);
-                this.fps.lock(true);
-            },
-            id: 'resize',
-            eventOptions: { passive: true }
-        });
-
+    this.domWatcher = new DomWatcher();
+    this.domWatcher.add({
+      element: window,
+      // Ensure we use smart resize here because resizing canvas will make
+      // it flash (due to clearing the canvas).
+      on: 'smartResize',
+      callback: () => {
         this.resize();
-        this.domWatcher.run('resize');
 
-        // Another resize watcher dedicated to checking to checking if a new
-        // image set should be loaded.
-        this.domWatcher.add({
-            element: window,
-            on: 'smartResize',
-            callback: () => {
-                // Evaluate if we need to load a different image set.
-                let newSet = this.getSourceThatShouldLoad(this.imageSets);
-                if (newSet !== this.activeImageSet) {
-                    this.loadNewSet(this.imageSets);
-                    // Autoload the content.
-                    this.load().then(() => {
-                        // Set last frame to null to allow redrawing.
-                        this.lastDrawSource = null;
-                        this.fps.lock(false);
-                        this.renderByProgress(this.progress || 0);
-                        this.fps.lock(true);
-                    })
-                }
-            },
-            id: 'image-set-resize',
-            eventOptions: { passive: true }
-        });
-
-        this.element.appendChild(this.canvasElement);
-
-        this.readyPromise = new Defer();
-
-        this.loadNewSet(imageSets);
-
-        // The previously rendered image source.
-        this.lastRenderSource = null;
+        this.flush(); // Make a empty call to clear the memoize cache.
+        // Rerender the last known image.
         this.lastDrawSource = null;
+        this.fps.lock(false);
+        this.lastRenderSource && this.draw(this.lastRenderSource);
+        this.fps.lock(true);
+      },
+      id: 'resize',
+      eventOptions: {passive: true},
+    });
 
-        // Cull unncessary update
-        this.draw =
-            func.runOnceOnChange(this.draw.bind(this));
-    }
+    this.resize();
+    this.domWatcher.run('resize');
 
-
-    /**
-     * Sets an optional multiinterpolations.  This allows you to define
-     * more complex play sequences on your image sequence.
-     *
-     * Here is an example of playing the image sequence from start to end
-     * and back to end.
-     *
-     * ```ts
-     * let progressPoints = [
-     *       {
-     *         from: 0, to: 0.5, start: 0, end: 1,
-     *       },
-     *       {
-     *         from: 0.5, to: 1, start: 1, end: 0,
-     *       },
-     * ];
-     * canvasImageSequence.setMultiInterpolation(progressPoints);
-     *
-     * ```
-     */
-    setMultiInterpolation(interpolations: Array<rangedProgress>) {
-        this.multiInterpolate = new MultiInterpolate({
-            interpolations: [
-                {
-                    id: 'sequence',
-                    progress: interpolations
-                }
-            ]
-        })
-    }
-
-
-
-    resize() {
-        this.canvasWidth = this.element!.offsetWidth;
-        this.canvasHeight = this.element!.offsetHeight;
-
-        // Set canvas to high dpr, the actual width to the size.
-        // @see https://gist.github.com/callumlocke/cc258a193839691f60dd
-        // for inspiration.
-        this.canvasElement!.width = this.element!.offsetWidth * this.dpr;
-        this.canvasElement!.height = this.element!.offsetHeight * this.dpr;
-        this.canvasElement!.style.width = this.canvasWidth + 'px';
-        this.canvasElement!.style.height = this.canvasHeight + 'px';
-
-        // Scale up the canvas to compensate DPR.
-        this.context.scale(this.dpr, this.dpr);
-    }
-
-
-    /**
-     * Starts loading the images.
-     */
-    load(): Promise<any> {
-        // If there is no matching imageSet there is nothing to load.
-        if (!this.blobLoader || !this.activeImageSet) {
-            // Defer resolution.
-            window.setTimeout(() => {
-                this.readyPromise.resolve();
-            })
-            return this.readyPromise.getPromise();
+    // Another resize watcher dedicated to checking to checking if a new
+    // image set should be loaded.
+    this.domWatcher.add({
+      element: window,
+      on: 'smartResize',
+      callback: () => {
+        // Evaluate if we need to load a different image set.
+        let newSet = this.getSourceThatShouldLoad(this.imageSets);
+        if (newSet !== this.activeImageSet) {
+          this.loadNewSet(this.imageSets);
+          // Autoload the content.
+          this.load().then(() => {
+            // Set last frame to null to allow redrawing.
+            this.lastDrawSource = null;
+            this.fps.lock(false);
+            this.renderByProgress(this.progress || 0);
+            this.fps.lock(true);
+          });
         }
+      },
+      id: 'image-set-resize',
+      eventOptions: {passive: true},
+    });
 
-        let loadAllBlobs = () => {
-            this.blobLoader!.load().then((results) => {
-                this.blobCache = results;
-                this.setImageDimensions().then(() => {
-                    this.blobLoader!.dispose();
-                    this.readyPromise.resolve(results);
-                });
-            })
+    this.element.appendChild(this.canvasElement);
 
-        }
+    this.readyPromise = new Defer();
 
-        loadAllBlobs();
+    this.loadNewSet(imageSets);
 
-        return this.readyPromise.getPromise();
+    // The previously rendered image source.
+    this.lastRenderSource = null;
+    this.lastDrawSource = null;
+
+    // Cull unncessary update
+    this.draw = func.runOnceOnChange(this.draw.bind(this));
+  }
+
+  /**
+   * Sets an optional multiinterpolations.  This allows you to define
+   * more complex play sequences on your image sequence.
+   *
+   * Here is an example of playing the image sequence from start to end
+   * and back to end.
+   *
+   * ```ts
+   * let progressPoints = [
+   *       {
+   *         from: 0, to: 0.5, start: 0, end: 1,
+   *       },
+   *       {
+   *         from: 0.5, to: 1, start: 1, end: 0,
+   *       },
+   * ];
+   * canvasImageSequence.setMultiInterpolation(progressPoints);
+   *
+   * ```
+   */
+  setMultiInterpolation(interpolations: Array<rangedProgress>) {
+    this.multiInterpolate = new MultiInterpolate({
+      interpolations: [
+        {
+          id: 'sequence',
+          progress: interpolations,
+        },
+      ],
+    });
+  }
+
+  resize() {
+    this.canvasWidth = this.element!.offsetWidth;
+    this.canvasHeight = this.element!.offsetHeight;
+
+    // Set canvas to high dpr, the actual width to the size.
+    // @see https://gist.github.com/callumlocke/cc258a193839691f60dd
+    // for inspiration.
+    this.canvasElement!.width = this.element!.offsetWidth * this.dpr;
+    this.canvasElement!.height = this.element!.offsetHeight * this.dpr;
+    this.canvasElement!.style.width = this.canvasWidth + 'px';
+    this.canvasElement!.style.height = this.canvasHeight + 'px';
+
+    // Scale up the canvas to compensate DPR.
+    this.context.scale(this.dpr, this.dpr);
+  }
+
+  /**
+   * Starts loading the images.
+   */
+  load(): Promise<any> {
+    // If there is no matching imageSet there is nothing to load.
+    if (!this.blobLoader || !this.activeImageSet) {
+      // Defer resolution.
+      window.setTimeout(() => {
+        this.readyPromise.resolve();
+      });
+      return this.readyPromise.getPromise();
     }
 
-
-    /**
-     * Allows you to set new imageSets.
-     *
-     * @param imageSource
-     */
-    loadNewSet(imageSets: Array<CanvasImageSequenceImageSet>) {
-        // Release memory of current set.
-        this.blobLoader && this.blobLoader.dispose();
-
-        // Save the image sources.
-        this.imageSets = imageSets;
-        this.activeImageSet = this.getSourceThatShouldLoad(this.imageSets);
-
-        if (this.activeImageSet && !is.array(this.activeImageSet.images)) {
-            throw new Error(canvasImageSequenceErrors.NO_IMAGES);
-        }
-
-        // Set the active image set if one is available.
-        if (this.activeImageSet) {
-            this.blobLoader = new BlobLoader(this.activeImageSet.images);
-        } else {
-            this.blobLoader = null;
-        }
-
-        this.blobCache = {};
-        this.flush();
-        this.lastRenderSource = null;
-        // Reset the readyPromise.
-        this.readyPromise = new Defer();
-    }
-
-
-    /**
-     * Given a list of CanvasImageSequenceImageSets evaluates which set should
-     * be used to load into the canvas.  The criteria is that any
-     * imageSet without when is used or if when condition is specified the
-     * when condition is evaluated and if true, it is used.  If multiple imageSets
-     * are found, the the first one is used.
-     */
-    private getSourceThatShouldLoad(sources: Array<CanvasImageSequenceImageSet>):
-        CanvasImageSequenceImageSet {
-        let matchingSouces: Array<CanvasImageSequenceImageSet> = [];
-        sources.forEach((source) => {
-            if (!source.when) {
-                matchingSouces.push(source);
-            } else {
-                source.when() && matchingSouces.push(source);
-            }
-        })
-        return matchingSouces[0];
-    }
-
-
-    /**
-     * Makes a deletable image clone.
-     */
-    makeImage(source: string): Promise<HTMLImageElement | null> {
-        return new Promise(resolve => {
-            if (!source || !this.blobCache![source]) {
-                resolve(null);
-                return;
-            }
-
-            // Remove the objectURL Blob from locale cache.
-            URL.revokeObjectURL(this.cacheImage!.src);
-            this.cacheImage!.onload = () => {
-                resolve(this.cacheImage);
-            }
-
-            // Create a new temporary ObjectURl to store.
-            this.cacheImage!.src = URL.createObjectURL(this.blobCache![source]);
+    let loadAllBlobs = () => {
+      this.blobLoader!.load().then(results => {
+        this.blobCache = results;
+        this.setImageDimensions().then(() => {
+          this.blobLoader!.dispose();
+          this.readyPromise.resolve(results);
         });
+      });
+    };
+
+    loadAllBlobs();
+
+    return this.readyPromise.getPromise();
+  }
+
+  /**
+   * Allows you to set new imageSets.
+   *
+   * @param imageSource
+   */
+  loadNewSet(imageSets: Array<CanvasImageSequenceImageSet>) {
+    // Release memory of current set.
+    this.blobLoader && this.blobLoader.dispose();
+
+    // Save the image sources.
+    this.imageSets = imageSets;
+    this.activeImageSet = this.getSourceThatShouldLoad(this.imageSets);
+
+    if (this.activeImageSet && !is.array(this.activeImageSet.images)) {
+      throw new Error(canvasImageSequenceErrors.NO_IMAGES);
     }
 
+    // Set the active image set if one is available.
+    if (this.activeImageSet) {
+      this.blobLoader = new BlobLoader(this.activeImageSet.images);
+    } else {
+      this.blobLoader = null;
+    }
 
-    /**
-     * Sets the images dimensions used internally based on the first image.
-     * Assumes all images are uniform size.
-     */
-    private setImageDimensions(): Promise<void> {
-        return new Promise(resolve => {
-            const source = this.activeImageSet!.images[0];
-            const blob = this.blobCache![source];
+    this.blobCache = {};
+    this.flush();
+    this.lastRenderSource = null;
+    // Reset the readyPromise.
+    this.readyPromise = new Defer();
+  }
 
-            // Generate an image from teh first blob.
-            dom.makeImageFromBlob(blob).then((image: HTMLImageElement | null) => {
-                const bitMapsLoaded = !image!.naturalWidth;
-                this.imageNaturalHeight =
-                    bitMapsLoaded ? image!.height : image!.naturalHeight;
-                this.imageNaturalWidth =
-                    bitMapsLoaded ? image!.width : image!.naturalWidth;
+  /**
+   * Given a list of CanvasImageSequenceImageSets evaluates which set should
+   * be used to load into the canvas.  The criteria is that any
+   * imageSet without when is used or if when condition is specified the
+   * when condition is evaluated and if true, it is used.  If multiple imageSets
+   * are found, the the first one is used.
+   */
+  private getSourceThatShouldLoad(
+    sources: Array<CanvasImageSequenceImageSet>
+  ): CanvasImageSequenceImageSet {
+    let matchingSouces: Array<CanvasImageSequenceImageSet> = [];
+    sources.forEach(source => {
+      if (!source.when) {
+        matchingSouces.push(source);
+      } else {
+        source.when() && matchingSouces.push(source);
+      }
+    });
+    return matchingSouces[0];
+  }
 
-                // Release it from memory.
-                dom.deleteImage(image!);
-                image = null;
-                resolve();
-            })
+  /**
+   * Makes a deletable image clone.
+   */
+  makeImage(source: string): Promise<HTMLImageElement | null> {
+    return new Promise(resolve => {
+      if (!source || !this.blobCache![source]) {
+        resolve(null);
+        return;
+      }
+
+      // Remove the objectURL Blob from locale cache.
+      URL.revokeObjectURL(this.cacheImage!.src);
+      this.cacheImage!.onload = () => {
+        resolve(this.cacheImage);
+      };
+
+      // Create a new temporary ObjectURl to store.
+      this.cacheImage!.src = URL.createObjectURL(this.blobCache![source]);
+    });
+  }
+
+  /**
+   * Sets the images dimensions used internally based on the first image.
+   * Assumes all images are uniform size.
+   */
+  private setImageDimensions(): Promise<void> {
+    return new Promise(resolve => {
+      const source = this.activeImageSet!.images[0];
+      const blob = this.blobCache![source];
+
+      // Generate an image from teh first blob.
+      dom.makeImageFromBlob(blob).then((image: HTMLImageElement | null) => {
+        const bitMapsLoaded = !image!.naturalWidth;
+        this.imageNaturalHeight = bitMapsLoaded
+          ? image!.height
+          : image!.naturalHeight;
+        this.imageNaturalWidth = bitMapsLoaded
+          ? image!.width
+          : image!.naturalWidth;
+
+        // Release it from memory.
+        dom.deleteImage(image!);
+        image = null;
+        resolve();
+      });
+    });
+  }
+
+  /**
+   * Gets internally used current image seet.
+   */
+  getActiveImages(): Array<string> {
+    return this.activeImageSet!.images;
+  }
+
+  /**
+   * Sets an clip path type interpolation on the canvas drawing.
+   * Currently only supports inset type.
+   *
+   * ```ts
+   *
+   * canvasImageSequence.setClipInterpolations({
+   *   type: 'inset',
+   *   interpolations: [
+   *     {
+   *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+   *       id: 'top'
+   *     },
+   *     {
+   *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+   *       id: 'right'
+   *     },
+   *     {
+   *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+   *       id: 'bottom'
+   *     },
+   *     {
+   *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+   *       id: 'left'
+   *     },
+   *     {
+   *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
+   *       id: 'border-radius'
+   *     }
+   *   ]
+   * })
+   *
+   *
+   * canvasImageSequence.renderByProgress(0.5); // The clipping at 0.5 progress is rendered.
+   *
+   * ```
+   *
+   */
+  setClipInterpolations(config: CanvasImageSequenceClipInterpolationConfig) {
+    this.clipPathType = config.type;
+    this.clipMultiInterpolate = new MultiInterpolate({
+      interpolations: config.interpolations,
+    });
+  }
+
+  /**
+   * Renders by progress.  0 would mean the very first frame and the 1 would
+   * mean the last.
+   * @param {number} n A progress value between 0 and 1.
+   * @param {noMultiInterpolate} An option to force evaluation without
+   *   multiInterpolation.  This is useful in cases where you have
+   *   multiInterpolation enabled but you want to manually update the
+   *   position of the frame without it using multiInterpolation.  Simply,
+   *   being able to say, I want to render the image sequnce at 0.9 for example.
+   */
+  renderByProgress(n: number, noMultiInterpolate: boolean = false) {
+    this.progress = mathf.clamp01(n);
+    !this.isPlaying && this.renderProgress(n, noMultiInterpolate);
+  }
+
+  /**
+   * Internal render by progress value.
+   * @param {number} n A progress value between 0 and 1.
+   * @param {noMultiInterpolate} An option to force evaluation without
+   *   multiInterpolation.  This is useful in cases where you have
+   *   multiInterpolation enabled but you want to manually update the
+   *   position of the frame without it using multiInterpolation.  Simply,
+   *   being able to say, I want to render the image sequnce at 0.9 for example.
+   */
+  private renderProgress(n: number, noMultiInterpolate: boolean = false) {
+    let progress = mathf.clamp01(n);
+
+    // If the optional multiinterpolate is set, then use multiInterpolate
+    // to figure out what the correct frame should be.
+    if (this.multiInterpolate && !noMultiInterpolate) {
+      let interpolateMap: any = this.multiInterpolate.calculate(progress);
+      progress = mathf.clamp01(interpolateMap['sequence']);
+    }
+
+    // Update clip path multli interpolate.
+    if (this.clipMultiInterpolate) {
+      this.clipMultiInterpolate.calculate(progress);
+    }
+
+    // Flush cache if progress is 0 or 1 to ensure final frame is always
+    // played.
+    if (progress >= 0.95 || progress <= 0.05) {
+      this.flush();
+    }
+
+    // Figure out the correct frame to render based on the number of
+    // frames in the sequence.
+    if (this.activeImageSet) {
+      const total = this.activeImageSet.images.length - 1;
+      const targetFrame = Math.ceil(mathf.lerp(0, total, progress));
+      this.renderFrame(targetFrame);
+    }
+  }
+
+  /**
+   * Renders a given frame on to the html element.
+   * @param i
+   */
+  private renderFrame(i: number) {
+    // If images aren't loaded yet, skip drawing.
+    if (!this.readyPromise.complete) {
+      return;
+    }
+
+    this.targetFrame = i;
+
+    // If the delta between target and current frame is greater than
+    // 1 and there is a lerp value set, lerp towards the target frame.
+    // Otherwise, just set the currentFrame
+    // to the target for immediate updates.
+    // Note that by default, the lerp amount is set to 1 (meaning no lerp),
+    let diff = Math.abs(this.targetFrame - this.currentFrame);
+    if (diff > 1 && !this.isPlaying && this.lerpAmount < 1) {
+      this.currentFrame = mathf.lerp(
+        this.currentFrame,
+        this.targetFrame,
+        this.lerpAmount
+      );
+
+      // If there is a delta, keep updating with RAF until it gets resolved.
+      diff = Math.abs(this.targetFrame - this.currentFrame);
+      let precision = 0.001;
+      if (diff >= precision) {
+        window.requestAnimationFrame(() => {
+          this.renderFrame(this.targetFrame);
         });
+      }
+    } else {
+      this.currentFrame = this.targetFrame;
     }
 
+    let imageSource =
+      this.activeImageSet!.images[Math.round(this.currentFrame)];
+    this.draw(imageSource);
+  }
 
-    /**
-     * Gets internally used current image seet.
-     */
-    getActiveImages(): Array<string> {
-        return this.activeImageSet!.images;
+  /**
+   * Flush the draw cache.
+   */
+  flush() {
+    this.draw(''); // Make a empty call to clear the memoize cache.
+    this.draw(null);
+  }
+
+  /**
+   * Draws a rectangle on the canvas.
+   */
+  private drawRectangle(config: rectConfig) {
+    // let radiusPercent = config.radius;
+    // let height = config.top - config.bottom;
+    // let width = config.left - config.right;
+    // Calculate border radius as a percentage.
+    let radius = {
+      tl: config.radius,
+      tr: config.radius,
+      br: config.radius,
+      bl: config.radius,
+    };
+
+    this.context.beginPath();
+    this.context.moveTo(config.left + radius.tl, config.top);
+    this.context.lineTo(config.right - radius.tr, config.top);
+    this.context.quadraticCurveTo(
+      config.right,
+      config.top,
+      config.right,
+      config.top + radius.tr
+    );
+
+    this.context.lineTo(config.right, config.bottom - radius.br);
+    this.context.quadraticCurveTo(
+      config.right,
+      config.bottom,
+      config.right - radius.br,
+      config.bottom
+    );
+
+    this.context.lineTo(config.left + radius.bl, config.bottom);
+    this.context.quadraticCurveTo(
+      config.left,
+      config.bottom,
+      config.left,
+      config.bottom - radius.bl
+    );
+
+    this.context.lineTo(config.left, config.top + radius.tl);
+    this.context.quadraticCurveTo(
+      config.left,
+      config.top,
+      config.left + radius.tl,
+      config.top
+    );
+    this.context.closePath();
+    this.context.fill();
+  }
+
+  /**
+   * Applies clipping to the canvas prior to drawing.
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Path2D
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip
+   */
+  private applyCanvasClipping() {
+    let context = this.context;
+
+    // Make a similar algo as inset done in css clip-path.
+    //
+    // clip-path: inset(var(--clip-top) var(--clip-right) var(--clip-bottom) var(--clip-left) round var(--clip-radius))
+    //
+    // Since it's an inset algo, 0% would mean it is fully show.
+    // - top: 50% would mean the top half is missing
+    // - bottom: 50% would mean the bottom half is missing
+    // - right: 50% would mean the right half is missing
+    // - left: 50% would mean the left half is missing
+    if (this.clipPathType == 'inset') {
+      let results: any = this.clipMultiInterpolate!.getCalculations() || {};
+      let top = results['top'] || 0;
+      let bottom = results['bottom'] || 0;
+      let left = results['left'] || 0;
+      let right = results['right'] || 0;
+      let borderRadius = results['border-radius'] || 0;
+      this.drawRectangle({
+        top: this.canvasHeight - (1 - top) * this.canvasHeight,
+        left: this.canvasWidth - (1 - left) * this.canvasWidth,
+        right: (1 - right) * this.canvasWidth,
+        bottom: (1 - bottom) * this.canvasHeight,
+        radius: borderRadius,
+      });
+      this.context.clip();
+    }
+  }
+
+  private clear() {
+    this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+  }
+
+  private async draw(imageSource: string | null) {
+    // Prevent invalid draws
+    if (!imageSource || this.disposed) {
+      return;
     }
 
-
-    /**
-     * Sets an clip path type interpolation on the canvas drawing.
-     * Currently only supports inset type.
-     *
-     * ```ts
-     *
-     * canvasImageSequence.setClipInterpolations({
-     *   type: 'inset',
-     *   interpolations: [
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'top'
-     *     },
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'right'
-     *     },
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'bottom'
-     *     },
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'left'
-     *     },
-     *     {
-     *       progress: [{ from: 0, to: 1, start: 0, end: 0.5}],
-     *       id: 'border-radius'
-     *     }
-     *   ]
-     * })
-     *
-     *
-     * canvasImageSequence.renderByProgress(0.5); // The clipping at 0.5 progress is rendered.
-     *
-     * ```
-     *
-     */
-    setClipInterpolations(config: CanvasImageSequenceClipInterpolationConfig) {
-        this.clipPathType = config.type;
-        this.clipMultiInterpolate = new MultiInterpolate({
-            interpolations: config.interpolations
-        })
+    if (imageSource == this.lastDrawSource) {
+      return;
     }
+    this.lastDrawSource = imageSource;
 
-
-    /**
-     * Renders by progress.  0 would mean the very first frame and the 1 would
-     * mean the last.
-     * @param {number} n A progress value between 0 and 1.
-     * @param {noMultiInterpolate} An option to force evaluation without
-     *   multiInterpolation.  This is useful in cases where you have
-     *   multiInterpolation enabled but you want to manually update the
-     *   position of the frame without it using multiInterpolation.  Simply,
-     *   being able to say, I want to render the image sequnce at 0.9 for example.
-     */
-    renderByProgress(n: number, noMultiInterpolate: boolean = false) {
-        this.progress = mathf.clamp01(n);
-        !this.isPlaying && this.renderProgress(n, noMultiInterpolate);
-    }
-
-    /**
-     * Internal render by progress value.
-     * @param {number} n A progress value between 0 and 1.
-     * @param {noMultiInterpolate} An option to force evaluation without
-     *   multiInterpolation.  This is useful in cases where you have
-     *   multiInterpolation enabled but you want to manually update the
-     *   position of the frame without it using multiInterpolation.  Simply,
-     *   being able to say, I want to render the image sequnce at 0.9 for example.
-     */
-    private renderProgress(n: number, noMultiInterpolate: boolean = false) {
-        let progress = mathf.clamp01(n);
-
-        // If the optional multiinterpolate is set, then use multiInterpolate
-        // to figure out what the correct frame should be.
-        if (this.multiInterpolate && !noMultiInterpolate) {
-            let interpolateMap: any = this.multiInterpolate.calculate(progress);
-            progress = mathf.clamp01(interpolateMap['sequence']);
-        }
-
-        // Update clip path multli interpolate.
-        if (this.clipMultiInterpolate) {
-            this.clipMultiInterpolate.calculate(progress);
-        }
-
-        // Flush cache if progress is 0 or 1 to ensure final frame is always
-        // played.
-        if (progress >= 0.95 || progress <= 0.05) {
-            this.flush();
-        }
-
-        // Figure out the correct frame to render based on the number of
-        // frames in the sequence.
-        if (this.activeImageSet) {
-            const total = this.activeImageSet.images.length - 1;
-            const targetFrame = Math.ceil(mathf.lerp(0, total, progress));
-            this.renderFrame(targetFrame);
-        }
-    }
-
-
-    /**
-     * Renders a given frame on to the html element.
-     * @param i
-     */
-    private renderFrame(i: number) {
-
-        // If images aren't loaded yet, skip drawing.
-        if (!this.readyPromise.complete) {
-            return;
-        }
-
-        this.targetFrame = i;
-
-        // If the delta between target and current frame is greater than
-        // 1 and there is a lerp value set, lerp towards the target frame.
-        // Otherwise, just set the currentFrame
-        // to the target for immediate updates.
-        // Note that by default, the lerp amount is set to 1 (meaning no lerp),
-        let diff = Math.abs(this.targetFrame - this.currentFrame);
-        if (diff > 1 && !this.isPlaying && this.lerpAmount < 1) {
-            this.currentFrame =
-                mathf.lerp(this.currentFrame, this.targetFrame, this.lerpAmount);
-
-            // If there is a delta, keep updating with RAF until it gets resolved.
-            diff = Math.abs(this.targetFrame - this.currentFrame);
-            let precision = 0.001
-            if (diff >= precision) {
-                window.requestAnimationFrame(() => {
-                    this.renderFrame(this.targetFrame);
-                });
-            }
-        } else {
-            this.currentFrame = this.targetFrame;
-        }
-
-
-        let imageSource = this.activeImageSet!.images[Math.round(this.currentFrame)];
+    // If this was called at a rate exceeding the fps limit.
+    if (!this.fps.canRun()) {
+      this.fps.schedule(() => {
+        // Force a draw.  This ensures that even with FPS limiting,
+        // the very last draw call is always rendered.
+        this.lastDrawSource = null;
         this.draw(imageSource);
+      });
+      return;
     }
 
-    /**
-     * Flush the draw cache.
-     */
-    flush() {
-        this.draw(''); // Make a empty call to clear the memoize cache.
-        this.draw(null);
+    let image = await this.makeImage(imageSource);
+
+    // Decoding images in this way, we see a huge memory jump.  Avoid for now.
+    // await image.decode();
+
+    // If an image couldn't be generated for some reason.
+    if (!image) {
+      return;
     }
 
-    /**
-     * Draws a rectangle on the canvas.
-     */
-    private drawRectangle(config: rectConfig) {
-        // let radiusPercent = config.radius;
-        // let height = config.top - config.bottom;
-        // let width = config.left - config.right;
-        // Calculate border radius as a percentage.
-        let radius = {
-            tl: config.radius,
-            tr: config.radius,
-            br: config.radius,
-            bl: config.radius,
-        };
+    let imageBox = {
+      width: this.imageNaturalWidth,
+      height: this.imageNaturalHeight,
+    };
+    let containerBox = {
+      width: this.canvasWidth,
+      height: this.canvasHeight,
+    };
 
-        this.context.beginPath();
-        this.context.moveTo(config.left + radius.tl, config.top);
-        this.context.lineTo(config.right - radius.tr, config.top);
-        this.context.quadraticCurveTo(config.right,
-            config.top, config.right, config.top + radius.tr);
+    this.clear();
 
-        this.context.lineTo(config.right, config.bottom - radius.br);
-        this.context.quadraticCurveTo(config.right,
-            config.bottom,
-            config.right - radius.br,
-            config.bottom);
-
-        this.context.lineTo(config.left + radius.bl, config.bottom);
-        this.context.quadraticCurveTo(
-            config.left, config.bottom, config.left, config.bottom - radius.bl);
-
-        this.context.lineTo(config.left, config.top + radius.tl);
-        this.context.quadraticCurveTo(
-            config.left, config.top, config.left + radius.tl, config.top);
-        this.context.closePath();
-        this.context.fill();
+    if (!is.null(this.clipPathType)) {
+      this.context.save();
+      this.applyCanvasClipping();
     }
 
-    /**
-     * Applies clipping to the canvas prior to drawing.
-     * @see https://developer.mozilla.org/en-US/docs/Web/API/Path2D
-     * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip
-     */
-    private applyCanvasClipping() {
-        let context = this.context;
+    // Background "cover" sizing.
+    // Defaults to center.
+    if (this.options && this.options.cover) {
+      let cover = mathf.calculateBackgroundCover(containerBox, imageBox);
 
-        // Make a similar algo as inset done in css clip-path.
-        //
-        // clip-path: inset(var(--clip-top) var(--clip-right) var(--clip-bottom) var(--clip-left) round var(--clip-radius))
-        //
-        // Since it's an inset algo, 0% would mean it is fully show.
-        // - top: 50% would mean the top half is missing
-        // - bottom: 50% would mean the bottom half is missing
-        // - right: 50% would mean the right half is missing
-        // - left: 50% would mean the left half is missing
-        if (this.clipPathType == 'inset') {
-            let results:any = this.clipMultiInterpolate!.getCalculations() || {};
-            let top = results['top'] || 0;
-            let bottom = results['bottom'] || 0;
-            let left = results['left'] || 0;
-            let right = results['right'] || 0;
-            let borderRadius = results['border-radius'] || 0;
-            this.drawRectangle({
-                top: this.canvasHeight - ((1 - top) * this.canvasHeight),
-                left: this.canvasWidth - ((1 - left) * this.canvasWidth),
-                right: (1 - right) * this.canvasWidth,
-                bottom: (1 - bottom) * this.canvasHeight,
-                radius: borderRadius,
-            });
-            this.context.clip();
-        }
-    }
+      if (this.options && is.number(this.options.left)) {
+        cover.xOffset =
+          (containerBox.width - imageBox.width * cover.scalar) *
+          -this.options.left;
+      }
 
-    private clear() {
-        this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-    }
+      if (this.options && is.number(this.options.right)) {
+        // Right align first.
+        cover.xOffset = -(containerBox.width - imageBox.width * cover.scalar);
+        cover.xOffset +=
+          (containerBox.width - imageBox.width * cover.scalar) *
+          this.options.right;
+      }
 
+      if (this.options && is.number(this.options.bottom)) {
+        // Set to bottom.
+        cover.yOffset = -(containerBox.height - imageBox.height * cover.scalar);
+        // Clipping Bottom algo.
+        // Add the percentage amount specified.
+        cover.yOffset +=
+          (containerBox.height - imageBox.height * cover.scalar) *
+          this.options.bottom;
+      }
 
+      if (this.options && is.number(this.options.top)) {
+        cover.yOffset =
+          (containerBox.height - imageBox.height * cover.scalar) *
+          -this.options.top;
+      }
 
-    private async draw(imageSource: string | null) {
+      this.context!.drawImage(
+        image,
+        -cover.xOffset >> 0,
+        -cover.yOffset >> 0,
+        (imageBox.width * cover.scalar) >> 0,
+        (imageBox.height * cover.scalar) >> 0
+      );
+    } else {
+      // Default to contain sizing algo.
+      this.containScale = mathf.calculateBackgroundContain(
+        containerBox,
+        imageBox
+      );
 
-        // Prevent invalid draws
-        if (!imageSource || this.disposed) {
-            return;
-        }
+      // Default center algo.
+      let diffX = (containerBox.width - imageBox.width * this.containScale) / 2;
+      let diffY =
+        (containerBox.height - imageBox.height * this.containScale) / 2;
 
-        if (imageSource == this.lastDrawSource) {
-            return;
-        }
-        this.lastDrawSource = imageSource;
+      // Sizing option logic.
+      if (this.options && is.number(this.options.bottom)) {
+        // Bottom align it.
+        diffY = containerBox.height - imageBox.height * this.containScale;
 
-
-        // If this was called at a rate exceeding the fps limit.
-        if (!this.fps.canRun()) {
-            this.fps.schedule(() => {
-                // Force a draw.  This ensures that even with FPS limiting,
-                // the very last draw call is always rendered.
-                this.lastDrawSource = null;
-                this.draw(imageSource);
-            })
-            return;
-        }
-
-        let image = await this.makeImage(imageSource);
-
-        // Decoding images in this way, we see a huge memory jump.  Avoid for now.
-        // await image.decode();
-
-        // If an image couldn't be generated for some reason.
-        if (!image) {
-            return;
-        }
-
-        let imageBox = {
-            width: this.imageNaturalWidth,
-            height: this.imageNaturalHeight
-        }
-        let containerBox = {
-            width: this.canvasWidth,
-            height: this.canvasHeight,
-        }
-
-        this.clear();
-
-        if (!is.null(this.clipPathType)) {
-            this.context.save();
-            this.applyCanvasClipping();
-        }
-
-        // Background "cover" sizing.
-        // Defaults to center.
-        if (this.options && this.options.cover) {
-            let cover =
-                mathf.calculateBackgroundCover(containerBox, imageBox);
-
-            if (this.options && is.number(this.options.left)) {
-                cover.xOffset =
-                    (containerBox.width - (imageBox.width * cover.scalar)) * -this.options.left;
-            }
-
-            if (this.options && is.number(this.options.right)) {
-                // Right align first.
-                cover.xOffset = -(containerBox.width - (imageBox.width * cover.scalar));
-                cover.xOffset +=
-                    (containerBox.width - (imageBox.width * cover.scalar)) * this.options.right;
-            }
-
-            if (this.options && is.number(this.options.bottom)) {
-                // Set to bottom.
-                cover.yOffset = -(containerBox.height - (imageBox.height * cover.scalar));
-                // Clipping Bottom algo.
-                // Add the percentage amount specified.
-                cover.yOffset +=
-                    (containerBox.height - (imageBox.height * cover.scalar)) * this.options.bottom;
-            }
-
-            if (this.options && is.number(this.options.top)) {
-                cover.yOffset =
-                    (containerBox.height - (imageBox.height * cover.scalar)) * -this.options.top;
-            }
-
-            this.context!.drawImage(
-                image,
-                -cover.xOffset >> 0, -cover.yOffset >> 0,
-                imageBox.width * cover.scalar >> 0,
-                imageBox.height * cover.scalar >> 0,
-            );
-
+        // Easy way to test this is to set bottom: 1 and
+        // bottomClipping: false which would top align the image.
+        if (this.options.bottomNoClip) {
+          diffY -=
+            (containerBox.height - imageBox.height * this.containScale) *
+            this.options.bottom;
         } else {
-            // Default to contain sizing algo.
-            this.containScale =
-                mathf.calculateBackgroundContain(containerBox, imageBox);
-
-            // Default center algo.
-            let diffX =
-                (containerBox.width - (imageBox.width * this.containScale)) / 2;
-            let diffY =
-                (containerBox.height - (imageBox.height * this.containScale)) / 2;
-
-            // Sizing option logic.
-            if (this.options && is.number(this.options.bottom)) {
-                // Bottom align it.
-                diffY = containerBox.height - (imageBox.height * this.containScale);
-
-                // Easy way to test this is to set bottom: 1 and
-                // bottomClipping: false which would top align the image.
-                if (this.options.bottomNoClip) {
-                    diffY -=
-                        (containerBox.height - (imageBox.height * this.containScale))
-                        * this.options.bottom;
-                } else {
-                    // Clipping Bottom algo.
-                    // Add the percentage amount specified.
-                    diffY -= containerBox.height * this.options.bottom;
-                }
-            }
-
-            if (this.options && is.number(this.options.right)) {
-                // Right align it.
-                diffX = containerBox.width - (imageBox.width * this.containScale);
-
-                // Easy way to test this is to set right: 1 and
-                // rightClipping: false which would left align the image.
-                if (this.options.rightNoClip) {
-                    diffX -=
-                        (containerBox.width - (imageBox.width * this.containScale))
-                        * this.options.right;
-                } else {
-                    // Clipping right algo.
-                    // Add the percentage amount specified.
-                    diffX -= containerBox.width * this.options.right;
-                }
-            }
-
-            if (this.options && is.number(this.options.top)) {
-                // Top align it.
-                diffY = 0;
-                // Easy way to test this is to set top: 1 and
-                // topClipping: false which would bottom aligned the image.
-                if (this.options.topNoClip) {
-                    diffY =
-                        (containerBox.height - (imageBox.height * this.containScale))
-                        * this.options.top;
-                } else {
-                    // Clipping Top algo.
-                    // Add the percentage amount specified.
-                    diffY += this.options.top * containerBox.height;
-                }
-            }
-
-
-            if (this.options && is.number(this.options.left)) {
-                // Left align it.
-                diffX = 0;
-                // Easy way to test this is to set left: 1 and
-                // leftClipping: false which would right aligned the image.
-                if (this.options.leftNoClip) {
-                    diffX =
-                        (containerBox.width - (imageBox.width * this.containScale))
-                        * this.options.left;
-                } else {
-                    // Clipping left algo.
-                    // Add the percentage amount specified.
-                    diffX += this.options.left * containerBox.width;
-                }
-            }
-
-
-            this.context!.drawImage(
-                image,
-                diffX >> 0, diffY >> 0,
-                imageBox.width * this.containScale >> 0,
-                imageBox.height * this.containScale >> 0,
-            );
-
+          // Clipping Bottom algo.
+          // Add the percentage amount specified.
+          diffY -= containerBox.height * this.options.bottom;
         }
+      }
 
-        if (!is.null(this.clipPathType)) {
-            this.context!.restore();
+      if (this.options && is.number(this.options.right)) {
+        // Right align it.
+        diffX = containerBox.width - imageBox.width * this.containScale;
+
+        // Easy way to test this is to set right: 1 and
+        // rightClipping: false which would left align the image.
+        if (this.options.rightNoClip) {
+          diffX -=
+            (containerBox.width - imageBox.width * this.containScale) *
+            this.options.right;
+        } else {
+          // Clipping right algo.
+          // Add the percentage amount specified.
+          diffX -= containerBox.width * this.options.right;
         }
+      }
 
-        this.lastRenderSource = imageSource;
-    }
-
-
-
-    /**
-     * Updates the internal sizing options.
-     * @param options
-     */
-    setSizingOptions(options: CanvasImageSequenceOptions) {
-        this.options = options;
-    }
-
-
-
-    /**
-     * Plays the canvas image sequence with a timer. Playing will "hijack" the
-     * progress events while playing.   For example:
-     *
-     * ```ts
-     *    canvasImageSequence.play(0, 1, 3000).then(() => {
-     *       console.log('play complete');
-     *   });
-     * ```
-     *
-     * Here we tell the canvasImageSequence to play from start to end over
-     * a 3000ms period.  During this 3000ms period, any calls other to
-     * calls "renderByProgress" will get ignored since they can conflict with
-     * the playback.
-     *
-     *
-     * @param from A number between 0 - 1
-     * @param to A number between 0 - 1
-     * @param duration The duration in ms.
-     * @return Promise A promise that completes when done.
-     */
-    play(from: number, to: number, duration: number): Promise<void> {
-        this.stop();
-        this.rafTimer = new RafTimer((progress: number) => {
-            let interpolatedProgress = mathf.interpolateRange(
-                progress, 0, 1,
-                from, to
-            );
-            this.renderProgress(interpolatedProgress);
-        })
-        this.rafTimer.setDuration(duration);
-        this.playDefer = new Defer();
-        this.rafTimer.onComplete(() => {
-            this.isPlaying = false;
-            this.playDefer!.resolve();
-            this.rafTimer!.dispose();
-        });
-        this.rafTimer.play();
-        this.isPlaying = true;
-        return this.playDefer!.getPromise();
-    }
-
-
-    /**
-     * Gets the hex color at the given coordinates of the canvas as it is
-     * renders at the moment.
-     * @param coords
-     */
-    getHexColorAtPoint(coords: Vector) {
-        return domCanvas.getColorAtPointAsHex(this.context!, coords);
-    }
-
-
-    /**
-     * Immediately stops the canvas animation playing.
-     * (that happens with play method).
-     */
-    stop() {
-        this.rafTimer && this.rafTimer.pause();
-        this.rafTimer && this.rafTimer.dispose();
-        this.playDefer && this.playDefer!.resolve();
-    }
-
-
-    /**
-     * Returns the image dimension that were fetched.  This is based
-     * on the "first" image in the sequence.
-     * The sizes will be null if called prior to loading images.
-     */
-    getImageSize(): Object {
-        return {
-            width: this.imageNaturalWidth,
-            height: this.imageNaturalHeight,
+      if (this.options && is.number(this.options.top)) {
+        // Top align it.
+        diffY = 0;
+        // Easy way to test this is to set top: 1 and
+        // topClipping: false which would bottom aligned the image.
+        if (this.options.topNoClip) {
+          diffY =
+            (containerBox.height - imageBox.height * this.containScale) *
+            this.options.top;
+        } else {
+          // Clipping Top algo.
+          // Add the percentage amount specified.
+          diffY += this.options.top * containerBox.height;
         }
+      }
+
+      if (this.options && is.number(this.options.left)) {
+        // Left align it.
+        diffX = 0;
+        // Easy way to test this is to set left: 1 and
+        // leftClipping: false which would right aligned the image.
+        if (this.options.leftNoClip) {
+          diffX =
+            (containerBox.width - imageBox.width * this.containScale) *
+            this.options.left;
+        } else {
+          // Clipping left algo.
+          // Add the percentage amount specified.
+          diffX += this.options.left * containerBox.width;
+        }
+      }
+
+      this.context!.drawImage(
+        image,
+        diffX >> 0,
+        diffY >> 0,
+        (imageBox.width * this.containScale) >> 0,
+        (imageBox.height * this.containScale) >> 0
+      );
     }
 
-    dispose() {
-        this.disposed = true;
-        this.stop();
-        this.domWatcher.dispose();
-        this.rafTimer && this.rafTimer.dispose();
-        this.blobLoader && this.blobLoader.dispose();
-        this.element = null;
-        this.blobCache = null;
-        this.canvasElement = null;
-        dom.deleteImage(this.cacheImage!);
-        this.cacheImage = null;
+    if (!is.null(this.clipPathType)) {
+      this.context!.restore();
     }
+
+    this.lastRenderSource = imageSource;
+  }
+
+  /**
+   * Updates the internal sizing options.
+   * @param options
+   */
+  setSizingOptions(options: CanvasImageSequenceOptions) {
+    this.options = options;
+  }
+
+  /**
+   * Plays the canvas image sequence with a timer. Playing will "hijack" the
+   * progress events while playing.   For example:
+   *
+   * ```ts
+   *    canvasImageSequence.play(0, 1, 3000).then(() => {
+   *       console.log('play complete');
+   *   });
+   * ```
+   *
+   * Here we tell the canvasImageSequence to play from start to end over
+   * a 3000ms period.  During this 3000ms period, any calls other to
+   * calls "renderByProgress" will get ignored since they can conflict with
+   * the playback.
+   *
+   *
+   * @param from A number between 0 - 1
+   * @param to A number between 0 - 1
+   * @param duration The duration in ms.
+   * @return Promise A promise that completes when done.
+   */
+  play(from: number, to: number, duration: number): Promise<void> {
+    this.stop();
+    this.rafTimer = new RafTimer((progress: number) => {
+      let interpolatedProgress = mathf.interpolateRange(
+        progress,
+        0,
+        1,
+        from,
+        to
+      );
+      this.renderProgress(interpolatedProgress);
+    });
+    this.rafTimer.setDuration(duration);
+    this.playDefer = new Defer();
+    this.rafTimer.onComplete(() => {
+      this.isPlaying = false;
+      this.playDefer!.resolve();
+      this.rafTimer!.dispose();
+    });
+    this.rafTimer.play();
+    this.isPlaying = true;
+    return this.playDefer!.getPromise();
+  }
+
+  /**
+   * Gets the hex color at the given coordinates of the canvas as it is
+   * renders at the moment.
+   * @param coords
+   */
+  getHexColorAtPoint(coords: Vector) {
+    return domCanvas.getColorAtPointAsHex(this.context!, coords);
+  }
+
+  /**
+   * Immediately stops the canvas animation playing.
+   * (that happens with play method).
+   */
+  stop() {
+    this.rafTimer && this.rafTimer.pause();
+    this.rafTimer && this.rafTimer.dispose();
+    this.playDefer && this.playDefer!.resolve();
+  }
+
+  /**
+   * Returns the image dimension that were fetched.  This is based
+   * on the "first" image in the sequence.
+   * The sizes will be null if called prior to loading images.
+   */
+  getImageSize(): Object {
+    return {
+      width: this.imageNaturalWidth,
+      height: this.imageNaturalHeight,
+    };
+  }
+
+  dispose() {
+    this.disposed = true;
+    this.stop();
+    this.domWatcher.dispose();
+    this.rafTimer && this.rafTimer.dispose();
+    this.blobLoader && this.blobLoader.dispose();
+    this.element = null;
+    this.blobCache = null;
+    this.canvasElement = null;
+    dom.deleteImage(this.cacheImage!);
+    this.cacheImage = null;
+  }
 }

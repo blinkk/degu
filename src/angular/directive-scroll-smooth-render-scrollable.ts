@@ -1,56 +1,61 @@
-
-import { DomWatcher } from '../dom/dom-watcher';
-import { dom } from '../dom/dom';
-import { ScrollSmoothRenderEvents } from '../dom/scroll-smooth-render';
+import {DomWatcher} from '../dom/dom-watcher';
+import {dom} from '../dom/dom';
+import {ScrollSmoothRenderEvents} from '../dom/scroll-smooth-render';
 
 export class ScrollSmoothRenderScrollableController {
-    private el: HTMLElement;
-    private $scope: ng.IScope;
-    private domWatcher: DomWatcher;
+  private el: HTMLElement;
+  private $scope: ng.IScope;
+  private domWatcher: DomWatcher;
 
-    static get $inject() {
-        return ['$scope', '$element'];
-    }
-    constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
-        this.el = $element[0];
-        this.$scope = $scope;
-        this.domWatcher = new DomWatcher();
+  static get $inject() {
+    return ['$scope', '$element'];
+  }
+  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
+    this.el = $element[0];
+    this.$scope = $scope;
+    this.domWatcher = new DomWatcher();
 
-        this.domWatcher.add({
-            element: this.el,
-            on: 'mouseenter',
-            callback: ()=> {
-                console.log("mouseenter");
-                dom.event(document.documentElement, ScrollSmoothRenderEvents.DISABLE, {});
-            },
-            eventOptions: {
-                passive: true
-            }
-        });
+    this.domWatcher.add({
+      element: this.el,
+      on: 'mouseenter',
+      callback: () => {
+        console.log('mouseenter');
+        dom.event(
+          document.documentElement,
+          ScrollSmoothRenderEvents.DISABLE,
+          {}
+        );
+      },
+      eventOptions: {
+        passive: true,
+      },
+    });
 
+    this.domWatcher.add({
+      element: this.el,
+      on: 'mouseleave',
+      callback: () => {
+        console.log('mouseleave');
+        dom.event(
+          document.documentElement,
+          ScrollSmoothRenderEvents.ENABLE,
+          {}
+        );
+      },
+      eventOptions: {
+        passive: true,
+      },
+    });
 
-        this.domWatcher.add({
-            element: this.el,
-            on: 'mouseleave',
-            callback: ()=> {
-                console.log("mouseleave");
-                dom.event(document.documentElement, ScrollSmoothRenderEvents.ENABLE, {});
-            },
-            eventOptions: {
-                passive: true
-            }
-        });
+    $scope.$on('$destroy', () => {
+      this.dispose();
+    });
+  }
 
-        $scope.$on('$destroy', () => {
-            this.dispose();
-        });
-    }
-
-    private dispose():void {
-        this.domWatcher.dispose();
-    }
+  private dispose(): void {
+    this.domWatcher.dispose();
+  }
 }
-
 
 /**
  * A directive to be used with scroll-smooth-render where you want
@@ -66,8 +71,8 @@ export class ScrollSmoothRenderScrollableController {
  * ```
  */
 export const scrollSmoothRenderScrollable = function () {
-    return {
-        restrict: 'A',
-        controller: ScrollSmoothRenderScrollableController,
-    };
-}
+  return {
+    restrict: 'A',
+    controller: ScrollSmoothRenderScrollableController,
+  };
+};

@@ -1,8 +1,6 @@
-
 import {Raf} from '../raf/raf';
-import { DomWatcher } from './dom-watcher';
+import {DomWatcher} from './dom-watcher';
 import {noop} from '../func/noop';
-
 
 export interface ScrollRenderFixConfig {
   /**
@@ -59,60 +57,58 @@ export interface ScrollRenderFixConfig {
  *
  */
 export class ScrollRenderFix {
-    private raf: Raf;
-    private currentY: number;
-    private targetY: number;
-    private domWatcher: DomWatcher;
-    /**
-     * Callback run immediately before the document is manually scrolled.
-     * Run during the RAF postWrite step.
-     * @private
-     */
-    private readonly beforeScrollCallback: () => void;
-    /**
-     * Callback run immediately after the document is manually scrolled.
-     * Run during the RAF postWrite step.
-     * @private
-     */
-    private readonly afterScrollCallback: () => void;
+  private raf: Raf;
+  private currentY: number;
+  private targetY: number;
+  private domWatcher: DomWatcher;
+  /**
+   * Callback run immediately before the document is manually scrolled.
+   * Run during the RAF postWrite step.
+   * @private
+   */
+  private readonly beforeScrollCallback: () => void;
+  /**
+   * Callback run immediately after the document is manually scrolled.
+   * Run during the RAF postWrite step.
+   * @private
+   */
+  private readonly afterScrollCallback: () => void;
 
-    constructor(config: ScrollRenderFixConfig = {}) {
-        this.raf = new Raf();
-        this.beforeScrollCallback = config.beforeScrollCallback || noop;
-        this.afterScrollCallback = config.afterScrollCallback || noop;
-        this.domWatcher = new DomWatcher();
-        this.domWatcher.add({
-            // @ts-ignore
-            element: document,
-            on: 'wheel',
-            eventOptions: { passive: false, capture: true },
-            callback: this.wheelHandler.bind(this)
-        });
-    }
+  constructor(config: ScrollRenderFixConfig = {}) {
+    this.raf = new Raf();
+    this.beforeScrollCallback = config.beforeScrollCallback || noop;
+    this.afterScrollCallback = config.afterScrollCallback || noop;
+    this.domWatcher = new DomWatcher();
+    this.domWatcher.add({
+      // @ts-ignore
+      element: document,
+      on: 'wheel',
+      eventOptions: {passive: false, capture: true},
+      callback: this.wheelHandler.bind(this),
+    });
+  }
 
+  private getScrollElement(): Element {
+    return document.scrollingElement || document.documentElement;
+  }
 
-    private getScrollElement():Element {
-      return document.scrollingElement || document.documentElement;
-    }
+  private wheelHandler(e: WheelEvent) {
+    e.preventDefault();
+    this.raf.read(() => {
+      this.targetY = this.getScrollElement().scrollTop + e.deltaY;
+      this.raf.postWrite(() => {
+        this.beforeScrollCallback();
+        if (this.currentY !== this.targetY) {
+          this.getScrollElement().scrollTop = this.targetY;
+          this.currentY = this.targetY;
+        }
+        this.afterScrollCallback();
+      });
+    });
+  }
 
-    private wheelHandler(e:WheelEvent) {
-        e.preventDefault();
-        this.raf.read(()=> {
-          this.targetY = this.getScrollElement().scrollTop + e.deltaY;
-          this.raf.postWrite(()=> {
-              this.beforeScrollCallback();
-              if (this.currentY !== this.targetY) {
-                this.getScrollElement().scrollTop = this.targetY;
-                this.currentY = this.targetY;
-              }
-              this.afterScrollCallback();
-          });
-        });
-    }
-
-
-    public dispose() {
-      this.domWatcher && this.domWatcher.dispose();
-      this.raf && this.raf.dispose();
-    }
+  public dispose() {
+    this.domWatcher && this.domWatcher.dispose();
+    this.raf && this.raf.dispose();
+  }
 }

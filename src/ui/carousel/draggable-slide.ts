@@ -1,17 +1,17 @@
-import { Carousel } from './carousel';
-import { dom, DomWatcher, mathf, Raf } from '../..';
-import { Transition } from './transitions';
-import { CubicBezier, EasingFunction } from '../../mathf/cubic-bezier';
-import { arrayf } from '../../arrayf/arrayf';
-import { DefaultMap } from '../../map/default-map';
-import { CachedMouseTracker } from '../../dom/cached-mouse-tracker';
+import {Carousel} from './carousel';
+import {dom, DomWatcher, mathf, Raf} from '../..';
+import {Transition} from './transitions';
+import {CubicBezier, EasingFunction} from '../../mathf/cubic-bezier';
+import {arrayf} from '../../arrayf/arrayf';
+import {DefaultMap} from '../../map/default-map';
+import {CachedMouseTracker} from '../../dom/cached-mouse-tracker';
 
 /**
  * Small enum for readability when traversing slide indices.
  */
 enum Direction {
   LEFT = -1,
-  RIGHT = 1
+  RIGHT = 1,
 }
 
 /**
@@ -31,9 +31,9 @@ class TransitionTarget {
   readonly startDistance: number;
 
   constructor(
-      target: HTMLElement,
-      timeRange: [number, number],
-      startDistance: number
+    target: HTMLElement,
+    timeRange: [number, number],
+    startDistance: number
   ) {
     this.target = target;
     this.timeRange = timeRange;
@@ -78,8 +78,12 @@ function getTranslateX(el: HTMLElement): number {
  * to achieve necessary visual effects.
  */
 export class DraggableSlide implements Transition {
-  private static DEFAULT_EASING: EasingFunction =
-      new CubicBezier(0.445, 0.05, 0.55, 0.95).easingFunction();
+  private static DEFAULT_EASING: EasingFunction = new CubicBezier(
+    0.445,
+    0.05,
+    0.55,
+    0.95
+  ).easingFunction();
 
   /**
    * Sums the offsetWidth of the given slides.
@@ -87,7 +91,7 @@ export class DraggableSlide implements Transition {
    * Was repeated enough to seem worth extracting.
    */
   private static sumWidth(slides: HTMLElement[]) {
-    return mathf.sum(slides.map((slide) => slide.offsetWidth));
+    return mathf.sum(slides.map(slide => slide.offsetWidth));
   }
   private readonly easingFunction: EasingFunction;
   private readonly domWatcher: DomWatcher;
@@ -113,12 +117,10 @@ export class DraggableSlide implements Transition {
    *     one slide to another.
    * @param easingFunction Easing function used to adjust slides transitions.
    */
-  constructor(
-    {
-      transitionTime = 500,
-      easingFunction = DraggableSlide.DEFAULT_EASING
-    }: DraggableSlideConfig = {}
-  ) {
+  constructor({
+    transitionTime = 500,
+    easingFunction = DraggableSlide.DEFAULT_EASING,
+  }: DraggableSlideConfig = {}) {
     this.raf = new Raf(() => this.onRaf());
     this.domWatcher = new DomWatcher();
     this.easingFunction = easingFunction;
@@ -131,10 +133,10 @@ export class DraggableSlide implements Transition {
     // Used so that slide can be adjusted for looping and dragging within the
     // same frame without introducing layout thrashing by updating the DOM
     // twice.
-    this.xTranslate =
-        DefaultMap.usingFunction((el: HTMLElement) => getTranslateX(el));
-    this.lastXTranslate =
-        DefaultMap.usingFunction((el: HTMLElement) => null);
+    this.xTranslate = DefaultMap.usingFunction((el: HTMLElement) =>
+      getTranslateX(el)
+    );
+    this.lastXTranslate = DefaultMap.usingFunction((el: HTMLElement) => null);
   }
 
   /**
@@ -200,8 +202,7 @@ export class DraggableSlide implements Transition {
     const timeRange: [number, number] = [now, now + transitionTime];
     const distance = this.getDistanceToCenter(targetEl);
 
-    this.transitionTarget =
-        new TransitionTarget(targetEl, timeRange, distance);
+    this.transitionTarget = new TransitionTarget(targetEl, timeRange, distance);
   }
 
   /**
@@ -211,14 +212,14 @@ export class DraggableSlide implements Transition {
     return arrayf.min(
       this.carousel!.getSlides(),
       // Start with the one closest to the center
-      (el) => {
+      el => {
         return Math.abs(
-          this.getDistanceBetween(
-            <HTMLElement>el, this.carousel!.container));
+          this.getDistanceBetween(<HTMLElement>el, this.carousel!.container)
+        );
       },
       // If neither slide was last active default to the one that appears first
       // in the list of slides
-      (el) => -1 * this.carousel!.getIndex(el)
+      el => -1 * this.carousel!.getIndex(el)
     );
   }
 
@@ -257,10 +258,10 @@ export class DraggableSlide implements Transition {
         if (this.resizeTimeout) {
           window.clearTimeout(this.resizeTimeout);
         }
-        this.resizeTimeout =
-            window.setTimeout(
-                () => this.transition(this.carousel!.getActiveSlide(), 0));
-      }
+        this.resizeTimeout = window.setTimeout(() =>
+          this.transition(this.carousel!.getActiveSlide(), 0)
+        );
+      },
     });
   }
 
@@ -309,7 +310,7 @@ export class DraggableSlide implements Transition {
   private renderInteraction() {
     const currentMouseX = this.getMouseX();
     const delta = currentMouseX - this.interaction!.lastMouseX;
-    this.carousel!.getSlides().forEach((slide) => {
+    this.carousel!.getSlides().forEach(slide => {
       this.xTranslate.set(slide, this.xTranslate.get(slide) + delta);
     });
     this.interaction!.lastMouseX = currentMouseX;
@@ -326,28 +327,26 @@ export class DraggableSlide implements Transition {
    * Setup the Draggable instances that will correspond to the slide elements.
    */
   private initDraggableSlides(): void {
-    this.carousel!.getSlides()
-      .forEach(
-        (slide) => {
-          ['touchstart', 'mousedown']
-              .forEach((event: string) => {
-                this.domWatcher.add({
-                  element: slide,
-                  on: event,
-                  eventOptions: {passive: true},
-                  callback: (e: Event) => this.startInteraction(e)
-                });
-              });
-          ['contextmenu', 'dragstart', 'touchend', 'mouseup']
-              .forEach((event: string) => {
-                this.domWatcher.add({
-                  element: window,
-                  on: event,
-                  eventOptions: {passive: true},
-                  callback: (e: Event) => this.endInteraction(e)
-                });
-              });
+    this.carousel!.getSlides().forEach(slide => {
+      ['touchstart', 'mousedown'].forEach((event: string) => {
+        this.domWatcher.add({
+          element: slide,
+          on: event,
+          eventOptions: {passive: true},
+          callback: (e: Event) => this.startInteraction(e),
         });
+      });
+      ['contextmenu', 'dragstart', 'touchend', 'mouseup'].forEach(
+        (event: string) => {
+          this.domWatcher.add({
+            element: window,
+            on: event,
+            eventOptions: {passive: true},
+            callback: (e: Event) => this.endInteraction(e),
+          });
+        }
+      );
+    });
   }
 
   /**
@@ -357,11 +356,11 @@ export class DraggableSlide implements Transition {
    * readability.
    */
   private getEasedTransitionPercent(): number {
-    const transitionPercent =
-        mathf.inverseLerp(
-            this.transitionTarget!.timeRange[0],
-            this.transitionTarget!.timeRange[1],
-            performance.now());
+    const transitionPercent = mathf.inverseLerp(
+      this.transitionTarget!.timeRange[0],
+      this.transitionTarget!.timeRange[1],
+      performance.now()
+    );
     return this.easingFunction(transitionPercent);
   }
 
@@ -380,8 +379,7 @@ export class DraggableSlide implements Transition {
     const absDelta = Math.abs(targetDistance) - Math.abs(currentDistance);
     const currentDistanceSign = Math.sign(currentDistance);
     const xDelta = absDelta * currentDistanceSign;
-    this.carousel!.getSlides().forEach(
-        (slide) => this.translate(slide, xDelta));
+    this.carousel!.getSlides().forEach(slide => this.translate(slide, xDelta));
     this.loopSlides();
 
     // If we're close enough, let's call it
@@ -416,37 +414,39 @@ export class DraggableSlide implements Transition {
     // No matter what we need to loop adjust the target if we have one
     const target: HTMLElement =
       (this.transitionTarget && this.transitionTarget.target) ||
-        this.carousel!.getActiveSlide();
+      this.carousel!.getActiveSlide();
 
     const targetIndex = this.carousel!.getIndex(target);
     const slides = this.carousel!.getSlides();
-    const slidesToAdjust =
-        new Set(slides.filter((slide) => slide !== target));
+    const slidesToAdjust = new Set(slides.filter(slide => slide !== target));
 
     const leftEdge = target.getBoundingClientRect().left;
     const left = {
-          area: Math.max(leftEdge, 0), // Area to cover on this side
-          index: targetIndex, // The index to start at
-          direction: Direction.LEFT // Direction to move in for the next slide
-        };
+      area: Math.max(leftEdge, 0), // Area to cover on this side
+      index: targetIndex, // The index to start at
+      direction: Direction.LEFT, // Direction to move in for the next slide
+    };
     const clientWidth = dom.getScrollElement().clientWidth;
     const rightEdge = leftEdge + target.offsetWidth;
     const right = {
-          area: Math.min(clientWidth, clientWidth - rightEdge),
-          index: targetIndex,
-          direction: Direction.RIGHT
-        };
+      area: Math.min(clientWidth, clientWidth - rightEdge),
+      index: targetIndex,
+      direction: Direction.RIGHT,
+    };
     const sides = [left, right];
     while (slidesToAdjust.size > 0) {
-      const side = arrayf.max(sides, (s) => s.area);
+      const side = arrayf.max(sides, s => s.area);
       side.index += side.direction;
       const slideToAdjust = slides[mathf.wrap(side.index, 0, slides.length)];
       side.area -= slideToAdjust.offsetWidth;
 
-      const desiredOffset =
-          this.getDesiredDistanceBetween(target, slideToAdjust, side.direction);
+      const desiredOffset = this.getDesiredDistanceBetween(
+        target,
+        slideToAdjust,
+        side.direction
+      );
       const delta =
-          desiredOffset - this.getDistanceBetween(slideToAdjust, target);
+        desiredOffset - this.getDistanceBetween(slideToAdjust, target);
       if (delta !== 0) {
         this.translate(slideToAdjust, delta);
       }
@@ -505,8 +505,8 @@ export class DraggableSlide implements Transition {
           // as is.
           this.carousel!.goToSlide(activeSlide);
         }
-      // If the user was dragging to the left, transition in the opposite
-      // direction.
+        // If the user was dragging to the left, transition in the opposite
+        // direction.
       } else {
         if (allowsLooping || activeSlide !== this.carousel!.getLastSlide()) {
           this.carousel!.next();
@@ -543,7 +543,10 @@ export class DraggableSlide implements Transition {
    *
    * If no second element is given, the root element's center is used instead.
    */
-  private getDistanceBetween(a: HTMLElement, b: HTMLElement | null = null): number {
+  private getDistanceBetween(
+    a: HTMLElement,
+    b: HTMLElement | null = null
+  ): number {
     // Gather up the information on the first element's center position.
     const aCenter = this.getCenter(a);
     // Gather the info on the second element's center position or the root
@@ -551,7 +554,7 @@ export class DraggableSlide implements Transition {
     if (b !== null) {
       return aCenter - this.getCenter(b);
     } else {
-      return aCenter - (document.children[0].clientWidth / 2);
+      return aCenter - document.children[0].clientWidth / 2;
     }
   }
 
@@ -560,9 +563,9 @@ export class DraggableSlide implements Transition {
    * slide width in pixels.
    */
   private getDesiredDistanceBetween(
-      a: HTMLElement,
-      b: HTMLElement,
-      direction: Direction
+    a: HTMLElement,
+    b: HTMLElement,
+    direction: Direction
   ): number {
     if (a === b) {
       return 0;
@@ -579,9 +582,9 @@ export class DraggableSlide implements Transition {
    * If the carousel is looping, work in the given direction.
    */
   private getInBetweenSlides(
-      startSlide: HTMLElement,
-      endSlide: HTMLElement,
-      direction: Direction
+    startSlide: HTMLElement,
+    endSlide: HTMLElement,
+    direction: Direction
   ): HTMLElement[] {
     const start = this.carousel!.getIndex(startSlide);
     const end = this.carousel!.getIndex(endSlide) - direction;
@@ -589,12 +592,17 @@ export class DraggableSlide implements Transition {
       return [];
     } else if (this.carousel!.loop) {
       return arrayf.loopSlice(
-          this.carousel!.getSlides(), end, start, -direction);
+        this.carousel!.getSlides(),
+        end,
+        start,
+        -direction
+      );
     } else {
       // Use min and max to ensure that we slice in the right direction.
       return this.carousel!.getSlides().slice(
-          Math.min(start + 1, end),
-          Math.max(start, end + direction));
+        Math.min(start + 1, end),
+        Math.max(start, end + direction)
+      );
     }
   }
 }

@@ -1,5 +1,5 @@
-import { Carousel } from './carousel';
-export { DraggableSlideConfig, DraggableSlide } from './draggable-slide';
+import {Carousel} from './carousel';
+export {DraggableSlideConfig, DraggableSlide} from './draggable-slide';
 
 /**
  * Interface a Transition must implement to be used with a carousel.

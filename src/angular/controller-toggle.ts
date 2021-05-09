@@ -1,5 +1,3 @@
-
-
 /**
  * A simple controller used to setup basic drawer like functionality.
  *
@@ -30,28 +28,27 @@
  *
  */
 export class ToggleController {
+  private el: HTMLElement;
+  private expanded: boolean;
 
-    private el: HTMLElement;
-    private expanded: boolean;
+  static get $inject() {
+    return ['$scope', '$element'];
+  }
 
-    static get $inject() {
-        return ['$scope', '$element'];
-    }
+  constructor($element: ng.IAugmentedJQuery) {
+    this.el = $element[0];
+    this.expanded = false;
+  }
 
-    constructor($element: ng.IAugmentedJQuery) {
-        this.el = $element[0];
-        this.expanded = false;
-    }
+  public toggle(): void {
+    this.expanded = !this.expanded;
+  }
 
-    public toggle():void {
-       this.expanded = !this.expanded;
-    }
+  public open(): void {
+    this.expanded = true;
+  }
 
-    public open():void {
-       this.expanded = true;
-    }
-
-    public close():void {
-       this.expanded = false;
-    }
+  public close(): void {
+    this.expanded = false;
+  }
 }

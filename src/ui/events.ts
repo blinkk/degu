@@ -1,4 +1,4 @@
-import { DefaultMap } from '../map/default-map';
+import {DefaultMap} from '../map/default-map';
 
 type Callback = (...args: any[]) => void;
 
@@ -59,7 +59,7 @@ export class EventManager {
    * Run callbacks for the given event with the given arguments.
    */
   dispatch(event: string, ...args: any[]): void {
-    this.callbacks.get(event).forEach((callback) => callback(...args));
+    this.callbacks.get(event).forEach(callback => callback(...args));
   }
 
   /**

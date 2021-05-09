@@ -1,8 +1,6 @@
-
-
 export interface MarkersInterpolateMarkers {
-    name: string,
-    time: number
+  name: string;
+  time: number;
 }
 
 /**
@@ -32,28 +30,29 @@ export interface MarkersInterpolateMarkers {
  * ```
  */
 export class MarkerInterpolate {
-
   private markers: Array<MarkersInterpolateMarkers>;
   private totalDuration: number;
 
-  constructor(markers: Array<MarkersInterpolateMarkers>, totalDuration:number) {
-      this.markers = markers;
-      this.totalDuration = totalDuration;
+  constructor(
+    markers: Array<MarkersInterpolateMarkers>,
+    totalDuration: number
+  ) {
+    this.markers = markers;
+    this.totalDuration = totalDuration;
   }
 
-  getMarkers():Array<MarkersInterpolateMarkers> {
-      return this.markers;
+  getMarkers(): Array<MarkersInterpolateMarkers> {
+    return this.markers;
   }
 
-
-  getMarkerByName(name:string) {
-      return this.markers.filter((marker)=> {
-          return marker.name == name;
-      })[0];
+  getMarkerByName(name: string) {
+    return this.markers.filter(marker => {
+      return marker.name == name;
+    })[0];
   }
 
-  getProgressByMarker(name:string):number {
-      const marker = this.getMarkerByName(name);
-      return marker.time / this.totalDuration;
+  getProgressByMarker(name: string): number {
+    const marker = this.getMarkerByName(name);
+    return marker.time / this.totalDuration;
   }
 }

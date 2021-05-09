@@ -1,20 +1,17 @@
-
-import { is } from '../is/is';
-import { mathf } from '../mathf/mathf';
+import {is} from '../is/is';
+import {mathf} from '../mathf/mathf';
 
 export interface ProgressWatcherItem {
-    range: number | number[];
-    callback: Function;
-    inactiveCallback?: Function;
-    runWhen?: Function;
+  range: number | number[];
+  callback: Function;
+  inactiveCallback?: Function;
+  runWhen?: Function;
 }
-
 
 export enum Direction {
-   Up = -1,
-   Down = 1
+  Up = -1,
+  Down = 1,
 }
-
 
 /**
  * A class that provides callbacks for progress points.
@@ -80,89 +77,87 @@ export enum Direction {
  *
  */
 export class ProgressWatcher {
+  private watchers: ProgressWatcherItem[] = [];
+  private currentProgress: number = 0;
+  private direction: number = 0;
 
-    private watchers: ProgressWatcherItem[] = [];
-    private currentProgress: number = 0;
-    private direction: number = 0;
+  constructor() {}
 
-    constructor() { }
+  /**
+   * Sets a callback for a specific range.
+   * @param {number|number[]} A specific progress to watch for or
+   *     an array like [0.1, 0.4] specifying the range to be watched.
+   * @param {Function}
+   */
+  public add(progressWatchItem: ProgressWatcherItem): void {
+    this.watchers.push(progressWatchItem);
+  }
 
+  /**
+   * Removes a given set callback.
+   * @param callback
+   */
+  public remove(callback: Function): void {
+    this.watchers = this.watchers.filter((watcher: ProgressWatcherItem) => {
+      return watcher.callback !== callback;
+    });
+  }
 
-    /**
-     * Sets a callback for a specific range.
-     * @param {number|number[]} A specific progress to watch for or
-     *     an array like [0.1, 0.4] specifying the range to be watched.
-     * @param {Function}
-     */
-    public add(progressWatchItem: ProgressWatcherItem): void {
-        this.watchers.push(progressWatchItem)
+  /**
+   * Updates the progress value.
+   */
+  public setProgress(progress: number): void {
+    const previousProgress = this.currentProgress;
+    this.currentProgress = progress;
+    const direction = mathf.direction(previousProgress, this.currentProgress);
+    if (direction == Direction.Up || direction == Direction.Down) {
+      this.direction = direction;
     }
 
+    // Loop through watchers.
+    this.watchers.forEach((watcher: ProgressWatcherItem) => {
+      let isBetween = false;
+      if (is.array(watcher.range)) {
+        isBetween = mathf.isBetween(
+          this.currentProgress,
+          watcher.range[0],
+          watcher.range[1]
+        );
+      } else {
+        // If we are only watching for a specific value, we used the
+        // previous progress to see if we passed it.
+        isBetween = mathf.isBetween(
+          <number>watcher.range,
+          this.currentProgress,
+          previousProgress
+        );
+      }
 
-    /**
-     * Removes a given set callback.
-     * @param callback
-     */
-    public remove(callback: Function): void {
-        this.watchers = this.watchers.filter(
-            (watcher: ProgressWatcherItem) => {
-                return watcher.callback !== callback;
-            });
-    }
-
-
-    /**
-     * Updates the progress value.
-     */
-    public setProgress(progress: number): void {
-        const previousProgress = this.currentProgress;
-        this.currentProgress = progress;
-        const direction = mathf.direction(previousProgress, this.currentProgress);
-        if(direction == Direction.Up || direction == Direction.Down) {
-            this.direction = direction;
+      if (isBetween) {
+        if (watcher.runWhen && watcher.runWhen()) {
+          watcher.callback(this.currentProgress, this.direction);
+        } else {
+          watcher.callback(this.currentProgress, this.direction);
         }
+      } else {
+        if (watcher.inactiveCallback) {
+          watcher.inactiveCallback(this.currentProgress, this.direction);
+        }
+      }
+    });
+  }
 
-        // Loop through watchers.
-        this.watchers.forEach((watcher: ProgressWatcherItem) => {
-            let isBetween = false;
-            if (is.array(watcher.range)) {
-                isBetween = mathf.isBetween(this.currentProgress,
-                    watcher.range[0], watcher.range[1]);
-            } else {
-                // If we are only watching for a specific value, we used the
-                // previous progress to see if we passed it.
-                isBetween = mathf.isBetween(<number>watcher.range,
-                    this.currentProgress, previousProgress);
-            }
+  /**
+   * Removes all watchers.
+   */
+  public clear() {
+    this.watchers = [];
+  }
 
-            if (isBetween) {
-                if(watcher.runWhen && watcher.runWhen()) {
-                  watcher.callback(this.currentProgress, this.direction);
-                } else {
-                  watcher.callback(this.currentProgress, this.direction);
-                }
-            } else {
-                if(watcher.inactiveCallback) {
-                  watcher.inactiveCallback(this.currentProgress, this.direction);
-                }
-            }
-        })
-    }
-
-
-
-    /**
-     * Removes all watchers.
-     */
-    public clear() {
-        this.watchers = [];
-    }
-
-
-    /**
-     * Disposes progress watcher.
-     */
-    public dispose() {
-        this.watchers = null;
-    }
+  /**
+   * Disposes progress watcher.
+   */
+  public dispose() {
+    this.watchers = null;
+  }
 }

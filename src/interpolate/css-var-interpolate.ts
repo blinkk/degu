@@ -1,12 +1,13 @@
-
-import { mathf } from '../mathf/mathf';
-import { MultiInterpolate, multiInterpolateConfig } from './multi-interpolate';
-import { ElementVisibilityObject, elementVisibility } from '../dom/element-visibility';
-import { dom } from '../dom/dom';
-import { is } from '../is/is';
-import { cssUnit } from '../string/css-unit';
-import { objectf } from '../objectf/objectf';
-
+import {mathf} from '../mathf/mathf';
+import {MultiInterpolate, multiInterpolateConfig} from './multi-interpolate';
+import {
+  ElementVisibilityObject,
+  elementVisibility,
+} from '../dom/element-visibility';
+import {dom} from '../dom/dom';
+import {is} from '../is/is';
+import {cssUnit} from '../string/css-unit';
+import {objectf} from '../objectf/objectf';
 
 /**
  * A class that allows you to multiInterpolate css variables.
@@ -212,336 +213,325 @@ import { objectf } from '../objectf/objectf';
  * ```
  */
 export class CssVarInterpolate {
-    private mainProgress: number | null;
-    private currentValues: Record<string, string | number>;
-    private multiInterpolate: MultiInterpolate | null;
+  private mainProgress: number | null;
+  private currentValues: Record<string, string | number>;
+  private multiInterpolate: MultiInterpolate | null;
+
+  /**
+   * Given the mainProgress, at what progress point the interpolations
+   * should begin.  This value is used to calculate a
+   * [[mathf.childProgeress]] so that if necessary, the interpolations
+   * can be scoped to a set range.  Defaults to 0.
+   */
+  private startProgress: number;
+
+  /**
+   * Given the mainProgress, at what progress point the interpolations
+   * should end.  This value is used to calculate a
+   * [[mathf.childProgeress]] so that if necessary, the interpolations
+   * can be scoped to a set range.  Defaults to 1.
+   */
+  private endProgress: number;
+
+  /**
+   * Internal instance of element visibility.
+   */
+  public elementVisibility: ElementVisibilityObject;
+
+  /**
+   * Whether to prevent DOM render updates when the element is out of view.
+   * This prevents this class from updating the element style or css variables
+   * if it is out of view.
+   * The default is true to provide performance benefits.
+   */
+  public renderOnlyWhenInview: boolean;
+
+  /**
+   * Whether to run update once after the element
+   * goes out of view so the state of interpololations are correctly resolved
+   * to its starting state when elements come back into view.
+   * The default is true.
+   */
+  public runOnceAfterOutView: boolean;
+
+  /**
+   * Internal flag to keep track of whether the outview update was run once.
+   */
+  private ranOutViewUpdate: boolean;
+
+  /**
+   * Whether to disallow subpixel rendering.  This option will make any
+   * pixel value interpolations into round whole number. Defaults to true.
+   */
+  private renderSubPixels: boolean;
+
+  /**
+   * The number of decimals that should be used when evaluating progress.
+   */
+  private precision: number;
+
+  /**
+   * Whether to prevent css_var from writing to the dom.  This is useful in cases,
+   * you just want css-var-interpolate to calculate values and you take control
+   * of when and where the css-variables are applied.  You can extract the current
+   * values after running updateProgress by calling, getValues() and after that
+   * use dom.setCssVariables() to apply the values.
+   * Default to false.
+   */
+  private noWrite: boolean;
+
+  /**
+   * @param element The element to update the css variable to.
+   *     This can be the body element if you want a "global" css
+   *     variable or you can specific a more speicific element to
+   *     scope the results of your css variables.
+   * @param config
+   */
+  constructor(
+    private element: HTMLElement,
+    private config?: multiInterpolateConfig
+  ) {
+    /**
+     * Set this to initially null so that when update is first called
+     * we are guanranteed that it will be processed.
+     */
+    this.mainProgress = null;
+    this.currentValues = {};
+
+    this.renderSubPixels = true;
+
+    if (config) {
+      this.multiInterpolate = new MultiInterpolate(config);
+    } else {
+      this.multiInterpolate = null;
+    }
+
+    // Add element visibility to the VectorDom.
+    this.elementVisibility = elementVisibility.inview(this.element);
+    this.runOnceAfterOutView = true;
+    this.renderOnlyWhenInview = true;
+    this.ranOutViewUpdate = false;
+    this.precision = 4;
+    this.noWrite = false;
+
+    this.startProgress = 0;
+    this.endProgress = 1;
+  }
+
+  /**
+   * Updates the internal interpolations.   Use this to update your
+   * interpolations.
+   *
+   * ```ts
+   *
+   * let ci = new CssVarInterpolate(element);
+   * ci.setInterpolations({
+   *   interpolations: [
+   *       {
+   *           progress: [
+   *               { from: 0, to: 1, start: 0, end: 500 },
+   *           ],
+   *           id: '--x'
+   *
+   *       }
+   *   ]
+   * });
+   *
+   *
+   * ```
+   *
+   * @param config
+   */
+  setInterpolations(config: multiInterpolateConfig) {
+    if (config) {
+      this.multiInterpolate = new MultiInterpolate(config);
+    }
+  }
+
+  /**
+   * Sets the internal precision.  Precision is used to evaluate how many
+   * decimals should be valuated on progress.  Lower precision means, 0.8888
+   * and 0.88888 would be same.    Enter the number of decimals you want to
+   * account for.  Lower precision will have slight performance benefits.
+   */
+  setPrecision(numberOfDecimals: number) {
+    this.precision = numberOfDecimals;
+  }
+
+  /**
+   * Flushes the update cache.  By default, two consecutive calls to
+   * update with the same progress values will cull the second call
+   * for performance booosts.  However, there are rare cases where
+   * you may want to update with the same progress values and force
+   * an update to the variable.  Calling flush will flush the internal
+   * cache.
+   *
+   * ```ts
+   *
+   * cssVarInterpolate.update(0.2);
+   * cssVarInterpolate.update(0.2); // Normally gets ignored
+   *
+   * cssVarInterpolate.update(0.2);
+   * cssVarInterpolate.flush(); // Flush cache
+   * cssVarInterpolate.update(0.2); // Will update.
+   * ```
+   */
+  flush() {
+    this.mainProgress = null;
+  }
+
+  /**
+   * Toggles subpixel rendering. When subpixel rendering is turned off,
+   * 'px' value interpolations will be turned into whole
+   * numbers.  Subpixel rendering is turned on by default but can be
+   * turned off for performance boosts.
+   */
+  useSubPixelRendering(value: boolean) {
+    this.renderSubPixels = value;
+  }
+
+  /**
+   * Sets css-var-interpolate to no write mode in which it will only calculate
+   * values but not write them to the dom.  This is used for cases in which
+   * you want use the class to calculate values but take control of when
+   * and where writing happens.
+   * @param value
+   */
+  useNoWrite(value: boolean) {
+    this.noWrite = value;
+  }
+
+  /**
+   * Allows batch update of css variables.  Recommend for improved
+   * performance.
+   */
+  useBatchUpdate(value: boolean) {
+    // This performance optimization is no longer needed, so setting this
+    // is a no-op.
+  }
+
+  /**
+   * Sets css var interpolate to render even when out of view.
+   */
+  renderOutview(value: boolean) {
+    this.renderOnlyWhenInview = !value;
+  }
+
+  /**
+   * Updates the progress and updates the css variable values.
+   * @param {number} progress
+   * @param {boolean} force Allows you to bypass the cache.  By default
+   *   two consecutive calls to update WITH the same progress values will
+   *   cull the second call.  Force allows you to force it to render again.
+   */
+  update(progress: number, force: boolean = false) {
+    if (!this.multiInterpolate) {
+      return;
+    }
+
+    // Only make updates when progress value was updated to avoid layout
+    // thrashing.
+    if (!force && progress == this.mainProgress) {
+      return;
+    }
 
     /**
-     * Given the mainProgress, at what progress point the interpolations
-     * should begin.  This value is used to calculate a
-     * [[mathf.childProgeress]] so that if necessary, the interpolations
-     * can be scoped to a set range.  Defaults to 0.
+     * Render this element only when it is inview for performance boost.
      */
-    private startProgress: number;
+    if (
+      this.renderOnlyWhenInview &&
+      this.elementVisibility.state().ready &&
+      !this.elementVisibility.state().inview
+    ) {
+      // If we go out of view run interpolations atleast once so that
+      // when the element comes back into view, it correctly sits in
+      // the starting position.
+      if (this.runOnceAfterOutView && !this.ranOutViewUpdate) {
+        this.ranOutViewUpdate = true;
+        // Make a guestimation of 0 or 1 and round to 0 or 1 state.
+        // This helps fight cases in which progress might be tied to
+        // an eased scroll and user quickly scrolls out of view in which
+        // the progress is not fully resolve to the start or end state.
+        this.updateValues(progress >= 0.5 ? 1 : 0);
+      }
+      return;
+    }
 
-    /**
-     * Given the mainProgress, at what progress point the interpolations
-     * should end.  This value is used to calculate a
-     * [[mathf.childProgeress]] so that if necessary, the interpolations
-     * can be scoped to a set range.  Defaults to 1.
-     */
-    private endProgress: number;
+    // We are inview so run update normally.
+    this.ranOutViewUpdate = false;
+    this.updateValues(progress);
+  }
 
-    /**
-     * Internal instance of element visibility.
-     */
-    public elementVisibility: ElementVisibilityObject;
+  /**
+   * Updates and calculates interpolation values.
+   */
+  private updateValues(progress: number) {
+    if (!this.multiInterpolate) {
+      return;
+    }
 
-    /**
-     * Whether to prevent DOM render updates when the element is out of view.
-     * This prevents this class from updating the element style or css variables
-     * if it is out of view.
-     * The default is true to provide performance benefits.
-     */
-    public renderOnlyWhenInview: boolean;
+    const roundedPrecision = mathf.toFixed(progress, this.precision);
 
-    /**
-     * Whether to run update once after the element
-     * goes out of view so the state of interpololations are correctly resolved
-     * to its starting state when elements come back into view.
-     * The default is true.
-     */
-    public runOnceAfterOutView: boolean;
+    // Cull if progress hasn't changed.
+    if (this.mainProgress == roundedPrecision) {
+      return;
+    }
 
-    /**
-     * Internal flag to keep track of whether the outview update was run once.
-     */
-    private ranOutViewUpdate: boolean;
+    // Create a child progress so that the range in which this interpolation
+    // reacts can be scoped.
+    // Use noClamp so that we can define negative progress if needed.
+    this.mainProgress = mathf.childProgress(
+      roundedPrecision,
+      this.startProgress,
+      this.endProgress,
+      true
+    );
 
-    /**
-     * Whether to disallow subpixel rendering.  This option will make any
-     * pixel value interpolations into round whole number. Defaults to true.
-     */
-    private renderSubPixels: boolean;
+    const previousValues = objectf.jsonCopy(this.currentValues);
+    this.currentValues = this.multiInterpolate.calculate(this.mainProgress);
 
-    /**
-     * The number of decimals that should be used when evaluating progress.
-     */
-    private precision:number;
+    // Check if the previous values and current values are exactly the same
+    // in which case we can avoid an unncessary update.
+    if (objectf.areEqual(previousValues, this.currentValues)) {
+      return;
+    }
 
-    /**
-     * Whether to prevent css_var from writing to the dom.  This is useful in cases,
-     * you just want css-var-interpolate to calculate values and you take control
-     * of when and where the css-variables are applied.  You can extract the current
-     * values after running updateProgress by calling, getValues() and after that
-     * use dom.setCssVariables() to apply the values.
-     * Default to false.
-     */
-    private noWrite: boolean;
+    // If we are in noWrite mode, skip.
+    if (this.noWrite) {
+      return;
+    }
 
-
-    /**
-     * @param element The element to update the css variable to.
-     *     This can be the body element if you want a "global" css
-     *     variable or you can specific a more speicific element to
-     *     scope the results of your css variables.
-     * @param config
-     */
-    constructor(
-        private element: HTMLElement,
-        private config?: multiInterpolateConfig) {
-
-        /**
-         * Set this to initially null so that when update is first called
-         * we are guanranteed that it will be processed.
-         */
-        this.mainProgress = null;
-        this.currentValues = {};
-
-        this.renderSubPixels = true;
-
-        if (config) {
-            this.multiInterpolate = new MultiInterpolate(config);
-        } else {
-            this.multiInterpolate = null;
+    for (var key in this.currentValues) {
+      let value = this.currentValues[key];
+      if (!this.renderSubPixels && typeof value === 'string') {
+        let cssUnitValue = cssUnit.parse(value);
+        if (cssUnitValue.unit == 'px') {
+          value = ((cssUnitValue.value as number) >> 0) + 'px';
+          this.currentValues[key] = value;
         }
-
-        // Add element visibility to the VectorDom.
-        this.elementVisibility = elementVisibility.inview(this.element);
-        this.runOnceAfterOutView = true;
-        this.renderOnlyWhenInview = true;
-        this.ranOutViewUpdate = false;
-        this.precision = 4;
-        this.noWrite = false;
-
-        this.startProgress = 0;
-        this.endProgress = 1;
+      }
+      dom.setCssVariable(this.element, key, String(value));
     }
+  }
 
+  /**
+   * Sets the start and end values of which interpolations begin.  This allows
+   * you to set something like, given the main progress that is updated from
+   * 0-1, I only want this to interpolate from 0.2-0.6.
+   * @param start
+   * @param end
+   */
+  setProgressRange(start: number, end: number) {
+    this.startProgress = start;
+    this.endProgress = end;
+  }
 
-    /**
-     * Updates the internal interpolations.   Use this to update your
-     * interpolations.
-     *
-     * ```ts
-     *
-     * let ci = new CssVarInterpolate(element);
-     * ci.setInterpolations({
-     *   interpolations: [
-     *       {
-     *           progress: [
-     *               { from: 0, to: 1, start: 0, end: 500 },
-     *           ],
-     *           id: '--x'
-     *
-     *       }
-     *   ]
-     * });
-     *
-     *
-     * ```
-     *
-     * @param config
-     */
-    setInterpolations(config: multiInterpolateConfig) {
-        if (config) {
-            this.multiInterpolate = new MultiInterpolate(config);
-        }
-    }
-
-
-    /**
-     * Sets the internal precision.  Precision is used to evaluate how many
-     * decimals should be valuated on progress.  Lower precision means, 0.8888
-     * and 0.88888 would be same.    Enter the number of decimals you want to
-     * account for.  Lower precision will have slight performance benefits.
-     */
-    setPrecision(numberOfDecimals:number) {
-        this.precision = numberOfDecimals;
-    }
-
-
-    /**
-     * Flushes the update cache.  By default, two consecutive calls to
-     * update with the same progress values will cull the second call
-     * for performance booosts.  However, there are rare cases where
-     * you may want to update with the same progress values and force
-     * an update to the variable.  Calling flush will flush the internal
-     * cache.
-     *
-     * ```ts
-     *
-     * cssVarInterpolate.update(0.2);
-     * cssVarInterpolate.update(0.2); // Normally gets ignored
-     *
-     * cssVarInterpolate.update(0.2);
-     * cssVarInterpolate.flush(); // Flush cache
-     * cssVarInterpolate.update(0.2); // Will update.
-     * ```
-     */
-    flush() {
-        this.mainProgress = null;
-    }
-
-    /**
-     * Toggles subpixel rendering. When subpixel rendering is turned off,
-     * 'px' value interpolations will be turned into whole
-     * numbers.  Subpixel rendering is turned on by default but can be
-     * turned off for performance boosts.
-     */
-    useSubPixelRendering(value: boolean) {
-        this.renderSubPixels = value;
-    }
-
-
-    /**
-     * Sets css-var-interpolate to no write mode in which it will only calculate
-     * values but not write them to the dom.  This is used for cases in which
-     * you want use the class to calculate values but take control of when
-     * and where writing happens.
-     * @param value
-     */
-    useNoWrite(value: boolean) {
-        this.noWrite = value;
-    }
-
-
-
-    /**
-     * Allows batch update of css variables.  Recommend for improved
-     * performance.
-     */
-    useBatchUpdate(value: boolean) {
-        // This performance optimization is no longer needed, so setting this
-        // is a no-op.
-    }
-
-    /**
-     * Sets css var interpolate to render even when out of view.
-     */
-    renderOutview(value: boolean) {
-        this.renderOnlyWhenInview = !value;
-    }
-
-
-    /**
-     * Updates the progress and updates the css variable values.
-     * @param {number} progress
-     * @param {boolean} force Allows you to bypass the cache.  By default
-     *   two consecutive calls to update WITH the same progress values will
-     *   cull the second call.  Force allows you to force it to render again.
-     */
-    update(progress: number, force: boolean = false) {
-        if (!this.multiInterpolate) {
-            return;
-        }
-
-        // Only make updates when progress value was updated to avoid layout
-        // thrashing.
-        if (!force && progress == this.mainProgress) {
-            return;
-        }
-
-        /**
-         * Render this element only when it is inview for performance boost.
-         */
-        if (this.renderOnlyWhenInview &&
-            this.elementVisibility.state().ready &&
-            !this.elementVisibility.state().inview) {
-
-            // If we go out of view run interpolations atleast once so that
-            // when the element comes back into view, it correctly sits in
-            // the starting position.
-            if (this.runOnceAfterOutView && !this.ranOutViewUpdate) {
-                this.ranOutViewUpdate = true;
-                // Make a guestimation of 0 or 1 and round to 0 or 1 state.
-                // This helps fight cases in which progress might be tied to
-                // an eased scroll and user quickly scrolls out of view in which
-                // the progress is not fully resolve to the start or end state.
-                this.updateValues(progress >= 0.5 ? 1 : 0);
-            }
-            return;
-        }
-
-        // We are inview so run update normally.
-        this.ranOutViewUpdate = false;
-        this.updateValues(progress);
-    }
-
-
-    /**
-     * Updates and calculates interpolation values.
-     */
-    private updateValues(progress: number) {
-        if (!this.multiInterpolate) {
-            return;
-        }
-
-        const roundedPrecision = mathf.toFixed(progress, this.precision);
-
-        // Cull if progress hasn't changed.
-        if (this.mainProgress == roundedPrecision) {
-            return;
-        }
-
-        // Create a child progress so that the range in which this interpolation
-        // reacts can be scoped.
-        // Use noClamp so that we can define negative progress if needed.
-        this.mainProgress = mathf.childProgress(
-            roundedPrecision,
-            this.startProgress, this.endProgress, true);
-
-        const previousValues = objectf.jsonCopy(this.currentValues);
-        this.currentValues =
-            this.multiInterpolate.calculate(this.mainProgress);
-
-
-        // Check if the previous values and current values are exactly the same
-        // in which case we can avoid an unncessary update.
-        if(objectf.areEqual(previousValues, this.currentValues)) {
-            return;
-        }
-
-
-        // If we are in noWrite mode, skip.
-        if(this.noWrite) {
-            return;
-        }
-
-        for (var key in this.currentValues) {
-            let value = this.currentValues[key];
-            if (!this.renderSubPixels && typeof value === 'string') {
-                let cssUnitValue = cssUnit.parse(value);
-                if (cssUnitValue.unit == 'px') {
-                    value = (cssUnitValue.value as number >> 0) + 'px';
-                    this.currentValues[key] = value;
-                }
-            }
-            dom.setCssVariable(this.element, key, String(value));
-        }
-    }
-
-
-    /**
-     * Sets the start and end values of which interpolations begin.  This allows
-     * you to set something like, given the main progress that is updated from
-     * 0-1, I only want this to interpolate from 0.2-0.6.
-     * @param start
-     * @param end
-     */
-    setProgressRange(start: number, end: number) {
-        this.startProgress = start;
-        this.endProgress = end;
-    }
-
-
-    /**
-     * Gets the last set of calculated values.  This will return an empty
-     * object if no updates / calculations have been run.  If updates have
-     * been executed, it will return an object with each css-var property value.
-     */
-    getValues(): Record<string, string | number> {
-        return this.currentValues;
-    }
-
+  /**
+   * Gets the last set of calculated values.  This will return an empty
+   * object if no updates / calculations have been run.  If updates have
+   * been executed, it will return an object with each css-var property value.
+   */
+  getValues(): Record<string, string | number> {
+    return this.currentValues;
+  }
 }

@@ -28,9 +28,8 @@ const deguShape2dCheckerboard = `
     }
 `;
 
-
-export const deguShape2d = (three:any)=> {
+export const deguShape2d = (three: any) => {
   three.ShaderChunk.deguShape2d = `
   ${deguShape2dCheckerboard}
 `;
-}
+};

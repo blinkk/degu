@@ -1,84 +1,81 @@
-
-
-import { elementVisibility, ElementVisibilityObject } from './element-visibility';
-import { DomWatcher } from './dom-watcher';
-import { mathf } from '../mathf/mathf';
-import { dom } from './dom';
-import { Raf } from '../raf/raf';
-import { func } from '..';
+import {elementVisibility, ElementVisibilityObject} from './element-visibility';
+import {DomWatcher} from './dom-watcher';
+import {mathf} from '../mathf/mathf';
+import {dom} from './dom';
+import {Raf} from '../raf/raf';
+import {func} from '..';
 
 export const HorizontalScrollElementEvents = {
-    INDEX_CHANGE: 'horizontal-scroll-element-index-change',
-}
+  INDEX_CHANGE: 'horizontal-scroll-element-index-change',
+};
 
 export interface HorizontalScrollElementConfig {
-    /**
-     * The root element to create the horizontal scroll element.
-     */
-    rootElement: HTMLElement;
+  /**
+   * The root element to create the horizontal scroll element.
+   */
+  rootElement: HTMLElement;
 
-    /**
-     * Defaults to false but if set to true, the first time the root element
-     * is visible in the viewport, it will be quickly resized.  This can be
-     * useful for rare cases in which the carousel is instantiated at a given
-     * size but actually rendered at a different one such as a carousel
-     * within a modal.
-     */
-    resizeOnFirstEv?: boolean;
+  /**
+   * Defaults to false but if set to true, the first time the root element
+   * is visible in the viewport, it will be quickly resized.  This can be
+   * useful for rare cases in which the carousel is instantiated at a given
+   * size but actually rendered at a different one such as a carousel
+   * within a modal.
+   */
+  resizeOnFirstEv?: boolean;
 
-    /**
-     * Whether to use slide delta values.
-     */
-    slideDeltaValues?: boolean;
+  /**
+   * Whether to use slide delta values.
+   */
+  slideDeltaValues?: boolean;
 
-    /**
-     * Whether to use scroll snapping.
-     */
-    snapToClosest?: boolean;
+  /**
+   * Whether to use scroll snapping.
+   */
+  snapToClosest?: boolean;
 
-    /**
-     * Delay resizing by a given ms amount.  Defaults to no delay.
-     */
-    delayResizeMs: number;
+  /**
+   * Delay resizing by a given ms amount.  Defaults to no delay.
+   */
+  delayResizeMs: number;
 
-    /**
-     * Whether to left align.  Defaults to false and centers.
-     * If using leftAlign, it is common to want a margin on the ends.  Add padding to
-     * the scroll element to achieve this.
-     *
-     *
-     * ```
-     * [scroll-track]
-     *   margin-left: var(--grid-side)
-     *
-     *[scroll-item]:last-child
-     *   padding-right: var(--grid-side)
-     * ```
-     *
-     *
-     */
-    leftAlign?: boolean;
+  /**
+   * Whether to left align.  Defaults to false and centers.
+   * If using leftAlign, it is common to want a margin on the ends.  Add padding to
+   * the scroll element to achieve this.
+   *
+   *
+   * ```
+   * [scroll-track]
+   *   margin-left: var(--grid-side)
+   *
+   *[scroll-item]:last-child
+   *   padding-right: var(--grid-side)
+   * ```
+   *
+   *
+   */
+  leftAlign?: boolean;
 
-    /**
-     * When dragging, allow a little wiggle room.  Defaults to 0
-     */
-    dragBounce?: number;
+  /**
+   * When dragging, allow a little wiggle room.  Defaults to 0
+   */
+  dragBounce?: number;
 }
 
-
 export interface HorizontalScrollElementMouseState {
-    x: number;
-    down: boolean;
-    dragging: boolean;
-    start: number;
-    lastX: number;
+  x: number;
+  down: boolean;
+  dragging: boolean;
+  start: number;
+  lastX: number;
 }
 
 export interface HorizontalScrollElementPositions {
-    el: HTMLElement;
-    x: number;
-    centerX: number;
-    width: number;
+  el: HTMLElement;
+  x: number;
+  centerX: number;
+  width: number;
 }
 
 /**
@@ -295,540 +292,543 @@ export interface HorizontalScrollElementPositions {
  *
  */
 export class HorizontalScrollElement {
-    private root: HTMLElement;
-    private domWatcher: DomWatcher;
-    private mouseState: HorizontalScrollElementMouseState;
-    private currentX: number = 0;
-    private targetX: number = 0;
-    private rafEv: ElementVisibilityObject;
-    private raf: Raf;
-    private useSnapToClosest: boolean = false;
-    private shouldLeftAlign: boolean = false;
-    private items: Array<HTMLElement>;
-    private childrenPositions: Array<HorizontalScrollElementPositions> = [];
-    private index: number = 0;
-    private useSlideDeltaValues: boolean = false;
-    private rootWidth: number = 0;
-    private scrollWidth: number = 0;
-    private firstItemCenterOffset: number = 0;
-    private lastItemCenterOffset: number = 0;
-    private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
-    private ranFirstEv: boolean = false;
-    private windowWidth: number = 0;
-    private dragBounce: number;
-    private resizing: boolean = false;
-    private itemCount: number = 0;
+  private root: HTMLElement;
+  private domWatcher: DomWatcher;
+  private mouseState: HorizontalScrollElementMouseState;
+  private currentX: number = 0;
+  private targetX: number = 0;
+  private rafEv: ElementVisibilityObject;
+  private raf: Raf;
+  private useSnapToClosest: boolean = false;
+  private shouldLeftAlign: boolean = false;
+  private items: Array<HTMLElement>;
+  private childrenPositions: Array<HorizontalScrollElementPositions> = [];
+  private index: number = 0;
+  private useSlideDeltaValues: boolean = false;
+  private rootWidth: number = 0;
+  private scrollWidth: number = 0;
+  private firstItemCenterOffset: number = 0;
+  private lastItemCenterOffset: number = 0;
+  private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
+  private ranFirstEv: boolean = false;
+  private windowWidth: number = 0;
+  private dragBounce: number;
+  private resizing: boolean = false;
+  private itemCount: number = 0;
 
+  constructor(config: HorizontalScrollElementConfig) {
+    this.root = config.rootElement;
+    this.raf = new Raf(this.onRaf.bind(this));
+    this.useSlideDeltaValues = !!config.slideDeltaValues;
+    this.useSnapToClosest = !!config.snapToClosest;
+    this.shouldLeftAlign = !!config.leftAlign;
+    this.dragBounce = config.dragBounce || 100;
 
-    constructor(config: HorizontalScrollElementConfig) {
-        this.root = config.rootElement;
-        this.raf = new Raf(this.onRaf.bind(this));
-        this.useSlideDeltaValues = !!config.slideDeltaValues;
-        this.useSnapToClosest = !!config.snapToClosest;
-        this.shouldLeftAlign = !!config.leftAlign;
-        this.dragBounce = config.dragBounce || 100;
+    this.items = Array.from(
+      this.root.querySelectorAll('[scroll-item]')
+    ) as Array<HTMLElement>;
 
-        this.items = Array.from(this.root.querySelectorAll('[scroll-item]')) as Array<HTMLElement>;
-
-        this.domWatcher = new DomWatcher();
-        this.domWatcher.add({
-            element: window,
-            on: 'smartResize',
-            callback: func.debounce(() => {
-                if (config.delayResizeMs) {
-                    window.setTimeout(() => {
-                        this.onWindowResize();
-                    }, +config.delayResizeMs)
-                } else {
-                    this.onWindowResize();
-                }
-            }, 200),
-            eventOptions: {
-                passive: true
-            }
-        });
-
-
-        this.mouseState = {
-            x: 0,
-            down: false,
-            dragging: false,
-            start: 0,
-            lastX: 0
-        }
-
-        this.rafEv = elementVisibility.inview(this.root, {},
-            (element: any, changes: any) => {
-                if (changes.isIntersecting) {
-                    if (!this.ranFirstEv && !!config.resizeOnFirstEv) {
-                        this.onWindowResize(true);
-                    }
-                    this.raf.start();
-                    this.ranFirstEv = true;
-                } else {
-                    this.raf.stop();
-                }
-            });
-
-
-            this.index = 0;
+    this.domWatcher = new DomWatcher();
+    this.domWatcher.add({
+      element: window,
+      on: 'smartResize',
+      callback: func.debounce(() => {
+        if (config.delayResizeMs) {
+          window.setTimeout(() => {
             this.onWindowResize();
-            this.setupMouseDrag();
-            this.draw(true);
+          }, +config.delayResizeMs);
+        } else {
+          this.onWindowResize();
+        }
+      }, 200),
+      eventOptions: {
+        passive: true,
+      },
+    });
+
+    this.mouseState = {
+      x: 0,
+      down: false,
+      dragging: false,
+      start: 0,
+      lastX: 0,
+    };
+
+    this.rafEv = elementVisibility.inview(
+      this.root,
+      {},
+      (element: any, changes: any) => {
+        if (changes.isIntersecting) {
+          if (!this.ranFirstEv && !!config.resizeOnFirstEv) {
+            this.onWindowResize(true);
+          }
+          this.raf.start();
+          this.ranFirstEv = true;
+        } else {
+          this.raf.stop();
+        }
+      }
+    );
+
+    this.index = 0;
+    this.onWindowResize();
+    this.setupMouseDrag();
+    this.draw(true);
+  }
+
+  private onRaf(): void {
+    this.raf.write(() => {
+      this.draw();
+    });
+  }
+
+  public draw(immediate: boolean = false) {
+    if (!this.childrenPositions || !this.childrenPositions.length) {
+      this.onWindowResize();
+      return;
     }
 
-    private onRaf(): void {
+    const currentX = mathf.roundToPrecision(this.currentX, 3);
+
+    if (currentX == this.targetX && !immediate) {
+      return;
+    }
+    let dampedTarget = mathf.damp(currentX, this.targetX, 0.4, 0.2);
+
+    // No lerp when immediate
+    if (immediate) {
+      dampedTarget = this.targetX;
+    }
+    this.setScrollPosition(dampedTarget);
+
+    if (this.useSlideDeltaValues) {
+      this.childrenPositions.forEach((child, i) => {
+        const current = this.currentX;
+        const delta = child.centerX - current;
+        const percent = delta / this.rootWidth;
+        const halfPercent = mathf.inverseLerp(0, 0.5, percent, true);
+        const quartPercent = mathf.inverseLerp(0, 0.25, percent, true);
+
+        dom.setCssVariables(child.el, {
+          '--horizontal-scroll-in-x': String(percent),
+          '--horizontal-scroll-in-x-half': String(halfPercent),
+          '--horizontal-scroll-in-x-quart': String(quartPercent),
+          '--horizontal-scroll-in-x-abs': String(Math.abs(percent)),
+          '--horizontal-scroll-in-x-abs-half': String(Math.abs(halfPercent)),
+          '--horizontal-scroll-in-x-abs-quart': String(Math.abs(quartPercent)),
+          '--horizontal-scroll-in-x-abs-inv': String(1 - Math.abs(percent)),
+          '--horizontal-scroll-in-x-abs-inv-half': String(
+            1 - Math.abs(halfPercent)
+          ),
+          '--horizontal-scroll-in-x-abs-inv-quart': String(
+            1 - Math.abs(quartPercent)
+          ),
+        });
+
+        // Add the same css value to associated slieDeltaValueElements
+        this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
+          dom.setCssVariables(group[i], {
+            '--horizontal-scroll-in-x': String(percent),
+            '--horizontal-scroll-in-x-half': String(halfPercent),
+            '--horizontal-scroll-in-x-quart': String(quartPercent),
+            '--horizontal-scroll-in-x-abs': String(Math.abs(percent)),
+            '--horizontal-scroll-in-x-abs-half': String(Math.abs(halfPercent)),
+            '--horizontal-scroll-in-x-abs-quart': String(
+              Math.abs(quartPercent)
+            ),
+            '--horizontal-scroll-in-x-abs-inv': String(1 - Math.abs(percent)),
+            '--horizontal-scroll-in-x-abs-inv-half': String(
+              1 - Math.abs(halfPercent)
+            ),
+            '--horizontal-scroll-in-x-abs-inv-quart': String(
+              1 - Math.abs(quartPercent)
+            ),
+          });
+        });
+      });
+    }
+  }
+
+  private setupMouseDrag() {
+    const downHandler = (e: any) => {
+      let eventX = (e.touches && e.touches[0].clientX) || e.x;
+      this.mouseState = {
+        x: eventX,
+        down: true,
+        dragging: false,
+        lastX: eventX,
+        start: eventX,
+      };
+      this.setTargetX(this.currentX);
+    };
+    this.domWatcher.add({
+      element: this.root,
+      on: 'touchstart',
+      callback: downHandler.bind(this),
+      eventOptions: {
+        passive: true,
+      },
+    });
+    this.domWatcher.add({
+      element: this.root,
+      on: 'mousedown',
+      callback: downHandler.bind(this),
+      eventOptions: {
+        passive: true,
+      },
+    });
+    this.domWatcher.add({
+      element: this.root,
+      on: 'dragstart',
+      callback: downHandler.bind(this),
+      eventOptions: {
+        passive: true,
+      },
+    });
+
+    // Prevent drags.
+    this.domWatcher.add({
+      element: this.root,
+      on: 'dragover',
+      callback: (e: any) => {
+        e.preventDefault();
+      },
+    });
+
+    const moveHandler = (e: any) => {
+      if (
+        !this.mouseState.dragging &&
+        this.mouseState.down &&
+        this.mouseState.lastX !== this.mouseState.start
+      ) {
+        this.mouseState.dragging = true;
         this.raf.write(() => {
-            this.draw();
-        })
-    }
+          this.root.classList.add('dragging');
+        });
+      }
 
+      let eventX = (e.touches && e.touches[0].clientX) || e.x;
+      if (this.mouseState.down) {
+        this.mouseState.x = eventX;
+        let diff = this.mouseState.lastX - this.mouseState.x;
+        // Drag sensititiy.  The higher the less effort requires to move around.
+        // Make it less sensitive towards mobile.
+        let normalizedWindowSize = mathf.inverseLerp(
+          300,
+          3000,
+          this.windowWidth
+        );
+        let dragSensitivity = mathf.lerp(3, 4, normalizedWindowSize);
+        this.setTargetX(this.targetX + diff * dragSensitivity);
+        this.mouseState.lastX = this.mouseState.x;
+      }
+    };
 
-    public draw(immediate: boolean = false) {
+    this.domWatcher.add({
+      element: this.root,
+      on: 'touchmove',
+      callback: moveHandler.bind(this),
+      eventOptions: {
+        passive: true,
+      },
+    });
+    this.domWatcher.add({
+      element: this.root,
+      on: 'mousemove',
+      callback: moveHandler.bind(this),
+      eventOptions: {
+        passive: true,
+      },
+    });
+    this.domWatcher.add({
+      element: this.root,
+      on: 'drag',
+      callback: moveHandler.bind(this),
+      eventOptions: {
+        passive: true,
+      },
+    });
 
-        if (!this.childrenPositions || !this.childrenPositions.length) {
-            this.onWindowResize();
-            return;
+    const outHandler = (e: any) => {
+      if (!this.mouseState.down) {
+        return;
+      }
+      this.raf.write(() => {
+        this.root.classList.remove('dragging');
+      });
+      this.mouseState.dragging = false;
+      this.mouseState.down = false;
+
+      if (this.useSnapToClosest) {
+        let index = this.findClosestIndexToX(this.targetX);
+        this.slideTo(index, false);
+      }
+    };
+
+    this.domWatcher.add({
+      element: this.root,
+      on: 'touchend',
+      callback: outHandler.bind(this),
+      eventOptions: {passive: true},
+    });
+    this.domWatcher.add({
+      element: this.root,
+      on: 'mouseup',
+      callback: outHandler.bind(this),
+      eventOptions: {passive: true},
+    });
+    this.domWatcher.add({
+      element: this.root,
+      on: 'dragend',
+      callback: outHandler.bind(this),
+      eventOptions: {passive: true},
+    });
+    this.domWatcher.add({
+      element: this.root,
+      on: 'mouseleave',
+      callback: outHandler.bind(this),
+      eventOptions: {passive: true},
+    });
+  }
+
+  private onWindowResize(immediate: boolean = false): void {
+    this.root.classList.add('resizing');
+    window.setTimeout(
+      () => {
+        this.calculateChildPositions();
+
+        if (this.useSnapToClosest) {
+          this.slideTo(this.index, true);
         }
-
-        const currentX = mathf.roundToPrecision(this.currentX, 3);
-
-        if (currentX == this.targetX && !immediate) {
-            return;
-        }
-        let dampedTarget = mathf.damp(
-            currentX, this.targetX, 0.4, 0.2);
-
-
-        // No lerp when immediate
-        if (immediate) {
-            dampedTarget = this.targetX;
-        }
-        this.setScrollPosition(dampedTarget);
-
-
-        if (this.useSlideDeltaValues) {
-            this.childrenPositions.forEach((child, i) => {
-                const current = this.currentX;
-                const delta = child.centerX - current;
-                const percent = delta / this.rootWidth;
-                const halfPercent = mathf.inverseLerp(0, 0.5, percent, true);
-                const quartPercent = mathf.inverseLerp(0, 0.25, percent, true);
-
-                dom.setCssVariables(child.el, {
-                    '--horizontal-scroll-in-x': String(percent),
-                    '--horizontal-scroll-in-x-half': String(halfPercent),
-                    '--horizontal-scroll-in-x-quart': String(quartPercent),
-                    '--horizontal-scroll-in-x-abs': String(Math.abs(percent)),
-                    '--horizontal-scroll-in-x-abs-half': String(Math.abs(halfPercent)),
-                    '--horizontal-scroll-in-x-abs-quart': String(Math.abs(quartPercent)),
-                    '--horizontal-scroll-in-x-abs-inv': String(1 - Math.abs(percent)),
-                    '--horizontal-scroll-in-x-abs-inv-half': String(1 - Math.abs(halfPercent)),
-                    '--horizontal-scroll-in-x-abs-inv-quart': String(1 - Math.abs(quartPercent)),
-                })
-
-                // Add the same css value to associated slieDeltaValueElements
-                this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
-                    dom.setCssVariables(group[i], {
-                        '--horizontal-scroll-in-x': String(percent),
-                        '--horizontal-scroll-in-x-half': String(halfPercent),
-                        '--horizontal-scroll-in-x-quart': String(quartPercent),
-                        '--horizontal-scroll-in-x-abs': String(Math.abs(percent)),
-                        '--horizontal-scroll-in-x-abs-half': String(Math.abs(halfPercent)),
-                        '--horizontal-scroll-in-x-abs-quart': String(Math.abs(quartPercent)),
-                        '--horizontal-scroll-in-x-abs-inv': String(1 - Math.abs(percent)),
-                        '--horizontal-scroll-in-x-abs-inv-half': String(1 - Math.abs(halfPercent)),
-                        '--horizontal-scroll-in-x-abs-inv-quart': String(1 - Math.abs(quartPercent)),
-                    })
-                })
-            });
-        }
-    }
-
-
-    private setupMouseDrag() {
-        const downHandler = (e: any) => {
-
-            let eventX = e.touches && e.touches[0].clientX || e.x;
-            this.mouseState = {
-                x: eventX,
-                down: true,
-                dragging: false,
-                lastX: eventX,
-                start: eventX,
-            };
-            this.setTargetX(this.currentX);
-
-        };
-        this.domWatcher.add({
-            element: this.root,
-            on: 'touchstart',
-            callback: downHandler.bind(this),
-            eventOptions: {
-                passive: true
-            }
-        });
-        this.domWatcher.add({
-            element: this.root, on: 'mousedown',
-            callback: downHandler.bind(this),
-            eventOptions: {
-                passive: true
-            }
-        });
-        this.domWatcher.add({
-            element: this.root, on: 'dragstart',
-            callback: downHandler.bind(this),
-            eventOptions: {
-                passive: true
-            }
-        });
-
-        // Prevent drags.
-        this.domWatcher.add({
-            element: this.root, on: 'dragover',
-            callback: (e: any) => {
-                e.preventDefault();
-            },
-        });
-
-        const moveHandler = (e: any) => {
-
-            if (!this.mouseState.dragging &&
-                this.mouseState.down &&
-                this.mouseState.lastX !== this.mouseState.start) {
-                this.mouseState.dragging = true;
-                this.raf.write(() => {
-                    this.root.classList.add('dragging');
-                })
-            }
-
-            let eventX = e.touches && e.touches[0].clientX || e.x;
-            if (this.mouseState.down) {
-                this.mouseState.x = eventX;
-                let diff = this.mouseState.lastX - this.mouseState.x;
-                // Drag sensititiy.  The higher the less effort requires to move around.
-                // Make it less sensitive towards mobile.
-                let normalizedWindowSize = mathf.inverseLerp(300, 3000, this.windowWidth);
-                let dragSensitivity = mathf.lerp(3, 4, normalizedWindowSize);
-                this.setTargetX(this.targetX + diff * dragSensitivity);
-                this.mouseState.lastX = this.mouseState.x;
-            }
-        };
-
-        this.domWatcher.add({
-            element: this.root, on: 'touchmove',
-            callback: moveHandler.bind(this),
-            eventOptions: {
-                passive: true
-            }
-        });
-        this.domWatcher.add({
-            element: this.root, on: 'mousemove',
-            callback: moveHandler.bind(this),
-            eventOptions: {
-                passive: true
-            }
-        });
-        this.domWatcher.add({
-            element: this.root, on: 'drag',
-            callback: moveHandler.bind(this),
-            eventOptions: {
-                passive: true
-            }
-        });
-
-        const outHandler = (e: any) => {
-            if (!this.mouseState.down) {
-                return;
-            }
-            this.raf.write(() => {
-                this.root.classList.remove('dragging');
-            })
-            this.mouseState.dragging = false;
-            this.mouseState.down = false;
-
-            if (this.useSnapToClosest) {
-                let index = this.findClosestIndexToX(this.targetX);
-                this.slideTo(index, false);
-            }
-        };
-
-        this.domWatcher.add({
-            element: this.root, on: 'touchend',
-            callback: outHandler.bind(this),
-            eventOptions: { passive: true }
-        });
-        this.domWatcher.add({
-            element: this.root, on: 'mouseup', callback: outHandler.bind(this),
-            eventOptions: { passive: true },
-        });
-        this.domWatcher.add({
-            element: this.root, on: 'dragend', callback: outHandler.bind(this),
-            eventOptions: { passive: true },
-        });
-        this.domWatcher.add({
-            element: this.root, on: 'mouseleave', callback: outHandler.bind(this),
-            eventOptions: { passive: true },
-        });
-    }
-
-
-    private onWindowResize(immediate: boolean = false): void {
-        this.root.classList.add('resizing');
-        window.setTimeout(()=> {
-            this.calculateChildPositions();
-
-            if (this.useSnapToClosest) {
-                this.slideTo(this.index, true);
-            }
-            this.root.classList.remove('resizing');
+        this.root.classList.remove('resizing');
         // Not sure why but annoyingly, there are occassional cases where resizing
         // messes up especially combined with lazyimage.  Adding some time here
         // helps as a temporary solution.
-        }, immediate ? 0 : 100)
+      },
+      immediate ? 0 : 100
+    );
+  }
+
+  calculateChildPositions() {
+    if (this.items.length == 0) {
+      return;
     }
 
+    this.windowWidth = window.innerWidth;
+    this.mouseState = {
+      x: 0,
+      down: false,
+      dragging: false,
+      start: 0,
+      lastX: 0,
+    };
 
-    calculateChildPositions() {
-        if(this.items.length == 0) {
-            return;
-        }
+    this.childrenPositions = [];
+    this.items.forEach(child => {
+      let baseX = this.currentX;
+      // let x = child.offsetLeft;
+      let x = child.offsetLeft;
+      let bounds = child.getBoundingClientRect();
+      let width = child.offsetWidth;
 
-        this.windowWidth = window.innerWidth;
-        this.mouseState = {
-            x: 0,
-            down: false,
-            dragging: false,
-            start: 0,
-            lastX: 0
-        }
+      // console.log('item width', itemWidth, this.itemCount);
+      let baseWidth = this.root.offsetWidth;
+      this.childrenPositions.push({
+        el: child,
+        x: x,
+        // Center position relative to window size.
+        centerX: this.shouldLeftAlign ? x : x - (baseWidth * 0.5 - width * 0.5),
+        width: width,
+      });
+    });
 
+    this.rootWidth = this.root.offsetWidth;
+    // Add currentX to account for the current position.
+    this.scrollWidth = this.root.scrollWidth + this.currentX;
+    this.firstItemCenterOffset = this.childrenPositions[0].centerX;
+    this.lastItemCenterOffset =
+      this.childrenPositions[this.childrenPositions.length - 1].centerX;
 
-
-        this.childrenPositions = [];
-        this.items.forEach((child) => {
-            let baseX = this.currentX;
-            // let x = child.offsetLeft;
-            let x = child.offsetLeft;
-            let bounds = child.getBoundingClientRect();
-            let width = child.offsetWidth;
-
-            // console.log('item width', itemWidth, this.itemCount);
-            let baseWidth = this.root.offsetWidth;
-            this.childrenPositions.push({
-                el: child,
-                x: x,
-                // Center position relative to window size.
-                centerX: this.shouldLeftAlign ?
-                    x :
-                    x - ((baseWidth * 0.5) - (width * 0.5)),
-                width: width,
-            });
-        });
-
-
-        this.rootWidth = this.root.offsetWidth;
-        // Add currentX to account for the current position.
-        this.scrollWidth = this.root.scrollWidth + this.currentX;
-        this.firstItemCenterOffset = this.childrenPositions[0].centerX;
-        this.lastItemCenterOffset = this.childrenPositions[this.childrenPositions.length - 1].centerX;
-
-        // If we are in left align mode, the index count
-        // is calculated differently.  The last index
-        // would be the element in which the last element is
-        // full in view.
-        this.itemCount = this.childrenPositions.length - 1;
-        if(this.shouldLeftAlign) {
-            const visibleWidth = this.scrollWidth - this.rootWidth;
-            const itemWidth = this.childrenPositions[0].width;
-            this.itemCount = Math.ceil(visibleWidth / itemWidth);
-        }
-
-        this.currentX = 0;
-        this.targetX = 0;
+    // If we are in left align mode, the index count
+    // is calculated differently.  The last index
+    // would be the element in which the last element is
+    // full in view.
+    this.itemCount = this.childrenPositions.length - 1;
+    if (this.shouldLeftAlign) {
+      const visibleWidth = this.scrollWidth - this.rootWidth;
+      const itemWidth = this.childrenPositions[0].width;
+      this.itemCount = Math.ceil(visibleWidth / itemWidth);
     }
 
-    setScrollPosition(x: number) {
-        this.currentX = x;
+    this.currentX = 0;
+    this.targetX = 0;
+  }
 
-        dom.setCssVariables(this.root, {
-            '--horizontal-scroll-x': -this.currentX + 'px'
-        })
+  setScrollPosition(x: number) {
+    this.currentX = x;
+
+    dom.setCssVariables(this.root, {
+      '--horizontal-scroll-x': -this.currentX + 'px',
+    });
+  }
+
+  public prev() {
+    this.slideTo(this.index - 1);
+  }
+
+  public next() {
+    this.slideTo(this.index + 1);
+  }
+
+  /**
+   * Slides to a specific index.
+   */
+  public slideTo(index: number, instant = false) {
+    // Wrapping?
+    // if (index == -1) {
+    //     index = this.childrenPositions.length - 1;
+    // }
+    // if (index > this.childrenPositions.length - 1) {
+    //     index = 0;
+    // }
+    if (index == -1) {
+      return;
+    }
+    if (index > this.itemCount) {
+      return;
     }
 
+    this.setTargetX(this.getChildPosition(index).centerX);
+    this.index = index;
 
-    public prev() {
-        this.slideTo(this.index - 1);
-    }
-
-    public next() {
-        this.slideTo(this.index + 1);
-    }
-
-
-    /**
-     * Slides to a specific index.
-     */
-    public slideTo(index: number, instant = false) {
-
-        // Wrapping?
-        // if (index == -1) {
-        //     index = this.childrenPositions.length - 1;
-        // }
-        // if (index > this.childrenPositions.length - 1) {
-        //     index = 0;
-        // }
-        if (index == -1) {
-            return;
-        }
-        if (index > this.itemCount) {
-            return;
-        }
-
-
-        this.setTargetX(this.getChildPosition(index).centerX);
-        this.index = index;
-
-        if (instant) {
-            this.setScrollPosition(this.getChildPosition(index).centerX);
-            this.childrenPositions[this.index].el.classList.remove('slide-active');
-            this.childrenPositions[this.index].el.classList.add('slide-active');
-        } else {
-            this.raf && this.raf.write(() => {
-                this.childrenPositions[this.index].el.classList.remove('slide-active');
-                this.childrenPositions[this.index].el.classList.add('slide-active');
-            })
-        }
-
-
-        // Fire a notification that the index has changed.
-        dom.event(this.root, HorizontalScrollElementEvents.INDEX_CHANGE, {
-            index: this.index
+    if (instant) {
+      this.setScrollPosition(this.getChildPosition(index).centerX);
+      this.childrenPositions[this.index].el.classList.remove('slide-active');
+      this.childrenPositions[this.index].el.classList.add('slide-active');
+    } else {
+      this.raf &&
+        this.raf.write(() => {
+          this.childrenPositions[this.index].el.classList.remove(
+            'slide-active'
+          );
+          this.childrenPositions[this.index].el.classList.add('slide-active');
         });
     }
 
+    // Fire a notification that the index has changed.
+    dom.event(this.root, HorizontalScrollElementEvents.INDEX_CHANGE, {
+      index: this.index,
+    });
+  }
 
-    public setTargetX(x: number) {
-        const dragBounce = this.mouseState.dragging ? this.dragBounce : 0;
-        // Clamp
-        if (this.shouldLeftAlign) {
+  public setTargetX(x: number) {
+    const dragBounce = this.mouseState.dragging ? this.dragBounce : 0;
+    // Clamp
+    if (this.shouldLeftAlign) {
+      this.targetX = Math.min(
+        x,
+        this.scrollWidth - this.windowWidth + dragBounce
+      );
+      this.targetX = Math.max(
+        this.targetX,
+        this.firstItemCenterOffset - dragBounce
+      );
+    } else {
+      this.targetX = Math.min(x, this.lastItemCenterOffset + dragBounce);
+      this.targetX = Math.max(
+        this.targetX,
+        this.firstItemCenterOffset - dragBounce
+      );
+    }
+  }
 
-            this.targetX = Math.min(
-                x,
-                this.scrollWidth - this.windowWidth + dragBounce
-            )
-            this.targetX = Math.max(
-                this.targetX,
-                this.firstItemCenterOffset - dragBounce
-            )
+  public isFirstSlide() {
+    return this.index == 0;
+  }
 
-        } else {
-            this.targetX = Math.min(
-                x,
-                this.lastItemCenterOffset + dragBounce
-            )
-            this.targetX = Math.max(
-                this.targetX,
-                this.firstItemCenterOffset - dragBounce
-            )
-        }
+  public isLastSlide() {
+    return this.index >= this.itemCount;
+  }
 
+  getChildPosition(index: number) {
+    if (index == -1) {
+      return this.childrenPositions[this.childrenPositions.length - 1];
     }
 
-    public isFirstSlide() {
-        return this.index == 0;
+    if (index > this.childrenPositions.length - 1) {
+      return this.childrenPositions[0];
     }
 
+    return this.childrenPositions[index];
+  }
 
-    public isLastSlide() {
-        return this.index >= this.itemCount;
-    }
+  findClosestIndexToX(x: number): number {
+    let index = -1;
+    let distance = 10000;
 
+    this.childrenPositions.forEach((position, i) => {
+      let diff = Math.abs(position.x - x);
+      if (diff <= distance) {
+        index = i;
+        distance = diff;
+      }
+    });
 
+    return index;
+  }
 
-    getChildPosition(index: number) {
-        if (index == -1) {
-            return this.childrenPositions[this.childrenPositions.length - 1];
-        }
+  /**
+   * Turns off and on snapping.
+   * @param value
+   */
+  public enableSnapToClosest(value: boolean) {
+    this.useSnapToClosest = value;
+  }
 
-        if (index > this.childrenPositions.length - 1) {
-            return this.childrenPositions[0];
-        }
+  /**
+   * Whether to add css var that indicate the current delta value of the
+   * css var.
+   */
+  public enableSlideDeltaValues(value: boolean) {
+    this.useSlideDeltaValues = value;
+    this.draw(true);
+  }
 
-        return this.childrenPositions[index];
-    }
+  /**
+   * Allows you to add extra groups of html elements to add css effects to.  Each group
+   * must be the same length as the number of slides in the system.
+   *
+   * @param elementGroups
+   *
+   * Example:
+   * ```
+   * var chapters = Array.from(document.querySelectorAll('.chapters'));
+   *
+   * // Now add them.
+   * hr.addSlideDeltaValuesToElements([chapters]);
+   *
+   *
+   * ```
+   */
+  public addSlideDeltaValuesToElements(
+    elementGroups: Array<Array<HTMLElement>>
+  ) {
+    // Loop through to check each group length matches the number of slides.
+    this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
+      if (group.length !== this.childrenPositions.length) {
+        throw new Error(
+          'The group you pass does not have the same number of elements as slides'
+        );
+      }
+    });
 
+    this.slideDeltaValuesElements = elementGroups;
+    this.draw(true);
+  }
 
-
-    findClosestIndexToX(x: number): number {
-        let index = -1;
-        let distance = 10000;
-
-        this.childrenPositions.forEach((position, i) => {
-            let diff = Math.abs(position.x - x);
-            if (diff <= distance) {
-                index = i;
-                distance = diff;
-            }
-        });
-
-        return index;
-    }
-
-
-    /**
-     * Turns off and on snapping.
-     * @param value
-     */
-    public enableSnapToClosest(value: boolean) {
-        this.useSnapToClosest = value;
-    }
-
-
-    /**
-     * Whether to add css var that indicate the current delta value of the
-     * css var.
-     */
-    public enableSlideDeltaValues(value: boolean) {
-        this.useSlideDeltaValues = value;
-        this.draw(true);
-    }
-
-
-
-    /**
-     * Allows you to add extra groups of html elements to add css effects to.  Each group
-     * must be the same length as the number of slides in the system.
-     *
-     * @param elementGroups
-     *
-     * Example:
-     * ```
-     * var chapters = Array.from(document.querySelectorAll('.chapters'));
-     *
-     * // Now add them.
-     * hr.addSlideDeltaValuesToElements([chapters]);
-     *
-     *
-     * ```
-     */
-    public addSlideDeltaValuesToElements(elementGroups: Array<Array<HTMLElement>>) {
-        // Loop through to check each group length matches the number of slides.
-        this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
-            if (group.length !== this.childrenPositions.length) {
-                throw new Error("The group you pass does not have the same number of elements as slides");
-            }
-        })
-
-        this.slideDeltaValuesElements = elementGroups;
-        this.draw(true);
-    }
-
-
-    public dispose(): void {
-        this.raf.dispose();
-        this.rafEv.dispose();
-        this.domWatcher.dispose();
-    }
-
+  public dispose(): void {
+    this.raf.dispose();
+    this.rafEv.dispose();
+    this.domWatcher.dispose();
+  }
 }

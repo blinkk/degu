@@ -1,10 +1,10 @@
-import { arrayf } from './arrayf';
+import {arrayf} from './arrayf';
 import test from 'ava';
 
 test('max', t => {
-  type Val = {a: number, b: number, c: number};
-  const valX = { a: 2, b: 3, c: 7 };
-  const valY = { a: 1, b: 4, c: 7 };
+  type Val = {a: number; b: number; c: number};
+  const valX = {a: 2, b: 3, c: 7};
+  const valY = {a: 1, b: 4, c: 7};
   const values = [valX, valY];
   const a = (value: Val) => value.a;
   const b = (value: Val) => value.b;
@@ -17,9 +17,9 @@ test('max', t => {
 });
 
 test('min', t => {
-  type Val = {a: number, b: number, c: number};
-  const valX = { a: 2, b: 3, c: 7 };
-  const valY = { a: 1, b: 4, c: 7 };
+  type Val = {a: number; b: number; c: number};
+  const valX = {a: 2, b: 3, c: 7};
+  const valY = {a: 1, b: 4, c: 7};
   const values = [valX, valY];
   const a = (value: Val) => value.a;
   const b = (value: Val) => value.b;

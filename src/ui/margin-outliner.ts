@@ -1,7 +1,5 @@
-
-import { DomWatcher } from '../dom/dom-watcher';
-import { urlParams } from '../dom/url-params';
-
+import {DomWatcher} from '../dom/dom-watcher';
+import {urlParams} from '../dom/url-params';
 
 export interface MarginOutlinerConfig {
   /**
@@ -13,18 +11,18 @@ export interface MarginOutlinerConfig {
   /**
    * The name of the css class to attached to each generated spacer item.
    */
-  cssClassName: string
+  cssClassName: string;
 
   /**
    * The query selector of all elements you want to check for margins / paddings
    * on the page.
    */
-  querySelector: string,
+  querySelector: string;
 
   /**
    * Specify an option url to enable outliner via url params.
    */
-  urlParamName?: string,
+  urlParamName?: string;
 }
 
 /**
@@ -84,7 +82,6 @@ export interface MarginOutlinerConfig {
  * ```
  */
 export class MarginOutliner {
-
   private watcher: DomWatcher;
   private config: MarginOutlinerConfig;
 
@@ -101,11 +98,10 @@ export class MarginOutliner {
     this.watcher.add({
       element: window,
       on: ['click', 'resize', 'scroll'],
-      callback: this.run.bind(this)
-    })
+      callback: this.run.bind(this),
+    });
     this.run();
   }
-
 
   private createSpacer(
     el: HTMLDivElement,
@@ -128,12 +124,10 @@ export class MarginOutliner {
     el.parentElement!.appendChild(spacerEl);
   }
 
-
   public run() {
     this.removeSpacers();
     this.createSpacers();
   }
-
 
   private createSpacers() {
     [].forEach.call(
@@ -147,7 +141,13 @@ export class MarginOutliner {
           const style = window.getComputedStyle(el);
           const rect = el.getBoundingClientRect();
           if (style.marginTop == `${size}px`) {
-            this.createSpacer(el, `${rect.top - size}px`, rect.left, size, false);
+            this.createSpacer(
+              el,
+              `${rect.top - size}px`,
+              rect.left,
+              size,
+              false
+            );
           }
           if (style.marginBottom == `${size}px`) {
             this.createSpacer(el, `${rect.bottom}px`, rect.left, size, false);
@@ -168,7 +168,6 @@ export class MarginOutliner {
       }
     );
   }
-
 
   private removeSpacers() {
     [].forEach.call(

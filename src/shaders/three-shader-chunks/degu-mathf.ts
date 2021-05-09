@@ -35,7 +35,6 @@ const deguGet2dRotationMatrix = `
    }
 `;
 
-
 /*
  * Returns a mat2 scale matrix.
  *
@@ -50,9 +49,6 @@ const deguGet2dScaleMatrix = `
       return mat2(scale, 0, 0, scale);
   }
 `;
-
-
-
 
 /**
  * A 2d based rotation.
@@ -71,8 +67,6 @@ const deguRotate2d = `
        return rotationMatrix * pt;
    }
 `;
-
-
 
 /**
  * Rotations an image.
@@ -113,8 +107,7 @@ const deguRotate2dImage = `
 
        return color;
    }
-`
-
+`;
 
 /**
  * Sin returns values between -1 and 1 but we often want 0-1.
@@ -135,8 +128,7 @@ const normalizedSin = `
   float normalizedSin(float radians) {
     return (sin(radians) + 1.0) / 2.0;
   }
-`
-
+`;
 
 /**
  * Raycast algo.
@@ -159,13 +151,12 @@ bool castRay( const vec3 & ro, const vec3 & rd, float & resT )
     }
     return false;
 }
-`
-
+`;
 
 /**
  * Common custom math functions for glsl.
  */
-export const deguMathf = (three:any)=> {
+export const deguMathf = (three: any) => {
   three.ShaderChunk.deguMathf = `
   ${deguGet2dRotationMatrix}
   ${deguGet2dScaleMatrix}
@@ -173,4 +164,4 @@ export const deguMathf = (three:any)=> {
   ${deguRotate2dImage}
   ${normalizedSin}
 `;
-}
+};

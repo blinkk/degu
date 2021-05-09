@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-export const noise = ()=> {
+export const noise = () => {
   THREE.ShaderChunk.noise = `
   //
   // Description : Array and textureless GLSL 2D/3D/4D simplex
@@ -802,4 +802,4 @@ export const noise = ()=> {
     return fract( sin( dot( pt + seed, scale ) ) * 43758.5453 + seed ) ;
   }
 `;
-}
+};

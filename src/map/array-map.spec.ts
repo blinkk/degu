@@ -1,4 +1,4 @@
-import { ArrayMap } from './array-map';
+import {ArrayMap} from './array-map';
 import test from 'ava';
 
 test('ArrayMap should always return an array', async t => {

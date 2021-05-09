@@ -1,4 +1,4 @@
-import { WebWorker } from "./web-worker";
+import {WebWorker} from './web-worker';
 
 /**
  * An experimental class that works with offscreen canvas and makes it
@@ -117,77 +117,73 @@ import { WebWorker } from "./web-worker";
  * @unstable
  */
 export class OffScreenCanvas {
-    private canvas: HTMLCanvasElement | null | any;
-    private offScreenHandler: Function | null;
-    private worker: WebWorker | null;
-    private canvasSent: boolean;
-    private initialized: boolean;
+  private canvas: HTMLCanvasElement | null | any;
+  private offScreenHandler: Function | null;
+  private worker: WebWorker | null;
+  private canvasSent: boolean;
+  private initialized: boolean;
 
-    constructor() {
-        this.canvas = null;
-        this.offScreenHandler = null;
-        this.worker = null;
-        this.canvasSent = false;
-        this.initialized = false;
+  constructor() {
+    this.canvas = null;
+    this.offScreenHandler = null;
+    this.worker = null;
+    this.canvasSent = false;
+    this.initialized = false;
+  }
+
+  /**
+   * Sets the canvas to be used as offSetCanvas.  Save the canvas to be
+   * used.
+   * @param canvas
+   */
+  setCanvas(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
+    // Make this into an offscreen canvas.
+    this.canvas = this.canvas['transferControlToOffscreen']();
+  }
+
+  /**
+   * The handler for the offscreen canvas worker.
+   * Note that the contents of this task are stringified and send to a separate
+   * thread so the contents of the task are sandboxed.  Same limitations as
+   * regular webworkers applieds (no access to DOM for exmaple)
+   * @param message
+   */
+  setCanvasTask(task: Function) {
+    this.offScreenHandler = task;
+    this.worker = new WebWorker(this.offScreenHandler);
+  }
+
+  /**
+   * Sends the first message to the worker with the transferable canvas
+   */
+  init(message: Record<string, any>) {
+    if (!this.canvas) {
+      throw new Error('Set your canvas first.');
     }
 
-    /**
-     * Sets the canvas to be used as offSetCanvas.  Save the canvas to be
-     * used.
-     * @param canvas
-     */
-    setCanvas(canvas: HTMLCanvasElement) {
-        this.canvas = canvas;
-        // Make this into an offscreen canvas.
-        this.canvas = this.canvas['transferControlToOffscreen']();
+    if (!this.worker) {
+      throw new Error('Set off screen handler first.');
     }
 
-    /**
-     * The handler for the offscreen canvas worker.
-     * Note that the contents of this task are stringified and send to a separate
-     * thread so the contents of the task are sandboxed.  Same limitations as
-     * regular webworkers applieds (no access to DOM for exmaple)
-     * @param message
-     */
-    setCanvasTask(task: Function) {
-        this.offScreenHandler = task;
-        this.worker = new WebWorker(this.offScreenHandler)
+    this.initialized = true;
+    message['canvas'] = this.canvas;
+    this.canvasSent = true;
+    return this.worker.run(message, [this.canvas]);
+  }
+
+  /**
+   * Sends a message to the worker.
+   * @param message
+   */
+  sendMessageToCanvas(message: Object) {
+    if (!this.canvasSent || !this.worker || !this.canvas || !this.initialized) {
+      throw new Error('You must initialize must.');
     }
+    return this.worker.run(message);
+  }
 
-
-    /**
-     * Sends the first message to the worker with the transferable canvas
-     */
-    init(message: Record<string, any>) {
-        if (!this.canvas) {
-            throw new Error('Set your canvas first.')
-        }
-
-        if (!this.worker) {
-            throw new Error('Set off screen handler first.');
-        }
-
-        this.initialized = true;
-        message['canvas'] = this.canvas;
-        this.canvasSent = true;
-        return this.worker.run(message, [this.canvas]);
-    }
-
-
-    /**
-     * Sends a message to the worker.
-     * @param message
-     */
-    sendMessageToCanvas(message: Object) {
-        if (!this.canvasSent || !this.worker || !this.canvas ||
-            !this.initialized) {
-            throw new Error('You must initialize must.')
-        }
-        return this.worker.run(message);
-    }
-
-    dispose() {
-        this.worker && this.worker.terminate();
-    }
-
+  dispose() {
+    this.worker && this.worker.terminate();
+  }
 }

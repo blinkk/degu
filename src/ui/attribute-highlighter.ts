@@ -1,8 +1,7 @@
-
-import { dom, is, Raf } from '..';
-import { DomWatcher } from '../dom/dom-watcher';
-import { func } from '../func/func';
-import { urlParams } from '../dom/url-params';
+import {dom, is, Raf} from '..';
+import {DomWatcher} from '../dom/dom-watcher';
+import {func} from '../func/func';
+import {urlParams} from '../dom/url-params';
 
 export interface HighlightElementGroup {
   highlighterEl: HTMLElement;
@@ -10,21 +9,21 @@ export interface HighlightElementGroup {
 }
 
 export interface AttributeScopeConfig {
-  attribute: string,
-  querySelector: string
+  attribute: string;
+  querySelector: string;
 }
 
 export interface AttributeHighlighterConfig {
   /**
    * The name of the css class to attached to each generated aria highlighter item.
    */
-  cssClassName: string
+  cssClassName: string;
 
   /**
    * A query selector to scope your scan to specific elements and its
    * children.
    */
-  scopeQuerySelector: string
+  scopeQuerySelector: string;
 
   /**
    * A list of all attributes you want to highlight on the page.
@@ -56,8 +55,7 @@ export interface AttributeHighlighterConfig {
    *
    *
    */
-  attributes: (string | AttributeScopeConfig)[],
-
+  attributes: (string | AttributeScopeConfig)[];
 
   /**
    * Allows you to search and highlight cases in which an attribute is missing
@@ -80,18 +78,18 @@ export interface AttributeHighlighterConfig {
    * ]
    * ```
    */
-  warnMissingAttributes?: (AttributeScopeConfig)[],
+  warnMissingAttributes?: AttributeScopeConfig[];
 
   /**
    * Specify an option url to enable attribute specification via url params.
    */
-  urlParamName?: string,
+  urlParamName?: string;
 
   /**
    * This classes uses Raf to continously update the attributes.
    * Set the raf FPS.
    */
-  rafFps?: number,
+  rafFps?: number;
 }
 
 /**
@@ -215,7 +213,6 @@ export class AttributeHighlighter {
       this.config.rafFps = 5;
     }
 
-
     // Allow url params to specify the attributes.
     if (this.config.urlParamName) {
       const paramValue = urlParams.getValue(this.config.urlParamName);
@@ -224,30 +221,25 @@ export class AttributeHighlighter {
       }
     }
 
-
     this.watcher = new DomWatcher();
     this.watcher.add({
       element: window,
       on: ['click', 'resize', 'scroll'],
-      callback: func.debounce(this.refresh.bind(this), 1)
-    })
-
+      callback: func.debounce(this.refresh.bind(this), 1),
+    });
 
     // Dedicated watcher for attributes.
     this.attributeWatcher = new DomWatcher();
-
 
     this.raf = new Raf(this.refresh.bind(this));
     this.raf.setFps(this.config.rafFps);
     this.raf.start();
   }
 
-
   public refresh() {
     this.removeHighlighters();
     this.createHighlighters();
   }
-
 
   /**
    * Creates a highlighter element.
@@ -263,8 +255,6 @@ export class AttributeHighlighter {
     attribute: string,
     isTypeMissing: boolean
   ) {
-
-
     // If this element is not visible on the page,
     // then skip.
     if (!dom.isVisibleOnScreen(attributeEl) && !isTypeMissing) {
@@ -285,8 +275,8 @@ export class AttributeHighlighter {
     }
 
     // Search for an existing highlightEl containing this attribute.
-    let spacerElGroup = this.highlighters.filter((h) => {
-      return ~h.attributeEls.indexOf(attributeEl)
+    let spacerElGroup = this.highlighters.filter(h => {
+      return ~h.attributeEls.indexOf(attributeEl);
     })[0];
 
     let isNew: boolean = true;
@@ -317,9 +307,9 @@ export class AttributeHighlighter {
 
     if (isNew) {
       const rect = attributeEl.getBoundingClientRect();
-      const center = `${(rect.top + rect.height / 2)}px`;
-      const bottom = `${(rect.bottom)}px`;
-      const top = `${(rect.top)}px`;
+      const center = `${rect.top + rect.height / 2}px`;
+      const bottom = `${rect.bottom}px`;
+      const top = `${rect.top}px`;
       const left = (rect.left + rect.right) / 2;
 
       if (rect.width > 80) {
@@ -332,7 +322,6 @@ export class AttributeHighlighter {
       spacerEl.style.setProperty('--top', top);
       spacerEl.style.setProperty('--bottom', bottom);
 
-
       // On hovering this spacerEl, we should highlight the associated
       // element.
       this.attributeWatcher.add({
@@ -344,10 +333,9 @@ export class AttributeHighlighter {
           this.raf.stop();
           window.setTimeout(() => {
             attributeEl.classList.add('attribute-highlighter-active');
-          })
-        }
-      })
-
+          });
+        },
+      });
 
       this.attributeWatcher.add({
         element: spacerEl,
@@ -359,8 +347,8 @@ export class AttributeHighlighter {
           window.setTimeout(() => {
             this.raf.start();
           }, 100);
-        }
-      })
+        },
+      });
 
       this.highlighters.push({
         highlighterEl: spacerEl,
@@ -370,18 +358,16 @@ export class AttributeHighlighter {
       spacerEl.classList.remove('up');
       el.parentElement!.appendChild(spacerEl);
     } else {
-
       // Update.
-      this.highlighters.forEach((h) => {
+      this.highlighters.forEach(h => {
         if (~h.attributeEls.indexOf(attributeEl)) {
           h.attributeEls.push(attributeEl);
         }
       });
     }
 
-
     // Avoid overlap.
-    this.highlighters.forEach((aHighlighter) => {
+    this.highlighters.forEach(aHighlighter => {
       const a = aHighlighter.highlighterEl;
       const isOverlapping = dom.isOverlapping(a, spacerEl);
       if (isOverlapping) {
@@ -394,15 +380,10 @@ export class AttributeHighlighter {
           spacerEl.style.setProperty('--height', spacerEl.offsetHeight + 'px');
         }
       }
-    })
-
-
+    });
   }
 
-
-
   private createHighlighters() {
-
     // // Flush attributeDom Watcher.
     this.attributeWatcher.removeAll();
 
@@ -416,15 +397,10 @@ export class AttributeHighlighter {
             [].forEach.call(
               el.querySelectorAll(`[${attribute}]`),
               (attributeEl: HTMLDivElement) => {
-                this.createHighlighter(
-                  el,
-                  attributeEl,
-                  attr,
-                  false
-                );
-              })
+                this.createHighlighter(el, attributeEl, attr, false);
+              }
+            );
           } else {
-
             // If this is a AttributeHighlighterConfig
             const attr = attribute as AttributeScopeConfig;
             const attrValue = attr.attribute;
@@ -432,15 +408,11 @@ export class AttributeHighlighter {
             [].forEach.call(
               el.querySelectorAll(`${query}`),
               (attributeEl: HTMLDivElement) => {
-                this.createHighlighter(
-                  el,
-                  attributeEl,
-                  attrValue,
-                  false
-                );
-              })
+                this.createHighlighter(el, attributeEl, attrValue, false);
+              }
+            );
           }
-        })
+        });
 
         if (this.config.warnMissingAttributes) {
           this.config.warnMissingAttributes.forEach(attribute => {
@@ -451,28 +423,21 @@ export class AttributeHighlighter {
             [].forEach.call(
               el.querySelectorAll(`${query}`),
               (attributeEl: HTMLDivElement) => {
-                this.createHighlighter(
-                  el,
-                  attributeEl,
-                  attrValue,
-                  true
-                );
-              })
+                this.createHighlighter(el, attributeEl, attrValue, true);
+              }
+            );
           });
         }
-
-      })
-
+      }
+    );
   }
-
 
   private removeHighlighters() {
-    this.highlighters.forEach((highlighter) => {
+    this.highlighters.forEach(highlighter => {
       dom.removeElement(highlighter.highlighterEl);
-    })
+    });
     this.highlighters = [];
   }
-
 
   public dispose() {
     this.watcher && this.watcher.dispose();

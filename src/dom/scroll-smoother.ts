@@ -1,14 +1,13 @@
-
-import { DomWatcher } from './dom-watcher';
-import { mathf } from '../mathf/mathf';
-import { Raf } from '../raf/raf';
+import {DomWatcher} from './dom-watcher';
+import {mathf} from '../mathf/mathf';
+import {Raf} from '../raf/raf';
 
 export interface ScrollSmootherConfig {
-    lerp: number,
-    damp: number,
-    root: HTMLElement,
-    onUpdate?: Function
-    topMode?: boolean
+  lerp: number;
+  damp: number;
+  root: HTMLElement;
+  onUpdate?: Function;
+  topMode?: boolean;
 }
 
 /**
@@ -53,120 +52,113 @@ export interface ScrollSmootherConfig {
  * the amount of scroll.
  */
 export class ScrollSmoother {
-    private settings: ScrollSmootherConfig;
-    private domWatcher: DomWatcher;
-    private raf: Raf;
-    private rootElement: HTMLElement;
-    // The current lerped y position.
-    private currentY: number = 0;
-    // The target y position.
-    private targetY: number = 0;
+  private settings: ScrollSmootherConfig;
+  private domWatcher: DomWatcher;
+  private raf: Raf;
+  private rootElement: HTMLElement;
+  // The current lerped y position.
+  private currentY: number = 0;
+  // The target y position.
+  private targetY: number = 0;
 
-    /*
-     * @type ResizeObserver https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
-     */
-    private resizer: any;
+  /*
+   * @type ResizeObserver https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+   */
+  private resizer: any;
 
-    constructor(config: ScrollSmootherConfig) {
-        this.settings = config;
-        this.raf = new Raf(this.onRaf.bind(this));
-        this.raf.setReadWriteMode(true);
+  constructor(config: ScrollSmootherConfig) {
+    this.settings = config;
+    this.raf = new Raf(this.onRaf.bind(this));
+    this.raf.setReadWriteMode(true);
 
-        this.domWatcher = new DomWatcher();
+    this.domWatcher = new DomWatcher();
 
-        this.resizer = new window['ResizeObserver']((entries:any) => {
-            for (const entry of entries) {
-               this.resize(entry.contentRect.height);
-            }
-        });
-        this.resizer['observe'](this.settings.root);
+    this.resizer = new window['ResizeObserver']((entries: any) => {
+      for (const entry of entries) {
+        this.resize(entry.contentRect.height);
+      }
+    });
+    this.resizer['observe'](this.settings.root);
 
+    this.domWatcher.add({
+      element: window,
+      on: 'scroll',
+      eventOptions: {passive: true},
+      callback: this.onWindowScroll.bind(this),
+    });
 
-        this.domWatcher.add({
-            element: window,
-            on: 'scroll',
-            eventOptions: { passive: true },
-            callback: this.onWindowScroll.bind(this),
-        });
+    this.resize();
+    this.targetY = window.scrollY;
+    this.raf.write(() => {
+      this.updateScrollPosition(1, 1);
+      this.raf.start();
+    });
+  }
 
+  public resize(height?: number) {
+    this.raf.read(() => {
+      if (!height) {
+        this.rootElement = this.settings.root;
+        height = this.rootElement.offsetHeight;
+      }
+      this.onElementResize(height);
+    });
+  }
 
-        this.resize();
+  private onElementResize(height: number) {
+    // document.body.style.height = 'auto';
+
+    this.raf.write(() => {
+      document.body.style.height = height + 'px';
+      this.rootElement.style.position = 'fixed';
+      this.rootElement.style.width = '100%';
+    });
+  }
+
+  private onRaf() {
+    // Cull unncessary updated based on a precision.
+    // Use precision 0, since we don't need subpixels.
+    this.raf.postWrite(() => {
+      this.updateScrollPosition(
+        this.settings.lerp || 1,
+        this.settings.damp || 1
+      );
+    });
+  }
+
+  private onWindowScroll() {
+    this.raf &&
+      this.raf.read(() => {
         this.targetY = window.scrollY;
-        this.raf.write(()=> {
-            this.updateScrollPosition(1,1);
-            this.raf.start();
-        });
+      });
+  }
+
+  private updateScrollPosition(lerp: number = 1, damp: number = 1) {
+    const prev = this.currentY;
+    let updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
+    // updated = updated >> 0;
+    this.currentY = updated;
+    if (prev == updated) {
+      return;
     }
 
-
-    public resize(height?:number) {
-        this.raf.read(()=> {
-            if(!height) {
-                this.rootElement = this.settings.root;
-                height = this.rootElement.offsetHeight;
-            }
-            this.onElementResize(height);
-        })
+    if (this.settings.topMode) {
+      this.rootElement.style.top = `-${this.currentY}px`;
+    } else {
+      this.rootElement.style.transform = `translateY(-${this.currentY}px) translateZ(0)`;
     }
 
-
-    private onElementResize(height:number) {
-        // document.body.style.height = 'auto';
-
-        this.raf.write(()=> {
-            document.body.style.height = height + 'px';
-            this.rootElement.style.position = 'fixed';
-            this.rootElement.style.width = '100%';
-        })
+    if (this.settings.onUpdate) {
+      this.settings.onUpdate(this.currentY, this.targetY);
     }
+  }
 
-
-    private onRaf() {
-        // Cull unncessary updated based on a precision.
-        // Use precision 0, since we don't need subpixels.
-        this.raf.postWrite(()=> {
-          this.updateScrollPosition(this.settings.lerp || 1, this.settings.damp || 1)
-        })
-    }
-
-
-    private onWindowScroll() {
-        this.raf && this.raf.read(()=> {
-          this.targetY = window.scrollY;
-        })
-    }
-
-
-    private updateScrollPosition(lerp:number = 1, damp:number = 1) {
-        const prev = this.currentY;
-        let updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
-        // updated = updated >> 0;
-        this.currentY = updated;
-        if (prev == updated) {
-            return;
-        }
-
-
-        if (this.settings.topMode) {
-            this.rootElement.style.top = `-${this.currentY}px`;
-        } else {
-            this.rootElement.style.transform = `translateY(-${this.currentY}px) translateZ(0)`;
-        }
-
-        if (this.settings.onUpdate) {
-            this.settings.onUpdate(this.currentY, this.targetY);
-        }
-
-    }
-
-
-    public dispose(): void {
-        this.domWatcher && this.domWatcher.dispose();
-        this.raf && this.raf.dispose();
-        document.body.style.height = '';
-        this.rootElement.style.position = '';
-        this.rootElement.style.width = '';
-        this.resizer['unobserve'](this.settings.root);
-    }
-
+  public dispose(): void {
+    this.domWatcher && this.domWatcher.dispose();
+    this.raf && this.raf.dispose();
+    document.body.style.height = '';
+    this.rootElement.style.position = '';
+    this.rootElement.style.width = '';
+    this.resizer['unobserve'](this.settings.root);
+  }
 }

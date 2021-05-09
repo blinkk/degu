@@ -1,15 +1,12 @@
-import { mathf } from '../mathf/mathf';
-import { is } from '../is/is';
-import { Raf } from './raf';
-import { EASE } from '..';
+import {mathf} from '../mathf/mathf';
+import {is} from '../is/is';
+import {Raf} from './raf';
+import {EASE} from '..';
 
 interface RafProgressRangeWatcher {
-    range: number | Array<number>;
-    callback: Function;
+  range: number | Array<number>;
+  callback: Function;
 }
-
-
-
 
 /**
  * A class that runs Raf for a limited time while a given progress
@@ -122,310 +119,319 @@ interface RafProgressRangeWatcher {
  * @noInheritDoc
  */
 export class RafProgress {
-    private raf: Raf;
-    public currentProgress: number;
-    private targetProgress: number;
-    private easeAmount: number;
-    private damp: number | null;
-    private easingFunction: Function | null;
-    private precision: number;
-    private rangeWatchers: Array<RafProgressRangeWatcher>;
-    private callbacks: Array<Function>;
-    // The current scroll direction.
-    private direction: number = 0;
+  private raf: Raf;
+  public currentProgress: number;
+  private targetProgress: number;
+  private easeAmount: number;
+  private damp: number | null;
+  private easingFunction: Function | null;
+  private precision: number;
+  private rangeWatchers: Array<RafProgressRangeWatcher>;
+  private callbacks: Array<Function>;
+  // The current scroll direction.
+  private direction: number = 0;
+
+  /**
+   * @param {Function} progressRafLoop  Optional function to be called on each
+   *    progress update event.
+   * @constructor
+   */
+  constructor(progressRafLoop?: Function) {
+    /**
+     * The internally known current progress.
+     */
+    this.currentProgress = 0;
 
     /**
-     * @param {Function} progressRafLoop  Optional function to be called on each
-     *    progress update event.
-     * @constructor
+     * The number of decimals to use when checking the equality of the
+     * previous progress versus current.
      */
-    constructor(progressRafLoop?: Function) {
-
-        /**
-         * The internally known current progress.
-         */
-        this.currentProgress = 0;
-
-
-        /**
-         * The number of decimals to use when checking the equality of the
-         * previous progress versus current.
-         */
-        this.precision = 10;
-
-        /**
-         * The amount of ease to apply.  This gets calculated as per RAF,
-         * how much of the difference between the current value and target
-         * should the current value be updated by.  Therefore, 1 would mean,
-         * the current value would immediately update to the target value after
-         * one RAF cycle.  Use 1 for no ease.
-         */
-        this.easeAmount = 1;
-
-        /**
-         * The amount of damp to apply. 1 is no damping.
-         */
-        this.damp = 1;
-
-        /**
-         * A collection of callbacks to be run at specific progress values.
-         */
-        this.rangeWatchers = [];
-
-        /**
-         * A collection of callbacks to be run when progress is changed.
-         */
-        this.callbacks = [];
-
-        this.targetProgress = this.currentProgress;
-        this.easingFunction = EASE.linear;
-
-        if (progressRafLoop) {
-            this.watch(progressRafLoop);
-        }
-
-        this.raf = new Raf(() => {
-            this.rafLoop();
-        });
-
-    }
+    this.precision = 10;
 
     /**
-     *  Force stops running calculations.
+     * The amount of ease to apply.  This gets calculated as per RAF,
+     * how much of the difference between the current value and target
+     * should the current value be updated by.  Therefore, 1 would mean,
+     * the current value would immediately update to the target value after
+     * one RAF cycle.  Use 1 for no ease.
      */
-    stop() {
-        this.raf.stop();
-    }
-
+    this.easeAmount = 1;
 
     /**
-     * Sets the FPS of the internal raf loop.
+     * The amount of damp to apply. 1 is no damping.
      */
-    setFps(fps: number) {
-        this.raf.setFps(fps);
-    }
-
+    this.damp = 1;
 
     /**
-     * Run calculations.  Normally. you would call easeTo to set the latest
-     * current progress, you may want to call this if forced stopped and want
-     * to restart the raf loop manually.
+     * A collection of callbacks to be run at specific progress values.
      */
-    run() {
-        this.raf.start();
-    }
-
+    this.rangeWatchers = [];
 
     /**
-     * Sets the precision.  Precision is used to check how closely the current
-     * progress is versus the previous progress per RAF cycle.
-     * The lower the number, the less precise.
-     *
-     * Use a lower number if you want want to improve performance since it will
-     * result in calling Raf fewer times.
+     * A collection of callbacks to be run when progress is changed.
      */
-    setPrecision(value: number) {
-        this.precision = value;
+    this.callbacks = [];
+
+    this.targetProgress = this.currentProgress;
+    this.easingFunction = EASE.linear;
+
+    if (progressRafLoop) {
+      this.watch(progressRafLoop);
     }
 
-    /**
-     * Adds a progress listener.
-     * @param {Function}
-     */
-    watch(callback: any) {
-        this.callbacks.push(callback);
+    this.raf = new Raf(() => {
+      this.rafLoop();
+    });
+  }
+
+  /**
+   *  Force stops running calculations.
+   */
+  stop() {
+    this.raf.stop();
+  }
+
+  /**
+   * Sets the FPS of the internal raf loop.
+   */
+  setFps(fps: number) {
+    this.raf.setFps(fps);
+  }
+
+  /**
+   * Run calculations.  Normally. you would call easeTo to set the latest
+   * current progress, you may want to call this if forced stopped and want
+   * to restart the raf loop manually.
+   */
+  run() {
+    this.raf.start();
+  }
+
+  /**
+   * Sets the precision.  Precision is used to check how closely the current
+   * progress is versus the previous progress per RAF cycle.
+   * The lower the number, the less precise.
+   *
+   * Use a lower number if you want want to improve performance since it will
+   * result in calling Raf fewer times.
+   */
+  setPrecision(value: number) {
+    this.precision = value;
+  }
+
+  /**
+   * Adds a progress listener.
+   * @param {Function}
+   */
+  watch(callback: any) {
+    this.callbacks.push(callback);
+  }
+
+  /**
+   * Removes a progress listener.
+   * @param {Function}
+   */
+  unwatch(callbackToRemove: any) {
+    this.callbacks = this.callbacks.filter(callback => {
+      return callback == callbackToRemove;
+    });
+  }
+
+  /**
+   * Sets a callback for a specific range.
+   * @param {number|Array<number>} A specific progress to watch for or
+   *     an array like [0.1, 0.4] specifying the range to be watched.
+   * @param {Function}
+   */
+  watchFor(range: number | Array<number>, callback: Function) {
+    this.rangeWatchers.push({
+      range: range,
+      callback: callback,
+    });
+  }
+
+  /**
+   * Removes a given
+   * @param callback
+   */
+  unwatchFor(callback: Function) {
+    this.rangeWatchers = this.rangeWatchers.filter(
+      (watcher: RafProgressRangeWatcher) => {
+        return watcher.callback !== callback;
+      }
+    );
+  }
+
+  /**
+   * Once raf is starated, updates on each raf cycle if raf is running.
+   * Dirty check for progress and stops raf once the value has stabilized.
+   */
+  private rafLoop() {
+    let previousProgress = this.currentProgress;
+
+    if (typeof this.damp === 'number') {
+      this.currentProgress = mathf.damp(
+        this.currentProgress,
+        this.targetProgress,
+        this.easeAmount,
+        this.damp
+      );
+    } else {
+      this.currentProgress = mathf.ease(
+        this.currentProgress,
+        this.targetProgress,
+        this.easeAmount,
+        this.easingFunction || EASE.linear
+      );
     }
 
-    /**
-     * Removes a progress listener.
-     * @param {Function}
-     */
-    unwatch(callbackToRemove: any) {
-        this.callbacks = this.callbacks.filter((callback) => {
-            return callback == callbackToRemove;
-        })
+    // Reduce the precision of progress.  We dont need to report progress differences
+    // of 0.0000001.
+    this.currentProgress = mathf.toFixed(this.currentProgress, this.precision);
+
+    // Based on the the precision, we want to make sure we return
+    // a complete 0 or complete 1 as integers at the bounds of the progress.
+    if (this.currentProgress < 0.5) {
+      this.currentProgress = mathf.floorToPrecision(
+        this.currentProgress,
+        this.precision - 1
+      );
+    } else {
+      this.currentProgress = mathf.ceilToPrecision(
+        this.currentProgress,
+        this.precision - 1
+      );
     }
 
-    /**
-     * Sets a callback for a specific range.
-     * @param {number|Array<number>} A specific progress to watch for or
-     *     an array like [0.1, 0.4] specifying the range to be watched.
-     * @param {Function}
-     */
-    watchFor(range: number | Array<number>, callback: Function) {
-        this.rangeWatchers.push({
-            range: range,
-            callback: callback
-        })
+    this.direction = mathf.direction(previousProgress, this.currentProgress);
+
+    // Call callbacks.
+    this.callbacks.forEach(callback => {
+      callback(this.currentProgress, this.direction);
+    });
+
+    // Loop through watchers.
+    this.rangeWatchers.forEach((watcher: RafProgressRangeWatcher) => {
+      let isBetween = false;
+      if (Array.isArray(watcher.range)) {
+        isBetween = mathf.isBetween(
+          this.currentProgress,
+          watcher.range[0],
+          watcher.range[1]
+        );
+      } else {
+        // If we are only watching for a specific value, we used the
+        // previous progress to see if we passed it.
+        isBetween = mathf.isBetween(
+          <number>watcher.range,
+          this.currentProgress,
+          previousProgress
+        );
+      }
+
+      if (isBetween) {
+        watcher.callback(this.currentProgress, this.direction);
+      }
+    });
+
+    // Stop RAF if the value of progress has stabilized.
+    if (previousProgress == this.currentProgress) {
+      this.raf.stop();
     }
+  }
 
-    /**
-     * Removes a given
-     * @param callback
-     */
-    unwatchFor(callback: Function) {
-        this.rangeWatchers = this.rangeWatchers.filter(
-            (watcher: RafProgressRangeWatcher) => {
-                return watcher.callback !== callback;
-            });
-    }
+  /**
+   * Sets the current progress.  This forces an immediate update to
+   * the passed progress.
+   */
+  setCurrentProgress(progress: number, noClamp: boolean = true) {
+    this.currentProgress = noClamp ? progress : mathf.clampAsProgress(progress);
+    this.targetProgress = this.currentProgress;
+    this.easeAmount = 1;
+    // Run the raf loop once.
+    this.raf.start();
+  }
 
-    /**
-     * Once raf is starated, updates on each raf cycle if raf is running.
-     * Dirty check for progress and stops raf once the value has stabilized.
-     */
-    private rafLoop() {
-        let previousProgress = this.currentProgress;
+  /**
+   * Eases the progress to a target value.  Until that value is reached,
+   * the progressRafLoop is called.
+   *
+   * @param {number} targetProgress The progress to get to.
+   * @param {number} easeAmount The amount to ease. This gets calculated as per
+   *     RAF, how much of the difference between the current value and target
+   *     should the current value be updated by.  Therefore, 1 would mean
+   *     no ease. 0.1 would mean a lot of ease.
+   * @param {Function} easingFunction An optional easing funciton.  Defaults to
+   *     linear.
+   * @param {boolean} noClamp Prevent progress clamping.  Allows values outside
+   *      range of 0-1.
+   *
+   */
+  public easeTo(
+    targetProgress: number,
+    easeAmount: number,
+    easingFunction: Function = EASE.linear,
+    noClamp: boolean = false
+  ) {
+    this.targetProgress = noClamp
+      ? targetProgress
+      : mathf.clampAsProgress(targetProgress);
+    this.easeAmount = mathf.clampAsPercent(easeAmount);
+    this.easingFunction = easingFunction;
+    this.damp = null;
 
-        if(typeof this.damp === 'number') {
-            this.currentProgress =
-                mathf.damp(this.currentProgress,
-                    this.targetProgress,
-                    this.easeAmount,
-                    this.damp);
-        } else {
-            this.currentProgress =
-                mathf.ease(this.currentProgress,
-                    this.targetProgress,
-                    this.easeAmount,
-                    this.easingFunction || EASE.linear);
-        }
+    // Start up RAF to make updates and ease to the target progress.
+    // Make sure we force a restart since sometimes, you can get multiple
+    // call to this in the same raf cycle and if stop is called at the end
+    // our animation won't be guaranteed to start.
+    this.raf.start(true);
+  }
 
-        // Reduce the precision of progress.  We dont need to report progress differences
-        // of 0.0000001.
-        this.currentProgress =
-            mathf.toFixed(this.currentProgress, this.precision);
+  /**
+   * Similar to easeTo but applied a smoothdamp instead.
+   * @param targetProgress
+   * @param easeAmount
+   * @param damp
+   */
+  public dampTo(
+    targetProgress: number,
+    easeAmount: number,
+    damp: number,
+    noClamp: boolean = false
+  ): void {
+    this.targetProgress = noClamp
+      ? targetProgress
+      : mathf.clampAsProgress(targetProgress);
+    this.easeAmount = mathf.clampAsPercent(easeAmount);
+    this.easingFunction = null;
+    this.damp = damp;
 
-        // Based on the the precision, we want to make sure we return
-        // a complete 0 or complete 1 as integers at the bounds of the progress.
-        if (this.currentProgress < 0.5) {
-            this.currentProgress =
-                mathf.floorToPrecision(this.currentProgress, this.precision - 1)
-        } else {
-            this.currentProgress =
-                mathf.ceilToPrecision(this.currentProgress, this.precision - 1)
-        }
+    // Start up RAF to make updates and ease to the target progress.
+    // Make sure we force a restart since sometimes, you can get multiple
+    // call to this in the same raf cycle and if stop is called at the end
+    // our animation won't be guaranteed to start.
+    this.raf.start(true);
+  }
 
+  /**
+   * Gets the lerp delta - the difference between the current ease and the
+   * targetEase (where it should be if it caught up).
+   */
+  public getLerpDelta() {
+    return this.targetProgress - this.currentProgress;
+  }
 
-        this.direction = mathf.direction(previousProgress, this.currentProgress);
+  /**
+   * Gets the current scroll direction. 1 is down scroll, -1 is up scroll and
+   * 0 is no scroll (when progress is catching up).
+   */
+  public getScrollDirection(): number {
+    return this.direction;
+  }
 
-        // Call callbacks.
-        this.callbacks.forEach((callback) => {
-            callback(this.currentProgress, this.direction);
-        })
-
-        // Loop through watchers.
-        this.rangeWatchers.forEach((watcher: RafProgressRangeWatcher) => {
-            let isBetween = false;
-            if (Array.isArray(watcher.range)) {
-                isBetween = mathf.isBetween(this.currentProgress,
-                    watcher.range[0], watcher.range[1]);
-            } else {
-                // If we are only watching for a specific value, we used the
-                // previous progress to see if we passed it.
-                isBetween = mathf.isBetween(<number>watcher.range,
-                    this.currentProgress, previousProgress);
-            }
-
-            if (isBetween) {
-                watcher.callback(this.currentProgress, this.direction);
-            }
-        })
-
-
-
-
-        // Stop RAF if the value of progress has stabilized.
-        if (previousProgress == this.currentProgress) {
-            this.raf.stop();
-        }
-    }
-
-    /**
-     * Sets the current progress.  This forces an immediate update to
-     * the passed progress.
-     */
-    setCurrentProgress(progress: number, noClamp: boolean = true) {
-        this.currentProgress = noClamp ? progress :
-            mathf.clampAsProgress(progress);
-        this.targetProgress = this.currentProgress;
-        this.easeAmount = 1;
-        // Run the raf loop once.
-        this.raf.start();
-    }
-
-    /**
-     * Eases the progress to a target value.  Until that value is reached,
-     * the progressRafLoop is called.
-     *
-     * @param {number} targetProgress The progress to get to.
-     * @param {number} easeAmount The amount to ease. This gets calculated as per
-     *     RAF, how much of the difference between the current value and target
-     *     should the current value be updated by.  Therefore, 1 would mean
-     *     no ease. 0.1 would mean a lot of ease.
-     * @param {Function} easingFunction An optional easing funciton.  Defaults to
-     *     linear.
-     * @param {boolean} noClamp Prevent progress clamping.  Allows values outside
-     *      range of 0-1.
-     *
-     */
-    public easeTo(targetProgress: number, easeAmount: number,
-        easingFunction: Function = EASE.linear,
-        noClamp: boolean = false) {
-
-        this.targetProgress = noClamp ? targetProgress : mathf.clampAsProgress(targetProgress);
-        this.easeAmount = mathf.clampAsPercent(easeAmount);
-        this.easingFunction = easingFunction;
-        this.damp = null;
-
-        // Start up RAF to make updates and ease to the target progress.
-        // Make sure we force a restart since sometimes, you can get multiple
-        // call to this in the same raf cycle and if stop is called at the end
-        // our animation won't be guaranteed to start.
-        this.raf.start(true);
-    }
-
-
-    /**
-     * Similar to easeTo but applied a smoothdamp instead.
-     * @param targetProgress
-     * @param easeAmount
-     * @param damp
-     */
-    public dampTo(targetProgress:number, easeAmount:number, damp:number, noClamp: boolean = false):void {
-        this.targetProgress = noClamp ? targetProgress : mathf.clampAsProgress(targetProgress);
-        this.easeAmount = mathf.clampAsPercent(easeAmount);
-        this.easingFunction = null;
-        this.damp = damp;
-
-        // Start up RAF to make updates and ease to the target progress.
-        // Make sure we force a restart since sometimes, you can get multiple
-        // call to this in the same raf cycle and if stop is called at the end
-        // our animation won't be guaranteed to start.
-        this.raf.start(true);
-    }
-
-    /**
-     * Gets the lerp delta - the difference between the current ease and the
-     * targetEase (where it should be if it caught up).
-     */
-    public getLerpDelta() {
-        return this.targetProgress - this.currentProgress;
-    }
-
-
-    /**
-     * Gets the current scroll direction. 1 is down scroll, -1 is up scroll and
-     * 0 is no scroll (when progress is catching up).
-     */
-    public getScrollDirection():number {
-        return this.direction;
-    }
-
-    dispose() {
-        this.raf.dispose();
-        this.callbacks = [];
-        this.rangeWatchers = [];
-    }
-
+  dispose() {
+    this.raf.dispose();
+    this.callbacks = [];
+    this.rangeWatchers = [];
+  }
 }
