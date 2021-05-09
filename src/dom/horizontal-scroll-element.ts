@@ -295,26 +295,26 @@ export class HorizontalScrollElement {
   private root: HTMLElement;
   private domWatcher: DomWatcher;
   private mouseState: HorizontalScrollElementMouseState;
-  private currentX: number = 0;
-  private targetX: number = 0;
+  private currentX = 0;
+  private targetX = 0;
   private rafEv: ElementVisibilityObject;
   private raf: Raf;
-  private useSnapToClosest: boolean = false;
-  private shouldLeftAlign: boolean = false;
+  private useSnapToClosest = false;
+  private shouldLeftAlign = false;
   private items: Array<HTMLElement>;
   private childrenPositions: Array<HorizontalScrollElementPositions> = [];
-  private index: number = 0;
-  private useSlideDeltaValues: boolean = false;
-  private rootWidth: number = 0;
-  private scrollWidth: number = 0;
-  private firstItemCenterOffset: number = 0;
-  private lastItemCenterOffset: number = 0;
+  private index = 0;
+  private useSlideDeltaValues = false;
+  private rootWidth = 0;
+  private scrollWidth = 0;
+  private firstItemCenterOffset = 0;
+  private lastItemCenterOffset = 0;
   private slideDeltaValuesElements: Array<Array<HTMLElement>> = [];
-  private ranFirstEv: boolean = false;
-  private windowWidth: number = 0;
+  private ranFirstEv = false;
+  private windowWidth = 0;
   private dragBounce: number;
-  private resizing: boolean = false;
-  private itemCount: number = 0;
+  private resizing = false;
+  private itemCount = 0;
 
   constructor(config: HorizontalScrollElementConfig) {
     this.root = config.rootElement;
@@ -382,7 +382,7 @@ export class HorizontalScrollElement {
     });
   }
 
-  public draw(immediate: boolean = false) {
+  public draw(immediate = false) {
     if (!this.childrenPositions || !this.childrenPositions.length) {
       this.onWindowResize();
       return;
@@ -451,7 +451,7 @@ export class HorizontalScrollElement {
 
   private setupMouseDrag() {
     const downHandler = (e: any) => {
-      let eventX = (e.touches && e.touches[0].clientX) || e.x;
+      const eventX = (e.touches && e.touches[0].clientX) || e.x;
       this.mouseState = {
         x: eventX,
         down: true,
@@ -507,18 +507,18 @@ export class HorizontalScrollElement {
         });
       }
 
-      let eventX = (e.touches && e.touches[0].clientX) || e.x;
+      const eventX = (e.touches && e.touches[0].clientX) || e.x;
       if (this.mouseState.down) {
         this.mouseState.x = eventX;
-        let diff = this.mouseState.lastX - this.mouseState.x;
+        const diff = this.mouseState.lastX - this.mouseState.x;
         // Drag sensititiy.  The higher the less effort requires to move around.
         // Make it less sensitive towards mobile.
-        let normalizedWindowSize = mathf.inverseLerp(
+        const normalizedWindowSize = mathf.inverseLerp(
           300,
           3000,
           this.windowWidth
         );
-        let dragSensitivity = mathf.lerp(3, 4, normalizedWindowSize);
+        const dragSensitivity = mathf.lerp(3, 4, normalizedWindowSize);
         this.setTargetX(this.targetX + diff * dragSensitivity);
         this.mouseState.lastX = this.mouseState.x;
       }
@@ -560,7 +560,7 @@ export class HorizontalScrollElement {
       this.mouseState.down = false;
 
       if (this.useSnapToClosest) {
-        let index = this.findClosestIndexToX(this.targetX);
+        const index = this.findClosestIndexToX(this.targetX);
         this.slideTo(index, false);
       }
     };
@@ -591,7 +591,7 @@ export class HorizontalScrollElement {
     });
   }
 
-  private onWindowResize(immediate: boolean = false): void {
+  private onWindowResize(immediate = false): void {
     this.root.classList.add('resizing');
     window.setTimeout(
       () => {
@@ -625,14 +625,14 @@ export class HorizontalScrollElement {
 
     this.childrenPositions = [];
     this.items.forEach(child => {
-      let baseX = this.currentX;
+      const baseX = this.currentX;
       // let x = child.offsetLeft;
-      let x = child.offsetLeft;
-      let bounds = child.getBoundingClientRect();
-      let width = child.offsetWidth;
+      const x = child.offsetLeft;
+      const bounds = child.getBoundingClientRect();
+      const width = child.offsetWidth;
 
       // console.log('item width', itemWidth, this.itemCount);
-      let baseWidth = this.root.offsetWidth;
+      const baseWidth = this.root.offsetWidth;
       this.childrenPositions.push({
         el: child,
         x: x,
@@ -646,8 +646,9 @@ export class HorizontalScrollElement {
     // Add currentX to account for the current position.
     this.scrollWidth = this.root.scrollWidth + this.currentX;
     this.firstItemCenterOffset = this.childrenPositions[0].centerX;
-    this.lastItemCenterOffset =
-      this.childrenPositions[this.childrenPositions.length - 1].centerX;
+    this.lastItemCenterOffset = this.childrenPositions[
+      this.childrenPositions.length - 1
+    ].centerX;
 
     // If we are in left align mode, the index count
     // is calculated differently.  The last index
@@ -767,7 +768,7 @@ export class HorizontalScrollElement {
     let distance = 10000;
 
     this.childrenPositions.forEach((position, i) => {
-      let diff = Math.abs(position.x - x);
+      const diff = Math.abs(position.x - x);
       if (diff <= distance) {
         index = i;
         distance = diff;

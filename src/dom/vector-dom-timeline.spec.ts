@@ -13,8 +13,8 @@ test('generateStoryboard', t => {
     {progress: 0.8, alpha: 0.6},
   ];
 
-  let result = VectorDomTimeline.generateStoryboard(keys, testTimeline);
-  let expected = {
+  const result = VectorDomTimeline.generateStoryboard(keys, testTimeline);
+  const expected = {
     alpha: [
       {progress: 0, alpha: 0},
       {progress: 0.2, alpha: 0},
@@ -27,7 +27,7 @@ test('generateStoryboard', t => {
 });
 
 test('getStartAndEndTimelineFromStoryboard', t => {
-  let storyboard = {
+  const storyboard = {
     alpha: [
       {progress: 0, alpha: 0},
       {progress: 0.2, alpha: 0},

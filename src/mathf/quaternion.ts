@@ -65,7 +65,7 @@ export class Quaternion {
    */
   public w: number;
 
-  constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 1) {
+  constructor(x = 0, y = 0, z = 0, w = 1) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -89,7 +89,7 @@ export class Quaternion {
   /**
    * Sets x, y, z, w of this quaternion.
    */
-  set(x: number = 0, y: number = 0, z: number = 0, w: number = 1) {
+  set(x = 0, y = 0, z = 0, w = 1) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -151,7 +151,7 @@ export class Quaternion {
     y = mathf.degreeToRadian(y);
     z = mathf.degreeToRadian(z);
 
-    let q = Quaternion.fromEuler(x, y, z);
+    const q = Quaternion.fromEuler(x, y, z);
     this.multiply(q);
     return this;
   }
@@ -204,16 +204,16 @@ export class Quaternion {
    * @param b
    */
   static multiply(a: Quaternion, b: Quaternion): Quaternion {
-    let ax = a.x,
+    const ax = a.x,
       ay = a.y,
       az = a.z,
       aw = a.w;
-    let bx = b.x,
+    const bx = b.x,
       by = b.y,
       bz = b.z,
       bw = b.w;
 
-    let out = Quaternion.IDENTITY;
+    const out = Quaternion.IDENTITY;
     out.x = ax * bw + aw * bx + ay * bz - az * by;
     out.y = ay * bw + aw * by + az * bx - ax * bz;
     out.z = az * bw + aw * bz + ax * by - ay * bx;
@@ -238,7 +238,7 @@ export class Quaternion {
    * @param a
    */
   multiply(a: Quaternion): Quaternion {
-    let n = Quaternion.multiply(this, a);
+    const n = Quaternion.multiply(this, a);
     this.copy(n);
     return this;
   }
@@ -345,7 +345,7 @@ export class Quaternion {
    * @param z
    */
   slerpEuler(x: number, y: number, z: number, progress: number): Quaternion {
-    let target = Quaternion.fromEuler(x, y, z);
+    const target = Quaternion.fromEuler(x, y, z);
     this.slerp(target, progress);
     return this;
   }
@@ -380,14 +380,14 @@ export class Quaternion {
     const ax = this.x;
     const ay = this.y;
     const az = this.z;
-    var aw = this.w;
+    const aw = this.w;
 
-    var bx = q.x;
-    var by = q.y;
-    var bz = q.z;
-    var bw = q.w;
+    let bx = q.x;
+    let by = q.y;
+    let bz = q.z;
+    let bw = q.w;
 
-    var cosom = ax * bx + ay * by + az * bz + aw * bw;
+    let cosom = ax * bx + ay * by + az * bz + aw * bw;
 
     if (cosom < 0) {
       cosom = -cosom;
@@ -401,8 +401,8 @@ export class Quaternion {
     let s1 = progress;
 
     if (1 - cosom > EPSILON) {
-      var omega = Math.acos(cosom);
-      var sinom = Math.sin(omega);
+      const omega = Math.acos(cosom);
+      const sinom = Math.sin(omega);
       s0 = Math.sin((1.0 - progress) * omega) / sinom;
       s1 = Math.sin(progress * omega) / sinom;
     }
@@ -438,7 +438,7 @@ export class Quaternion {
    * @param rad
    */
   rotateX(degree: number): Quaternion {
-    let q1 = Quaternion.IDENTITY.angleAxis(
+    const q1 = Quaternion.IDENTITY.angleAxis(
       mathf.degreeToRadian(degree),
       Vector.RIGHT
     );
@@ -450,7 +450,7 @@ export class Quaternion {
    * @param rad
    */
   rotateY(degree: number): Quaternion {
-    let q1 = Quaternion.IDENTITY.angleAxis(
+    const q1 = Quaternion.IDENTITY.angleAxis(
       mathf.degreeToRadian(degree),
       Vector.UP
     );
@@ -462,7 +462,7 @@ export class Quaternion {
    * @param rad
    */
   rotateZ(degree: number): Quaternion {
-    let q1 = Quaternion.IDENTITY.angleAxis(
+    const q1 = Quaternion.IDENTITY.angleAxis(
       mathf.degreeToRadian(degree),
       Vector.FORWARD
     );
@@ -509,23 +509,23 @@ export class Quaternion {
     x = mathf.degreeToRadian(x);
     y = mathf.degreeToRadian(y);
     z = mathf.degreeToRadian(z);
-    var cos = Math.cos;
-    var sin = Math.sin;
+    const cos = Math.cos;
+    const sin = Math.sin;
 
-    var c1 = cos(x / 2);
-    var c2 = cos(y / 2);
-    var c3 = cos(z / 2);
+    const c1 = cos(x / 2);
+    const c2 = cos(y / 2);
+    const c3 = cos(z / 2);
 
-    var s1 = sin(x / 2);
-    var s2 = sin(y / 2);
-    var s3 = sin(z / 2);
+    const s1 = sin(x / 2);
+    const s2 = sin(y / 2);
+    const s3 = sin(z / 2);
 
     // XYZ ordering.
     // https://github.com/mrdoob/three.js/blob/master/src/math/Quaternion.js#L224
-    let rx = s1 * c2 * c3 + c1 * s2 * s3;
-    let ry = c1 * s2 * c3 - s1 * c2 * s3;
-    let rz = c1 * c2 * s3 + s1 * s2 * c3;
-    let rw = c1 * c2 * c3 - s1 * s2 * s3;
+    const rx = s1 * c2 * c3 + c1 * s2 * s3;
+    const ry = c1 * s2 * c3 - s1 * c2 * s3;
+    const rz = c1 * c2 * s3 + s1 * s2 * c3;
+    const rw = c1 * c2 * c3 - s1 * s2 * s3;
 
     return new Quaternion(rx, ry, rz, rw);
   }
@@ -568,7 +568,7 @@ export class Quaternion {
   static toEulerVector(q: Quaternion): Vector {
     let result = Vector.ZERO;
     // // Create a rotation matrix from the quaternion.
-    let matrix = MatrixIV.fromQuaternion(q.clone());
+    const matrix = MatrixIV.fromQuaternion(q.clone());
     result = Vector.fromRotationMatrixIV(matrix);
     return result;
   }
@@ -595,7 +595,7 @@ export class Quaternion {
   angleAxis(rad: number, axis: Vector) {
     rad = rad * 0.5;
 
-    var s = Math.sin(rad);
+    const s = Math.sin(rad);
 
     this.x = s * axis.x;
     this.y = s * axis.y;
@@ -612,25 +612,25 @@ export class Quaternion {
   static fromRotationMatrixIV(m: MatrixIV) {
     let q = Quaternion.IDENTITY;
 
-    var a00 = m.value[0];
-    var a01 = m.value[1];
-    var a02 = m.value[2];
-    var a03 = m.value[3];
+    const a00 = m.value[0];
+    const a01 = m.value[1];
+    const a02 = m.value[2];
+    const a03 = m.value[3];
 
-    var a10 = m.value[4];
-    var a11 = m.value[5];
-    var a12 = m.value[6];
-    var a13 = m.value[7];
+    const a10 = m.value[4];
+    const a11 = m.value[5];
+    const a12 = m.value[6];
+    const a13 = m.value[7];
 
-    var a20 = m.value[8];
-    var a21 = m.value[9];
-    var a22 = m.value[10];
-    var a23 = m.value[11];
+    const a20 = m.value[8];
+    const a21 = m.value[9];
+    const a22 = m.value[10];
+    const a23 = m.value[11];
 
-    var a30 = m.value[12];
-    var a31 = m.value[13];
-    var a32 = m.value[14];
-    var a33 = m.value[15];
+    const a30 = m.value[12];
+    const a31 = m.value[13];
+    const a32 = m.value[14];
+    const a33 = m.value[15];
 
     // q.w = Math.sqrt(1.0 + a00 + a11 + a22) / 2.0;
     // let w4 = (4.0 * q.w);
@@ -691,15 +691,15 @@ export class Quaternion {
    * @param target
    */
   static rotateTo(source: Vector, target: Vector, up: Vector) {
-    var m = MatrixIV.IDENTITY;
+    const m = MatrixIV.IDENTITY;
     m.lookAt(target, source, up);
 
-    var temp = m.value;
+    const temp = m.value;
     //         var m00 = temp.n11, m10 = temp.n21, m20 = temp.n31,
     // m01 = temp.n12, m11 = temp.n22, m21 = temp.n32,
     // m02 = temp.n13, m12 = temp.n23, m22 = temp.n33;
 
-    var m00 = temp[0],
+    const m00 = temp[0],
       m10 = temp[1],
       m20 = temp[2],
       m01 = temp[5],
@@ -709,7 +709,7 @@ export class Quaternion {
       m12 = temp[10],
       m22 = temp[11];
 
-    var t = m00 + m11 + m22,
+    let t = m00 + m11 + m22,
       s,
       x,
       y,
@@ -742,7 +742,7 @@ export class Quaternion {
       w = (m10 - m01) / s;
     }
 
-    var rotation = new Quaternion(x, y, z, w);
+    const rotation = new Quaternion(x, y, z, w);
     rotation.normalize();
     return rotation;
   }

@@ -368,7 +368,7 @@ export class XGameObject {
   get globalComputedBox(): XGameConfigComputedBox {
     // First figure out the coordinates of each corner
     // without the rotation.
-    let box = {
+    const box = {
       centerPoint: {
         x: this.gcx,
         y: this.gcy,

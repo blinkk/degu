@@ -147,7 +147,7 @@ export class WebWorker {
     transfer?: Array<any>
   ): Promise<Object> {
     return new Promise<Object>((resolve, reject) => {
-      var blob = new Blob([this.codeToRun], {type: 'application/javascript'});
+      const blob = new Blob([this.codeToRun], {type: 'application/javascript'});
       const blobUrl = URL.createObjectURL(blob);
       const worker = new Worker(blobUrl);
 
@@ -167,7 +167,9 @@ export class WebWorker {
   run(paramsToSend: Object, transfer?: Array<any>): Promise<Object> {
     return new Promise<Object>((resolve, reject) => {
       if (!this.worker) {
-        var blob = new Blob([this.codeToRun], {type: 'application/javascript'});
+        const blob = new Blob([this.codeToRun], {
+          type: 'application/javascript',
+        });
         const blobUrl = URL.createObjectURL(blob);
         this.worker = new Worker(blobUrl);
       }

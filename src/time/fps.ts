@@ -77,12 +77,12 @@ export class Fps {
   /**
    * The time measurement used to measure internal fps.
    */
-  private lastUpdateTime: number = 0;
+  private lastUpdateTime = 0;
 
   /**
    * A timeout that is used for scheduling.
    */
-  private scheduleTimeout: number = 0;
+  private scheduleTimeout = 0;
 
   constructor(fps: number) {
     this.fps = fps;

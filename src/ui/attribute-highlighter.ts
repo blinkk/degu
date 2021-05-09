@@ -262,7 +262,7 @@ export class AttributeHighlighter {
     }
 
     let isMissingText = false;
-    let text = attributeEl.getAttribute(attribute);
+    const text = attributeEl.getAttribute(attribute);
 
     if (text == 'None' || text == '' || !text) {
       isMissingText = true;
@@ -275,11 +275,11 @@ export class AttributeHighlighter {
     }
 
     // Search for an existing highlightEl containing this attribute.
-    let spacerElGroup = this.highlighters.filter(h => {
+    const spacerElGroup = this.highlighters.filter(h => {
       return ~h.attributeEls.indexOf(attributeEl);
     })[0];
 
-    let isNew: boolean = true;
+    let isNew = true;
     let spacerEl = document.createElement('div');
     if (spacerElGroup) {
       spacerEl = spacerElGroup.highlighterEl as HTMLDivElement;
@@ -315,7 +315,7 @@ export class AttributeHighlighter {
       if (rect.width > 80) {
         spacerEl.style.setProperty('--max-width', `${rect.width * 1.5}px`);
       } else {
-        spacerEl.style.setProperty('--max-width', `80px`);
+        spacerEl.style.setProperty('--max-width', '80px');
       }
       spacerEl.style.setProperty('--left', `${left}px`);
       spacerEl.style.setProperty('--center', center);

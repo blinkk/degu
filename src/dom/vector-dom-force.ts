@@ -80,18 +80,18 @@ export class VectorDomForce implements VectorDomComponent {
    * ```
    */
   public mouseRotationForce(
-    xScalar: number = 0.0005,
-    yScalar: number = 0.0005,
-    zScalar: number = 0,
-    lerp: number = 0.02
+    xScalar = 0.0005,
+    yScalar = 0.0005,
+    zScalar = 0,
+    lerp = 0.02
   ) {
-    let mouse = this.host.mouse;
-    let globalElementCenterPosition = this.host.globalElementCenterPosition;
-    let globalMousePosition = mouse.position.clone();
+    const mouse = this.host.mouse;
+    const globalElementCenterPosition = this.host.globalElementCenterPosition;
+    const globalMousePosition = mouse.position.clone();
     globalMousePosition.y = globalMousePosition.y - globalWindow.scrollY;
 
     // Get the angle difference between target and the center of this element.
-    let angleDelta = Vector.getXyzRotationTo(
+    const angleDelta = Vector.getXyzRotationTo(
       globalElementCenterPosition,
       globalMousePosition
     );
@@ -102,7 +102,7 @@ export class VectorDomForce implements VectorDomComponent {
     angleDelta[2] = angleDelta[2] * zScalar * 0;
 
     // Make that into a vector.
-    let targetRotation = Vector.fromArray(angleDelta);
+    const targetRotation = Vector.fromArray(angleDelta);
 
     // TODO (uxder) Is rx inverted?
     targetRotation.x = -targetRotation.x;
@@ -161,14 +161,14 @@ export class VectorDomForce implements VectorDomComponent {
    * ```
    */
   public scrollYRotationForce(
-    xScalar: number = 0,
-    yScalar: number = 0.0005,
-    zScalar: number = 0,
-    lerp: number = 0.02
+    xScalar = 0,
+    yScalar = 0.0005,
+    zScalar = 0,
+    lerp = 0.02
   ) {
-    let globalElementCenterPosition = this.host.globalElementCenterPosition;
+    const globalElementCenterPosition = this.host.globalElementCenterPosition;
 
-    let windowCenter = new Vector(
+    const windowCenter = new Vector(
       globalWindow.width / 2,
       globalWindow.height / 2
     );
@@ -179,7 +179,7 @@ export class VectorDomForce implements VectorDomComponent {
     windowCenter.z = globalElementCenterPosition.z;
 
     // Get the angle difference between window center and the center of this element.
-    let angleDelta = Vector.getXyzRotationTo(
+    const angleDelta = Vector.getXyzRotationTo(
       globalElementCenterPosition,
       windowCenter
     );
@@ -193,7 +193,7 @@ export class VectorDomForce implements VectorDomComponent {
     angleDelta[1] = angleDelta[1] * yScalar;
 
     // Make that into a vector.
-    let targetRotation = Vector.fromArray(angleDelta);
+    const targetRotation = Vector.fromArray(angleDelta);
 
     // TODO (uxder) Is rx inverted?
     targetRotation.x = -targetRotation.x;
@@ -211,7 +211,10 @@ export class VectorDomForce implements VectorDomComponent {
     // This effectively, applies the force to the main rotation vector
     // but as the internal rotationMouseForce gets closer to the target rotation
     // value the force will lessen.  It effectively, clamps the rotations.
-    let diffVector = Vector.subtract(this.rotationScrollYForce, targetRotation);
+    const diffVector = Vector.subtract(
+      this.rotationScrollYForce,
+      targetRotation
+    );
 
     this.host.rotation.add(diffVector);
   }

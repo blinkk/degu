@@ -126,8 +126,8 @@ export class elementVisibility {
     let cachedChanges: any = [];
     let cachedLastChange: any = null;
     let cachedInview: boolean | null = null;
-    let ready: boolean = false;
-    let readyPromise: Defer = new Defer();
+    let ready = false;
+    const readyPromise: Defer = new Defer();
 
     /**
      * Get the last known state values of inview.
@@ -190,14 +190,14 @@ export class elementVisibility {
       };
     }
 
-    let dispose = () => {
+    const dispose = () => {
       observer && observer.unobserve(element);
       observer && observer.disconnect();
       cachedChanges = [];
       cachedLastChange = null;
     };
 
-    let observer = new IntersectionObserver(onChange as any, options);
+    const observer = new IntersectionObserver(onChange as any, options);
     observer.observe(element);
     return {
       observer: observer,

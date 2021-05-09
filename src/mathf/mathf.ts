@@ -201,7 +201,7 @@ export class mathf {
     progress: number,
     start: number,
     end: number,
-    noClamp: boolean = false
+    noClamp = false
   ): number {
     const range = end - start;
     let childProgress = mathf.clamp(0, 1, progress - start);
@@ -394,8 +394,9 @@ export class mathf {
    * @see https://yal.cc/rectangle-circle-intersection-test/
    */
   static collisionCircVsBox(circ: circ, rect: box) {
-    let dx = circ.x - Math.max(rect.x, Math.min(circ.x, rect.x + rect.width));
-    let dy = circ.y - Math.max(rect.y, Math.min(circ.y, rect.y + rect.height));
+    const dx = circ.x - Math.max(rect.x, Math.min(circ.x, rect.x + rect.width));
+    const dy =
+      circ.y - Math.max(rect.y, Math.min(circ.y, rect.y + rect.height));
     return dx * dx + dy * dy < circ.radius * circ.radius;
   }
 
@@ -427,11 +428,11 @@ export class mathf {
     const size = poly.length;
     let pointPolyAIndex = 0;
     let pointPolyBIndex = size - 1;
-    for (var i = 0; i < size; i++) {
+    for (let i = 0; i < size; i++) {
       const polyA = poly[pointPolyAIndex];
       const polyB = poly[pointPolyBIndex];
 
-      var intersects =
+      const intersects =
         polyA.y > point.y != polyB.y > point.y &&
         point.x <
           ((polyB.x - polyA.x) * (point.y - polyA.y)) / (polyB.y - polyA.y) +
@@ -500,8 +501,8 @@ export class mathf {
     y: number,
     angle: number
   ) {
-    let cos = Math.cos(angle);
-    let sin = Math.sin(angle);
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
     const tx = cos * (x - cx) + sin * (y - cy) + cx;
     const ty = cos * (y - cy) - sin * (x - cx) + cy;
     return {
@@ -531,7 +532,7 @@ export class mathf {
     angle: number,
     distance: number
   ) {
-    var t = angle + Math.atan2(y - cy, x - cx);
+    const t = angle + Math.atan2(y - cy, x - cx);
 
     x = cx + distance * Math.cos(t);
     y = cy + distance * Math.sin(t);
@@ -897,7 +898,7 @@ export class mathf {
     a: number,
     b: number,
     value: number,
-    noClamp: boolean = false
+    noClamp = false
   ): number {
     if (noClamp) {
       return (value - a) / (b - a);
@@ -967,7 +968,7 @@ export class mathf {
    * @param {number} input A value between
    */
   static smoothStep(min: number, max: number, input: number): number {
-    var x = Math.max(0, Math.min(1, (input - min) / (max - min)));
+    const x = Math.max(0, Math.min(1, (input - min) / (max - min)));
     return x * x * (3 - 2 * x);
   }
 
@@ -1024,7 +1025,9 @@ export class mathf {
     range2Min: number,
     range2Max: number
   ) {
-    let progress = mathf.clampAsProgress(range1Value / (range1Max - range1Min));
+    const progress = mathf.clampAsProgress(
+      range1Value / (range1Max - range1Min)
+    );
     return mathf.lerp(range2Min, range2Max, progress);
   }
 
@@ -1300,14 +1303,14 @@ export class mathf {
     parentBox: dimensionalBox,
     childBox: dimensionalBox
   ): number {
-    let pw = parentBox.width;
-    let ph = parentBox.height;
-    let cw = childBox.width;
-    let ch = childBox.height;
-    let heightScale = parentBox.height / childBox.height;
-    let widthScale = parentBox.width / childBox.width;
+    const pw = parentBox.width;
+    const ph = parentBox.height;
+    const cw = childBox.width;
+    const ch = childBox.height;
+    const heightScale = parentBox.height / childBox.height;
+    const widthScale = parentBox.width / childBox.width;
 
-    let scale = Math.min(heightScale, widthScale);
+    const scale = Math.min(heightScale, widthScale);
 
     return scale;
   }

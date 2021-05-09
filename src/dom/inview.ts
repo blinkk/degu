@@ -218,17 +218,17 @@ export class Inview {
   /**
    * Last known scroll direction. 1 down, -1 up, 0 no direction.
    */
-  private scrollDirection: number = 0;
+  private scrollDirection = 0;
 
   /**
    * A flag to keep track of whether the element was inview atleast once.
    */
-  private inOnce: boolean = false;
+  private inOnce = false;
 
   /**
    * A flag to keep track of in or out state.
    */
-  private isInState: boolean = false;
+  private isInState = false;
 
   /**
    * The list of target elements to add inview to.
@@ -355,26 +355,28 @@ export class Inview {
       //
       // The elementBaseline is used to factor this in.  The default state
       // is calculated from teh top of the element.
-      let wh = window.innerHeight;
-      let box = this.config.element.getBoundingClientRect();
-      let elementBaseline = box.top + this.config.elementBaseline! * box.height;
+      const wh = window.innerHeight;
+      const box = this.config.element.getBoundingClientRect();
+      const elementBaseline =
+        box.top + this.config.elementBaseline! * box.height;
 
       // This is the percent of where element baseline is.
       // So 0 would mean the elementbaseline is at the bottom of the viewport.
       // 1 would mean elementBaseline is at the top of the viewport.
       // A value less than viewport offset would mean that the element is above the viewport == outview.
-      let inPercent = 1 - mathf.inverseLerp(0, wh, elementBaseline, true);
+      const inPercent = 1 - mathf.inverseLerp(0, wh, elementBaseline, true);
 
       // This is the percent of where the BOTTOM of the element is in the viewport.
       // We want to use this to valuate whether the element is out of view.
       // A value greater than 1 would mean that the element is above the viewport == outview.
-      let outPercent = 1 - mathf.inverseLerp(0, wh, box.top + box.height, true);
+      const outPercent =
+        1 - mathf.inverseLerp(0, wh, box.top + box.height, true);
 
       if (this.config.outviewOnlyOnElementExit) {
         // This is the percent where the TOP of the element is in the viewport.
-        let topPercent = 1 - mathf.inverseLerp(0, wh, box.top, true);
+        const topPercent = 1 - mathf.inverseLerp(0, wh, box.top, true);
         // AKA
-        let bottomPercent = outPercent;
+        const bottomPercent = outPercent;
         const completelyOutOfView =
           !mathf.isBetween(topPercent, 0, 1) &&
           !mathf.isBetween(bottomPercent, 0, 1);
@@ -388,8 +390,8 @@ export class Inview {
         }
       } else if (this.config.downOnlyMode) {
         // This is the percent where the TOP of the element is in the viewport.
-        let topPercent = 1 - mathf.inverseLerp(0, wh, box.top, true);
-        let bottomPercent = outPercent;
+        const topPercent = 1 - mathf.inverseLerp(0, wh, box.top, true);
+        const bottomPercent = outPercent;
         // Down only mode.
         const topOfElementIsBelowViewport = topPercent < 0;
         const bottomOfElementIsAboveViewport = bottomPercent >= 1;

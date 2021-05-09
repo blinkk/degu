@@ -661,7 +661,7 @@ export class WebGlImageSequence {
       on: 'smartResize',
       callback: () => {
         // Evaluate if we need to load a different image set.
-        let newSet = this.getSourceThatShouldLoad(this.imageSets);
+        const newSet = this.getSourceThatShouldLoad(this.imageSets);
         if (newSet !== this.activeImageSet) {
           this.loadNewSet(this.imageSets);
           // Autoload the content.
@@ -746,7 +746,7 @@ export class WebGlImageSequence {
       return this.readyPromise.getPromise();
     }
 
-    let loadAllBlobs = () => {
+    const loadAllBlobs = () => {
       this.blobLoader!.load().then(results => {
         this.blobCache = results;
         this.setImageDimensions().then(() => {
@@ -803,7 +803,7 @@ export class WebGlImageSequence {
   private getSourceThatShouldLoad(
     sources: Array<WebGlImageSequenceImageSet>
   ): WebGlImageSequenceImageSet {
-    let matchingSouces: Array<WebGlImageSequenceImageSet> = [];
+    const matchingSouces: Array<WebGlImageSequenceImageSet> = [];
     sources.forEach(source => {
       if (!source.when) {
         matchingSouces.push(source);
@@ -878,7 +878,7 @@ export class WebGlImageSequence {
    *   position of the frame without it using multiInterpolation.  Simply,
    *   being able to say, I want to render the image sequnce at 0.9 for example.
    */
-  renderByProgress(n: number, noMultiInterpolate: boolean = false) {
+  renderByProgress(n: number, noMultiInterpolate = false) {
     this.progress = mathf.clamp01(n);
     !this.isPlaying && this.renderProgress(n, noMultiInterpolate);
   }
@@ -892,13 +892,13 @@ export class WebGlImageSequence {
    *   position of the frame without it using multiInterpolation.  Simply,
    *   being able to say, I want to render the image sequnce at 0.9 for example.
    */
-  private renderProgress(n: number, noMultiInterpolate: boolean = false) {
+  private renderProgress(n: number, noMultiInterpolate = false) {
     let progress = mathf.clamp01(n);
 
     // If the optional multiinterpolate is set, then use multiInterpolate
     // to figure out what the correct frame should be.
     if (this.multiInterpolate && !noMultiInterpolate) {
-      let interpolateMap = this.multiInterpolate.calculate(progress);
+      const interpolateMap = this.multiInterpolate.calculate(progress);
       progress = mathf.clamp01(interpolateMap['sequence'] as number);
     }
 
@@ -944,7 +944,7 @@ export class WebGlImageSequence {
 
       // If there is a delta, keep updating with RAF until it gets resolved.
       diff = Math.abs(this.targetFrame - this.currentFrame);
-      let precision = 0.001;
+      const precision = 0.001;
       if (diff >= precision) {
         window.requestAnimationFrame(() => {
           this.renderFrame(this.targetFrame);
@@ -954,8 +954,9 @@ export class WebGlImageSequence {
       this.currentFrame = this.targetFrame;
     }
 
-    let imageSource =
-      this.activeImageSet!.images[Math.round(this.currentFrame)];
+    const imageSource = this.activeImageSet!.images[
+      Math.round(this.currentFrame)
+    ];
     this.draw(imageSource);
   }
 
@@ -995,7 +996,7 @@ export class WebGlImageSequence {
       return;
     }
 
-    let image = await this.makeImage(imageSource);
+    const image = await this.makeImage(imageSource);
 
     // Decoding images in this way, we see a huge memory jump.  Avoid for now.
     // await image.decode();
@@ -1005,11 +1006,11 @@ export class WebGlImageSequence {
       return;
     }
 
-    let imageBox = {
+    const imageBox = {
       width: this.imageNaturalWidth,
       height: this.imageNaturalHeight,
     };
-    let containerBox = {
+    const containerBox = {
       width: this.canvasWidth,
       height: this.canvasHeight,
     };
@@ -1022,7 +1023,7 @@ export class WebGlImageSequence {
     // Background "cover" sizing.
     // Defaults to center.
     if (this.options && this.options.cover) {
-      let cover = mathf.calculateBackgroundCover(containerBox, imageBox);
+      const cover = mathf.calculateBackgroundCover(containerBox, imageBox);
 
       if (this.options && is.number(this.options.left)) {
         cover.xOffset =
@@ -1147,8 +1148,8 @@ export class WebGlImageSequence {
     const gl = this.gl!;
     const program = this.program;
 
-    var aPosition = gl.getAttribLocation(program, 'a_position');
-    var uMatrix = gl.getUniformLocation(program, 'u_matrix');
+    const aPosition = gl.getAttribLocation(program, 'a_position');
+    const uMatrix = gl.getUniformLocation(program, 'u_matrix');
 
     gl.useProgram(this.program);
     gl.viewport(
@@ -1161,21 +1162,31 @@ export class WebGlImageSequence {
     // gl.enable(gl.BLEND);
     // gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-    webgl.createVbo(
-      gl,
-      [0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]
-    );
+    webgl.createVbo(gl, [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+    ]);
     gl.enableVertexAttribArray(aPosition);
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
 
-    var texture = webgl.createTextureFromImage(gl, image);
+    const texture = webgl.createTextureFromImage(gl, image);
 
     // Convert pixel coords to gl coords based on the x, y, width and height
     // values calculated above.
-    var clipX = (x / this.canvasWidth) * 2 - 1;
-    var clipY = (y / this.canvasHeight) * -2 + 1;
-    var clipWidth = (width / this.canvasWidth) * 2;
-    var clipHeight = (height / this.canvasHeight) * -2;
+    const clipX = (x / this.canvasWidth) * 2 - 1;
+    const clipY = (y / this.canvasHeight) * -2 + 1;
+    const clipWidth = (width / this.canvasWidth) * 2;
+    const clipHeight = (height / this.canvasHeight) * -2;
 
     // Stretch out unit quad.
     gl.uniformMatrix3fv(uMatrix, false, [
@@ -1231,7 +1242,7 @@ export class WebGlImageSequence {
   play(from: number, to: number, duration: number): Promise<void> {
     this.stop();
     this.rafTimer = new RafTimer((progress: number) => {
-      let interpolatedProgress = mathf.interpolateRange(
+      const interpolatedProgress = mathf.interpolateRange(
         progress,
         0,
         1,

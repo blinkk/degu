@@ -26,7 +26,7 @@ class WatchScrollOverController implements INgDisposable {
     this.cssOutClass = this.$attrs.watchScrollOverOutClass;
 
     let query = this.$attrs.watchScrollOverQuery;
-    if (!!$attrs.watchScrollOverQueryEval) {
+    if ($attrs.watchScrollOverQueryEval) {
       query = $scope.$eval(query)[0][0];
     }
 

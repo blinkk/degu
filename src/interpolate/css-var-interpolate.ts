@@ -424,7 +424,7 @@ export class CssVarInterpolate {
    *   two consecutive calls to update WITH the same progress values will
    *   cull the second call.  Force allows you to force it to render again.
    */
-  update(progress: number, force: boolean = false) {
+  update(progress: number, force = false) {
     if (!this.multiInterpolate) {
       return;
     }
@@ -501,10 +501,10 @@ export class CssVarInterpolate {
       return;
     }
 
-    for (var key in this.currentValues) {
+    for (const key in this.currentValues) {
       let value = this.currentValues[key];
       if (!this.renderSubPixels && typeof value === 'string') {
-        let cssUnitValue = cssUnit.parse(value);
+        const cssUnitValue = cssUnit.parse(value);
         if (cssUnitValue.unit == 'px') {
           value = ((cssUnitValue.value as number) >> 0) + 'px';
           this.currentValues[key] = value;

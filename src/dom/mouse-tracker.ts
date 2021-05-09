@@ -110,12 +110,12 @@ export class MouseTracker {
    * Calculates the base dimensions of the rootElement.
    */
   calculateRootElementDimensions_() {
-    let docRect = document.body.getBoundingClientRect();
-    let rect = this.rootElement_.getBoundingClientRect();
+    const docRect = document.body.getBoundingClientRect();
+    const rect = this.rootElement_.getBoundingClientRect();
 
     // Calculate the center point.
-    let xCenter = rect.left + rect.width / 2;
-    let yCenter = rect.top + rect.height / 2;
+    const xCenter = rect.left + rect.width / 2;
+    const yCenter = rect.top + rect.height / 2;
 
     this.dimensions_ = {
       width: rect.width,
@@ -137,8 +137,8 @@ export class MouseTracker {
    */
   onScroll() {
     this.windowY = window.scrollY;
-    let offset = this.windowY - this.lastWindowY;
-    let y = this.lastPosition.y + offset;
+    const offset = this.windowY - this.lastWindowY;
+    const y = this.lastPosition.y + offset;
     this.updateMouseData(this.lastPosition.x, y);
     this.moveCallBack && this.moveCallBack(this.mouseData);
   }
@@ -148,8 +148,8 @@ export class MouseTracker {
    * @type {MouseEvent}
    */
   private onMouseMove(e: any) {
-    let x = e.pageX || e.clientX;
-    let y = e.pageY || e.clientY;
+    const x = e.pageX || e.clientX;
+    const y = e.pageY || e.clientY;
     this.lastWindowY = window.scrollY;
     this.lastPosition = this.position.clone();
     this.updateMouseData(x, y);
@@ -177,8 +177,8 @@ export class MouseTracker {
    * @type {MouseEvent}
    */
   private onDeviceOrientation(event: any) {
-    let x = mathf.clamp(-50, 50, event.gamma);
-    let y = mathf.clamp(-50, 50, event.beta);
+    const x = mathf.clamp(-50, 50, event.gamma);
+    const y = mathf.clamp(-50, 50, event.beta);
 
     this.mouseData = {
       x: 0,

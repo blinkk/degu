@@ -28,16 +28,16 @@ export class objectf {
    * @param b
    */
   static areEqual(a: {[key: string]: any}, b: {[key: string]: any}): boolean {
-    var aProps = Object.getOwnPropertyNames(a);
-    var bProps = Object.getOwnPropertyNames(b);
+    const aProps = Object.getOwnPropertyNames(a);
+    const bProps = Object.getOwnPropertyNames(b);
 
     // If the length of object isn't equal, we know they are equal.
     if (aProps.length != bProps.length) {
       return false;
     }
 
-    for (var i = 0; i < aProps.length; i++) {
-      var propName = aProps[i];
+    for (let i = 0; i < aProps.length; i++) {
+      const propName = aProps[i];
       if (a[propName] !== b[propName]) {
         return false;
       }

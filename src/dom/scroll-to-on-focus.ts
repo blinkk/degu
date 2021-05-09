@@ -154,7 +154,7 @@ export class ScrollToOnFocus {
   private selector: string;
   private topProgressOffset: number;
   private bottomProgressOffset: number;
-  private debug: boolean = false;
+  private debug = false;
   private config: ScrollToOnFocusConfig;
 
   constructor(config: ScrollToOnFocusConfig) {

@@ -53,7 +53,7 @@ export class domCanvas {
     context: CanvasRenderingContext2D,
     x: number,
     y: number,
-    size: number = 5
+    size = 5
   ) {
     context.fillRect(x, y, size, size);
   }
@@ -62,11 +62,7 @@ export class domCanvas {
     domCanvas.line(context, v1.x, v1.y, v2.x, v2.y);
   }
 
-  static vectorPoint(
-    context: CanvasRenderingContext2D,
-    v: Vector,
-    size: number = 5
-  ) {
+  static vectorPoint(context: CanvasRenderingContext2D, v: Vector, size = 5) {
     domCanvas.point(context, v.x, v.y, size);
   }
 
@@ -109,7 +105,7 @@ export class domCanvas {
     context: CanvasRenderingContext2D,
     coords: Vector
   ): ColorRGB {
-    var pixelData = context.getImageData(coords.x, coords.y, 1, 1).data;
+    const pixelData = context.getImageData(coords.x, coords.y, 1, 1).data;
     const rgb = {
       r: pixelData[0],
       g: pixelData[1],

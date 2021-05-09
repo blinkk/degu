@@ -72,7 +72,7 @@ export class BlobLoader {
     });
   }
 
-  loadBlob(source: string, retryCount: number = 0): Promise<Blob | undefined> {
+  loadBlob(source: string, retryCount = 0): Promise<Blob | undefined> {
     return new Promise((resolve, reject) => {
       fetch(source)
         .then(response => {
@@ -114,7 +114,7 @@ export class BlobLoader {
 
   loadBlobAsBase64Image(
     source: string,
-    retryCount: number = 0
+    retryCount = 0
   ): Promise<Blob | undefined | void> {
     return new Promise((resolve, reject) => {
       fetch(source)

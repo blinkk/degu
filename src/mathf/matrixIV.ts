@@ -308,32 +308,32 @@ export class MatrixIV {
    * @param mat
    */
   multiply(mat: MatrixIV): MatrixIV {
-    var a00 = this.value[0];
-    var a01 = this.value[1];
-    var a02 = this.value[2];
-    var a03 = this.value[3];
+    const a00 = this.value[0];
+    const a01 = this.value[1];
+    const a02 = this.value[2];
+    const a03 = this.value[3];
 
-    var a10 = this.value[4];
-    var a11 = this.value[5];
-    var a12 = this.value[6];
-    var a13 = this.value[7];
+    const a10 = this.value[4];
+    const a11 = this.value[5];
+    const a12 = this.value[6];
+    const a13 = this.value[7];
 
-    var a20 = this.value[8];
-    var a21 = this.value[9];
-    var a22 = this.value[10];
-    var a23 = this.value[11];
+    const a20 = this.value[8];
+    const a21 = this.value[9];
+    const a22 = this.value[10];
+    const a23 = this.value[11];
 
-    var a30 = this.value[12];
-    var a31 = this.value[13];
-    var a32 = this.value[14];
-    var a33 = this.value[15];
+    const a30 = this.value[12];
+    const a31 = this.value[13];
+    const a32 = this.value[14];
+    const a33 = this.value[15];
 
-    var b = mat.value;
+    const b = mat.value;
 
-    var b0 = b[0];
-    var b1 = b[1];
-    var b2 = b[2];
-    var b3 = b[3];
+    let b0 = b[0];
+    let b1 = b[1];
+    let b2 = b[2];
+    let b3 = b[3];
 
     this.value[0] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
     this.value[1] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
@@ -390,8 +390,8 @@ export class MatrixIV {
    * @param z
    * @param w Use 1 for positions and 0 for direction.
    */
-  multiplyBy4x1(x: number, y: number, z: number, w: number = 1): Array<number> {
-    let a = this.value;
+  multiplyBy4x1(x: number, y: number, z: number, w = 1): Array<number> {
+    const a = this.value;
     return [
       a[0] * x + a[1] * y + a[2] * z + a[3] * w,
       a[4] * x + a[5] * y + a[6] * z + a[7] * w,
@@ -436,8 +436,8 @@ export class MatrixIV {
    *
    * ```
    */
-  multiplyByVector(v: Vector, w: number = 1): Vector {
-    let result = this.multiplyBy4x1(v.x, v.y, v.z, w);
+  multiplyByVector(v: Vector, w = 1): Vector {
+    const result = this.multiplyBy4x1(v.x, v.y, v.z, w);
     return new Vector(result[0], result[1], result[2]);
   }
 
@@ -562,17 +562,17 @@ export class MatrixIV {
    * @param up The up vector relative to the camera.
    */
   lookAt(eye: Vector, center: Vector, up: Vector = Vector.UP): MatrixIV {
-    var eyex = eye.x;
-    var eyey = eye.y;
-    var eyez = eye.z;
+    const eyex = eye.x;
+    const eyey = eye.y;
+    const eyez = eye.z;
 
-    var upx = up.x;
-    var upy = up.y;
-    var upz = up.z;
+    const upx = up.x;
+    const upy = up.y;
+    const upz = up.z;
 
-    var centerx = center.x;
-    var centery = center.y;
-    var centerz = center.z;
+    const centerx = center.x;
+    const centery = center.y;
+    const centerz = center.z;
 
     if (
       Math.abs(eyex - centerx) < 0.00001 &&
@@ -582,9 +582,9 @@ export class MatrixIV {
       return MatrixIV.IDENTITY;
     }
 
-    var z0 = eyex - centerx;
-    var z1 = eyey - centery;
-    var z2 = eyez - centerz;
+    let z0 = eyex - centerx;
+    let z1 = eyey - centery;
+    let z2 = eyez - centerz;
 
     let len = 1 / Math.hypot(z0, z1, z2);
 
@@ -592,9 +592,9 @@ export class MatrixIV {
     z1 *= len;
     z2 *= len;
 
-    var x0 = upy * z2 - upz * z1;
-    var x1 = upz * z0 - upx * z2;
-    var x2 = upx * z1 - upy * z0;
+    let x0 = upy * z2 - upz * z1;
+    let x1 = upz * z0 - upx * z2;
+    let x2 = upx * z1 - upy * z0;
 
     len = Math.hypot(x0, x1, x2);
 
@@ -609,9 +609,9 @@ export class MatrixIV {
       x2 *= len;
     }
 
-    var y0 = z1 * x2 - z2 * x1;
-    var y1 = z2 * x0 - z0 * x2;
-    var y2 = z0 * x1 - z1 * x0;
+    let y0 = z1 * x2 - z2 * x1;
+    let y1 = z2 * x0 - z0 * x2;
+    let y2 = z0 * x1 - z1 * x0;
 
     len = Math.hypot(y0, y1, y2);
 
@@ -664,7 +664,7 @@ export class MatrixIV {
     near: number,
     far: number
   ): MatrixIV {
-    let f = 1.0 / Math.tan(fov / 2);
+    const f = 1.0 / Math.tan(fov / 2);
     let nf;
     this.value[0] = f / aspect;
     this.value[1] = 0;
@@ -698,16 +698,16 @@ export class MatrixIV {
    */
   ypr(yaw: number, pitch: number, roll: number) {
     this.zero();
-    let temp = new MatrixIV().zero();
-    let temp2 = new MatrixIV().zero();
+    const temp = new MatrixIV().zero();
+    const temp2 = new MatrixIV().zero();
 
-    var m0 = this.value;
-    var m1 = temp.value;
-    var m2 = temp2.value;
+    const m0 = this.value;
+    const m1 = temp.value;
+    const m2 = temp2.value;
 
     //  Rotate Z
-    var s = Math.sin(roll);
-    var c = Math.cos(roll);
+    let s = Math.sin(roll);
+    let c = Math.cos(roll);
 
     m0[10] = 1;
     m0[15] = 1;
@@ -769,25 +769,25 @@ export class MatrixIV {
    * @param q
    */
   static fromQuaternion(q: Quaternion): MatrixIV {
-    let x = q.x,
+    const x = q.x,
       y = q.y,
       z = q.z,
       w = q.w;
-    let x2 = x + x;
-    let y2 = y + y;
-    let z2 = z + z;
+    const x2 = x + x;
+    const y2 = y + y;
+    const z2 = z + z;
 
-    let xx = x * x2;
-    let yx = y * x2;
-    let yy = y * y2;
-    let zx = z * x2;
-    let zy = z * y2;
-    let zz = z * z2;
-    let wx = w * x2;
-    let wy = w * y2;
-    let wz = w * z2;
+    const xx = x * x2;
+    const yx = y * x2;
+    const yy = y * y2;
+    const zx = z * x2;
+    const zy = z * y2;
+    const zz = z * z2;
+    const wx = w * x2;
+    const wy = w * y2;
+    const wz = w * z2;
 
-    let out = [];
+    const out = [];
     out[0] = 1 - yy - zz;
     out[1] = yx + wz;
     out[2] = zx - wy;
@@ -835,26 +835,26 @@ export class MatrixIV {
    * @param scale
    */
   static compose(position: Vector, rotation: Quaternion, scale: Vector) {
-    var out = [];
+    const out = [];
 
-    var x = rotation.x,
+    const x = rotation.x,
       y = rotation.y,
       z = rotation.z,
       w = rotation.w;
-    var x2 = x + x,
+    const x2 = x + x,
       y2 = y + y,
       z2 = z + z;
-    var xx = x * x2,
+    const xx = x * x2,
       xy = x * y2,
       xz = x * z2;
-    var yy = y * y2,
+    const yy = y * y2,
       yz = y * z2,
       zz = z * z2;
-    var wx = w * x2,
+    const wx = w * x2,
       wy = w * y2,
       wz = w * z2;
 
-    var sx = scale.x,
+    const sx = scale.x,
       sy = scale.y,
       sz = scale.z;
 

@@ -130,13 +130,13 @@ export class Pseudo3dCanvas {
         // Apart from the basic position (controled in worldMatrix),
         // this locally affects the position of each vector which can
         // be controlled by the mesh size and vector positions.
-        let rotationMatrix = new MatrixIV().ypr(
+        const rotationMatrix = new MatrixIV().ypr(
           mesh.rotation.y,
           mesh.rotation.x,
           mesh.rotation.z
         );
-        let basisMatrix = mesh.basisMatrix.clone().multiply(rotationMatrix);
-        let transformedVector = v.clone().transformWithMatrixIV(basisMatrix);
+        const basisMatrix = mesh.basisMatrix.clone().multiply(rotationMatrix);
+        const transformedVector = v.clone().transformWithMatrixIV(basisMatrix);
 
         // Apply the transformation to the vector.
         // These are our final vector coordinates that are normalized
@@ -153,11 +153,11 @@ export class Pseudo3dCanvas {
 
         // Scale it and then shift it over half the screen width to center
         // it.
-        var x = vector2d.x * this.width;
+        let x = vector2d.x * this.width;
         x += this.width * 0.5;
         // Scale it and then shift it over half the screen width to center
         // it.
-        var y = -vector2d.y * this.height;
+        let y = -vector2d.y * this.height;
         y += this.height * 0.5;
 
         // We get our final vector coordinates on the canvas.

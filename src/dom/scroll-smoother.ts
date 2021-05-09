@@ -57,9 +57,9 @@ export class ScrollSmoother {
   private raf: Raf;
   private rootElement: HTMLElement;
   // The current lerped y position.
-  private currentY: number = 0;
+  private currentY = 0;
   // The target y position.
-  private targetY: number = 0;
+  private targetY = 0;
 
   /*
    * @type ResizeObserver https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
@@ -133,9 +133,9 @@ export class ScrollSmoother {
       });
   }
 
-  private updateScrollPosition(lerp: number = 1, damp: number = 1) {
+  private updateScrollPosition(lerp = 1, damp = 1) {
     const prev = this.currentY;
-    let updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
+    const updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
     // updated = updated >> 0;
     this.currentY = updated;
     if (prev == updated) {

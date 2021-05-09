@@ -53,7 +53,7 @@ export class Vector {
    */
   public w: number;
 
-  constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 0) {
+  constructor(x = 0, y = 0, z = 0, w = 0) {
     this.x = x || 0;
     this.y = y || 0;
     this.z = z || 0;
@@ -90,7 +90,7 @@ export class Vector {
    * Sets x,y,z.
    * @tested
    */
-  set(x: number, y: number, z: number = 0): Vector {
+  set(x: number, y: number, z = 0): Vector {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -194,7 +194,7 @@ export class Vector {
    * @param z
    * @tested
    */
-  static create(x: number, y: number, z: number = 0): Vector {
+  static create(x: number, y: number, z = 0): Vector {
     return new Vector(x, y, z);
   }
 
@@ -219,7 +219,7 @@ export class Vector {
    * @param length The length, magnitude of the vector. Defaults to a
    *     semi-infinite length.
    */
-  static fromAngle(angle: number, length: number = 100000) {
+  static fromAngle(angle: number, length = 100000) {
     return new Vector(length * Math.cos(angle), length * Math.sin(angle), 0);
   }
 
@@ -241,7 +241,7 @@ export class Vector {
    * @return The angle of the two vectors in radians.
    */
   static angle2d(a: Vector, b: Vector): number {
-    var dx = a.x - b.x,
+    const dx = a.x - b.x,
       dy = a.y - b.y;
     return Math.atan2(dy, dx);
   }
@@ -273,10 +273,10 @@ export class Vector {
    */
   static getXyzRotationTo(originVector: Vector, targetVector: Vector) {
     // Use the difference between current vector and target as the basis.
-    let delta = originVector.clone().subtract(targetVector);
-    let angleX = Math.atan(delta.x);
-    let angleY = Math.atan(delta.y);
-    let angleZ = Math.atan(delta.z);
+    const delta = originVector.clone().subtract(targetVector);
+    const angleX = Math.atan(delta.x);
+    const angleY = Math.atan(delta.y);
+    const angleZ = Math.atan(delta.z);
     return [angleX, angleY, angleZ];
   }
 
@@ -300,13 +300,13 @@ export class Vector {
     targetVector: Vector
   ): Vector {
     // Use the difference between current vector and target as the basis.
-    let delta = originVector
+    const delta = originVector
       .clone()
       .normalize()
       .subtract(targetVector.clone().normalize());
-    let angleX = -Math.atan(delta.x);
-    let angleY = Math.atan(delta.y);
-    let angleZ = -Math.atan(delta.z);
+    const angleX = -Math.atan(delta.x);
+    const angleY = Math.atan(delta.y);
+    const angleZ = -Math.atan(delta.z);
 
     return new Vector(
       mathf.radianToDegree(angleX),
@@ -398,9 +398,9 @@ export class Vector {
   }
 
   static negate(v: Vector): Vector {
-    let x = -v.x;
-    let y = -v.y;
-    let z = mathf.absZero(-v.z);
+    const x = -v.x;
+    const y = -v.y;
+    const z = mathf.absZero(-v.z);
     return new Vector(x, y, z);
   }
 
@@ -409,9 +409,9 @@ export class Vector {
    * @return The distance from this vector to another
    */
   distance(v: Vector): number {
-    let dx = v.x - this.x;
-    let dy = v.y - this.y;
-    let dz = v.z - this.z || 0;
+    const dx = v.x - this.x;
+    const dy = v.y - this.y;
+    const dz = v.z - this.z || 0;
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
@@ -419,9 +419,9 @@ export class Vector {
    * Calculates the length / magnitude of this vector.
    */
   length(): number {
-    let x = this.x;
-    let y = this.y;
-    let z = this.z;
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
     return Math.sqrt(x * x + y * y + z * z);
   }
 
@@ -444,9 +444,9 @@ export class Vector {
    * Normalizes this vector.
    */
   normalize(): Vector {
-    let x = this.x;
-    let y = this.y;
-    let z = this.z;
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
     let len = x * x + y * y + z * z;
 
     if (len > 0) {
@@ -468,12 +468,12 @@ export class Vector {
   }
 
   cross(v: Vector): Vector {
-    let ax = this.x;
-    let ay = this.y;
-    let az = this.z;
-    let bx = v.x;
-    let by = v.y;
-    let bz = v.z;
+    const ax = this.x;
+    const ay = this.y;
+    const az = this.z;
+    const bx = v.x;
+    const by = v.y;
+    const bz = v.z;
     this.x = ay * bz - az * by;
     this.y = az * bx - ax * bz;
     this.z = ax * by - ay * bx;
@@ -484,14 +484,14 @@ export class Vector {
    * Transform this vector given the provided matrix4.
    */
   transformWithMatrixIV(matrix: MatrixIV): Vector {
-    let x = this.x;
-    let y = this.y;
-    let z = this.z;
-    let mat = matrix.value;
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    const mat = matrix.value;
 
-    let tx = x * mat[0] + y * mat[4] + z * mat[8] + mat[12];
-    let ty = x * mat[1] + y * mat[5] + z * mat[9] + mat[13];
-    let tz = x * mat[2] + y * mat[6] + z * mat[10] + mat[14];
+    const tx = x * mat[0] + y * mat[4] + z * mat[8] + mat[12];
+    const ty = x * mat[1] + y * mat[5] + z * mat[9] + mat[13];
+    const tz = x * mat[2] + y * mat[6] + z * mat[10] + mat[14];
     let tw = x * mat[3] + y * mat[7] + z * mat[11] + mat[15];
     tw = tw || 1.0;
 
@@ -570,7 +570,7 @@ export class Vector {
    * @param v
    * @param progress A number between 0-1.
    */
-  lerp(v: Vector, progress: number = 0): Vector {
+  lerp(v: Vector, progress = 0): Vector {
     this.x = mathf.lerp(this.x, v.x, progress);
     this.y = mathf.lerp(this.y, v.y, progress);
     this.z = mathf.lerp(this.z, v.z, progress);
@@ -583,7 +583,7 @@ export class Vector {
    * @param v
    * @param progress A number between 0-1.
    */
-  damp(v: Vector, progress: number = 0, damp: number): Vector {
+  damp(v: Vector, progress = 0, damp: number): Vector {
     this.x = mathf.damp(this.x, v.x, progress, damp);
     this.y = mathf.damp(this.y, v.y, progress, damp);
     this.z = mathf.damp(this.z, v.z, progress, damp);
@@ -596,7 +596,7 @@ export class Vector {
    * @param progress A number between 0-1.
    * @param easeFunction An easing function. See [[mathf.ease]].
    */
-  ease(v: Vector, progress: number = 0, easeFunction = EASE.linear): Vector {
+  ease(v: Vector, progress = 0, easeFunction = EASE.linear): Vector {
     this.x = mathf.ease(this.x, v.x, progress, easeFunction);
     this.y = mathf.ease(this.y, v.y, progress, easeFunction);
     this.z = mathf.ease(this.z, v.z, progress, easeFunction);
@@ -613,7 +613,7 @@ export class Vector {
   static ease(
     v1: Vector,
     v2: Vector,
-    progress: number = 0,
+    progress = 0,
     easeFunction = EASE.linear
   ): Vector {
     const x = mathf.ease(v1.x, v2.x, progress, easeFunction);
@@ -703,15 +703,15 @@ export class Vector {
    *
    */
   static fromRotationMatrixIV(m: MatrixIV) {
-    let result = Vector.ZERO;
-    var te = m.value;
-    var m11 = te[0],
+    const result = Vector.ZERO;
+    const te = m.value;
+    const m11 = te[0],
       m12 = te[4],
       m13 = te[8];
-    var m21 = te[1],
+    const m21 = te[1],
       m22 = te[5],
       m23 = te[9];
-    var m31 = te[2],
+    const m31 = te[2],
       m32 = te[6],
       m33 = te[10];
 

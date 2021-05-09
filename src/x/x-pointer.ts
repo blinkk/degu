@@ -104,14 +104,14 @@ export class XPointer {
    * @param object
    */
   testCollidingWithGameObject(object: XGameObject) {
-    let point = {
+    const point = {
       x: this.x,
       y: this.y,
     };
 
     // Generate a polygon out of the (possibly rotated)
     // box coordinates.
-    let polygon = [
+    const polygon = [
       object.globalComputedBox.topLeft,
       object.globalComputedBox.topRight,
       object.globalComputedBox.bottomRight,

@@ -18,10 +18,10 @@ export class latlong {
     lat2 = mathf.degreeToRadian(lat2);
     lon1 = mathf.degreeToRadian(lon1);
     lon2 = mathf.degreeToRadian(lon2);
-    var R = 6371; // km
-    var x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
-    var y = lat2 - lat1;
-    var d = Math.sqrt(x * x + y * y) * R;
+    const R = 6371; // km
+    const x = (lon2 - lon1) * Math.cos((lat1 + lat2) / 2);
+    const y = lat2 - lat1;
+    const d = Math.sqrt(x * x + y * y) * R;
     return d;
   }
 
@@ -51,11 +51,11 @@ export class latlong {
     longitude: number,
     locations: Array<Array<number>>
   ): Object {
-    var thres = 99999;
-    var closest;
+    let thres = 99999;
+    let closest;
 
-    for (var i = 0; i < locations.length; ++i) {
-      var diff = latlong.getDistance(
+    for (let i = 0; i < locations.length; ++i) {
+      const diff = latlong.getDistance(
         latitude,
         longitude,
         locations[i][0],
@@ -105,9 +105,9 @@ export class latlong {
     long: number,
     locations: Array<Array<number>>
   ): Array<Object> {
-    let result: Array<Object> = [];
-    for (var i = 0; i < locations.length; ++i) {
-      var diff = latlong.getDistance(
+    const result: Array<Object> = [];
+    for (let i = 0; i < locations.length; ++i) {
+      const diff = latlong.getDistance(
         lat,
         long,
         locations[i][0],

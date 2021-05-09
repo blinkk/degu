@@ -534,7 +534,7 @@ export class VectorDom {
     this.resize();
     this.setTransformOrigin();
 
-    for (let key in this.components) {
+    for (const key in this.components) {
       this.components[key].init();
     }
   }
@@ -544,17 +544,17 @@ export class VectorDom {
     this.height = this.element.offsetHeight;
 
     // Cache the global gx_ and gy_ values.
-    let bounds = this.bounds;
+    const bounds = this.bounds;
     this.gx_ = bounds.left;
     this.gy_ = bounds.top + globalWindow.scrollY;
 
     // Update components.
-    for (let key in this.components) {
+    for (const key in this.components) {
       this.components[key].resize();
     }
   }
 
-  setTransformOrigin(value: string = 'center center') {
+  setTransformOrigin(value = 'center center') {
     if (this.disableStyleRenders) {
       return;
     }
@@ -736,7 +736,7 @@ export class VectorDom {
    * rendered width / height versus actual.
    */
   get bounds() {
-    let bounds = this.getBoundingClient(
+    const bounds = this.getBoundingClient(
       globalWindow.scrollY,
       globalWindow.width,
       globalWindow.height
@@ -881,7 +881,7 @@ export class VectorDom {
     offsetMatrix.setVectorColumn(3, offsetVector);
 
     // Scale based on the z position.
-    let z = mathf.clamp(-1, 10, this.position.z + 1);
+    const z = mathf.clamp(-1, 10, this.position.z + 1);
 
     const scaleMatrix = new MatrixIV().scaleXyz(z, z, z);
     scaleMatrix.value[15] = 1;
@@ -889,7 +889,7 @@ export class VectorDom {
     // Don't use YPR Eular because of gimble lock unless really needed.
     let rotationMatrix;
     if (this.eularRotationAsRotationMatrix) {
-      let radianEular = this.eularRotation.clone().degreeToRadians();
+      const radianEular = this.eularRotation.clone().degreeToRadians();
       rotationMatrix = new MatrixIV().ypr(
         -radianEular.y,
         -radianEular.x,
@@ -900,7 +900,7 @@ export class VectorDom {
     }
 
     // Apply SRT.
-    let baseMatrix = MatrixIV.IDENTITY.multiply(scaleMatrix)
+    const baseMatrix = MatrixIV.IDENTITY.multiply(scaleMatrix)
       .multiply(rotationMatrix)
       .multiply(translationMatrix)
       .multiply(offsetMatrix);
@@ -936,13 +936,13 @@ export class VectorDom {
    *   render.  Defaults to true but turn off if you want to manipulate the
    *   internal quaternion rotation.
    */
-  render(syncEularRotation: boolean = false) {
+  render(syncEularRotation = false) {
     if (syncEularRotation) {
       this.syncEularRotation();
     }
 
     // Components render out first.
-    for (let key in this.components) {
+    for (const key in this.components) {
       this.components[key].render();
     }
 
@@ -986,7 +986,7 @@ export class VectorDom {
   }
 
   dispose() {
-    for (let key in this.components) {
+    for (const key in this.components) {
       this.components[key].dispose();
     }
 

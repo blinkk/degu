@@ -194,7 +194,7 @@ export class ImageLoader {
    * "preload" images into the browser cache but not hold the image data in
    * memory.
    */
-  pingSource(source: string, retryCount: number = 0): Promise<string> {
+  pingSource(source: string, retryCount = 0): Promise<string> {
     return new Promise((resolve, reject) => {
       fetch(source).then(response => {
         // If status was not okay retry.
@@ -217,7 +217,7 @@ export class ImageLoader {
    * @param source The image source
    * @param retryCount The current retry count.
    */
-  fetchImage(source: string, retryCount: number = 0): Promise<void> {
+  fetchImage(source: string, retryCount = 0): Promise<void> {
     return new Promise(resolve => {
       fetch(source)
         .then(response => {
@@ -302,7 +302,7 @@ export class ImageLoader {
    * @see https://aerotwist.com/blog/the-hack-is-back/
    * @see https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap
    */
-  fetchImageBitmap(source: string, retryCount: number = 0): Promise<void> {
+  fetchImageBitmap(source: string, retryCount = 0): Promise<void> {
     return new Promise(resolve => {
       fetch(source)
         .then(response => {
@@ -338,7 +338,7 @@ export class ImageLoader {
   }
 
   dispose() {
-    for (var key in this.images) {
+    for (const key in this.images) {
       if (!this.images[key]) {
         return;
       }

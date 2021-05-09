@@ -18,10 +18,10 @@ test('normaliizedRgbToHex', t => {
 });
 
 test('rgbaLerp', t => {
-  let a = {r: 0, g: 0, b: 0, a: 0};
-  let b = {r: 255, g: 255, b: 255, a: 1};
-  let lerp = color.rgbaLerp(a, b, 0.5);
-  let expected = {
+  const a = {r: 0, g: 0, b: 0, a: 0};
+  const b = {r: 255, g: 255, b: 255, a: 1};
+  const lerp = color.rgbaLerp(a, b, 0.5);
+  const expected = {
     r: 127,
     g: 127,
     b: 127,
@@ -47,7 +47,7 @@ test('hexToRgba', t => {
 });
 
 test('cssToRgba', t => {
-  let result = {
+  const result = {
     r: 255,
     g: 255,
     b: 255,
@@ -59,7 +59,7 @@ test('cssToRgba', t => {
   t.deepEqual(color.cssToRgba('rgba( 255 , 255 , 255 ,1)'), result);
   t.deepEqual(color.cssToRgba('rgb(255, 255, 255)'), result);
 
-  let result2 = {
+  const result2 = {
     r: 52,
     g: 85,
     b: 52,

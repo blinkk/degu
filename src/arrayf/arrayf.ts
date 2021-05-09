@@ -105,7 +105,7 @@ export class arrayf {
     values: T[],
     startIndex: number,
     rawEndIndex: number,
-    direction: number = 1
+    direction = 1
   ): T[] {
     const result: T[] = [];
     const length = values.length;

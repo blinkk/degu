@@ -475,12 +475,12 @@ export class SceneRenderer {
   /**
    * The last known root element width (usually window size)
    */
-  private width: number = 0;
+  private width = 0;
 
   /**
    * The last known root element height (usually window size)
    */
-  private height: number = 0;
+  private height = 0;
 
   /**
    *  The z-index of the main canvas.
@@ -574,8 +574,8 @@ export class SceneRenderer {
       // Now for each, figure out the right resizing strategy.
       const camera = scene.userData.camera;
 
-      let h = element.offsetHeight;
-      let w = element.offsetWidth;
+      const h = element.offsetHeight;
+      const w = element.offsetWidth;
       const aspect = w / h;
 
       // Contain zoom algo.
@@ -839,10 +839,10 @@ export class SceneRenderer {
    * Add a THREE.Scene to be rendered when the given domElement is visible
    * in the scene.
    */
-  public addScene(sceneConfig: SceneConfig, forceResize: boolean = false) {
+  public addScene(sceneConfig: SceneConfig, forceResize = false) {
     if (!sceneConfig.domElement || !sceneConfig.scene || !sceneConfig.camera) {
       console.warn(
-        `SceneRenderer could not register scene.  It is missing either the scene, camere or domElement`
+        'SceneRenderer could not register scene.  It is missing either the scene, camere or domElement'
       );
       return;
     }
@@ -879,7 +879,7 @@ export class SceneRenderer {
    */
   private setupDebugging(sceneConfig: SceneConfig) {
     const scene = sceneConfig.scene;
-    var axesHelper = new THREE.AxesHelper(50);
+    const axesHelper = new THREE.AxesHelper(50);
     scene.add(axesHelper);
 
     new ThreeInspector(
@@ -920,12 +920,12 @@ export class SceneRenderer {
 
       const element = scene.userData.domElement;
       // Get the element position relative to the page's viewport
-      var rect = element.getBoundingClientRect();
+      const rect = element.getBoundingClientRect();
       // set the viewport
-      var width = rect.right - rect.left;
-      var height = rect.bottom - rect.top;
-      var left = rect.left;
-      var bottom = this.renderer.domElement.clientHeight - rect.bottom;
+      const width = rect.right - rect.left;
+      const height = rect.bottom - rect.top;
+      const left = rect.left;
+      const bottom = this.renderer.domElement.clientHeight - rect.bottom;
 
       this.renderer.setViewport(left, bottom, width, height);
       this.renderer.setScissor(left, bottom, width, height);

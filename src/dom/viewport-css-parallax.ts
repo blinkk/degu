@@ -113,9 +113,9 @@ export class ViewportCssParallax {
   private settingsData: ViewportCssParallaxSettings;
   private interpolationsData: Array<interpolateSettings>;
 
-  private currentProgress: number = 0;
-  private lastWriteProgress: number = -1;
-  public initialized: boolean = false;
+  private currentProgress = 0;
+  private lastWriteProgress = -1;
+  public initialized = false;
 
   constructor() {}
 
@@ -264,8 +264,8 @@ export class ViewportCssParallax {
     //
     // The elementBaseline is used to factor this in.  The default state
     // is calculated from teh top of the element.
-    let box = this.rootElement.getBoundingClientRect();
-    let elementBaseline =
+    const box = this.rootElement.getBoundingClientRect();
+    const elementBaseline =
       box.top + this.settingsData.elementBaseline * box.height;
 
     let percent = mathf.inverseLerp(0, window.innerHeight, elementBaseline);
@@ -275,7 +275,7 @@ export class ViewportCssParallax {
     // The element top is used at the bottom of the screen and element
     // bottom is used for the top of the screen.
     if (this.settingsData.elementBaselineFromTopToBottom) {
-      let elementBaselineTop = box.top;
+      const elementBaselineTop = box.top;
       percent = mathf.inverseLerp(
         -this.rootElement.offsetHeight,
         window.innerHeight + box.height,

@@ -129,14 +129,14 @@ export class TextSplit2 {
       let previousElement = node;
 
       // Split this text node by space.
-      var re = new RegExp(String.fromCharCode(160), 'g');
+      const re = new RegExp(String.fromCharCode(160), 'g');
       let text = node.textContent;
       text = text.replace(re, ' ');
       const texts = node.textContent.trim().split(' ');
 
       texts.forEach((text, i) => {
-        let element = dom.createElementFromString(
-          `<span aria-hidden="true"></span>`
+        const element = dom.createElementFromString(
+          '<span aria-hidden="true"></span>'
         );
 
         // if (i !== texts.length - 1) {

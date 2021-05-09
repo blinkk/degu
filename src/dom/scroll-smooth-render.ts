@@ -100,12 +100,12 @@ export const ScrollSmoothRenderEvents = {
  */
 export class ScrollSmoothRender {
   private raf: Raf;
-  private currentY: number = 0;
-  private targetY: number = 0;
-  private isWheeling: boolean = false;
+  private currentY = 0;
+  private targetY = 0;
+  private isWheeling = false;
   private config: ScrollSmoothRenderConfig;
   private domWatcher: DomWatcher;
-  private disabled: boolean = false;
+  private disabled = false;
 
   constructor(config: ScrollSmoothRenderConfig) {
     this.raf = new Raf(this.onRaf.bind(this));
@@ -215,8 +215,8 @@ export class ScrollSmoothRender {
    * the scroll smoothing.
    */
   public checkPageHash(): void {
-    var anchor = window && window.location.hash;
-    var targetElement = document.getElementById(anchor.replace('#', ''));
+    const anchor = window && window.location.hash;
+    const targetElement = document.getElementById(anchor.replace('#', ''));
     if (anchor && targetElement) {
       const y = dom.getScrollTop(targetElement);
       targetElement.focus();
@@ -265,7 +265,7 @@ export class ScrollSmoothRender {
     e.preventDefault();
 
     let delta = e.deltaY;
-    let sensitivity = this.config.scrollSensitivity;
+    const sensitivity = this.config.scrollSensitivity;
 
     // If we are using dynamicSensitivity, we basically want to normalize
     // large jumps.  Track pads typically have smaller jumps whereas,

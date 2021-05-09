@@ -146,17 +146,17 @@ export class CssParallaxer {
   private domWatcher: DomWatcher;
   private interpolator: CssVarInterpolate | null = null;
   private raf: Raf;
-  private initialized: boolean = false;
+  private initialized = false;
   private settingsData: CssParallaxSettings | null = null;
-  private currentProgress: number = 0;
+  private currentProgress = 0;
   /**
    * The top offset for progress
    */
-  private topOffset: number = 0;
+  private topOffset = 0;
   /**
    * The bottom offset for progress
    */
-  private bottomOffset: number = 0;
+  private bottomOffset = 0;
 
   /**
    * The height value if specified.

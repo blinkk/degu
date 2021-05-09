@@ -40,9 +40,9 @@ export class bom {
    */
   static smartResize(callback: Function, options: Object): Function {
     let width = 0;
-    let handler: EventListener = e => {
-      let currentWidth = window.innerWidth;
-      let allowCallback = !is.mobile() || width !== currentWidth;
+    const handler: EventListener = e => {
+      const currentWidth = window.innerWidth;
+      const allowCallback = !is.mobile() || width !== currentWidth;
       if (allowCallback) {
         callback(e);
         width = currentWidth;

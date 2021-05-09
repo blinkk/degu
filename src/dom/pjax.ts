@@ -59,7 +59,7 @@ export class pjax {
     html: string,
     targetElementQuerySelection: string
   ): string {
-    let tmp = document.implementation.createHTMLDocument();
+    const tmp = document.implementation.createHTMLDocument();
     tmp.body.innerHTML = html;
     return tmp.body.querySelector(targetElementQuerySelection).innerHTML;
   }
@@ -68,7 +68,7 @@ export class pjax {
    * Given an html string, returns the head.
    */
   static getHead(html: string) {
-    let tmp = document.implementation.createHTMLDocument();
+    const tmp = document.implementation.createHTMLDocument();
     tmp.documentElement.innerHTML = html;
     return tmp.head.innerHTML;
   }

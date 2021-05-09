@@ -15,7 +15,7 @@ test('Create', t => {
 // X-Y-Z orientation
 // https://quaternions.online/
 test('From EulerVector', t => {
-  let eular = new Vector(0, 0, 0);
+  const eular = new Vector(0, 0, 0);
   let q = Quaternion.fromEulerVector(eular);
   t.is(q.x, 0);
   t.is(q.y, 0);
@@ -68,21 +68,21 @@ test('To EulerVector', t => {
   // t.is(Math.round(e.z), Math.round(r.z));
   // t.is(Math.round(e.w), Math.round(r.w));
 
-  let test = (x: number, y: number, z: number) => {
-    let e = new Vector(x, y, z);
-    let q = Quaternion.fromEulerVector(e);
-    let r = Quaternion.toEulerVector(q);
-    let diffX = e.x - r.x;
-    let diffY = e.y - r.y;
-    let diffZ = e.z - r.z;
-    let diffW = e.w - r.w;
+  const test = (x: number, y: number, z: number) => {
+    const e = new Vector(x, y, z);
+    const q = Quaternion.fromEulerVector(e);
+    const r = Quaternion.toEulerVector(q);
+    const diffX = e.x - r.x;
+    const diffY = e.y - r.y;
+    const diffZ = e.z - r.z;
+    const diffW = e.w - r.w;
     t.is(diffW < 0.1, true);
     t.is(diffX < 0.1, true);
     t.is(diffY < 0.1, true);
     t.is(diffZ < 0.1, true);
   };
 
-  let tests = [
+  const tests = [
     [0, 0, 0],
     [12, 13, 15],
     [20, 20, 20],
@@ -106,19 +106,19 @@ test('To EulerVector', t => {
 });
 
 test('fromRotationMatrixIV', (t: any) => {
-  let s = new Quaternion(0, 0, 0, 1);
-  let m1 = MatrixIV.fromQuaternion(s);
+  const s = new Quaternion(0, 0, 0, 1);
+  const m1 = MatrixIV.fromQuaternion(s);
   let q = Quaternion.fromRotationMatrixIV(m1);
   t.deepEqual(q.toFixed(1), s.toFixed(1));
 
   const test = (x: number, y: number, z: number, w: number) => {
-    let s = new Quaternion(x, y, z, w);
-    let m1 = MatrixIV.fromQuaternion(s);
+    const s = new Quaternion(x, y, z, w);
+    const m1 = MatrixIV.fromQuaternion(s);
     q = Quaternion.fromRotationMatrixIV(m1);
     t.deepEqual(q.toFixed(1), s.toFixed(1));
   };
 
-  let tests = [
+  const tests = [
     [0, 0, 0, 1],
     [1, 0, 0, 0],
     [0.7, 0, 0, 0.7],

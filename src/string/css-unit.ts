@@ -91,7 +91,7 @@ export class cssUnit {
     const value = css.replace(/[a-zA-Z%]+/g, '');
     const unit = css.match(/[a-zA-Z%]+/g);
 
-    let result: CssUnitObject = {
+    const result: CssUnitObject = {
       value: null,
       unit: null,
       type: null,

@@ -308,7 +308,7 @@ export class VectorDomTimeline implements VectorDomComponent {
     const rotationValue = ['rx', 'ry', 'rz'];
     this.timeline = timeline.map(timeline => {
       // Save any new keys.
-      let keys = Object.keys(timeline);
+      const keys = Object.keys(timeline);
 
       // Add the keys to timelineKeys while deduping.
       this.timelineKeys = [...new Set([...this.timelineKeys, ...keys])];
@@ -378,7 +378,7 @@ export class VectorDomTimeline implements VectorDomComponent {
     keys: Array<string>,
     timeline: Array<VectorDomTimelineObject>
   ): Object {
-    let storyboard = {};
+    const storyboard = {};
     keys.forEach(key => {
       if (skipKeys.includes(key)) {
         return;
@@ -390,8 +390,8 @@ export class VectorDomTimeline implements VectorDomComponent {
       // Make a copy and also remove keys that are not related to this
       // storyboard.
       keyStoryboard = keyStoryboard.map(t => {
-        let copy = Object.assign({}, t);
-        for (let k in copy) {
+        const copy = Object.assign({}, t);
+        for (const k in copy) {
           if (k !== key && !skipKeys.includes(k)) {
             delete copy[k];
           }
@@ -402,22 +402,22 @@ export class VectorDomTimeline implements VectorDomComponent {
       storyboard[key] = keyStoryboard;
     });
 
-    for (let key in storyboard) {
-      let keyStory = storyboard[key];
+    for (const key in storyboard) {
+      const keyStory = storyboard[key];
 
       // Check that the first item is progress 0.  If not, artificially
       // generate it so that the progress starts at 0.
       if (keyStory[0].progress !== 0) {
-        let copy = Object.assign({}, keyStory[0]);
+        const copy = Object.assign({}, keyStory[0]);
         copy.progress = 0;
         keyStory.unshift(copy);
       }
 
       // Check that the last item is progress 1.  If not, artificially
       // generate it and add it to the end.
-      let last = keyStory.length - 1;
+      const last = keyStory.length - 1;
       if (keyStory[last].progress !== 1) {
-        let copy = Object.assign({}, keyStory[last]);
+        const copy = Object.assign({}, keyStory[last]);
         copy.progress = 1;
         keyStory.push(copy);
       }
@@ -464,7 +464,7 @@ export class VectorDomTimeline implements VectorDomComponent {
   ): VectorDomStartEnd | null {
     // Loop through the storyboard and figure out the correct start and
     // end points.
-    let activeStoryboard = storyboard[key];
+    const activeStoryboard = storyboard[key];
     if (!activeStoryboard) {
       return null;
     }
@@ -495,22 +495,22 @@ export class VectorDomTimeline implements VectorDomComponent {
   }
 
   updateProgress(progress: number) {
-    for (let key in this.storyboard) {
-      let startEnd = VectorDomTimeline.getStartAndEndTimelineFromStoryboard(
+    for (const key in this.storyboard) {
+      const startEnd = VectorDomTimeline.getStartAndEndTimelineFromStoryboard(
         this.storyboard,
         key,
         progress
       );
 
-      let startTimeline = startEnd!.start;
-      let endTimeline = startEnd!.end;
+      const startTimeline = startEnd!.start;
+      const endTimeline = startEnd!.end;
       // The start and end values.
-      let start = startTimeline[key];
-      let end = endTimeline[key];
-      let easing = startTimeline.easingFunction;
+      const start = startTimeline[key];
+      const end = endTimeline[key];
+      const easing = startTimeline.easingFunction;
 
       // Create a child progress between the start and end.
-      let childProgress = mathf.clamp01(
+      const childProgress = mathf.clamp01(
         mathf.childProgress(
           progress,
           startTimeline.progress,
@@ -526,11 +526,11 @@ export class VectorDomTimeline implements VectorDomComponent {
       let value;
       // If the value is a numberical.
       if (is.number(start) && is.number(end)) {
-        let diff = end - start;
+        const diff = end - start;
         if (!this.catmullRomMode || mathf.absZero(diff) == 0) {
           value = mathf.ease(start, end, childProgress, easing || EASE.linear);
         } else {
-          let tension = this.catmullRomTension;
+          const tension = this.catmullRomTension;
 
           // Technically, not a catmull rom but create a similar
           // spline out of HermiteCurves.
@@ -584,7 +584,7 @@ export class VectorDomTimeline implements VectorDomComponent {
       return;
     }
 
-    for (let key in cssVars) {
+    for (const key in cssVars) {
       dom.setCssVariable(this.element, key, cssVars[key]);
     }
   }

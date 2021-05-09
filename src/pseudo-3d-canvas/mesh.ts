@@ -40,7 +40,7 @@ export class Mesh {
     this.forward = Vector.ONE.cross(this.up);
 
     // Generate a basis matrix.
-    let basisMatrix = new MatrixIV();
+    const basisMatrix = new MatrixIV();
     basisMatrix.setVectorColumn(0, this.right);
     basisMatrix.setVectorColumn(1, this.up);
     basisMatrix.setVectorColumn(2, this.forward);

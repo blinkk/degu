@@ -2,10 +2,10 @@ import {Defer} from './defer';
 import test from 'ava';
 
 test('defer', async t => {
-  let defer = new Defer();
+  const defer = new Defer();
 
   let count = 0;
-  let resolveLater = () => {
+  const resolveLater = () => {
     window.setTimeout(() => {
       count++;
       defer.resolve();

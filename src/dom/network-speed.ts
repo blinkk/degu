@@ -19,12 +19,12 @@ export class networkSpeed {
     return new Promise(resolve => {
       // First load the fallback image and approximate the
       // network speed.
-      let startTime = Date.now();
+      const startTime = Date.now();
       fetch(testImageSource)
-        .then(function (response) {
+        .then(response => {
           return response.blob();
         })
-        .then(function (blob) {
+        .then(blob => {
           let speed = 0;
 
           // Get the performance.
@@ -80,7 +80,7 @@ export class networkSpeed {
 
     // If the amount of data coudn't be comprehended.  This happens
     // on safari where
-    if (!!!amountOfDataMb) {
+    if (!amountOfDataMb) {
       return null;
     }
 
@@ -99,7 +99,7 @@ export class networkSpeed {
    * data size info.
    */
   static getDataTransfer() {
-    let entries = performance.getEntriesByType('resource');
+    const entries = performance.getEntriesByType('resource');
     let size = 0;
     entries.forEach(entry => {
       size += entry['transferSize'];

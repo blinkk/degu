@@ -55,7 +55,7 @@ export class Raycast {
     boundaryA: Vector,
     boundaryB: Vector
   ) {
-    let direction = Vector.fromAngle(angle);
+    const direction = Vector.fromAngle(angle);
     return Raycast.cast2d(origin, direction, boundaryA, boundaryB);
   }
 

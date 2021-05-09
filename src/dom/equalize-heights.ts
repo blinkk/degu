@@ -72,8 +72,8 @@ export class EqualizeHeights {
   public run() {
     // Don't apply equalheight on certain conditions.
     if (this.breakpoint) {
-      let isGreaterThan = this.breakpoint.startsWith('>');
-      let targetBreakpoint = +this.breakpoint.substring(1);
+      const isGreaterThan = this.breakpoint.startsWith('>');
+      const targetBreakpoint = +this.breakpoint.substring(1);
       if (isGreaterThan && targetBreakpoint >= window.innerWidth) {
         this.removeEqualHeights();
         return;
@@ -100,7 +100,7 @@ export class EqualizeHeights {
     });
     window.setTimeout(() => {
       this.forEachElement((element: HTMLElement) => {
-        let height = element.getBoundingClientRect().height;
+        const height = element.getBoundingClientRect().height;
         largestHeight = Math.max(height, largestHeight);
       });
       this.forEachElement((element: HTMLElement) => {
@@ -119,7 +119,7 @@ export class EqualizeHeights {
       element.style.maxHeight = 'none';
     });
     this.forEachElement((element: HTMLElement) => {
-      let height = element.offsetHeight;
+      const height = element.offsetHeight;
       if (height < shortestHeight) {
         shortestHeight = height;
       }

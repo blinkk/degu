@@ -9,7 +9,7 @@ class SmoothScrollController {
   private offset: number;
   private $element: ng.IRootElementService;
   private element: HTMLElement;
-  private animating: boolean = false;
+  private animating = false;
   private duration: number;
 
   static get $inject() {
@@ -30,7 +30,7 @@ class SmoothScrollController {
     // Check where id was used to evaluated anglar values
     // versus sometimes we just want to use the string output.
     this.id = $attrs.smoothScrollClick;
-    if (!!$attrs.smoothScrollClickEval) {
+    if ($attrs.smoothScrollClickEval) {
       this.id = $scope.$eval($attrs.smoothScrollClick);
     }
 
@@ -49,10 +49,10 @@ class SmoothScrollController {
     }
     this.animating = true;
 
-    var page = this.jQuery('body, html');
-    let top = this.jQuery('#' + this.id).offset()!.top - this.offset;
+    const page = this.jQuery('body, html');
+    const top = this.jQuery('#' + this.id).offset()!.top - this.offset;
 
-    let animationComplete = () => {
+    const animationComplete = () => {
       this.animating = false;
       page.off(
         'scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove'

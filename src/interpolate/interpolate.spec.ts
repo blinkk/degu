@@ -4,7 +4,7 @@ import {EASE} from '../ease/ease';
 import test from 'ava';
 
 test('linear interpolation', t => {
-  let inter = new Interpolate({
+  const inter = new Interpolate({
     from: 0,
     to: 100,
     easeFunction: EASE.linear,
@@ -24,7 +24,7 @@ test('linear interpolation', t => {
 });
 
 test('sin interpolation', t => {
-  let inter = new Interpolate({
+  const inter = new Interpolate({
     from: 0,
     to: 100,
     easeFunction: EASE.easeInSine,
@@ -44,7 +44,7 @@ test('sin interpolation', t => {
 });
 
 test('negative interpolation', t => {
-  let inter = new Interpolate({
+  const inter = new Interpolate({
     from: 0,
     to: -100,
     easeFunction: EASE.linear,
@@ -74,7 +74,7 @@ test('unit interpolation', t => {
 });
 
 test('negative unit interpolation', t => {
-  let inter = new Interpolate({
+  const inter = new Interpolate({
     from: '0px',
     to: '-100px',
     easeFunction: EASE.linear,
@@ -83,7 +83,7 @@ test('negative unit interpolation', t => {
 });
 
 test('color interpolation hex', t => {
-  let inter = new Interpolate({
+  const inter = new Interpolate({
     from: '#FFFFFF',
     to: '#000000',
     easeFunction: EASE.linear,
@@ -92,7 +92,7 @@ test('color interpolation hex', t => {
 });
 
 test('color interpolation rgba', t => {
-  let inter = new Interpolate({
+  const inter = new Interpolate({
     from: 'rgba(255, 255, 255, 0)',
     to: 'rgba(0,0,0,1)',
     easeFunction: EASE.linear,
@@ -101,7 +101,7 @@ test('color interpolation rgba', t => {
 });
 
 test('color interpolation rgb', t => {
-  let inter = new Interpolate({
+  const inter = new Interpolate({
     from: 'rgb(255, 255, 255)',
     to: 'rgb(0,0,0)',
     easeFunction: EASE.linear,

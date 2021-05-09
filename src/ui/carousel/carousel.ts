@@ -211,7 +211,7 @@ export class Carousel implements EventDispatcher {
         default:
           throw new Error(
             `Unrecognized transition type "${transition}" passed to ` +
-              `Carousel.`
+              'Carousel.'
           );
       }
     } else {

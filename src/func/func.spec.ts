@@ -2,9 +2,9 @@ import {func} from './func';
 import test from 'ava';
 
 test('debounce', async t => {
-  var count = 1;
+  let count = 1;
   // Create a
-  var debounce = func.debounce(() => {
+  const debounce = func.debounce(() => {
     count++;
   }, 3);
 
@@ -24,9 +24,9 @@ test('debounce', async t => {
 });
 
 test('throttle', async t => {
-  var count = 1;
+  let count = 1;
   // Create a
-  var throttle = func.throttle(() => {
+  const throttle = func.throttle(() => {
     count++;
   }, 10);
 
@@ -69,7 +69,7 @@ test('memoize', async t => {
   // Number of times memoize function is run.
   let count = 0;
 
-  let run = func.memoize((value: any) => {
+  const run = func.memoize((value: any) => {
     count++;
     return value;
   });
@@ -99,7 +99,7 @@ test('memoizeSimple', async t => {
   // Number of times memoize function is run.
   let count = 0;
 
-  let run = func.memoizeSimple((value: any) => {
+  const run = func.memoizeSimple((value: any) => {
     count++;
     return value;
   });
@@ -136,7 +136,7 @@ test('runOnceOnChange', async t => {
   // Number of times memoize function is run.
   let count = 0;
 
-  let run = func.memoizeSimple((value: any) => {
+  const run = func.memoizeSimple((value: any) => {
     count++;
   });
   t.is(count, 0);
@@ -158,7 +158,7 @@ test('runOnceOnChange', async t => {
 });
 
 test('setDefault', async t => {
-  var test = func.setDefault(false, false);
+  let test = func.setDefault(false, false);
   t.is(test, false);
   test = func.setDefault(undefined, 4);
   t.is(test, 4);

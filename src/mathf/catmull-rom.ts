@@ -67,8 +67,8 @@ export class CatmullRom {
    */
   public static interpolate(
     points: Array<Vector>,
-    m0Tension: number = 0.5,
-    m1Tension: number = 0.5
+    m0Tension = 0.5,
+    m1Tension = 0.5
   ): Function {
     return (progress: number) => {
       return CatmullRom.getPoint(points, progress, m0Tension, m1Tension);
@@ -86,26 +86,26 @@ export class CatmullRom {
   public static getPoint(
     points: Array<Vector>,
     progress: number,
-    m0Tension: number = 0.5,
-    m1Tension: number = 0.5
+    m0Tension = 0.5,
+    m1Tension = 0.5
   ): Vector {
-    let pointCount = points.length - 1;
-    let percentPerVector = 100 / pointCount;
+    const pointCount = points.length - 1;
+    const percentPerVector = 100 / pointCount;
 
-    let i = mathf.clamp(
+    const i = mathf.clamp(
       Math.floor(mathf.lerp(0, pointCount, progress)),
       pointCount - 1,
       0
     );
 
-    var p_1 = points[i - 1] && points[i - 1].clone();
-    var p0 = points[i] && points[i].clone();
-    var p1 = points[i + 1] && points[i + 1].clone();
-    var p2 = points[i + 2] && points[i + 2].clone();
+    const p_1 = points[i - 1] && points[i - 1].clone();
+    const p0 = points[i] && points[i].clone();
+    const p1 = points[i + 1] && points[i + 1].clone();
+    const p2 = points[i + 2] && points[i + 2].clone();
 
     // Calculate M0 tangent
     //   M0 = p1 - p_1 / 2
-    var m0;
+    let m0;
     if (i > 0) {
       m0 = Vector.subtract(p1, p_1).scale(m0Tension);
     } else {
@@ -114,7 +114,7 @@ export class CatmullRom {
 
     // Calculate M1 tangent
     // M1 = p2 - p0 / 2
-    var m1;
+    let m1;
     if (i < pointCount - 2) {
       m1 = Vector.subtract(p2, p0).scale(m1Tension);
     } else {
@@ -122,9 +122,9 @@ export class CatmullRom {
     }
 
     // Calculate the child progress for this curve.
-    let startProgress = (percentPerVector * i) / 100;
-    let endProgress = (percentPerVector * (i + 1)) / 100;
-    let childProgress = mathf.childProgress(
+    const startProgress = (percentPerVector * i) / 100;
+    const endProgress = (percentPerVector * (i + 1)) / 100;
+    const childProgress = mathf.childProgress(
       progress,
       startProgress,
       endProgress

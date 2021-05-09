@@ -130,7 +130,7 @@ export class LazyVideo {
   /**
    * Whether to play / stop the video on inview.
    */
-  private playOnInview: boolean = false;
+  private playOnInview = false;
 
   constructor(el: HTMLElement) {
     this.el = el;
@@ -196,7 +196,7 @@ export class LazyVideo {
     }
   }
 
-  public paint(force: boolean = false): void {
+  public paint(force = false): void {
     if ((this.isPainted() && !this.setComplete) || force) {
       this.setComplete = true;
       this.el.setAttribute('src', this.url);
@@ -232,7 +232,7 @@ export class LazyVideo {
 
   private playVideo() {
     if (!dom.testVideoIsPlaying(this.video)) {
-      let playPromise = this.video.play();
+      const playPromise = this.video.play();
       playPromise.then(() => {}).catch(e => {});
     }
   }

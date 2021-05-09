@@ -224,7 +224,7 @@ export class DomWatcher {
    * @param config
    */
   private addSingleEvent(config: DomWatcherConfig) {
-    let listener = (event: any) => {
+    const listener = (event: any) => {
       if (config.runWhen) {
         config.runWhen() && config.callback(event);
       } else {
@@ -308,7 +308,7 @@ export class DomWatcher {
    * @param id
    */
   run(id: string) {
-    let configsToRun = this.watcherConfigs.filter(
+    const configsToRun = this.watcherConfigs.filter(
       (config: DomWatcherConfig) => {
         return config.id && config.id == id;
       }

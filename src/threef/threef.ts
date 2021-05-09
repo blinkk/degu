@@ -59,7 +59,7 @@ export class threef {
    * @see https://github.com/mrdoob/three.js/tree/dev/examples/js/libs/draco#readme
    */
   static loadGltf(config: threefGltfLoader) {
-    let defer = new Defer();
+    const defer = new Defer();
 
     // Start loading gltf.
     let gltfData: Record<string, any> = {};
@@ -78,10 +78,10 @@ export class threef {
       } else {
         // Load the animation export
         fetch(config.animationMarkerPath)
-          .then(function (response) {
+          .then(response => {
             return response.json();
           })
-          .then(function (markerData: any) {
+          .then((markerData: any) => {
             animationMarkerData = markerData;
             resolve({});
           });
@@ -170,7 +170,7 @@ export class threef {
     width: number,
     height: number
   ) {
-    var pos = position.clone();
+    const pos = position.clone();
     const mat4 = new THREE.Matrix4();
     mat4.multiply(camera.projectionMatrix);
     mat4.multiply(camera.matrixWorldInverse);
@@ -336,9 +336,9 @@ export class threef {
       object['alwaysInvisible'] = true;
       for (const key of Object.keys(corners)) {
         const corner = corners[key];
-        var geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
-        var material = new THREE.MeshBasicMaterial({color: corner.color});
-        var cube = new THREE.Mesh(geometry, material);
+        const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+        const material = new THREE.MeshBasicMaterial({color: corner.color});
+        const cube = new THREE.Mesh(geometry, material);
         cube.position.set(corner.vec.x, corner.vec.y, corner.vec.z);
         scene.add(cube);
       }
@@ -418,7 +418,7 @@ export class threef {
     height: number
   ): THREE.Euler {
     // Get the local transform values.
-    let q = new THREE.Quaternion();
+    const q = new THREE.Quaternion();
     // object.updateWorldMatrix(true, false);
     object.getWorldQuaternion(q);
     // Convert coordinate system.
@@ -427,7 +427,7 @@ export class threef {
     q.z = -q.z;
 
     // Get the camera rotation (world)
-    let cq = new THREE.Quaternion();
+    const cq = new THREE.Quaternion();
     // camera.updateWorldMatrix(true, false);
     camera.getWorldQuaternion(cq);
 

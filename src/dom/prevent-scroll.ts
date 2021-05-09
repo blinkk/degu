@@ -29,7 +29,7 @@ export class PreventScroll {
     e.preventDefault();
   }
 
-  public enableScroll(enable: boolean = true) {
+  public enableScroll(enable = true) {
     if (enable) {
       this.domWatcher.removeAll();
     } else {

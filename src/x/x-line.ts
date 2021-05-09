@@ -67,7 +67,7 @@ export class XLine extends XGameObject {
     ctx.strokeStyle = this.strokeStyle;
 
     if (this.gradientStops) {
-      var grad = ctx.createLinearGradient(
+      let grad = ctx.createLinearGradient(
         this.startX,
         this.startY,
         this.endX,

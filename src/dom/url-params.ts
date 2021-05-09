@@ -8,8 +8,8 @@ export class urlParams {
    * Whether two string urls are of the same original
    */
   static areSameHostNames(url1: string, url2: string) {
-    var urlA = new URL(url1);
-    var urlB = new URL(url2);
+    const urlA = new URL(url1);
+    const urlB = new URL(url2);
     return urlA.hostname == urlB.hostname;
   }
 
@@ -76,7 +76,7 @@ export class urlParams {
    * ```
    */
   static addParamNow(paramName: string, value: string) {
-    var url = new URL(window.location.href);
+    const url = new URL(window.location.href);
     url.searchParams.set(paramName, value);
     if (window.history.replaceState) {
       window.history.replaceState({}, '', url.toString());
@@ -94,7 +94,7 @@ export class urlParams {
    * ```
    */
   static removeParamNow(paramName: string) {
-    var url = new URL(window.location.href);
+    const url = new URL(window.location.href);
     url.searchParams.delete(paramName);
     if (window.history.replaceState) {
       window.history.replaceState({}, '', url.toString());
@@ -116,9 +116,9 @@ export class urlParams {
    */
   static asObject(url: string): Record<string, string> {
     const query = url.substr(1);
-    let result: Record<string, string> = {};
+    const result: Record<string, string> = {};
     query.split('&').forEach((section: any) => {
-      let item = section.split('=');
+      const item = section.split('=');
 
       if (item[0] == '') {
         return;
@@ -168,7 +168,7 @@ export class urlParams {
           return;
         }
 
-        let url = new URL(el.href);
+        const url = new URL(el.href);
         objectf.forEach(params, (key: string, value: string) => {
           if (!url.searchParams.has(key)) {
             if (whiteListKeys && whiteListKeys.length >= 1) {
@@ -224,7 +224,7 @@ export class urlParams {
    * @param url
    */
   static getHostName(url: string) {
-    var hostname = new URL(url).hostname;
+    const hostname = new URL(url).hostname;
     return hostname;
   }
 

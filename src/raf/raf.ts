@@ -193,12 +193,12 @@ export class Raf {
   private fps: number;
   private currentFps: number;
   public isPlaying: boolean;
-  public isReadWriteOnly: boolean = false;
+  public isReadWriteOnly = false;
   private callbacks: Array<Function> = [];
   private runCondition: Function | null;
   private isRunningRaf: boolean;
   private elaspedTime: number;
-  public isDisposed: boolean = false;
+  public isDisposed = false;
   private startTime: number;
 
   /**
@@ -452,12 +452,13 @@ export class Raf {
    * Starts the RAF animation loop.
    * @param {boolean} Whether to force a start.
    */
-  start(force: boolean = false) {
+  start(force = false) {
     if (!force && this.isPlaying) {
       return;
     }
-    this.startTime = (
-      typeof performance === 'undefined' ? Date : performance
+    this.startTime = (typeof performance === 'undefined'
+      ? Date
+      : performance
     ).now();
     this.animationLoop_();
     this.isPlaying = true;
@@ -656,7 +657,7 @@ class RafRegistry {
   }
 
   private rafs: Array<Raf>;
-  private flushScheduled: boolean = false;
+  private flushScheduled = false;
   private readonly preReads: Array<RafRegistryObject> = [];
   private readonly reads: Array<RafRegistryObject> = [];
   private readonly writes: Array<RafRegistryObject> = [];

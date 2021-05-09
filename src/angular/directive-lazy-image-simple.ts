@@ -94,7 +94,7 @@ export class LazyImageSimple implements INgDisposable {
 
   loadImage(): Promise<void> {
     return new Promise((resolve, reject) => {
-      let element = this.el;
+      const element = this.el;
 
       // If this is to be a background image.
       if (this.setAsBackgroundImage) {
@@ -105,8 +105,8 @@ export class LazyImageSimple implements INgDisposable {
       }
 
       // If this is a new image to be replaced.
-      let imageLoader = new Image();
-      let onLoad = () => {
+      const imageLoader = new Image();
+      const onLoad = () => {
         // Add loaded class.
         imageLoader.classList.add('loaded');
         // Swap out the div with the new image.
@@ -119,14 +119,16 @@ export class LazyImageSimple implements INgDisposable {
         once: true,
       });
 
-      let onError = (e: any) => {
+      const onError = (e: any) => {
         resolve();
       };
       imageLoader.addEventListener('error', onError, {
         once: true,
       });
 
-      let attributes = Array.prototype.slice.call(element.attributes).concat();
+      const attributes = Array.prototype.slice
+        .call(element.attributes)
+        .concat();
       // Transfer all attributes on the div to the new image.
       attributes.forEach(attr => {
         imageLoader.setAttribute(attr.name, attr.value);
@@ -142,7 +144,7 @@ export class LazyImageSimple implements INgDisposable {
    * of hiding the element will return true.
    */
   isPaintedOnScreen() {
-    let style = window.getComputedStyle(this.el, null).display;
+    const style = window.getComputedStyle(this.el, null).display;
     return style != 'none';
   }
 

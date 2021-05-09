@@ -33,7 +33,7 @@ export class LazyImage implements INgDisposable {
   private forwardLoadScalar: number;
 
   // Whether the current browser environment supports webp.
-  private isWebpSupported: boolean = false;
+  private isWebpSupported = false;
 
   // Whether we should try to append 'rw' to the url to serve webp.
   private useGoogleImageTryWebp: boolean;
@@ -41,11 +41,11 @@ export class LazyImage implements INgDisposable {
   private useGoogleImageAutosize: boolean;
 
   // Whether to swap the images for webp (when in non google image mode).
-  private shouldSwapForWebp: boolean = false;
+  private shouldSwapForWebp = false;
 
   private parentLoadedSelector: string;
 
-  private googleImageMultiplier: number = 1;
+  private googleImageMultiplier = 1;
 
   // Allows you to specificy a different element as the lazy image trigger.
   // The image will load when this element is inview.  The trigger selector
@@ -57,7 +57,7 @@ export class LazyImage implements INgDisposable {
   // triggerElementSelector is specified.
   private triggerElement: HTMLElement | null = null;
 
-  private waitForBgLoad: boolean = false;
+  private waitForBgLoad = false;
 
   constructor(
     $scope: ng.IScope,
@@ -225,19 +225,20 @@ export class LazyImage implements INgDisposable {
         this.url = this.swapForWebp(this.url);
       }
 
-      let element = this.el;
+      const element = this.el;
 
       // If this is to be a background image.
       if (this.setAsBackgroundImage) {
         this.readWrite.write(() => {
           if (this.waitForBgLoad) {
-            let imageLoader = new Image();
-            let onLoad = () => {
+            const imageLoader = new Image();
+            const onLoad = () => {
               this.readWrite.write(() => {
                 this.el.style.backgroundImage = `url(${this.url})`;
                 this.el.classList.add('loaded');
-                const closestImageContainer =
-                  this.el.closest('.image-container');
+                const closestImageContainer = this.el.closest(
+                  '.image-container'
+                );
                 closestImageContainer &&
                   closestImageContainer.classList.add('loaded');
                 if (this.parentLoadedSelector) {
@@ -255,7 +256,7 @@ export class LazyImage implements INgDisposable {
               once: true,
             });
 
-            let onError = (e: any) => {
+            const onError = (e: any) => {
               resolve();
             };
             imageLoader.addEventListener('error', onError, {
@@ -283,8 +284,8 @@ export class LazyImage implements INgDisposable {
       }
 
       // If this is a new image to be replaced.
-      let imageLoader = new Image();
-      let onLoad = () => {
+      const imageLoader = new Image();
+      const onLoad = () => {
         this.readWrite.write(() => {
           // Add loaded class.
           imageLoader.classList.add('loaded');
@@ -313,14 +314,16 @@ export class LazyImage implements INgDisposable {
         once: true,
       });
 
-      let onError = (e: any) => {
+      const onError = (e: any) => {
         resolve();
       };
       imageLoader.addEventListener('error', onError, {
         once: true,
       });
 
-      let attributes = Array.prototype.slice.call(element.attributes).concat();
+      const attributes = Array.prototype.slice
+        .call(element.attributes)
+        .concat();
       // Transfer all attributes on the div to the new image.
       attributes.forEach(attr => {
         imageLoader.setAttribute(attr.name, attr.value);

@@ -155,11 +155,11 @@ export class LottieController {
   private domWatcher: DomWatcher;
   private lottieObjects: Array<LottieObject> = [];
   private lottieScrollSettings: LottieScrollSettings;
-  private currentProgress: number = 0;
+  private currentProgress = 0;
 
   // The top and bottom offsets in pixel number values.
-  private progressTopOffset: number = 0;
-  private progressBottomOffset: number = 0;
+  private progressTopOffset = 0;
+  private progressBottomOffset = 0;
 
   static get $inject() {
     return ['$element', '$scope', '$attrs'];
@@ -461,10 +461,11 @@ export class LottieController {
             });
 
             // Create the css var interpolation.
-            this.lottieObjects[i].cssInterpolatorInstance =
-              new CssVarInterpolate(this.element, {
-                interpolations: this.lottieObjects[i].interpolations,
-              });
+            this.lottieObjects[
+              i
+            ].cssInterpolatorInstance = new CssVarInterpolate(this.element, {
+              interpolations: this.lottieObjects[i].interpolations,
+            });
             this.lottieObjects[i].cssInterpolatorInstance!.useBatchUpdate(true);
 
             this.lottieObjects[i].lottieInDom = true;
@@ -521,7 +522,7 @@ export class LottieController {
     const rafTimer = new RafTimer((progress: number) => {
       const currentScrollProgress = this.getPercent();
 
-      let endFrame = mathf.lerp(
+      const endFrame = mathf.lerp(
         lottieObject.startFrame,
         lottieObject.endFrame,
         currentScrollProgress
@@ -693,7 +694,7 @@ export class LottieController {
           );
         }
 
-        let frame = mathf.lerp(
+        const frame = mathf.lerp(
           lottieObject.startFrame,
           lottieObject.endFrame,
           progress
@@ -734,8 +735,8 @@ export class LottieController {
         return;
       }
 
-      let classesToBeAdded: Array<string> = [];
-      let classesToBeRemoved: Array<string> = [];
+      const classesToBeAdded: Array<string> = [];
+      const classesToBeRemoved: Array<string> = [];
       if (lottieObject.classTriggers) {
         lottieObject.classTriggers.forEach((trigger: LottieClassTrigger) => {
           if (mathf.isBetween(progress, +trigger.from, +trigger.to, true)) {
@@ -776,7 +777,7 @@ export class LottieController {
   }
 
   protected getPercent(): number {
-    let percent = dom.getElementScrolledPercent(
+    const percent = dom.getElementScrolledPercent(
       this.scrollEl,
       this.progressTopOffset,
       this.progressBottomOffset

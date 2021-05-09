@@ -113,7 +113,7 @@ export class Datguif {
     //@see https://github.com/dataarts/dat.gui/blob/master/API.md#new_GUI_new
     guiParams: dat.GUIParams
   ) {
-    let options: any = guiParams;
+    const options: any = guiParams;
     if (!options) {
       options.load = JSON;
     }
@@ -279,7 +279,7 @@ export class Datguif {
   ) {
     const folder = this.getFolder(folderName);
     this.gui.remember(obj);
-    for (let key in obj) {
+    for (const key in obj) {
       // Check if this key should be displayed.
       const config = mapping.filter(c => {
         return c.keyName == key;

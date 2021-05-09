@@ -74,7 +74,7 @@ export class ParamToggler {
   private watcher: DomWatcher;
   // A list of keycodes that are currently pressed.
   private keyMapping: string[] = [];
-  private initialized: boolean = false;
+  private initialized = false;
 
   constructor(config: ParamTogglerConfig) {
     this.config = config;
@@ -118,8 +118,8 @@ export class ParamToggler {
     }
   }
 
-  private createElementWithClass(className: string, type: string = 'div') {
-    var holder = document.createElement(type) as HTMLElement;
+  private createElementWithClass(className: string, type = 'div') {
+    const holder = document.createElement(type) as HTMLElement;
     holder.classList.add(className);
     return holder;
   }
@@ -216,8 +216,8 @@ export class ParamToggler {
     this.mainPanelElement.appendChild(el);
   }
 
-  private open(pushState: boolean = false) {
-    let params = new URLSearchParams(window.location.search);
+  private open(pushState = false) {
+    const params = new URLSearchParams(window.location.search);
     params.append(this.config.togglerParamName, '');
     this.mainPanelRootElement.classList.remove('hide-panel');
     if (pushState) {
@@ -230,7 +230,7 @@ export class ParamToggler {
   }
 
   private close() {
-    let params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
     params.delete(this.config.togglerParamName);
     this.mainPanelRootElement.classList.add('hide-panel');
     window.history.replaceState(
@@ -248,7 +248,7 @@ export class ParamToggler {
           `${this.nameSpace}-${field.paramName}`
         ) as HTMLInputElement;
 
-        if (!!!el.checked) {
+        if (!el.checked) {
           params.delete(field.paramName);
         } else {
           params = urlParams.updateSearchParams(

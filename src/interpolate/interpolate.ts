@@ -148,8 +148,8 @@ export class Interpolate {
     } else {
       // If we are interpolating a string.
       // Use the from value to determine the type of cssUnit this is.
-      let from = cssUnit.parse(this.interpolateConfig.from as string);
-      let to = cssUnit.parse(this.interpolateConfig.to as string);
+      const from = cssUnit.parse(this.interpolateConfig.from as string);
+      const to = cssUnit.parse(this.interpolateConfig.to as string);
 
       // If unit type, interpolate the values and append a unit.
       if (from.valueType == CssUnitObjectTypes.number) {

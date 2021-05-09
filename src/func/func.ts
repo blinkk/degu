@@ -40,11 +40,11 @@ export class func {
 
     return function (this: any, ...args: any[]) {
       const ctx: any = this;
-      var runLater = () => {
+      const runLater = () => {
         timeOutId = undefined;
         callback.apply(ctx, args);
       };
-      var throttler = () => {
+      const throttler = () => {
         timeOutId = undefined;
       };
 
@@ -143,7 +143,7 @@ export class func {
       rejectPromise = reject;
     });
 
-    let evaluateCondition = () => {
+    const evaluateCondition = () => {
       const elapsed = time.timeDiffMs(startTime, time.now());
       // If the condition resolves.
       if (condition()) {
@@ -194,7 +194,7 @@ export class func {
       rejectPromise = reject;
     });
 
-    let evaluateCondition = () => {
+    const evaluateCondition = () => {
       const elapsed = time.timeDiffMs(startTime, time.now());
       // If the condition resolves.
       if (condition()) {
@@ -258,7 +258,7 @@ export class func {
     let cachedArgs: string | null = null;
 
     return (...args: any[]) => {
-      let stringifiedArgs = JSON.stringify(args);
+      const stringifiedArgs = JSON.stringify(args);
       if (stringifiedArgs == cachedArgs) {
         return cachedResults;
       } else {
@@ -316,7 +316,7 @@ export class func {
   static memoize(callback: Function): Function {
     const cachedResults: Record<string, any> = {};
     return (...args: any[]) => {
-      let stringifiedArgs = JSON.stringify(args);
+      const stringifiedArgs = JSON.stringify(args);
 
       if (cachedResults[stringifiedArgs]) {
         return cachedResults[stringifiedArgs];
@@ -396,7 +396,7 @@ export class func {
     let cachedArgs: string | null = null;
 
     return (...args: any[]) => {
-      let stringifiedArgs = JSON.stringify(args);
+      const stringifiedArgs = JSON.stringify(args);
       // Only excute if arguments are different.
       if (stringifiedArgs !== cachedArgs) {
         cachedArgs = stringifiedArgs;

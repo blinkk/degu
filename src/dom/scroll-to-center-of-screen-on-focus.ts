@@ -105,7 +105,7 @@ export class ScrollToCenterOfScreenOnFocus {
   private element: HTMLElement;
   private watcher: DomWatcher;
   private selector: string;
-  private debug: boolean = false;
+  private debug = false;
 
   constructor(private config: ScrollToCenterOfScreenOnFocusConfig) {
     this.element = config.element;
@@ -151,7 +151,7 @@ export class ScrollToCenterOfScreenOnFocus {
    * Handle focus on an element.
    */
   private handleFocus(focusedElement: HTMLElement) {
-    let targetPercent = +focusedElement.getAttribute(this.selector);
+    const targetPercent = +focusedElement.getAttribute(this.selector);
     const targetBaseline = !is.null(
       focusedElement.getAttribute('data-base-line')
     )
@@ -166,10 +166,10 @@ export class ScrollToCenterOfScreenOnFocus {
 
     // Calculate the scrollY so that the element is in the desired
     // position on the viewport.
-    let box = focusedElement.getBoundingClientRect();
+    const box = focusedElement.getBoundingClientRect();
     let elementBaseline = box.top + targetBaseline * box.height;
     elementBaseline = window.scrollY + elementBaseline;
-    let y = elementBaseline - targetPercent * window.innerHeight;
+    const y = elementBaseline - targetPercent * window.innerHeight;
 
     // Scroll To that point.
     window.scrollTo(0, y);

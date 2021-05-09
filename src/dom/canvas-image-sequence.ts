@@ -841,7 +841,7 @@ export class CanvasImageSequence {
       on: 'smartResize',
       callback: () => {
         // Evaluate if we need to load a different image set.
-        let newSet = this.getSourceThatShouldLoad(this.imageSets);
+        const newSet = this.getSourceThatShouldLoad(this.imageSets);
         if (newSet !== this.activeImageSet) {
           this.loadNewSet(this.imageSets);
           // Autoload the content.
@@ -932,7 +932,7 @@ export class CanvasImageSequence {
       return this.readyPromise.getPromise();
     }
 
-    let loadAllBlobs = () => {
+    const loadAllBlobs = () => {
       this.blobLoader!.load().then(results => {
         this.blobCache = results;
         this.setImageDimensions().then(() => {
@@ -988,7 +988,7 @@ export class CanvasImageSequence {
   private getSourceThatShouldLoad(
     sources: Array<CanvasImageSequenceImageSet>
   ): CanvasImageSequenceImageSet {
-    let matchingSouces: Array<CanvasImageSequenceImageSet> = [];
+    const matchingSouces: Array<CanvasImageSequenceImageSet> = [];
     sources.forEach(source => {
       if (!source.when) {
         matchingSouces.push(source);
@@ -1109,7 +1109,7 @@ export class CanvasImageSequence {
    *   position of the frame without it using multiInterpolation.  Simply,
    *   being able to say, I want to render the image sequnce at 0.9 for example.
    */
-  renderByProgress(n: number, noMultiInterpolate: boolean = false) {
+  renderByProgress(n: number, noMultiInterpolate = false) {
     this.progress = mathf.clamp01(n);
     !this.isPlaying && this.renderProgress(n, noMultiInterpolate);
   }
@@ -1123,13 +1123,13 @@ export class CanvasImageSequence {
    *   position of the frame without it using multiInterpolation.  Simply,
    *   being able to say, I want to render the image sequnce at 0.9 for example.
    */
-  private renderProgress(n: number, noMultiInterpolate: boolean = false) {
+  private renderProgress(n: number, noMultiInterpolate = false) {
     let progress = mathf.clamp01(n);
 
     // If the optional multiinterpolate is set, then use multiInterpolate
     // to figure out what the correct frame should be.
     if (this.multiInterpolate && !noMultiInterpolate) {
-      let interpolateMap: any = this.multiInterpolate.calculate(progress);
+      const interpolateMap: any = this.multiInterpolate.calculate(progress);
       progress = mathf.clamp01(interpolateMap['sequence']);
     }
 
@@ -1180,7 +1180,7 @@ export class CanvasImageSequence {
 
       // If there is a delta, keep updating with RAF until it gets resolved.
       diff = Math.abs(this.targetFrame - this.currentFrame);
-      let precision = 0.001;
+      const precision = 0.001;
       if (diff >= precision) {
         window.requestAnimationFrame(() => {
           this.renderFrame(this.targetFrame);
@@ -1190,8 +1190,9 @@ export class CanvasImageSequence {
       this.currentFrame = this.targetFrame;
     }
 
-    let imageSource =
-      this.activeImageSet!.images[Math.round(this.currentFrame)];
+    const imageSource = this.activeImageSet!.images[
+      Math.round(this.currentFrame)
+    ];
     this.draw(imageSource);
   }
 
@@ -1211,7 +1212,7 @@ export class CanvasImageSequence {
     // let height = config.top - config.bottom;
     // let width = config.left - config.right;
     // Calculate border radius as a percentage.
-    let radius = {
+    const radius = {
       tl: config.radius,
       tr: config.radius,
       br: config.radius,
@@ -1261,7 +1262,7 @@ export class CanvasImageSequence {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip
    */
   private applyCanvasClipping() {
-    let context = this.context;
+    const context = this.context;
 
     // Make a similar algo as inset done in css clip-path.
     //
@@ -1273,12 +1274,12 @@ export class CanvasImageSequence {
     // - right: 50% would mean the right half is missing
     // - left: 50% would mean the left half is missing
     if (this.clipPathType == 'inset') {
-      let results: any = this.clipMultiInterpolate!.getCalculations() || {};
-      let top = results['top'] || 0;
-      let bottom = results['bottom'] || 0;
-      let left = results['left'] || 0;
-      let right = results['right'] || 0;
-      let borderRadius = results['border-radius'] || 0;
+      const results: any = this.clipMultiInterpolate!.getCalculations() || {};
+      const top = results['top'] || 0;
+      const bottom = results['bottom'] || 0;
+      const left = results['left'] || 0;
+      const right = results['right'] || 0;
+      const borderRadius = results['border-radius'] || 0;
       this.drawRectangle({
         top: this.canvasHeight - (1 - top) * this.canvasHeight,
         left: this.canvasWidth - (1 - left) * this.canvasWidth,
@@ -1316,7 +1317,7 @@ export class CanvasImageSequence {
       return;
     }
 
-    let image = await this.makeImage(imageSource);
+    const image = await this.makeImage(imageSource);
 
     // Decoding images in this way, we see a huge memory jump.  Avoid for now.
     // await image.decode();
@@ -1326,11 +1327,11 @@ export class CanvasImageSequence {
       return;
     }
 
-    let imageBox = {
+    const imageBox = {
       width: this.imageNaturalWidth,
       height: this.imageNaturalHeight,
     };
-    let containerBox = {
+    const containerBox = {
       width: this.canvasWidth,
       height: this.canvasHeight,
     };
@@ -1345,7 +1346,7 @@ export class CanvasImageSequence {
     // Background "cover" sizing.
     // Defaults to center.
     if (this.options && this.options.cover) {
-      let cover = mathf.calculateBackgroundCover(containerBox, imageBox);
+      const cover = mathf.calculateBackgroundCover(containerBox, imageBox);
 
       if (this.options && is.number(this.options.left)) {
         cover.xOffset =
@@ -1511,7 +1512,7 @@ export class CanvasImageSequence {
   play(from: number, to: number, duration: number): Promise<void> {
     this.stop();
     this.rafTimer = new RafTimer((progress: number) => {
-      let interpolatedProgress = mathf.interpolateRange(
+      const interpolatedProgress = mathf.interpolateRange(
         progress,
         0,
         1,

@@ -116,9 +116,9 @@ export class dom {
    */
   static getElementScrolledPercent(
     element: HTMLElement,
-    startOffset: number = 0,
-    heightOffset: number = 0,
-    noClamp: boolean = false
+    startOffset = 0,
+    heightOffset = 0,
+    noClamp = false
   ): number {
     const box = element.getBoundingClientRect();
     const wh = window.innerHeight;
@@ -153,8 +153,8 @@ export class dom {
    */
   static getScrollYAtPercent(
     element: HTMLElement,
-    startOffset: number = 0,
-    heightOffset: number = 0,
+    startOffset = 0,
+    heightOffset = 0,
     percent: number
   ) {
     const wh = window.innerHeight;
@@ -203,7 +203,7 @@ export class dom {
     element: HTMLElement,
     variables: Record<string, string | number>
   ) {
-    for (let key in variables) {
+    for (const key in variables) {
       element.style.setProperty(key, String(variables[key]));
     }
   }
@@ -218,7 +218,7 @@ export class dom {
    * @param style
    */
   static addStyles(element: HTMLElement, styles: {[key: string]: string}) {
-    for (var key in styles) {
+    for (const key in styles) {
       if (key.startsWith('--')) {
         dom.setCssVariable(element, key, styles[key]);
       }
@@ -248,7 +248,7 @@ export class dom {
     element: HTMLElement,
     parentElement: HTMLElement
   ): boolean {
-    var currentNode = element.parentNode;
+    let currentNode = element.parentNode;
     while (currentNode) {
       if (currentNode == parentElement) {
         return true;
@@ -271,7 +271,7 @@ export class dom {
    * @param element The element to search videos in for.
    */
   static resetAllVideosInElement(element: HTMLElement) {
-    let videos = Array.from(element.querySelectorAll('video'));
+    const videos = Array.from(element.querySelectorAll('video'));
     videos.forEach(video => {
       video.currentTime = 0;
     });
@@ -282,8 +282,8 @@ export class dom {
    * @param element The element to search videos in for.
    * @param reset Whether to pause and reset the video to 0 seconds (start).
    */
-  static pauseAllVideosInElement(element: HTMLElement, reset: boolean = false) {
-    let videos = Array.from(element.querySelectorAll('video'));
+  static pauseAllVideosInElement(element: HTMLElement, reset = false) {
+    const videos = Array.from(element.querySelectorAll('video'));
     videos.forEach(video => {
       if (reset) {
         video.currentTime = 0;
@@ -297,15 +297,15 @@ export class dom {
    * @param element The element to search videos in for.
    * @param reset Whether to start playing from currentTime 0.
    */
-  static playAllVideosInElement(element: HTMLElement, reset: boolean = false) {
-    let videos = Array.from(element.querySelectorAll('video'));
+  static playAllVideosInElement(element: HTMLElement, reset = false) {
+    const videos = Array.from(element.querySelectorAll('video'));
     videos.forEach(video => {
       // try {
       if (reset) {
         video.currentTime = 0;
       }
       if (!dom.testVideoIsPlaying(video)) {
-        let playPromise = video.play();
+        const playPromise = video.play();
         playPromise.then(() => {}).catch(e => {});
       }
       // } catch(e) {}
@@ -334,9 +334,9 @@ export class dom {
    */
   static whenVideosLoadedInElement(
     element: HTMLElement,
-    timeout: number = 10000
+    timeout = 10000
   ): Promise<any> {
-    let videos = Array.from(element.querySelectorAll('video'));
+    const videos = Array.from(element.querySelectorAll('video'));
     return this.whenVideosLoaded(videos);
   }
 
@@ -362,11 +362,11 @@ export class dom {
    */
   static whenVideosLoaded(
     videos: Array<HTMLVideoElement>,
-    timeout: number = 10000
+    timeout = 10000
   ): Promise<any> {
-    let promises: Array<Promise<any>> = [];
+    const promises: Array<Promise<any>> = [];
     videos.forEach(video => {
-      let defer = new Defer();
+      const defer = new Defer();
       promises.push(defer.getPromise());
       func
         .waitUntil(() => video.readyState == 4, timeout, 10)
@@ -395,7 +395,7 @@ export class dom {
    * @param data
    */
   static event(element: HTMLElement, name: string, data: any) {
-    var event = new CustomEvent(name, {detail: data});
+    const event = new CustomEvent(name, {detail: data});
     element.dispatchEvent(event);
   }
 
@@ -409,15 +409,15 @@ export class dom {
    */
   static createElementFromString(
     htmlString: string,
-    fragMethod: boolean = false
+    fragMethod = false
   ): HTMLElement {
     if (fragMethod) {
-      var holder = document.createElement('div') as HTMLElement;
-      let frag = document.createRange().createContextualFragment(htmlString);
+      const holder = document.createElement('div') as HTMLElement;
+      const frag = document.createRange().createContextualFragment(htmlString);
       holder.appendChild(frag);
       return holder.firstElementChild as HTMLElement;
     } else {
-      var div = document.createElement('div');
+      const div = document.createElement('div');
       div.innerHTML = htmlString.trim();
 
       return div.firstChild as HTMLElement;
@@ -600,7 +600,7 @@ export class dom {
    */
   static makeBase64ImageFromBlob(blob: Blob): Promise<HTMLImageElement> {
     return new Promise(resolve => {
-      let reader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(blob); // converts the blob to base64 and calls onload
 
       reader.addEventListener(
@@ -705,10 +705,10 @@ export class dom {
    * @param sourceAttribute An optional attribute value to acquire the
    *   video source from.
    */
-  static flushVideos(el: HTMLElement, sourceAttribute: string = '') {
-    let videos = Array.from(el.querySelectorAll('video'));
+  static flushVideos(el: HTMLElement, sourceAttribute = '') {
+    const videos = Array.from(el.querySelectorAll('video'));
     videos.forEach(video => {
-      let sources = Array.from(video.querySelectorAll('source'));
+      const sources = Array.from(video.querySelectorAll('source'));
       sources.forEach((source: HTMLSourceElement | null) => {
         const src = source!.getAttribute(sourceAttribute) || source!.src;
         source!.setAttribute('data-video-src', src);
@@ -726,10 +726,10 @@ export class dom {
    * @param noPlay Whether to suppress autoplaying of videos when videos are
    *   unflushed.
    */
-  static unflushVideos(el: HTMLElement, noPlay: boolean = false) {
-    let videos = Array.from(el.querySelectorAll('video'));
+  static unflushVideos(el: HTMLElement, noPlay = false) {
+    const videos = Array.from(el.querySelectorAll('video'));
     videos.forEach(video => {
-      let sources = Array.from(video.querySelectorAll('source'));
+      const sources = Array.from(video.querySelectorAll('source'));
       sources.forEach(source => {
         if (!source.hasAttribute('data-video-src')) {
           return;
@@ -755,7 +755,7 @@ export class dom {
    * ```
    *
    */
-  static getScrollTop(el: HTMLElement, includeParent: boolean = false): number {
+  static getScrollTop(el: HTMLElement, includeParent = false): number {
     // Safe guard.
     if (!el) {
       return 0;
@@ -836,19 +836,15 @@ export class dom {
    * Thank you to: https://silvantroxler.ch/2016/setting-voiceover-focus-with-javascript/
    * @param el
    */
-  static forceVOFocus(
-    element: HTMLElement,
-    interval: number = 10,
-    repetition: number = 10
-  ) {
-    var focusInterval = interval; // ms, time between function calls
-    var focusTotalRepetitions = repetition; // number of repetitions
+  static forceVOFocus(element: HTMLElement, interval = 10, repetition = 10) {
+    const focusInterval = interval; // ms, time between function calls
+    const focusTotalRepetitions = repetition; // number of repetitions
 
     element.setAttribute('tabindex', '0');
     element.blur();
 
-    var focusRepetitions = 0;
-    var interval = window.setInterval(function () {
+    let focusRepetitions = 0;
+    var interval = window.setInterval(() => {
       element.focus();
       focusRepetitions++;
       if (focusRepetitions >= focusTotalRepetitions) {
@@ -876,7 +872,7 @@ export class dom {
    * Tests whether the provided element is set to display none.
    */
   static isDisplayNone(el: Element): boolean {
-    let style = window.getComputedStyle(el).display;
+    const style = window.getComputedStyle(el).display;
     return style == 'none';
   }
 
@@ -917,7 +913,7 @@ export class dom {
       );
     };
 
-    let isVisible = checkVisibility(el);
+    const isVisible = checkVisibility(el);
     if (!isVisible) {
       return false;
     }
@@ -934,7 +930,7 @@ export class dom {
    * @param prefix
    */
   static removeClassByPrefix(el: HTMLElement, prefix: string) {
-    var reg = new RegExp('\\b' + prefix + '.*?\\b', 'g');
+    const reg = new RegExp('\\b' + prefix + '.*?\\b', 'g');
     el.className = el.className.replace(reg, '');
     return el;
   }
@@ -945,7 +941,7 @@ export class dom {
    * @param el
    */
   static getAllTextNodes(el: HTMLElement): Array<Node> {
-    var n,
+    let n,
       a = [],
       walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
     while ((n = walk.nextNode())) a.push(n);
@@ -1013,13 +1009,13 @@ export class dom {
    * ```
    * @param el
    */
-  static unorphan(el: HTMLElement, lastOnly: boolean = false): void {
+  static unorphan(el: HTMLElement, lastOnly = false): void {
     let allTextNodes = dom.getAllTextNodes(el as HTMLElement);
     if (lastOnly) {
       allTextNodes = [allTextNodes[allTextNodes.length - 1]];
     }
 
-    var nbsp = '\xA0';
+    const nbsp = '\xA0';
     allTextNodes.forEach(node => {
       node.nodeValue = node.nodeValue!.replace(/\s+([^\s]*)\s*$/, nbsp + '$1');
     });

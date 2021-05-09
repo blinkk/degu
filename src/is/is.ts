@@ -227,8 +227,8 @@ export class is {
    * Detects support for webp images
    */
   static supportingWebp(): boolean {
-    var elem = document.createElement('canvas');
-    var canvasSupported = false;
+    const elem = document.createElement('canvas');
+    let canvasSupported = false;
     if (elem.toDataURL('image/webp')) {
       canvasSupported =
         elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
@@ -267,9 +267,9 @@ export class is {
    */
   static supportingWebpAsync(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      var img = new Image();
+      const img = new Image();
       img.onload = function () {
-        var result = img.width > 0 && img.height > 0;
+        const result = img.width > 0 && img.height > 0;
         resolve(result);
       };
       img.onerror = () => {
@@ -384,7 +384,7 @@ export class is {
    * @param value
    */
   static hex(value: any): boolean {
-    var a = parseInt(value, 16);
+    const a = parseInt(value, 16);
     return is.string(value) && a.toString(16) === value.toLowerCase();
   }
 
@@ -434,9 +434,9 @@ export class is {
    * https://stackoverflow.com/questions/20084513/detect-search-crawlers-via-javascript
    */
   static bot(): boolean {
-    var botPattern =
+    const botPattern =
       '(googlebot/|bot|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)';
-    var re = new RegExp(botPattern, 'i');
+    const re = new RegExp(botPattern, 'i');
     return re.test(navigator.userAgent);
   }
 }

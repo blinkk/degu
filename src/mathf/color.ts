@@ -148,9 +148,9 @@ export class color {
    * @param rgb
    */
   static rgbToHex(rgb: ColorRGB | ColorRGBA): string {
-    let r = rgb.r;
-    let g = rgb.g;
-    let b = rgb.b;
+    const r = rgb.r;
+    const g = rgb.g;
+    const b = rgb.b;
     return (
       '#' +
       ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()
@@ -162,14 +162,14 @@ export class color {
    * Modified version of:
    * https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
    */
-  static hexToRgba(hex: string, a: number = 1): ColorRGBA | null {
-    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+  static hexToRgba(hex: string, a = 1): ColorRGBA | null {
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, (m, r, g, b) => {
       return r + r + g + g + b + b;
     });
 
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    var rgba = null;
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    let rgba = null;
     if (result) {
       rgba = {
         r: parseInt(result[1], 16),
@@ -207,7 +207,7 @@ export class color {
     }
 
     if (is.cssRgba(css)) {
-      var match = css.match(
+      const match = css.match(
         /^rgba\(\s*?(\d{1,3})\s*?,\s*?(\d{1,3})\s*?,\s*?(\d{1,3})\s*?,\s*?(\d*(?:\.\d+)?)\)$/
       );
       if (match) {

@@ -23,7 +23,7 @@ test('Check Invalid Ranged progresses', t => {
 });
 
 test('FindBestMatchingRangedProgress', t => {
-  let progressSet = [
+  const progressSet = [
     {from: 0.1, to: 0.4, start: 0, end: 0},
     {from: 0.4, to: 0.5, start: 0, end: 0},
     // Create a gap between 0.5 and 0.7.
@@ -33,9 +33,9 @@ test('FindBestMatchingRangedProgress', t => {
   ];
 
   // Checkes what index of the progress set we should be on at x progress.
-  let checkPositionAt = (progress: number, index: number) => {
+  const checkPositionAt = (progress: number, index: number) => {
     // Run the findBestMatchingrangedProgress algo.
-    let run = multiInterpolateHelper.findBestMatchingRangedProgress(
+    const run = multiInterpolateHelper.findBestMatchingRangedProgress(
       progress,
       progressSet
     );
@@ -61,7 +61,7 @@ test('FindBestMatchingRangedProgress', t => {
 });
 
 test('Basic Multi Interpolation (linear)', t => {
-  let inter = new MultiInterpolate({
+  const inter = new MultiInterpolate({
     interpolations: [
       {
         id: 'x',
@@ -85,7 +85,7 @@ test('Basic Multi Interpolation (linear)', t => {
 });
 
 test('Basic Multi Interpolation (multi progress)', t => {
-  let inter = new MultiInterpolate({
+  const inter = new MultiInterpolate({
     interpolations: [
       {
         id: 'x',
@@ -105,7 +105,7 @@ test('Basic Multi Interpolation (multi progress)', t => {
 });
 
 test('Basic Multi Interpolation (mid progress)', t => {
-  let inter = new MultiInterpolate({
+  const inter = new MultiInterpolate({
     interpolations: [
       {
         id: 'x',
@@ -123,7 +123,7 @@ test('Basic Multi Interpolation (mid progress)', t => {
 });
 
 test('Multi Interpolation (non linear ease)', t => {
-  let inter = new MultiInterpolate({
+  const inter = new MultiInterpolate({
     interpolations: [
       {
         id: 'x',
@@ -151,7 +151,7 @@ test('Multi Interpolation (non linear ease)', t => {
 });
 
 test('Multi Interpolation Complex', t => {
-  let inter = new MultiInterpolate({
+  const inter = new MultiInterpolate({
     interpolations: [
       {
         progress: [

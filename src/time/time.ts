@@ -70,7 +70,7 @@ export class time {
     if (is.safari()) {
       return utcDate;
     } else {
-      var timeOffsetInMS: number = utcDate.getTimezoneOffset() * 60000;
+      const timeOffsetInMS: number = utcDate.getTimezoneOffset() * 60000;
       return new Date(utcDate.getTime() - timeOffsetInMS);
     }
   }
@@ -98,7 +98,7 @@ export class time {
   static createLocalTimeZoneDate(localTimeDate: string): Date {
     if (is.safari()) {
       const utcDate = new Date(localTimeDate);
-      var timeOffsetInMS: number = utcDate.getTimezoneOffset() * 60000;
+      const timeOffsetInMS: number = utcDate.getTimezoneOffset() * 60000;
       // Add it since safari creates it in UTC.
       return new Date(utcDate.getTime() + timeOffsetInMS);
     } else {
@@ -118,10 +118,10 @@ export class time {
    */
   static pacificTimeToLocalTimeDate(pacificTime: string): Date {
     // First create the time locally.
-    var timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
+    const timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
     // 7 Hour diff.
-    var pacificOffset: number = 420 * 60000;
-    var offset = timeOffsetInMS - pacificOffset;
+    const pacificOffset: number = 420 * 60000;
+    const offset = timeOffsetInMS - pacificOffset;
 
     // UTC
     const utc = new Date(new Date(pacificTime).getTime() + pacificOffset);
@@ -141,10 +141,10 @@ export class time {
    */
   static easternTimeToLocalTimeDate(pacificTime: string): Date {
     // First create the time locally.
-    var timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
+    const timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
     // 4 Hour diff.
-    var pacificOffset: number = 240 * 60000;
-    var offset = timeOffsetInMS - pacificOffset;
+    const pacificOffset: number = 240 * 60000;
+    const offset = timeOffsetInMS - pacificOffset;
 
     // UTC
     const utc = new Date(new Date(pacificTime).getTime() + pacificOffset);
@@ -171,7 +171,7 @@ export class time {
    * ```
    */
   static countdown(currentTime: Date, endTime: Date): Object {
-    var time = endTime.getTime() - currentTime.getTime();
+    const time = endTime.getTime() - currentTime.getTime();
     return {
       days: Math.floor(time / (1000 * 60 * 60 * 24)),
       hours: Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),

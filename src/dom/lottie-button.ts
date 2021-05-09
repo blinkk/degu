@@ -202,14 +202,14 @@ export class LottieButton {
   private watcher: DomWatcher;
   private lottieInstance: any;
   private mouseState: LottieButtonMouseState;
-  private currentFrame: number = 0;
-  private stopFrame: number = 0;
+  private currentFrame = 0;
+  private stopFrame = 0;
   private ev?: ElementVisibilityObject;
-  private isInview: boolean = false;
-  private loadImmediately: boolean = false;
+  private isInview = false;
+  private loadImmediately = false;
   private raf: Raf;
-  private isPlaying: boolean = false;
-  private hasStartedLoading: boolean = false;
+  private isPlaying = false;
+  private hasStartedLoading = false;
 
   private playQueue: Array<LottieButtonPlayQueueItem>;
   /**
@@ -217,8 +217,8 @@ export class LottieButton {
    * is resolved before the current one is played.  This allows you to create a seamless
    * transition but with mouseenter states, it can cause delays.
    */
-  private usePlayQueue: boolean = false;
-  private currentState: string = '';
+  private usePlayQueue = false;
+  private currentState = '';
 
   constructor(config: LottieButtonConfig) {
     this.config = config;

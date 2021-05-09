@@ -64,7 +64,7 @@ export class AnimationElement {
    *
    * ```
    */
-  public play(name: string, resetOnComplete: boolean = false): Promise<void> {
+  public play(name: string, resetOnComplete = false): Promise<void> {
     return new Promise(resolve => {
       const state = this.getState(name);
       this.reset();
@@ -97,7 +97,7 @@ export class AnimationElement {
    * @param name
    * @param resetOnComplete
    */
-  public stack(name: string, resetOnComplete: boolean = false): Promise<void> {
+  public stack(name: string, resetOnComplete = false): Promise<void> {
     return new Promise(resolve => {
       const state = this.getState(name);
       this.el.classList.add(state.cssClass);

@@ -11,7 +11,7 @@ export class cookies {
    * ```
    */
   static getItem(name: string) {
-    let result = document.cookie.match(
+    const result = document.cookie.match(
       '(^|[^;]+)\\s*' + name + '\\s*=\\s*([^;]+)'
     );
     return result ? result.pop() : '';
@@ -29,7 +29,7 @@ export class cookies {
    */
   static setItem(name: string, value: string, days: number) {
     if (days) {
-      var date = new Date();
+      const date = new Date();
       date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
       var expires = '; expires=' + date.toUTCString();
     } else {

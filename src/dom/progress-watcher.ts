@@ -78,8 +78,8 @@ export enum Direction {
  */
 export class ProgressWatcher {
   private watchers: ProgressWatcherItem[] = [];
-  private currentProgress: number = 0;
-  private direction: number = 0;
+  private currentProgress = 0;
+  private direction = 0;
 
   constructor() {}
 

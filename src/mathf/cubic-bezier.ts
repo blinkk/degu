@@ -182,7 +182,7 @@ export class CubicBezier {
     y3: number
   ): number {
     // Get the point (x, y) for this current time.
-    let point = CubicBezier.getBezierPoint(
+    const point = CubicBezier.getBezierPoint(
       progress,
       0,
       0, // Start

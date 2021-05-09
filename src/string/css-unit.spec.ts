@@ -39,7 +39,7 @@ test('parse hex', t => {
 });
 
 test('parse rgba', t => {
-  let rgba = 'rgba( 255, 255, 255,0.3)';
+  const rgba = 'rgba( 255, 255, 255,0.3)';
   t.is(cssUnit.parse(rgba).unit, null);
   t.is(cssUnit.parse(rgba).originalValue, rgba);
   t.is(cssUnit.parse(rgba).type, 'rgba');
@@ -52,7 +52,7 @@ test('parse rgba', t => {
 });
 
 test('parse rgb', t => {
-  let rgb = 'rgb( 255, 255, 255)';
+  const rgb = 'rgb( 255, 255, 255)';
   t.is(cssUnit.parse(rgb).unit, null);
   t.is(cssUnit.parse(rgb).originalValue, rgb);
   t.is(cssUnit.parse(rgb).type, 'rgb');

@@ -137,7 +137,7 @@ export class VideoPlayer {
    */
   public play(): void {
     if (!this.isPlaying()) {
-      let playPromise = this.video.play();
+      const playPromise = this.video.play();
       playPromise.then(() => {}).catch(e => {});
     }
   }

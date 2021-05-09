@@ -67,10 +67,10 @@ export class ScrollPoints {
   private config: ScrollPointsConfig;
   private ev: ElementVisibilityObject;
   private domWatcher: DomWatcher;
-  private y: number = 0;
-  private prevY: number = 0;
-  private scrollDirection: number = 0;
-  private scrolling: boolean = false;
+  private y = 0;
+  private prevY = 0;
+  private scrollDirection = 0;
+  private scrolling = false;
   private jQuery: JQueryStatic;
 
   constructor(config: ScrollPointsConfig) {
@@ -136,10 +136,10 @@ export class ScrollPoints {
       });
     } else {
       // TODO (uxder): replace jquery based scroll.  Probably use rafTimer.
-      var page = this.jQuery('body, html');
+      const page = this.jQuery('body, html');
       const top =
         dom.getScrollTop(this.config.targetElement) + this.getOffset();
-      let animationComplete = () => {
+      const animationComplete = () => {
         this.scrolling = false;
         page.off(
           'scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove'

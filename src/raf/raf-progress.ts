@@ -129,7 +129,7 @@ export class RafProgress {
   private rangeWatchers: Array<RafProgressRangeWatcher>;
   private callbacks: Array<Function>;
   // The current scroll direction.
-  private direction: number = 0;
+  private direction = 0;
 
   /**
    * @param {Function} progressRafLoop  Optional function to be called on each
@@ -267,7 +267,7 @@ export class RafProgress {
    * Dirty check for progress and stops raf once the value has stabilized.
    */
   private rafLoop() {
-    let previousProgress = this.currentProgress;
+    const previousProgress = this.currentProgress;
 
     if (typeof this.damp === 'number') {
       this.currentProgress = mathf.damp(
@@ -344,7 +344,7 @@ export class RafProgress {
    * Sets the current progress.  This forces an immediate update to
    * the passed progress.
    */
-  setCurrentProgress(progress: number, noClamp: boolean = true) {
+  setCurrentProgress(progress: number, noClamp = true) {
     this.currentProgress = noClamp ? progress : mathf.clampAsProgress(progress);
     this.targetProgress = this.currentProgress;
     this.easeAmount = 1;
@@ -371,7 +371,7 @@ export class RafProgress {
     targetProgress: number,
     easeAmount: number,
     easingFunction: Function = EASE.linear,
-    noClamp: boolean = false
+    noClamp = false
   ) {
     this.targetProgress = noClamp
       ? targetProgress
@@ -397,7 +397,7 @@ export class RafProgress {
     targetProgress: number,
     easeAmount: number,
     damp: number,
-    noClamp: boolean = false
+    noClamp = false
   ): void {
     this.targetProgress = noClamp
       ? targetProgress

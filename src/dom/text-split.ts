@@ -101,7 +101,7 @@ export class TextSplit {
 
     // Convert any &nbsp to space.
     if (this.convertSpacesToNbsp) {
-      var re = new RegExp(String.fromCharCode(160), 'g');
+      const re = new RegExp(String.fromCharCode(160), 'g');
       this.originalText = this.originalText.replace(re, ' ');
     }
 
@@ -119,7 +119,7 @@ export class TextSplit {
         word += '&nbsp;';
       }
 
-      let element = dom.createElementFromString(`<span>${word}</span>`);
+      const element = dom.createElementFromString(`<span>${word}</span>`);
       dom.setCssVariable(element, '--item-index', i + '');
       this.config.element.appendChild(element);
     });
@@ -127,7 +127,7 @@ export class TextSplit {
     // Futher append any sups.
     this.sups &&
       this.sups.forEach((sup, i) => {
-        let span = dom.createElementFromString(`<span></span>`);
+        const span = dom.createElementFromString('<span></span>');
         dom.setCssVariable(span, '--item-index', this.splits.length + i + '');
         span.appendChild(sup);
         this.config.element.appendChild(span);
