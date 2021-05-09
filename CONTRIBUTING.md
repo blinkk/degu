@@ -68,6 +68,12 @@ npm run publish-coverage
 npm run publish
   Build docs, run test and coverage and publish all
 
+
+
+// Lint
+npm run fix
+prettier --write "src/**/*.ts"
+
 ```
 
 
