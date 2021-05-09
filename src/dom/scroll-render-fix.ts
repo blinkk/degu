@@ -80,7 +80,6 @@ export class ScrollRenderFix {
     this.afterScrollCallback = config.afterScrollCallback || noop;
     this.domWatcher = new DomWatcher();
     this.domWatcher.add({
-      // @ts-ignore
       element: document,
       on: 'wheel',
       eventOptions: {passive: false, capture: true},
