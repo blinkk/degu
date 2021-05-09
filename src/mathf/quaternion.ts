@@ -707,12 +707,8 @@ export class Quaternion {
       m12 = temp[10],
       m22 = temp[11];
 
-    let t = m00 + m11 + m22,
-      s,
-      x,
-      y,
-      z,
-      w;
+    const t = m00 + m11 + m22;
+    let s, x, y, z, w;
 
     if (t > 0) {
       s = Math.sqrt(t + 1) * 2;
