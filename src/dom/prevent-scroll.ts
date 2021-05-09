@@ -43,7 +43,6 @@ export class PreventScroll {
       ];
       eventTypes.forEach(type => {
         this.domWatcher.add({
-          // @ts-ignore
           element: document,
           on: type,
           eventOptions: {passive: false},

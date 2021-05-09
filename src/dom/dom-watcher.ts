@@ -9,7 +9,7 @@ export interface DomWatcherConfig {
   /**
    * The element to Watch
    */
-  element: HTMLElement | Window;
+  element: HTMLElement | Window | Document;
 
   /**
    * The name of the event to watch.
