@@ -125,7 +125,7 @@ test('Basic Multi Interpolation (mid progress)', t => {
 
     t.deepEqual(inter.calculate(0), { x: 10 });
     t.deepEqual(inter.calculate(0.1), { x: 10 });
-    t.is(Math.round(inter.calculate(0.15)['x']), Math.round(60));
+    t.is(Math.round(+inter.calculate(0.15)['x']), Math.round(60));
     t.deepEqual(inter.calculate(0.2), { x: 110 });
     t.deepEqual(inter.calculate(0.3), { x: 110 });
     t.deepEqual(inter.calculate(1), { x: 110 });
@@ -143,14 +143,14 @@ test('Multi Interpolation (non linear ease)', t => {
         ]
     })
 
-    t.is(Math.round(inter.calculate(0)['x']), Math.round(0));
-    t.is(Math.round(inter.calculate(0.1)['x']), Math.round(156));
-    t.is(Math.round(inter.calculate(0.2)['x']), Math.round(309));
-    t.is(Math.round(inter.calculate(0.3)['x']), Math.round(454));
-    t.is(Math.round(inter.calculate(0.4)['x']), Math.round(588));
-    t.is(Math.round(inter.calculate(0.8)['x']), Math.round(951));
-    t.is(Math.round(inter.calculate(0.9)['x']), Math.round(988));
-    t.is(Math.round(inter.calculate(1)['x']), Math.round(1000));
+    t.is(Math.round(+inter.calculate(0)['x']), Math.round(0));
+    t.is(Math.round(+inter.calculate(0.1)['x']), Math.round(156));
+    t.is(Math.round(+inter.calculate(0.2)['x']), Math.round(309));
+    t.is(Math.round(+inter.calculate(0.3)['x']), Math.round(454));
+    t.is(Math.round(+inter.calculate(0.4)['x']), Math.round(588));
+    t.is(Math.round(+inter.calculate(0.8)['x']), Math.round(951));
+    t.is(Math.round(+inter.calculate(0.9)['x']), Math.round(988));
+    t.is(Math.round(+inter.calculate(1)['x']), Math.round(1000));
 })
 
 test('Multi Interpolation Complex', t => {
