@@ -646,9 +646,8 @@ export class HorizontalScrollElement {
     // Add currentX to account for the current position.
     this.scrollWidth = this.root.scrollWidth + this.currentX;
     this.firstItemCenterOffset = this.childrenPositions[0].centerX;
-    this.lastItemCenterOffset = this.childrenPositions[
-      this.childrenPositions.length - 1
-    ].centerX;
+    this.lastItemCenterOffset =
+      this.childrenPositions[this.childrenPositions.length - 1].centerX;
 
     // If we are in left align mode, the index count
     // is calculated differently.  The last index

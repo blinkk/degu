@@ -1190,9 +1190,8 @@ export class CanvasImageSequence {
       this.currentFrame = this.targetFrame;
     }
 
-    const imageSource = this.activeImageSet!.images[
-      Math.round(this.currentFrame)
-    ];
+    const imageSource =
+      this.activeImageSet!.images[Math.round(this.currentFrame)];
     this.draw(imageSource);
   }
 

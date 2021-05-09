@@ -456,9 +456,8 @@ export class Raf {
     if (!force && this.isPlaying) {
       return;
     }
-    this.startTime = (typeof performance === 'undefined'
-      ? Date
-      : performance
+    this.startTime = (
+      typeof performance === 'undefined' ? Date : performance
     ).now();
     this.animationLoop_();
     this.isPlaying = true;
