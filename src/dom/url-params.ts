@@ -234,7 +234,7 @@ export class urlParams {
   static lastPageWasSameHost() {
     return (
       document.referrer &&
-      urlParams.getHostName(document.referrer) ==
+      urlParams.getHostName(document.referrer) ===
         urlParams.getHostName(window.location.href)
     );
   }
