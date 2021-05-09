@@ -1,6 +1,5 @@
-import {dom, is} from '../..';
+import {dom} from '../..';
 import {DomWatcher} from '../../dom/dom-watcher';
-import {func} from '../../func/func';
 import {urlParams} from '../../dom/url-params';
 
 export enum ParamTogglerType {
