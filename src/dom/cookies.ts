@@ -28,12 +28,13 @@ export class cookies {
    * https://stackoverflow.com/questions/7215547/how-to-update-and-delete-a-cookie
    */
   static setItem(name: string, value: string, days: number) {
+    let expires;
     if (days) {
       const date = new Date();
       date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-      var expires = '; expires=' + date.toUTCString();
+      expires = '; expires=' + date.toUTCString();
     } else {
-      var expires = '';
+      expires = '';
     }
     document.cookie = name + '=' + value + expires + '; path=/';
   }
