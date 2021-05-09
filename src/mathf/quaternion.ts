@@ -1,8 +1,6 @@
-import {EASE} from '../ease/ease';
 import {mathf} from './mathf';
 import {MatrixIV} from './matrixIV';
 import {Vector} from './vector';
-import {NUMBER_RE} from 'highlight.js';
 
 /**
  * A basic quaternion class.
