@@ -118,7 +118,6 @@
     "doc": "typedoc",
     "doc-server": "simplehttpserver ./docs",
     "lint": "gts lint",
-    "lint-fix": "tslint --fix -c tslint.json \"src/**/*.ts\"",
     "prepare": "npm run build",
     "server": "node server",
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
