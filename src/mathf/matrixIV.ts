@@ -497,10 +497,10 @@ export class MatrixIV {
       y = a * c * f + b * d,
       z = b * c * f - a * d,
       A = c * c * f + e;
-    this.value[12] = this.value[12];
-    this.value[13] = this.value[13];
-    this.value[14] = this.value[14];
-    this.value[15] = this.value[15];
+    // this.value[12] = this.value[12];
+    // this.value[13] = this.value[13];
+    // this.value[14] = this.value[14];
+    // this.value[15] = this.value[15];
     this.value[0] = g * s + k * t + o * u;
     this.value[1] = h * s + l * t + p * u;
     this.value[2] = i * s + m * t + q * u;

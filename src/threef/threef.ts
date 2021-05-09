@@ -332,8 +332,7 @@ export class threef {
       object.visible = false;
       // TODO (uxder): This doesn't exist on mesh according to docs.
       // Need to investigate if we can just remove this.
-      // @ts-ignore
-      object['alwaysInvisible'] = true;
+      (object as any)['alwaysInvisible'] = true;
       for (const key of Object.keys(corners)) {
         const corner = corners[key];
         const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
@@ -423,7 +422,6 @@ export class threef {
     object.getWorldQuaternion(q);
     // Convert coordinate system.
     q.x = -q.x;
-    q.y = q.y;
     q.z = -q.z;
 
     // Get the camera rotation (world)
@@ -432,9 +430,7 @@ export class threef {
     camera.getWorldQuaternion(cq);
 
     // Convert coordinate system.
-    cq.x = cq.x;
     cq.y = -cq.y;
-    cq.z = cq.z;
 
     // Combine the camera and object rotation
     cq.multiply(q);
@@ -562,12 +558,9 @@ export class threef {
 
     return new THREE.Vector3(
       // TODO (uxder): Figure out type fix here.
-      // @ts-ignore
-      vec3[xValue] * xFactor,
-      // @ts-ignore
-      vec3[yValue] * yFactor,
-      // @ts-ignore
-      vec3[zValue] * zFactor
+      (vec3 as any)[xValue] * xFactor,
+      (vec3 as any)[yValue] * yFactor,
+      (vec3 as any)[zValue] * zFactor
     );
   }
 
