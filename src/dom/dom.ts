@@ -941,9 +941,14 @@ export class dom {
    * @param el
    */
   static getAllTextNodes(el: HTMLElement): Array<Node> {
-    let n,
-      a = [],
-      walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+    let n;
+    const a = [];
+    const walk = document.createTreeWalker(
+      el,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
     while ((n = walk.nextNode())) a.push(n);
     return a;
   }
