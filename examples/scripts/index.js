@@ -65,7 +65,6 @@ import MultiInterpolateSample from '../multi-interpolate';
 import OffScreenCanvasSample from '../off-screen-canvas';
 import PerlinNoiseSample from '../perlin-noise';
 import PlaygroundSample from '../playground';
-import Pseudo3dCanvasSample from '../pseudo-3d-canvas';
 import QuaternionSample from '../quaternion';
 import RafProgressSample from '../raf-progress';
 import RafSample from '../raf';
@@ -107,8 +106,6 @@ import WebGlImageSequenceSample4 from '../webgl-image-sequence4';
 import WebGlImageSequenceSample5 from '../webgl-image-sequence5';
 import WebGlImageSequenceSample7 from '../webgl-image-sequence7';
 import WebGlImageSequenceSample9 from '../webgl-image-sequence9';
-import X2Sample from '../x2';
-import XSample from '../x';
 import InviewSample from '../inview';
 
 
@@ -156,7 +153,6 @@ const samples = {
   'matrixIVSample': MatrixIVSample,
   'matrixIVSample2': MatrixIVSample2,
   'matrixIVSample3': MatrixIVSample3,
-  'pseudo3dCanvasSample': Pseudo3dCanvasSample,
   'vectorDomSample': VectorDomSample,
   'vectorDomSample2': VectorDomSample2,
   'vectorDomSample3': VectorDomSample3,
@@ -164,8 +160,6 @@ const samples = {
   'rayCasting2Sample': RayCasting2Sample,
   'rayCasting3Sample': RayCasting3Sample,
   'quaternionSample': QuaternionSample,
-  'xSample': XSample,
-  'x2Sample': X2Sample,
   'domWatcherSample': DomWatcherSample,
   'domCanvasSample': DomCanvasSample,
   'perlinNoiseSample': PerlinNoiseSample,
