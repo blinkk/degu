@@ -63,11 +63,11 @@ export class threef {
         let defer = new Defer();
 
         // Start loading gltf.
-        let gltfData = {};
+        let gltfData: Record<string, any> = {};
         const gltfFetch = new Promise(resolve => {
             config.gltfLoader.load(config.gltfPath, (gltf: any) => {
                 gltfData = gltf;
-                resolve();
+                resolve({});
             });
         });
 
@@ -76,7 +76,7 @@ export class threef {
         const markerFetch = new Promise(resolve => {
             if (!config.animationMarkerPath) {
                 animationMarkerData = {};
-                resolve();
+                resolve({});
             } else {
                 // Load the animation export
                 fetch(config.animationMarkerPath)
@@ -85,7 +85,7 @@ export class threef {
                     })
                     .then(function (markerData: any) {
                         animationMarkerData = markerData;
-                        resolve();
+                        resolve({});
                     });
             }
         });
@@ -130,7 +130,7 @@ export class threef {
      * - https://github.com/mrdoob/three.js/blob/master/examples/js/renderers/CSS3DRenderer.js#L6-L31
      * - https://github.com/mrdoob/three.js/blob/master/examples/js/renderers/CSS3DRenderer.js#L254
      */
-    static toDomCoordinates(object: THREE.Object3D, camera: THREE.Camera, width: number, height: number,
+    static toDomCoordinates(object: THREE.Object3D, camera: THREE.PerspectiveCamera, width: number, height: number,
         scalar?: number
     ): THREE.Vector3 {
         const v = new THREE.Vector3();
@@ -152,8 +152,8 @@ export class threef {
         if (is.defined(scalar)) {
             // Since the canvas scales based on height, use that as the basis.
             z = (v.z * -0.5 + 0.5) * height;
-            z *= scalar;
-            z *= camera['zoom'] || 1.0;
+            z *= scalar!;
+            z *= camera.zoom || 1.0;
         }
 
 
@@ -227,14 +227,14 @@ export class threef {
      *
      */
     static toDomBoundingRect(object: THREE.Mesh,
-        camera: THREE.Camera, width: number, height: number,
+        camera: THREE.PerspectiveCamera, width: number, height: number,
         options?: any,
     ): any {
 
         const box = new THREE.Box3().setFromObject(object);
 
         // Get box corners.
-        const corners = {
+        const corners: Record<string, Record<string, any>> = {
             '000': {
                 color: 0xFFFFFF, // White
                 vec: new THREE.Vector3().set(box.min.x, box.min.y, box.min.z), // 000
@@ -330,6 +330,9 @@ export class threef {
         // If a scene has been passed, add
         if (scene) {
             object.visible = false;
+            // TODO (uxder): This doesn't exist on mesh according to docs.
+            // Need to investigate if we can just remove this.
+            // @ts-ignore
             object['alwaysInvisible'] = true;
             for (const key of Object.keys(corners)) {
                 const corner = corners[key];
@@ -563,8 +566,12 @@ export class threef {
         const zValue = z[0] == '-' ? z[1] : z[0];
 
         return new THREE.Vector3(
+            // TODO (uxder): Figure out type fix here.
+            // @ts-ignore
             vec3[xValue] * xFactor,
+            // @ts-ignore
             vec3[yValue] * yFactor,
+            // @ts-ignore
             vec3[zValue] * zFactor
         );
     }
@@ -577,7 +584,7 @@ export class threef {
      * @param element
      * @param camera
      */
-    static setFov(element: HTMLElement, camera: THREE.Camera) {
+    static setFov(element: HTMLElement, camera: THREE.PerspectiveCamera) {
         const fov = 0.5 / Math.tan(camera['fov'] * Math.PI / 360) * element.offsetHeight;
         element.style.perspectiveOrigin = "50% 50%";
         element.style.perspective = fov + 'px';
@@ -737,9 +744,9 @@ export class threef {
      * @param name
      * @param THREE.Scene
      */
-    static createObjectDictionaryFromScene(scene: THREE.Scene, mapping: Object): Object {
+    static createObjectDictionaryFromScene(scene: THREE.Scene, mapping: Record<string, any>): Object {
 
-        const dictionary = {
+        const dictionary: Record<string, any> = {
             // Stores objects by name.
             byName: {},
             textMarkers: <Array<THREE.Object3D>>[],
