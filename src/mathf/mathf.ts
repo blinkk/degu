@@ -46,7 +46,7 @@ export class mathf {
    * @tested
    */
   static absZero(value: number) {
-    return value === -0 ? 0 : value;
+    return Object.is(value, -0) ? 0 : value;
   }
 
   /**
