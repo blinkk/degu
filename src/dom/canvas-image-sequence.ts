@@ -1272,7 +1272,7 @@ export class CanvasImageSequence {
     // - bottom: 50% would mean the bottom half is missing
     // - right: 50% would mean the right half is missing
     // - left: 50% would mean the left half is missing
-    if (this.clipPathType == 'inset') {
+    if (this.clipPathType === 'inset') {
       const results: any = this.clipMultiInterpolate!.getCalculations() || {};
       const top = results['top'] || 0;
       const bottom = results['bottom'] || 0;
@@ -1300,7 +1300,7 @@ export class CanvasImageSequence {
       return;
     }
 
-    if (imageSource == this.lastDrawSource) {
+    if (imageSource === this.lastDrawSource) {
       return;
     }
     this.lastDrawSource = imageSource;

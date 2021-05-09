@@ -47,7 +47,7 @@ export class MarkerInterpolate {
 
   getMarkerByName(name: string) {
     return this.markers.filter(marker => {
-      return marker.name == name;
+      return marker.name === name;
     })[0];
   }
 

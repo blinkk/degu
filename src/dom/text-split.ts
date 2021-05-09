@@ -84,7 +84,7 @@ export class TextSplit {
   private sups: Array<HTMLElement> | null;
 
   constructor(private config: textSplitConfig) {
-    this.convertSpacesToNbsp = this.config.split == ' ';
+    this.convertSpacesToNbsp = this.config.split === ' ';
 
     // Patch to get around <sup> at the end of sentances for now.
     // This is rather hacky and assumes all <sup> in the text

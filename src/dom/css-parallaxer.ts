@@ -268,11 +268,11 @@ export class CssParallaxer {
   protected getPixelValue(cssValue: string): number {
     const unit = cssUnit.parse(cssValue);
     let base = 1;
-    if (unit.unit == '%') {
+    if (unit.unit === '%') {
       base = this.element.offsetHeight;
       return base * ((unit.value as number) / 100);
     }
-    if (unit.unit == 'vh') {
+    if (unit.unit === 'vh') {
       base = window.innerHeight;
       return base * ((unit.value as number) / 100);
     }
@@ -309,7 +309,7 @@ export class CssParallaxer {
       this.currentProgress = progress;
     } else {
       // If no lerping, bypass.
-      if (lerp == 1 && damp == 1) {
+      if (lerp === 1 && damp === 1) {
         this.currentProgress = progress;
       } else {
         this.currentProgress = mathf.damp(

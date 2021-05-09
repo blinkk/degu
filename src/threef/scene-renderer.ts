@@ -579,7 +579,7 @@ export class SceneRenderer {
       const aspect = w / h;
 
       // Contain zoom algo.
-      if (scene.userData.resizingAlgo == SceneResizingAlgo.resizeWithZoom) {
+      if (scene.userData.resizingAlgo === SceneResizingAlgo.resizeWithZoom) {
         const scalar = scene.userData.resizingScalar || 1.0;
         if (aspect <= 1) {
           camera.zoom = aspect * scalar;
@@ -591,14 +591,14 @@ export class SceneRenderer {
       }
 
       // Standard Aspect algo
-      if (scene.userData.resizingAlgo == SceneResizingAlgo.standardAspect) {
+      if (scene.userData.resizingAlgo === SceneResizingAlgo.standardAspect) {
         camera.aspect = aspect;
         camera.updateProjectionMatrix();
       }
 
       // Resize with FOV
       // Uses resizingScalar.
-      if (scene.userData.resizingAlgo == SceneResizingAlgo.resizeWithFov) {
+      if (scene.userData.resizingAlgo === SceneResizingAlgo.resizeWithFov) {
         const z = scene.userData.resizingScalar || 1.0;
         camera.fov = Math.atan(h / 2 / z) * 2 * THREE.Math.RAD2DEG;
         camera.aspect = aspect;
@@ -607,7 +607,7 @@ export class SceneRenderer {
 
       // "Contain"  Algo.
       // Uses resizingOptions
-      if (scene.userData.resizingAlgo == SceneResizingAlgo.contain) {
+      if (scene.userData.resizingAlgo === SceneResizingAlgo.contain) {
         if (
           !scene.userData.resizingOptions ||
           !scene.userData.resizingOptions.scalarX ||
@@ -708,7 +708,7 @@ export class SceneRenderer {
 
       // "Cover"  Algo.
       // Uses resizingOptions
-      if (scene.userData.resizingAlgo == SceneResizingAlgo.cover) {
+      if (scene.userData.resizingAlgo === SceneResizingAlgo.cover) {
         if (
           !scene.userData.resizingOptions ||
           !scene.userData.resizingOptions.scalarX ||

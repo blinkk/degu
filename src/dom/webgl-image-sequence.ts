@@ -973,7 +973,7 @@ export class WebGlImageSequence {
       return;
     }
 
-    if (imageSource == this.lastDrawSource) {
+    if (imageSource === this.lastDrawSource) {
       return;
     }
 

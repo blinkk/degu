@@ -390,7 +390,7 @@ export class HorizontalScrollElement {
 
     const currentX = mathf.roundToPrecision(this.currentX, 3);
 
-    if (currentX == this.targetX && !immediate) {
+    if (currentX === this.targetX && !immediate) {
       return;
     }
     let dampedTarget = mathf.damp(currentX, this.targetX, 0.4, 0.2);
@@ -610,7 +610,7 @@ export class HorizontalScrollElement {
   }
 
   calculateChildPositions() {
-    if (this.items.length == 0) {
+    if (this.items.length === 0) {
       return;
     }
 
@@ -685,13 +685,13 @@ export class HorizontalScrollElement {
    */
   public slideTo(index: number, instant = false) {
     // Wrapping?
-    // if (index == -1) {
+    // if (index === -1) {
     //     index = this.childrenPositions.length - 1;
     // }
     // if (index > this.childrenPositions.length - 1) {
     //     index = 0;
     // }
-    if (index == -1) {
+    if (index === -1) {
       return;
     }
     if (index > this.itemCount) {
@@ -743,7 +743,7 @@ export class HorizontalScrollElement {
   }
 
   public isFirstSlide() {
-    return this.index == 0;
+    return this.index === 0;
   }
 
   public isLastSlide() {
@@ -751,7 +751,7 @@ export class HorizontalScrollElement {
   }
 
   getChildPosition(index: number) {
-    if (index == -1) {
+    if (index === -1) {
       return this.childrenPositions[this.childrenPositions.length - 1];
     }
 

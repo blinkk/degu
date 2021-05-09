@@ -264,7 +264,7 @@ export class AttributeHighlighter {
     let isMissingText = false;
     const text = attributeEl.getAttribute(attribute);
 
-    if (text == 'None' || text == '' || !text) {
+    if (text === 'None' || text === '' || !text) {
       isMissingText = true;
     }
 

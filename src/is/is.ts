@@ -13,7 +13,7 @@ export class is {
       .call(value)
       .slice(8, -1)
       .toLowerCase();
-    return type == trueType;
+    return type === trueType;
   }
 
   /**
@@ -109,7 +109,7 @@ export class is {
    * @tested
    */
   static int(value: any): boolean {
-    return is.number(value) && value % 1 == 0;
+    return is.number(value) && value % 1 === 0;
   }
 
   /**
@@ -125,7 +125,7 @@ export class is {
    * @tested
    */
   static multipleOf(value: any, multiple: number): boolean {
-    return is.number(value) && value % multiple == 0;
+    return is.number(value) && value % multiple === 0;
   }
 
   /**
@@ -231,7 +231,7 @@ export class is {
     let canvasSupported = false;
     if (elem.toDataURL('image/webp')) {
       canvasSupported =
-        elem.toDataURL('image/webp').indexOf('data:image/webp') == 0;
+        elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
     }
 
     // Test for firefox fails in the above but as of version 65 FF

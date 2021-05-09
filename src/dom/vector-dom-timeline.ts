@@ -527,7 +527,7 @@ export class VectorDomTimeline implements VectorDomComponent {
       // If the value is a numberical.
       if (is.number(start) && is.number(end)) {
         const diff = end - start;
-        if (!this.catmullRomMode || mathf.absZero(diff) == 0) {
+        if (!this.catmullRomMode || mathf.absZero(diff) === 0) {
           value = mathf.ease(start, end, childProgress, easing || EASE.linear);
         } else {
           const tension = this.catmullRomTension;

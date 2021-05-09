@@ -35,7 +35,7 @@ export class debug {
   }
 
   static log(...args: any[]) {
-    if (debug.debugLevel == DebugLevel.NONE) {
+    if (debug.debugLevel === DebugLevel.NONE) {
       return;
     }
 

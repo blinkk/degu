@@ -72,15 +72,15 @@ export class LazyImage implements INgDisposable {
       ? +$attrs.lazyImageForwardLoadScalar
       : 1;
 
-    this.useGoogleImageAutosize = $attrs.lazyImageGoogleImageAutosize == 'true';
-    this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp == 'true';
+    this.useGoogleImageAutosize = $attrs.lazyImageGoogleImageAutosize === 'true';
+    this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp === 'true';
     this.googleImageMultiplier = +$attrs.lazyImageGoogleImageMultiplier || 1;
-    this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp == 'true' || false;
+    this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp === 'true' || false;
     this.parentLoadedSelector = $attrs.lazyImageLoadedSelector || false;
     this.triggerElementSelector =
       $attrs.lazyImageTriggerElementSelector || false;
 
-    this.waitForBgLoad = $attrs.lazyImageWaitForBgLoad == 'true' || false;
+    this.waitForBgLoad = $attrs.lazyImageWaitForBgLoad === 'true' || false;
 
     this.imageSet = false;
 
@@ -380,7 +380,7 @@ export class LazyImage implements INgDisposable {
     );
 
     // If the image size can't be determined, use the window width.
-    if (width == 0) {
+    if (width === 0) {
       width = Math.ceil(
         window.innerWidth * window.devicePixelRatio * this.googleImageMultiplier
       );

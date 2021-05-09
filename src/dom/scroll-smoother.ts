@@ -138,7 +138,7 @@ export class ScrollSmoother {
     const updated = mathf.damp(this.currentY, this.targetY, lerp, damp);
     // updated = updated >> 0;
     this.currentY = updated;
-    if (prev == updated) {
+    if (prev === updated) {
       return;
     }
 

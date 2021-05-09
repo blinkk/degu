@@ -164,7 +164,7 @@ export class elementVisibility {
      */
     let inviewBypassParam = window.location.search.split('evBypass=')[1];
     inviewBypassParam = inviewBypassParam && inviewBypassParam.split('&')[0];
-    if (inviewBypassParam == 'true') {
+    if (inviewBypassParam === 'true') {
       window.setTimeout(() => {
         callback &&
           callback(

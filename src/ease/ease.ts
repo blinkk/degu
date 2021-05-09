@@ -10,7 +10,7 @@ export class EASE {
    * @return {number} Output between 0 and 1.
    */
   static easeInSine(t: number) {
-    return t == 0 || t == 1 ? t : 1 - Math.cos(t * (Math.PI / 2));
+    return t === 0 || t === 1 ? t : 1 - Math.cos(t * (Math.PI / 2));
   }
 
   /**
@@ -19,7 +19,7 @@ export class EASE {
    * @return {number} Output between 0 and 1.
    */
   static easeOutSine(t: number) {
-    return t == 0 || t == 1 ? t : Math.sin(t * (Math.PI / 2));
+    return t === 0 || t === 1 ? t : Math.sin(t * (Math.PI / 2));
   }
 
   /**
@@ -28,7 +28,7 @@ export class EASE {
    * @return {number} Output between 0 and 1.
    */
   static easeInOutSine(t: number) {
-    return t == 0 || t == 1 ? t : -0.5 * (Math.cos(Math.PI * t) - 1);
+    return t === 0 || t === 1 ? t : -0.5 * (Math.cos(Math.PI * t) - 1);
   }
 
   /**
@@ -37,7 +37,7 @@ export class EASE {
    * @return {number} Output between 0 and 1.
    */
   static easeInQuad(t: number) {
-    return t == 0 || t == 1 ? t : t * t;
+    return t === 0 || t === 1 ? t : t * t;
   }
 
   /**
@@ -46,7 +46,7 @@ export class EASE {
    * @return {number} Output between 0 and 1.
    */
   static easeOutQuad(t: number) {
-    return t == 0 || t == 1 ? t : t * (2 - t);
+    return t === 0 || t === 1 ? t : t * (2 - t);
   }
 
   /**
@@ -56,7 +56,7 @@ export class EASE {
    *
    */
   static easeInCubic(t: number) {
-    return t == 0 || t == 1 ? t : t * t * t;
+    return t === 0 || t === 1 ? t : t * t * t;
   }
 
   /**
@@ -65,7 +65,7 @@ export class EASE {
    * @return {number} Output between 0 and 1.
    */
   static easeInOutQuad(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 0.5) {
       return 2 * t * t;
@@ -81,7 +81,7 @@ export class EASE {
    *
    */
   static easeOutCubic(t: number) {
-    return t == 0 || t == 1 ? t : --t * t * t + 1;
+    return t === 0 || t === 1 ? t : --t * t * t + 1;
   }
 
   /**
@@ -90,7 +90,7 @@ export class EASE {
    * @return {number} Output between 0 and 1.
    */
   static easeInOutCubic(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 0.5) {
       return 4 * t * t * t;
@@ -106,7 +106,7 @@ export class EASE {
    *
    */
   static easeInQuart(t: number) {
-    return t == 0 || t == 1 ? t : t * t * t * t;
+    return t === 0 || t === 1 ? t : t * t * t * t;
   }
 
   /**
@@ -116,7 +116,7 @@ export class EASE {
    *
    */
   static easeOutQuart(t: number) {
-    return t == 0 || t == 1 ? t : 1 - --t * t * t * t;
+    return t === 0 || t === 1 ? t : 1 - --t * t * t * t;
   }
 
   /**
@@ -126,7 +126,7 @@ export class EASE {
    *
    */
   static easeInOutQuart(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 0.5) {
       return 8 * t * t * t * t;
@@ -142,7 +142,7 @@ export class EASE {
    *
    */
   static easeInQuint(t: number) {
-    return t == 0 || t == 1 ? t : t * t * t * t * t;
+    return t === 0 || t === 1 ? t : t * t * t * t * t;
   }
 
   /**
@@ -152,7 +152,7 @@ export class EASE {
    *
    */
   static easeOutQuint(t: number) {
-    return t == 0 || t == 1 ? t : 1 + --t * t * t * t * t;
+    return t === 0 || t === 1 ? t : 1 + --t * t * t * t * t;
   }
 
   /**
@@ -162,7 +162,7 @@ export class EASE {
    *
    */
   static easeInOutQuint(t: number) {
-    return t == 0 || t == 1
+    return t === 0 || t === 1
       ? t
       : t < 0.5
       ? 16 * t * t * t * t * t
@@ -176,7 +176,7 @@ export class EASE {
    *
    */
   static easeInExpo(t: number) {
-    return t == 0 || t == 1 ? t : Math.pow(2, 10 * (t - 1));
+    return t === 0 || t === 1 ? t : Math.pow(2, 10 * (t - 1));
   }
 
   /**
@@ -186,7 +186,7 @@ export class EASE {
    *
    */
   static easeOutExpo(t: number) {
-    return t == 0 || t == 1 ? t : 1 - Math.pow(2, -10 * t);
+    return t === 0 || t === 1 ? t : 1 - Math.pow(2, -10 * t);
   }
 
   /**
@@ -196,7 +196,7 @@ export class EASE {
    *
    */
   static easeInOutExpo(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 0.5) {
       return 0.5 * Math.pow(2, 10 * (t * 2 - 1));
@@ -212,7 +212,7 @@ export class EASE {
    *
    */
   static easeInCirc(t: number) {
-    return t == 0 || t == 1 ? t : 1 - Math.sqrt(1 - t * t);
+    return t === 0 || t === 1 ? t : 1 - Math.sqrt(1 - t * t);
   }
 
   /**
@@ -222,7 +222,7 @@ export class EASE {
    *
    */
   static easeOutCirc(t: number) {
-    return t == 0 || t == 1 ? t : Math.sqrt(1 - (t - 1) * (t - 1));
+    return t === 0 || t === 1 ? t : Math.sqrt(1 - (t - 1) * (t - 1));
   }
 
   /**
@@ -232,7 +232,7 @@ export class EASE {
    *
    */
   static easeInOutCirc(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 0.5) {
       return -0.5 * (Math.sqrt(1 - t * t * 4) - 1);
@@ -248,7 +248,7 @@ export class EASE {
    *
    */
   static easeInBack(t: number) {
-    return t == 0 || t == 1 ? t : t * t * (2.70158 * t - 1.70158);
+    return t === 0 || t === 1 ? t : t * t * (2.70158 * t - 1.70158);
   }
 
   /**
@@ -258,7 +258,7 @@ export class EASE {
    *
    */
   static easeOutBack(t: number) {
-    return t == 0 || t == 1
+    return t === 0 || t === 1
       ? t
       : (t - 1) * (t - 1) * (2.70158 * (t - 1) + 1.70158) + 1;
   }
@@ -271,7 +271,7 @@ export class EASE {
    *
    */
   static easeInOutBack(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 0.5) {
       return 0.5 * (t * 2) * (t * 2) * (3.5949095 * (t * 2) - 2.5949095);
@@ -290,7 +290,7 @@ export class EASE {
    *
    */
   static easeInElastic(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else {
       return (
@@ -308,7 +308,7 @@ export class EASE {
    *
    */
   static easeOutElastic(t: number) {
-    return t == 0 || t == 1
+    return t === 0 || t === 1
       ? t
       : Math.pow(2, -10 * t) * Math.sin(((t - 0.075) * (2 * Math.PI)) / 0.3) +
           1;
@@ -321,7 +321,7 @@ export class EASE {
    *
    */
   static easeInOutElastic(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 0.5) {
       return (
@@ -346,7 +346,7 @@ export class EASE {
    *
    */
   static easeInBounce(t: number) {
-    return t == 0 || t == 1 ? t : 1 - EASE.easeOutBounce(1 - t);
+    return t === 0 || t === 1 ? t : 1 - EASE.easeOutBounce(1 - t);
   }
 
   /**
@@ -356,7 +356,7 @@ export class EASE {
    *
    */
   static easeOutBounce(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 1 / 2.75) {
       return 7.5625 * t * t;
@@ -376,7 +376,7 @@ export class EASE {
    *
    */
   static easeInOutBounce(t: number) {
-    if (t == 0 || t == 1) {
+    if (t === 0 || t === 1) {
       return t;
     } else if (t < 0.5) {
       return EASE.easeInBounce(t * 2) * 0.5;

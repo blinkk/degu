@@ -57,7 +57,7 @@ import {WebWorker} from './web-worker';
  * //
  *  const task = (params) => {
  *       // If a command called init was sent, set the canvas
- *        if (params.command == 'init') {
+ *        if (params.command === 'init') {
  *           self.canvas = params.canvas;
  *           console.log("Hello", params.name);
  *           self.ctx = canvas.getContext('2d');
@@ -71,7 +71,7 @@ import {WebWorker} from './web-worker';
  *           requestAnimationFrame(animate);
  *       };
  *
- *       if (params.command == 'animate') {
+ *       if (params.command === 'animate') {
  *         animate();
  *         // Return a mesagge when animate is sent.
  *         return { message: 'FROM WORKER: started animation' };

@@ -37,11 +37,11 @@ export enum Direction {
  *  this.progressWatcher.add({
  *    range: 0.2,
  *    callback: (progress: number, direction: number)=> {
- *        if(direction == Direction.Up) {
+ *        if(direction === Direction.Up) {
  *           ....
  *        }
  *
- *        if(direction == Direction.Down) {
+ *        if(direction === Direction.Down) {
  *           ....
  *        }
  *    }
@@ -110,7 +110,7 @@ export class ProgressWatcher {
     const previousProgress = this.currentProgress;
     this.currentProgress = progress;
     const direction = mathf.direction(previousProgress, this.currentProgress);
-    if (direction == Direction.Up || direction == Direction.Down) {
+    if (direction === Direction.Up || direction === Direction.Down) {
       this.direction = direction;
     }
 

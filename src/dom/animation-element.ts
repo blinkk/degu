@@ -119,7 +119,7 @@ export class AnimationElement {
    */
   private getState(name: string) {
     return this.states.filter(state => {
-      return state.name == name;
+      return state.name === name;
     })[0];
   }
 

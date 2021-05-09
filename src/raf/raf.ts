@@ -373,7 +373,7 @@ export class Raf {
    */
   unwatch(callbackToRemove: any) {
     this.callbacks = this.callbacks.filter(callback => {
-      return callback == callbackToRemove;
+      return callback === callbackToRemove;
     });
   }
 
@@ -536,7 +536,7 @@ export class Raf {
       const elapsed = current - this.lastUpdateTime;
       this.delta = elapsed;
       this.elaspedTime += elapsed / 1000;
-      const fps = this.fps == 0 ? 0 : 1000 / this.fps;
+      const fps = this.fps === 0 ? 0 : 1000 / this.fps;
       this.currentFps = 1000 / elapsed;
       if (elapsed > fps) {
         this.callbacks &&
@@ -768,7 +768,7 @@ class RafRegistry {
 
   public unregister(raf: Raf) {
     this.rafs = this.rafs.filter(r => {
-      return r == raf;
+      return r === raf;
     });
   }
 }

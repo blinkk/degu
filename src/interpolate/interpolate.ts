@@ -152,7 +152,7 @@ export class Interpolate {
       const to = cssUnit.parse(this.interpolateConfig.to as string);
 
       // If unit type, interpolate the values and append a unit.
-      if (from.valueType == CssUnitObjectTypes.number) {
+      if (from.valueType === CssUnitObjectTypes.number) {
         this.currentValue = mathf.ease(
           from.value as number,
           to.value as number,
@@ -164,7 +164,7 @@ export class Interpolate {
       }
 
       // If it's an rgba type inteporalate it.
-      if (from.valueType == CssUnitObjectTypes.rgba) {
+      if (from.valueType === CssUnitObjectTypes.rgba) {
         const interpolatedRgba = color.rgbaEase(
           from.value as ColorRGBA,
           to.value as ColorRGBA,

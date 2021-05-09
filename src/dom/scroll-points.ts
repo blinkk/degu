@@ -117,11 +117,11 @@ export class ScrollPoints {
     }
 
     // Engage only when scroll directions match with config specification.
-    if (this.config.triggerDirection == -1 && this.scrollDirection != -1) {
+    if (this.config.triggerDirection === -1 && this.scrollDirection != -1) {
       return;
     }
 
-    if (this.config.triggerDirection == 1 && this.scrollDirection != 1) {
+    if (this.config.triggerDirection === 1 && this.scrollDirection != 1) {
       return;
     }
 

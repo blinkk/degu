@@ -135,7 +135,7 @@ export class Raycast {
 
     // If the denominator is 0, then the two lines are perfectly in
     // parallel so they would never intersect.
-    if (denominator == 0) {
+    if (denominator === 0) {
       return {
         hit: false,
       };

@@ -229,11 +229,11 @@ export class ViewportCssParallax {
   protected getPixelValue(cssValue: string): number {
     const unit = cssUnit.parse(cssValue);
     let base = 1;
-    if (unit.unit == '%') {
+    if (unit.unit === '%') {
       base = this.rootElement.offsetHeight;
       return base * ((unit.value as number) / 100);
     }
-    if (unit.unit == 'vh') {
+    if (unit.unit === 'vh') {
       base = window.innerHeight;
       return base * ((unit.value as number) / 100);
     }
@@ -286,7 +286,7 @@ export class ViewportCssParallax {
     // Invert it so that 0 is considered bottom.
     percent = 1 - percent;
 
-    if (lerp == 1 && damp == 1) {
+    if (lerp === 1 && damp === 1) {
       this.currentProgress = percent;
     } else {
       this.currentProgress = mathf.damp(

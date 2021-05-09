@@ -46,7 +46,7 @@ export class mathf {
    * @tested
    */
   static absZero(value: number) {
-    return value == -0 ? 0 : value;
+    return value === -0 ? 0 : value;
   }
 
   /**
@@ -135,7 +135,7 @@ export class mathf {
    */
   static getUniqueRandomInt(min: number, max: number, not: number): number {
     const random = mathf.getRandomInt(min, max);
-    if (random == not) {
+    if (random === not) {
       return mathf.getUniqueRandomInt(min, max, not);
     } else {
       return random;
@@ -596,7 +596,7 @@ export class mathf {
    * @tested
    */
   static direction(previous: number, current: number): number {
-    if (previous == current) {
+    if (previous === current) {
       return 0;
     }
 

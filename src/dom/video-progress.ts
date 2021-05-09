@@ -37,7 +37,7 @@ export class VideoProgress {
       this.videoReady.resolve();
     } else {
       func
-        .waitUntil(() => this.video.readyState == 4)
+        .waitUntil(() => this.video.readyState === 4)
         .then(() => {
           this.videoReady.resolve();
         });

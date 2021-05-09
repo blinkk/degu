@@ -363,12 +363,12 @@ export class Inview {
       // This is the percent of where element baseline is.
       // So 0 would mean the elementbaseline is at the bottom of the viewport.
       // 1 would mean elementBaseline is at the top of the viewport.
-      // A value less than viewport offset would mean that the element is above the viewport == outview.
+      // A value less than viewport offset would mean that the element is above the viewport === outview.
       const inPercent = 1 - mathf.inverseLerp(0, wh, elementBaseline, true);
 
       // This is the percent of where the BOTTOM of the element is in the viewport.
       // We want to use this to valuate whether the element is out of view.
-      // A value greater than 1 would mean that the element is above the viewport == outview.
+      // A value greater than 1 would mean that the element is above the viewport === outview.
       const outPercent =
         1 - mathf.inverseLerp(0, wh, box.top + box.height, true);
 
@@ -433,7 +433,7 @@ export class Inview {
           el.classList.add(this.inviewClassNames['IN_ONCE']);
           this.inOnce = true;
 
-          if (window.scrollY == 0) {
+          if (window.scrollY === 0) {
             el.classList.add(this.inviewClassNames['IN_FOLD']);
           }
         }
@@ -441,7 +441,7 @@ export class Inview {
         el.classList.remove(this.inviewClassNames['UP']);
         el.classList.remove(this.inviewClassNames['DOWN']);
         el.classList.add(
-          this.scrollDirection == -1
+          this.scrollDirection === -1
             ? this.inviewClassNames['UP']
             : this.inviewClassNames['DOWN']
         );
@@ -461,7 +461,7 @@ export class Inview {
         el.classList.remove(this.inviewClassNames['UP']);
         el.classList.remove(this.inviewClassNames['DOWN']);
         el.classList.add(
-          this.scrollDirection == -1
+          this.scrollDirection === -1
             ? this.inviewClassNames['UP']
             : this.inviewClassNames['DOWN']
         );

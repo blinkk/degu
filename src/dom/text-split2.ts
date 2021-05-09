@@ -205,7 +205,7 @@ export class TextSplit2 {
       word.setAttribute('row', sentenceNumber + '');
 
       // Last item.
-      if (i == this.words.length - 1) {
+      if (i === this.words.length - 1) {
         this.words[i].setAttribute('end', sentenceNumber + '');
       }
     });

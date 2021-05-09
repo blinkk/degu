@@ -28,8 +28,8 @@ export class PerlinNoise {
     const grad = (hash: number, x: number, y: number, z: number) => {
       const h = hash & 15;
       const u = h < 8 ? x : y,
-        v = h < 4 ? y : h == 12 || h == 14 ? x : z;
-      return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
+        v = h < 4 ? y : h === 12 || h === 14 ? x : z;
+      return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
     };
     const scale = (n: number) => {
       return (1 + n) / 2;

@@ -140,7 +140,7 @@ export class MarginOutliner {
           }
           const style = window.getComputedStyle(el);
           const rect = el.getBoundingClientRect();
-          if (style.marginTop == `${size}px`) {
+          if (style.marginTop === `${size}px`) {
             this.createSpacer(
               el,
               `${rect.top - size}px`,
@@ -149,13 +149,13 @@ export class MarginOutliner {
               false
             );
           }
-          if (style.marginBottom == `${size}px`) {
+          if (style.marginBottom === `${size}px`) {
             this.createSpacer(el, `${rect.bottom}px`, rect.left, size, false);
           }
-          if (style.paddingTop == `${size}px`) {
+          if (style.paddingTop === `${size}px`) {
             this.createSpacer(el, `${rect.top}px`, rect.left, size, true);
           }
-          if (style.paddingBottom == `${size}px`) {
+          if (style.paddingBottom === `${size}px`) {
             this.createSpacer(
               el,
               `${rect.bottom - size}px`,

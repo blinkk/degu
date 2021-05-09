@@ -30,7 +30,7 @@ export class networkSpeed {
           // Get the performance.
           let entries = performance.getEntriesByType('resource');
           entries = entries.filter(entry => {
-            return entry.name == testImageSource;
+            return entry.name === testImageSource;
           });
           const matchedEntry = entries[0];
           // Use blob.size since Safari doesn't contain byte size info

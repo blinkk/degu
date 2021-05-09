@@ -178,7 +178,7 @@ export class ParamToggler {
       if (field.element) {
         dom.removeElement(field.element);
       }
-      if (field.paramType == ParamTogglerType.BOOL) {
+      if (field.paramType === ParamTogglerType.BOOL) {
         this.createBooleanOptionElement(field);
       }
     });
@@ -242,7 +242,7 @@ export class ParamToggler {
   private onRefreshClick() {
     let params = new URLSearchParams(window.location.search);
     this.config.fields.forEach(field => {
-      if (field.paramType == ParamTogglerType.BOOL) {
+      if (field.paramType === ParamTogglerType.BOOL) {
         const el = document.getElementById(
           `${this.nameSpace}-${field.paramName}`
         ) as HTMLInputElement;

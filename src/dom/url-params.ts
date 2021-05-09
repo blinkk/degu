@@ -10,7 +10,7 @@ export class urlParams {
   static areSameHostNames(url1: string, url2: string) {
     const urlA = new URL(url1);
     const urlB = new URL(url2);
-    return urlA.hostname == urlB.hostname;
+    return urlA.hostname === urlB.hostname;
   }
 
   /**
@@ -30,7 +30,7 @@ export class urlParams {
   static isTrue(paramName: string): boolean {
     let param = window.location.search.split(paramName + '=')[1];
     param = param && param.split('&')[0];
-    return param == 'true';
+    return param === 'true';
   }
 
   /**
@@ -120,7 +120,7 @@ export class urlParams {
     query.split('&').forEach((section: any) => {
       const item = section.split('=');
 
-      if (item[0] == '') {
+      if (item[0] === '') {
         return;
       }
 

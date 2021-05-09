@@ -250,7 +250,7 @@ export class dom {
   ): boolean {
     let currentNode = element.parentNode;
     while (currentNode) {
-      if (currentNode == parentElement) {
+      if (currentNode === parentElement) {
         return true;
       }
       currentNode = currentNode.parentNode;
@@ -369,7 +369,7 @@ export class dom {
       const defer = new Defer();
       promises.push(defer.getPromise());
       func
-        .waitUntil(() => video.readyState == 4, timeout, 10)
+        .waitUntil(() => video.readyState === 4, timeout, 10)
         .then(() => {
           defer.resolve();
         });
@@ -873,7 +873,7 @@ export class dom {
    */
   static isDisplayNone(el: Element): boolean {
     const style = window.getComputedStyle(el).display;
-    return style == 'none';
+    return style === 'none';
   }
 
   /**
@@ -908,8 +908,8 @@ export class dom {
       const styles = dom.getComputedStyle(el as HTMLElement);
       return !(
         styles.opacity !== '1' ||
-        styles.visibility == 'hidden' ||
-        styles.display == 'none'
+        styles.visibility === 'hidden' ||
+        styles.display === 'none'
       );
     };
 
@@ -1033,7 +1033,7 @@ export class dom {
    */
   static isOverlapping(aElement: HTMLElement, bElement: HTMLElement): boolean {
     // Element Can't overlap with itself.
-    if (aElement == bElement) {
+    if (aElement === bElement) {
       return false;
     }
 

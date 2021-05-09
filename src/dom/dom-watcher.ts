@@ -235,7 +235,7 @@ export class DomWatcher {
     config.listener = listener;
 
     // If the on event is smartResize, wrap it with dom.smartResize.
-    if (config.on == 'smartResize') {
+    if (config.on === 'smartResize') {
       config.remover = bom.smartResize(listener, config.eventOptions || {});
     } else {
       // Add listening.
@@ -265,7 +265,7 @@ export class DomWatcher {
   removeById(id: string) {
     this.watcherConfigs = this.watcherConfigs.filter(
       (config: DomWatcherConfig) => {
-        if (config.id && config.id == id) {
+        if (config.id && config.id === id) {
           // Save as var to avoid typescript null error.
           const remover = config.remover;
           remover && remover();
@@ -310,7 +310,7 @@ export class DomWatcher {
   run(id: string) {
     const configsToRun = this.watcherConfigs.filter(
       (config: DomWatcherConfig) => {
-        return config.id && config.id == id;
+        return config.id && config.id === id;
       }
     );
 

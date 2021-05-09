@@ -179,7 +179,7 @@ export class Datguif {
    */
   folderExists(folderName: string): boolean {
     const folder = this.folders.filter(f => {
-      return f.name == folderName;
+      return f.name === folderName;
     })[0];
 
     return !!folder;
@@ -187,7 +187,7 @@ export class Datguif {
 
   getFolder(folderName: string): DatGuifFolder {
     const folder = this.folders.filter(f => {
-      return f.name == folderName;
+      return f.name === folderName;
     })[0];
 
     if (!folder) {
@@ -282,7 +282,7 @@ export class Datguif {
     for (const key in obj) {
       // Check if this key should be displayed.
       const config = mapping.filter(c => {
-        return c.keyName == key;
+        return c.keyName === key;
       })[0];
 
       if (config) {

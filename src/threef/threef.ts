@@ -549,16 +549,16 @@ export class threef {
    */
   static convertCoordinateSystem(vec3: THREE.Vector3, map: Array<string>) {
     const x = map[0].toLowerCase().split('');
-    const xFactor = x[0] == '-' ? -1 : 1;
-    const xValue = x[0] == '-' ? x[1] : x[0];
+    const xFactor = x[0] === '-' ? -1 : 1;
+    const xValue = x[0] === '-' ? x[1] : x[0];
 
     const y = map[1].toLowerCase().split('');
-    const yFactor = y[0] == '-' ? -1 : 1;
-    const yValue = y[0] == '-' ? y[1] : y[0];
+    const yFactor = y[0] === '-' ? -1 : 1;
+    const yValue = y[0] === '-' ? y[1] : y[0];
 
     const z = map[2].toLowerCase().split('');
-    const zFactor = z[0] == '-' ? -1 : 1;
-    const zValue = z[0] == '-' ? z[1] : z[0];
+    const zFactor = z[0] === '-' ? -1 : 1;
+    const zValue = z[0] === '-' ? z[1] : z[0];
 
     return new THREE.Vector3(
       // TODO (uxder): Figure out type fix here.
@@ -650,7 +650,7 @@ export class threef {
     animationClips: Array<THREE.AnimationClip>
   ) {
     return animationClips.filter((animationClip: THREE.AnimationClip) => {
-      return animationClip.name == name;
+      return animationClip.name === name;
     })[0];
   }
 
@@ -764,7 +764,7 @@ export class threef {
       for (const key of Object.keys(mapping)) {
         const value = mapping[key];
         if (is.string(value)) {
-          if (child.type == value) {
+          if (child.type === value) {
             dictionary[key].push(child);
           }
         }
@@ -786,7 +786,7 @@ export class threef {
 
   static findSceneByName(name: string, scenes: Array<THREE.Scene>) {
     const scene = scenes.filter(scene => {
-      return scene.name == name;
+      return scene.name === name;
     })[0];
 
     return scene;

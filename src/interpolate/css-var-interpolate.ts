@@ -431,7 +431,7 @@ export class CssVarInterpolate {
 
     // Only make updates when progress value was updated to avoid layout
     // thrashing.
-    if (!force && progress == this.mainProgress) {
+    if (!force && progress === this.mainProgress) {
       return;
     }
 
@@ -473,7 +473,7 @@ export class CssVarInterpolate {
     const roundedPrecision = mathf.toFixed(progress, this.precision);
 
     // Cull if progress hasn't changed.
-    if (this.mainProgress == roundedPrecision) {
+    if (this.mainProgress === roundedPrecision) {
       return;
     }
 
@@ -505,7 +505,7 @@ export class CssVarInterpolate {
       let value = this.currentValues[key];
       if (!this.renderSubPixels && typeof value === 'string') {
         const cssUnitValue = cssUnit.parse(value);
-        if (cssUnitValue.unit == 'px') {
+        if (cssUnitValue.unit === 'px') {
           value = ((cssUnitValue.value as number) >> 0) + 'px';
           this.currentValues[key] = value;
         }

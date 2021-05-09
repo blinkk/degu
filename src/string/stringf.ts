@@ -36,7 +36,7 @@ export class stringf {
    * @param str
    */
   static zeroPad(str: string) {
-    if (str.toString().length == 1) {
+    if (str.toString().length === 1) {
       str = '0' + str;
     }
     return str;

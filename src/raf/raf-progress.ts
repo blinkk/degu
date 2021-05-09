@@ -233,7 +233,7 @@ export class RafProgress {
    */
   unwatch(callbackToRemove: any) {
     this.callbacks = this.callbacks.filter(callback => {
-      return callback == callbackToRemove;
+      return callback === callbackToRemove;
     });
   }
 
@@ -335,7 +335,7 @@ export class RafProgress {
     });
 
     // Stop RAF if the value of progress has stabilized.
-    if (previousProgress == this.currentProgress) {
+    if (previousProgress === this.currentProgress) {
       this.raf.stop();
     }
   }

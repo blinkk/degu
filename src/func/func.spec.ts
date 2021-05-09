@@ -48,7 +48,7 @@ test('waitUntil', async t => {
 
   // Set the interval to 1 for quick testing.
   func
-    .waitUntil(() => testValue == 5, 0, 1)
+    .waitUntil(() => testValue === 5, 0, 1)
     .then(() => {
       waitUntilCallbackCalled = true;
     });

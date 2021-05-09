@@ -54,7 +54,7 @@ export class func {
       }
 
       // For throttling where we call on leading trail (immediate).
-      if (immediate && timeOutId == undefined) {
+      if (immediate && timeOutId === undefined) {
         callback.apply(ctx, args);
         timeOutId = +setTimeout(throttler, wait);
       }
@@ -113,7 +113,7 @@ export class func {
    * ```ts
    *
    * let someValue = 0;
-   * func.waitUntil(()=> someValue == 5).then(()=> {
+   * func.waitUntil(()=> someValue === 5).then(()=> {
    *   console.log('some value is 5!!!');
    * })
    *
@@ -172,7 +172,7 @@ export class func {
    * ```
    * let someValue = 0;
    * func.repeatUntil(
-   *  ()=> {return someValue == 5},
+   *  ()=> {return someValue === 5},
    *  ()=> { somevalue++; }
    * ).then(()=> {
    *   console.log('some value is 5!!!');
@@ -259,7 +259,7 @@ export class func {
 
     return (...args: any[]) => {
       const stringifiedArgs = JSON.stringify(args);
-      if (stringifiedArgs == cachedArgs) {
+      if (stringifiedArgs === cachedArgs) {
         return cachedResults;
       } else {
         cachedArgs = stringifiedArgs;

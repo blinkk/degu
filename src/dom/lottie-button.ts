@@ -105,9 +105,9 @@ export interface LottieButtonPlayQueueItem {
  *
  * For the transitions to work, certain frames should be the same:
  *
- * inview endFrame == mouseenter startFrame
- * mouseenter endFrame == mouseleave startFrame
- * mouseenter endFrame == click startFrame
+ * inview endFrame === mouseenter startFrame
+ * mouseenter endFrame === mouseleave startFrame
+ * mouseenter endFrame === click startFrame
  *
  *
  * ``
@@ -172,12 +172,12 @@ export interface LottieButtonPlayQueueItem {
  * Now call specific methods on lb to set the state.
  *
  * ```
- * lb.inview(); == inview
- * lb.outview(); == outview
- * lb.mousedown(); == click
- * lb.mouseup(); == unclick
- * lb.mouseenter(); == hover
- * lb.mouseleave(); == unhover
+ * lb.inview(); === inview
+ * lb.outview(); === outview
+ * lb.mousedown(); === click
+ * lb.mouseup(); === unclick
+ * lb.mouseenter(); === hover
+ * lb.mouseleave(); === unhover
  *
  * ```
  *
@@ -329,7 +329,7 @@ export class LottieButton {
         if (this.currentFrame >= this.stopFrame) {
           this.isPlaying = false;
 
-          if (this.currentState == 'outview') {
+          if (this.currentState === 'outview') {
             this.lottieInstance['stop']();
           } else {
             this.lottieInstance['pause']();
@@ -474,11 +474,11 @@ export class LottieButton {
       this.config.rootElement.classList.remove(LottieButtonCssClasses.CLICK);
       this.config.rootElement.classList.remove(LottieButtonCssClasses.HOVER);
 
-      if (this.currentState == 'click') {
+      if (this.currentState === 'click') {
         this.config.rootElement.classList.add(LottieButtonCssClasses.CLICK);
       }
 
-      if (this.currentState == 'mouseenter') {
+      if (this.currentState === 'mouseenter') {
         this.config.rootElement.classList.add(LottieButtonCssClasses.HOVER);
       }
 

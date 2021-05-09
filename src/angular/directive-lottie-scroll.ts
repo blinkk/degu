@@ -268,11 +268,11 @@ export class LottieController {
   protected getPixelValue(cssValue: string): number {
     const unit = cssUnit.parse(cssValue);
     let base = 1;
-    if (unit.unit == '%') {
+    if (unit.unit === '%') {
       base = this.element.offsetHeight;
       return base * ((unit.value as number) / 100);
     }
-    if (unit.unit == 'vh') {
+    if (unit.unit === 'vh') {
       base = window.innerHeight;
       return base * ((unit.value as number) / 100);
     }
@@ -300,7 +300,7 @@ export class LottieController {
     // must do is first tell lottie to draw some other
     // frame.  Then redraw the current frame.
     const progress = this.currentProgress;
-    if (progress == 0) {
+    if (progress === 0) {
       this.progressUpdate(progress + 0.01, 0);
     } else {
       this.progressUpdate(Math.max(0, progress - 0.01), 0);
@@ -377,7 +377,7 @@ export class LottieController {
 
         // Also update the end frame if it hasn't been specified.
         lottieInstance.addEventListener('DOMLoaded', () => {
-          if (this.lottieObjects[i].endFrame == 0) {
+          if (this.lottieObjects[i].endFrame === 0) {
             this.lottieObjects[i].endFrame = lottieInstance.totalFrames;
           }
 
@@ -584,8 +584,8 @@ export class LottieController {
     if (
       lottieObject.autoplay &&
       !lottieObject.isAutoPlaying &&
-      ((lottieObject.autoplay.down && direction == 1) ||
-        (lottieObject.autoplay.up && direction == -1)) &&
+      ((lottieObject.autoplay.down && direction === 1) ||
+        (lottieObject.autoplay.up && direction === -1)) &&
       mathf.isBetween(
         this.currentProgress,
         lottieObject.fromProgress,
