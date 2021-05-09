@@ -13,13 +13,13 @@ export class webgl {
     fr: string
   ): WebGLProgram {
     // Create program
-    let program = gl.createProgram();
+    const program = gl.createProgram()!;
     // Compile vertex shader
-    let vShader = gl.createShader(gl.VERTEX_SHADER);
+    const vShader = gl.createShader(gl.VERTEX_SHADER)!;
     gl.shaderSource(vShader, vs);
     gl.compileShader(vShader);
     // Compile frag shader
-    let fShader = gl.createShader(gl.FRAGMENT_SHADER);
+    const fShader = gl.createShader(gl.FRAGMENT_SHADER)!;
     gl.shaderSource(fShader, fr);
     gl.compileShader(fShader);
 
@@ -39,7 +39,7 @@ export class webgl {
    * @param data
    */
   static createVbo(gl: WebGLRenderingContext, data: Array<number>) {
-    var vbo = gl.createBuffer();
+    const vbo = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
     return vbo;
@@ -52,8 +52,8 @@ export class webgl {
   static createTextureFromImage(
     gl: WebGLRenderingContext,
     image: HTMLImageElement
-  ): WebGLTexture {
-    var texture = gl.createTexture();
+  ): WebGLTexture | null {
+    const texture = gl.createTexture();
     // https://stackoverflow.com/questions/39341564/webgl-how-to-correctly-blend-alpha-channel-png
     // Set correct transparency to support pngs.
     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
