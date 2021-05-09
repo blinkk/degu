@@ -9,7 +9,7 @@ export class objectf {
      * Deep copies an object by looping through it.
      * @alias arrayf.deepcopy.
      */
-    static deepCopy(input: Array<any> | Object): Array<any> | Object {
+    static deepCopy(input: Array<any> | [key:string]): Array<any> | Object {
         return arrayf.deepCopy(input);
     }
 
@@ -29,7 +29,7 @@ export class objectf {
      * @param a
      * @param b
      */
-    static areEqual(a: Object, b: Object): boolean {
+    static areEqual(a: {[key: string]: any}, b: {[key:string]: any}): boolean {
         var aProps = Object.getOwnPropertyNames(a);
         var bProps = Object.getOwnPropertyNames(b);
 
