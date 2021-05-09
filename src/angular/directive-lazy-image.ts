@@ -72,7 +72,8 @@ export class LazyImage implements INgDisposable {
       ? +$attrs.lazyImageForwardLoadScalar
       : 1;
 
-    this.useGoogleImageAutosize = $attrs.lazyImageGoogleImageAutosize === 'true';
+    this.useGoogleImageAutosize =
+      $attrs.lazyImageGoogleImageAutosize === 'true';
     this.useGoogleImageTryWebp = $attrs.lazyImageGoogleImageTryWebp === 'true';
     this.googleImageMultiplier = +$attrs.lazyImageGoogleImageMultiplier || 1;
     this.shouldSwapForWebp = $attrs.lazyImageSwapForWebp === 'true' || false;
@@ -236,8 +237,9 @@ export class LazyImage implements INgDisposable {
               this.readWrite.write(() => {
                 this.el.style.backgroundImage = `url(${this.url})`;
                 this.el.classList.add('loaded');
-                const closestImageContainer =
-                  this.el.closest('.image-container');
+                const closestImageContainer = this.el.closest(
+                  '.image-container'
+                );
                 closestImageContainer &&
                   closestImageContainer.classList.add('loaded');
                 if (this.parentLoadedSelector) {
