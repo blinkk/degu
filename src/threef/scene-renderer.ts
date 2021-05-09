@@ -483,12 +483,12 @@ export class SceneRenderer {
     /**
      * The last known root element width (usually window size)
      */
-    private width: number;
+    private width: number = 0;
 
     /**
      * The last known root element height (usually window size)
      */
-    private height: number;
+    private height: number = 0;
 
     /**
      *  The z-index of the main canvas.
@@ -626,7 +626,6 @@ export class SceneRenderer {
                     || !scene.userData.resizingOptions.scalarY
                 ) {
                     throw new Error('Requested contain algo without the correct resizing options');
-                    return;
                 }
 
                 // Fake contain.  Control the x,y scalar values to control
@@ -731,7 +730,6 @@ export class SceneRenderer {
                     || !scene.userData.resizingOptions.scalarY
                 ) {
                     throw new Error('Requested cover algo without the correct resizing options');
-                    return;
                 }
 
                 const scalarX = scene.userData.resizingOptions.scalarX;
@@ -981,7 +979,7 @@ export class SceneRenderer {
         });
 
         // Remove canvas from rootElement.
-        this.canvas.parentElement.removeChild(this.canvas);
+        this.canvas.parentElement?.removeChild(this.canvas);
     }
 
 }
