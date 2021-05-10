@@ -35,6 +35,7 @@
  */
 export class Defer {
   public resolve: Function;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public promise: Promise<any>;
   public reject: Function;
   public complete: boolean;
@@ -45,10 +46,12 @@ export class Defer {
     this.complete = false;
 
     this.promise = new Promise((resolve: Function, reject: Function) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.resolve = (data: any) => {
         this.complete = true;
         return resolve(data);
       };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.reject = (data: any) => {
         this.complete = true;
         return reject(data);
@@ -60,6 +63,7 @@ export class Defer {
    * Returns the deferred promise.  If the defer was already completed for
    * some reason, will return a promise that is immediately resolved.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getPromise(): Promise<any> {
     if (this.complete) {
       return new Promise((resolve: Function) => {

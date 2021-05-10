@@ -222,7 +222,7 @@ export class RafProgress {
    * Adds a progress listener.
    * @param {Function}
    */
-  watch(callback: any) {
+  watch(callback: Function) {
     this.callbacks.push(callback);
   }
 
@@ -230,7 +230,7 @@ export class RafProgress {
    * Removes a progress listener.
    * @param {Function}
    */
-  unwatch(callbackToRemove: any) {
+  unwatch(callbackToRemove: Function) {
     this.callbacks = this.callbacks.filter(callback => {
       return callback === callbackToRemove;
     });

@@ -186,7 +186,7 @@ declare global {
  * @class
  */
 export class Raf {
-  private raf_: any;
+  private raf_: number | null;
   private frame: number | null;
   private lastUpdateTime: number;
   private delta: number;
@@ -303,7 +303,7 @@ export class Raf {
    * Adds a raf listener
    * @param
    */
-  watch(callback: any) {
+  watch(callback: Function) {
     this.callbacks.push(callback);
   }
 
@@ -320,7 +320,7 @@ export class Raf {
    * This allows you to batch read calls.
    * @param callback
    */
-  preRead(callback: any) {
+  preRead(callback: Function) {
     window.DEGU_RAF_REGISTRY &&
       window.DEGU_RAF_REGISTRY.addOneTimePreRead({
         callback: callback,
@@ -333,7 +333,7 @@ export class Raf {
    * This allows you to batch read calls.
    * @param callback
    */
-  read(callback: any) {
+  read(callback: Function) {
     window.DEGU_RAF_REGISTRY &&
       window.DEGU_RAF_REGISTRY.addOneTimeRead({
         callback: callback,
@@ -346,7 +346,7 @@ export class Raf {
    * This allows you to batch write calls.
    * @param callback
    */
-  write(callback: any) {
+  write(callback: Function) {
     window.DEGU_RAF_REGISTRY &&
       window.DEGU_RAF_REGISTRY.addOneTimeWrite({
         callback: callback,
@@ -359,7 +359,7 @@ export class Raf {
    * This allows you to batch post write calls.
    * @param callback
    */
-  postWrite(callback: any) {
+  postWrite(callback: Function) {
     window.DEGU_RAF_REGISTRY &&
       window.DEGU_RAF_REGISTRY.addOneTimePostWrite({
         callback: callback,
@@ -371,7 +371,7 @@ export class Raf {
    * Removes a progress listener.
    * @param {Function}
    */
-  unwatch(callbackToRemove: any) {
+  unwatch(callbackToRemove: Function) {
     this.callbacks = this.callbacks.filter(callback => {
       return callback === callbackToRemove;
     });
@@ -422,7 +422,7 @@ export class Raf {
   runWhenElementIsInview(
     element: HTMLElement,
     intersectionObserverOptions?: Object
-  ): Promise<any> {
+  ): Promise<void> {
     // Dispose of any previous instances if this is being called a second
     // time.
     this.ev && this.ev.dispose();
@@ -469,7 +469,7 @@ export class Raf {
    */
   stop() {
     this.isPlaying = false;
-    window.cancelAnimationFrame(this.raf_);
+    window.cancelAnimationFrame(this.raf_!);
     this.isRunningRaf = false;
   }
 

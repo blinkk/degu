@@ -38,8 +38,9 @@ export class func {
   ): Function {
     let timeOutId: undefined | number;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return function (this: any, ...args: any[]) {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      // eslint-disable-next-line
       const ctx: any = this;
       const runLater = () => {
         timeOutId = undefined;
@@ -255,9 +256,11 @@ export class func {
    * @tested
    */
   static memoizeSimple(callback: Function): Function {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let cachedResults: any = null;
     let cachedArgs: string | null = null;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (...args: any[]) => {
       const stringifiedArgs = JSON.stringify(args);
       if (stringifiedArgs === cachedArgs) {
@@ -315,7 +318,9 @@ export class func {
    * @tested
    */
   static memoize(callback: Function): Function {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const cachedResults: Record<string, any> = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (...args: any[]) => {
       const stringifiedArgs = JSON.stringify(args);
 
@@ -393,9 +398,10 @@ export class func {
    * @tested
    */
   static runOnceOnChange(callback: Function) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let cachedResults: any = null;
     let cachedArgs: string | null = null;
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (...args: any[]) => {
       const stringifiedArgs = JSON.stringify(args);
       // Only excute if arguments are different.
@@ -419,6 +425,7 @@ export class func {
    * ```
    * @tested
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static setDefault(value: any, defaultValue: any) {
     return Object.is(value, undefined) ? defaultValue : value;
   }

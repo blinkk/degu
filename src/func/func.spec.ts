@@ -69,6 +69,7 @@ test('memoize', async t => {
   // Number of times memoize function is run.
   let count = 0;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const run = func.memoize((value: any) => {
     count++;
     return value;
@@ -98,7 +99,7 @@ test('memoize', async t => {
 test('memoizeSimple', async t => {
   // Number of times memoize function is run.
   let count = 0;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const run = func.memoizeSimple((value: any) => {
     count++;
     return value;

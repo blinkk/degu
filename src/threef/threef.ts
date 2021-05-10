@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 import {mathf} from '../mathf/mathf';
 import {is} from '..';
@@ -783,3 +784,4 @@ export class threef {
     return scene;
   }
 }
+/* eslint-enable */

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {DefaultMap} from './default-map';
 import test from 'ava';
 
@@ -49,3 +50,4 @@ test('DefaultMap usingFunction should return an empty map using the given functi
     }
   });
 });
+/* eslint-enable */

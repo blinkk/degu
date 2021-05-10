@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * A utility function that generally tests the state of things.
  */
@@ -440,3 +441,4 @@ export class is {
     return re.test(navigator.userAgent);
   }
 }
+/* eslint-enable */
