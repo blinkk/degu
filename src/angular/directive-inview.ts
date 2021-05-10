@@ -1,12 +1,3 @@
-import {DomWatcher} from '../dom/dom-watcher';
-import {func} from '../func/func';
-import {
-  elementVisibility,
-  ElementVisibilityObject,
-} from '../dom/element-visibility';
-import {cssUnit, CssUnitObject} from '../string/css-unit';
-import {mathf} from '../mathf/mathf';
-import {Raf} from '../raf/raf';
 import {Inview} from '../dom/inview';
 
 export class InviewController {
@@ -14,14 +5,10 @@ export class InviewController {
   private element: HTMLElement;
   private inview: Inview;
   static get $inject() {
-    return ['$scope', '$element', '$attrs'];
+    return ['$scope', '$element'];
   }
 
-  constructor(
-    $scope: ng.IScope,
-    $element: ng.IAugmentedJQuery,
-    $attrs: ng.IAttributes
-  ) {
+  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
     this.element = $element[0];
 
     this.inview = new Inview({

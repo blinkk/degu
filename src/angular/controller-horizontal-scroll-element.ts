@@ -30,14 +30,10 @@ export class HorizontalScrollElementController implements INgDisposable {
   private horizontalScroll: HorizontalScrollElement | null = null;
   private domWatcher: DomWatcher | null = null;
   static get $inject() {
-    return ['$scope', '$element', '$attrs'];
+    return ['$scope', '$element'];
   }
 
-  constructor(
-    $scope: ng.IScope,
-    $element: ng.IAugmentedJQuery,
-    $attrs: ng.IAttributes
-  ) {
+  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
     this.$scope = $scope;
     this.el = $element[0];
     this.scrollElement = this.el;
@@ -63,7 +59,7 @@ export class HorizontalScrollElementController implements INgDisposable {
     this.domWatcher.add({
       element: this.scrollElement,
       on: HorizontalScrollElementEvents.INDEX_CHANGE,
-      callback: (event: any) => {
+      callback: () => {
         if (!this.$scope.$$phase) {
           this.$scope.$apply();
         }

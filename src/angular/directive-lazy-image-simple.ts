@@ -93,7 +93,7 @@ export class LazyImageSimple implements INgDisposable {
   }
 
   loadImage(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const element = this.el;
 
       // If this is to be a background image.
