@@ -324,7 +324,7 @@ export class LottieButton {
     this.watcher.add({
       element: this.lottieInstance as HTMLElement,
       on: 'enterFrame',
-      callback: (a: any, b: any) => {
+      callback: () => {
         this.currentFrame = this.lottieInstance.currentFrame;
         if (this.currentFrame >= this.stopFrame) {
           this.isPlaying = false;
@@ -350,7 +350,6 @@ export class LottieButton {
       return;
     }
 
-    const prevState = this.currentState;
     this.currentState = state;
     this.isPlaying = true;
     this.stopFrame = end;

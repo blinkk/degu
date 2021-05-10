@@ -40,10 +40,10 @@ export class InviewProgress {
 
     this.progressWatcher.add({
       range: inviewProgressItem.range,
-      callback: (progress: number, direction: number) => {
+      callback: () => {
         setActive();
       },
-      inactiveCallback: (progress: number, direction: number) => {
+      inactiveCallback: () => {
         setInactive();
       },
     });

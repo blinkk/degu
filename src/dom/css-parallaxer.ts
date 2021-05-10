@@ -1,5 +1,5 @@
 import {DomWatcher} from './dom-watcher';
-import {cssUnit, CssUnitObject} from '../string/css-unit';
+import {cssUnit} from '../string/css-unit';
 import {elementVisibility, ElementVisibilityObject} from './element-visibility';
 import {dom} from './dom';
 import {mathf} from '../mathf/mathf';

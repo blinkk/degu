@@ -1,4 +1,3 @@
-declare function require(x: string): any;
 import {mathf} from '../mathf/mathf';
 import {Vector} from '../mathf/vector';
 import {is} from '../is/is';

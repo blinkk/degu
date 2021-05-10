@@ -247,7 +247,7 @@ export class ScrollSmoothRender {
     this.disabled = false;
   }
 
-  private scrollHandler(e: any) {
+  private scrollHandler() {
     if (this.isWheeling || this.disable) {
       return;
     }

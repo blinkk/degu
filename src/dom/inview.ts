@@ -298,7 +298,7 @@ export class Inview {
       });
     }
 
-    this.targetElements.forEach((target: HTMLElement, i: number) => {
+    this.targetElements.forEach((target: HTMLElement) => {
       this.readWrite.write(() => {
         target.classList.add(this.inviewClassNames['READY']);
       });
@@ -421,7 +421,7 @@ export class Inview {
   }
 
   public runInviewState(force?: boolean) {
-    if (this.isInState) {
+    if (this.isInState && !force) {
       return;
     }
     this.readWrite.write(() => {

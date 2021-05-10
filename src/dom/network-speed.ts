@@ -1,5 +1,3 @@
-import {func} from '../func/func';
-
 /**
  * A class that helps with determining network speed.
  */
@@ -19,7 +17,6 @@ export class networkSpeed {
     return new Promise(resolve => {
       // First load the fallback image and approximate the
       // network speed.
-      const startTime = Date.now();
       fetch(testImageSource)
         .then(response => {
           return response.blob();

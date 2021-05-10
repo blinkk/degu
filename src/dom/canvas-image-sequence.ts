@@ -1262,8 +1262,6 @@ export class CanvasImageSequence {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip
    */
   private applyCanvasClipping() {
-    const context = this.context;
-
     // Make a similar algo as inset done in css clip-path.
     //
     // clip-path: inset(var(--clip-top) var(--clip-right) var(--clip-bottom) var(--clip-left) round var(--clip-radius))

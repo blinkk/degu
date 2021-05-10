@@ -549,7 +549,7 @@ export class HorizontalScrollElement {
       },
     });
 
-    const outHandler = (e: any) => {
+    const outHandler = () => {
       if (!this.mouseState.down) {
         return;
       }
@@ -625,10 +625,7 @@ export class HorizontalScrollElement {
 
     this.childrenPositions = [];
     this.items.forEach(child => {
-      const baseX = this.currentX;
-      // let x = child.offsetLeft;
       const x = child.offsetLeft;
-      const bounds = child.getBoundingClientRect();
       const width = child.offsetWidth;
 
       // console.log('item width', itemWidth, this.itemCount);

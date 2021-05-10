@@ -306,7 +306,7 @@ export class dom {
       }
       if (!dom.testVideoIsPlaying(video)) {
         const playPromise = video.play();
-        playPromise.then(() => {}).catch(e => {});
+        playPromise.then(() => {}).catch();
       }
       // } catch(e) {}
     });
@@ -337,7 +337,7 @@ export class dom {
     timeout = 10000
   ): Promise<any> {
     const videos = Array.from(element.querySelectorAll('video'));
-    return this.whenVideosLoaded(videos);
+    return this.whenVideosLoaded(videos, timeout);
   }
 
   /**
