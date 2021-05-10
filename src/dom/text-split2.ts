@@ -1,5 +1,5 @@
-import {dom} from './dom';
-import {DomWatcher} from './dom-watcher';
+import { dom } from './dom';
+import { DomWatcher } from './dom-watcher';
 
 export interface textSplit2Config {
   element: HTMLElement;
@@ -124,14 +124,12 @@ export class TextSplit2 {
     this.words = [];
 
     let index = 0;
-    nodes.forEach((node, i) => {
+    nodes.forEach(node => {
       let first = true;
       let previousElement = node;
 
       // Split this text node by space.
       const re = new RegExp(String.fromCharCode(160), 'g');
-      let text = node.textContent;
-      text = text!.replace(re, ' ');
       const texts = node.textContent!.trim().split(' ');
 
       texts.forEach((text, i) => {
