@@ -72,8 +72,6 @@ npm run publish
 
 // Lint
 npm run fix
-prettier --write "src/**/*.ts"
-
 ```
 
 

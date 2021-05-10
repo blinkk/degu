@@ -36,7 +36,7 @@ export class DefaultMap<K, V> extends Map<K, V> {
       this.set(key, defaultValue);
       return defaultValue;
     } else {
-      return super.get(key);
+      return super.get(key) as V;
     }
   }
 }
