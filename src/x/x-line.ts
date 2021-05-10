@@ -44,8 +44,8 @@ export class XLine extends XGameObject {
    * An Object defining startX, startY, endX and endY for the linear gradient.
    * TODO (uxder): Clean this up.
    */
-  private linearGradient: any | null;
-  private radialGradient: any | null;
+  private linearGradient: Record<string, number> | null = null;
+  private radialGradient: Record<string, number> | null = null;
 
   constructor(config: XLineConfig) {
     super(config);

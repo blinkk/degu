@@ -8,8 +8,8 @@ import {DomWatcher} from '../dom/dom-watcher';
 
 declare global {
   interface Window {
-    X: any;
-    X_STAGE: any;
+    X: X;
+    X_STAGE: XStage;
   }
 }
 
