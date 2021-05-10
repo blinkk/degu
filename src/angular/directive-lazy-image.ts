@@ -212,7 +212,7 @@ export class LazyImage implements INgDisposable {
   }
 
   loadImage(): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (this.useGoogleImageTryWebp) {
         this.url = this.appendGoogleImageWebpParamToUrl(this.url);
       }
@@ -257,7 +257,7 @@ export class LazyImage implements INgDisposable {
               once: true,
             });
 
-            const onError = (e: any) => {
+            const onError = () => {
               resolve();
             };
             imageLoader.addEventListener('error', onError, {
@@ -315,7 +315,7 @@ export class LazyImage implements INgDisposable {
         once: true,
       });
 
-      const onError = (e: any) => {
+      const onError = () => {
         resolve();
       };
       imageLoader.addEventListener('error', onError, {

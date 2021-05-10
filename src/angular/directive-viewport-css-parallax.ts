@@ -5,14 +5,10 @@ export class ViewportCssParallaxController {
   private viewportCssParallax: ViewportCssParallax;
 
   static get $inject() {
-    return ['$element', '$scope', '$attrs'];
+    return ['$element', '$scope'];
   }
 
-  constructor(
-    $element: ng.IRootElementService,
-    $scope: ng.IScope,
-    $attrs: ng.IAttributes
-  ) {
+  constructor($element: ng.IRootElementService, $scope: ng.IScope) {
     this.element = $element[0];
     const parallaxData = JSON.parse(
       this.element.getAttribute('viewport-css-parallax')!

@@ -4,7 +4,7 @@ import {DomWatcher} from '../dom/dom-watcher';
 import {dom} from '../dom/dom';
 import {mathf} from '../mathf/mathf';
 import {func} from '../func/func';
-import {cssUnit, CssUnitObject} from '../string/css-unit';
+import {cssUnit} from '../string/css-unit';
 import {
   interpolateSettings,
   rangedProgress,
@@ -162,14 +162,10 @@ export class LottieController {
   private progressBottomOffset = 0;
 
   static get $inject() {
-    return ['$element', '$scope', '$attrs'];
+    return ['$element', '$scope'];
   }
 
-  constructor(
-    $element: ng.IRootElementService,
-    $scope: ng.IScope,
-    $attrs: ng.IAttributes
-  ) {
+  constructor($element: ng.IRootElementService, $scope: ng.IScope) {
     this.element = $element[0];
     this.scrollEl = this.element;
 
@@ -285,7 +281,7 @@ export class LottieController {
 
     // On each window resize, test if the root lottie element is visible.
     // If not, mark the lottieScroll to not render or paint.
-    this.lottieObjects.map((lottieObject, i) => {
+    this.lottieObjects.map(lottieObject => {
       const container = this.element.querySelector(
         lottieObject.container_selector
       )!;

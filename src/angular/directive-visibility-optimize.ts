@@ -9,17 +9,13 @@ import {Raf} from '../raf/raf';
  */
 export class VisibilityOptimizeController {
   static get $inject() {
-    return ['$scope', '$element', '$attrs'];
+    return ['$scope', '$element'];
   }
   private element: HTMLElement;
   private ev: ElementVisibilityObject;
   private raf: Raf;
 
-  constructor(
-    $scope: ng.IScope,
-    $element: ng.IAugmentedJQuery,
-    $attrs: ng.IAttributes
-  ) {
+  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
     this.element = $element[0];
     this.raf = new Raf();
     this.ev = elementVisibility.inview(

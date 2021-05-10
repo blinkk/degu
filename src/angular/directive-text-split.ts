@@ -4,18 +4,14 @@ import {TextSplit2} from '../dom/text-split2';
 
 class TextSplitController implements INgDisposable {
   static get $inject() {
-    return ['$scope', '$element', '$attrs'];
+    return ['$scope', '$element'];
   }
 
   private el: HTMLElement;
   private $scope: ng.IScope;
   private textSplitter: TextSplit2;
 
-  constructor(
-    $scope: ng.IScope,
-    $element: ng.IAugmentedJQuery,
-    $attrs: ng.IAttributes
-  ) {
+  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
     this.$scope = $scope;
     this.el = $element[0];
     this.textSplitter = new TextSplit2({
