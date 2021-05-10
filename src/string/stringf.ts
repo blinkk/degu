@@ -64,10 +64,10 @@ export class stringf {
    * @param x
    */
   static alphaNumeric(x: string): string {
-    return x && x.replace(/[^A-Za-z0-9\.]/gi, '');
+    return x && x.replace(/[^A-Za-z0-9.]/gi, '');
   }
 
   static numeric(x: string): string {
-    return x && x.replace(/[^0-9\.]/gi, '');
+    return x && x.replace(/[^0-9.]/gi, '');
   }
 }

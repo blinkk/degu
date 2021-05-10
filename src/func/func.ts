@@ -264,7 +264,7 @@ export class func {
         return cachedResults;
       } else {
         cachedArgs = stringifiedArgs;
-        return (cachedResults = callback.apply(null, args));
+        return (cachedResults = callback(...args));
       }
     };
   }
@@ -322,7 +322,7 @@ export class func {
       if (cachedResults[stringifiedArgs]) {
         return cachedResults[stringifiedArgs];
       }
-      const result = callback.apply(null, args);
+      const result = callback(...args);
       cachedResults[stringifiedArgs] = result;
       return result;
     };
@@ -401,7 +401,7 @@ export class func {
       // Only excute if arguments are different.
       if (stringifiedArgs !== cachedArgs) {
         cachedArgs = stringifiedArgs;
-        return (cachedResults = callback.apply(null, args));
+        return (cachedResults = callback(...args));
       }
     };
   }

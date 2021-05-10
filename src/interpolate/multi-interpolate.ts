@@ -339,7 +339,7 @@ export class MultiInterpolate {
     [...config.interpolations].forEach(item => {
       // If stagger is set, we are going to add a specific stagger count.
       if (item.stagger && !item.staggerItem) {
-        for (var i = 0; i < item.stagger.count; i++) {
+        for (let i = 0; i < item.stagger.count; i++) {
           const newItem = Object.assign({}, item);
 
           newItem.progress = newItem.progress.map(progress => {

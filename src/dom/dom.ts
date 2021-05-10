@@ -844,11 +844,11 @@ export class dom {
     element.blur();
 
     let focusRepetitions = 0;
-    var interval = window.setInterval(() => {
+    const int = window.setInterval(() => {
       element.focus();
       focusRepetitions++;
       if (focusRepetitions >= focusTotalRepetitions) {
-        window.clearInterval(interval);
+        window.clearInterval(int);
       }
     }, focusInterval);
   }
