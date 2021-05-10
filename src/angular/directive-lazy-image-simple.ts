@@ -119,7 +119,7 @@ export class LazyImageSimple implements INgDisposable {
         once: true,
       });
 
-      const onError = (e: any) => {
+      const onError = () => {
         resolve();
       };
       imageLoader.addEventListener('error', onError, {

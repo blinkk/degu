@@ -14,7 +14,7 @@ class LottieButtonController {
 
     const playSettings = JSON.parse(
       this.el.getAttribute('lottie-play-settings')!
-    ) as any;
+    ) as Record<string, LottieButtonRange | boolean>;
 
     this.lottieButton = new LottieButton({
       rootElement: this.el,
@@ -24,7 +24,7 @@ class LottieButtonController {
       click: playSettings.click as LottieButtonRange,
       mouseleave: playSettings.mouseleave as LottieButtonRange,
       mouseenter: playSettings.mouseenter as LottieButtonRange,
-      noListeners: playSettings.noListeners || false,
+      noListeners: (playSettings.noListeners as boolean) || false,
       loadImmediately: this.el.getAttribute('lottie-load-immediate') === 'true',
     });
 
