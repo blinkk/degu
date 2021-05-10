@@ -34,6 +34,7 @@ export class debug {
     debug.debugLevel = level;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static log(...args: any[]) {
     if (debug.debugLevel === DebugLevel.NONE) {
       return;

@@ -6,6 +6,6 @@
  * It does nothing, but on purpose and doesn't look like a bug or error.
  * It exists solely for readability.
  */
-export function noop(): any {
+export function noop() {
   // Purposefully empty.
 }

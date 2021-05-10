@@ -192,7 +192,7 @@ export class LottieController {
     // This can be fired on the document OR the element.  Document
     // firing will update all instances.
     this.domWatcher.add({
-      element: document as any,
+      element: document,
       on: 'degu-lottie-scroll-update',
       callback: this.handleLottieScrollUpdateEvent.bind(this),
       eventOptions: {passive: true},
@@ -338,12 +338,14 @@ export class LottieController {
           lottieObject.json_path_webp && supportsWebp
             ? lottieObject.json_path_webp
             : lottieObject.json_path;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const settings: any = {
           container: this.element.querySelector(
             lottieObject.container_selector
           ),
           loop: true,
           autoplay: false,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           renderer: lottieObject.renderer as any,
           rendererSettings: {
             // https://github.com/airbnb/lottie-web/issues/1860
@@ -381,7 +383,6 @@ export class LottieController {
             const startFrame = this.lottieObjects[i].startFrame;
             const endFrame = this.lottieObjects[i].endFrame;
             this.lottieObjects[i].classTriggers.map(trigger => {
-              // TODO (uxder): Technically this a type violation.
               if (is.defined(trigger['fromFrame'])) {
                 trigger.from = mathf.inverseLerp(
                   startFrame,
@@ -416,7 +417,6 @@ export class LottieController {
               const startFrame = this.lottieObjects[i].startFrame;
               const endFrame = this.lottieObjects[i].endFrame;
               interpolation.progress.map(progress => {
-                // TODO (uxder): Technically this a type violation.
                 if (is.defined(progress.fromFrame)) {
                   progress.from = mathf.inverseLerp(
                     startFrame,
@@ -812,6 +812,8 @@ export class LottieController {
    *
    * @param e
    */
+  // Unclear what the lottie event type is.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private handleLottieScrollUpdateEvent(e: any): void {
     const payload = e.detail;
     if (payload.lerp) {
