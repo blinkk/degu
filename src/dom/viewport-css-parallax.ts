@@ -2,8 +2,7 @@ import {
   elementVisibility,
   ElementVisibilityObject,
 } from '../dom/element-visibility';
-import {cssUnit, CssUnitObject} from '../string/css-unit';
-import {func} from '../func/func';
+import {cssUnit} from '../string/css-unit';
 import {interpolateSettings} from '../interpolate/multi-interpolate';
 import {DomWatcher} from '../dom/dom-watcher';
 import {CssVarInterpolate} from '../interpolate/css-var-interpolate';

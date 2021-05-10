@@ -1,5 +1,3 @@
-import {promises} from 'fs';
-
 //https://gist.github.com/uxder/b9bd3811e0508fae42c1df64155b9c8b
 
 /**
@@ -64,7 +62,7 @@ export class Defer {
    */
   getPromise(): Promise<any> {
     if (this.complete) {
-      return new Promise((resolve: Function, reject: Function) => {
+      return new Promise((resolve: Function) => {
         resolve();
       });
     } else {

@@ -77,12 +77,7 @@ export class VectorDomForce implements VectorDomComponent {
    *
    * ```
    */
-  public mouseRotationForce(
-    xScalar = 0.0005,
-    yScalar = 0.0005,
-    zScalar = 0,
-    lerp = 0.02
-  ) {
+  public mouseRotationForce(xScalar = 0.0005, yScalar = 0.0005, zScalar = 0) {
     const mouse = this.host.mouse;
     const globalElementCenterPosition = this.host.globalElementCenterPosition;
     const globalMousePosition = mouse.position.clone();

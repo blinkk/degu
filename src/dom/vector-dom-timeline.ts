@@ -305,7 +305,6 @@ export class VectorDomTimeline implements VectorDomComponent {
     this.sortTimeline();
     this.timelineKeys = [];
 
-    const rotationValue = ['rx', 'ry', 'rz'];
     this.timeline = timeline.map(timeline => {
       // Save any new keys.
       const keys = Object.keys(timeline) as (keyof VectorDomTimelineObject)[];

@@ -215,8 +215,8 @@ export class urlParams {
   /**
    * Removes a previously set popstate url hash.
    */
-  static removeHistoryHash(name: string) {
-    window.history.pushState({name: null}, '', window.location.pathname);
+  static removeHistoryHash(name: string | null = null) {
+    window.history.pushState({name: name}, '', window.location.pathname);
   }
 
   /**

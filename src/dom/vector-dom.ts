@@ -734,11 +734,7 @@ export class VectorDom {
    * rendered width / height versus actual.
    */
   get bounds() {
-    const bounds = this.getBoundingClient(
-      window.scrollY,
-      window.innerWidth,
-      window.innerHeight
-    );
+    const bounds = this.getBoundingClient();
     return bounds;
   }
 
@@ -747,11 +743,7 @@ export class VectorDom {
    * passed to memoize results and reevaluation happens when those values have
    * changed.
    */
-  private getBoundingClient(
-    y: number,
-    width: number,
-    height: number
-  ): ClientRect {
+  private getBoundingClient(): ClientRect {
     return this.element.getBoundingClientRect();
   }
 

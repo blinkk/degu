@@ -1,5 +1,5 @@
-import { dom } from './dom';
-import { DomWatcher } from './dom-watcher';
+import {dom} from './dom';
+import {DomWatcher} from './dom-watcher';
 
 export interface textSplit2Config {
   element: HTMLElement;
@@ -129,10 +129,9 @@ export class TextSplit2 {
       let previousElement = node;
 
       // Split this text node by space.
-      const re = new RegExp(String.fromCharCode(160), 'g');
       const texts = node.textContent!.trim().split(' ');
 
-      texts.forEach((text, i) => {
+      texts.forEach(text => {
         const element = dom.createElementFromString(
           '<span aria-hidden="true"></span>'
         );
@@ -180,7 +179,7 @@ export class TextSplit2 {
     let sentenceNumber = 0;
     let y = dom.getScrollTop(this.words[0]);
     // Clean up
-    this.words.forEach((word, i) => {
+    this.words.forEach(word => {
       word.removeAttribute('start');
       word.removeAttribute('end');
       word.removeAttribute('row');
