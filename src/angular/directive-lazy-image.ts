@@ -393,7 +393,7 @@ export class LazyImage implements INgDisposable {
     //     return url;
     // }
 
-    if (url.match(/\=w\d+/)) {
+    if (url.match(/=w\d+/)) {
       url = url.replace(/=w\d+/, '=w' + width);
     } else if (url.match(/-w\d+/)) {
       url = url.replace(/-w\d+/, '-w' + width);

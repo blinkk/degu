@@ -39,7 +39,7 @@ export class debug {
       return;
     }
 
-    var args = Array.prototype.slice.call(arguments);
-    console.log(...args);
+    const argumentsList = Array.prototype.slice.call(args);
+    console.log(...argumentsList);
   }
 }

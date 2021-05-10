@@ -8,13 +8,13 @@ export class arrayf {
    * A deep copy that works with objects or arrays.
    */
   static deepCopy(input: Array<any> | [key: string]): Array<any> | Object {
-    let output: any, value, key;
+    let value, key;
 
     if (typeof input !== 'object' || input === null) {
       return input;
     }
 
-    output = Array.isArray(input) ? [] : {};
+    const output: Record<string, any> = Array.isArray(input) ? [] : {};
 
     for (key in input) {
       value = input[key];

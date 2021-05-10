@@ -13,7 +13,7 @@ export class ConvexHull {
    */
   calculate(points: number[]) {
     points.sort((a, b) => {
-      return a[0] == b[0] ? a[1] - b[1] : a[0] - b[0];
+      return a[0] === b[0] ? a[1] - b[1] : a[0] - b[0];
     });
 
     const lower = [];

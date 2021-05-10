@@ -39,6 +39,7 @@ export class func {
     let timeOutId: undefined | number;
 
     return function (this: any, ...args: any[]) {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       const ctx: any = this;
       const runLater = () => {
         timeOutId = undefined;

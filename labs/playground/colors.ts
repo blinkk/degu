@@ -46,7 +46,7 @@ export class colors {
       return p;
     };
     let r: any, g: any, b: any;
-    if (s == 0) {
+    if (s === 0) {
       r = g = b = l;
     } else {
       const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
