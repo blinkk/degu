@@ -6,6 +6,7 @@
  * It does nothing, but on purpose and doesn't look like a bug or error.
  * It exists solely for readability.
  */
-export function noop() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function noop(...args: any[]): any {
   // Purposefully empty.
 }
