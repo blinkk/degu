@@ -559,7 +559,6 @@ export class SceneRenderer {
   private onResize() {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    const aspectRatio = this.width / this.height;
 
     this.scenes.forEach((scene: THREE.Scene) => {
       const element = scene.userData.domElement;

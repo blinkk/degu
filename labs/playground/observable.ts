@@ -1,5 +1,4 @@
-import {Observer, observerConfig} from './observer';
-import {is} from '../is/is';
+import {Observer} from './observer';
 
 /**
  * A basic implementation of an observable class.  Use with Observer.
