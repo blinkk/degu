@@ -1,4 +1,4 @@
-import {VectorDom, VectorDomOptions, VectorDomComponent} from './vector-dom';
+import {VectorDom, VectorDomComponent} from './vector-dom';
 import {dom} from '../dom/dom';
 import {EASE} from '../ease/ease';
 import {func} from '../func/func';
@@ -22,13 +22,13 @@ export interface VectorDomTimelineOptions {
 
 export interface VectorDomTimelineObject {
   progress: number;
-  x?: number;
-  y?: number;
-  z?: number;
-  rx?: number;
-  ry?: number;
-  rz?: number;
-  alpha?: number;
+  x?: number | string;
+  y?: number | string;
+  z?: number | string;
+  rx?: number | string;
+  ry?: number | string;
+  rz?: number | string;
+  alpha?: number | string;
   easingFunction?: Function;
 }
 
@@ -253,7 +253,7 @@ export class VectorDomTimeline implements VectorDomComponent {
   /**
    * An internal list of all recorded timeline keys.
    */
-  private timelineKeys: Array<string>;
+  private timelineKeys: (keyof VectorDomTimelineObject)[] = [];
 
   /**
    * A modified version of timeline that organizes the timeline by key.
@@ -270,7 +270,7 @@ export class VectorDomTimeline implements VectorDomComponent {
   /**
    * An internal set of css keys and their lastest values.
    */
-  private cssKeys: Object;
+  private cssKeys: Record<string, any>;
 
   /**
    * @param vc  The vectorDom that this component is attached to.
@@ -308,10 +308,12 @@ export class VectorDomTimeline implements VectorDomComponent {
     const rotationValue = ['rx', 'ry', 'rz'];
     this.timeline = timeline.map(timeline => {
       // Save any new keys.
-      const keys = Object.keys(timeline);
+      const keys = Object.keys(timeline) as (keyof VectorDomTimelineObject)[];
 
       // Add the keys to timelineKeys while deduping.
-      this.timelineKeys = [...new Set([...this.timelineKeys, ...keys])];
+      this.timelineKeys = [
+        ...new Set([...this.timelineKeys, ...keys]),
+      ] as (keyof VectorDomTimelineObject)[];
 
       return timeline;
     });
@@ -375,10 +377,10 @@ export class VectorDomTimeline implements VectorDomComponent {
    * the progress value is updated.
    */
   static generateStoryboard(
-    keys: Array<string>,
+    keys: Array<keyof VectorDomTimelineObject>,
     timeline: Array<VectorDomTimelineObject>
   ): Object {
-    const storyboard = {};
+    const storyboard = {} as Record<string, any>;
     keys.forEach(key => {
       if (skipKeys.includes(key)) {
         return;
@@ -390,10 +392,10 @@ export class VectorDomTimeline implements VectorDomComponent {
       // Make a copy and also remove keys that are not related to this
       // storyboard.
       keyStoryboard = keyStoryboard.map(t => {
-        const copy = Object.assign({}, t);
+        const copy: VectorDomTimelineObject = Object.assign({}, t);
         for (const k in copy) {
           if (k !== key && !skipKeys.includes(k)) {
-            delete copy[k];
+            delete copy[k as keyof VectorDomTimelineObject];
           }
         }
         return copy;
@@ -458,7 +460,7 @@ export class VectorDomTimeline implements VectorDomComponent {
    * @param progress
    */
   static getStartAndEndTimelineFromStoryboard(
-    storyboard: Object,
+    storyboard: Record<string, any>,
     key: string,
     progress: number
   ): VectorDomStartEnd | null {
@@ -505,8 +507,8 @@ export class VectorDomTimeline implements VectorDomComponent {
       const startTimeline = startEnd!.start;
       const endTimeline = startEnd!.end;
       // The start and end values.
-      const start = startTimeline[key];
-      const end = endTimeline[key];
+      const start = startTimeline[key as keyof VectorDomTimelineObject];
+      const end = endTimeline[key as keyof VectorDomTimelineObject];
       const easing = startTimeline.easingFunction;
 
       // Create a child progress between the start and end.
@@ -526,9 +528,14 @@ export class VectorDomTimeline implements VectorDomComponent {
       let value;
       // If the value is a numberical.
       if (is.number(start) && is.number(end)) {
-        const diff = end - start;
+        const diff = <number>end - <number>start;
         if (!this.catmullRomMode || mathf.absZero(diff) === 0) {
-          value = mathf.ease(start, end, childProgress, easing || EASE.linear);
+          value = mathf.ease(
+            <number>start,
+            <number>end,
+            childProgress,
+            easing || EASE.linear
+          );
         } else {
           const tension = this.catmullRomTension;
 
@@ -536,10 +543,10 @@ export class VectorDomTimeline implements VectorDomComponent {
           // spline out of HermiteCurves.
           const vector = HermiteCurve.getPoint(
             childProgress,
-            new Vector(start, start),
-            new Vector(start * tension, start * tension),
-            new Vector(end, end),
-            new Vector(end * tension, end * tension)
+            new Vector(<number>start, <number>start),
+            new Vector(<number>start * tension, <number>start * tension),
+            new Vector(<number>end, <number>end),
+            new Vector(<number>end * tension, <number>end * tension)
           );
           if (vector) {
             value = vector.x;
@@ -549,8 +556,8 @@ export class VectorDomTimeline implements VectorDomComponent {
         // If string values were passed, process it via Interpolate.
         // to be able to use css units.
         value = new Interpolate({
-          from: start,
-          to: end,
+          from: start as string,
+          to: end as string,
           easeFunction: easing || EASE.linear,
         }).calculate(childProgress);
       }
@@ -561,7 +568,14 @@ export class VectorDomTimeline implements VectorDomComponent {
         if (key.startsWith('--')) {
           this.cssKeys[key] = value;
         } else {
-          this.host[key] = value;
+          // A bit hacky but get all properties of VectorDom that are mutable
+          // so that we can assign a value without typescript complaining.
+          type MutableVectorDom = {
+            -readonly [P in keyof VectorDom]: VectorDom[P];
+          };
+          const vectorDomKey: keyof MutableVectorDom =
+            key as keyof MutableVectorDom;
+          (this.host as any)[vectorDomKey] = value;
         }
       }
     }
@@ -571,7 +585,7 @@ export class VectorDomTimeline implements VectorDomComponent {
    * Applies the css variables.  Unneccesary calls get culled by
    * func.runOnceOnChange.
    */
-  private setCssKeys_(cssVars: Object) {
+  private setCssKeys_(cssVars: Record<string, any>) {
     /**
      * Render this element only when it is inview
      * for performance boost.

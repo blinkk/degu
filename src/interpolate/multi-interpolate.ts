@@ -392,10 +392,11 @@ export class MultiInterpolate {
     this.config.interpolations.forEach((config: interpolateSettings) => {
       // Given the set of rangedProgress, find the best matching
       // one based on the current progress.
-      const matchedRangeProgress = multiInterpolateHelper.findBestMatchingRangedProgress(
-        this.parentProgress,
-        config.progress
-      );
+      const matchedRangeProgress =
+        multiInterpolateHelper.findBestMatchingRangedProgress(
+          this.parentProgress,
+          config.progress
+        );
 
       // Now that we have a best matched rangedProgress, create
       // a "Child progress' progress (@see mathf.childProgress) and

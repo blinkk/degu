@@ -1,4 +1,3 @@
-import globalWindow from './global-window';
 import documentMouseTracker from './document-mouse-tracker';
 import {EASE} from '../ease/ease';
 import {mathf} from '../mathf/mathf';

@@ -1,7 +1,5 @@
-import globalWindow from './global-window';
-import {VectorDom, VectorDomOptions, VectorDomComponent} from './vector-dom';
+import {VectorDom, VectorDomComponent} from './vector-dom';
 import {Vector} from '../mathf/vector';
-import {mathf} from '..';
 
 /**
  * A component class that adds external forces options to DOM vector.
@@ -88,7 +86,7 @@ export class VectorDomForce implements VectorDomComponent {
     const mouse = this.host.mouse;
     const globalElementCenterPosition = this.host.globalElementCenterPosition;
     const globalMousePosition = mouse.position.clone();
-    globalMousePosition.y = globalMousePosition.y - globalWindow.scrollY;
+    globalMousePosition.y = globalMousePosition.y - window.scrollY;
 
     // Get the angle difference between target and the center of this element.
     const angleDelta = Vector.getXyzRotationTo(
@@ -169,8 +167,8 @@ export class VectorDomForce implements VectorDomComponent {
     const globalElementCenterPosition = this.host.globalElementCenterPosition;
 
     const windowCenter = new Vector(
-      globalWindow.width / 2,
-      globalWindow.height / 2
+      window.innerWidth / 2,
+      window.innerHeight / 2
     );
 
     // Override the x and z values to the same coordinate as the element

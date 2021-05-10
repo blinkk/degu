@@ -50,7 +50,7 @@ export class VideoPlayer {
   /**
    * A stop queue.
    */
-  private stopQueue: number;
+  private stopQueue: number | null = null;
 
   constructor(video: HTMLVideoElement, options: VideoPlayOptions) {
     this.video = video;
@@ -70,7 +70,7 @@ export class VideoPlayer {
 
     // Ensure we don't run into autoplay issues.
     this.video.muted = true;
-    this.video['playsinline'] = true;
+    this.video.playsInline = true;
     this.video.autoplay = false;
     this.settingsData = {
       ...{
@@ -138,7 +138,7 @@ export class VideoPlayer {
   public play(): void {
     if (!this.isPlaying()) {
       const playPromise = this.video.play();
-      playPromise.then(() => {}).catch(e => {});
+      playPromise.then(() => {}).catch(() => {});
     }
   }
 
