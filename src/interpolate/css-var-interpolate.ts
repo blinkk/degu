@@ -5,7 +5,6 @@ import {
   elementVisibility,
 } from '../dom/element-visibility';
 import {dom} from '../dom/dom';
-import {is} from '../is/is';
 import {cssUnit} from '../string/css-unit';
 import {objectf} from '../objectf/objectf';
 
@@ -405,6 +404,7 @@ export class CssVarInterpolate {
    * Allows batch update of css variables.  Recommend for improved
    * performance.
    */
+  // eslint-disable-next-line
   useBatchUpdate(value: boolean) {
     // This performance optimization is no longer needed, so setting this
     // is a no-op.

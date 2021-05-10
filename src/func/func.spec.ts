@@ -136,7 +136,7 @@ test('runOnceOnChange', async t => {
   // Number of times memoize function is run.
   let count = 0;
 
-  const run = func.memoizeSimple((value: any) => {
+  const run = func.memoizeSimple(() => {
     count++;
   });
   t.is(count, 0);

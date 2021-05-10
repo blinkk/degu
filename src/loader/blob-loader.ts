@@ -73,7 +73,7 @@ export class BlobLoader {
   }
 
   loadBlob(source: string, retryCount = 0): Promise<Blob | undefined> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       fetch(source)
         .then(response => {
           // If status was not okay retry.

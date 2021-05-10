@@ -1,11 +1,14 @@
-import {VectorDomTimeline} from './vector-dom-timeline';
+import {
+  VectorDomTimeline,
+  VectorDomTimelineObject,
+} from './vector-dom-timeline';
 import test from 'ava';
 
 /**
  * Check that story board appends 0 and 1 progress
  */
 test('generateStoryboard', t => {
-  const keys = ['alpha'];
+  const keys: Array<keyof VectorDomTimelineObject> = ['alpha'];
   const testTimeline = [
     {progress: 0.2, alpha: 0},
     {progress: 0.5},

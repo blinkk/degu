@@ -249,7 +249,7 @@ export class ImageLoader {
                 this.onEachImageLoaded && this.onEachImageLoaded(source, img);
                 resolve();
               })
-              .catch(error => {
+              .catch(() => {
                 // console.log('error', Error);, then later,
                 // throw new Error(error);
                 // Usually when there is an error thrown it's

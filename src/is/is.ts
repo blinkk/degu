@@ -266,7 +266,7 @@ export class is {
    * ```
    */
   static supportingWebpAsync(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const img = new Image();
       img.onload = function () {
         const result = img.width > 0 && img.height > 0;

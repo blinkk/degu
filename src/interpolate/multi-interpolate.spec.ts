@@ -1,8 +1,6 @@
 import {MultiInterpolate, multiInterpolateHelper} from './multi-interpolate';
-import {mathf} from '../mathf/mathf';
 import {EASE} from '../ease/ease';
 import test from 'ava';
-import {time} from '../time/time';
 
 test('Check Invalid Ranged progresses', t => {
   // Check from and to equality.

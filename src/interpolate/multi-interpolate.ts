@@ -387,8 +387,6 @@ export class MultiInterpolate {
   calculate(progress: number): Record<string, string | number> {
     this.parentProgress = progress;
 
-    const previousValues = this.currentValues;
-
     this.config.interpolations.forEach((config: interpolateSettings) => {
       // Given the set of rangedProgress, find the best matching
       // one based on the current progress.
