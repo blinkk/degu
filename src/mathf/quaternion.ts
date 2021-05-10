@@ -613,22 +613,22 @@ export class Quaternion {
     const a00 = m.value[0];
     const a01 = m.value[1];
     const a02 = m.value[2];
-    const a03 = m.value[3];
+    // const a03 = m.value[3];
 
     const a10 = m.value[4];
     const a11 = m.value[5];
     const a12 = m.value[6];
-    const a13 = m.value[7];
+    // const a13 = m.value[7];
 
     const a20 = m.value[8];
     const a21 = m.value[9];
     const a22 = m.value[10];
-    const a23 = m.value[11];
+    // const a23 = m.value[11];
 
-    const a30 = m.value[12];
-    const a31 = m.value[13];
-    const a32 = m.value[14];
-    const a33 = m.value[15];
+    // const a30 = m.value[12];
+    // const a31 = m.value[13];
+    // const a32 = m.value[14];
+    // const a33 = m.value[15];
 
     // q.w = Math.sqrt(1.0 + a00 + a11 + a22) / 2.0;
     // let w4 = (4.0 * q.w);

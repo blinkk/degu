@@ -1303,15 +1303,9 @@ export class mathf {
     parentBox: dimensionalBox,
     childBox: dimensionalBox
   ): number {
-    const pw = parentBox.width;
-    const ph = parentBox.height;
-    const cw = childBox.width;
-    const ch = childBox.height;
     const heightScale = parentBox.height / childBox.height;
     const widthScale = parentBox.width / childBox.width;
-
     const scale = Math.min(heightScale, widthScale);
-
     return scale;
   }
 

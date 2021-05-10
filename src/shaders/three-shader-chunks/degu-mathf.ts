@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 /**
  * Creates a 2d rotation matrix.
  *
@@ -134,6 +132,7 @@ const normalizedSin = `
  * Raycast algo.
  * @see  http://blog.ruofeidu.com/tutorial-of-ray-casting-ray-tracing-and-ray-marching/
  */
+// eslint-disable-next-line
 const castRay = `
 bool castRay( const vec3 & ro, const vec3 & rd, float & resT )
 {

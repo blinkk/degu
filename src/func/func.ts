@@ -401,6 +401,7 @@ export class func {
       // Only excute if arguments are different.
       if (stringifiedArgs !== cachedArgs) {
         cachedArgs = stringifiedArgs;
+         // eslint-disable-next-line
         return (cachedResults = callback(...args));
       }
     };

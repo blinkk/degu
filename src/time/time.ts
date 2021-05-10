@@ -118,10 +118,8 @@ export class time {
    */
   static pacificTimeToLocalTimeDate(pacificTime: string): Date {
     // First create the time locally.
-    const timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
     // 7 Hour diff.
     const pacificOffset: number = 420 * 60000;
-    const offset = timeOffsetInMS - pacificOffset;
 
     // UTC
     const utc = new Date(new Date(pacificTime).getTime() + pacificOffset);
@@ -141,10 +139,8 @@ export class time {
    */
   static easternTimeToLocalTimeDate(pacificTime: string): Date {
     // First create the time locally.
-    const timeOffsetInMS: number = new Date().getTimezoneOffset() * 60000;
     // 4 Hour diff.
     const pacificOffset: number = 240 * 60000;
-    const offset = timeOffsetInMS - pacificOffset;
 
     // UTC
     const utc = new Date(new Date(pacificTime).getTime() + pacificOffset);

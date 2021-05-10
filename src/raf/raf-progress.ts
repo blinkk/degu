@@ -1,5 +1,4 @@
 import {mathf} from '../mathf/mathf';
-import {is} from '../is/is';
 import {Raf} from './raf';
 import {EASE} from '..';
 

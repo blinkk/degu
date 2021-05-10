@@ -1,5 +1,3 @@
-import {mathf} from './mathf';
-
 /**
  * Port of Ken Perlin's noise algo and also sipmlex noise algo.
  * Big thanks to Ken Perlin, Kas Thomas for the explanation and also josephg.

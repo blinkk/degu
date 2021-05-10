@@ -412,9 +412,7 @@ export class threef {
    */
   static toDomRotation(
     object: THREE.Object3D,
-    camera: THREE.Camera,
-    width: number,
-    height: number
+    camera: THREE.Camera
   ): THREE.Euler {
     // Get the local transform values.
     const q = new THREE.Quaternion();

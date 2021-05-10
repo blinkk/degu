@@ -882,11 +882,7 @@ export class SceneRenderer {
     const axesHelper = new THREE.AxesHelper(50);
     scene.add(axesHelper);
 
-    new ThreeInspector(
-      sceneConfig.domElement,
-      sceneConfig.scene,
-      sceneConfig.camera
-    );
+    new ThreeInspector(sceneConfig.domElement);
   }
 
   /**

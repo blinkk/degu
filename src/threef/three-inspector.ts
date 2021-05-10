@@ -1,11 +1,10 @@
-import * as THREE from 'three';
 import {Datguif} from '../datguif/datguif';
 
 /**
  * A class that setups guif with a three.js scene.
  */
 export class ThreeInspector {
-  constructor(element: HTMLElement, scene: THREE.Scene, camera: THREE.Camera) {
+  constructor(element: HTMLElement) {
     console.log('setting up new GUI');
     // Setup GUIF.
     const gui = new Datguif({

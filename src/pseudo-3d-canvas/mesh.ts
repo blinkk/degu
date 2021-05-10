@@ -33,7 +33,7 @@ export class Mesh {
     this.basisMatrix = MatrixIV.IDENTITY;
     this.color = 'green';
   }
-
+  // eslint-disable-next-line
   size(width: number, height: number, depth: number) {
     this.up = new Vector(0, width, 0);
     this.right = new Vector(height, 0, 0);

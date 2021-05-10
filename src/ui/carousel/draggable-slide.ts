@@ -136,7 +136,7 @@ export class DraggableSlide implements Transition {
     this.xTranslate = DefaultMap.usingFunction((el: HTMLElement) =>
       getTranslateX(el)
     );
-    this.lastXTranslate = DefaultMap.usingFunction((el: HTMLElement) => null);
+    this.lastXTranslate = DefaultMap.usingFunction(() => null);
   }
 
   /**
@@ -333,7 +333,7 @@ export class DraggableSlide implements Transition {
           element: slide,
           on: event,
           eventOptions: {passive: true},
-          callback: (e: Event) => this.startInteraction(e),
+          callback: () => this.startInteraction(),
         });
       });
       ['contextmenu', 'dragstart', 'touchend', 'mouseup'].forEach(
@@ -342,7 +342,7 @@ export class DraggableSlide implements Transition {
             element: window,
             on: event,
             eventOptions: {passive: true},
-            callback: (e: Event) => this.endInteraction(e),
+            callback: () => this.endInteraction(),
           });
         }
       );

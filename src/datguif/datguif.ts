@@ -277,7 +277,6 @@ export class Datguif {
     obj: Object,
     mapping: Array<guiDisplayConfig>
   ) {
-    const folder = this.getFolder(folderName);
     this.gui.remember(obj);
     for (const key in obj) {
       // Check if this key should be displayed.

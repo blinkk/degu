@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 /*
  * Creates a checkerboard pattern but could be used for
  * horizontal or vertical strips.
