@@ -23,7 +23,7 @@ export class VisibilityOptimizeController {
       {
         rootMargin: '200px 0px 200px 0px',
       },
-      (element: any, changes: any) => {
+      (element: HTMLElement, changes: IntersectionObserverEntry) => {
         this.raf.write(() => {
           if (changes.isIntersecting) {
             this.element.style.visibility = '';

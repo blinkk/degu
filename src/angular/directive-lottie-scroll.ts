@@ -124,6 +124,7 @@ export interface LottieObject {
   interpolations: Array<lottieInterpolateSettings>;
 
   // The lottie instance added once it is created.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lottieInstance: any;
 
   lottieInDom: boolean;

@@ -155,6 +155,7 @@ bool castRay( const vec3 & ro, const vec3 & rd, float & resT )
 /**
  * Common custom math functions for glsl.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const deguMathf = (three: any) => {
   three.ShaderChunk.deguMathf = `
   ${deguGet2dRotationMatrix}

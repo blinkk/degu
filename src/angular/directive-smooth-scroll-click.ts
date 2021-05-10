@@ -42,7 +42,7 @@ class SmoothScrollController {
     });
   }
 
-  scrollTo(e: any) {
+  scrollTo(e: JQueryMouseEventObject) {
     e.preventDefault();
     if (this.animating) {
       return;

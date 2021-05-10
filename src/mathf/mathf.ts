@@ -60,8 +60,8 @@ export class mathf {
    * @param {number} value The number to convert
    * @param {number} digits The number of digits to output.
    */
-  static fixDigits(value: any, digits: number): number {
-    return +parseFloat(value).toFixed(digits);
+  static fixDigits(value: string | number, digits: number): number {
+    return +parseFloat(<string>value).toFixed(digits);
   }
 
   /**
