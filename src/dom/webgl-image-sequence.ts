@@ -1205,7 +1205,7 @@ export class WebGlImageSequence {
     gl.drawArrays(gl.TRIANGLES, 0, 6);
 
     // Clear VRAM memory by deleting the texture after render.
-    webgl.deleteTexture(gl, texture);
+    webgl.deleteTexture(gl, texture!);
 
     this.lastRenderSource = imageSource;
   }
