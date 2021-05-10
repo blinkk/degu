@@ -55,7 +55,7 @@ export class ScrollSmoother {
   private settings: ScrollSmootherConfig;
   private domWatcher: DomWatcher;
   private raf: Raf;
-  private rootElement: HTMLElement;
+  private rootElement: HTMLElement | null = null;
   // The current lerped y position.
   private currentY = 0;
   // The target y position.
@@ -110,8 +110,8 @@ export class ScrollSmoother {
 
     this.raf.write(() => {
       document.body.style.height = height + 'px';
-      this.rootElement.style.position = 'fixed';
-      this.rootElement.style.width = '100%';
+      this.rootElement!.style.position = 'fixed';
+      this.rootElement!.style.width = '100%';
     });
   }
 
@@ -143,9 +143,9 @@ export class ScrollSmoother {
     }
 
     if (this.settings.topMode) {
-      this.rootElement.style.top = `-${this.currentY}px`;
+      this.rootElement!.style.top = `-${this.currentY}px`;
     } else {
-      this.rootElement.style.transform = `translateY(-${this.currentY}px) translateZ(0)`;
+      this.rootElement!.style.transform = `translateY(-${this.currentY}px) translateZ(0)`;
     }
 
     if (this.settings.onUpdate) {
@@ -157,8 +157,8 @@ export class ScrollSmoother {
     this.domWatcher && this.domWatcher.dispose();
     this.raf && this.raf.dispose();
     document.body.style.height = '';
-    this.rootElement.style.position = '';
-    this.rootElement.style.width = '';
+    this.rootElement!.style.position = '';
+    this.rootElement!.style.width = '';
     this.resizer['unobserve'](this.settings.root);
   }
 }

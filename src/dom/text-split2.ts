@@ -103,7 +103,7 @@ export class TextSplit2 {
   private element: HTMLElement;
   public originalHTML: string;
   private domWatcher: DomWatcher;
-  private words: Array<HTMLElement>;
+  private words: Array<HTMLElement> = [];
 
   constructor(private config: textSplit2Config) {
     this.element = config.element;
@@ -131,8 +131,8 @@ export class TextSplit2 {
       // Split this text node by space.
       const re = new RegExp(String.fromCharCode(160), 'g');
       let text = node.textContent;
-      text = text.replace(re, ' ');
-      const texts = node.textContent.trim().split(' ');
+      text = text!.replace(re, ' ');
+      const texts = node.textContent!.trim().split(' ');
 
       texts.forEach((text, i) => {
         const element = dom.createElementFromString(
@@ -153,7 +153,7 @@ export class TextSplit2 {
         this.words.push(element);
 
         if (first) {
-          node.parentElement.replaceChild(element, node);
+          node.parentElement!.replaceChild(element, node);
           first = false;
         } else {
           dom.appendAfter(element, previousElement as HTMLElement);

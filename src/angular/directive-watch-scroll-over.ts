@@ -7,7 +7,7 @@ class WatchScrollOverController implements INgDisposable {
   private $attrs: ng.IAttributes;
   private cssClass: string;
   private cssOutClass: string;
-  private targetElements: Array<HTMLElement>;
+  private targetElements: Array<HTMLElement> = [];
   private watcher: DomWatcher;
 
   static get $inject() {
@@ -25,6 +25,8 @@ class WatchScrollOverController implements INgDisposable {
     this.cssClass = this.$attrs.watchScrollOverClass;
     this.cssOutClass = this.$attrs.watchScrollOverOutClass;
 
+    this.watcher = new DomWatcher();
+
     let query = this.$attrs.watchScrollOverQuery;
     if ($attrs.watchScrollOverQueryEval) {
       query = $scope.$eval(query)[0][0];
@@ -33,7 +35,6 @@ class WatchScrollOverController implements INgDisposable {
     window.setTimeout(() => {
       this.targetElements = Array.from(document.querySelectorAll(query));
 
-      this.watcher = new DomWatcher();
       this.watcher.add({
         element: window,
         on: 'scroll',

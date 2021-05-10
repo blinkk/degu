@@ -58,8 +58,8 @@ export interface ScrollRenderFixConfig {
  */
 export class ScrollRenderFix {
   private raf: Raf;
-  private currentY: number;
-  private targetY: number;
+  private currentY = 0;
+  private targetY = 0;
   private domWatcher: DomWatcher;
   /**
    * Callback run immediately before the document is manually scrolled.

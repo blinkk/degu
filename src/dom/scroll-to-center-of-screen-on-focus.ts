@@ -151,11 +151,11 @@ export class ScrollToCenterOfScreenOnFocus {
    * Handle focus on an element.
    */
   private handleFocus(focusedElement: HTMLElement) {
-    const targetPercent = +focusedElement.getAttribute(this.selector);
+    const targetPercent = +focusedElement.getAttribute(this.selector)!;
     const targetBaseline = !is.null(
       focusedElement.getAttribute('data-base-line')
     )
-      ? +focusedElement.getAttribute('data-base-line')
+      ? +focusedElement.getAttribute('data-base-line')!
       : 0.5;
 
     if (this.debug) {

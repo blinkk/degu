@@ -157,8 +157,8 @@ export class WebWorker {
         reject(event);
         worker.terminate();
       };
-      worker.onmessage = (event: Object) => {
-        resolve(event['data']['result']);
+      worker.onmessage = (event: Record<string, any>) => {
+        resolve(event.data.result);
         worker.terminate();
       };
     });
@@ -179,8 +179,8 @@ export class WebWorker {
       this.worker.onerror = (event: Object) => {
         reject(event);
       };
-      this.worker.onmessage = (event: Object) => {
-        resolve(event['data']['result']);
+      this.worker.onmessage = (event: Record<string, any>) => {
+        resolve(event.data.result);
       };
     });
   }

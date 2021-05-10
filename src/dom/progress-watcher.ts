@@ -120,8 +120,8 @@ export class ProgressWatcher {
       if (is.array(watcher.range)) {
         isBetween = mathf.isBetween(
           this.currentProgress,
-          watcher.range[0],
-          watcher.range[1]
+          (watcher.range as number[])[0],
+          (watcher.range as number[])[1]
         );
       } else {
         // If we are only watching for a specific value, we used the
@@ -158,6 +158,6 @@ export class ProgressWatcher {
    * Disposes progress watcher.
    */
   public dispose() {
-    this.watchers = null;
+    this.watchers = [];
   }
 }

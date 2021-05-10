@@ -99,7 +99,9 @@ export class networkSpeed {
    * data size info.
    */
   static getDataTransfer() {
-    const entries = performance.getEntriesByType('resource');
+    const entries = performance.getEntriesByType('resource') as Array<
+      Record<string, any>
+    >;
     let size = 0;
     entries.forEach(entry => {
       size += entry['transferSize'];

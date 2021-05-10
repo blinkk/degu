@@ -61,7 +61,7 @@ export class pjax {
   ): string {
     const tmp = document.implementation.createHTMLDocument();
     tmp.body.innerHTML = html;
-    return tmp.body.querySelector(targetElementQuerySelection).innerHTML;
+    return tmp.body.querySelector(targetElementQuerySelection)!.innerHTML;
   }
 
   /**
