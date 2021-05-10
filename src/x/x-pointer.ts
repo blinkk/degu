@@ -71,11 +71,11 @@ export class XPointer {
     this.position.y = y;
   }
 
-  pointerDownHandler(event: any) {
+  pointerDownHandler() {
     this.isMouseDown = true;
   }
 
-  pointerUpHandler(event: any) {
+  pointerUpHandler() {
     this.isMouseDown = false;
   }
 

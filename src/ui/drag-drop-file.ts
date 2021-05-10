@@ -62,11 +62,11 @@ export class DragDropFile {
     dom.event(this.dropElement, 'drop-start', {});
 
     // Currently support only 1 file.
-    let entries;
+    // let entries;
     if (e.dataTransfer?.items) {
-      entries = Array.from(e.dataTransfer.items).map(item =>
-        item.webkitGetAsEntry()
-      );
+      // entries = Array.from(e.dataTransfer.items).map(item =>
+      //   item.webkitGetAsEntry()
+      // );
       const file = e.dataTransfer.files[0];
       this.dropCallback({
         file: file,

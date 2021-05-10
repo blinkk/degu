@@ -54,7 +54,6 @@ export class XText extends XGameObject {
    * https://developer.mozilla.org/en-US/docs/Web/API/TextMetrics
    */
   get height(): number {
-    const height = 0;
     this.offScreenCanvas.context.font = this.font;
     this.offScreenCanvas.context.textAlign = this.textAlign;
     this.offScreenCanvas.context.textBaseline = this.textBaseline;

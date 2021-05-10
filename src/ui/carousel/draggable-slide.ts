@@ -459,7 +459,7 @@ export class DraggableSlide implements Transition {
    * Handle the start of user interaction with the carousel.
    * @param event
    */
-  private startInteraction(event: Event): void {
+  private startInteraction(): void {
     if (this.isInteracting()) {
       return;
     }
@@ -472,7 +472,7 @@ export class DraggableSlide implements Transition {
    * Handle the end of user interaction with the carousel.
    * @param event
    */
-  private endInteraction(event: Event): void {
+  private endInteraction(): void {
     if (this.interaction === null) {
       return;
     }

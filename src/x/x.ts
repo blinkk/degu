@@ -2,7 +2,6 @@ import {func} from '../func/func';
 import {Raf} from '../raf/raf';
 import {XGameObject} from './x-game-object';
 import {XStage} from './x-stage';
-import {XLine} from './x-line';
 import {XPointer} from './x-pointer';
 import {XText} from './x-text';
 import {DomWatcher} from '../dom/dom-watcher';
