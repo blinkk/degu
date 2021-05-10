@@ -11,7 +11,6 @@ import {Raf} from '../raf/raf';
 import {dom} from '../dom/dom';
 import {mathf} from '../mathf/mathf';
 import {stringf} from '../string/stringf';
-import {is} from '../is/is';
 
 export interface ViewportCssParallaxSettings {
   rootElement: HTMLElement;
@@ -91,30 +90,30 @@ export class ViewportCssParallax {
   /**
    * The root element to observe the current viewport position.
    */
-  private rootElement: HTMLElement;
+  private rootElement!: HTMLElement;
 
   /**
    * The element to write out the css variables to.  Defaults to the rootElement
    */
-  private cssWriteElement: HTMLElement;
+  private cssWriteElement!: HTMLElement;
 
-  private rafEvElement: HTMLElement;
+  private rafEvElement!: HTMLElement;
 
-  private domWatcher: DomWatcher;
-  private rafEv: ElementVisibilityObject;
-  private raf: Raf;
-  private id: string;
-  private interpolator: CssVarInterpolate;
+  private domWatcher!: DomWatcher;
+  private rafEv!: ElementVisibilityObject;
+  private raf!: Raf;
+  private id!: string;
+  private interpolator!: CssVarInterpolate;
 
   /**
    * The css parallax settings.
    */
-  private parallaxData: ViewportCssParallaxConfig;
-  private settingsData: ViewportCssParallaxSettings;
-  private interpolationsData: Array<interpolateSettings>;
+  private parallaxData!: ViewportCssParallaxConfig;
+  private settingsData!: ViewportCssParallaxSettings;
+  private interpolationsData!: Array<interpolateSettings>;
 
   private currentProgress = 0;
-  private lastWriteProgress = -1;
+  private lastWriteProgress: number | null = -1;
   public initialized = false;
 
   constructor() {}
@@ -140,7 +139,7 @@ export class ViewportCssParallax {
 
     this.raf = new Raf(this.onRaf.bind(this));
     this.parallaxData = JSON.parse(
-      this.rootElement.getAttribute('viewport-css-parallax')
+      this.rootElement.getAttribute('viewport-css-parallax')!
     );
     this.domWatcher = new DomWatcher();
     this.domWatcher.add({
@@ -185,7 +184,6 @@ export class ViewportCssParallax {
       throw new Error(
         'You must initialize viewport-css-parallax first before calling updateInterpolations'
       );
-      return;
     }
 
     this.interpolator.setInterpolations({interpolations: interpolations});
@@ -266,7 +264,7 @@ export class ViewportCssParallax {
     // is calculated from teh top of the element.
     const box = this.rootElement.getBoundingClientRect();
     const elementBaseline =
-      box.top + this.settingsData.elementBaseline * box.height;
+      box.top + this.settingsData.elementBaseline! * box.height;
 
     let percent = mathf.inverseLerp(0, window.innerHeight, elementBaseline);
 
@@ -334,7 +332,7 @@ export class ViewportCssParallax {
       // will cull updates that are repetitive.
       const roundedProgress = mathf.roundToPrecision(
         this.currentProgress,
-        this.settingsData.precision
+        this.settingsData.precision!
       );
 
       this.interpolator.update(roundedProgress);

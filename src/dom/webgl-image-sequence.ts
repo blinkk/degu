@@ -954,8 +954,9 @@ export class WebGlImageSequence {
       this.currentFrame = this.targetFrame;
     }
 
-    const imageSource =
-      this.activeImageSet!.images[Math.round(this.currentFrame)];
+    const imageSource = this.activeImageSet!.images[
+      Math.round(this.currentFrame)
+    ];
     this.draw(imageSource);
   }
 
@@ -1161,10 +1162,20 @@ export class WebGlImageSequence {
     // gl.enable(gl.BLEND);
     // gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-    webgl.createVbo(
-      gl,
-      [0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0]
-    );
+    webgl.createVbo(gl, [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+    ]);
     gl.enableVertexAttribArray(aPosition);
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
 

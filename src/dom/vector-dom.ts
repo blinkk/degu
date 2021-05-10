@@ -545,7 +545,7 @@ export class VectorDom {
     // Cache the global gx_ and gy_ values.
     const bounds = this.bounds;
     this.gx_ = bounds.left;
-    this.gy_ = bounds.top + globalWindow.scrollY;
+    this.gy_ = bounds.top + window.scrollY;
 
     // Update components.
     for (const key in this.components) {
@@ -681,8 +681,7 @@ export class VectorDom {
     const anchorOffsetVector = this.anchorOffsetVector;
     if (!this.useBoundsForGlobalCalculation) {
       x = this.gx_ + this.offset.x + anchorOffsetVector.x;
-      y =
-        this.gy_ - globalWindow.scrollY + this.offset.y + anchorOffsetVector.y;
+      y = this.gy_ - window.scrollY + this.offset.y + anchorOffsetVector.y;
     } else {
       x = this.bounds.left;
       y = this.bounds.top;
@@ -736,9 +735,9 @@ export class VectorDom {
    */
   get bounds() {
     const bounds = this.getBoundingClient(
-      globalWindow.scrollY,
-      globalWindow.width,
-      globalWindow.height
+      window.scrollY,
+      window.innerWidth,
+      window.innerHeight
     );
     return bounds;
   }

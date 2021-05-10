@@ -237,8 +237,9 @@ export class LazyImage implements INgDisposable {
               this.readWrite.write(() => {
                 this.el.style.backgroundImage = `url(${this.url})`;
                 this.el.classList.add('loaded');
-                const closestImageContainer =
-                  this.el.closest('.image-container');
+                const closestImageContainer = this.el.closest(
+                  '.image-container'
+                );
                 closestImageContainer &&
                   closestImageContainer.classList.add('loaded');
                 if (this.parentLoadedSelector) {

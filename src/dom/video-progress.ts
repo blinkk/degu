@@ -20,7 +20,7 @@ export class VideoProgress {
     this.video = video;
     // Ensure we don't run into autoplay issues.
     this.video.muted = true;
-    this.video['playsinline'] = true;
+    this.video.playsInline = true;
     this.video.autoplay = false;
 
     this.videoReady = new Defer();
