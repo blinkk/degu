@@ -79,17 +79,17 @@ export class XPointer {
     this.isMouseDown = false;
   }
 
-  pointerMoveHandler(event: any) {
+  pointerMoveHandler(event: MouseEvent | TouchEvent) {
     //Find the pointer’s x and y position (for mouse).
     //Subtract the element's top and left offset from the browser window.
     let pageX;
     let pageY;
-    if (event.touches) {
-      pageX = event.touches[0].pageX;
-      pageY = event.touches[0].pageY;
+    if ((event as TouchEvent).touches) {
+      pageX = (event as TouchEvent).touches[0].pageX;
+      pageY = (event as TouchEvent).touches[0].pageY;
     } else {
-      pageX = event.pageX;
-      pageY = event.pageY;
+      pageX = (event as MouseEvent).pageX;
+      pageY = (event as MouseEvent).pageY;
     }
 
     // TODO (uxder) Optimization point. Cache offset value to avoid thrashing.
