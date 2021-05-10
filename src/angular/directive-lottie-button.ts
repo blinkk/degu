@@ -2,17 +2,13 @@ import {LottieButton, LottieButtonRange} from '../dom/lottie-button';
 
 class LottieButtonController {
   static get $inject() {
-    return ['$scope', '$element', '$attrs'];
+    return ['$scope', '$element'];
   }
   private el: HTMLElement;
   private $scope: ng.IScope;
   private lottieButton: LottieButton;
 
-  constructor(
-    $scope: ng.IScope,
-    $element: ng.IAugmentedJQuery,
-    $attrs: ng.IAttributes
-  ) {
+  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
     this.$scope = $scope;
     this.el = $element[0];
 
