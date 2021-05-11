@@ -97,7 +97,7 @@
     "pixi.js": "4.8.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
-    "three": "0.110.0",
+    "three": "0.125.0",
     "ts-node": "8.1.0",
     "tslint": "5.16.0",
     "tslint-eslint-rules": "5.4.0",
