@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LazyImage | @blinkk/degu</title>
+	<title>KeyboardNavigationWatcher | @blinkk/degu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,31 +54,56 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/angular.html">angular</a>
+					<a href="../modules/dom.html">dom</a>
 				</li>
 				<li>
-					<a href="angular.lazyimage.html">LazyImage</a>
+					<a href="dom.keyboardnavigationwatcher.html">KeyboardNavigationWatcher</a>
 				</li>
 			</ul>
-			<h1>Class LazyImage</h1>
+			<h1>Class KeyboardNavigationWatcher</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A class that monitors mouse versus keyboard navigation on the page.</p>
+					</div>
+					<p>Example:</p>
+					<pre><code><span class="hljs-keyword">import</span> {KeyboardNavigationEvents, KeyboardNavigationWatcher} <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu/lib/dom/keyboard-navigation-watcher'</span>;
+
+const watcher = <span class="hljs-keyword">new</span> KeyboardNavigationWatcher();
+
+watcher.<span class="hljs-literal">on</span>(KeyboardNavigationEvents.MOUSE, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
+   <span class="hljs-regexp">//</span> user switched to mouse
+})
+
+watcher.<span class="hljs-literal">on</span>(KeyboardNavigationEvents.KEYBOARD, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
+   <span class="hljs-regexp">//</span> user switched to keyboard
+})
+
+watcher.<span class="hljs-literal">on</span>(KeyboardNavigationEvents.ANY_CHANGE, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
+    <span class="hljs-regexp">//</span>  *  <span class="hljs-built_in">console</span>.log(watcher.state)
+})
+
+watcher.dispose();</code></pre>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">LazyImage</span>
+						<span class="target">KeyboardNavigationWatcher</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/angular.ingdisposable.html" class="tsd-signature-type">INgDisposable</a></li>
+					<li><a href="../interfaces/ui.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -88,24 +113,21 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="angular.lazyimage.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.keyboardnavigationwatcher.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
-							<h3>Accessors</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-static"><a href="angular.lazyimage.html#_inject" class="tsd-kind-icon">$inject</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dom.keyboardnavigationwatcher.html#state" class="tsd-kind-icon">state</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyimage.html#dispose" class="tsd-kind-icon">dispose</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyimage.html#ispaintedonscreen" class="tsd-kind-icon">is<wbr>Painted<wbr>OnScreen</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyimage.html#loadimage" class="tsd-kind-icon">load<wbr>Image</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyimage.html#paint" class="tsd-kind-icon">paint</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyimage.html#resize" class="tsd-kind-icon">resize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="angular.lazyimage.html#updateloadedimage" class="tsd-kind-icon">update<wbr>Loaded<wbr>Image</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.keyboardnavigationwatcher.html#dispose" class="tsd-kind-icon">dispose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.keyboardnavigationwatcher.html#off" class="tsd-kind-icon">off</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.keyboardnavigationwatcher.html#on" class="tsd-kind-icon">on</a></li>
 							</ul>
 						</section>
 					</div>
@@ -117,50 +139,31 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Lazy<wbr>Image<span class="tsd-signature-symbol">(</span>$scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IScope</span>, $element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IAugmentedJQuery</span>, $attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IAttributes</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="angular.lazyimage.html" class="tsd-signature-type">LazyImage</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Keyboard<wbr>Navigation<wbr>Watcher<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.keyboardnavigationwatcher.html" class="tsd-signature-type">KeyboardNavigationWatcher</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/angular/directive-lazy-image.ts#L60">angular/directive-lazy-image.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/dom/keyboard-navigation-watcher.ts#L36">dom/keyboard-navigation-watcher.ts:36</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>$scope: <span class="tsd-signature-type">ng.IScope</span></h5>
-								</li>
-								<li>
-									<h5>$element: <span class="tsd-signature-type">ng.IAugmentedJQuery</span></h5>
-								</li>
-								<li>
-									<h5>$attrs: <span class="tsd-signature-type">ng.IAttributes</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="angular.lazyimage.html" class="tsd-signature-type">LazyImage</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="dom.keyboardnavigationwatcher.html" class="tsd-signature-type">KeyboardNavigationWatcher</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-					<a name="_inject" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> $inject</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> $inject<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/angular/directive-lazy-image.ts#L13">angular/directive-lazy-image.ts:13</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="state" class="tsd-anchor"></a>
+					<h3>state</h3>
+					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <a href="../enums/dom.keyboardnavigationevents.html" class="tsd-signature-type">KeyboardNavigationEvents</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/dom/keyboard-navigation-watcher.ts#L36">dom/keyboard-navigation-watcher.ts:36</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -174,9 +177,8 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/angular.ingdisposable.html">INgDisposable</a>.<a href="../interfaces/angular.ingdisposable.html#dispose">dispose</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/angular/directive-lazy-image.ts#L416">angular/directive-lazy-image.ts:416</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/dom/keyboard-navigation-watcher.ts#L87">dom/keyboard-navigation-watcher.ts:87</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -184,104 +186,55 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="ispaintedonscreen" class="tsd-anchor"></a>
-					<h3>is<wbr>Painted<wbr>OnScreen</h3>
+					<a name="off" class="tsd-anchor"></a>
+					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Painted<wbr>OnScreen<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../modules/ui.html#eventcallback" class="tsd-signature-type">EventCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/angular/directive-lazy-image.ts#L342">angular/directive-lazy-image.ts:342</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/dom/keyboard-navigation-watcher.ts#L60">dom/keyboard-navigation-watcher.ts:60</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Determines whether this element was painted (displayed on the screen).
-										The basis of this is having a css class of display none.  Other methods
-									of hiding the element will return true.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="loadimage" class="tsd-anchor"></a>
-					<h3>load<wbr>Image</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">load<wbr>Image<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/angular/directive-lazy-image.ts#L214">angular/directive-lazy-image.ts:214</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="paint" class="tsd-anchor"></a>
-					<h3>paint</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">paint<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/angular/directive-lazy-image.ts#L148">angular/directive-lazy-image.ts:148</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Attemps to set the image if possible.</p>
-								</div>
-							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <a href="../modules/ui.html#eventcallback" class="tsd-signature-type">EventCallback</a></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="resize" class="tsd-anchor"></a>
-					<h3>resize</h3>
+					<a name="on" class="tsd-anchor"></a>
+					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">resize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../modules/ui.html#eventcallback" class="tsd-signature-type">EventCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/angular/directive-lazy-image.ts#L137">angular/directive-lazy-image.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/dom/keyboard-navigation-watcher.ts#L56">dom/keyboard-navigation-watcher.ts:56</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="updateloadedimage" class="tsd-anchor"></a>
-					<h3>update<wbr>Loaded<wbr>Image</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Loaded<wbr>Image<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/angular/directive-lazy-image.ts#L164">angular/directive-lazy-image.ts:164</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handles redrawing / updating an image that has already been loaded.
-									This mainly gets called during window resize.</p>
-								</div>
-							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <a href="../modules/ui.html#eventcallback" class="tsd-signature-type">EventCallback</a></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -297,7 +250,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/angular.html">angular</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -309,7 +262,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/debug.html">debug</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/dom.html">dom</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -373,31 +326,22 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="angular.lazyimage.html" class="tsd-kind-icon">Lazy<wbr>Image</a>
+						<a href="dom.keyboardnavigationwatcher.html" class="tsd-kind-icon">Keyboard<wbr>Navigation<wbr>Watcher</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="angular.lazyimage.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="dom.keyboardnavigationwatcher.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-								<a href="angular.lazyimage.html#_inject" class="tsd-kind-icon">$inject</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyimage.html#dispose" class="tsd-kind-icon">dispose</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="dom.keyboardnavigationwatcher.html#state" class="tsd-kind-icon">state</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyimage.html#ispaintedonscreen" class="tsd-kind-icon">is<wbr>Painted<wbr>OnScreen</a>
+								<a href="dom.keyboardnavigationwatcher.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyimage.html#loadimage" class="tsd-kind-icon">load<wbr>Image</a>
+								<a href="dom.keyboardnavigationwatcher.html#off" class="tsd-kind-icon">off</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyimage.html#paint" class="tsd-kind-icon">paint</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyimage.html#resize" class="tsd-kind-icon">resize</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="angular.lazyimage.html#updateloadedimage" class="tsd-kind-icon">update<wbr>Loaded<wbr>Image</a>
+								<a href="dom.keyboardnavigationwatcher.html#on" class="tsd-kind-icon">on</a>
 							</li>
 						</ul>
 					</li>

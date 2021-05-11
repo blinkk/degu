@@ -114,8 +114,8 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported"><a href="ui.html#callback" class="tsd-kind-icon">Callback</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="ui.html#carouseleventdata" class="tsd-kind-icon">Carousel<wbr>Event<wbr>Data</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="ui.html#eventcallback" class="tsd-kind-icon">Event<wbr>Callback</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
@@ -135,13 +135,23 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="callback" class="tsd-anchor"></a>
-					<h3>Callback</h3>
-					<div class="tsd-signature tsd-kind-icon">Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="carouseleventdata" class="tsd-anchor"></a>
+					<h3>Carousel<wbr>Event<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Carousel<wbr>Event<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../interfaces/ui.beforechangeeventdata.html" class="tsd-signature-type">BeforeChangeEventData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ui.afterchangeeventdata.html" class="tsd-signature-type">AfterChangeEventData</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/9075695/src/ui/events.ts#L4">ui/events.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/ui/carousel/carousel.ts#L38">ui/carousel/carousel.ts:38</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="eventcallback" class="tsd-anchor"></a>
+					<h3>Event<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">Event<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/ui/events.ts#L4">ui/events.ts:4</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -166,16 +176,6 @@
 						</ul>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
-					<a name="carouseleventdata" class="tsd-anchor"></a>
-					<h3>Carousel<wbr>Event<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Carousel<wbr>Event<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../interfaces/ui.beforechangeeventdata.html" class="tsd-signature-type">BeforeChangeEventData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ui.afterchangeeventdata.html" class="tsd-signature-type">AfterChangeEventData</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/9075695/src/ui/carousel/carousel.ts#L38">ui/carousel/carousel.ts:38</a></li>
-						</ul>
-					</aside>
-				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Variables</h2>
@@ -185,7 +185,7 @@
 					<div class="tsd-signature tsd-kind-icon">DEFAULT_<wbr>DISTANCE_<wbr>TO_<wbr>ACTIVE_<wbr>SLIDE_<wbr>ATTR<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"data-index"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;data-index&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/9075695/src/ui/carousel/carousel.ts#L7">ui/carousel/carousel.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/ui/carousel/carousel.ts#L7">ui/carousel/carousel.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -202,7 +202,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/9075695/src/ui/carousel/draggable-slide.ts#L61">ui/carousel/draggable-slide.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/33eb2f7/src/ui/carousel/draggable-slide.ts#L61">ui/carousel/draggable-slide.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -388,11 +388,11 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/ui.transition.html" class="tsd-kind-icon">Transition</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="ui.html#callback" class="tsd-kind-icon">Callback</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="ui.html#carouseleventdata" class="tsd-kind-icon">Carousel<wbr>Event<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="ui.html#eventcallback" class="tsd-kind-icon">Event<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="ui.html#default_distance_to_active_slide_attr" class="tsd-kind-icon">DEFAULT_<wbr>DISTANCE_<wbr>TO_<wbr>ACTIVE_<wbr>SLIDE_<wbr>ATTR</a>
