@@ -110,13 +110,13 @@
 					<a name="debounce" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> debounce</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">debounce<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, wait<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, immediate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span></li>
+						<li class="tsd-signature tsd-kind-icon">debounce<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, wait<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, immediate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L36">func/func.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L34">func/func.ts:34</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -158,7 +158,7 @@ Or
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> immediate: <span class="tsd-signature-type">boolean</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> immediate: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Optional, whether to immediately run (changes this to throttle)</p>
 									</div>
@@ -179,7 +179,7 @@ Or
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L320">func/func.ts:320</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L320">func/func.ts:320</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -244,7 +244,7 @@ expensiveCalculation(<span class="hljs-number">2</span>, <span class="hljs-numbe
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L258">func/func.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L258">func/func.ts:258</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -307,7 +307,7 @@ expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-numbe
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L183">func/func.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L184">func/func.ts:184</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,7 +332,7 @@ expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-numbe
 									<div class="tsd-comment tsd-typography">
 										<pre><code>let someValue = <span class="hljs-number">0</span>;
 func.repeatUntil(
- <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {<span class="hljs-keyword">return</span> someValue == <span class="hljs-number">5</span>},
+ <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {<span class="hljs-keyword">return</span> someValue === <span class="hljs-number">5</span>},
  <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { somevalue++; }
 ).<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'some value is 5!!!'</span>);
@@ -354,7 +354,7 @@ func.repeatUntil(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L398">func/func.ts:398</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L400">func/func.ts:400</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -438,7 +438,7 @@ func.repeatUntil(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L425">func/func.ts:425</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L429">func/func.ts:429</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -478,7 +478,7 @@ func.setDefault(<span class="hljs-literal">undefined</span>, <span class="hljs-l
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L89">func/func.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L92">func/func.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -535,7 +535,7 @@ Or just:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L444">func/func.ts:444</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L447">func/func.ts:447</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -574,7 +574,7 @@ Or just:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L104">func/func.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L107">func/func.ts:107</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -610,7 +610,7 @@ Or just:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/func/func.ts#L133">func/func.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/func/func.ts#L135">func/func.ts:135</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -620,7 +620,7 @@ Or just:
 								</div>
 								<pre><code class="language-ts">
 <span class="hljs-keyword">let</span> someValue = <span class="hljs-number">0</span>;
-func.waitUntil(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> someValue == <span class="hljs-number">5</span>).then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
+func.waitUntil(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> someValue === <span class="hljs-number">5</span>).then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'some value is 5!!!'</span>);
 })
 
@@ -735,9 +735,6 @@ setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;<
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="func.defer.html" class="tsd-kind-icon">Defer</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="func.stream.html" class="tsd-kind-icon">Stream</a>
 					</li>
 				</ul>
 				<ul class="current">

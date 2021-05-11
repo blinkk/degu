@@ -289,17 +289,7 @@
 <a name='L241'></a><a href='#L241'>241</a>
 <a name='L242'></a><a href='#L242'>242</a>
 <a name='L243'></a><a href='#L243'>243</a>
-<a name='L244'></a><a href='#L244'>244</a>
-<a name='L245'></a><a href='#L245'>245</a>
-<a name='L246'></a><a href='#L246'>246</a>
-<a name='L247'></a><a href='#L247'>247</a>
-<a name='L248'></a><a href='#L248'>248</a>
-<a name='L249'></a><a href='#L249'>249</a>
-<a name='L250'></a><a href='#L250'>250</a>
-<a name='L251'></a><a href='#L251'>251</a>
-<a name='L252'></a><a href='#L252'>252</a>
-<a name='L253'></a><a href='#L253'>253</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L244'></a><a href='#L244'>244</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -404,9 +394,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -500,7 +488,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -527,8 +514,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -536,7 +521,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -545,39 +529,36 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
-import { time } from '../time/time';
-import { mathf } from '../mathf/mathf';
-import { EASE } from './ease';
-import { Raf } from '../raf/raf';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {time} from '../time/time';
+import {mathf} from '../mathf/mathf';
+import {EASE} from './ease';
+import {Raf} from '../raf/raf';
 &nbsp;
 export interface easerConfig {
-    /**
-     * The duration of the ease in ms.
-     * @type {number}
-     */
-    duration: number;
-    /**
-     * The delay of the ease in ms.
-     * @type {number}
-     */
-    delay: number;
-    /**
-     * The easing function to use.
-     * @type {Function}
-     */
-    easeFunction: Function;
-    /**
-     * Whether to disable the internal Raf update cycles of easer.
-     * For most cases, don't turn this on.
-     * @type {boolean}
-     */
-    disableRaf: boolean;
+  /**
+   * The duration of the ease in ms.
+   * @type {number}
+   */
+  duration: number;
+  /**
+   * The delay of the ease in ms.
+   * @type {number}
+   */
+  delay: number;
+  /**
+   * The easing function to use.
+   * @type {Function}
+   */
+  easeFunction: Function;
+  /**
+   * Whether to disable the internal Raf update cycles of easer.
+   * For most cases, don't turn this on.
+   * @type {boolean}
+   */
+  disableRaf: boolean;
 }
 &nbsp;
 /**
@@ -640,167 +621,159 @@ export interface easerConfig {
  *
  */
 export class Easer {
+  private startTime_: number;
+  private endTime_: number;
+  private duration_: number;
+  private delay_: number;
+  private easeFunction_: Function;
+  private started_: boolean;
+  private completeCallback_: Function | null;
+  private updateCallback_: Function | null;
+  private completePromiseResolve_: Function | null;
+  private raf_: Raf;
+  private rafDisabled_: boolean;
 &nbsp;
-    private startTime_: number;
-    private endTime_: number;
-    private duration_: number;
-    private delay_: number;
-    private easeFunction_: Function;
-    private started_: boolean;
-    private completeCallback_: Function | null;
-    private updateCallback_: Function | null;
-    private completePromiseResolve_: Function | null;
-    private raf_: Raf;
-    private rafDisabled_: boolean;
+  /**
+   * @param {easerConfig} The easing configuration
+   * @constructor
+   */
+<span class="fstat-no" title="function not covered" >  constructor(private <span class="cstat-no" title="statement not covered" >e</span>aserConfig: easerConfig)</span> {
+    // The current ms since Jan 1, 1970.
+<span class="cstat-no" title="statement not covered" >    this.startTime_ = 0;</span>
 &nbsp;
-    /**
-     * @param {easerConfig} The easing configuration
-     * @constructor
-     */
-<span class="fstat-no" title="function not covered" >    constructor(private <span class="cstat-no" title="statement not covered" >e</span>aserConfig: easerConfig)</span> {
+    // The end time.
+<span class="cstat-no" title="statement not covered" >    this.endTime_ = 0;</span>
 &nbsp;
-        // The current ms since Jan 1, 1970.
-<span class="cstat-no" title="statement not covered" >        this.startTime_ = 0;</span>
+    // The duration of the ease.
+<span class="cstat-no" title="statement not covered" >    this.duration_ = easerConfig.duration || 0;</span>
 &nbsp;
-        // The end time.
-<span class="cstat-no" title="statement not covered" >        this.endTime_ = 0;</span>
+    // The delay.
+<span class="cstat-no" title="statement not covered" >    this.delay_ = easerConfig.delay || 0;</span>
 &nbsp;
-        // The duration of the ease.
-<span class="cstat-no" title="statement not covered" >        this.duration_ = easerConfig.duration || 0;</span>
+    // The easing function.
+<span class="cstat-no" title="statement not covered" >    this.easeFunction_ = easerConfig.easeFunction || EASE.linear;</span>
 &nbsp;
-        // The delay.
-<span class="cstat-no" title="statement not covered" >        this.delay_ = easerConfig.delay || 0;</span>
+    // A flag to test whether the easer has started.
+<span class="cstat-no" title="statement not covered" >    this.started_ = false;</span>
 &nbsp;
-        // The easing function.
-<span class="cstat-no" title="statement not covered" >        this.easeFunction_ = easerConfig.easeFunction || EASE.linear;</span>
+    // A single complete callback.
+<span class="cstat-no" title="statement not covered" >    this.completeCallback_ = null;</span>
 &nbsp;
-        // A flag to test whether the easer has started.
-<span class="cstat-no" title="statement not covered" >        this.started_ = false;</span>
+    // A single update callback.
+<span class="cstat-no" title="statement not covered" >    this.updateCallback_ = null;</span>
 &nbsp;
-        // A single complete callback.
-<span class="cstat-no" title="statement not covered" >        this.completeCallback_ = null;</span>
+    // The resolving function for the complete promise (if used).
+<span class="cstat-no" title="statement not covered" >    this.completePromiseResolve_ = null;</span>
 &nbsp;
-        // A single update callback.
-<span class="cstat-no" title="statement not covered" >        this.updateCallback_ = null;</span>
+    // Internal instance of raf.
+<span class="cstat-no" title="statement not covered" >    this.raf_ = new Raf(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.calculate();</span>
+    });
 &nbsp;
-        // The resolving function for the complete promise (if used).
-<span class="cstat-no" title="statement not covered" >        this.completePromiseResolve_ = null;</span>
+    // Whether raf is disabled.  When this option is true, easer will
+    // no longer interally call Raf and instead expects easer.calculate()
+    // to be called on each Raf.  Disabling raf within easer might be
+    // a more advanced usercase in which an application wants to
+    // have control over easer and it's calculate timings.
+<span class="cstat-no" title="statement not covered" >    this.rafDisabled_ = easerConfig.disableRaf || false;</span>
+  }
 &nbsp;
-        // Internal instance of raf.
-<span class="cstat-no" title="statement not covered" >        this.raf_ = new Raf(<span class="fstat-no" title="function not covered" >() =</span>&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            this.calculate();</span>
-        });
+<span class="fstat-no" title="function not covered" >  reset(</span>easerConfig?: easerConfig) {
+<span class="cstat-no" title="statement not covered" >    if (easerConfig) {</span>
+      // The duration of the ease.
+<span class="cstat-no" title="statement not covered" >      this.duration_ = easerConfig.duration || this.duration_;</span>
+      // The delay.
+<span class="cstat-no" title="statement not covered" >      this.delay_ = easerConfig.delay || this.delay_;</span>
+      // The easing function.
+<span class="cstat-no" title="statement not covered" >      this.easeFunction_ = easerConfig.easeFunction || this.easeFunction_;</span>
+    }
+    // Set started to false to stop progression.
+<span class="cstat-no" title="statement not covered" >    this.started_ = false;</span>
+<span class="cstat-no" title="statement not covered" >    this.startTime_ = 0;</span>
+<span class="cstat-no" title="statement not covered" >    this.endTime_ = 0;</span>
+<span class="cstat-no" title="statement not covered" >    this.raf_ &amp;&amp; this.raf_.stop();</span>
+  }
 &nbsp;
-        // Whether raf is disabled.  When this option is true, easer will
-        // no longer interally call Raf and instead expects easer.calculate()
-        // to be called on each Raf.  Disabling raf within easer might be
-        // a more advanced usercase in which an application wants to
-        // have control over easer and it's calculate timings.
-<span class="cstat-no" title="statement not covered" >        this.rafDisabled_ = easerConfig.disableRaf || false;</span>
+  /**
+   * Returns the internal instance of raf.
+   * @return The internal instance of raf.
+   */
+<span class="fstat-no" title="function not covered" >  getRaf(</span>): Raf {
+<span class="cstat-no" title="statement not covered" >    return this.raf_;</span>
+  }
+&nbsp;
+  /**
+   * Starts the easing.
+   * @return Returns a promise that resolved when the animation completes.
+   */
+<span class="fstat-no" title="function not covered" >  start(</span>): Promise&lt;void&gt; {
+<span class="cstat-no" title="statement not covered" >    this.startTime_ = time.now() + this.delay_;</span>
+<span class="cstat-no" title="statement not covered" >    this.endTime_ = this.startTime_ + this.duration_;</span>
+<span class="cstat-no" title="statement not covered" >    this.started_ = true;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (!this.rafDisabled_) {</span>
+<span class="cstat-no" title="statement not covered" >      this.raf_ &amp;&amp; this.raf_.start();</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    reset(</span>easerConfig?: easerConfig) {
-<span class="cstat-no" title="statement not covered" >        if (easerConfig) {</span>
-            // The duration of the ease.
-<span class="cstat-no" title="statement not covered" >            this.duration_ = easerConfig.duration || this.duration_;</span>
-            // The delay.
-<span class="cstat-no" title="statement not covered" >            this.delay_ = easerConfig.delay || this.delay_;</span>
-            // The easing function.
-<span class="cstat-no" title="statement not covered" >            this.easeFunction_ = easerConfig.easeFunction || this.easeFunction_;</span>
-        }
-        // Set started to false to stop progression.
-<span class="cstat-no" title="statement not covered" >        this.started_ = false;</span>
-<span class="cstat-no" title="statement not covered" >        this.startTime_ = 0;</span>
-<span class="cstat-no" title="statement not covered" >        this.endTime_ = 0;</span>
-<span class="cstat-no" title="statement not covered" >        this.raf_ &amp;&amp; this.raf_.stop();</span>
+<span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >resolve </span>=&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.completePromiseResolve_ = resolve;</span>
+    });
+  }
+&nbsp;
+  /**
+   * Adds a complete callback.
+   */
+<span class="fstat-no" title="function not covered" >  onComplete(</span>callback: Function): void {
+<span class="cstat-no" title="statement not covered" >    this.completeCallback_ = callback;</span>
+  }
+&nbsp;
+  /**
+   * Adds a complete callback.
+   */
+<span class="fstat-no" title="function not covered" >  onUpdate(</span>callback: Function): void {
+<span class="cstat-no" title="statement not covered" >    this.updateCallback_ = callback;</span>
+  }
+&nbsp;
+  /**
+   * Calculates the current ease.  This method should generally be
+   * called at 60FPS by Raf.
+   */
+<span class="fstat-no" title="function not covered" >  calculate(</span>): void {
+<span class="cstat-no" title="statement not covered" >    if (!this.started_) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
-    /**
-     * Returns the internal instance of raf.
-     * @return The internal instance of raf.
-     */
-<span class="fstat-no" title="function not covered" >    getRaf(</span>): Raf {
-<span class="cstat-no" title="statement not covered" >        return this.raf_;</span>
+    const currentTime = <span class="cstat-no" title="statement not covered" >time.now();</span>
+&nbsp;
+    // Check to see if we are more than our start time.
+<span class="cstat-no" title="statement not covered" >    if (currentTime &lt; this.startTime_) {</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
-    /**
-     * Starts the easing.
-     * @return Returns a promise that resolved when the animation completes.
-     */
-<span class="fstat-no" title="function not covered" >    start(</span>): Promise&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >        this.startTime_ = time.now() + this.delay_;</span>
-<span class="cstat-no" title="statement not covered" >        this.endTime_ = this.startTime_ + this.duration_;</span>
-<span class="cstat-no" title="statement not covered" >        this.started_ = true;</span>
+    // The time passed since the ease started.
+    const timePassed = <span class="cstat-no" title="statement not covered" >currentTime - (this.startTime_ || 0);</span>
+    const percent = <span class="cstat-no" title="statement not covered" >timePassed / this.duration_;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (!this.rafDisabled_) {</span>
-<span class="cstat-no" title="statement not covered" >            this.raf_ &amp;&amp; this.raf_.start();</span>
-        }
+    // A value between 0 and 1 representing the current state of progression.
+    const progression: number = <span class="cstat-no" title="statement not covered" >this.easeFunction_(mathf.clamp(0, 1, percent));</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            this.completePromiseResolve_ = resolve;</span>
-        });
+    let complete = <span class="cstat-no" title="statement not covered" >false;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (percent &gt; 1) {</span>
+      // Ensure the ease amount ends on 1.
+<span class="cstat-no" title="statement not covered" >      this.updateCallback_ &amp;&amp; this.updateCallback_(1, complete);</span>
+<span class="cstat-no" title="statement not covered" >      this.completeCallback_ &amp;&amp; this.completeCallback_(1, complete);</span>
+<span class="cstat-no" title="statement not covered" >      this.completePromiseResolve_ &amp;&amp; this.completePromiseResolve_(1, complete);</span>
+<span class="cstat-no" title="statement not covered" >      complete = true;</span>
+<span class="cstat-no" title="statement not covered" >      this.started_ = false;</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >      this.updateCallback_ &amp;&amp; this.updateCallback_(progression, complete);</span>
     }
+  }
 &nbsp;
-    /**
-     * Adds a complete callback.
-     */
-<span class="fstat-no" title="function not covered" >    onComplete(</span>callback: Function): void {
-<span class="cstat-no" title="statement not covered" >        this.completeCallback_ = callback;</span>
-    }
-&nbsp;
-&nbsp;
-    /**
-     * Adds a complete callback.
-     */
-<span class="fstat-no" title="function not covered" >    onUpdate(</span>callback: Function): void {
-<span class="cstat-no" title="statement not covered" >        this.updateCallback_ = callback;</span>
-    }
-&nbsp;
-    /**
-     * Calculates the current ease.  This method should generally be
-     * called at 60FPS by Raf.
-     */
-<span class="fstat-no" title="function not covered" >    calculate(</span>): void {
-<span class="cstat-no" title="statement not covered" >        if (!this.started_) {</span>
-<span class="cstat-no" title="statement not covered" >            return;</span>
-        }
-&nbsp;
-        const currentTime = <span class="cstat-no" title="statement not covered" >time.now();</span>
-&nbsp;
-        // Check to see if we are more than our start time.
-<span class="cstat-no" title="statement not covered" >        if (currentTime &lt; this.startTime_) {</span>
-<span class="cstat-no" title="statement not covered" >            return;</span>
-        }
-&nbsp;
-        // The time passed since the ease started.
-        const timePassed = <span class="cstat-no" title="statement not covered" >currentTime - (this.startTime_ || 0);</span>
-        const percent = <span class="cstat-no" title="statement not covered" >timePassed / this.duration_;</span>
-&nbsp;
-        // A value between 0 and 1 representing the current state of progression.
-        const progression: number = <span class="cstat-no" title="statement not covered" >this.easeFunction_(</span>
-            mathf.clamp(0, 1, percent)
-        );
-&nbsp;
-        let complete = <span class="cstat-no" title="statement not covered" >false;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (percent &gt; 1) {</span>
-            // Ensure the ease amount ends on 1.
-<span class="cstat-no" title="statement not covered" >            this.updateCallback_ &amp;&amp; this.updateCallback_(1, complete);</span>
-<span class="cstat-no" title="statement not covered" >            this.completeCallback_ &amp;&amp; this.completeCallback_(1, complete);</span>
-<span class="cstat-no" title="statement not covered" >            this.completePromiseResolve_ &amp;&amp;</span>
-                this.completePromiseResolve_(1, complete);
-<span class="cstat-no" title="statement not covered" >            complete = true;</span>
-<span class="cstat-no" title="statement not covered" >            this.started_ = false;</span>
-        } else {
-<span class="cstat-no" title="statement not covered" >            this.updateCallback_ &amp;&amp; this.updateCallback_(progression, complete);</span>
-        }
-&nbsp;
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    dispose(</span>): void {
-<span class="cstat-no" title="statement not covered" >        this.raf_ &amp;&amp; this.raf_.stop();</span>
-    }
-&nbsp;
+<span class="fstat-no" title="function not covered" >  dispose(</span>): void {
+<span class="cstat-no" title="statement not covered" >    this.raf_ &amp;&amp; this.raf_.stop();</span>
+  }
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -808,7 +781,7 @@ export class Easer {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat May 08 2021 02:44:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 11 2021 18:30:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

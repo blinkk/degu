@@ -171,17 +171,7 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a>
-<a name='L127'></a><a href='#L127'>127</a>
-<a name='L128'></a><a href='#L128'>128</a>
-<a name='L129'></a><a href='#L129'>129</a>
-<a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -263,9 +253,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -277,7 +265,6 @@
 <span class="cline-any cline-yes">54x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">54x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -309,53 +296,47 @@
 <span class="cline-any cline-yes">54x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
-&nbsp;
-import { is } from '../is/is';
-import { ColorRGBA, color } from '../mathf/color';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {is} from '../is/is';
+import {ColorRGBA, color} from '../mathf/color';
 &nbsp;
 /**
  * The different types of structures that can be passed.
  * @see https://css-tricks.com/converting-color-spaces-in-javascript/
  */
 export enum CssUnitObjectTypes {
-    /**
-     * A number.
-     */
-    number = 'num',
+  /**
+   * A number.
+   */
+  number = 'num',
 &nbsp;
-    /**
-     * A standard numerical value + unit such as '1px' or '10%'
-     */
-    unit = 'unit',
+  /**
+   * A standard numerical value + unit such as '1px' or '10%'
+   */
+  unit = 'unit',
 &nbsp;
-    /**
-     * A css hex unit such as '#FFFFFF'
-     */
-    cssHex = 'cssHex',
+  /**
+   * A css hex unit such as '#FFFFFF'
+   */
+  cssHex = 'cssHex',
 &nbsp;
-    /**
-     * A css rgba unit such as 'rgba(255, 255, 255, 0.3)'
-     */
-    rgba = 'rgba',
+  /**
+   * A css rgba unit such as 'rgba(255, 255, 255, 0.3)'
+   */
+  rgba = 'rgba',
 &nbsp;
-    /**
-     * A css rgb unit such as 'rgba(255, 255, 255)'
-     */
-    rgb = 'rgb',
+  /**
+   * A css rgb unit such as 'rgba(255, 255, 255)'
+   */
+  rgb = 'rgb',
 }
 &nbsp;
 export interface CssUnitObject {
-    value: number | ColorRGBA | null,
-    valueType: CssUnitObjectTypes | string | null;
-    originalValue: string | null,
-    unit: string | null
-    type: CssUnitObjectTypes | string | null;
+  value: number | ColorRGBA | null;
+  valueType: CssUnitObjectTypes | string | null;
+  originalValue: string | null;
+  unit: string | null;
+  type: CssUnitObjectTypes | string | null;
 }
-&nbsp;
 &nbsp;
 /**
  * A class that helps parsing of css units.
@@ -398,60 +379,55 @@ export interface CssUnitObject {
  * ```
  */
 export class cssUnit {
+  /**
+   * Takes a css unit value like '10px' or '20vw' and parses it into
+   * a CssUnitObject.
+   * @param css
+   */
+  static parse(css: string): CssUnitObject {
+    // const value = css.match(/-?\d+/g);
+    const value = css.replace(/[a-zA-Z%]+/g, '');
+    const unit = css.match(/[a-zA-Z%]+/g);
 &nbsp;
-    /**
-     * Takes a css unit value like '10px' or '20vw' and parses it into
-     * a CssUnitObject.
-     * @param css
-     */
-    static parse(css: string): CssUnitObject {
-        // const value = css.match(/-?\d+/g);
-        const value = css.replace(/[a-zA-Z%]+/g, '');
-        const unit = css.match(/[a-zA-Z%]+/g);
+    const result: CssUnitObject = {
+      value: null,
+      unit: null,
+      type: null,
+      valueType: null,
+      originalValue: css,
+    };
 &nbsp;
-        let result: CssUnitObject = {
-            value: null,
-            unit: null,
-            type: null,
-            valueType: null,
-            originalValue: css,
-        };
-&nbsp;
-&nbsp;
-        if (is.cssRgba(css)) {
-            result.type = CssUnitObjectTypes.rgba;
-            result.value = color.cssToRgba(css);
-            result.valueType = CssUnitObjectTypes.rgba;
-        } else if (is.cssRgb(css)) {
-            result.type = CssUnitObjectTypes.rgb;
-            result.value = color.cssToRgba(css);
-            result.valueType = CssUnitObjectTypes.rgba;
-        } else if (is.cssHex(css)) {
-            result.value = color.cssToRgba(css);
-            result.type = CssUnitObjectTypes.cssHex;
-            result.valueType = CssUnitObjectTypes.rgba;
-        } else {
-            result.value = value ? +value : <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
-            result.unit = unit ? unit[0] : null;
-            result.type = CssUnitObjectTypes.unit;
-            result.valueType = CssUnitObjectTypes.number;
-        }
-&nbsp;
-        result.originalValue = css;
-&nbsp;
-        return result;
+    if (is.cssRgba(css)) {
+      result.type = CssUnitObjectTypes.rgba;
+      result.value = color.cssToRgba(css);
+      result.valueType = CssUnitObjectTypes.rgba;
+    } else if (is.cssRgb(css)) {
+      result.type = CssUnitObjectTypes.rgb;
+      result.value = color.cssToRgba(css);
+      result.valueType = CssUnitObjectTypes.rgba;
+    } else if (is.cssHex(css)) {
+      result.value = color.cssToRgba(css);
+      result.type = CssUnitObjectTypes.cssHex;
+      result.valueType = CssUnitObjectTypes.rgba;
+    } else {
+      result.value = value ? +value : <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
+      result.unit = unit ? unit[0] : null;
+      result.type = CssUnitObjectTypes.unit;
+      result.valueType = CssUnitObjectTypes.number;
     }
 &nbsp;
+    result.originalValue = css;
 &nbsp;
-&nbsp;
-&nbsp;
-}</pre></td></tr>
+    return result;
+  }
+}
+&nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat May 08 2021 02:44:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 11 2021 18:30:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

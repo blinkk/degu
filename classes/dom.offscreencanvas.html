@@ -118,7 +118,7 @@ offScreenCanvas.setCanvas(canvas);
 <span class="hljs-comment">//</span>
  <span class="hljs-keyword">const</span> task = <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> {
       <span class="hljs-comment">// If a command called init was sent, set the canvas</span>
-       <span class="hljs-keyword">if</span> (params.command == <span class="hljs-string">'init'</span>) {
+       <span class="hljs-keyword">if</span> (params.command === <span class="hljs-string">'init'</span>) {
           self.canvas = params.canvas;
           <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>, params.name);
           self.ctx = canvas.getContext(<span class="hljs-string">'2d'</span>);
@@ -132,7 +132,7 @@ offScreenCanvas.setCanvas(canvas);
           requestAnimationFrame(animate);
       };
 
-      <span class="hljs-keyword">if</span> (params.command == <span class="hljs-string">'animate'</span>) {
+      <span class="hljs-keyword">if</span> (params.command === <span class="hljs-string">'animate'</span>) {
         animate();
         <span class="hljs-comment">// Return a mesagge when animate is sent.</span>
         <span class="hljs-keyword">return</span> { message: <span class="hljs-string">'FROM WORKER: started animation'</span> };
@@ -219,7 +219,7 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/dom/off-screen-canvas.ts#L124">dom/off-screen-canvas.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/dom/off-screen-canvas.ts#L125">dom/off-screen-canvas.ts:125</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.offscreencanvas.html" class="tsd-signature-type">OffScreenCanvas</a></h4>
@@ -239,7 +239,7 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/dom/off-screen-canvas.ts#L189">dom/off-screen-canvas.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/dom/off-screen-canvas.ts#L187">dom/off-screen-canvas.ts:187</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -250,13 +250,13 @@ offScreenCanvas.terminate();</code></pre>
 					<a name="init" class="tsd-anchor"></a>
 					<h3>init</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/dom/off-screen-canvas.ts#L161">dom/off-screen-canvas.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/dom/off-screen-canvas.ts#L161">dom/off-screen-canvas.ts:161</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -267,7 +267,7 @@ offScreenCanvas.terminate();</code></pre>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>message: <span class="tsd-signature-type">Object</span></h5>
+									<h5>message: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -284,7 +284,7 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/dom/off-screen-canvas.ts#L181">dom/off-screen-canvas.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/dom/off-screen-canvas.ts#L180">dom/off-screen-canvas.ts:180</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -314,7 +314,7 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/dom/off-screen-canvas.ts#L139">dom/off-screen-canvas.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/dom/off-screen-canvas.ts#L140">dom/off-screen-canvas.ts:140</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -345,7 +345,7 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/dom/off-screen-canvas.ts#L152">dom/off-screen-canvas.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/dom/off-screen-canvas.ts#L153">dom/off-screen-canvas.ts:153</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

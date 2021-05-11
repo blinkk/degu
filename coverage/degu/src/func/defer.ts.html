@@ -121,9 +121,8 @@
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -165,25 +164,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -191,14 +181,24 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { promises } from "fs";
-&nbsp;
-//https://gist.github.com/uxder/b9bd3811e0508fae42c1df64155b9c8b
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">//https://gist.github.com/uxder/b9bd3811e0508fae42c1df64155b9c8b
 &nbsp;
 /**
  * A basic deferred promise.  Allows you to resolve/reject a promise at a later
@@ -234,42 +234,45 @@
  * @tested
  */
 export class Defer {
-    public resolve: Function;
-    public promise: Promise&lt;any&gt;;
-    public reject: Function;
-    public complete: boolean;
+  public resolve: Function;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public promise: Promise&lt;any&gt;;
+  public reject: Function;
+  public complete: boolean;
 &nbsp;
-    constructor() {
-        this.resolve = <span class="fstat-no" title="function not covered" >() =</span>&gt; { };
-        this.reject = <span class="fstat-no" title="function not covered" >() =</span>&gt; { };
-        this.complete = false;
+  constructor() {
+    this.resolve = <span class="fstat-no" title="function not covered" >() =</span>&gt; {};
+    this.reject = <span class="fstat-no" title="function not covered" >() =</span>&gt; {};
+    this.complete = false;
 &nbsp;
-        this.promise = new Promise((resolve: Function, reject: Function) =&gt; {
-            this.resolve = (data: any) =&gt; {
-                this.complete = true;
-                return resolve(data);
-            };
-            this.reject = <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; {
-<span class="cstat-no" title="statement not covered" >                this.complete = true;</span>
-<span class="cstat-no" title="statement not covered" >                return reject(data);</span>
-            };
-        });
+    this.promise = new Promise((resolve: Function, reject: Function) =&gt; {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.resolve = (data: any) =&gt; {
+        this.complete = true;
+        return resolve(data);
+      };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.reject = <span class="fstat-no" title="function not covered" >(d</span>ata: any) =&gt; {
+<span class="cstat-no" title="statement not covered" >        this.complete = true;</span>
+<span class="cstat-no" title="statement not covered" >        return reject(data);</span>
+      };
+    });
+  }
+&nbsp;
+  /**
+   * Returns the deferred promise.  If the defer was already completed for
+   * some reason, will return a promise that is immediately resolved.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getPromise(): Promise&lt;any&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (this.complete) {
+<span class="cstat-no" title="statement not covered" >      return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve: Function) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        resolve();</span>
+      });
+    } else {
+      return this.promise;
     }
-&nbsp;
-    /**
-     * Returns the deferred promise.  If the defer was already completed for
-     * some reason, will return a promise that is immediately resolved.
-     */
-    getPromise(): Promise&lt;any&gt; {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.complete) {
-<span class="cstat-no" title="statement not covered" >            return new Promise(<span class="fstat-no" title="function not covered" >(r</span>esolve: Function, reject: Function) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                resolve();</span>
-            });
-        } else {
-            return this.promise;
-        }
-    }
-&nbsp;
+  }
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -277,7 +280,7 @@ export class Defer {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat May 08 2021 02:44:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 11 2021 18:30:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

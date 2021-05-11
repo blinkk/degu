@@ -146,6 +146,10 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="raf.rafregistry.html#addonetimepostwrite" class="tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Post<wbr>Write</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="raf.rafregistry.html#addonetimepreread" class="tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Pre<wbr>Read</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="raf.rafregistry.html#addonetimeread" class="tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Read</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="raf.rafregistry.html#addonetimewrite" class="tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Write</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="raf.rafregistry.html#getactiverafcount" class="tsd-kind-icon">get<wbr>Active<wbr>Raf<wbr>Count</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="raf.rafregistry.html#getrafcount" class="tsd-kind-icon">get<wbr>Raf<wbr>Count</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="raf.rafregistry.html#register" class="tsd-kind-icon">register</a></li>
@@ -168,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/raf/raf.ts#L662">raf/raf.ts:662</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L664">raf/raf.ts:664</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="raf.rafregistry.html" class="tsd-signature-type">RafRegistry</a></h4>
@@ -179,6 +183,122 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="addonetimepostwrite" class="tsd-anchor"></a>
+					<h3>add<wbr>One<wbr>Time<wbr>Post<wbr>Write</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Post<wbr>Write<span class="tsd-signature-symbol">(</span>postWrite<span class="tsd-signature-symbol">: </span><a href="../interfaces/raf.rafregistryobject.html" class="tsd-signature-type">RafRegistryObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L735">raf/raf.ts:735</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a single addOneTimeWrite to the batch read / write system.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>postWrite: <a href="../interfaces/raf.rafregistryobject.html" class="tsd-signature-type">RafRegistryObject</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="addonetimepreread" class="tsd-anchor"></a>
+					<h3>add<wbr>One<wbr>Time<wbr>Pre<wbr>Read</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Pre<wbr>Read<span class="tsd-signature-symbol">(</span>read<span class="tsd-signature-symbol">: </span><a href="../interfaces/raf.rafregistryobject.html" class="tsd-signature-type">RafRegistryObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L708">raf/raf.ts:708</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a single addOneTimePreRead to the batch read / write system.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>read: <a href="../interfaces/raf.rafregistryobject.html" class="tsd-signature-type">RafRegistryObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="addonetimeread" class="tsd-anchor"></a>
+					<h3>add<wbr>One<wbr>Time<wbr>Read</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Read<span class="tsd-signature-symbol">(</span>read<span class="tsd-signature-symbol">: </span><a href="../interfaces/raf.rafregistryobject.html" class="tsd-signature-type">RafRegistryObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L717">raf/raf.ts:717</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a single addOneTimeRead to the batch read / write system.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>read: <a href="../interfaces/raf.rafregistryobject.html" class="tsd-signature-type">RafRegistryObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="addonetimewrite" class="tsd-anchor"></a>
+					<h3>add<wbr>One<wbr>Time<wbr>Write</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Write<span class="tsd-signature-symbol">(</span>write<span class="tsd-signature-symbol">: </span><a href="../interfaces/raf.rafregistryobject.html" class="tsd-signature-type">RafRegistryObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L726">raf/raf.ts:726</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a single addOneTimeWrite to the batch read / write system.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>write: <a href="../interfaces/raf.rafregistryobject.html" class="tsd-signature-type">RafRegistryObject</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 					<a name="getactiverafcount" class="tsd-anchor"></a>
 					<h3>get<wbr>Active<wbr>Raf<wbr>Count</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
@@ -188,7 +308,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/raf/raf.ts#L748">raf/raf.ts:748</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L748">raf/raf.ts:748</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -212,7 +332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/raf/raf.ts#L762">raf/raf.ts:762</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L762">raf/raf.ts:762</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -236,7 +356,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/raf/raf.ts#L768">raf/raf.ts:768</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L766">raf/raf.ts:766</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -259,7 +379,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/raf/raf.ts#L668">raf/raf.ts:668</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L670">raf/raf.ts:670</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -276,7 +396,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/raf/raf.ts#L772">raf/raf.ts:772</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/raf/raf.ts#L770">raf/raf.ts:770</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -347,6 +467,11 @@
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="../modules/raf.html">raf</a>
+						<ul>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported">
+								<a href="../modules/raf.__global.html">__global</a>
+							</li>
+						</ul>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/setf.html">setf</a>
@@ -386,6 +511,18 @@
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
 								<a href="raf.rafregistry.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="raf.rafregistry.html#addonetimepostwrite" class="tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Post<wbr>Write</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="raf.rafregistry.html#addonetimepreread" class="tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Pre<wbr>Read</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="raf.rafregistry.html#addonetimeread" class="tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Read</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="raf.rafregistry.html#addonetimewrite" class="tsd-kind-icon">add<wbr>One<wbr>Time<wbr>Write</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="raf.rafregistry.html#getactiverafcount" class="tsd-kind-icon">get<wbr>Active<wbr>Raf<wbr>Count</a>

@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75.68% </span>
+        <span class="strong">76.32% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>28/37</span>
+        <span class='fraction'>29/38</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">52.38% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>6/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">75.68% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>27/36</span>
+        <span class='fraction'>28/37</span>
       </div>
     </div>
     <p class="quiet">
@@ -174,12 +174,15 @@
 <a name='L126'></a><a href='#L126'>126</a>
 <a name='L127'></a><a href='#L127'>127</a>
 <a name='L128'></a><a href='#L128'>128</a>
-<a name='L129'></a><a href='#L129'>129</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,19 +191,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -208,6 +207,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -221,6 +221,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
@@ -281,6 +286,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -307,128 +315,132 @@
  */
 import {mathf} from '..';
 &nbsp;
-&nbsp;
 export class arrayf {
+  /**
+   * A deep copy that works with objects or arrays.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+<span class="fstat-no" title="function not covered" >  static </span>deepCopy(input: Array&lt;any&gt; | [key: string]): Array&lt;any&gt; | Object {
+    let value, key;
 &nbsp;
+<span class="cstat-no" title="statement not covered" >    if (typeof input !== 'object' || input === null) {</span>
+<span class="cstat-no" title="statement not covered" >      return input;</span>
+    }
 &nbsp;
-    /**
-     * A deep copy that works with objects or arrays.
-     */
-<span class="fstat-no" title="function not covered" >    static </span>deepCopy(input: Array&lt;any&gt; | Object):Array&lt;any&gt;|Object {
-        let output, value, key;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const output: Record&lt;string, any&gt; = <span class="cstat-no" title="statement not covered" >Array.isArray(input) ? [] : {};</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (typeof input !== "object" || input === null) {</span>
-<span class="cstat-no" title="statement not covered" >            return input;</span>
+<span class="cstat-no" title="statement not covered" >    for (key in input) {</span>
+<span class="cstat-no" title="statement not covered" >      value = input[key];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      output[key] =</span>
+        typeof value === 'object' &amp;&amp; value !== null
+          ? arrayf.deepCopy(value)
+          : value;
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return output;</span>
+  }
+&nbsp;
+  /**
+   * Return value from array that generates the highest return value when
+   * passed as a parameter to the score function.
+   *
+   * Multiple score functions can be passed with later functions used only to
+   * break ties for values returned from the previous score function.
+   *
+   * Example:
+   * ```
+   * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
+   * arrayf.max(values, (x) =&gt; x.a); // Returns {'a': 2, 'b': 3}
+   * arrayf.max(values, (x) =&gt; x.b); // Returns {'a': 1, 'b': 4}
+   * ```
+   */
+  static max&lt;T&gt;(values: T[], ...scoreFns: Array&lt;(v: T) =&gt; number&gt;): T {
+    let maxValue: T | null = null;
+    let maxScore = Number.NEGATIVE_INFINITY;
+    const scoreFn = scoreFns[0];
+    values.forEach(value =&gt; {
+      const score = scoreFn(value);
+      if (maxScore &lt; score) {
+        maxValue = value;
+        maxScore = score;
+      } else if (maxScore === score &amp;&amp; scoreFns.length &gt; 1) {
+        let i = 1;
+        let tieBreaker = scoreFns[i];
+        while (
+          i &lt; scoreFns.length &amp;&amp;
+          tieBreaker(&lt;T&gt;maxValue) === tieBreaker(value)
+        ) {
+<span class="cstat-no" title="statement not covered" >          tieBreaker = scoreFns[i++];</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        output = Array.isArray(input) ? [] : {}</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        for (key in input) {</span>
-<span class="cstat-no" title="statement not covered" >            value = input[key]</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            output[key] = (typeof value === "object" &amp;&amp; value !== null) ?</span>
-                arrayf.deepCopy(value) : value;
+        if (tieBreaker(&lt;T&gt;maxValue) &lt; tieBreaker(value)) {
+          maxValue = value;
         }
+      }
+    });
+    return maxValue!;
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return output;</span>
+  /**
+   * Return value from array that generates the lowest return value when
+   * passed as a parameter to the score function.
+   *
+   * Multiple score functions can be passed with later functions used only to
+   * break ties for values returned from the previous score function.
+   *
+   * Example:
+   * ```
+   * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
+   * arrayf.min(values, (x) =&gt; x.a); // Returns {'a': 1, 'b': 4}
+   * arrayf.min(values, (x) =&gt; x.b); // Returns {'a': 2, 'b': 3}
+   * ```
+   */
+  static min&lt;T&gt;(values: T[], ...scoreFns: Array&lt;(v: T) =&gt; number&gt;): T {
+    return arrayf.max(
+      values,
+      ...scoreFns.map(scoreFn =&gt; {
+        return (v: T) =&gt; -1 * scoreFn(v);
+      })
+    );
+  }
+&nbsp;
+  /**
+   * Operates as per the built in slice with the option to wrap around from
+   * the end of the array to the start and vice versa. Can also slice in the
+   * reverse direction if given a negative value for `direction`.
+   * @param values
+   * @param startIndex
+   * @param rawEndIndex
+   * @param direction
+   */
+  static loopSlice&lt;T&gt;(
+    values: T[],
+    startIndex: number,
+    rawEndIndex: number,
+    direction = 1
+  ): T[] {
+    const result: T[] = [];
+    const length = values.length;
+    const increment = Math.sign(direction);
+    const endIndex = mathf.wrap(rawEndIndex, 0, length);
+    let index = mathf.wrap(startIndex, 0, length);
+    while (index !== endIndex) {
+      result.push(values[index]);
+      index = mathf.wrap(index + increment, 0, length);
     }
+    return result;
+  }
 &nbsp;
-    /**
-     * Return value from array that generates the highest return value when
-     * passed as a parameter to the score function.
-     *
-     * Multiple score functions can be passed with later functions used only to
-     * break ties for values returned from the previous score function.
-     *
-     * Example:
-     * ```
-     * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
-     * arrayf.max(values, (x) =&gt; x.a); // Returns {'a': 2, 'b': 3}
-     * arrayf.max(values, (x) =&gt; x.b); // Returns {'a': 1, 'b': 4}
-     * ```
-     */
-    static max&lt;T&gt;(values: T[], ...scoreFns: Array&lt;(v: T) =&gt; number&gt;): T {
-        let maxValue: T;
-        let maxScore = Number.NEGATIVE_INFINITY;
-        const scoreFn = scoreFns[0];
-        values.forEach((value) =&gt; {
-            const score = scoreFn(value);
-            if (maxScore &lt; score) {
-                maxValue = value;
-                maxScore = score;
-            } else if (maxScore === score &amp;&amp; scoreFns.length &gt; 1) {
-                let i = 1;
-                let tieBreaker = scoreFns[i];
-                while (
-                    i &lt; scoreFns.length &amp;&amp;
-                    tieBreaker(maxValue) === tieBreaker(value)
-                ) {
-<span class="cstat-no" title="statement not covered" >                    tieBreaker = scoreFns[i++];</span>
-                }
-&nbsp;
-                if (tieBreaker(maxValue) &lt; tieBreaker(value)) {
-                    maxValue = value;
-                }
-            }
-        });
-        return maxValue;
-    }
-&nbsp;
-    /**
-     * Return value from array that generates the lowest return value when
-     * passed as a parameter to the score function.
-     *
-     * Multiple score functions can be passed with later functions used only to
-     * break ties for values returned from the previous score function.
-     *
-     * Example:
-     * ```
-     * const values = [{'a': 2, 'b': 3}, {'a': 1, 'b': 4}];
-     * arrayf.min(values, (x) =&gt; x.a); // Returns {'a': 1, 'b': 4}
-     * arrayf.min(values, (x) =&gt; x.b); // Returns {'a': 2, 'b': 3}
-     * ```
-     */
-    static min&lt;T&gt;(values: T[], ...scoreFns: Array&lt;(v: T) =&gt; number&gt;): T {
-        return arrayf.max(
-            values,
-            ...scoreFns.map((scoreFn) =&gt; {
-                return (v: T) =&gt; -1 * scoreFn(v);
-            }));
-    }
-&nbsp;
-    /**
-     * Operates as per the built in slice with the option to wrap around from
-     * the end of the array to the start and vice versa. Can also slice in the
-     * reverse direction if given a negative value for `direction`.
-     * @param values
-     * @param startIndex
-     * @param rawEndIndex
-     * @param direction
-     */
-    static loopSlice&lt;T&gt;(
-        values: T[], startIndex: number, rawEndIndex: number,
-        direction: number = 1
-    ): T[] {
-        const result: T[] = [];
-        const length = values.length;
-        const increment = Math.sign(direction);
-        const endIndex = mathf.wrap(rawEndIndex, 0, length);
-        let index = mathf.wrap(startIndex, 0, length);
-        while (index !== endIndex) {
-            result.push(values[index]);
-            index = mathf.wrap(index + increment, 0, length);
-        }
-        return result;
-    }
-&nbsp;
-    /**
-     * Determines if the given values contain the given value.
-     * @param values
-     * @param value
-     */
-<span class="fstat-no" title="function not covered" >    static </span>contains&lt;T&gt;(values: T[], value: T): boolean {
-<span class="cstat-no" title="statement not covered" >        return values.indexOf(value) !== -1;</span>
-    }
+  /**
+   * Determines if the given values contain the given value.
+   * @param values
+   * @param value
+   */
+<span class="fstat-no" title="function not covered" >  static </span>contains&lt;T&gt;(values: T[], value: T): boolean {
+<span class="cstat-no" title="statement not covered" >    return values.indexOf(value) !== -1;</span>
+  }
 }
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -436,7 +448,7 @@ export class arrayf {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat May 08 2021 02:44:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 11 2021 18:30:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -133,13 +133,13 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Horizontal<wbr>Scroll<wbr>Element<wbr>Controller<span class="tsd-signature-symbol">(</span>$scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IScope</span>, $element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IAngularStatic</span>, $attrs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IAttributes</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="angular.horizontalscrollelementcontroller.html" class="tsd-signature-type">HorizontalScrollElementController</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Horizontal<wbr>Scroll<wbr>Element<wbr>Controller<span class="tsd-signature-symbol">(</span>$scope<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IScope</span>, $element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ng.IAugmentedJQuery</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="angular.horizontalscrollelementcontroller.html" class="tsd-signature-type">HorizontalScrollElementController</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/angular/controller-horizontal-scroll-element.ts#L33">angular/controller-horizontal-scroll-element.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/angular/controller-horizontal-scroll-element.ts#L34">angular/controller-horizontal-scroll-element.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -148,10 +148,7 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 									<h5>$scope: <span class="tsd-signature-type">ng.IScope</span></h5>
 								</li>
 								<li>
-									<h5>$element: <span class="tsd-signature-type">ng.IAngularStatic</span></h5>
-								</li>
-								<li>
-									<h5>$attrs: <span class="tsd-signature-type">ng.IAttributes</span></h5>
+									<h5>$element: <span class="tsd-signature-type">ng.IAugmentedJQuery</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="angular.horizontalscrollelementcontroller.html" class="tsd-signature-type">HorizontalScrollElementController</a></h4>
@@ -171,7 +168,7 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/angular/controller-horizontal-scroll-element.ts#L31">angular/controller-horizontal-scroll-element.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/angular/controller-horizontal-scroll-element.ts#L32">angular/controller-horizontal-scroll-element.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
@@ -192,7 +189,7 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/angular.ingdisposable.html">INgDisposable</a>.<a href="../interfaces/angular.ingdisposable.html#dispose">dispose</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/angular/controller-horizontal-scroll-element.ts#L107">angular/controller-horizontal-scroll-element.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/angular/controller-horizontal-scroll-element.ts#L108">angular/controller-horizontal-scroll-element.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -209,7 +206,7 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/angular/controller-horizontal-scroll-element.ts#L44">angular/controller-horizontal-scroll-element.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/angular/controller-horizontal-scroll-element.ts#L45">angular/controller-horizontal-scroll-element.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -226,16 +223,21 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 					<a name="isfirstslide" class="tsd-anchor"></a>
 					<h3>is<wbr>First<wbr>Slide</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>First<wbr>Slide<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>First<wbr>Slide<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/angular/controller-horizontal-scroll-element.ts#L99">angular/controller-horizontal-scroll-element.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/angular/controller-horizontal-scroll-element.ts#L100">angular/controller-horizontal-scroll-element.ts:100</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">false</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">true</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -243,16 +245,21 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 					<a name="islastslide" class="tsd-anchor"></a>
 					<h3>is<wbr>Last<wbr>Slide</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Last<wbr>Slide<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Last<wbr>Slide<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/angular/controller-horizontal-scroll-element.ts#L103">angular/controller-horizontal-scroll-element.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/angular/controller-horizontal-scroll-element.ts#L104">angular/controller-horizontal-scroll-element.ts:104</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">false</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">true</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -266,7 +273,7 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/angular/controller-horizontal-scroll-element.ts#L94">angular/controller-horizontal-scroll-element.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/angular/controller-horizontal-scroll-element.ts#L96">angular/controller-horizontal-scroll-element.ts:96</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -283,7 +290,7 @@ app.controller(<span class="hljs-string">'HorizontalScrollElementController'</sp
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/01c7098/src/angular/controller-horizontal-scroll-element.ts#L89">angular/controller-horizontal-scroll-element.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/b341538/src/angular/controller-horizontal-scroll-element.ts#L92">angular/controller-horizontal-scroll-element.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

@@ -213,18 +213,7 @@
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
 <a name='L167'></a><a href='#L167'>167</a>
-<a name='L168'></a><a href='#L168'>168</a>
-<a name='L169'></a><a href='#L169'>169</a>
-<a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a>
-<a name='L176'></a><a href='#L176'>176</a>
-<a name='L177'></a><a href='#L177'>177</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L168'></a><a href='#L168'>168</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -268,6 +257,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -288,30 +293,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -398,9 +380,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as THREE from 'three';
-&nbsp;
-/**
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Creates a 2d rotation matrix.
  *
  * mat2 mat = deguGetRotationMatrix(rotationInRadians);
@@ -435,7 +415,6 @@ const deguGet2dRotationMatrix = <span class="cstat-no" title="statement not cove
    }
 `;
 &nbsp;
-&nbsp;
 /*
  * Returns a mat2 scale matrix.
  *
@@ -450,9 +429,6 @@ const deguGet2dScaleMatrix = <span class="cstat-no" title="statement not covered
       return mat2(scale, 0, 0, scale);
   }
 `;
-&nbsp;
-&nbsp;
-&nbsp;
 &nbsp;
 /**
  * A 2d based rotation.
@@ -471,8 +447,6 @@ const deguRotate2d = <span class="cstat-no" title="statement not covered" >`</sp
        return rotationMatrix * pt;
    }
 `;
-&nbsp;
-&nbsp;
 &nbsp;
 /**
  * Rotations an image.
@@ -513,8 +487,7 @@ const deguRotate2dImage = <span class="cstat-no" title="statement not covered" >
 &nbsp;
        return color;
    }
-`
-&nbsp;
+`;
 &nbsp;
 /**
  * Sin returns values between -1 and 1 but we often want 0-1.
@@ -535,13 +508,13 @@ const normalizedSin = <span class="cstat-no" title="statement not covered" >`</s
   float normalizedSin(float radians) {
     return (sin(radians) + 1.0) / 2.0;
   }
-`
-&nbsp;
+`;
 &nbsp;
 /**
  * Raycast algo.
  * @see  http://blog.ruofeidu.com/tutorial-of-ray-casting-ray-tracing-and-ray-marching/
  */
+// eslint-disable-next-line
 const castRay = <span class="cstat-no" title="statement not covered" >`</span>
 bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT )
 {
@@ -559,13 +532,13 @@ bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT )
     }
     return false;
 }
-`
-&nbsp;
+`;
 &nbsp;
 /**
  * Common custom math functions for glsl.
  */
-export const deguMathf = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>hree:any)=&gt; {</span>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const deguMathf = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>hree: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  three.ShaderChunk.deguMathf = `</span>
   ${deguGet2dRotationMatrix}
   ${deguGet2dScaleMatrix}
@@ -573,14 +546,14 @@ export const deguMathf = <span class="cstat-no" title="statement not covered" ><
   ${deguRotate2dImage}
   ${normalizedSin}
 `;
-}
+};
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat May 08 2021 02:44:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 11 2021 18:30:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../../prettify.js"></script>

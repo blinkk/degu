@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>38/38</span>
+        <span class='fraction'>34/34</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>4/4</span>
+        <span class='fraction'>3/3</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>38/38</span>
+        <span class='fraction'>34/34</span>
       </div>
     </div>
     <p class="quiet">
@@ -111,28 +111,8 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -150,11 +130,17 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -162,7 +148,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,73 +168,78 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { cssUnit } from './css-unit';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {cssUnit} from './css-unit';
 import test from 'ava';
 &nbsp;
 test('parse values', t =&gt; {
-    t.is(cssUnit.parse('1px').unit, 'px');
-    t.is(cssUnit.parse('1px').type, 'unit');
-    t.is(cssUnit.parse('1px').value, 1);
+  t.is(cssUnit.parse('1px').unit, 'px');
+  t.is(cssUnit.parse('1px').type, 'unit');
+  t.is(cssUnit.parse('1px').value, 1);
 &nbsp;
-    t.is(cssUnit.parse('10vw').unit, 'vw');
-    t.is(cssUnit.parse('1px').type, 'unit');
-    t.is(cssUnit.parse('10vw').value, 10);
+  t.is(cssUnit.parse('10vw').unit, 'vw');
+  t.is(cssUnit.parse('1px').type, 'unit');
+  t.is(cssUnit.parse('10vw').value, 10);
 &nbsp;
-    t.is(cssUnit.parse('-10vw').unit, 'vw');
-    t.is(cssUnit.parse('-1px').type, 'unit');
-    t.is(cssUnit.parse('-10vw').value, -10);
-    t.is(cssUnit.parse('0.5em').value, 0.5);
-    t.is(cssUnit.parse('-0.5em').value, -0.5);
-    t.is(cssUnit.parse('-0.5em').unit, 'em');
+  t.is(cssUnit.parse('-10vw').unit, 'vw');
+  t.is(cssUnit.parse('-1px').type, 'unit');
+  t.is(cssUnit.parse('-10vw').value, -10);
+  t.is(cssUnit.parse('0.5em').value, 0.5);
+  t.is(cssUnit.parse('-0.5em').value, -0.5);
+  t.is(cssUnit.parse('-0.5em').unit, 'em');
 &nbsp;
+  t.is(cssUnit.parse('10%').unit, '%');
+  t.is(cssUnit.parse('1px').type, 'unit');
+  t.is(cssUnit.parse('10vw').value, 10);
 &nbsp;
-    t.is(cssUnit.parse('10%').unit, '%');
-    t.is(cssUnit.parse('1px').type, 'unit');
-    t.is(cssUnit.parse('10vw').value, 10);
-&nbsp;
-&nbsp;
-    t.is(cssUnit.parse('10').unit, null);
-    t.is(cssUnit.parse('1px').type, 'unit');
-    t.is(cssUnit.parse('10').value, 10);
+  t.is(cssUnit.parse('10').unit, null);
+  t.is(cssUnit.parse('1px').type, 'unit');
+  t.is(cssUnit.parse('10').value, 10);
 });
 &nbsp;
 test('parse hex', t =&gt; {
-    t.is(cssUnit.parse('#FFFFFF').unit, null);
-    t.is(cssUnit.parse('#FFFFFF').originalValue, '#FFFFFF');
-    t.is(cssUnit.parse('#FFFFFF').type, 'cssHex');
-    t.deepEqual(cssUnit.parse('#FFFFFF').value, {
-        r: 255,
-        g: 255,
-        b: 255,
-        a: 1
-    });
+  t.is(cssUnit.parse('#FFFFFF').unit, null);
+  t.is(cssUnit.parse('#FFFFFF').originalValue, '#FFFFFF');
+  t.is(cssUnit.parse('#FFFFFF').type, 'cssHex');
+  t.deepEqual(cssUnit.parse('#FFFFFF').value, {
+    r: 255,
+    g: 255,
+    b: 255,
+    a: 1,
+  });
 });
 &nbsp;
-&nbsp;
 test('parse rgba', t =&gt; {
-    let rgba = 'rgba( 255, 255, 255,0.3)';
-    t.is(cssUnit.parse(rgba).unit, null);
-    t.is(cssUnit.parse(rgba).originalValue, rgba);
-    t.is(cssUnit.parse(rgba).type, 'rgba');
-    t.deepEqual(cssUnit.parse(rgba).value, {
-        r: 255,
-        g: 255,
-        b: 255,
-        a: 0.3
-    });
+  const rgba = 'rgba( 255, 255, 255,0.3)';
+  t.is(cssUnit.parse(rgba).unit, null);
+  t.is(cssUnit.parse(rgba).originalValue, rgba);
+  t.is(cssUnit.parse(rgba).type, 'rgba');
+  t.deepEqual(cssUnit.parse(rgba).value, {
+    r: 255,
+    g: 255,
+    b: 255,
+    a: 0.3,
+  });
 });
 &nbsp;
 test('parse rgb', t =&gt; {
-    let rgb = 'rgb( 255, 255, 255)';
-    t.is(cssUnit.parse(rgb).unit, null);
-    t.is(cssUnit.parse(rgb).originalValue, rgb);
-    t.is(cssUnit.parse(rgb).type, 'rgb');
-    t.deepEqual(cssUnit.parse(rgb).value, {
-        r: 255,
-        g: 255,
-        b: 255,
-        a: 1
-    });
+  const rgb = 'rgb( 255, 255, 255)';
+  t.is(cssUnit.parse(rgb).unit, null);
+  t.is(cssUnit.parse(rgb).originalValue, rgb);
+  t.is(cssUnit.parse(rgb).type, 'rgb');
+  t.deepEqual(cssUnit.parse(rgb).value, {
+    r: 255,
+    g: 255,
+    b: 255,
+    a: 1,
+  });
 });
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -256,7 +247,7 @@ test('parse rgb', t =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat May 08 2021 02:44:35 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 11 2021 18:30:39 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
