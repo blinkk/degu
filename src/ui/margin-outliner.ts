@@ -1,7 +1,5 @@
-
-import { DomWatcher } from '../dom/dom-watcher';
-import { urlParams } from '../dom/url-params';
-
+import {DomWatcher} from '../dom/dom-watcher';
+import {urlParams} from '../dom/url-params';
 
 export interface MarginOutlinerConfig {
   /**
@@ -13,18 +11,18 @@ export interface MarginOutlinerConfig {
   /**
    * The name of the css class to attached to each generated spacer item.
    */
-  cssClassName: string
+  cssClassName: string;
 
   /**
    * The query selector of all elements you want to check for margins / paddings
    * on the page.
    */
-  querySelector: string,
+  querySelector: string;
 
   /**
    * Specify an option url to enable outliner via url params.
    */
-  urlParamName?: string,
+  urlParamName?: string;
 }
 
 /**
@@ -84,12 +82,12 @@ export interface MarginOutlinerConfig {
  * ```
  */
 export class MarginOutliner {
-
   private watcher: DomWatcher;
   private config: MarginOutlinerConfig;
 
   constructor(config: MarginOutlinerConfig) {
     this.config = config;
+    this.watcher = new DomWatcher();
 
     if (this.config.urlParamName) {
       // Disable if url param is specified and the value is not true.
@@ -97,15 +95,13 @@ export class MarginOutliner {
         return;
       }
     }
-    this.watcher = new DomWatcher();
     this.watcher.add({
       element: window,
       on: ['click', 'resize', 'scroll'],
-      callback: this.run.bind(this)
-    })
+      callback: this.run.bind(this),
+    });
     this.run();
   }
-
 
   private createSpacer(
     el: HTMLDivElement,
@@ -125,15 +121,13 @@ export class MarginOutliner {
       spacerEl.classList.add(`${this.config.cssClassName}--padding`);
     }
     spacerEl.innerText = `${size}px`;
-    el.parentElement.appendChild(spacerEl);
+    el.parentElement!.appendChild(spacerEl);
   }
-
 
   public run() {
     this.removeSpacers();
     this.createSpacers();
   }
-
 
   private createSpacers() {
     [].forEach.call(
@@ -146,16 +140,22 @@ export class MarginOutliner {
           }
           const style = window.getComputedStyle(el);
           const rect = el.getBoundingClientRect();
-          if (style.marginTop == `${size}px`) {
-            this.createSpacer(el, `${rect.top - size}px`, rect.left, size, false);
+          if (style.marginTop === `${size}px`) {
+            this.createSpacer(
+              el,
+              `${rect.top - size}px`,
+              rect.left,
+              size,
+              false
+            );
           }
-          if (style.marginBottom == `${size}px`) {
+          if (style.marginBottom === `${size}px`) {
             this.createSpacer(el, `${rect.bottom}px`, rect.left, size, false);
           }
-          if (style.paddingTop == `${size}px`) {
+          if (style.paddingTop === `${size}px`) {
             this.createSpacer(el, `${rect.top}px`, rect.left, size, true);
           }
-          if (style.paddingBottom == `${size}px`) {
+          if (style.paddingBottom === `${size}px`) {
             this.createSpacer(
               el,
               `${rect.bottom - size}px`,
@@ -169,12 +169,11 @@ export class MarginOutliner {
     );
   }
 
-
   private removeSpacers() {
     [].forEach.call(
       document.querySelectorAll(`.${this.config.cssClassName}`),
       (el: HTMLDivElement) => {
-        el.parentNode.removeChild(el);
+        el.parentNode!.removeChild(el);
       }
     );
   }

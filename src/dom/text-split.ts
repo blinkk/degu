@@ -1,15 +1,15 @@
-import { dom } from './dom';
+import {dom} from './dom';
 
 export interface textSplitConfig {
-    element: HTMLElement;
+  element: HTMLElement;
 
-    /**
-     * The criteria of how to split up the text found in the element.
-     * For example:
-     *   '' would break it by every character.
-     *   ' ' would break it up by spaces (or every word)
-     */
-    split: string;
+  /**
+   * The criteria of how to split up the text found in the element.
+   * For example:
+   *   '' would break it by every character.
+   *   ' ' would break it up by spaces (or every word)
+   */
+  split: string;
 }
 
 /**
@@ -78,74 +78,68 @@ export interface textSplitConfig {
  *
  */
 export class TextSplit {
-    public originalText: string;
-    public splits: Array<string>;
-    public convertSpacesToNbsp: boolean;
-    private sups: Array<HTMLElement> | null;
+  public originalText: string;
+  public splits: Array<string>;
+  public convertSpacesToNbsp: boolean;
+  private sups: Array<HTMLElement> | null;
 
-    constructor(private config: textSplitConfig) {
-        this.convertSpacesToNbsp = this.config.split == ' ';
+  constructor(private config: textSplitConfig) {
+    this.convertSpacesToNbsp = this.config.split === ' ';
 
-        // Patch to get around <sup> at the end of sentances for now.
-        // This is rather hacky and assumes all <sup> in the text
-        // are at the end of sentances.
-        this.sups = Array.from(this.config.element.querySelectorAll('sup'));
+    // Patch to get around <sup> at the end of sentances for now.
+    // This is rather hacky and assumes all <sup> in the text
+    // are at the end of sentances.
+    this.sups = Array.from(this.config.element.querySelectorAll('sup'));
 
-        // Remove sups.
-        this.sups.forEach((sup) => {
-            dom.removeElement(sup);
-        })
+    // Remove sups.
+    this.sups.forEach(sup => {
+      dom.removeElement(sup);
+    });
 
-        // this.originalText = this.config.element.textContent!;
-        this.originalText = this.config.element.textContent!;
+    // this.originalText = this.config.element.textContent!;
+    this.originalText = this.config.element.textContent!;
 
-        // Convert any &nbsp to space.
-        if (this.convertSpacesToNbsp) {
-            var re = new RegExp(String.fromCharCode(160), "g");
-            this.originalText = this.originalText.replace(re, ' ');
-        }
-
-        this.splits = this.originalText.trim().split(
-            this.config.split
-        );
+    // Convert any &nbsp to space.
+    if (this.convertSpacesToNbsp) {
+      const re = new RegExp(String.fromCharCode(160), 'g');
+      this.originalText = this.originalText.replace(re, ' ');
     }
 
-    /**
-     * Splits the text and wraps <span> around each sub item.
-     */
-    split() {
-        this.config.element.innerHTML = '';
-        this.splits.forEach((word, i) => {
-            // Add spaces to the end of each word if it's not the last one.
-            if (this.convertSpacesToNbsp && i !== this.splits.length - 1) {
-                word += '&nbsp;';
-            }
+    this.splits = this.originalText.trim().split(this.config.split);
+  }
 
-            let element = dom.createElementFromString(
-                `<span>${word}</span>`
-            )
-            dom.setCssVariable(element, '--item-index', i + '');
-            this.config.element.appendChild(element);
-        })
+  /**
+   * Splits the text and wraps <span> around each sub item.
+   */
+  split() {
+    this.config.element.innerHTML = '';
+    this.splits.forEach((word, i) => {
+      // Add spaces to the end of each word if it's not the last one.
+      if (this.convertSpacesToNbsp && i !== this.splits.length - 1) {
+        word += '&nbsp;';
+      }
 
-        // Futher append any sups.
-        this.sups && this.sups.forEach((sup, i) => {
-            let span = dom.createElementFromString(
-                `<span></span>`
-            )
-            dom.setCssVariable(span, '--item-index', this.splits.length + i + '');
-            span.appendChild(sup);
-            this.config.element.appendChild(span);
-        })
+      const element = dom.createElementFromString(`<span>${word}</span>`);
+      dom.setCssVariable(element, '--item-index', i + '');
+      this.config.element.appendChild(element);
+    });
 
-        // Add total count to root element.
-        dom.setCssVariable(this.config.element, '--item-total-count',
-            this.splits.length + '');
+    // Futher append any sups.
+    this.sups &&
+      this.sups.forEach((sup, i) => {
+        const span = dom.createElementFromString('<span></span>');
+        dom.setCssVariable(span, '--item-index', this.splits.length + i + '');
+        span.appendChild(sup);
+        this.config.element.appendChild(span);
+      });
 
-        this.config.element.classList.add('text-split-set');
-    }
+    // Add total count to root element.
+    dom.setCssVariable(
+      this.config.element,
+      '--item-total-count',
+      this.splits.length + ''
+    );
 
-
-
-
+    this.config.element.classList.add('text-split-set');
+  }
 }

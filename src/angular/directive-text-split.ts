@@ -1,38 +1,33 @@
-import { INgDisposable } from "./i-ng-disposable";
+import {INgDisposable} from './i-ng-disposable';
 
-
-import { TextSplit2 } from '../dom/text-split2';
+import {TextSplit2} from '../dom/text-split2';
 
 class TextSplitController implements INgDisposable {
-    static get $inject() {
-        return ['$scope', '$element', '$attrs'];
-    }
+  static get $inject() {
+    return ['$scope', '$element'];
+  }
 
-    private el: HTMLElement;
-    private $scope: ng.IScope;
-    private textSplitter: TextSplit2;
+  private el: HTMLElement;
+  private $scope: ng.IScope;
+  private textSplitter: TextSplit2;
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
-        this.$scope = $scope;
-        this.el = $element[0];
-        this.textSplitter = new TextSplit2({
-            element: this.el,
-        });
-        this.textSplitter.split();
+  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
+    this.$scope = $scope;
+    this.el = $element[0];
+    this.textSplitter = new TextSplit2({
+      element: this.el,
+    });
+    this.textSplitter.split();
 
-        $scope.$on('$destroy', () => {
-            this.dispose();
-        });
-    }
+    $scope.$on('$destroy', () => {
+      this.dispose();
+    });
+  }
 
-
-    dispose():void {
-        this.textSplitter.dispose();
-    }
+  dispose(): void {
+    this.textSplitter.dispose();
+  }
 }
-
-
-
 
 /**
  * Implements the textSplit2 effect.
@@ -46,8 +41,8 @@ class TextSplitController implements INgDisposable {
  * ```
  */
 export const textSplitDirective = () => {
-    return {
-        restrict: 'A',
-        controller: TextSplitController
-    };
+  return {
+    restrict: 'A',
+    controller: TextSplitController,
+  };
 };

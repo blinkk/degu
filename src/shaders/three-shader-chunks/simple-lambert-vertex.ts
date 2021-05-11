@@ -5,4 +5,4 @@ THREE.ShaderChunk.simple_lambert_vertex = `
 	#include <begin_vertex>
 	#include <project_vertex>
 	#include <lights_lambert_vertex>
-`
+`;

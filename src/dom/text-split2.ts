@@ -1,8 +1,8 @@
-import { dom } from './dom';
-import { DomWatcher } from './dom-watcher';
+import {dom} from './dom';
+import {DomWatcher} from './dom-watcher';
 
 export interface textSplit2Config {
-    element: HTMLElement;
+  element: HTMLElement;
 }
 
 /**
@@ -100,133 +100,122 @@ export interface textSplit2Config {
  * ```
  */
 export class TextSplit2 {
-    private element: HTMLElement;
-    public originalHTML: string;
-    private domWatcher: DomWatcher;
-    private words: Array<HTMLElement>;
+  private element: HTMLElement;
+  public originalHTML: string;
+  private domWatcher: DomWatcher;
+  private words: Array<HTMLElement> = [];
 
-    constructor(private config: textSplit2Config) {
-        this.element = config.element;
-        this.originalHTML = this.element.innerHTML;
-        this.domWatcher = new DomWatcher();
-        this.domWatcher.add({
-            element: window,
-            on: 'smartResize',
-            callback: () => requestAnimationFrame(this.onSmartResize.bind(this)),
-        });
-    }
+  constructor(private config: textSplit2Config) {
+    this.element = config.element;
+    this.originalHTML = this.element.innerHTML;
+    this.domWatcher = new DomWatcher();
+    this.domWatcher.add({
+      element: window,
+      on: 'smartResize',
+      callback: () => requestAnimationFrame(this.onSmartResize.bind(this)),
+    });
+  }
 
-    /**
-     * Splits the text and wraps <span> around each sub item.
-     */
-    split() {
-        const nodes = dom.getAllTextNodes(this.element);
-        this.words = [];
+  /**
+   * Splits the text and wraps <span> around each sub item.
+   */
+  split() {
+    const nodes = dom.getAllTextNodes(this.element);
+    this.words = [];
 
-        let index = 0;
-        nodes.forEach((node, i) => {
+    let index = 0;
+    nodes.forEach(node => {
+      let first = true;
+      let previousElement = node;
 
-            let first = true;
-            let previousElement = node;
+      // Split this text node by space.
+      const texts = node.textContent!.trim().split(' ');
 
-            // Split this text node by space.
-            var re = new RegExp(String.fromCharCode(160), "g");
-            let text = node.textContent;
-            text = text.replace(re, ' ');
-            const texts = node.textContent.trim().split(' ');
+      texts.forEach(text => {
+        const element = dom.createElementFromString(
+          '<span aria-hidden="true"></span>'
+        );
 
-            texts.forEach((text, i) => {
-                let element = dom.createElementFromString(
-                    `<span aria-hidden="true"></span>`
-                );
+        // if (i !== texts.length - 1) {
+        //     element.innerHTML = text + '&nbsp;';
+        // } else {
+        //     element.innerHTML = text + '&nbsp;';
+        // }
+        element.innerHTML = text + '&nbsp;';
 
-                // if (i !== texts.length - 1) {
-                //     element.innerHTML = text + '&nbsp;';
-                // } else {
-                //     element.innerHTML = text + '&nbsp;';
-                // }
-                element.innerHTML = text + '&nbsp;';
+        element.classList.add('text-split__text');
+        element.setAttribute('item', index + '');
+        dom.setCssVariable(element, '--item-index', index + '');
 
-                element.classList.add('text-split__text');
-                element.setAttribute('item', index + '');
-                dom.setCssVariable(element, '--item-index', index + '');
+        this.words.push(element);
 
-                this.words.push(element);
+        if (first) {
+          node.parentElement!.replaceChild(element, node);
+          first = false;
+        } else {
+          dom.appendAfter(element, previousElement as HTMLElement);
+        }
 
-                if (first) {
-                    node.parentElement.replaceChild(element, node);
-                    first = false;
-                } else {
-                    dom.appendAfter(element, previousElement as HTMLElement);
-                }
+        previousElement = element;
+        index++;
+      });
+    });
 
-                previousElement = element;
-                index++;
-            })
+    this.onSmartResize();
+    dom.setCssVariable(
+      this.config.element,
+      '--item-total-count',
+      this.words.length + ''
+    );
 
-        })
+    this.config.element.classList.add('text-split-set');
+  }
 
-        this.onSmartResize();
-        dom.setCssVariable(this.config.element, '--item-total-count',
-        this.words.length + '');
+  /**
+   * On each resize, check the position of each span and mark down which
+   * row it resides on.
+   */
+  private onSmartResize() {
+    let sentenceNumber = 0;
+    let y = dom.getScrollTop(this.words[0]);
+    // Clean up
+    this.words.forEach(word => {
+      word.removeAttribute('start');
+      word.removeAttribute('end');
+      word.removeAttribute('row');
+    });
 
-        this.config.element.classList.add('text-split-set');
-    }
+    this.words[0].setAttribute('start', sentenceNumber + '');
+    this.words.forEach((word, i) => {
+      const wordY = dom.getScrollTop(word, true);
 
+      word.className.replace(/\bbg.*?\b/g, '');
 
+      if (wordY !== y) {
+        y = wordY;
+        if (this.words[i - 1]) {
+          this.words[i - 1].setAttribute('end', sentenceNumber + '');
+        }
+        sentenceNumber++;
+        word.setAttribute('start', sentenceNumber + '');
+      }
+      word.setAttribute('row', sentenceNumber + '');
 
-    /**
-     * On each resize, check the position of each span and mark down which
-     * row it resides on.
-     */
-    private onSmartResize() {
-        let sentenceNumber = 0;
-        let y = dom.getScrollTop(this.words[0]);
-        // Clean up
-        this.words.forEach((word, i) => {
-            word.removeAttribute('start');
-            word.removeAttribute('end');
-            word.removeAttribute('row');
-        });
+      // Last item.
+      if (i === this.words.length - 1) {
+        this.words[i].setAttribute('end', sentenceNumber + '');
+      }
+    });
+  }
 
-        this.words[0].setAttribute('start', sentenceNumber + '');
-        this.words.forEach((word, i) => {
-            const wordY = dom.getScrollTop(word, true);
+  /**
+   * Reverts and undoes the effects of text-split.
+   */
+  revert() {
+    this.element.innerHTML = this.originalHTML;
+  }
 
-            word.className.replace(/\bbg.*?\b/g, '');
-
-            if (wordY !== y) {
-                y = wordY;
-                if (this.words[i-1]) {
-                  this.words[i - 1].setAttribute('end', sentenceNumber + '');
-                }
-                sentenceNumber++;
-                word.setAttribute('start', sentenceNumber + '');
-            }
-            word.setAttribute('row', sentenceNumber + '');
-
-
-            // Last item.
-            if (i == this.words.length - 1) {
-                this.words[i].setAttribute('end', sentenceNumber + '');
-            }
-        })
-    }
-
-
-    /**
-     * Reverts and undoes the effects of text-split.
-     */
-    revert() {
-        this.element.innerHTML = this.originalHTML;
-    }
-
-
-    dispose() {
-        this.domWatcher.dispose();
-    }
-
-
-
-
+  dispose() {
+    this.domWatcher.dispose();
+  }
 }

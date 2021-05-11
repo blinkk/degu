@@ -4,8 +4,8 @@ export class setf {
    */
   static merge<T>(...sets: Array<Set<T>>): Set<T> {
     const result = new Set<T>();
-    sets.forEach((set) => {
-      set.forEach((value) => {
+    sets.forEach(set => {
+      set.forEach(value => {
         result.add(value);
       });
     });

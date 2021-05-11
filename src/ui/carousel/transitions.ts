@@ -1,5 +1,5 @@
-import { Carousel } from './carousel';
-export { DraggableSlideConfig, DraggableSlide } from './draggable-slide';
+import {Carousel} from './carousel';
+export {DraggableSlideConfig, DraggableSlide} from './draggable-slide';
 
 /**
  * Interface a Transition must implement to be used with a carousel.
@@ -19,15 +19,16 @@ export interface Transition {
  * default active/before/after classes.
  */
 export class CssClassesOnly implements Transition {
-  private activeSlide: HTMLElement = null;
-  private carousel: Carousel = null;
+  private activeSlide?: HTMLElement;
 
   init(carousel: Carousel) {
-    this.carousel = carousel;
     this.activeSlide = carousel.getFirstSlide();
   }
 
   getActiveSlide(): HTMLElement {
+    if (!this.activeSlide) {
+      throw new Error('CssClassesOnly transition not initialized');
+    }
     return this.activeSlide;
   }
 

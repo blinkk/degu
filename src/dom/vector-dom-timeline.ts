@@ -1,35 +1,35 @@
-import { VectorDom, VectorDomOptions, VectorDomComponent } from './vector-dom';
-import { dom } from '../dom/dom';
-import { EASE } from '../ease/ease';
-import { func } from '../func/func';
-import { mathf } from '../mathf/mathf';
-import { Vector } from '../mathf/vector';
-import { is } from '../is/is';
-import { HermiteCurve } from '../mathf/hermite-curve';
-import { Interpolate } from '../interpolate/interpolate';
+import {VectorDom, VectorDomComponent} from './vector-dom';
+import {dom} from '../dom/dom';
+import {EASE} from '../ease/ease';
+import {func} from '../func/func';
+import {mathf} from '../mathf/mathf';
+import {Vector} from '../mathf/vector';
+import {is} from '../is/is';
+import {HermiteCurve} from '../mathf/hermite-curve';
+import {Interpolate} from '../interpolate/interpolate';
 
 export interface VectorDomStartEnd {
-    start: VectorDomTimelineObject
-    end: VectorDomTimelineObject
+  start: VectorDomTimelineObject;
+  end: VectorDomTimelineObject;
 }
 
 export interface VectorDomTimelineOptions {
-    /**
-     * To use VectorDom for css only interpolations.
-     */
-    cssOnly?: boolean;
+  /**
+   * To use VectorDom for css only interpolations.
+   */
+  cssOnly?: boolean;
 }
 
 export interface VectorDomTimelineObject {
-    progress: number;
-    x?: number;
-    y?: number;
-    z?: number;
-    rx?: number;
-    ry?: number;
-    rz?: number;
-    alpha?: number;
-    easingFunction?: Function;
+  progress: number;
+  x?: number | string;
+  y?: number | string;
+  z?: number | string;
+  rx?: number | string;
+  ry?: number | string;
+  rz?: number | string;
+  alpha?: number | string;
+  easingFunction?: Function;
 }
 
 /**
@@ -209,395 +209,404 @@ const skipKeys = ['progress', 'easingFunction'];
  * @hidden
  */
 export class VectorDomTimeline implements VectorDomComponent {
-    /**
-     * The host of this vectorDom instance of this component.
-     */
-    private host: VectorDom;
-    private element: HTMLElement;
-    /**
-     * A list of values to interpolate between a given progress.  This is
-     * the story board of the timeline feature.
-     *
-     * ```ts
-     * var timeline = [
-     *       {
-     *           progress: 0,
-     *           y: 0,
-     *       },
-     *       {
-     *           progress: 0.1,
-     *           '--opacity': 1,
-     *           y: 100,
-     *       },
-     *       {
-     *           progress: 0.5,
-     *           '--opacity': 0,
-     *           y: 200,
-     *       }
-     *]
-     * ```
-     */
-    private timeline: Array<VectorDomTimelineObject> | null;
+  /**
+   * The host of this vectorDom instance of this component.
+   */
+  private host: VectorDom;
+  private element: HTMLElement;
+  /**
+   * A list of values to interpolate between a given progress.  This is
+   * the story board of the timeline feature.
+   *
+   * ```ts
+   * var timeline = [
+   *       {
+   *           progress: 0,
+   *           y: 0,
+   *       },
+   *       {
+   *           progress: 0.1,
+   *           '--opacity': 1,
+   *           y: 100,
+   *       },
+   *       {
+   *           progress: 0.5,
+   *           '--opacity': 0,
+   *           y: 200,
+   *       }
+   *]
+   * ```
+   */
+  private timeline: Array<VectorDomTimelineObject> | null;
 
-    /**
-     * Whether to use catmull rom to evaluate timeline.
-     */
-    public catmullRomMode: boolean;
+  /**
+   * Whether to use catmull rom to evaluate timeline.
+   */
+  public catmullRomMode: boolean;
 
-    /**
-     * If using catmull rom to evaluate the timeline, the tension value of the
-     * hermit curve m1, m2 points.
-     */
-    public catmullRomTension: number;
+  /**
+   * If using catmull rom to evaluate the timeline, the tension value of the
+   * hermit curve m1, m2 points.
+   */
+  public catmullRomTension: number;
 
-    /**
-     * An internal list of all recorded timeline keys.
-     */
-    private timelineKeys: Array<string>;
+  /**
+   * An internal list of all recorded timeline keys.
+   */
+  private timelineKeys: (keyof VectorDomTimelineObject)[] = [];
 
-    /**
-     * A modified version of timeline that organizes the timeline by key.
-     * For each key we have it's own progression and timeline.
-     * @see [[VectorDomTimeline.generateStoryboard]] for more.
-     */
-    private storyboard: Object;
+  /**
+   * A modified version of timeline that organizes the timeline by key.
+   * For each key we have it's own progression and timeline.
+   * @see [[VectorDomTimeline.generateStoryboard]] for more.
+   */
+  private storyboard: Record<string, VectorDomTimelineObject[]>;
 
+  /**
+   * The timeline options.
+   */
+  public options: VectorDomTimelineOptions;
 
-    /**
-     * The timeline options.
-     */
-    public options: VectorDomTimelineOptions;
+  /**
+   * An internal set of css keys and their lastest values.
+   */
+  private cssKeys: Record<string, number | string>;
 
-    /**
-     * An internal set of css keys and their lastest values.
-     */
-    private cssKeys: Object;
+  /**
+   * @param vc  The vectorDom that this component is attached to.
+   */
+  constructor(vc: VectorDom) {
+    this.host = vc;
+    this.options = vc.options.timeline || {};
+    this.element = vc.element;
+    this.cssKeys = {};
+    this.timeline = [];
+    this.timeline = null;
+    this.timelineKeys = [];
+    this.catmullRomMode = false;
+    this.catmullRomTension = 1;
+    this.storyboard = {};
 
-    /**
-     * @param vc  The vectorDom that this component is attached to.
-     */
-    constructor(vc: VectorDom) {
-        this.host = vc;
-        this.options = vc.options.timeline || {};
-        this.element = vc.element;
-        this.cssKeys = {};
-        this.timeline = [];
-        this.timeline = null;
-        this.timelineKeys = [];
-        this.catmullRomMode = false;
-        this.catmullRomTension = 1;
-        this.storyboard = {};
+    // Cull unncessary requests to setCssKeys.
+    this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
 
+    if (this.options.cssOnly) {
+      this.host.disableStyleRenders = true;
+    }
+  }
 
-        // Cull unncessary requests to setCssKeys.
-        this.setCssKeys_ = func.runOnceOnChange(this.setCssKeys_.bind(this));
+  init() {}
 
-        if (this.options.cssOnly) {
-            this.host.disableStyleRenders = true;
+  /**
+   * Sets the timeline to be used and internally generates the storyboard
+   * to be used for interpolations.
+   */
+  setTimeline(timeline: Array<VectorDomTimelineObject>) {
+    this.sortTimeline();
+    this.timelineKeys = [];
+
+    this.timeline = timeline.map(timeline => {
+      // Save any new keys.
+      const keys = Object.keys(timeline) as (keyof VectorDomTimelineObject)[];
+
+      // Add the keys to timelineKeys while deduping.
+      this.timelineKeys = [
+        ...new Set([...this.timelineKeys, ...keys]),
+      ] as (keyof VectorDomTimelineObject)[];
+
+      return timeline;
+    });
+
+    // Generate storyboard.
+    this.storyboard = VectorDomTimeline.generateStoryboard(
+      this.timelineKeys,
+      this.timeline
+    );
+  }
+
+  /**
+   * Sorts the maintimeline.
+   */
+  private sortTimeline() {
+    if (!this.timeline) {
+      return;
+    }
+    // Sort the timeline.
+    this.timeline = this.timeline.sort((a, b) => {
+      return a.progress - b.progress;
+    });
+  }
+
+  /**
+   * Generates a storyboard from the provided timeline.
+   *
+   * Given a timeline like the following, a storyboard is timeline
+   * by a specific key.  Notice how alpha is not declared in every step
+   * of the timeline.
+   *
+   * The storyboard will also ALWAYs creates a progress 0 and 1 timeline
+   * based on the first available.
+   *
+   * const timeline = [
+   *   { progress: 0, x: 1200 },
+   *   { progress: 0.2, alpha: 0.2, x: 1500, ease: EASING.easeInOutBounce },
+   *   { progress: 0.5, x: 1500 },
+   *   { progress: 0.8, alpha: 0.6, x: 1500 },
+   *   { progress: 1, x: 1500 }
+   * ]
+   *
+   * The resulting storyboard would be:
+   * {
+   *   alpha: [
+   *     { progress: 0, alpha: 0.2},  // Added
+   *     { progress: 0.2, alpha: 0.2, ease: EASING.easeInOutBounce},
+   *     { progress: 0.8, alpha: 0.6},
+   *     { progress: 1, alpha: 0.6}  // Added
+   *   ],
+   *   x: [
+   *   { progress: 0, x: 1200},
+   *   { progress: 0.2, x: 1500, ease: EASING.easeInOutBounce},
+   *   { progress: 0.5, x: 1500 },
+   *   { progress: 0.8, x: 1500},
+   *   { progress: 1, x: 1500}
+   *   ]
+   * }
+   *
+   * This storyboard is basically then used for interporlations when
+   * the progress value is updated.
+   */
+  static generateStoryboard(
+    keys: Array<keyof VectorDomTimelineObject>,
+    timeline: Array<VectorDomTimelineObject>
+  ): Record<string, VectorDomTimelineObject[]> {
+    const storyboard = {} as Record<string, VectorDomTimelineObject[]>;
+    keys.forEach(key => {
+      if (skipKeys.includes(key)) {
+        return;
+      }
+      let keyStoryboard = timeline.filter(t => {
+        return is.defined(t[key]);
+      });
+
+      // Make a copy and also remove keys that are not related to this
+      // storyboard.
+      keyStoryboard = keyStoryboard.map(t => {
+        const copy: VectorDomTimelineObject = Object.assign({}, t);
+        for (const k in copy) {
+          if (k !== key && !skipKeys.includes(k)) {
+            delete copy[k as keyof VectorDomTimelineObject];
+          }
         }
+        return copy;
+      });
+
+      storyboard[key] = keyStoryboard;
+    });
+
+    for (const key in storyboard) {
+      const keyStory = storyboard[key];
+
+      // Check that the first item is progress 0.  If not, artificially
+      // generate it so that the progress starts at 0.
+      if (keyStory[0].progress !== 0) {
+        const copy = Object.assign({}, keyStory[0]);
+        copy.progress = 0;
+        keyStory.unshift(copy);
+      }
+
+      // Check that the last item is progress 1.  If not, artificially
+      // generate it and add it to the end.
+      const last = keyStory.length - 1;
+      if (keyStory[last].progress !== 1) {
+        const copy = Object.assign({}, keyStory[last]);
+        copy.progress = 1;
+        keyStory.push(copy);
+      }
     }
 
+    return storyboard;
+  }
 
-    init() { }
+  /**
+   * Given a storyboard and the current progress, finds the start and end
+   * timeline objects and return them.
+   *
+   * ```ts
+   * let storyboard = {
+   *    alpha: [
+   *       { progress: 0, alpha: 0 },
+   *      { progress: 0.2, alpha: 0 },
+   *       { progress: 0.8, alpha: 0.6 },
+   *      { progress: 1, alpha: 0.6 }
+   *   ]
+   * }
+   *
+   * // Find the start and end points if the progress were 0.1
+   * VectorDomTimeline.getStartAndEndTimelineFromStoryboard(storyboard, 'alpha', 0.1);
+   *
+   *
+   *
+   * //Returns:
+   * //  {
+   * //      start: { progress: 0, alpha: 0 },
+   * //      end: { progress: 0.2, alpha: 0 },
+   * //  }
+   *
+   * ```
+   *
+   * @param storyboard Object
+   * @param key
+   * @param progress
+   */
+  static getStartAndEndTimelineFromStoryboard(
+    storyboard: Record<string, VectorDomTimelineObject[]>,
+    key: string,
+    progress: number
+  ): VectorDomStartEnd | null {
+    // Loop through the storyboard and figure out the correct start and
+    // end points.
+    const activeStoryboard = storyboard[key];
+    if (!activeStoryboard) {
+      return null;
+    }
 
+    // By default we assume progress is at 0.
+    let start = activeStoryboard[0];
+    let end = activeStoryboard[1];
+    let done = false;
+
+    let previous = activeStoryboard[0];
+
+    activeStoryboard.forEach((timeline: VectorDomTimelineObject) => {
+      // Loop until the timeline progress is greater or equal than current
+      // progress
+      if (!done && timeline.progress >= progress && progress > 0) {
+        start = previous;
+        end = timeline;
+        done = true;
+      }
+
+      previous = timeline;
+    });
+
+    return {
+      start: start,
+      end: end,
+    };
+  }
+
+  updateProgress(progress: number) {
+    for (const key in this.storyboard) {
+      const startEnd = VectorDomTimeline.getStartAndEndTimelineFromStoryboard(
+        this.storyboard,
+        key,
+        progress
+      );
+
+      const startTimeline = startEnd!.start;
+      const endTimeline = startEnd!.end;
+      // The start and end values.
+      const start = startTimeline[key as keyof VectorDomTimelineObject];
+      const end = endTimeline[key as keyof VectorDomTimelineObject];
+      const easing = startTimeline.easingFunction;
+
+      // Create a child progress between the start and end.
+      const childProgress = mathf.clamp01(
+        mathf.childProgress(
+          progress,
+          startTimeline.progress,
+          endTimeline.progress
+        )
+      );
+
+      // Safe guard.
+      if (is.nan(childProgress)) {
+        return;
+      }
+
+      let value;
+      // If the value is a numberical.
+      if (is.number(start) && is.number(end)) {
+        const diff = <number>end - <number>start;
+        if (!this.catmullRomMode || mathf.absZero(diff) === 0) {
+          value = mathf.ease(
+            <number>start,
+            <number>end,
+            childProgress,
+            easing || EASE.linear
+          );
+        } else {
+          const tension = this.catmullRomTension;
+
+          // Technically, not a catmull rom but create a similar
+          // spline out of HermiteCurves.
+          const vector = HermiteCurve.getPoint(
+            childProgress,
+            new Vector(<number>start, <number>start),
+            new Vector(<number>start * tension, <number>start * tension),
+            new Vector(<number>end, <number>end),
+            new Vector(<number>end * tension, <number>end * tension)
+          );
+          if (vector) {
+            value = vector.x;
+          }
+        }
+      } else {
+        // If string values were passed, process it via Interpolate.
+        // to be able to use css units.
+        value = new Interpolate({
+          from: start as string,
+          to: end as string,
+          easeFunction: easing || EASE.linear,
+        }).calculate(childProgress);
+      }
+
+      if (is.defined(value)) {
+        // If the key is a css var, internally cache it.  Otherwise,
+        // update the value on the host.
+        if (key.startsWith('--')) {
+          this.cssKeys[key] = value as string;
+        } else {
+          // A bit hacky but get all properties of VectorDom that are mutable
+          // so that we can assign a value without typescript complaining.
+          type MutableVectorDom = {
+            -readonly [P in keyof VectorDom]: VectorDom[P];
+          };
+          const vectorDomKey: keyof MutableVectorDom = key as keyof MutableVectorDom;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (this.host as any)[vectorDomKey] = value;
+        }
+      }
+    }
+  }
+
+  /**
+   * Applies the css variables.  Unneccesary calls get culled by
+   * func.runOnceOnChange.
+   */
+  private setCssKeys_(cssVars: Record<string, number | string>) {
     /**
-     * Sets the timeline to be used and internally generates the storyboard
-     * to be used for interpolations.
+     * Render this element only when it is inview
+     * for performance boost.
      */
-    setTimeline(timeline: Array<VectorDomTimelineObject>) {
-        this.sortTimeline();
-        this.timelineKeys = [];
-
-        const rotationValue = ['rx', 'ry', 'rz'];
-        this.timeline = timeline.map((timeline) => {
-
-            // Save any new keys.
-            let keys = Object.keys(timeline);
-
-            // Add the keys to timelineKeys while deduping.
-            this.timelineKeys = [...new Set([...this.timelineKeys, ...keys])];
-
-            return timeline;
-        });
-
-        // Generate storyboard.
-        this.storyboard =
-            VectorDomTimeline.generateStoryboard(
-                this.timelineKeys,
-                this.timeline);
+    if (
+      this.host.renderOnlyWhenInview &&
+      this.host.elementVisibility.state().ready &&
+      !this.host.elementVisibility.state().inview
+    ) {
+      return;
     }
 
-    /**
-     * Sorts the maintimeline.
-     */
-    private sortTimeline() {
-        if (!this.timeline) {
-            return;
-        }
-        // Sort the timeline.
-        this.timeline = this.timeline.sort((a, b) => {
-            return a.progress - b.progress;
-        })
+    for (const key in cssVars) {
+      dom.setCssVariable(this.element, key, cssVars[key]);
     }
+  }
 
+  render() {
+    this.setCssKeys_(this.cssKeys);
+  }
 
-    /**
-     * Generates a storyboard from the provided timeline.
-     *
-     * Given a timeline like the following, a storyboard is timeline
-     * by a specific key.  Notice how alpha is not declared in every step
-     * of the timeline.
-     *
-     * The storyboard will also ALWAYs creates a progress 0 and 1 timeline
-     * based on the first available.
-     *
-     * const timeline = [
-     *   { progress: 0, x: 1200 },
-     *   { progress: 0.2, alpha: 0.2, x: 1500, ease: EASING.easeInOutBounce },
-     *   { progress: 0.5, x: 1500 },
-     *   { progress: 0.8, alpha: 0.6, x: 1500 },
-     *   { progress: 1, x: 1500 }
-     * ]
-     *
-     * The resulting storyboard would be:
-     * {
-     *   alpha: [
-     *     { progress: 0, alpha: 0.2},  // Added
-     *     { progress: 0.2, alpha: 0.2, ease: EASING.easeInOutBounce},
-     *     { progress: 0.8, alpha: 0.6},
-     *     { progress: 1, alpha: 0.6}  // Added
-     *   ],
-     *   x: [
-     *   { progress: 0, x: 1200},
-     *   { progress: 0.2, x: 1500, ease: EASING.easeInOutBounce},
-     *   { progress: 0.5, x: 1500 },
-     *   { progress: 0.8, x: 1500},
-     *   { progress: 1, x: 1500}
-     *   ]
-     * }
-     *
-     * This storyboard is basically then used for interporlations when
-     * the progress value is updated.
-     */
-    static generateStoryboard(keys: Array<string>,
-        timeline: Array<VectorDomTimelineObject>): Object {
-        let storyboard = {};
-        keys.forEach((key) => {
-            if (skipKeys.includes(key)) {
-                return;
-            }
-            let keyStoryboard = timeline.filter((t) => {
-                return is.defined(t[key]);
-            });
+  resize() {}
 
-            // Make a copy and also remove keys that are not related to this
-            // storyboard.
-            keyStoryboard = keyStoryboard.map((t) => {
-                let copy = Object.assign({}, t);
-                for (let k in copy) {
-                    if (k !== key && !skipKeys.includes(k)) {
-                        delete copy[k];
-                    }
-                }
-                return copy;
-            });
-
-            storyboard[key] = keyStoryboard;
-        });
-
-
-        for (let key in storyboard) {
-            let keyStory = storyboard[key];
-
-            // Check that the first item is progress 0.  If not, artificially
-            // generate it so that the progress starts at 0.
-            if (keyStory[0].progress !== 0) {
-                let copy = Object.assign({}, keyStory[0]);
-                copy.progress = 0;
-                keyStory.unshift(copy);
-            }
-
-            // Check that the last item is progress 1.  If not, artificially
-            // generate it and add it to the end.
-            let last = keyStory.length - 1;
-            if (keyStory[last].progress !== 1) {
-                let copy = Object.assign({}, keyStory[last]);
-                copy.progress = 1;
-                keyStory.push(copy);
-            }
-
-        }
-
-        return storyboard;
-    }
-
-
-    /**
-     * Given a storyboard and the current progress, finds the start and end
-     * timeline objects and return them.
-     *
-     * ```ts
-     * let storyboard = {
-     *    alpha: [
-     *       { progress: 0, alpha: 0 },
-     *      { progress: 0.2, alpha: 0 },
-     *       { progress: 0.8, alpha: 0.6 },
-     *      { progress: 1, alpha: 0.6 }
-     *   ]
-     * }
-     *
-     * // Find the start and end points if the progress were 0.1
-     * VectorDomTimeline.getStartAndEndTimelineFromStoryboard(storyboard, 'alpha', 0.1);
-     *
-     *
-     *
-     * //Returns:
-     * //  {
-     * //      start: { progress: 0, alpha: 0 },
-     * //      end: { progress: 0.2, alpha: 0 },
-     * //  }
-     *
-     * ```
-     *
-     * @param storyboard Object
-     * @param key
-     * @param progress
-     */
-    static getStartAndEndTimelineFromStoryboard(storyboard: Object,
-        key: string, progress: number): VectorDomStartEnd | null {
-
-        // Loop through the storyboard and figure out the correct start and
-        // end points.
-        let activeStoryboard = storyboard[key];
-        if (!activeStoryboard) {
-            return null;
-        }
-
-        // By default we assume progress is at 0.
-        let start = activeStoryboard[0];
-        let end = activeStoryboard[1];
-        let done = false;
-
-        let previous = activeStoryboard[0];
-
-        activeStoryboard.forEach((timeline: any) => {
-            // Loop until the timeline progress is greater or equal than current
-            // progress
-            if (!done && timeline.progress >= progress && progress > 0) {
-                start = previous;
-                end = timeline;
-                done = true;
-            }
-
-            previous = timeline;
-        })
-
-        return {
-            start: start,
-            end: end
-        }
-    }
-
-
-    updateProgress(progress: number) {
-        for (let key in this.storyboard) {
-            let startEnd = VectorDomTimeline
-                .getStartAndEndTimelineFromStoryboard(this.storyboard, key, progress);
-
-            let startTimeline = startEnd!.start;
-            let endTimeline = startEnd!.end;
-            // The start and end values.
-            let start = startTimeline[key];
-            let end = endTimeline[key];
-            let easing = startTimeline.easingFunction;
-
-            // Create a child progress between the start and end.
-            let childProgress =
-                mathf.clamp01(mathf.childProgress(progress,
-                    startTimeline.progress, endTimeline.progress));
-
-
-            // Safe guard.
-            if (is.nan(childProgress)) {
-                return;
-            }
-
-            let value;
-            // If the value is a numberical.
-            if (is.number(start) && is.number(end)) {
-                let diff = end - start;
-                if (!this.catmullRomMode || mathf.absZero(diff) == 0) {
-                    value = mathf.ease(start, end, childProgress,
-                        easing || EASE.linear);
-                } else {
-
-                    let tension = this.catmullRomTension;
-
-                    // Technically, not a catmull rom but create a similar
-                    // spline out of HermiteCurves.
-                    const vector = HermiteCurve.getPoint(
-                        childProgress,
-                        new Vector(start, start),
-                        new Vector(start * tension,
-                            start * tension),
-                        new Vector(end, end),
-                        new Vector(end * tension,
-                            end * tension),
-                    );
-                    if (vector) {
-                        value = vector.x;
-                    }
-                }
-            } else {
-                // If string values were passed, process it via Interpolate.
-                // to be able to use css units.
-                value = new Interpolate({
-                    from: start,
-                    to: end,
-                    easeFunction: easing || EASE.linear
-                }).calculate(childProgress);
-            }
-
-            if (is.defined(value)) {
-                // If the key is a css var, internally cache it.  Otherwise,
-                // update the value on the host.
-                if (key.startsWith('--')) {
-                    this.cssKeys[key] = value;
-                } else {
-                    this.host[key] = value;
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Applies the css variables.  Unneccesary calls get culled by
-     * func.runOnceOnChange.
-     */
-    private setCssKeys_(cssVars: Object) {
-
-        /**
-         * Render this element only when it is inview
-         * for performance boost.
-         */
-        if (this.host.renderOnlyWhenInview &&
-            this.host.elementVisibility.state().ready &&
-            !this.host.elementVisibility.state().inview) {
-            return;
-        }
-
-        for (let key in cssVars) {
-            dom.setCssVariable(this.element, key, cssVars[key]);
-        }
-    }
-
-    render() {
-        this.setCssKeys_(this.cssKeys);
-    }
-
-    resize() { }
-
-    dispose() { }
-
+  dispose() {}
 }

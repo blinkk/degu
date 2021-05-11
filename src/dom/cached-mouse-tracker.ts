@@ -1,5 +1,5 @@
-import { DomWatcher, Raf } from '..';
-import { Vector } from '../mathf/vector';
+import {DomWatcher, Raf} from '..';
+import {Vector} from '../mathf/vector';
 
 const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchstart', 'touchmove'];
 
@@ -30,8 +30,9 @@ export class CachedMouseTracker {
   // Use static variables so that independent instances can operate as a
   // singleton but be disposed separately without the user needing to worry
   // about the singleton pattern.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static uses: Set<any> = new Set();
-  private static clientPosition: Vector;
+  private static clientPosition: Vector | null;
   private static domWatcher: DomWatcher;
   private static raf: Raf;
 
@@ -73,12 +74,12 @@ export class CachedMouseTracker {
       CachedMouseTracker.raf = new Raf();
       CachedMouseTracker.clientPosition = Vector.ZERO;
       CachedMouseTracker.domWatcher = new DomWatcher();
-      CURSOR_MOVE_EVENTS.forEach((cursorMoveEvent) => {
+      CURSOR_MOVE_EVENTS.forEach(cursorMoveEvent => {
         CachedMouseTracker.domWatcher.add({
           element: window,
           on: cursorMoveEvent,
           eventOptions: {passive: true},
-          callback: (e: Event) => CachedMouseTracker.updatePosition(e)
+          callback: (e: Event) => CachedMouseTracker.updatePosition(e),
         });
       });
     }
@@ -89,7 +90,7 @@ export class CachedMouseTracker {
    * Return the current cached mouse position as determined by clientX and
    * clientY values.
    */
-  getClientPosition(): Vector {
+  getClientPosition(): Vector | null {
     return CachedMouseTracker.clientPosition;
   }
 

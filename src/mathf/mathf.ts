@@ -1,4 +1,4 @@
-import { EASE } from '../ease/ease';
+import {EASE} from '../ease/ease';
 
 export interface circ {
   radius: number;
@@ -35,7 +35,6 @@ export interface backgroundCoverBox {
  * Degu Math utility functions.
  */
 export class mathf {
-
   /**
    * Returns 0 if value is 0 or -0, otherwise, passes through the value.
    * ```ts
@@ -47,7 +46,7 @@ export class mathf {
    * @tested
    */
   static absZero(value: number) {
-    return value == -0 ? 0 : value;
+    return Object.is(value, -0) ? 0 : value;
   }
 
   /**
@@ -61,8 +60,8 @@ export class mathf {
    * @param {number} value The number to convert
    * @param {number} digits The number of digits to output.
    */
-  static fixDigits(value: any, digits: number): number {
-    return +parseFloat(value).toFixed(digits);
+  static fixDigits(value: string | number, digits: number): number {
+    return +parseFloat(<string>value).toFixed(digits);
   }
 
   /**
@@ -80,8 +79,6 @@ export class mathf {
   static int(value: number): number {
     return mathf.fixDigits(value, 0);
   }
-
-
 
   /**
    *
@@ -138,7 +135,7 @@ export class mathf {
    */
   static getUniqueRandomInt(min: number, max: number, not: number): number {
     const random = mathf.getRandomInt(min, max);
-    if (random == not) {
+    if (random === not) {
       return mathf.getUniqueRandomInt(min, max, not);
     } else {
       return random;
@@ -160,7 +157,6 @@ export class mathf {
   static clamp(min: number, max: number, num: number): number {
     return Math.min(Math.max(num, min), max);
   }
-
 
   /**
    * Given a progress (a value that ranges from 0 to 1), this method allows you
@@ -201,23 +197,26 @@ export class mathf {
    * @param {number} end The end value of the child progress.  Value
    *     between 0 and 1.
    */
-  static childProgress(progress: number, start: number, end: number, noClamp: boolean = false): number {
+  static childProgress(
+    progress: number,
+    start: number,
+    end: number,
+    noClamp = false
+  ): number {
     const range = end - start;
     let childProgress = mathf.clamp(0, 1, progress - start);
 
-    if(noClamp) {
+    if (noClamp) {
       childProgress = progress - start;
     }
 
     childProgress = childProgress / range;
-    if(noClamp) {
+    if (noClamp) {
       return childProgress;
     } else {
       return mathf.clampAsPercent(childProgress);
     }
   }
-
-
 
   /**
    * Rounds to a specific precision.
@@ -238,7 +237,6 @@ export class mathf {
     return Math.round(value * shifter) / shifter;
   }
 
-
   /**
    * Floors number to a specific precision.
    * ```
@@ -255,7 +253,6 @@ export class mathf {
     return Math.floor(value * shifter) / shifter;
   }
 
-
   /**
    * Ceils number to a specific precision.
    * ```
@@ -271,7 +268,6 @@ export class mathf {
     const shifter = Math.pow(10, precision);
     return Math.ceil(value * shifter) / shifter;
   }
-
 
   /**
    * Converts a number to a specific number of decimasl
@@ -307,7 +303,7 @@ export class mathf {
    * @return {number} The angle in degrees.
    */
   static angleDegree(x1: number, y1: number, x2: number, y2: number) {
-    return Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+    return (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
   }
 
   /**
@@ -355,7 +351,7 @@ export class mathf {
       max = Math.PI * 2;
     }
     const delta = (angle1 - angle0) % max;
-    return 2 * delta % max - delta;
+    return ((2 * delta) % max) - delta;
   }
 
   /**
@@ -373,7 +369,7 @@ export class mathf {
    * @return {number} The converted degree.
    */
   static radianToDegree(radian: number): number {
-    return radian * 180 / Math.PI;
+    return (radian * 180) / Math.PI;
   }
 
   /**
@@ -384,13 +380,12 @@ export class mathf {
    */
   static boxCollision(a: box, b: box) {
     return !(
-      ((a.y + a.height) < (b.y)) ||
-      (a.y > (b.y + b.height)) ||
-      ((a.x + a.width) < b.x) ||
-      (a.x > (b.x + b.width))
+      a.y + a.height < b.y ||
+      a.y > b.y + b.height ||
+      a.x + a.width < b.x ||
+      a.x > b.x + b.width
     );
   }
-
 
   /**
    * Given a circular and rectangular object, detects when the two collide
@@ -399,11 +394,11 @@ export class mathf {
    * @see https://yal.cc/rectangle-circle-intersection-test/
    */
   static collisionCircVsBox(circ: circ, rect: box) {
-    let dx = circ.x - Math.max(rect.x, Math.min(circ.x, rect.x + rect.width));
-    let dy = circ.y - Math.max(rect.y, Math.min(circ.y, rect.y + rect.height));
-    return (dx * dx + dy * dy) < (circ.radius * circ.radius);
+    const dx = circ.x - Math.max(rect.x, Math.min(circ.x, rect.x + rect.width));
+    const dy =
+      circ.y - Math.max(rect.y, Math.min(circ.y, rect.y + rect.height));
+    return dx * dx + dy * dy < circ.radius * circ.radius;
   }
-
 
   /**
    * Performs a test whether a point resized inside a convex polygon using
@@ -418,8 +413,9 @@ export class mathf {
    * @see https://github.com/mikolalysenko/robust-point-in-polygon/blob/master/robust-pnp.js
    */
   static collisionPointVersusConvexPolygon(
-    point: point, poly: Array<point>): boolean {
-
+    point: point,
+    poly: Array<point>
+  ): boolean {
     // We go around in the polygon.
     // Assuming there are four point (but could be more),
     //
@@ -432,13 +428,15 @@ export class mathf {
     const size = poly.length;
     let pointPolyAIndex = 0;
     let pointPolyBIndex = size - 1;
-    for (var i = 0; i < size; i++) {
+    for (let i = 0; i < size; i++) {
       const polyA = poly[pointPolyAIndex];
       const polyB = poly[pointPolyBIndex];
 
-      var intersects =
-        ((polyA.y > point.y) != (polyB.y > point.y))
-        && (point.x < (polyB.x - polyA.x) * (point.y - polyA.y) / (polyB.y - polyA.y) + polyA.x);
+      const intersects =
+        polyA.y > point.y !== polyB.y > point.y &&
+        point.x <
+          ((polyB.x - polyA.x) * (point.y - polyA.y)) / (polyB.y - polyA.y) +
+            polyA.x;
       if (intersects) {
         isInside = !isInside;
       }
@@ -447,10 +445,8 @@ export class mathf {
       pointPolyAIndex++;
     }
 
-
     return isInside;
   }
-
 
   /**
    * Use rotational matrix to calculate the new coordinates of a rotated
@@ -498,18 +494,22 @@ export class mathf {
    * @param angle The angle in radians
    * @tested
    */
-  static calculate2dPointRotation(cx: number, cy: number,
-    x: number, y: number, angle: number) {
-    let cos = Math.cos(angle);
-    let sin = Math.sin(angle);
-    const tx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
-    const ty = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+  static calculate2dPointRotation(
+    cx: number,
+    cy: number,
+    x: number,
+    y: number,
+    angle: number
+  ) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const tx = cos * (x - cx) + sin * (y - cy) + cx;
+    const ty = cos * (y - cy) - sin * (x - cx) + cy;
     return {
       x: tx,
-      y: ty
+      y: ty,
     };
   }
-
 
   /**
    * Rotates a point around another point with angle and distance.
@@ -524,21 +524,24 @@ export class mathf {
    * @param distance The distance from cx and cy in which we should place the
    *     new coordinates to.
    */
-  static calculate2dPointRotationWithDistance(cx: number, cy: number,
-    x: number, y: number, angle: number, distance: number
+  static calculate2dPointRotationWithDistance(
+    cx: number,
+    cy: number,
+    x: number,
+    y: number,
+    angle: number,
+    distance: number
   ) {
-    var t = angle + Math.atan2(y - cy, x - cx);
+    const t = angle + Math.atan2(y - cy, x - cx);
 
-    x = cx + (distance * Math.cos(t));
-    y = cy + (distance * Math.sin(t));
+    x = cx + distance * Math.cos(t);
+    y = cy + distance * Math.sin(t);
 
     return {
       x: x,
-      y: y
+      y: y,
     };
   }
-
-
 
   /**
    * Generates a set of random x,y points.
@@ -549,19 +552,22 @@ export class mathf {
    * @param {number} maxY Maximum of y.
    * @return {Array.<Object>} An array of objects containing x, y values.
    */
-  static generateRandomPoints = (num: number,
-    minX: number, maxX: number,
-    minY: number, maxY: number
+  static generateRandomPoints = (
+    num: number,
+    minX: number,
+    maxX: number,
+    minY: number,
+    maxY: number
   ) => {
     const points = [];
     for (let i = 0; i < num; i++) {
       points.push({
         x: mathf.getRandomInt(minX, maxX),
-        y: mathf.getRandomInt(minY, maxY)
+        y: mathf.getRandomInt(minY, maxY),
       });
     }
     return points;
-  }
+  };
 
   /**
    * Calculates the distance of two sets of x, y coordinates.
@@ -574,7 +580,6 @@ export class mathf {
   static distance(x1: number, y1: number, x2: number, y2: number): number {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
   }
-
 
   /**
    * Gets the direction in which a number is progress.
@@ -591,7 +596,7 @@ export class mathf {
    * @tested
    */
   static direction(previous: number, current: number): number {
-    if (previous == current) {
+    if (previous === current) {
       return 0;
     }
 
@@ -599,42 +604,42 @@ export class mathf {
   }
 
   /**
-    * Calculates the offset value to center a given element within a container.
-    *
-    * Imagine the below:
-    *
-    * ```
-    * ------------------8 (parent)----------------
-    * |                                           |
-    * |             |----5(child)-----|           |
-    * |                                           |
-    * |---offset--|                               |
-    * --------------------------------------------
-    * ```
-    *
-    *  You have a parent of width 8 and child of with 5 and you want to
-    *  center the child.
-    *
-    *  In the example above, parent = 8, child = 5, would return the offset of 1.5
-    *  So you know that if you offsetted the child element by 1.5, it would
-    *  horizontally center.
-    *
-    *  You can also use this method to calculate vertical alignment as well.
-    *
-    * Example:
-    * Here is an example of calculating the x, y offsets to center an object
-    * to the screen.
-    * ```ts
-    *  let x = mathf.calculateCenterOffset(
-    *     screen.width, object.width);
-    *  let y = mathf.calculateCenterOffset(
-    *     screen.height, object.width);
-    * ```
-    * @tested
-    * @param {number} parent The parent value
-    * @param {number} child The child value
-    * @return {number} The offset value.
-    */
+   * Calculates the offset value to center a given element within a container.
+   *
+   * Imagine the below:
+   *
+   * ```
+   * ------------------8 (parent)----------------
+   * |                                           |
+   * |             |----5(child)-----|           |
+   * |                                           |
+   * |---offset--|                               |
+   * --------------------------------------------
+   * ```
+   *
+   *  You have a parent of width 8 and child of with 5 and you want to
+   *  center the child.
+   *
+   *  In the example above, parent = 8, child = 5, would return the offset of 1.5
+   *  So you know that if you offsetted the child element by 1.5, it would
+   *  horizontally center.
+   *
+   *  You can also use this method to calculate vertical alignment as well.
+   *
+   * Example:
+   * Here is an example of calculating the x, y offsets to center an object
+   * to the screen.
+   * ```ts
+   *  let x = mathf.calculateCenterOffset(
+   *     screen.width, object.width);
+   *  let y = mathf.calculateCenterOffset(
+   *     screen.height, object.width);
+   * ```
+   * @tested
+   * @param {number} parent The parent value
+   * @param {number} child The child value
+   * @return {number} The offset value.
+   */
   static calculateCenterOffset(parent: number, child: number): number {
     const halfParent = parent / 2;
     const halfChild = child / 2;
@@ -653,7 +658,7 @@ export class mathf {
    * ````
    */
   static scaleX(x1: number, y1: number, y2: number): number {
-    return x1 * y2 / y1;
+    return (x1 * y2) / y1;
   }
 
   /**
@@ -667,7 +672,7 @@ export class mathf {
    * ````
    */
   static scaleY(x1: number, y1: number, x2: number): number {
-    return x2 * y1 / x1;
+    return (x2 * y1) / x1;
   }
 
   /**
@@ -678,8 +683,6 @@ export class mathf {
     return box.width / box.height;
   }
 
-
-
   /**
    * Tests if a given value is between a range.
    * @param testValue
@@ -688,13 +691,18 @@ export class mathf {
    * @param inclusive Whether the test should be inclusive.
    * @return Whether the test value is between range1 and range2.
    */
-  static isBetween(testValue: number, range1: number, range2: number,
-    inclusive = true): boolean {
+  static isBetween(
+    testValue: number,
+    range1: number,
+    range2: number,
+    inclusive = true
+  ): boolean {
     const min = Math.min(range1, range2);
-    const max = Math.max(range1, range2);;
+    const max = Math.max(range1, range2);
 
-    return inclusive ? testValue >= min && testValue <= max :
-      testValue > min && testValue < max;
+    return inclusive
+      ? testValue >= min && testValue <= max
+      : testValue > min && testValue < max;
   }
 
   /**
@@ -705,10 +713,13 @@ export class mathf {
    * @return {dimensionalBox}
    * @tested
    */
-  static resizeDimensionalBoxToWidth(box: dimensionalBox, width: number): dimensionalBox {
+  static resizeDimensionalBoxToWidth(
+    box: dimensionalBox,
+    width: number
+  ): dimensionalBox {
     return {
       width,
-      height: mathf.scaleY(box.width, box.height, width)
+      height: mathf.scaleY(box.width, box.height, width),
     };
   }
 
@@ -720,10 +731,13 @@ export class mathf {
    * @return {dimensionalBox}
    * @tested
    */
-  static resizeDimensionalBoxToHeight(box: dimensionalBox, height: number): dimensionalBox {
+  static resizeDimensionalBoxToHeight(
+    box: dimensionalBox,
+    height: number
+  ): dimensionalBox {
     return {
       width: mathf.scaleX(box.width, box.height, height),
-      height
+      height,
     };
   }
 
@@ -742,7 +756,6 @@ export class mathf {
   static clampAsPercent(percent: number) {
     return mathf.clamp(0, 1, mathf.absZero(percent));
   }
-
 
   /**
    * Clamps a number to within 0-1.
@@ -766,7 +779,6 @@ export class mathf {
     return mathf.clampAsPercent(progress);
   }
 
-
   /**
    * Used to get a value within a range by progress.
    * Note this is an alias of [[mathf.lerp]] since it's the same thing.
@@ -783,7 +795,11 @@ export class mathf {
    * @param {number} max The high end of the range.
    * @return {number} The value within the range.
    */
-  static getValueInRangeByProgress(progress: number, min: number, max: number): number {
+  static getValueInRangeByProgress(
+    progress: number,
+    min: number,
+    max: number
+  ): number {
     return mathf.lerp(min, max, progress);
   }
 
@@ -807,7 +823,11 @@ export class mathf {
    * @param {number} max The high end of the range.
    * @return {number} The progress within the range.
    */
-  static getProgressInRangeByValue(val: number, min: number, max: number): number {
+  static getProgressInRangeByValue(
+    val: number,
+    min: number,
+    max: number
+  ): number {
     return mathf.clampAsPercent((val - min) / (max - min));
   }
 
@@ -874,14 +894,18 @@ export class mathf {
    * @param noClamp Defaults to false, whether to disable clamping.
    * @return {number} A normalized value between 0-1
    */
-  static inverseLerp(a: number, b: number, value: number, noClamp:boolean = false): number {
-    if(noClamp) {
+  static inverseLerp(
+    a: number,
+    b: number,
+    value: number,
+    noClamp = false
+  ): number {
+    if (noClamp) {
       return (value - a) / (b - a);
     } else {
       return mathf.clamp01((value - a) / (b - a));
     }
   }
-
 
   /**
    * Another linear interpolation option.   Same as mathf.lerp but different algo
@@ -900,7 +924,6 @@ export class mathf {
   static mix(a: number, b: number, blend: number) {
     return a * (1 - blend) + b * blend;
   }
-
 
   /**
    * Step method.  Will  return 0 or 1.
@@ -945,10 +968,9 @@ export class mathf {
    * @param {number} input A value between
    */
   static smoothStep(min: number, max: number, input: number): number {
-    var x = Math.max(0, Math.min(1, (input - min) / (max - min)));
+    const x = Math.max(0, Math.min(1, (input - min) / (max - min)));
     return x * x * (3 - 2 * x);
   }
-
 
   /**
    * Lerps within a given range.
@@ -996,13 +1018,18 @@ export class mathf {
    *
    *
    */
-  static interpolateRange(range1Value: number, range1Min: number, range1Max: number,
-    range2Min: number, range2Max: number) {
-    let progress =
-      mathf.clampAsProgress(range1Value / (range1Max - range1Min));
+  static interpolateRange(
+    range1Value: number,
+    range1Min: number,
+    range1Max: number,
+    range2Min: number,
+    range2Max: number
+  ) {
+    const progress = mathf.clampAsProgress(
+      range1Value / (range1Max - range1Min)
+    );
     return mathf.lerp(range2Min, range2Max, progress);
   }
-
 
   /**
    * A normalized sin - so instead of returning -1 to 1, normalized sin returns
@@ -1012,7 +1039,6 @@ export class mathf {
   static sinNormalized(time: number): number {
     return mathf.interpolateRange(Math.sin(time) + 1, 0, 2, 0, 1);
   }
-
 
   /**
    * Same as lerp but will apply an easingFunction to the current
@@ -1026,13 +1052,15 @@ export class mathf {
    * @param easeFunction An easing function. See [[ease]].  Defaults to linear
    *   in which case, linear is equal to a regular lerp.
    */
-  static lerpEase(value1: number, value2: number,
-    amount: number, easeFunction: Function = EASE.linear): number {
+  static lerpEase(
+    value1: number,
+    value2: number,
+    amount: number,
+    easeFunction: Function = EASE.linear
+  ): number {
     amount = easeFunction(amount);
     return mathf.lerp(value1, value2, amount);
   }
-
-
 
   /**
    * Similar to [[mathf.lerp]] but is damped and smoothed out with exponential
@@ -1051,8 +1079,6 @@ export class mathf {
   static damp(value1: number, value2: number, amount: number, damp: number) {
     return mathf.lerp(value1, value2, 1 - Math.exp(-amount * damp));
   }
-
-
 
   /**
    * An alias of [[mathf.lerpEase]]
@@ -1123,11 +1149,14 @@ export class mathf {
    *     lerp.
    * @param easeFunction An easing function. See [[ease]]
    */
-  static ease(start: number, end: number,
-    progress: number, easeFunction: Function = EASE.linear): number {
+  static ease(
+    start: number,
+    end: number,
+    progress: number,
+    easeFunction: Function = EASE.linear
+  ): number {
     return mathf.lerpEase(start, end, progress, easeFunction);
   }
-
 
   /**
    * Wraps a given number between two values.
@@ -1150,10 +1179,8 @@ export class mathf {
    */
   static wrap(value: number, min: number, max: number): number {
     const diff = max - min;
-    return (min + ((((value - min) % diff) + diff) % diff));
+    return min + ((((value - min) % diff) + diff) % diff);
   }
-
-
 
   /**
    * Given two boxes of different aspect ratios,
@@ -1190,7 +1217,9 @@ export class mathf {
    *     transform the child element to background cover.
    */
   static calculateBackgroundCover(
-    parentBox: dimensionalBox, childBox: dimensionalBox): backgroundCoverBox {
+    parentBox: dimensionalBox,
+    childBox: dimensionalBox
+  ): backgroundCoverBox {
     const parentRatio = mathf.aspectRatio(parentBox);
     const childRatio = mathf.aspectRatio(childBox);
 
@@ -1209,24 +1238,26 @@ export class mathf {
     }
 
     const finalScale = Math.max(
-      (finalWidth / childBox.width),
-      (finalHeight / childBox.height));
+      finalWidth / childBox.width,
+      finalHeight / childBox.height
+    );
     // Position to vertical bottom.
     const offsetHeight = mathf.absZero(
-      -Math.round((parentBox.height - finalHeight) / 2));
+      -Math.round((parentBox.height - finalHeight) / 2)
+    );
     // Position to horizontal center.
     const offsetWidth = mathf.absZero(
-      -Math.round((parentBox.width - finalWidth) / 2));
+      -Math.round((parentBox.width - finalWidth) / 2)
+    );
 
     return {
       width: Math.round(finalWidth),
       height: Math.round(finalHeight),
       xOffset: offsetWidth,
       yOffset: offsetHeight,
-      scalar: finalScale
+      scalar: finalScale,
     };
   }
-
 
   /**
    * Given two boxes of different sizes calculates the amount that the childBox
@@ -1269,21 +1300,14 @@ export class mathf {
    * @param childBox
    */
   static calculateBackgroundContain(
-    parentBox: dimensionalBox, childBox: dimensionalBox): number {
-
-    let pw = parentBox.width;
-    let ph = parentBox.height;
-    let cw = childBox.width;
-    let ch = childBox.height;
-    let heightScale = parentBox.height / childBox.height;
-    let widthScale = parentBox.width / childBox.width;
-
-    let scale = Math.min(heightScale, widthScale);
-
+    parentBox: dimensionalBox,
+    childBox: dimensionalBox
+  ): number {
+    const heightScale = parentBox.height / childBox.height;
+    const widthScale = parentBox.width / childBox.width;
+    const scale = Math.min(heightScale, widthScale);
     return scale;
   }
-
-
 
   /**
    * Implements asympotic average which is an additive average.
@@ -1310,10 +1334,13 @@ export class mathf {
    * @param target
    * @param amount
    */
-  static asymptoticAverage(current: number, target: number, amount: number): number {
-    return current += (target - current) * amount;
+  static asymptoticAverage(
+    current: number,
+    target: number,
+    amount: number
+  ): number {
+    return (current += (target - current) * amount);
   }
-
 
   /**
    * Implements basic smooth start.  See EASE for more.
@@ -1322,14 +1349,12 @@ export class mathf {
     return t * t;
   }
 
-
   /**
    * Implements basic smooth stop.  See EASE for more.
    */
   public static smoothStop2(t: number): number {
-    return 1 - ((1 - t) * (1 - t));
+    return 1 - (1 - t) * (1 - t);
   }
-
 
   /**
    * Implements basic smooth start.  See EASE for more.
@@ -1338,14 +1363,12 @@ export class mathf {
     return t * t * t;
   }
 
-
   /**
    * Implements basic smooth stop.  See EASE for more.
    */
   public static smoothStop3(t: number): number {
-    return 1 - ((1 - t) * (1 - t) * (1 - t));
+    return 1 - (1 - t) * (1 - t) * (1 - t);
   }
-
 
   /**
    * Basic smooth step2 allowing you to specify the gradient between
@@ -1359,12 +1382,10 @@ export class mathf {
    * ```
    */
   public static smoothStep2(value: number, mix: number, t: number): number {
-    return mathf.lerp(
-      mathf.smoothStart2(value),
-      mathf.smoothStop2(value),
-      mix) * t;
+    return (
+      mathf.lerp(mathf.smoothStart2(value), mathf.smoothStop2(value), mix) * t
+    );
   }
-
 
   /**
    * Basic sigmoid function with option to move the mix value.
@@ -1379,8 +1400,6 @@ export class mathf {
     return this.smoothStep2(value, mix, value);
   }
 
-
-
   /**
    Creates a basic remap.
 
@@ -1391,7 +1410,13 @@ export class mathf {
    mathf.remap(20, 50, 0, 100, health);  --> output a value between 20-50 based on health.
    ```
    */
-  public static remap(minA: number, maxA: number, minB: number, maxB: number, valueB: number): number {
+  public static remap(
+    minA: number,
+    maxA: number,
+    minB: number,
+    maxB: number,
+    valueB: number
+  ): number {
     const t = mathf.inverseLerp(minB, maxB, valueB);
     return mathf.lerp(minA, maxA, t);
   }
@@ -1400,8 +1425,6 @@ export class mathf {
    * Total/sum/add-up the given values.
    */
   static sum(values: number[]) {
-    return values.reduce(
-        (result, value) => result + value, 0);
+    return values.reduce((result, value) => result + value, 0);
   }
-
 }

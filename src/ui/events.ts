@@ -1,5 +1,6 @@
-import { DefaultMap } from '../map/default-map';
+import {DefaultMap} from '../map/default-map';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Callback = (...args: any[]) => void;
 
 export interface EventDispatcher {
@@ -58,8 +59,9 @@ export class EventManager {
   /**
    * Run callbacks for the given event with the given arguments.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dispatch(event: string, ...args: any[]): void {
-    this.callbacks.get(event).forEach((callback) => callback(...args));
+    this.callbacks.get(event).forEach(callback => callback(...args));
   }
 
   /**

@@ -1,88 +1,80 @@
-
-import * as lottie from 'lottie-web';
-import { DomWatcher } from '../dom/dom-watcher';
-import { elementVisibility, ElementVisibilityObject } from './element-visibility';
-import { Raf } from '../raf/raf';
-import { dom } from '../dom/dom';
+import lottie, {AnimationItem} from 'lottie-web';
+import {DomWatcher} from '../dom/dom-watcher';
+import {elementVisibility, ElementVisibilityObject} from './element-visibility';
+import {Raf} from '../raf/raf';
+import {dom} from '../dom/dom';
 
 export interface LottieButtonRange {
-    start: number,
-    end: number
+  start: number;
+  end: number;
 }
-
 
 export const LottieButtonCssClasses = {
-    INVIEW: 'in',
-    OUTVIEW: 'out',
-    HOVER: 'hover',
-    CLICK: 'click',
-}
+  INVIEW: 'in',
+  OUTVIEW: 'out',
+  HOVER: 'hover',
+  CLICK: 'click',
+};
 
 export interface LottieButtonConfig {
-    /**
-     * The root element.  This is the root element in which this class
-     * attaches click, mouseover etc listeners.
-     */
-    rootElement: HTMLElement,
+  /**
+   * The root element.  This is the root element in which this class
+   * attaches click, mouseover etc listeners.
+   */
+  rootElement: HTMLElement;
 
-    /**
-     * The root wrapping element for lottie.  This can be the same as rootElement.
-     */
-    lottieElement: HTMLElement,
+  /**
+   * The root wrapping element for lottie.  This can be the same as rootElement.
+   */
+  lottieElement: HTMLElement;
 
+  /**
+   * Optional settings for the lottie aspect ratio settings.
+   *  Defaults to 'xMidYMid slice',
+   */
+  preserveAspectRatio?: string;
 
-    /**
-     * Optional settings for the lottie aspect ratio settings.
-     *  Defaults to 'xMidYMid slice',
-     */
-    preserveAspectRatio?: string,
+  /**
+   * The path to the lottie json.
+   */
+  lottieJson: string;
+  inview?: LottieButtonRange;
+  mouseenter?: LottieButtonRange;
+  mouseleave?: LottieButtonRange;
+  click?: LottieButtonRange;
+  outview?: LottieButtonRange;
 
-    /**
-     * The path to the lottie json.
-     */
-    lottieJson: string,
-    inview?: LottieButtonRange,
-    mouseenter?: LottieButtonRange,
-    mouseleave?: LottieButtonRange,
-    click?: LottieButtonRange,
-    outview?: LottieButtonRange,
+  /**
+   * Normally, the lottie button automatically setsup listeners but setting this to true,
+   * will skip this process allowing you to control lottie button to your needs by changing
+   * mousestate.
+   */
+  noListeners?: boolean;
 
-
-    /**
-     * Normally, the lottie button automatically setsup listeners but setting this to true,
-     * will skip this process allowing you to control lottie button to your needs by changing
-     * mousestate.
-     */
-    noListeners?: boolean,
-
-
-    /**
-     * Whether to load the lottie button immediately.  Default is
-     * false to where it will wait for window loading.
-     */
-    loadImmediately?: boolean
+  /**
+   * Whether to load the lottie button immediately.  Default is
+   * false to where it will wait for window loading.
+   */
+  loadImmediately?: boolean;
 }
 
 export interface LottieButtonMouseState {
-    hovering: boolean,
-    clicked: boolean
+  hovering: boolean;
+  clicked: boolean;
 }
-
 
 export const LottieButtonState = {
-    INVIEW: 'inview',
-    MOUSEENTER: 'mouseenter',
-    MOUSELEAVE: 'mouseleave',
-    CLICK: 'click',
-    OUTVIEW: 'outview',
-}
-
+  INVIEW: 'inview',
+  MOUSEENTER: 'mouseenter',
+  MOUSELEAVE: 'mouseleave',
+  CLICK: 'click',
+  OUTVIEW: 'outview',
+};
 
 export interface LottieButtonPlayQueueItem {
-    state: string,
-    callback: Function
+  state: string;
+  callback: Function;
 }
-
 
 /**
  * Notice: Experimental Class
@@ -113,9 +105,9 @@ export interface LottieButtonPlayQueueItem {
  *
  * For the transitions to work, certain frames should be the same:
  *
- * inview endFrame == mouseenter startFrame
- * mouseenter endFrame == mouseleave startFrame
- * mouseenter endFrame == click startFrame
+ * inview endFrame === mouseenter startFrame
+ * mouseenter endFrame === mouseleave startFrame
+ * mouseenter endFrame === click startFrame
  *
  *
  * ``
@@ -180,12 +172,12 @@ export interface LottieButtonPlayQueueItem {
  * Now call specific methods on lb to set the state.
  *
  * ```
- * lb.inview(); == inview
- * lb.outview(); == outview
- * lb.mousedown(); == click
- * lb.mouseup(); == unclick
- * lb.mouseenter(); == hover
- * lb.mouseleave(); == unhover
+ * lb.inview(); === inview
+ * lb.outview(); === outview
+ * lb.mousedown(); === click
+ * lb.mouseup(); === unclick
+ * lb.mouseenter(); === hover
+ * lb.mouseleave(); === unhover
  *
  * ```
  *
@@ -206,312 +198,313 @@ export interface LottieButtonPlayQueueItem {
  *
  */
 export class LottieButton {
-    private config: LottieButtonConfig;
-    private watcher: DomWatcher;
-    private lottieInstance: any;
-    private mouseState: LottieButtonMouseState;
-    private lottieLoaded: boolean;
-    private currentFrame: number;
-    private stopFrame: number;
-    private ev: ElementVisibilityObject;
-    private isInview: boolean = false;
-    private loadImmediately: boolean = false;
-    private raf: Raf;
-    private isPlaying: boolean = false;
-    private hasStartedLoading: boolean = false;
+  private config: LottieButtonConfig;
+  private watcher: DomWatcher;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private lottieInstance: any;
+  private mouseState: LottieButtonMouseState;
+  private currentFrame = 0;
+  private stopFrame = 0;
+  private ev?: ElementVisibilityObject;
+  private isInview = false;
+  private loadImmediately = false;
+  private raf: Raf;
+  private isPlaying = false;
+  private hasStartedLoading = false;
 
-    private playQueue: Array<LottieButtonPlayQueueItem>;
-    /**
-     * The play queue allows you to keep a one time memory and ensure that the previous state
-     * is resolved before the current one is played.  This allows you to create a seamless
-     * transition but with mouseenter states, it can cause delays.
-     */
-    private usePlayQueue: boolean = false;;
-    private currentState: string;
+  private playQueue: Array<LottieButtonPlayQueueItem>;
+  /**
+   * The play queue allows you to keep a one time memory and ensure that the previous state
+   * is resolved before the current one is played.  This allows you to create a seamless
+   * transition but with mouseenter states, it can cause delays.
+   */
+  private usePlayQueue = false;
+  private currentState = '';
 
-    constructor(config: LottieButtonConfig) {
-        this.config = config;
+  constructor(config: LottieButtonConfig) {
+    this.config = config;
 
-        this.playQueue = [];
-        this.watcher = new DomWatcher();
-        this.raf = new Raf();
-        this.isPlaying = false;
-        this.isInview = false;
-        this.loadImmediately = this.config.loadImmediately || false;
+    this.playQueue = [];
+    this.watcher = new DomWatcher();
+    this.raf = new Raf();
+    this.isPlaying = false;
+    this.isInview = false;
+    this.loadImmediately = this.config.loadImmediately || false;
 
-        this.mouseState = {
-            hovering: false,
-            clicked: false,
-        }
+    this.mouseState = {
+      hovering: false,
+      clicked: false,
+    };
 
+    if (this.loadImmediately) {
+      this.hasStartedLoading = true;
+      this.createLottie();
+    } else {
+      dom.runAfterWindowLoad(() => {
+        this.hasStartedLoading = true;
+        this.createLottie();
+      });
+    }
 
-        if(this.loadImmediately) {
-            this.hasStartedLoading = true;
-            this.createLottie();
-        } else {
-            dom.runAfterWindowLoad(()=> {
-              this.hasStartedLoading = true;
-              this.createLottie();
-            })
-        }
+    if (!this.config.noListeners) {
+      this.watcher.add({
+        element: this.config.rootElement,
+        on: 'mousedown',
+        callback: this.handleClick.bind(this),
+      });
+      this.watcher.add({
+        element: this.config.rootElement,
+        on: 'mouseup',
+        callback: this.handleMouseUp.bind(this),
+      });
 
+      this.watcher.add({
+        element: this.config.rootElement,
+        on: 'mouseleave',
+        callback: this.handleMouseLeave.bind(this),
+      });
 
+      this.watcher.add({
+        element: this.config.rootElement,
+        on: 'mouseenter',
+        callback: this.handleMouseEnter.bind(this),
+      });
+    }
+  }
+
+  /**
+   * Enables play queue system which ensures that the previous state is resolved
+   * prior to the next state playing.  This can cause delays in animations.
+   * @param value
+   */
+  public enablePlayQueue(value: boolean) {
+    this.usePlayQueue = value;
+  }
+
+  private createLottie() {
+    if (!this.config.lottieElement) {
+      this.config.lottieElement = this.config.rootElement;
+    }
+    const settings = {
+      container: this.config.lottieElement,
+      loop: false,
+      autoplay: false,
+      rendererSettings: {
+        // https://github.com/airbnb/lottie-web/issues/1860
+        // https://github.com/airbnb/lottie-web/wiki/Renderer-Settings
+        // For svg.
+        progressiveLoad: true,
+        preserveAspectRatio:
+          this.config.preserveAspectRatio || 'xMidYMid slice',
+      },
+      path: this.config.lottieJson,
+    };
+
+    this.lottieInstance = <AnimationItem>lottie.loadAnimation(settings);
+
+    this.watcher.add({
+      element: this.lottieInstance as HTMLElement,
+      on: 'DOMLoaded',
+      callback: () => {
         if (!this.config.noListeners) {
-            this.watcher.add({
-                element: this.config.rootElement,
-                on: 'mousedown',
-                callback: this.handleClick.bind(this)
-            });
-            this.watcher.add({
-                element: this.config.rootElement,
-                on: 'mouseup',
-                callback: this.handleMouseUp.bind(this)
-            });
-
-            this.watcher.add({
-                element: this.config.rootElement,
-                on: 'mouseleave',
-                callback: this.handleMouseLeave.bind(this)
-            });
-
-            this.watcher.add({
-                element: this.config.rootElement,
-                on: 'mouseenter',
-                callback: this.handleMouseEnter.bind(this)
-            });
-        }
-    }
-
-
-
-    /**
-     * Enables play queue system which ensures that the previous state is resolved
-     * prior to the next state playing.  This can cause delays in animations.
-     * @param value
-     */
-    public enablePlayQueue(value: boolean) {
-        this.usePlayQueue = value;
-    }
-
-
-
-
-    private createLottie() {
-        if (!this.config.lottieElement) {
-            this.config.lottieElement = this.config.rootElement;
-        }
-        const settings = {
-            container: this.config.lottieElement,
-            loop: false,
-            autoplay: false,
-            rendererSettings: {
-                // https://github.com/airbnb/lottie-web/issues/1860
-                // https://github.com/airbnb/lottie-web/wiki/Renderer-Settings
-                // For svg.
-                progressiveLoad: true,
-                preserveAspectRatio: this.config.preserveAspectRatio || 'xMidYMid slice',
-            },
-            path: this.config.lottieJson
-        }
-
-
-        this.lottieInstance = lottie['loadAnimation'](settings);
-
-        this.watcher.add({
-            element: this.lottieInstance as HTMLElement,
-            on: 'DOMLoaded',
-            callback: () => {
-                if (!this.config.noListeners) {
-                    this.ev = elementVisibility.inview(this.config.rootElement, {}, (element: any, changes: any) => {
-                        if (changes.isIntersecting) {
-                            this.inview();
-                        } else {
-                            this.outview();
-                        }
-                    });
-                }
+          this.ev = elementVisibility.inview(
+            this.config.rootElement,
+            {},
+            (element: HTMLElement, changes: IntersectionObserverEntry) => {
+              if (changes.isIntersecting) {
+                this.inview();
+              } else {
+                this.outview();
+              }
             }
-        });
-
-        this.watcher.add({
-            element: this.lottieInstance as HTMLElement,
-            on: 'enterFrame',
-            callback: (a: any, b: any) => {
-                this.currentFrame = this.lottieInstance.currentFrame;
-                if (this.currentFrame >= this.stopFrame) {
-                    this.isPlaying = false;
-
-                    if (this.currentState == 'outview') {
-                        this.lottieInstance['stop']();
-                    } else {
-                        this.lottieInstance['pause']();
-                    }
-
-                    // Once we reach the end, play whatever is on the play queue.
-                    if (this.playQueue.length >= 1) {
-                        this.playQueue[this.playQueue.length - 1].callback();
-                        this.playQueue = [];
-                    }
-                }
-
-            }
-        });
-
-    }
-
-    private play(state: string, start: number, end: number) {
-        if(!this.hasStartedLoading) {
-            return;
+          );
         }
+      },
+    });
 
+    this.watcher.add({
+      element: this.lottieInstance as HTMLElement,
+      on: 'enterFrame',
+      callback: () => {
+        this.currentFrame = this.lottieInstance.currentFrame;
+        if (this.currentFrame >= this.stopFrame) {
+          this.isPlaying = false;
 
-        const prevState = this.currentState;
-        this.currentState = state;
-        this.isPlaying = true;
-        this.stopFrame = end;
-        this.lottieInstance['goToAndPlay'](start, true);
-        this.updateCssClass();
+          if (this.currentState === 'outview') {
+            this.lottieInstance['stop']();
+          } else {
+            this.lottieInstance['pause']();
+          }
+
+          // Once we reach the end, play whatever is on the play queue.
+          if (this.playQueue.length >= 1) {
+            this.playQueue[this.playQueue.length - 1].callback();
+            this.playQueue = [];
+          }
+        }
+      },
+    });
+  }
+
+  private play(state: string, start: number, end: number) {
+    if (!this.hasStartedLoading) {
+      return;
     }
 
+    this.currentState = state;
+    this.isPlaying = true;
+    this.stopFrame = end;
+    this.lottieInstance['goToAndPlay'](start, true);
+    this.updateCssClass();
+  }
 
-    private schedule(state: string, start: number, end: number) {
-        if (this.usePlayQueue) {
-            // If there is nothing in the queue, just play this.
-            if (!this.isPlaying) {
-                this.play(state, start, end);
-            } else {
-                // If there is something in the queue, wait.
-                this.playQueue.push({
-                    'state': state,
-                    'callback': () => {
-                        this.play(state, start, end);
-                    }
-                })
-            }
-        } else {
+  private schedule(state: string, start: number, end: number) {
+    if (this.usePlayQueue) {
+      // If there is nothing in the queue, just play this.
+      if (!this.isPlaying) {
+        this.play(state, start, end);
+      } else {
+        // If there is something in the queue, wait.
+        this.playQueue.push({
+          state: state,
+          callback: () => {
             this.play(state, start, end);
-        }
+          },
+        });
+      }
+    } else {
+      this.play(state, start, end);
     }
+  }
 
-
-    public inview(): void {
-        if (this.config.inview) {
-            this.isInview = true;
-            this.playQueue = [];
-            //   this.lottieInstance['playSegments']([this.config.click.start, this.config.click.end], true);
-            this.schedule(LottieButtonState.INVIEW, this.config.inview.start, this.config.inview.end);
-        }
-        this.updateCssClass();
+  public inview(): void {
+    if (this.config.inview) {
+      this.isInview = true;
+      this.playQueue = [];
+      //   this.lottieInstance['playSegments']([this.config.click.start, this.config.click.end], true);
+      this.schedule(
+        LottieButtonState.INVIEW,
+        this.config.inview.start,
+        this.config.inview.end
+      );
     }
+    this.updateCssClass();
+  }
 
-
-    public outview(): void {
-        if (this.config.outview && this.isInview) {
-            this.schedule(LottieButtonState.OUTVIEW, this.config.outview.start, this.config.outview.end);
-        } else {
-            this.isInview = false;
-            this.isPlaying = false;
-            this.playQueue = [];
-            this.updateCssClass();
-        }
+  public outview(): void {
+    if (this.config.outview && this.isInview) {
+      this.schedule(
+        LottieButtonState.OUTVIEW,
+        this.config.outview.start,
+        this.config.outview.end
+      );
+    } else {
+      this.isInview = false;
+      this.isPlaying = false;
+      this.playQueue = [];
+      this.updateCssClass();
     }
+  }
 
-
-
-    private handleClick(): void {
-        this.mouseState.clicked = true;
-        if (this.config.click) {
-            //   this.lottieInstance['playSegments']([this.config.click.start, this.config.click.end], true);
-            this.schedule(LottieButtonState.CLICK, this.config.click.start, this.config.click.end);
-        }
-
+  private handleClick(): void {
+    this.mouseState.clicked = true;
+    if (this.config.click) {
+      //   this.lottieInstance['playSegments']([this.config.click.start, this.config.click.end], true);
+      this.schedule(
+        LottieButtonState.CLICK,
+        this.config.click.start,
+        this.config.click.end
+      );
     }
+  }
 
+  private handleMouseUp(): void {
+    this.mouseState.clicked = false;
+  }
 
-    private handleMouseUp(): void {
-        this.mouseState.clicked = false;
+  public mousedown(): void {
+    this.handleClick();
+  }
+
+  public mouseup(): void {
+    this.handleMouseUp();
+  }
+
+  private handleMouseLeave(): void {
+    if (!this.mouseState.hovering) {
+      return;
     }
-
-    public mousedown(): void {
-        this.handleClick();
+    this.mouseState.hovering = false;
+    if (this.config.mouseleave) {
+      //   this.lottieInstance['playSegments']([this.config.mouseleave.start, this.config.mouseleave.end], true);
+      this.schedule(
+        LottieButtonState.MOUSELEAVE,
+        this.config.mouseleave.start,
+        this.config.mouseleave.end
+      );
     }
+  }
 
-    public mouseup(): void {
-        this.handleMouseUp();
+  public mouseleave(): void {
+    this.handleMouseLeave();
+  }
+
+  public mouseenter(): void {
+    this.handleMouseEnter();
+  }
+
+  private handleMouseEnter(): void {
+    if (this.mouseState.hovering) {
+      return;
     }
+    this.mouseState.hovering = true;
 
-
-    private handleMouseLeave(): void {
-        if(!this.mouseState.hovering) {
-            return;
-        }
-        this.mouseState.hovering = false;
-        if (this.config.mouseleave) {
-            //   this.lottieInstance['playSegments']([this.config.mouseleave.start, this.config.mouseleave.end], true);
-            this.schedule(LottieButtonState.MOUSELEAVE, this.config.mouseleave.start, this.config.mouseleave.end);
-        }
+    if (this.config.mouseenter) {
+      //   this.lottieInstance['playSegments']([this.config.mouseover.start, this.config.mouseover.end], true);
+      this.schedule(
+        LottieButtonState.MOUSEENTER,
+        this.config.mouseenter.start,
+        this.config.mouseenter.end
+      );
     }
+  }
 
-    public mouseleave(): void {
-        this.handleMouseLeave();
-    }
+  private updateCssClass() {
+    this.raf.write(() => {
+      this.config.rootElement.classList.remove(LottieButtonCssClasses.CLICK);
+      this.config.rootElement.classList.remove(LottieButtonCssClasses.HOVER);
 
+      if (this.currentState === 'click') {
+        this.config.rootElement.classList.add(LottieButtonCssClasses.CLICK);
+      }
 
-    public mouseenter(): void {
-        this.handleMouseEnter();
-    }
+      if (this.currentState === 'mouseenter') {
+        this.config.rootElement.classList.add(LottieButtonCssClasses.HOVER);
+      }
 
-    private handleMouseEnter(): void {
-        if (this.mouseState.hovering) {
-            return;
-        }
-        this.mouseState.hovering = true;
+      if (this.isInview) {
+        this.config.rootElement.classList.add(LottieButtonCssClasses.INVIEW);
+        this.config.rootElement.classList.remove(
+          LottieButtonCssClasses.OUTVIEW
+        );
+      } else {
+        this.config.rootElement.classList.add(LottieButtonCssClasses.OUTVIEW);
+        this.config.rootElement.classList.remove(LottieButtonCssClasses.INVIEW);
+      }
+    });
+  }
 
-        if (this.config.mouseenter) {
-            //   this.lottieInstance['playSegments']([this.config.mouseover.start, this.config.mouseover.end], true);
-            this.schedule(LottieButtonState.MOUSEENTER, this.config.mouseenter.start, this.config.mouseenter.end);
-        }
-    }
+  public getMouseState(): LottieButtonMouseState {
+    return this.mouseState;
+  }
 
+  public setMouseState(state: LottieButtonMouseState): LottieButtonMouseState {
+    return (this.mouseState = state);
+  }
 
-    private updateCssClass() {
-        this.raf.write(() => {
-            this.config.rootElement.classList.remove(LottieButtonCssClasses.CLICK);
-            this.config.rootElement.classList.remove(LottieButtonCssClasses.HOVER);
-
-            if (this.currentState == 'click') {
-                this.config.rootElement.classList.add(LottieButtonCssClasses.CLICK);
-            }
-
-            if (this.currentState == 'mouseenter') {
-                this.config.rootElement.classList.add(LottieButtonCssClasses.HOVER);
-            }
-
-            if (this.isInview) {
-                this.config.rootElement.classList.add(LottieButtonCssClasses.INVIEW);
-                this.config.rootElement.classList.remove(LottieButtonCssClasses.OUTVIEW);
-            } else {
-                this.config.rootElement.classList.add(LottieButtonCssClasses.OUTVIEW);
-                this.config.rootElement.classList.remove(LottieButtonCssClasses.INVIEW);
-            }
-
-        })
-    }
-
-
-    public getMouseState(): LottieButtonMouseState {
-        return this.mouseState;
-    }
-
-    public setMouseState(state:LottieButtonMouseState): LottieButtonMouseState {
-        return this.mouseState = state;
-    }
-
-
-    public dispose(): void {
-        this.watcher && this.watcher.dispose();
-        this.ev && this.ev.dispose();
-        this.raf && this.raf.dispose();
-    }
-
+  public dispose(): void {
+    this.watcher && this.watcher.dispose();
+    this.ev && this.ev.dispose();
+    this.raf && this.raf.dispose();
+  }
 }

@@ -1,4 +1,4 @@
-import { noop } from '../func/noop';
+import {noop} from '../func/noop';
 
 type DefaultFunction<K, V> = (key: K) => V;
 /**
@@ -15,15 +15,17 @@ type DefaultFunction<K, V> = (key: K) => V;
  */
 export class DefaultMap<K, V> extends Map<K, V> {
   static usingFunction<K, V>(
-      defaultFunction: DefaultFunction<K, V>
+    defaultFunction: DefaultFunction<K, V>
   ): DefaultMap<K, V> {
     return new this([], defaultFunction);
   }
 
   private readonly defaultFunction: DefaultFunction<K, V>;
 
-  constructor(iterable: Array<[K, V]> = [],
-              defaultFunction: DefaultFunction<K, V> = noop) {
+  constructor(
+    iterable: Array<[K, V]> = [],
+    defaultFunction: DefaultFunction<K, V> = noop
+  ) {
     super(iterable);
     this.defaultFunction = defaultFunction;
   }
@@ -34,7 +36,7 @@ export class DefaultMap<K, V> extends Map<K, V> {
       this.set(key, defaultValue);
       return defaultValue;
     } else {
-      return super.get(key);
+      return super.get(key) as V;
     }
   }
 }

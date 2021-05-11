@@ -1,15 +1,14 @@
-
-import { Vector } from '../mathf/vector';
+import {Vector} from '../mathf/vector';
 
 /**
  * @unstable
  */
 export class Camera {
-    public position: Vector;
-    public target: Vector;
+  public position: Vector;
+  public target: Vector;
 
-    constructor() {
-        this.position = Vector.ZERO;
-        this.target = Vector.ZERO;
-    }
+  constructor() {
+    this.position = Vector.ZERO;
+    this.target = Vector.ZERO;
+  }
 }

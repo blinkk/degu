@@ -1,78 +1,79 @@
-import { DomWatcher } from '../dom/dom-watcher';
-import { mathf } from '../mathf/mathf';
-import { INgDisposable } from './i-ng-disposable';
+import {DomWatcher} from '../dom/dom-watcher';
+import {mathf} from '../mathf/mathf';
+import {INgDisposable} from './i-ng-disposable';
 class WatchScrollOverController implements INgDisposable {
-    private el: HTMLElement;
-    private $scope: ng.IScope;
-    private $attrs: ng.IAttributes;
-    private cssClass: string;
-    private cssOutClass: string;
-    private targetElements: Array<HTMLElement>;
-    private watcher: DomWatcher;
+  private el: HTMLElement;
+  private $scope: ng.IScope;
+  private $attrs: ng.IAttributes;
+  private cssClass: string;
+  private cssOutClass: string;
+  private targetElements: Array<HTMLElement> = [];
+  private watcher: DomWatcher;
 
-    static get $inject() {
-        return ['$scope', '$element', '$attrs'];
+  static get $inject() {
+    return ['$scope', '$element', '$attrs'];
+  }
+
+  constructor(
+    $scope: ng.IScope,
+    $element: ng.IAugmentedJQuery,
+    $attrs: ng.IAttributes
+  ) {
+    this.$scope = $scope;
+    this.el = $element[0];
+    this.$attrs = $attrs;
+    this.cssClass = this.$attrs.watchScrollOverClass;
+    this.cssOutClass = this.$attrs.watchScrollOverOutClass;
+
+    this.watcher = new DomWatcher();
+
+    let query = this.$attrs.watchScrollOverQuery;
+    if ($attrs.watchScrollOverQueryEval) {
+      query = $scope.$eval(query)[0][0];
     }
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
-        this.$scope = $scope;
-        this.el = $element[0];
-        this.$attrs = $attrs;
-        this.cssClass = this.$attrs.watchScrollOverClass;
-        this.cssOutClass = this.$attrs.watchScrollOverOutClass;
+    window.setTimeout(() => {
+      this.targetElements = Array.from(document.querySelectorAll(query));
 
-        let query = this.$attrs.watchScrollOverQuery;
-        if(!!$attrs.watchScrollOverQueryEval) {
-          query = $scope.$eval(query)[0][0];
-        }
+      this.watcher.add({
+        element: window,
+        on: 'scroll',
+        callback: this.scroll.bind(this),
+        eventOptions: {passive: true},
+      });
+      this.scroll();
+    });
+    $scope.$on('$destroy', () => {
+      this.dispose();
+    });
+  }
 
-        window.setTimeout(()=> {
-            this.targetElements = Array.from(document.querySelectorAll(
-                query
-            ));
+  private scroll(): void {
+    const top = this.el.getBoundingClientRect().top + window.scrollY;
 
-            this.watcher = new DomWatcher();
-            this.watcher.add({
-                element: window,
-                on: 'scroll',
-                callback: this.scroll.bind(this),
-                eventOptions: { passive: true },
-            });
-            this.scroll();
-        })
-        $scope.$on('$destroy', () => {
-            this.dispose();
-        });
+    let shouldAdd = false;
+    this.targetElements.forEach(targetElement => {
+      const targetBox = targetElement.getBoundingClientRect();
+      const targetTop = targetBox.top + window.scrollY;
+      const targetBottom = targetTop + targetBox.height;
+      if (mathf.isBetween(top, targetTop, targetBottom, true)) {
+        shouldAdd = true;
+      }
+    });
+
+    if (shouldAdd) {
+      this.el.classList.add(this.cssClass);
+      this.cssOutClass && this.el.classList.remove(this.cssOutClass);
+    } else {
+      this.cssOutClass && this.el.classList.add(this.cssOutClass);
+      this.el.classList.remove(this.cssClass);
     }
+  }
 
-    private scroll():void {
-        const top = this.el.getBoundingClientRect().top + window.scrollY;
-
-        let shouldAdd = false;
-        this.targetElements.forEach((targetElement)=> {
-            const targetBox = targetElement.getBoundingClientRect()
-            const targetTop = targetBox.top + window.scrollY;
-            const targetBottom = targetTop + targetBox.height;
-            if(mathf.isBetween(top, targetTop, targetBottom, true)) {
-               shouldAdd = true;
-            }
-        })
-
-        if(shouldAdd) {
-          this.el.classList.add(this.cssClass);
-          this.cssOutClass && this.el.classList.remove(this.cssOutClass);
-        } else {
-          this.cssOutClass && this.el.classList.add(this.cssOutClass);
-          this.el.classList.remove(this.cssClass);
-        }
-
-    }
-
-    public dispose():void {
-        this.watcher.dispose();
-    }
+  public dispose(): void {
+    this.watcher.dispose();
+  }
 }
-
 
 /**
  * On a large single page, let's say you have a fix header that is a bunch
@@ -121,8 +122,8 @@ class WatchScrollOverController implements INgDisposable {
  * TODO (uxder): More optimization around this.
  */
 export const watchScrollOverDirective = () => {
-    return {
-        restrict: 'A',
-        controller: WatchScrollOverController
-    };
+  return {
+    restrict: 'A',
+    controller: WatchScrollOverController,
+  };
 };

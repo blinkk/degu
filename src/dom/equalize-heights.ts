@@ -1,5 +1,5 @@
-import { DomWatcher } from '../dom/dom-watcher';
-import { func } from '../func/func';
+import {DomWatcher} from '../dom/dom-watcher';
+import {func} from '../func/func';
 
 /**
  * Equalizes the heights of a set of html elements.
@@ -21,7 +21,6 @@ import { func } from '../func/func';
  * ```
  */
 export class EqualizeHeights {
-
   private root: HTMLElement;
   private selector: string;
   private elements: Array<Element>;
@@ -36,7 +35,12 @@ export class EqualizeHeights {
    *   element.  This will apply a max-height instead of a min-height value.
    * @param {string} breakpoint Example: >760 or <759
    */
-  constructor(rootElement: HTMLElement, selector: string, setToShortest: boolean, breakpoint: string) {
+  constructor(
+    rootElement: HTMLElement,
+    selector: string,
+    setToShortest: boolean,
+    breakpoint: string
+  ) {
     this.root = rootElement;
     this.selector = selector;
     this.elements = [];
@@ -46,23 +50,21 @@ export class EqualizeHeights {
     this.watcher.add({
       element: window,
       on: 'smartResize',
-      callback: func.debounce(()=> {
+      callback: func.debounce(() => {
         this.run();
-      }, 20)
+      }, 20),
     });
     this.run();
   }
-
 
   /**
    * Runs a function against the set of internal elements.
    */
   forEachElement(callback: Function) {
-    this.elements.forEach((element) => {
+    this.elements.forEach(element => {
       callback(element);
-    })
+    });
   }
-
 
   /**
    * Equalizes the heights of all elments.
@@ -70,80 +72,75 @@ export class EqualizeHeights {
   public run() {
     // Don't apply equalheight on certain conditions.
     if (this.breakpoint) {
-      let isGreaterThan = this.breakpoint.startsWith('>');
-      let targetBreakpoint = +this.breakpoint.substring(1);
-      if (isGreaterThan && (targetBreakpoint >= window.innerWidth)) {
+      const isGreaterThan = this.breakpoint.startsWith('>');
+      const targetBreakpoint = +this.breakpoint.substring(1);
+      if (isGreaterThan && targetBreakpoint >= window.innerWidth) {
         this.removeEqualHeights();
         return;
       }
-      if (!isGreaterThan && (targetBreakpoint <= window.innerWidth)) {
+      if (!isGreaterThan && targetBreakpoint <= window.innerWidth) {
         this.removeEqualHeights();
         return;
       }
     }
 
-
-    this.setToShortest ? this.setToShortestElement() :
-      this.setToTallestElement();
+    this.setToShortest
+      ? this.setToShortestElement()
+      : this.setToTallestElement();
   }
-
 
   /**
    * Takes all elements and sets the minimum height to the tallest element.
    */
   setToTallestElement() {
-    this.elements = [...this.root.querySelectorAll(this.selector)];
+    this.elements = Array.from(this.root.querySelectorAll(this.selector));
     let largestHeight = 0;
     this.forEachElement((element: HTMLElement) => {
       element.style.minHeight = '';
-    })
+    });
     window.setTimeout(() => {
       this.forEachElement((element: HTMLElement) => {
-        let height = element.getBoundingClientRect().height;
+        const height = element.getBoundingClientRect().height;
         largestHeight = Math.max(height, largestHeight);
-      })
+      });
       this.forEachElement((element: HTMLElement) => {
         element.style.minHeight = largestHeight + 'px';
       });
     });
   }
 
-
   /**
    * Takes all elements and sets the maximum height to the shortest element.
    */
   setToShortestElement() {
-    this.elements = [...this.root.querySelectorAll(this.selector)];
+    this.elements = Array.from(this.root.querySelectorAll(this.selector));
     let shortestHeight = 10000;
     this.forEachElement((element: HTMLElement) => {
       element.style.maxHeight = 'none';
-    })
+    });
     this.forEachElement((element: HTMLElement) => {
-      let height = element.offsetHeight;
+      const height = element.offsetHeight;
       if (height < shortestHeight) {
         shortestHeight = height;
       }
-    })
+    });
 
     this.forEachElement((element: HTMLElement) => {
       element.style.maxHeight = shortestHeight + 'px';
     });
   }
 
-
   removeEqualHeights() {
-    this.elements = [...this.root.querySelectorAll(this.selector)];
+    this.elements = Array.from(this.root.querySelectorAll(this.selector));
     this.forEachElement((element: HTMLElement) => {
       element.style.maxHeight = '';
       element.style.minHeight = '';
-    })
+    });
   }
-
 
   dispose() {
     this.removeEqualHeights();
     this.watcher.dispose();
-    this.elements = null;
+    this.elements = [];
   }
-
 }

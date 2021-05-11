@@ -1,45 +1,36 @@
-
-import { DomWatcher } from '../dom/dom-watcher';
-import { func } from '../func/func';
-import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
-import { cssUnit, CssUnitObject } from '../string/css-unit';
-import { mathf } from '../mathf/mathf';
-import { Raf } from '../raf/raf';
-import { Inview } from '../dom/inview';
-
-
+import {Inview} from '../dom/inview';
 
 export class InviewController {
-    // The root element to determine visibility.
-    private element: HTMLElement;
-    private inview: Inview;
-    static get $inject() {
-        return ['$scope', '$element', '$attrs'];
-    }
+  // The root element to determine visibility.
+  private element: HTMLElement;
+  private inview: Inview;
+  static get $inject() {
+    return ['$scope', '$element'];
+  }
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
-        this.element = $element[0];
+  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
+    this.element = $element[0];
 
-        this.inview = new Inview({
-            element: this.element,
-            childSelector: this.element.getAttribute('inview-selector') || null,
-            elementBaseline: +this.element.getAttribute('inview-element-baseline') || 0,
-            viewportOffset: +this.element.getAttribute('inview-viewport-offset') || 0,
-            // outviewOnlyOnElementExit: true
-            downOnlyMode: true
-        });
+    this.inview = new Inview({
+      element: this.element,
+      childSelector: this.element.getAttribute('inview-selector') || undefined,
+      elementBaseline:
+        +this.element.getAttribute('inview-element-baseline')! || undefined,
+      viewportOffset:
+        +this.element.getAttribute('inview-viewport-offset')! || undefined,
+      // outviewOnlyOnElementExit: true
+      downOnlyMode: true,
+    });
 
-        $scope.$on('$destroy', () => {
-            this.dispose();
-        });
+    $scope.$on('$destroy', () => {
+      this.dispose();
+    });
+  }
 
-    }
-
-    dispose() {
-        this.inview && this.inview.dispose();
-    }
+  dispose() {
+    this.inview && this.inview.dispose();
+  }
 }
-
 
 /**
  * A simple inview directive.  This is based on dom/Inview.
@@ -80,10 +71,8 @@ export class InviewController {
  *
  */
 export const inviewDirective = function () {
-    return {
-        restrict: 'A',
-        controller: InviewController,
-    };
-}
-
-
+  return {
+    restrict: 'A',
+    controller: InviewController,
+  };
+};

@@ -1,39 +1,37 @@
-import { ViewportCssParallax } from '../dom/viewport-css-parallax';
-
-
+import {ViewportCssParallax} from '../dom/viewport-css-parallax';
 
 export class ViewportCssParallaxController {
-    private element: HTMLElement;
-    private viewportCssParallax: ViewportCssParallax;
+  private element: HTMLElement;
+  private viewportCssParallax: ViewportCssParallax;
 
-    static get $inject() {
-        return ['$element', '$scope', '$attrs'];
-    }
+  static get $inject() {
+    return ['$element', '$scope'];
+  }
 
-    constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
-        this.element = $element[0];
-        const parallaxData = JSON.parse(this.element.getAttribute('viewport-css-parallax'));
-        this.viewportCssParallax = new ViewportCssParallax();
+  constructor($element: ng.IRootElementService, $scope: ng.IScope) {
+    this.element = $element[0];
+    const parallaxData = JSON.parse(
+      this.element.getAttribute('viewport-css-parallax')!
+    );
+    this.viewportCssParallax = new ViewportCssParallax();
 
-        // Add the root element.
-        parallaxData['settings']['rootElement'] = this.element;
+    // Add the root element.
+    parallaxData['settings']['rootElement'] = this.element;
 
-        this.viewportCssParallax.init(
-            parallaxData['settings'], parallaxData['interpolations']
-        );
+    this.viewportCssParallax.init(
+      parallaxData['settings'],
+      parallaxData['interpolations']
+    );
 
+    $scope.$on('$destroy', () => {
+      this.dispose();
+    });
+  }
 
-        $scope.$on('$destroy', () => {
-            this.dispose();
-        });
-    }
-
-
-    protected dispose(): void {
-        this.viewportCssParallax.dispose();
-    }
+  protected dispose(): void {
+    this.viewportCssParallax.dispose();
+  }
 }
-
 
 /**
  *
@@ -138,8 +136,8 @@ export class ViewportCssParallaxController {
  *
  */
 export const viewportCssParallaxDirective = function () {
-    return {
-        restrict: 'A',
-        controller: ViewportCssParallaxController
-    }
-}
+  return {
+    restrict: 'A',
+    controller: ViewportCssParallaxController,
+  };
+};

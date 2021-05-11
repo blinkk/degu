@@ -1,6 +1,6 @@
-import { Raf } from '../raf/raf';
-import { DomWatcher } from '../dom/dom-watcher';
-import { mathf } from '../mathf/mathf';
+import {Raf} from '../raf/raf';
+import {DomWatcher} from '../dom/dom-watcher';
+import {mathf} from '../mathf/mathf';
 
 interface InviewClassNames {
   READY?: string;
@@ -19,7 +19,7 @@ const InviewDefaultClassNames: InviewClassNames = {
   IN_FOLD: 'in-fold',
   DOWN: 'down',
   UP: 'up',
-  OUT: 'out'
+  OUT: 'out',
 };
 
 export interface InviewConfig {
@@ -91,7 +91,6 @@ export interface InviewConfig {
    * A flag that sets this inview to down only mode. See below for more.
    */
   downOnlyMode?: boolean;
-
 }
 
 /**
@@ -219,21 +218,22 @@ export class Inview {
   private static gatherTargetElements(config: InviewConfig): HTMLElement[] {
     const targetElements = [config.element];
     if (config.childSelector) {
-      Array.from(config.element.querySelectorAll(config.childSelector))
-          .forEach((el) => targetElements.push(<HTMLElement>el));
+      Array.from(
+        config.element.querySelectorAll(config.childSelector)
+      ).forEach(el => targetElements.push(<HTMLElement>el));
     }
     return targetElements;
   }
 
   private static assignDefaultsToConfig(config: InviewConfig): InviewConfig {
     return Object.assign(
-        {
-          elementBaseline: 0,
-          viewportOffset: 0,
-          outviewOnlyOnElementExit: false,
-          downOnlyMode: false
-        },
-        config
+      {
+        elementBaseline: 0,
+        viewportOffset: 0,
+        outviewOnlyOnElementExit: false,
+        downOnlyMode: false,
+      },
+      config
     );
   }
   private readonly raf: Raf;
@@ -249,17 +249,17 @@ export class Inview {
   /**
    * Last known scroll direction. 1 down, -1 up, 0 no direction.
    */
-  private scrollDirection: number;
+  private scrollDirection = 0;
 
   /**
    * A flag to keep track of whether the element was inview atleast once.
    */
-  private inOnce: boolean;
+  private inOnce = false;
 
   /**
    * A flag to keep track of in or out state.
    */
-  private isInState: boolean = false;
+  private isInState = false;
 
   /**
    * The list of target elements to add inview to.
@@ -276,7 +276,7 @@ export class Inview {
    * element, cleared when a RAF loop has run.
    * This will improve performance by culling RAF runs before work is done.
    */
-  private shouldRun: boolean;
+  private shouldRun = false;
 
   constructor(config: InviewConfig) {
     // Establish defaults on the config as needed and then handle errors for bad
@@ -290,9 +290,11 @@ export class Inview {
     this.raf = new Raf(() => this.onRaf());
     this.readWrite = new Raf();
     this.watcher = new DomWatcher();
-    this.inviewClassNames =
-        Object.assign(
-            {}, InviewDefaultClassNames, config.inviewClassNames || {});
+    this.inviewClassNames = Object.assign(
+      {},
+      InviewDefaultClassNames,
+      config.inviewClassNames || {}
+    );
     this.scrollY = window.scrollY;
     this.targetElements = Inview.gatherTargetElements(this.config);
 
@@ -301,35 +303,36 @@ export class Inview {
   }
 
   runInviewState(force?: boolean) {
-    if (this.isInState) {
+    if (this.isInState && !force) {
       return;
     }
     this.readWrite.write(() => {
-      this.targetElements.forEach((el) => {
-        el.classList.remove(this.inviewClassNames.OUT);
-        el.classList.add(this.inviewClassNames.IN);
+      this.targetElements.forEach(el => {
+        el.classList.remove(this.inviewClassNames.OUT!);
+        el.classList.add(this.inviewClassNames.IN!);
 
         if (!this.inOnce) {
-          el.classList.add(this.inviewClassNames.IN_ONCE);
+          el.classList.add(this.inviewClassNames.IN_ONCE!);
           this.inOnce = true;
 
           if (window.scrollY === 0) {
-            el.classList.add(this.inviewClassNames.IN_FOLD);
+            el.classList.add(this.inviewClassNames.IN_FOLD!);
           }
         }
 
         const isScrollingUp = this.scrollDirection === -1;
         el.classList.remove(
-            isScrollingUp ?
-                this.inviewClassNames.DOWN :
-                this.inviewClassNames.UP);
+          isScrollingUp
+            ? this.inviewClassNames.DOWN!
+            : this.inviewClassNames.UP!
+        );
         el.classList.add(
-            isScrollingUp ?
-                this.inviewClassNames.UP :
-                this.inviewClassNames.DOWN);
+          isScrollingUp
+            ? this.inviewClassNames.UP!
+            : this.inviewClassNames.DOWN!
+        );
         this.isInState = true;
       });
-
     });
   }
 
@@ -338,19 +341,19 @@ export class Inview {
       return;
     }
     this.readWrite.write(() => {
-      this.targetElements.forEach((el) => {
-        el.classList.add(this.inviewClassNames.OUT);
-        el.classList.remove(this.inviewClassNames.IN);
-        el.classList.remove(this.inviewClassNames.UP);
-        el.classList.remove(this.inviewClassNames.DOWN);
+      this.targetElements.forEach(el => {
+        el.classList.add(this.inviewClassNames.OUT!);
+        el.classList.remove(this.inviewClassNames.IN!);
+        el.classList.remove(this.inviewClassNames.UP!);
+        el.classList.remove(this.inviewClassNames.DOWN!);
         el.classList.add(
-            this.scrollDirection === -1 ?
-                this.inviewClassNames.UP :
-                this.inviewClassNames.DOWN);
+          this.scrollDirection === -1
+            ? this.inviewClassNames.UP!
+            : this.inviewClassNames.DOWN!
+        );
         this.isInState = false;
       });
     });
-
   }
 
   dispose(): void {
@@ -374,13 +377,13 @@ export class Inview {
       element: window,
       on: 'scroll',
       callback: () => this.onWindowScroll(),
-      eventOptions: { passive: true }
+      eventOptions: {passive: true},
     });
     this.watcher.add({
       element: window,
       on: 'smartResize',
       callback: () => this.onWindowScroll(),
-      eventOptions: { passive: true }
+      eventOptions: {passive: true},
     });
   }
 
@@ -399,18 +402,18 @@ export class Inview {
   private readyTargetElements(): void {
     this.readWrite.write(() => {
       this.targetElements.forEach((target: HTMLElement) => {
-          target.classList.add(this.inviewClassNames.READY);
+        target.classList.add(this.inviewClassNames.READY!);
       });
     });
   }
 
   private initInview(): void {
-    const intersectionObserverOptions =
-        this.config.evIntersectionObserverOptions ||
-        { rootMargin: '100px 0px 100px 0px' };
-    const inviewPromise =
-        this.raf.runWhenElementIsInview(
-            this.config.element, intersectionObserverOptions);
+    const intersectionObserverOptions = this.config
+      .evIntersectionObserverOptions || {rootMargin: '100px 0px 100px 0px'};
+    const inviewPromise = this.raf.runWhenElementIsInview(
+      this.config.element,
+      intersectionObserverOptions
+    );
     inviewPromise.then(() => this.raf.start());
   }
 
@@ -455,7 +458,7 @@ export class Inview {
       const wh = window.innerHeight;
       const box = this.config.element.getBoundingClientRect();
       const elementBaseline =
-          box.top + (this.config.elementBaseline * box.height);
+        box.top + this.config.elementBaseline! * box.height;
 
       // This is the percent of where element baseline is.
       // So 0 would mean the elementbaseline is at the bottom of the viewport.
@@ -469,7 +472,8 @@ export class Inview {
       // We want to use this to valuate whether the element is out of view.
       // A value greater than 1 would mean that the element is above the
       // viewport == outview.
-      const outPercent = 1 - mathf.inverseLerp(0, wh, box.top + box.height, true);
+      const outPercent =
+        1 - mathf.inverseLerp(0, wh, box.top + box.height, true);
 
       if (this.config.outviewOnlyOnElementExit) {
         // This is the percent where the TOP of the element is in the viewport.
@@ -477,12 +481,10 @@ export class Inview {
         // AKA
         const bottomPercent = outPercent;
         const completelyOutOfView =
-            !mathf.isBetween(topPercent, 0, 1) &&
-            !mathf.isBetween(bottomPercent, 0, 1);
-        if (inPercent < this.config.viewportOffset || outPercent >= 1) {
-          if (
-              completelyOutOfView
-          ) {
+          !mathf.isBetween(topPercent, 0, 1) &&
+          !mathf.isBetween(bottomPercent, 0, 1);
+        if (inPercent < this.config.viewportOffset! || outPercent >= 1) {
+          if (completelyOutOfView) {
             this.runOutviewState(force);
           }
         } else {
@@ -495,18 +497,14 @@ export class Inview {
         // Down only mode.
         const topOfElementIsBelowViewport = topPercent < 0;
         const bottomOfElementIsAboveViewport = bottomPercent >= 1;
-        if (inPercent < this.config.viewportOffset || outPercent >= 1) {
-          if (
-              topOfElementIsBelowViewport
-          ) {
+        if (inPercent < this.config.viewportOffset! || outPercent >= 1) {
+          if (topOfElementIsBelowViewport) {
             this.runOutviewState(force);
           }
 
           // If the bottom of the element is above the viewport, we should
           // ensure it is in the instate.
-          if (
-              bottomOfElementIsAboveViewport
-          ) {
+          if (bottomOfElementIsAboveViewport) {
             this.runInviewState(force);
           }
         } else {
@@ -517,7 +515,7 @@ export class Inview {
         // The outview conditions are in the outpercent (bottom of the element)
         // is greater than 1
         // or the inpercent (the element baseline) is below 0 under the screen.
-        if (inPercent < this.config.viewportOffset || outPercent >= 1) {
+        if (inPercent < this.config.viewportOffset! || outPercent >= 1) {
           this.runOutviewState(force);
         } else {
           this.runInviewState(force);

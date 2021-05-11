@@ -6,6 +6,7 @@
  * It does nothing, but on purpose and doesn't look like a bug or error.
  * It exists solely for readability.
  */
+// eslint-disable-next-line
 export function noop(...args: any[]): any {
   // Purposefully empty.
 }

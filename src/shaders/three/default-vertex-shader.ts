@@ -1,4 +1,3 @@
-
 /**
  *  A chroma-key frag shader.  Takes a given color and makes it transparent.
  *

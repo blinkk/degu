@@ -1,10 +1,9 @@
-
-import { ProgressWatcher } from '../dom/progress-watcher';
+import {ProgressWatcher} from '../dom/progress-watcher';
 
 export interface InviewProgressItem {
-    range: number | number[];
-    element: HTMLElement,
-    className: string,
+  range: number | number[];
+  element: HTMLElement;
+  className: string;
 }
 
 /**
@@ -24,65 +23,55 @@ export interface InviewProgressItem {
  * inviewProgress.update(0.2)
  */
 export class InviewProgress {
-    private progressWatcher: ProgressWatcher;
+  private progressWatcher: ProgressWatcher;
 
-    constructor() {
-        this.progressWatcher = new ProgressWatcher();
-    }
+  constructor() {
+    this.progressWatcher = new ProgressWatcher();
+  }
 
+  add(inviewProgressItem: InviewProgressItem) {
+    const setActive = () => {
+      inviewProgressItem.element.classList.add(inviewProgressItem.className);
+    };
 
-    add(inviewProgressItem: InviewProgressItem) {
+    const setInactive = () => {
+      inviewProgressItem.element.classList.remove(inviewProgressItem.className);
+    };
 
-        const setActive = () => {
-            inviewProgressItem.element.classList.add(
-                inviewProgressItem.className
-            )
-        }
+    this.progressWatcher.add({
+      range: inviewProgressItem.range,
+      callback: () => {
+        setActive();
+      },
+      inactiveCallback: () => {
+        setInactive();
+      },
+    });
+  }
 
-        const setInactive = () => {
-            inviewProgressItem.element.classList.remove(
-                inviewProgressItem.className
-            )
-        }
+  /**
+   * Clears out the css class inviews.
+   */
+  public clear() {
+    this.progressWatcher.clear();
+  }
 
-        this.progressWatcher.add({
-            range: inviewProgressItem.range,
-            callback: (progress: number, direction: number) => {
-                setActive();
-            },
-            inactiveCallback: (progress: number, direction: number) => {
-                setInactive();
-            }
-        })
+  /**
+   * Sets the progress value.
+   * @param progress
+   */
+  public setProgress(progress: number): void {
+    this.progressWatcher.setProgress(progress);
+  }
 
-    }
+  /**
+   * Gets the internal instance of progress Watcher.
+   */
+  public getProgressWatcher() {
+    return this.progressWatcher;
+  }
 
-
-    /**
-     * Clears out the css class inviews.
-     */
-    public clear() {
-        this.progressWatcher.clear();
-    }
-
-
-    /**
-     * Sets the progress value.
-     * @param progress
-     */
-    public setProgress(progress: number): void {
-        this.progressWatcher.setProgress(progress);
-    }
-
-
-    /**
-     * Gets the internal instance of progress Watcher.
-     */
-    public getProgressWatcher() {
-        return this.progressWatcher;
-    }
-
-    public dispose() {
-        this.progressWatcher.dispose();
-    }
+  public dispose() {
+    this.progressWatcher.dispose();
+  }
 }

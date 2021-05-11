@@ -1,6 +1,4 @@
-
-import { DomWatcher } from './dom-watcher';
-
+import {DomWatcher} from './dom-watcher';
 
 /**
  * A class that prevents the user from scrolling.
@@ -22,46 +20,39 @@ import { DomWatcher } from './dom-watcher';
  * ```
  */
 export class PreventScroll {
+  private domWatcher: DomWatcher;
+  constructor() {
+    this.domWatcher = new DomWatcher();
+  }
 
-    private domWatcher: DomWatcher;
-    constructor() {
-        this.domWatcher = new DomWatcher();
+  private preventDefault(e: Event) {
+    e.preventDefault();
+  }
 
+  public enableScroll(enable = true) {
+    if (enable) {
+      this.domWatcher.removeAll();
+    } else {
+      const eventTypes = [
+        'DomMouseScroll',
+        'Scroll',
+        'wheel',
+        'mouseWheel',
+        'keydown',
+        'touchmove',
+      ];
+      eventTypes.forEach(type => {
+        this.domWatcher.add({
+          element: document,
+          on: type,
+          eventOptions: {passive: false},
+          callback: this.preventDefault.bind(this),
+        });
+      });
     }
+  }
 
-
-    private preventDefault(e:any) {
-        e.preventDefault();
-    }
-
-
-    public enableScroll(enable: boolean = true) {
-        if(enable) {
-          this.domWatcher.removeAll();
-        } else {
-
-            const eventTypes = [
-                'DomMouseScroll',
-                'Scroll',
-                'wheel',
-                'mouseWheel',
-                'keydown',
-                'touchmove',
-            ]
-            eventTypes.forEach((type)=> {
-                this.domWatcher.add({
-                    // @ts-ignore
-                    element: document,
-                    on: type,
-                    eventOptions: { passive: false },
-                    callback: this.preventDefault.bind(this)
-                });
-            })
-        }
-    }
-
-
-    public dispose() {
-        this.domWatcher.dispose();
-    }
+  public dispose() {
+    this.domWatcher.dispose();
+  }
 }

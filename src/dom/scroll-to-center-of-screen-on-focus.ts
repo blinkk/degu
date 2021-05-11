@@ -1,41 +1,37 @@
-import { DomWatcher } from './dom-watcher';
-import { func } from '../func/func';
-import { is } from '../is/is';
-
+import {DomWatcher} from './dom-watcher';
+import {func} from '../func/func';
+import {is} from '../is/is';
 
 export interface ScrollToCenterOfScreenOnFocusConfig {
-    /**
-     * The root parent element.
-     */
-    element: HTMLElement;
+  /**
+   * The root parent element.
+   */
+  element: HTMLElement;
 
-    /**
-     * Whether to scroll to the element when its click on.
-     * Handy for debuggin.
-     */
-    mouseDown?: boolean
+  /**
+   * Whether to scroll to the element when its click on.
+   * Handy for debuggin.
+   */
+  mouseDown?: boolean;
 
-    /**
-     * For any element with data-scroll-to-on-focus automatically set
-     * the tabindex=0.  For VO focus to be acquired, tabindex=0 is required
-     * so generally you can set this to true.
-     */
-    setTabIndex?: boolean,
+  /**
+   * For any element with data-scroll-to-on-focus automatically set
+   * the tabindex=0.  For VO focus to be acquired, tabindex=0 is required
+   * so generally you can set this to true.
+   */
+  setTabIndex?: boolean;
 
-    /**
-     * Automatically sets the aria region to what is specified.
-     */
-    setAriaRole?: string,
+  /**
+   * Automatically sets the aria region to what is specified.
+   */
+  setAriaRole?: string;
 
-
-    /**
-     * Enables debug mode which outputs additional info to the console for
-     * debugging.
-     */
-    debug: boolean,
+  /**
+   * Enables debug mode which outputs additional info to the console for
+   * debugging.
+   */
+  debug: boolean;
 }
-
-
 
 /**
  * A class that looks for all elements with data-scroll-to-center-of-screen-on-focus
@@ -106,95 +102,86 @@ export interface ScrollToCenterOfScreenOnFocusConfig {
  * 0 would mean the top of the element, 0.5 would be the center, 1 would be the bottom.
  */
 export class ScrollToCenterOfScreenOnFocus {
-    private element: HTMLElement;
-    private watcher: DomWatcher;
-    private selector: string;
-    private debug: boolean = false;
+  private element: HTMLElement;
+  private watcher: DomWatcher;
+  private selector: string;
+  private debug = false;
 
+  constructor(private config: ScrollToCenterOfScreenOnFocusConfig) {
+    this.element = config.element;
+    this.watcher = new DomWatcher();
+    this.selector = 'data-scroll-to-center-of-screen-on-focus';
+    this.debug = func.setDefault(config.debug, false);
 
-    constructor(private config: ScrollToCenterOfScreenOnFocusConfig) {
+    const elements: Array<HTMLElement> = Array.from(
+      this.element.querySelectorAll(`[${this.selector}]`)
+    );
 
-        this.element = config.element;
-        this.watcher = new DomWatcher();
-        this.selector = 'data-scroll-to-center-of-screen-on-focus';
-        this.debug = func.setDefault(config.debug, false);
+    elements.forEach(el => {
+      if (config.setTabIndex) {
+        el.tabIndex = 0;
+      }
 
+      if (config.setAriaRole) {
+        el.setAttribute('role', config.setAriaRole);
+      }
 
-        const elements: Array<HTMLElement> =
-            Array.from(this.element.querySelectorAll(`[${this.selector}]`));
+      this.watcher.add({
+        element: el,
+        on: 'focus',
+        callback: () => {
+          this.handleFocus(el);
+        },
+        eventOptions: {capture: true},
+      });
 
-        elements.forEach((el) => {
+      if (config.mouseDown || this.debug) {
+        this.watcher.add({
+          element: el,
+          on: 'mousedown',
+          callback: () => {
+            this.handleFocus(el);
+          },
+        });
+      }
+    });
+  }
 
-            if (config.setTabIndex) {
-                el.tabIndex = 0;
-            }
+  /**
+   * Handle focus on an element.
+   */
+  private handleFocus(focusedElement: HTMLElement) {
+    const targetPercent = +focusedElement.getAttribute(this.selector)!;
+    const targetBaseline = !is.null(
+      focusedElement.getAttribute('data-base-line')
+    )
+      ? +focusedElement.getAttribute('data-base-line')!
+      : 0.5;
 
-            if (config.setAriaRole) {
-                el.setAttribute('role', config.setAriaRole);
-            }
-
-            this.watcher.add({
-                element: el,
-                on: 'focus',
-                callback: () => {
-                    this.handleFocus(el);
-                },
-                eventOptions: { capture: true }
-            });
-
-            if (config.mouseDown || this.debug) {
-                this.watcher.add({
-                    element: el,
-                    on: 'mousedown',
-                    callback: () => {
-                        this.handleFocus(el);
-                    }
-                });
-            }
-        })
+    if (this.debug) {
+      console.log('el' + focusedElement);
+      console.log('targetPercent' + targetPercent);
+      console.log('targetBaseline' + targetBaseline);
     }
 
+    // Calculate the scrollY so that the element is in the desired
+    // position on the viewport.
+    const box = focusedElement.getBoundingClientRect();
+    let elementBaseline = box.top + targetBaseline * box.height;
+    elementBaseline = window.scrollY + elementBaseline;
+    const y = elementBaseline - targetPercent * window.innerHeight;
 
-    /**
-     * Handle focus on an element.
-     */
-    private handleFocus(focusedElement: HTMLElement) {
+    // Scroll To that point.
+    window.scrollTo(0, y);
 
-        let targetPercent = +focusedElement.getAttribute(this.selector);
-        const targetBaseline = !is.null(focusedElement.getAttribute('data-base-line')) ?
-            +focusedElement.getAttribute('data-base-line') : 0.5;
+    // Simple version.
+    // focusedElement.scrollIntoView({
+    //     behavior: 'smooth',
+    //     block: 'center'
+    // });
+  }
 
-        if (this.debug) {
-            console.log('el' + focusedElement);
-            console.log('targetPercent' + targetPercent);
-            console.log('targetBaseline' + targetBaseline);
-        }
-
-
-
-        // Calculate the scrollY so that the element is in the desired
-        // position on the viewport.
-        let box = focusedElement.getBoundingClientRect();
-        let elementBaseline =
-            box.top +
-            (targetBaseline * box.height);
-        elementBaseline = window.scrollY + elementBaseline;
-        let y = elementBaseline - (targetPercent * window.innerHeight);
-
-        // Scroll To that point.
-        window.scrollTo(0, y);
-
-
-        // Simple version.
-        // focusedElement.scrollIntoView({
-        //     behavior: 'smooth',
-        //     block: 'center'
-        // });
-    }
-
-
-    public dispose() {
-        this.watcher && this.watcher.dispose();
-    }
-
+  public dispose() {
+    this.watcher && this.watcher.dispose();
+  }
 }

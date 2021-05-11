@@ -4,72 +4,80 @@ import * as $ from 'jquery';
  * A service that smooth scrolls to a specific #id.
  */
 class SmoothScrollController {
+  private jQuery: JQueryStatic;
+  private id: string;
+  private offset: number;
+  private $element: ng.IRootElementService;
+  private element: HTMLElement;
+  private animating = false;
+  private duration: number;
 
-    private jQuery: JQueryStatic;
-    private id: string;
-    private offset: number;
-    private $element: ng.IRootElementService;
-    private element: HTMLElement;
-    private animating: boolean = false;
-    private duration : number;
+  static get $inject() {
+    return ['$element', '$scope', '$attrs'];
+  }
 
-    static get $inject() {
-        return ['$element', '$scope', '$attrs'];
+  constructor(
+    $element: ng.IRootElementService,
+    $scope: ng.IScope,
+    $attrs: ng.IAttributes
+  ) {
+    this.jQuery = $;
+    this.$element = $element;
+    this.element = $element[0];
+    this.offset = +$attrs.smoothScrollClickOffset || 0;
+    this.duration = +$attrs.smoothScrollClickDuration || 800;
+
+    // Check where id was used to evaluated anglar values
+    // versus sometimes we just want to use the string output.
+    this.id = $attrs.smoothScrollClick;
+    if ($attrs.smoothScrollClickEval) {
+      this.id = $scope.$eval($attrs.smoothScrollClick);
     }
 
-    constructor($element: ng.IRootElementService, $scope: ng.IScope, $attrs: ng.IAttributes) {
-        this.jQuery = $;
-        this.$element = $element;
-        this.element = $element[0];
-        this.offset = +$attrs.smoothScrollClickOffset || 0;
-        this.duration = +$attrs.smoothScrollClickDuration || 800;
+    this.animating = false;
+    $element.on('click', this.scrollTo.bind(this));
 
-        // Check where id was used to evaluated anglar values
-        // versus sometimes we just want to use the string output.
-        this.id = $attrs.smoothScrollClick;
-        if(!!$attrs.smoothScrollClickEval) {
-          this.id = $scope.$eval($attrs.smoothScrollClick);
-        }
+    $scope.$on('$destroy', () => {
+      this.dispose_();
+    });
+  }
 
-        this.animating = false;
-        $element.on('click', this.scrollTo.bind(this));
-
-        $scope.$on('$destroy', () => {
-            this.dispose_();
-        });
+  scrollTo(e: JQueryMouseEventObject) {
+    e.preventDefault();
+    if (this.animating) {
+      return;
     }
+    this.animating = true;
 
+    const page = this.jQuery('body, html');
+    const top = this.jQuery('#' + this.id).offset()!.top - this.offset;
 
-    scrollTo(e:any) {
-        e.preventDefault();
-        if (this.animating) {
-            return;
-        }
-        this.animating = true;
+    const animationComplete = () => {
+      this.animating = false;
+      page.off(
+        'scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove'
+      );
+      page.stop();
+    };
 
-        var page = this.jQuery('body, html');
-        let top = this.jQuery('#' + this.id).offset().top - this.offset;
+    page.on(
+      'scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove',
+      animationComplete
+    );
 
-        let animationComplete = () => {
-            this.animating = false;
-            page.off("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove");
-            page.stop();
-        };
+    page.stop().animate(
+      {
+        scrollTop: top,
+      },
+      this.duration,
+      animationComplete
+    );
+  }
 
-        page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove",
-            animationComplete);
-
-
-        page.stop().animate({
-            scrollTop: top
-        }, this.duration, animationComplete)
-    }
-
-    dispose_() {
-        this.$element.off('click', this.scrollTo)
-    }
+  dispose_() {
+    this.$element.off('click', this.scrollTo);
+  }
 }
-
 
 /**
  * A directive to scroll to a specific #id.
@@ -94,9 +102,8 @@ class SmoothScrollController {
  *
  */
 export const smoothScrollClickDirective = function () {
-    return {
-        restrict: 'A',
-        controller: SmoothScrollController
-    }
-}
-
+  return {
+    restrict: 'A',
+    controller: SmoothScrollController,
+  };
+};

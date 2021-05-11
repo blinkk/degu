@@ -1,8 +1,6 @@
-
-import { is } from '../is/is';
-import { DomWatcher } from '../dom/dom-watcher';
-import { dom } from '../dom/dom';
-
+import {is} from '../is/is';
+import {DomWatcher} from '../dom/dom-watcher';
+import {dom} from '../dom/dom';
 
 /**
  * A simple drag and drop file utility.
@@ -26,64 +24,58 @@ import { dom } from '../dom/dom';
  *
  */
 export class DragDropFile {
+  private dropElement: HTMLElement;
+  private watcher: DomWatcher;
+  private dropCallback: Function;
 
-    private dropElement: HTMLElement;
-    private watcher: DomWatcher;
-    private dropCallback: Function;
+  constructor(dropzoneElement: HTMLElement, dropCallback: Function) {
+    this.dropElement = dropzoneElement;
+    this.dropCallback = dropCallback;
+    this.watcher = new DomWatcher();
 
-    constructor(dropzoneElement: HTMLElement, dropCallback: Function) {
-        if (!is.supportingFileApis()) {
-            console.log('The file apis are not supported for this browser');
-            return;
-        }
-
-        this.dropElement = dropzoneElement;
-        this.dropCallback = dropCallback;
-        this.watcher = new DomWatcher();
-        this.watcher.add({
-            element: this.dropElement,
-            on: 'dragover',
-            callback: this.handleDragOver.bind(this)
-        })
-        this.watcher.add({
-            element: this.dropElement,
-            on: 'drop',
-            callback: this.handleDrop.bind(this)
-        })
+    if (!is.supportingFileApis()) {
+      console.log('The file apis are not supported for this browser');
+      return;
     }
+    this.watcher.add({
+      element: this.dropElement,
+      on: 'dragover',
+      callback: this.handleDragOver.bind(this),
+    });
+    this.watcher.add({
+      element: this.dropElement,
+      on: 'drop',
+      callback: this.handleDrop.bind(this),
+    });
+  }
 
-    private handleDragOver(e: Event): void {
-        e.stopPropagation();
-        e.preventDefault();
+  private handleDragOver(e: Event): void {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  private handleDrop(e: DragEvent): void {
+    e.stopPropagation();
+    e.preventDefault();
+
+    // Fire a drop start event.
+    dom.event(this.dropElement, 'drop-start', {});
+
+    // Currently support only 1 file.
+    // let entries;
+    if (e.dataTransfer?.items) {
+      // entries = Array.from(e.dataTransfer.items).map(item =>
+      //   item.webkitGetAsEntry()
+      // );
+      const file = e.dataTransfer.files[0];
+      this.dropCallback({
+        file: file,
+        url: URL.createObjectURL(file),
+      });
     }
+  }
 
-    private handleDrop(e: any): void {
-        e.stopPropagation();
-        e.preventDefault();
-
-        // Fire a drop start event.
-        dom.event(this.dropElement, 'drop-start', {});
-
-        // Currently support only 1 file.
-        let entries;
-        if (e.dataTransfer.items) {
-            entries = [].slice.call(e.dataTransfer.items)
-                .map((item) => item.webkitGetAsEntry());
-            const file = e.dataTransfer.files[0];
-            this.dropCallback(
-                {
-                  file: file,
-                  url: URL.createObjectURL(file)
-                }
-            )
-        }
-    }
-
-
-
-    dispose() {
-        this.watcher && this.watcher.dispose();
-    }
-
-
+  dispose() {
+    this.watcher && this.watcher.dispose();
+  }
 }

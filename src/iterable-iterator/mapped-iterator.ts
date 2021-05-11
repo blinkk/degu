@@ -14,7 +14,7 @@ export class MappedIterator<T, TT> implements IterableIterator<TT> {
     const nextValue = this.iterator.next();
     return {
       done: nextValue.done,
-      value: this.mapFunction(nextValue.value)
+      value: this.mapFunction(nextValue.value),
     };
   }
 

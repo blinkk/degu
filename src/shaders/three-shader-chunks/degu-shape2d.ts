@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 /*
  * Creates a checkerboard pattern but could be used for
  * horizontal or vertical strips.
@@ -27,10 +25,9 @@ const deguShape2dCheckerboard = `
       return mod(x + y, 2.0);
     }
 `;
-
-
-export const deguShape2d = (three:any)=> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const deguShape2d = (three: any) => {
   three.ShaderChunk.deguShape2d = `
   ${deguShape2dCheckerboard}
 `;
-}
+};

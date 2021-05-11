@@ -1,123 +1,124 @@
-
-import { DomWatcher } from '../dom/dom-watcher';
-import { dom } from '../dom/dom';
-import { func } from '../func/func';
-import { is } from '../is/is';
-import { elementVisibility, ElementVisibilityObject } from '../dom/element-visibility';
+import {DomWatcher} from '../dom/dom-watcher';
+import {dom} from '../dom/dom';
+import {func} from '../func/func';
+import {is} from '../is/is';
+import {
+  elementVisibility,
+  ElementVisibilityObject,
+} from '../dom/element-visibility';
 
 export const LazyVideoEvents = {
-    LOAD_START: 'LOAD_START',
-}
-
+  LOAD_START: 'LOAD_START',
+};
 
 export class LazyVideoController {
-    private el: HTMLElement;
-    private parent: HTMLElement;
-    private url: string;
-    private setComplete: boolean;
-    private ev: ElementVisibilityObject;
-    private watcher: DomWatcher;
+  private el: HTMLElement;
+  private parent: HTMLVideoElement;
+  private url: string;
+  private setComplete: boolean;
+  private ev: ElementVisibilityObject;
+  private watcher: DomWatcher;
 
-    // The amount of rootMargin offset to apply to lazyimage.
-    // 1 would result in a forward load of 1 * window.innerHeight.
-    // 0 would mean no forward load.
-    // Defaults to 1.
-    // Set to higher values if you want to load aggressively load video that are below
-    // the current fold.
-    private forwardLoadScalar: number;
+  // The amount of rootMargin offset to apply to lazyimage.
+  // 1 would result in a forward load of 1 * window.innerHeight.
+  // 0 would mean no forward load.
+  // Defaults to 1.
+  // Set to higher values if you want to load aggressively load video that are below
+  // the current fold.
+  private forwardLoadScalar: number;
 
-    static get $inject() {
-        return ['$scope', '$element', '$attrs'];
-    }
+  static get $inject() {
+    return ['$scope', '$element', '$attrs'];
+  }
 
-    constructor($scope: ng.IScope, $element: ng.IAngularStatic, $attrs: ng.IAttributes) {
+  constructor(
+    $scope: ng.IScope,
+    $element: ng.IAugmentedJQuery,
+    $attrs: ng.IAttributes
+  ) {
+    this.el = $element[0];
+    this.parent = <HTMLVideoElement>this.el.parentElement!;
 
-        this.el = $element[0];
-        this.parent = this.el.parentElement;
+    this.watcher = new DomWatcher();
+    this.watcher.add({
+      element: window,
+      on: 'smartResize',
+      callback: func.debounce(this.resize.bind(this), 500),
+    });
 
-        this.watcher = new DomWatcher();
-        this.watcher.add({
-            element: window,
-            on: 'smartResize',
-            callback: func.debounce(this.resize.bind(this), 500)
-        });
-
-        this.forwardLoadScalar =
-            is.defined($attrs.lazyVideoForwardLoadScalar) ?
-                +$attrs.lazyVideoForwardLoadScalar : 1;
-
-
-        /**
-         * The Video source.
-         */
-        this.url = $attrs.lazyVideo;
-
-        /**
-         * Whether this directive has finished setting the video.
-         */
-        this.setComplete = false;
-
-        this.ev = elementVisibility.inview(this.parent, {
-            rootMargin: window.innerHeight * this.forwardLoadScalar + 'px'
-        }, () => {
-            this.paint();
-        });
-
-        // Immediately attempt to apint.
-        this.ev.readyPromise.then(()=> {
-            this.paint();
-        })
-
-
-        $scope.$on('$destroy', () => {
-            this.dispose();
-        });
-    }
-
-
-    resize() {
-        if (!this.setComplete) {
-            this.paint();
-        }
-    }
-
+    this.forwardLoadScalar = is.defined($attrs.lazyVideoForwardLoadScalar)
+      ? +$attrs.lazyVideoForwardLoadScalar
+      : 1;
 
     /**
-     * Attemps to set the video source if possible.
+     * The Video source.
      */
-    paint() {
-        if (this.isPainted() && !this.setComplete) {
-            this.setComplete = true;
-            this.el.setAttribute('src', this.url);
-
-            // Tell the parent element (video) to load.
-            this.parent['load']();
-            dom.event(this.parent, LazyVideoEvents.LOAD_START, {});
-
-            // Once it's loaded, dispose of this module.
-            this.dispose();
-        }
-    }
-
+    this.url = $attrs.lazyVideo;
 
     /**
-     * Determines whether this element was painted (displayed on the screen).
-     * The basis of this is having a css class of display none.  Other methods
-     * of hiding the element will return true.
+     * Whether this directive has finished setting the video.
      */
-    isPainted() {
-        return !dom.isDisplayNoneWithAncestors(this.parent) && this.ev.state().inview;
+    this.setComplete = false;
+
+    this.ev = elementVisibility.inview(
+      this.parent,
+      {
+        rootMargin: window.innerHeight * this.forwardLoadScalar + 'px',
+      },
+      () => {
+        this.paint();
+      }
+    );
+
+    // Immediately attempt to apint.
+    this.ev.readyPromise.then(() => {
+      this.paint();
+    });
+
+    $scope.$on('$destroy', () => {
+      this.dispose();
+    });
+  }
+
+  resize() {
+    if (!this.setComplete) {
+      this.paint();
     }
+  }
 
+  /**
+   * Attemps to set the video source if possible.
+   */
+  paint() {
+    if (this.isPainted() && !this.setComplete) {
+      this.setComplete = true;
+      this.el.setAttribute('src', this.url);
 
-    dispose() {
-        this.ev.dispose();
-        this.watcher.dispose();
+      // Tell the parent element (video) to load.
+      this.parent.load();
+      dom.event(this.parent, LazyVideoEvents.LOAD_START, {});
+
+      // Once it's loaded, dispose of this module.
+      this.dispose();
     }
+  }
 
+  /**
+   * Determines whether this element was painted (displayed on the screen).
+   * The basis of this is having a css class of display none.  Other methods
+   * of hiding the element will return true.
+   */
+  isPainted() {
+    return (
+      !dom.isDisplayNoneWithAncestors(this.parent) && this.ev.state().inview
+    );
+  }
+
+  dispose() {
+    this.ev.dispose();
+    this.watcher.dispose();
+  }
 }
-
-
 
 /**
  * Allows loading of video only if the element or the child
@@ -177,9 +178,8 @@ export class LazyVideoController {
  *
  */
 export const lazyVideoDirective = function () {
-    return {
-        restrict: 'A',
-        controller: LazyVideoController,
-    };
-}
-
+  return {
+    restrict: 'A',
+    controller: LazyVideoController,
+  };
+};

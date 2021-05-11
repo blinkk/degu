@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * A class that makes it really easy to work with web workers.
  *
@@ -80,35 +81,34 @@
  * @experimental
  */
 export class WebWorker {
-    /**
-     * The function that the web worker should run.
-     * @type {Function}
-     */
-    private workerTask: Function;
+  /**
+   * The function that the web worker should run.
+   * @type {Function}
+   */
+  private workerTask: Function;
 
-    /**
-     * A stringified version of the worker task to execute.
-     */
-    private workerTaskAsString: string;
-    /**
-     *
-     * A stringified version of the final worker.
-     */
-    private codeToRun: string;
+  /**
+   * A stringified version of the worker task to execute.
+   */
+  private workerTaskAsString: string;
+  /**
+   *
+   * A stringified version of the final worker.
+   */
+  private codeToRun: string;
 
-    /**
-     * Internal cached instance of worker.
-     */
-    private worker: Worker | null;
+  /**
+   * Internal cached instance of worker.
+   */
+  private worker: Worker | null;
 
-
-    constructor(workerTask: Function) {
-        // Prepare the worker code as a string.
-        this.worker = null;
-        this.workerTask = workerTask;
-        this.workerTaskAsString = this.workerTask.toString();
-        this.workerTaskAsString = this.formatTask(this.workerTaskAsString);
-        this.codeToRun = `
+  constructor(workerTask: Function) {
+    // Prepare the worker code as a string.
+    this.worker = null;
+    this.workerTask = workerTask;
+    this.workerTaskAsString = this.workerTask.toString();
+    this.workerTaskAsString = this.formatTask(this.workerTaskAsString);
+    this.codeToRun = `
             self.addEventListener('message', function(event) {
                 let params = event.data;
                 let result = 'No result was generated.';
@@ -118,75 +118,76 @@ export class WebWorker {
             })
          `;
 
-        // The raw string of the actual code this is going to run.
-        // console.log(this.codeToRun);
-    }
+    // The raw string of the actual code this is going to run.
+    // console.log(this.codeToRun);
+  }
 
-    /**
-     * Strip out the start and end of the function string.  This formats
-     * a stringified function so it's ready to be a web worker.
-     * @param task
-     */
-    private formatTask(task: string): string {
-        return task.substring(task.indexOf("{") + 1, task.lastIndexOf("}"));
-    }
+  /**
+   * Strip out the start and end of the function string.  This formats
+   * a stringified function so it's ready to be a web worker.
+   * @param task
+   */
+  private formatTask(task: string): string {
+    return task.substring(task.indexOf('{') + 1, task.lastIndexOf('}'));
+  }
 
+  /**
+   * Create an instance of a Worker and sends out the message with the
+   * params. Resolves the promise when results come in.
+   *
+   * Note that each time you call this method, a new Worker is created.
+   * The Worker is terminated as soon as it resolves so it can be considered
+   * a one time worker..
+   * @param paramsToSend
+   * @param transfer.  An optional array of transferable objects.
+   *     https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage
+   *     for more.
+   */
+  runOneTimeThrowAwayWorker(
+    paramsToSend: Object,
+    transfer?: Array<any>
+  ): Promise<Object> {
+    return new Promise<Object>((resolve, reject) => {
+      const blob = new Blob([this.codeToRun], {type: 'application/javascript'});
+      const blobUrl = URL.createObjectURL(blob);
+      const worker = new Worker(blobUrl);
 
-    /**
-     * Create an instance of a Worker and sends out the message with the
-     * params. Resolves the promise when results come in.
-     *
-     * Note that each time you call this method, a new Worker is created.
-     * The Worker is terminated as soon as it resolves so it can be considered
-     * a one time worker..
-     * @param paramsToSend
-     * @param transfer.  An optional array of transferable objects.
-     *     https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage
-     *     for more.
-     */
-    runOneTimeThrowAwayWorker(paramsToSend: Object, transfer?: Array<any>): Promise<Object> {
-        return new Promise<Object>((resolve, reject) => {
-            var blob = new Blob([this.codeToRun],
-                { type: "application/javascript" });
-            const blobUrl = URL.createObjectURL(blob);
-            const worker = new Worker(blobUrl);
+      URL.revokeObjectURL(blobUrl);
+      worker.postMessage(paramsToSend, transfer as Array<any>);
+      worker.onerror = (event: Object) => {
+        reject(event);
+        worker.terminate();
+      };
+      worker.onmessage = (event: Record<string, any>) => {
+        resolve(event.data.result);
+        worker.terminate();
+      };
+    });
+  }
 
-            URL.revokeObjectURL(blobUrl);
-            worker.postMessage(paramsToSend, transfer as Array<any>);
-            worker.onerror = (event: Object) => {
-                reject(event);
-                worker.terminate();
-            }
-            worker.onmessage = (event: Object) => {
-                resolve(event['data']['result']);
-                worker.terminate();
-            }
+  run(paramsToSend: Object, transfer?: Array<any>): Promise<Object> {
+    return new Promise<Object>((resolve, reject) => {
+      if (!this.worker) {
+        const blob = new Blob([this.codeToRun], {
+          type: 'application/javascript',
         });
-    }
+        const blobUrl = URL.createObjectURL(blob);
+        this.worker = new Worker(blobUrl);
+      }
 
-    run(paramsToSend: Object, transfer?: Array<any>): Promise<Object> {
-        return new Promise<Object>((resolve, reject) => {
-            if (!this.worker) {
-                var blob = new Blob([this.codeToRun],
-                    { type: "application/javascript" });
-                const blobUrl = URL.createObjectURL(blob);
-                this.worker = new Worker(blobUrl);
-            }
+      // URL.revokeObjectURL(blobUrl);
+      this.worker.postMessage(paramsToSend, transfer as Array<any>);
+      this.worker.onerror = (event: Object) => {
+        reject(event);
+      };
+      this.worker.onmessage = (event: Record<string, any>) => {
+        resolve(event.data.result);
+      };
+    });
+  }
 
-            // URL.revokeObjectURL(blobUrl);
-            this.worker.postMessage(paramsToSend, transfer as Array<any>);
-            this.worker.onerror = (event: Object) => {
-                reject(event);
-            }
-            this.worker.onmessage = (event: Object) => {
-                resolve(event['data']['result']);
-            }
-        });
-    }
-
-
-    terminate() {
-        this.worker && this.worker.terminate();
-    }
-
+  terminate() {
+    this.worker && this.worker.terminate();
+  }
 }
+/* eslint-enable */

@@ -1,28 +1,27 @@
-
-import { mathf } from '../mathf/mathf';
-import { is } from '../is/is';
-import { color, ColorRGBA } from '../mathf/color';
-import { cssUnit, CssUnitObjectTypes } from '../string/css-unit';
+import {mathf} from '../mathf/mathf';
+import {is} from '../is/is';
+import {color, ColorRGBA} from '../mathf/color';
+import {cssUnit, CssUnitObjectTypes} from '../string/css-unit';
 
 export interface interpolateConfig {
-    /**
-     * The value at which interperolation should begin. Also accepts
-     * css unit types (10px, rgba(255, 255, 255, 0.3))
-     * @type {number|string}
-     */
-    from: number | string;
+  /**
+   * The value at which interperolation should begin. Also accepts
+   * css unit types (10px, rgba(255, 255, 255, 0.3))
+   * @type {number|string}
+   */
+  from: number | string;
 
-    /**
-     * The value at which interperolation should begin. Also accepts css
-     * unit types (10px, rgba(255, 255, 255, 0.3)).
-     * @type {number|string}
-     */
-    to: number | string;
-    /**
-     * The easing function to use.
-     * @type {Function}
-     */
-    easeFunction: Function;
+  /**
+   * The value at which interperolation should begin. Also accepts css
+   * unit types (10px, rgba(255, 255, 255, 0.3)).
+   * @type {number|string}
+   */
+  to: number | string;
+  /**
+   * The easing function to use.
+   * @type {Function}
+   */
+  easeFunction: Function;
 }
 
 /**
@@ -109,76 +108,74 @@ export interface interpolateConfig {
  * @tested
  */
 export class Interpolate {
+  /**
+   * The current interperolated value.
+   */
+  public currentValue: number | string;
 
-    /**
-     * The current interperolated value.
-     */
-    public currentValue: number | string;
+  /**
+   * The current progress.
+   */
+  public currentProgress: number;
 
-    /**
-     * The current progress.
-     */
-    public currentProgress: number;
+  constructor(private interpolateConfig: interpolateConfig) {
+    this.currentValue = 0;
+    this.currentProgress = 0;
 
-    constructor(private interpolateConfig: interpolateConfig) {
-        this.currentValue = 0;
-        this.currentProgress = 0;
+    // Assume we start on preogress 0.
+    this.calculate(0);
+  }
 
-        // Assume we start on preogress 0.
-        this.calculate(0);
+  /**
+   * Modify the interpolate settings.
+   * @param interpolateConfig
+   */
+  modify(interpolateConfig: interpolateConfig): Interpolate {
+    return new Interpolate(interpolateConfig);
+  }
+
+  calculate(progress: number) {
+    this.currentProgress = progress;
+
+    // If we are just interpolating a number just calculate a straight ease.
+    if (is.number(this.interpolateConfig.from)) {
+      this.currentValue = mathf.ease(
+        this.interpolateConfig.from as number,
+        this.interpolateConfig.to as number,
+        this.currentProgress,
+        this.interpolateConfig.easeFunction
+      );
+    } else {
+      // If we are interpolating a string.
+      // Use the from value to determine the type of cssUnit this is.
+      const from = cssUnit.parse(this.interpolateConfig.from as string);
+      const to = cssUnit.parse(this.interpolateConfig.to as string);
+
+      // If unit type, interpolate the values and append a unit.
+      if (from.valueType === CssUnitObjectTypes.number) {
+        this.currentValue = mathf.ease(
+          from.value as number,
+          to.value as number,
+          this.currentProgress,
+          this.interpolateConfig.easeFunction
+        );
+
+        this.currentValue = `${this.currentValue}${from.unit}`;
+      }
+
+      // If it's an rgba type inteporalate it.
+      if (from.valueType === CssUnitObjectTypes.rgba) {
+        const interpolatedRgba = color.rgbaEase(
+          from.value as ColorRGBA,
+          to.value as ColorRGBA,
+          this.currentProgress,
+          this.interpolateConfig.easeFunction
+        );
+
+        this.currentValue = color.rgbaToCss(interpolatedRgba);
+      }
     }
 
-    /**
-     * Modify the interpolate settings.
-     * @param interpolateConfig
-     */
-    modify(interpolateConfig: interpolateConfig): Interpolate {
-        return new Interpolate(interpolateConfig);
-    }
-
-    calculate(progress: number) {
-
-        this.currentProgress = progress;
-
-        // If we are just interpolating a number just calculate a straight ease.
-        if (is.number(this.interpolateConfig.from)) {
-            this.currentValue = mathf.ease(
-                this.interpolateConfig.from as number,
-                this.interpolateConfig.to as number,
-                this.currentProgress,
-                this.interpolateConfig.easeFunction);
-        } else {
-            // If we are interpolating a string.
-            // Use the from value to determine the type of cssUnit this is.
-            let from = cssUnit.parse(this.interpolateConfig.from as string);
-            let to = cssUnit.parse(this.interpolateConfig.to as string);
-
-            // If unit type, interpolate the values and append a unit.
-            if (from.valueType == CssUnitObjectTypes.number) {
-                this.currentValue = mathf.ease(
-                    from.value as number,
-                    to.value as number,
-                    this.currentProgress,
-                    this.interpolateConfig.easeFunction);
-
-                this.currentValue = `${this.currentValue}${from.unit}`;
-            }
-
-            // If it's an rgba type inteporalate it.
-            if (from.valueType == CssUnitObjectTypes.rgba) {
-                const interpolatedRgba = color.rgbaEase(
-                    from.value as ColorRGBA,
-                    to.value as ColorRGBA,
-                    this.currentProgress,
-                    this.interpolateConfig.easeFunction
-                )
-
-                this.currentValue = color.rgbaToCss(interpolatedRgba);
-            }
-
-        }
-
-        return this.currentValue;
-    }
-
+    return this.currentValue;
+  }
 }

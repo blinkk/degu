@@ -1,7 +1,6 @@
-
-export enum DebugLevel  {
-    NONE = 0,
-    ALL = 1
+export enum DebugLevel {
+  NONE = 0,
+  ALL = 1,
 }
 
 /**
@@ -29,23 +28,19 @@ export enum DebugLevel  {
  * ```
  */
 export class debug {
+  private static debugLevel: DebugLevel = DebugLevel.ALL;
 
-    private static debugLevel:DebugLevel = DebugLevel.ALL;
+  static setDebugLevel(level: DebugLevel) {
+    debug.debugLevel = level;
+  }
 
-    static setDebugLevel(level:DebugLevel) {
-        debug.debugLevel = level;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static log(...args: any[]) {
+    if (debug.debugLevel === DebugLevel.NONE) {
+      return;
     }
 
-
-    static log(...args: any[]) {
-      if(debug.debugLevel == DebugLevel.NONE) {
-          return;
-      }
-
-      var args = Array.prototype.slice.call(arguments);
-      console.log(...args);
-    }
+    const argumentsList = Array.prototype.slice.call(args);
+    console.log(...argumentsList);
+  }
 }
-
-
-
