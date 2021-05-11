@@ -193,7 +193,7 @@ export class MouseTracker {
   /**
    * Gets the mouse positions.
    */
-  getMousePosition(): any {
+  getMousePosition(): Object {
     return this.mouseData;
   }
 

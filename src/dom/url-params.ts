@@ -117,7 +117,7 @@ export class urlParams {
   static asObject(url: string): Record<string, string> {
     const query = url.substr(1);
     const result: Record<string, string> = {};
-    query.split('&').forEach((section: any) => {
+    query.split('&').forEach((section: string) => {
       const item = section.split('=');
 
       if (item[0] === '') {

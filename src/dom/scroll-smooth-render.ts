@@ -271,6 +271,7 @@ export class ScrollSmoothRender {
     // large jumps.  Track pads typically have smaller jumps whereas,
     // mouse wheels can have very large deltas.
     if (this.config.dynamicSensitivity) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let normalized = e.deltaY ? e.deltaY : -(e as any).wheelDeltaY / 120;
       normalized = mathf.clamp(-80, 80, normalized);
       delta = normalized;

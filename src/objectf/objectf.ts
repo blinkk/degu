@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {arrayf} from '../arrayf/arrayf';
 
 /**
@@ -69,3 +70,4 @@ export class objectf {
     });
   }
 }
+/* eslint-enable */

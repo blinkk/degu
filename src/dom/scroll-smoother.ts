@@ -64,7 +64,7 @@ export class ScrollSmoother {
   /*
    * @type ResizeObserver https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
    */
-  private resizer: any;
+  private resizer: ResizeObserver;
 
   constructor(config: ScrollSmootherConfig) {
     this.settings = config;
@@ -73,12 +73,14 @@ export class ScrollSmoother {
 
     this.domWatcher = new DomWatcher();
 
-    this.resizer = new window['ResizeObserver']((entries: any) => {
-      for (const entry of entries) {
-        this.resize(entry.contentRect.height);
+    this.resizer = new window['ResizeObserver'](
+      (entries: Array<ResizeObserverEntry>) => {
+        for (const entry of entries) {
+          this.resize(entry.contentRect.height);
+        }
       }
-    });
-    this.resizer['observe'](this.settings.root);
+    );
+    this.resizer.observe(this.settings.root);
 
     this.domWatcher.add({
       element: window,

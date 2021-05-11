@@ -200,6 +200,7 @@ export interface LottieButtonPlayQueueItem {
 export class LottieButton {
   private config: LottieButtonConfig;
   private watcher: DomWatcher;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private lottieInstance: any;
   private mouseState: LottieButtonMouseState;
   private currentFrame = 0;
@@ -309,7 +310,7 @@ export class LottieButton {
           this.ev = elementVisibility.inview(
             this.config.rootElement,
             {},
-            (element: any, changes: any) => {
+            (element: HTMLElement, changes: IntersectionObserverEntry) => {
               if (changes.isIntersecting) {
                 this.inview();
               } else {

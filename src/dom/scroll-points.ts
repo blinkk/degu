@@ -89,7 +89,7 @@ export class ScrollPoints {
     this.ev = elementVisibility.inview(
       this.config.triggerElement,
       {threshold: this.config.triggerThreshold || 0},
-      (element: any, changes: any) => {
+      (element: HTMLElement, changes: IntersectionObserverEntry) => {
         if (changes.isIntersecting) {
           this.engage();
         } else {

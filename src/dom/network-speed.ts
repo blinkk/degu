@@ -97,6 +97,7 @@ export class networkSpeed {
    */
   static getDataTransfer() {
     const entries = performance.getEntriesByType('resource') as Array<
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       Record<string, any>
     >;
     let size = 0;

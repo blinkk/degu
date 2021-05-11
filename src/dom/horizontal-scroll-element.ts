@@ -357,7 +357,7 @@ export class HorizontalScrollElement {
     this.rafEv = elementVisibility.inview(
       this.root,
       {},
-      (element: any, changes: any) => {
+      (element: HTMLElement, changes: IntersectionObserverEntry) => {
         if (changes.isIntersecting) {
           if (!this.ranFirstEv && !!config.resizeOnFirstEv) {
             this.onWindowResize(true);
@@ -450,6 +450,7 @@ export class HorizontalScrollElement {
   }
 
   private setupMouseDrag() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const downHandler = (e: any) => {
       const eventX = (e.touches && e.touches[0].clientX) || e.x;
       this.mouseState = {
@@ -490,11 +491,12 @@ export class HorizontalScrollElement {
     this.domWatcher.add({
       element: this.root,
       on: 'dragover',
-      callback: (e: any) => {
+      callback: (e: Event) => {
         e.preventDefault();
       },
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const moveHandler = (e: any) => {
       if (
         !this.mouseState.dragging &&

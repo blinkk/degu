@@ -117,6 +117,7 @@ import {WebWorker} from './web-worker';
  * @unstable
  */
 export class OffScreenCanvas {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private canvas: HTMLCanvasElement | null | any;
   private offScreenHandler: Function | null;
   private worker: WebWorker | null;
@@ -157,7 +158,7 @@ export class OffScreenCanvas {
   /**
    * Sends the first message to the worker with the transferable canvas
    */
-  init(message: Record<string, any>) {
+  init(message: Record<string, string>) {
     if (!this.canvas) {
       throw new Error('Set your canvas first.');
     }

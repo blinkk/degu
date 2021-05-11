@@ -25,7 +25,7 @@ export class PreventScroll {
     this.domWatcher = new DomWatcher();
   }
 
-  private preventDefault(e: any) {
+  private preventDefault(e: Event) {
     e.preventDefault();
   }
 
