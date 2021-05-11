@@ -1,7 +1,7 @@
 import {DefaultMap} from '../map/default-map';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Callback = (...args: any[]) => void;
+export type EventCallback = (...args: any[]) => void;
 
 export interface EventDispatcher {
   /**
@@ -9,12 +9,12 @@ export interface EventDispatcher {
    *
    * Adding the same event/callback pair a second time should have no effect.
    */
-  on(event: string, callback: Callback): void;
+  on(event: string, callback: EventCallback): void;
 
   /**
    * Stops the callback from being run each time the event is dispatched.
    */
-  off(event: string, callback: Callback): void;
+  off(event: string, callback: EventCallback): void;
 }
 
 /**
@@ -43,16 +43,16 @@ export interface EventDispatcher {
  * ```
  */
 export class EventManager {
-  private callbacks: DefaultMap<string, Set<Callback>>;
+  private callbacks: DefaultMap<string, Set<EventCallback>>;
 
   constructor() {
-    this.callbacks = DefaultMap.usingFunction(() => new Set<Callback>());
+    this.callbacks = DefaultMap.usingFunction(() => new Set<EventCallback>());
   }
 
   /**
    * Run the given callback when the given event is dispatched.
    */
-  on(event: string, callback: Callback): void {
+  on(event: string, callback: EventCallback): void {
     this.callbacks.get(event).add(callback);
   }
 
@@ -67,7 +67,7 @@ export class EventManager {
   /**
    * Stop running the given callback on the given event.
    */
-  off(event: string, callback: Callback): void {
+  off(event: string, callback: EventCallback): void {
     const callbacks = this.callbacks.get(event);
     callbacks.delete(callback);
     if (callbacks.size === 0) {
