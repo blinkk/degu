@@ -1,6 +1,6 @@
 import {Defer} from '../func/defer';
 import {func} from '../func/func';
-import {dom} from '../dom/dom';
+import {testVideoIsPlaying} from '../dom/dom';
 import {Raf} from '../raf/raf';
 
 export interface VideoPlayOptions {
@@ -104,7 +104,7 @@ export class VideoPlayer {
    * Tests whether the video is currently playing.
    */
   public isPlaying() {
-    return dom.testVideoIsPlaying(this.video);
+    return testVideoIsPlaying(this.video);
   }
 
   /**

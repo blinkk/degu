@@ -1,4 +1,6 @@
-import {dom, is, Raf} from '..';
+import {isVisibleOnScreen, isOverlapping, removeElement} from '../dom/dom';
+import {Raf} from '../raf/raf';
+import {is} from '../is/is';
 import {DomWatcher} from '../dom/dom-watcher';
 import {func} from '../func/func';
 import {urlParams} from '../dom/url-params';
@@ -257,7 +259,7 @@ export class AttributeHighlighter {
   ) {
     // If this element is not visible on the page,
     // then skip.
-    if (!dom.isVisibleOnScreen(attributeEl) && !isTypeMissing) {
+    if (!isVisibleOnScreen(attributeEl) && !isTypeMissing) {
       return;
     }
 
@@ -369,8 +371,8 @@ export class AttributeHighlighter {
     // Avoid overlap.
     this.highlighters.forEach(aHighlighter => {
       const a = aHighlighter.highlighterEl;
-      const isOverlapping = dom.isOverlapping(a, spacerEl);
-      if (isOverlapping) {
+      const hasOverlap = isOverlapping(a, spacerEl);
+      if (hasOverlap) {
         if (a.classList.contains('up')) {
           spacerEl.classList.add('up');
           spacerEl.style.setProperty('--height', spacerEl.offsetHeight + 'px');
@@ -434,7 +436,7 @@ export class AttributeHighlighter {
 
   private removeHighlighters() {
     this.highlighters.forEach(highlighter => {
-      dom.removeElement(highlighter.highlighterEl);
+      removeElement(highlighter.highlighterEl);
     });
     this.highlighters = [];
   }

@@ -1,5 +1,5 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {dom} from '../dom/dom';
+import {event} from '../dom/dom';
 import {is} from '../is/is';
 import {
   elementVisibility,
@@ -86,7 +86,7 @@ export class LazyImageSimple implements INgDisposable {
     this.watcher.dispose();
     this.ev.dispose();
     this.loadImage().then(() => {
-      dom.event(document.documentElement, 'lazy-image-simple-loaded', {
+      event(document.documentElement, 'lazy-image-simple-loaded', {
         element: this.el,
       });
     });

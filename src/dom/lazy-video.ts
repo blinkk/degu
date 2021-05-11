@@ -1,5 +1,10 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {dom} from '../dom/dom';
+import {
+  whenVideosLoaded,
+  event,
+  testVideoIsPlaying,
+  isDisplayNoneWithAncestors,
+} from '../dom/dom';
 import {func} from '../func/func';
 import {is} from '../is/is';
 import {
@@ -201,9 +206,9 @@ export class LazyVideo {
       this.setComplete = true;
       this.el.setAttribute('src', this.url);
 
-      dom.whenVideosLoaded([this.video]).then(() => {
+      whenVideosLoaded([this.video]).then(() => {
         // Fire an event.
-        dom.event(this.video, LazyVideoEvents.LOAD_LOADED, {});
+        event(this.video, LazyVideoEvents.LOAD_LOADED, {});
         // Play the video if we opted to play on inview.
         this.playVideo && this.playVideo();
       });
@@ -213,7 +218,7 @@ export class LazyVideo {
       this.video.setAttribute('load', 'true');
 
       // Fire an event.
-      dom.event(this.video, LazyVideoEvents.LOAD_START, {});
+      event(this.video, LazyVideoEvents.LOAD_START, {});
 
       // Once it's loaded, dispose of this module.
       this.dispose();
@@ -232,7 +237,7 @@ export class LazyVideo {
   }
 
   private playVideo() {
-    if (!dom.testVideoIsPlaying(this.video)) {
+    if (!testVideoIsPlaying(this.video)) {
       const playPromise = this.video.play();
       playPromise.then(() => {}).catch();
     }
@@ -244,9 +249,7 @@ export class LazyVideo {
    * of hiding the element will return true.
    */
   isPainted() {
-    return (
-      !dom.isDisplayNoneWithAncestors(this.video) && this.ev.state().inview
-    );
+    return !isDisplayNoneWithAncestors(this.video) && this.ev.state().inview;
   }
 
   public dispose(): void {

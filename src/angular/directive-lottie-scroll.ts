@@ -1,7 +1,12 @@
 import lottie, {AnimationItem} from 'lottie-web';
 import {RafProgress} from '../raf/raf-progress';
 import {DomWatcher} from '../dom/dom-watcher';
-import {dom} from '../dom/dom';
+import {
+  event,
+  getElementScrolledPercent,
+  getScrollYAtPercent,
+  isDisplayNoneWithAncestors,
+} from '../dom/dom';
 import {mathf} from '../mathf/mathf';
 import {func} from '../func/func';
 import {cssUnit} from '../string/css-unit';
@@ -286,7 +291,7 @@ export class LottieController {
       const container = this.element.querySelector(
         lottieObject.container_selector
       )!;
-      lottieObject.isOnScreen = !dom.isDisplayNoneWithAncestors(container);
+      lottieObject.isOnScreen = !isDisplayNoneWithAncestors(container);
       return lottieObject;
     });
 
@@ -488,7 +493,7 @@ export class LottieController {
           const payload: LottieScrollInitPayload = {
             controller: this,
           };
-          dom.event(this.element, LottieScrollEvents.INIT, payload);
+          event(this.element, LottieScrollEvents.INIT, payload);
 
           // Update and render immediately after it loads.
           this.updateImmediately();
@@ -657,7 +662,7 @@ export class LottieController {
       progress: easedProgress,
       direction: direction,
     };
-    dom.event(this.element, LottieScrollEvents.PROGRESS_UPDATE, payload);
+    event(this.element, LottieScrollEvents.PROGRESS_UPDATE, payload);
 
     this.currentProgress = easedProgress;
 
@@ -774,7 +779,7 @@ export class LottieController {
   }
 
   protected getPercent(): number {
-    const percent = dom.getElementScrolledPercent(
+    const percent = getElementScrolledPercent(
       this.scrollEl,
       this.progressTopOffset,
       this.progressBottomOffset
@@ -787,7 +792,7 @@ export class LottieController {
    * have to manually update the scroll position to a given percent / progress.
    */
   public getScrollYAtPercent(percent: number): number {
-    return dom.getScrollYAtPercent(
+    return getScrollYAtPercent(
       this.scrollEl,
       this.progressTopOffset,
       this.progressBottomOffset,

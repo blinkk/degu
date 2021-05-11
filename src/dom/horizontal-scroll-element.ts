@@ -1,7 +1,7 @@
 import {elementVisibility, ElementVisibilityObject} from './element-visibility';
 import {DomWatcher} from './dom-watcher';
 import {mathf} from '../mathf/mathf';
-import {dom} from './dom';
+import {event, setCssVariables} from './dom';
 import {Raf} from '../raf/raf';
 import {func} from '..';
 
@@ -409,7 +409,7 @@ export class HorizontalScrollElement {
         const halfPercent = mathf.inverseLerp(0, 0.5, percent, true);
         const quartPercent = mathf.inverseLerp(0, 0.25, percent, true);
 
-        dom.setCssVariables(child.el, {
+        setCssVariables(child.el, {
           '--horizontal-scroll-in-x': String(percent),
           '--horizontal-scroll-in-x-half': String(halfPercent),
           '--horizontal-scroll-in-x-quart': String(quartPercent),
@@ -427,7 +427,7 @@ export class HorizontalScrollElement {
 
         // Add the same css value to associated slieDeltaValueElements
         this.slideDeltaValuesElements.forEach((group: Array<HTMLElement>) => {
-          dom.setCssVariables(group[i], {
+          setCssVariables(group[i], {
             '--horizontal-scroll-in-x': String(percent),
             '--horizontal-scroll-in-x-half': String(halfPercent),
             '--horizontal-scroll-in-x-quart': String(quartPercent),
@@ -667,7 +667,7 @@ export class HorizontalScrollElement {
   setScrollPosition(x: number) {
     this.currentX = x;
 
-    dom.setCssVariables(this.root, {
+    setCssVariables(this.root, {
       '--horizontal-scroll-x': -this.currentX + 'px',
     });
   }
@@ -716,7 +716,7 @@ export class HorizontalScrollElement {
     }
 
     // Fire a notification that the index has changed.
-    dom.event(this.root, HorizontalScrollElementEvents.INDEX_CHANGE, {
+    event(this.root, HorizontalScrollElementEvents.INDEX_CHANGE, {
       index: this.index,
     });
   }

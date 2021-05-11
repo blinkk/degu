@@ -1,5 +1,5 @@
 import {DomWatcher} from './dom-watcher';
-import {dom} from './dom';
+import {getElementScrolledPercent, getScrollYAtPercent} from './dom';
 import {func} from '../func/func';
 import {is} from '../is/is';
 
@@ -215,7 +215,7 @@ export class ScrollToOnFocus {
           // Display out the progress.
           console.log(
             'progress',
-            dom.getElementScrolledPercent(
+            getElementScrolledPercent(
               this.element,
               this.topProgressOffset,
               this.bottomProgressOffset
@@ -257,7 +257,7 @@ export class ScrollToOnFocus {
   private scrollTo(targetPercent: number) {
     // Given the top and bottom progress offset, get the windowY value of
     // the provided percent.
-    const scrollY = dom.getScrollYAtPercent(
+    const scrollY = getScrollYAtPercent(
       this.element,
       this.topProgressOffset,
       this.bottomProgressOffset,
