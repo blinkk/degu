@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Observer} from './observer';
 
 /**
@@ -161,3 +162,4 @@ export class Observable {
     return obs;
   }
 }
+/* eslint-enable */

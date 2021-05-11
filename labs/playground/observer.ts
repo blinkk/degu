@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface observerConfig {
   onNext?: Function;
   onError?: Function;
@@ -57,3 +58,4 @@ export class Observer {
     this.complete_();
   }
 }
+/* eslint-enable */

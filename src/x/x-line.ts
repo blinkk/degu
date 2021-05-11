@@ -95,6 +95,7 @@ export class XLine extends XGameObject {
         );
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.gradientStops.forEach((stop: any) => {
         grad.addColorStop(stop.stop, stop.color);
       });

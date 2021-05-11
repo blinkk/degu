@@ -327,7 +327,7 @@ export class AttributeHighlighter {
       this.attributeWatcher.add({
         element: spacerEl,
         on: ['mousedown'],
-        callback: (e: any) => {
+        callback: (e: Event) => {
           e.preventDefault();
           e.stopPropagation();
           this.raf.stop();
@@ -340,7 +340,7 @@ export class AttributeHighlighter {
       this.attributeWatcher.add({
         element: spacerEl,
         on: ['mouseup'],
-        callback: (e: any) => {
+        callback: (e: Event) => {
           e.preventDefault();
           e.stopPropagation();
           attributeEl.classList.remove('attribute-highlighter-active');

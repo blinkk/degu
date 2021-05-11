@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * A utility class to run a simple convex hull monotone chain algo.
  * @see https://goo.gl/20M7Aw
@@ -63,3 +64,4 @@ export class ConvexHull {
     return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
   }
 }
+/* eslint-enable */

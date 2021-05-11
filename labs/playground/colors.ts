@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Color utility functions.
  * @see http://krazydad.com/tutorials/makecolors.php
@@ -58,3 +59,5 @@ export class colors {
     return 'rgb(' + r * 255 + ',' + g * 255 + ',' + b * 255 + ')';
   }
 }
+
+/* eslint-enable */

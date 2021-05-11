@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @hidden
  */
@@ -23,3 +24,4 @@ export class array {
     return array;
   }
 }
+/* eslint-enable */

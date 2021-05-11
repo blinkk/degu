@@ -1,5 +1,6 @@
-import {MouseTracker} from './mousetracker';
+import {MouseTracker} from '../../src/dom/mouse-tracker';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * A class that creates a parallax effect based on the mouse position.
  * @hidden
@@ -161,3 +162,5 @@ export class Parallaxer {
     this.rootElement_.style.transformOrigin = '50% 50%';
   }
 }
+
+/* eslint-enable */
