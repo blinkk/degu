@@ -1,4 +1,4 @@
-import {dom} from './dom';
+import {removeElement, createElementFromString, setCssVariable} from './dom';
 
 export interface textSplitConfig {
   element: HTMLElement;
@@ -93,7 +93,7 @@ export class TextSplit {
 
     // Remove sups.
     this.sups.forEach(sup => {
-      dom.removeElement(sup);
+      removeElement(sup);
     });
 
     // this.originalText = this.config.element.textContent!;
@@ -119,22 +119,22 @@ export class TextSplit {
         word += '&nbsp;';
       }
 
-      const element = dom.createElementFromString(`<span>${word}</span>`);
-      dom.setCssVariable(element, '--item-index', i + '');
+      const element = createElementFromString(`<span>${word}</span>`);
+      setCssVariable(element, '--item-index', i + '');
       this.config.element.appendChild(element);
     });
 
     // Futher append any sups.
     this.sups &&
       this.sups.forEach((sup, i) => {
-        const span = dom.createElementFromString('<span></span>');
-        dom.setCssVariable(span, '--item-index', this.splits.length + i + '');
+        const span = createElementFromString('<span></span>');
+        setCssVariable(span, '--item-index', this.splits.length + i + '');
         span.appendChild(sup);
         this.config.element.appendChild(span);
       });
 
     // Add total count to root element.
-    dom.setCssVariable(
+    setCssVariable(
       this.config.element,
       '--item-total-count',
       this.splits.length + ''

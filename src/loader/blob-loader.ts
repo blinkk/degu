@@ -1,4 +1,4 @@
-import {dom} from '..';
+import {makeBase64ImageFromBlob} from '../dom/dom';
 
 /**
  * A class that fetches a bunch of blobs.
@@ -132,7 +132,7 @@ export class BlobLoader {
         })
         .then(response => {
           if (response) {
-            dom.makeBase64ImageFromBlob(response).then(image => {
+            makeBase64ImageFromBlob(response).then(image => {
               this.images64[source] = image;
               resolve(response);
             });

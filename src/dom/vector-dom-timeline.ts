@@ -1,5 +1,5 @@
 import {VectorDom, VectorDomComponent} from './vector-dom';
-import {dom} from '../dom/dom';
+import {setCssVariable} from '../dom/dom';
 import {EASE} from '../ease/ease';
 import {func} from '../func/func';
 import {mathf} from '../mathf/mathf';
@@ -598,7 +598,7 @@ export class VectorDomTimeline implements VectorDomComponent {
     }
 
     for (const key in cssVars) {
-      dom.setCssVariable(this.element, key, cssVars[key]);
+      setCssVariable(this.element, key, cssVars[key]);
     }
   }
 

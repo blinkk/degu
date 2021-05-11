@@ -2,7 +2,7 @@ import lottie, {AnimationItem} from 'lottie-web';
 import {DomWatcher} from '../dom/dom-watcher';
 import {elementVisibility, ElementVisibilityObject} from './element-visibility';
 import {Raf} from '../raf/raf';
-import {dom} from '../dom/dom';
+import {runAfterWindowLoad} from '../dom/dom';
 
 export interface LottieButtonRange {
   start: number;
@@ -240,7 +240,7 @@ export class LottieButton {
       this.hasStartedLoading = true;
       this.createLottie();
     } else {
-      dom.runAfterWindowLoad(() => {
+      runAfterWindowLoad(() => {
         this.hasStartedLoading = true;
         this.createLottie();
       });

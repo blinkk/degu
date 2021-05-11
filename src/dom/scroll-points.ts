@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import {dom} from '../dom/dom';
+import {getScrollTop} from '../dom/dom';
 import {mathf} from '../mathf/mathf';
 import {
   elementVisibility,
@@ -130,15 +130,14 @@ export class ScrollPoints {
     // Native scroll.
     if (this.config.forceNativeScroll) {
       window.scrollTo({
-        top: dom.getScrollTop(this.config.targetElement) + this.getOffset(),
+        top: getScrollTop(this.config.targetElement) + this.getOffset(),
         left: 0,
         behavior: 'smooth',
       });
     } else {
       // TODO (uxder): replace jquery based scroll.  Probably use rafTimer.
       const page = this.jQuery('body, html');
-      const top =
-        dom.getScrollTop(this.config.targetElement) + this.getOffset();
+      const top = getScrollTop(this.config.targetElement) + this.getOffset();
       const animationComplete = () => {
         this.scrolling = false;
         page.off(

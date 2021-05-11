@@ -1,5 +1,5 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {dom} from '../dom/dom';
+import {event, isDisplayNone} from '../dom/dom';
 import {is} from '../is/is';
 import {
   elementVisibility,
@@ -201,11 +201,11 @@ export class LazyImage implements INgDisposable {
 
     this.ev && this.ev.dispose();
     this.loadImage().then(() => {
-      dom.event(this.el, 'lazy-image-loaded', {
+      event(this.el, 'lazy-image-loaded', {
         element: this.el,
       });
 
-      dom.event(document.documentElement, 'lazy-image-loaded', {
+      event(document.documentElement, 'lazy-image-loaded', {
         element: this.el,
       });
     });
@@ -341,7 +341,7 @@ export class LazyImage implements INgDisposable {
    */
   isPaintedOnScreen() {
     // TODO (uxder): Possibly upgrade this to dom.isDisplayNoneWithAncestor.
-    return !dom.isDisplayNone(this.el);
+    return !isDisplayNone(this.el);
   }
 
   /**

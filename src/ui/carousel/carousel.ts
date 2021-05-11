@@ -1,5 +1,6 @@
 import {CssClassesOnly, DraggableSlide, Transition} from './transitions';
-import {mathf, Raf} from '../..';
+import {Raf} from '../../raf/raf';
+import {mathf} from '../../mathf/mathf';
 import {EventDispatcher, EventManager} from '../events';
 import {setf} from '../../setf/setf';
 import {arrayf} from '../../arrayf/arrayf';

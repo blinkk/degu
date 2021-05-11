@@ -1,5 +1,8 @@
 import {Carousel} from './carousel';
-import {dom, DomWatcher, mathf, Raf} from '../..';
+import {getScrollElement, getComputedStyle} from '../../dom/dom';
+import {DomWatcher} from '../../dom/dom-watcher';
+import {mathf} from '../../mathf/mathf';
+import {Raf} from '../../raf/raf';
 import {Transition} from './transitions';
 import {CubicBezier, EasingFunction} from '../../mathf/cubic-bezier';
 import {arrayf} from '../../arrayf/arrayf';
@@ -59,7 +62,7 @@ class Interaction {
  * Return the x translation amount from the given element's transform.
  */
 function getTranslateX(el: HTMLElement): number {
-  const transform = dom.getComputedStyle(el).transform;
+  const transform = getComputedStyle(el).transform;
   if (!transform.length || transform === 'none') {
     return 0;
   }
@@ -426,7 +429,7 @@ export class DraggableSlide implements Transition {
       index: targetIndex, // The index to start at
       direction: Direction.LEFT, // Direction to move in for the next slide
     };
-    const clientWidth = dom.getScrollElement().clientWidth;
+    const clientWidth = getScrollElement().clientWidth;
     const rightEdge = leftEdge + target.offsetWidth;
     const right = {
       area: Math.min(clientWidth, clientWidth - rightEdge),
