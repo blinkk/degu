@@ -1,4 +1,4 @@
-import {removeElement} from '../../dom/dom';
+import {dom} from '../..';
 import {DomWatcher} from '../../dom/dom-watcher';
 import {urlParams} from '../../dom/url-params';
 
@@ -176,7 +176,7 @@ export class ParamToggler {
   private draw() {
     this.config.fields.forEach(field => {
       if (field.element) {
-        removeElement(field.element);
+        dom.removeElement(field.element);
       }
       if (field.paramType === ParamTogglerType.BOOL) {
         this.createBooleanOptionElement(field);

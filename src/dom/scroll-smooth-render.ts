@@ -1,6 +1,6 @@
 import {Raf} from '../raf/raf';
 import {mathf} from '../mathf/mathf';
-import {getScrollTop} from '../dom/dom';
+import {dom} from '../dom/dom';
 
 import {DomWatcher} from './dom-watcher';
 
@@ -218,7 +218,7 @@ export class ScrollSmoothRender {
     const anchor = window && window.location.hash;
     const targetElement = document.getElementById(anchor.replace('#', ''));
     if (anchor && targetElement) {
-      const y = getScrollTop(targetElement);
+      const y = dom.getScrollTop(targetElement);
       targetElement.focus();
       this.disable();
       window.scrollTo(0, y);

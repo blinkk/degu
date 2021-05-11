@@ -1,5 +1,5 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {event} from '../dom/dom';
+import {dom} from '../dom/dom';
 import {ScrollSmoothRenderEvents} from '../dom/scroll-smooth-render';
 
 export class ScrollSmoothRenderScrollableController {
@@ -20,7 +20,11 @@ export class ScrollSmoothRenderScrollableController {
       on: 'mouseenter',
       callback: () => {
         console.log('mouseenter');
-        event(document.documentElement, ScrollSmoothRenderEvents.DISABLE, {});
+        dom.event(
+          document.documentElement,
+          ScrollSmoothRenderEvents.DISABLE,
+          {}
+        );
       },
       eventOptions: {
         passive: true,
@@ -32,7 +36,11 @@ export class ScrollSmoothRenderScrollableController {
       on: 'mouseleave',
       callback: () => {
         console.log('mouseleave');
-        event(document.documentElement, ScrollSmoothRenderEvents.ENABLE, {});
+        dom.event(
+          document.documentElement,
+          ScrollSmoothRenderEvents.ENABLE,
+          {}
+        );
       },
       eventOptions: {
         passive: true,

@@ -1,7 +1,7 @@
 import {DomWatcher} from './dom-watcher';
 import {cssUnit} from '../string/css-unit';
 import {elementVisibility, ElementVisibilityObject} from './element-visibility';
-import {getElementScrolledPercent} from './dom';
+import {dom} from './dom';
 import {mathf} from '../mathf/mathf';
 import {Raf} from '../raf/raf';
 import {func} from '../func/func';
@@ -291,7 +291,7 @@ export class CssParallaxer {
    * Calculates the current progress and returns a value between 0-1.
    */
   public updateProgress(lerp: number, damp: number): number {
-    const progress = getElementScrolledPercent(
+    const progress = dom.getElementScrolledPercent(
       this.element,
       this.topOffset,
       this.bottomOffset,

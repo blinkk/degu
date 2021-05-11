@@ -1,10 +1,4 @@
-import {
-  createElementFromString,
-  setCssVariable,
-  getScrollTop,
-  appendAfter,
-  getAllTextNodes,
-} from './dom';
+import {dom} from './dom';
 import {DomWatcher} from './dom-watcher';
 
 export interface textSplit2Config {
@@ -126,7 +120,7 @@ export class TextSplit2 {
    * Splits the text and wraps <span> around each sub item.
    */
   split() {
-    const nodes = getAllTextNodes(this.element);
+    const nodes = dom.getAllTextNodes(this.element);
     this.words = [];
 
     let index = 0;
@@ -138,7 +132,7 @@ export class TextSplit2 {
       const texts = node.textContent!.trim().split(' ');
 
       texts.forEach(text => {
-        const element = createElementFromString(
+        const element = dom.createElementFromString(
           '<span aria-hidden="true"></span>'
         );
 
@@ -151,7 +145,7 @@ export class TextSplit2 {
 
         element.classList.add('text-split__text');
         element.setAttribute('item', index + '');
-        setCssVariable(element, '--item-index', index + '');
+        dom.setCssVariable(element, '--item-index', index + '');
 
         this.words.push(element);
 
@@ -159,7 +153,7 @@ export class TextSplit2 {
           node.parentElement!.replaceChild(element, node);
           first = false;
         } else {
-          appendAfter(element, previousElement as HTMLElement);
+          dom.appendAfter(element, previousElement as HTMLElement);
         }
 
         previousElement = element;
@@ -168,7 +162,7 @@ export class TextSplit2 {
     });
 
     this.onSmartResize();
-    setCssVariable(
+    dom.setCssVariable(
       this.config.element,
       '--item-total-count',
       this.words.length + ''
@@ -183,7 +177,7 @@ export class TextSplit2 {
    */
   private onSmartResize() {
     let sentenceNumber = 0;
-    let y = getScrollTop(this.words[0]);
+    let y = dom.getScrollTop(this.words[0]);
     // Clean up
     this.words.forEach(word => {
       word.removeAttribute('start');
@@ -193,7 +187,7 @@ export class TextSplit2 {
 
     this.words[0].setAttribute('start', sentenceNumber + '');
     this.words.forEach((word, i) => {
-      const wordY = getScrollTop(word, true);
+      const wordY = dom.getScrollTop(word, true);
 
       word.className.replace(/\bbg.*?\b/g, '');
 

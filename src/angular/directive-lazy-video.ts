@@ -1,5 +1,5 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {event, isDisplayNoneWithAncestors} from '../dom/dom';
+import {dom} from '../dom/dom';
 import {func} from '../func/func';
 import {is} from '../is/is';
 import {
@@ -96,7 +96,7 @@ export class LazyVideoController {
 
       // Tell the parent element (video) to load.
       this.parent.load();
-      event(this.parent, LazyVideoEvents.LOAD_START, {});
+      dom.event(this.parent, LazyVideoEvents.LOAD_START, {});
 
       // Once it's loaded, dispose of this module.
       this.dispose();
@@ -109,7 +109,9 @@ export class LazyVideoController {
    * of hiding the element will return true.
    */
   isPainted() {
-    return !isDisplayNoneWithAncestors(this.parent) && this.ev.state().inview;
+    return (
+      !dom.isDisplayNoneWithAncestors(this.parent) && this.ev.state().inview
+    );
   }
 
   dispose() {

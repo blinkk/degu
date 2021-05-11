@@ -4,7 +4,7 @@ import {
   ElementVisibilityObject,
   elementVisibility,
 } from '../dom/element-visibility';
-import {setCssVariable} from '../dom/dom';
+import {dom} from '../dom/dom';
 import {cssUnit} from '../string/css-unit';
 import {objectf} from '../objectf/objectf';
 
@@ -510,7 +510,7 @@ export class CssVarInterpolate {
           this.currentValues[key] = value;
         }
       }
-      setCssVariable(this.element, key, String(value));
+      dom.setCssVariable(this.element, key, String(value));
     }
   }
 

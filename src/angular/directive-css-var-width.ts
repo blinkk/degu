@@ -1,6 +1,6 @@
 import {DomWatcher} from '../dom/dom-watcher';
 import {INgDisposable} from './i-ng-disposable';
-import {setCssVariable} from '../dom/dom';
+import {dom} from '../dom/dom';
 import {func} from '../func/func';
 
 export class CssVarWidth implements INgDisposable {
@@ -45,7 +45,7 @@ export class CssVarWidth implements INgDisposable {
     if (this.max) {
       width = Math.min(width, this.max);
     }
-    setCssVariable(this.el, '--width', String(width));
+    dom.setCssVariable(this.el, '--width', String(width));
   }
 
   dispose() {

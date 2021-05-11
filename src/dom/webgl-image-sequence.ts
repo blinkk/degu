@@ -1,4 +1,4 @@
-import {makeImageFromBlob, deleteImage} from '../dom/dom';
+import {dom} from '../dom/dom';
 import {is} from '../is/is';
 import {func} from '../func/func';
 import {Defer} from '../func/defer';
@@ -845,7 +845,7 @@ export class WebGlImageSequence {
       const blob = this.blobCache[source];
 
       // Generate an image from teh first blob.
-      makeImageFromBlob(blob).then(image => {
+      dom.makeImageFromBlob(blob).then(image => {
         const bitMapsLoaded = !image.naturalWidth;
         this.imageNaturalHeight = bitMapsLoaded
           ? image.height
@@ -855,7 +855,7 @@ export class WebGlImageSequence {
           : image.naturalWidth;
 
         // Release it from memory.
-        deleteImage(image);
+        dom.deleteImage(image);
         resolve();
       });
     });
@@ -1294,7 +1294,7 @@ export class WebGlImageSequence {
     // this.element = null;
     // this.blobCache = null;
     // this.canvasElement = null;
-    deleteImage(this.cacheImage);
+    dom.deleteImage(this.cacheImage);
     // this.cacheImage = null;
     this.gl = null;
   }

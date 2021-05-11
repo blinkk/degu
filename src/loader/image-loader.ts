@@ -1,5 +1,5 @@
 import {is} from '../is/is';
-import {deleteImage} from '../dom/dom';
+import {dom} from '..';
 
 /**
  * A class the loads a given set of images.
@@ -351,7 +351,7 @@ export class ImageLoader {
       } else if (typeof item === 'string') {
         URL.revokeObjectURL(item);
       } else if (item instanceof HTMLImageElement) {
-        deleteImage(item);
+        dom.deleteImage(item);
       }
     }
 

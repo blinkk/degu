@@ -1,6 +1,6 @@
 import {is} from '../is/is';
 import {DomWatcher} from '../dom/dom-watcher';
-import {event} from '../dom/dom';
+import {dom} from '../dom/dom';
 
 /**
  * A simple drag and drop file utility.
@@ -59,7 +59,7 @@ export class DragDropFile {
     e.preventDefault();
 
     // Fire a drop start event.
-    event(this.dropElement, 'drop-start', {});
+    dom.event(this.dropElement, 'drop-start', {});
 
     // Currently support only 1 file.
     // let entries;
