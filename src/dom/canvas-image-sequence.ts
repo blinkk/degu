@@ -659,6 +659,7 @@ export class CanvasImageSequence {
    * Blobs are stored to this dictionary.  These are
    * held in memory.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private blobCache: {[key: string]: any} | null;
 
   /**
@@ -922,7 +923,7 @@ export class CanvasImageSequence {
   /**
    * Starts loading the images.
    */
-  load(): Promise<any> {
+  load(): Promise<void> {
     // If there is no matching imageSet there is nothing to load.
     if (!this.blobLoader || !this.activeImageSet) {
       // Defer resolution.
@@ -1129,8 +1130,8 @@ export class CanvasImageSequence {
     // If the optional multiinterpolate is set, then use multiInterpolate
     // to figure out what the correct frame should be.
     if (this.multiInterpolate && !noMultiInterpolate) {
-      const interpolateMap: any = this.multiInterpolate.calculate(progress);
-      progress = mathf.clamp01(interpolateMap['sequence']);
+      const interpolateMap = this.multiInterpolate.calculate(progress);
+      progress = mathf.clamp01(<number>interpolateMap['sequence']);
     }
 
     // Update clip path multli interpolate.
@@ -1272,12 +1273,12 @@ export class CanvasImageSequence {
     // - right: 50% would mean the right half is missing
     // - left: 50% would mean the left half is missing
     if (this.clipPathType === 'inset') {
-      const results: any = this.clipMultiInterpolate!.getCalculations() || {};
-      const top = results['top'] || 0;
-      const bottom = results['bottom'] || 0;
-      const left = results['left'] || 0;
-      const right = results['right'] || 0;
-      const borderRadius = results['border-radius'] || 0;
+      const results = this.clipMultiInterpolate!.getCalculations() || {};
+      const top = <number>results['top'] || 0;
+      const bottom = <number>results['bottom'] || 0;
+      const left = <number>results['left'] || 0;
+      const right = <number>results['right'] || 0;
+      const borderRadius = <number>results['border-radius'] || 0;
       this.drawRectangle({
         top: this.canvasHeight - (1 - top) * this.canvasHeight,
         left: this.canvasWidth - (1 - left) * this.canvasWidth,

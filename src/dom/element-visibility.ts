@@ -4,7 +4,7 @@ export interface ElementVisibilityObject {
   observer: IntersectionObserver | null;
   dispose: Function;
   state: Function;
-  readyPromise: Promise<any>;
+  readyPromise: Promise<void>;
 }
 
 /**
@@ -123,8 +123,8 @@ export class elementVisibility {
     callback?: Function
   ): ElementVisibilityObject {
     // Cache the last known state in the closure.
-    let cachedChanges: any = [];
-    let cachedLastChange: any = null;
+    let cachedChanges: Array<IntersectionObserverEntry> | null = null;
+    let cachedLastChange: IntersectionObserverEntry | null = null;
     let cachedInview: boolean | null = null;
     let ready = false;
     const readyPromise: Defer = new Defer();
@@ -197,7 +197,10 @@ export class elementVisibility {
       cachedLastChange = null;
     };
 
-    const observer = new IntersectionObserver(onChange as any, options);
+    const observer = new IntersectionObserver(
+      onChange as IntersectionObserverCallback,
+      options
+    );
     observer.observe(element);
     return {
       observer: observer,

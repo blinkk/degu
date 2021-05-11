@@ -203,7 +203,7 @@ export class CssParallaxer {
       this.rafEv = elementVisibility.inview(
         this.element,
         this.settingsData!.rafEvOptions,
-        (element: any, changes: any) => {
+        (element: HTMLElement, changes: IntersectionObserverEntry) => {
           if (changes.isIntersecting) {
             this.updateImmediately();
             this.raf.start();

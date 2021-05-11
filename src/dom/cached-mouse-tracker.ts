@@ -30,6 +30,7 @@ export class CachedMouseTracker {
   // Use static variables so that independent instances can operate as a
   // singleton but be disposed separately without the user needing to worry
   // about the singleton pattern.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static uses: Set<any> = new Set();
   private static clientPosition: Vector | null;
   private static domWatcher: DomWatcher;

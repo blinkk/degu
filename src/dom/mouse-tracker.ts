@@ -25,7 +25,7 @@ export class MouseTracker {
    * The basic dimensions of the root element.
    * @type {Object}
    */
-  private dimensions_: any;
+  private dimensions_: Record<string, number>;
 
   /**
    * The callback for when there is mouse movement.
@@ -58,7 +58,7 @@ export class MouseTracker {
     disableMobile: boolean
   ) {
     this.rootElement_ = rootElement;
-    this.dimensions_ = null;
+    this.dimensions_ = {};
     this.moveCallBack = moveCallBack;
     this.mouseData = {};
     this.position = Vector.ZERO;
@@ -146,7 +146,7 @@ export class MouseTracker {
    * Handles the mouseRootElement move.
    * @type {MouseEvent}
    */
-  private onMouseMove(e: any) {
+  private onMouseMove(e: MouseEvent) {
     const x = e.pageX || e.clientX;
     const y = e.pageY || e.clientY;
     this.lastWindowY = window.scrollY;
@@ -175,9 +175,9 @@ export class MouseTracker {
    * Handles the device orientation.
    * @type {MouseEvent}
    */
-  private onDeviceOrientation(event: any) {
-    const x = mathf.clamp(-50, 50, event.gamma);
-    const y = mathf.clamp(-50, 50, event.beta);
+  private onDeviceOrientation(event: DeviceOrientationEvent) {
+    const x = mathf.clamp(-50, 50, <number>event.gamma);
+    const y = mathf.clamp(-50, 50, <number>event.beta);
 
     this.mouseData = {
       x: 0,

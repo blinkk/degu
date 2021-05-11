@@ -224,7 +224,7 @@ export class DomWatcher {
    * @param config
    */
   private addSingleEvent(config: DomWatcherConfig) {
-    const listener = (event: any) => {
+    const listener = (event: Event) => {
       if (config.runWhen) {
         config.runWhen() && config.callback(event);
       } else {

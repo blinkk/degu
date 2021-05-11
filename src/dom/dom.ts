@@ -335,7 +335,7 @@ export class dom {
   static whenVideosLoadedInElement(
     element: HTMLElement,
     timeout = 10000
-  ): Promise<any> {
+  ): Promise<void> {
     const videos = Array.from(element.querySelectorAll('video'));
     return this.whenVideosLoaded(videos, timeout);
   }
@@ -363,7 +363,9 @@ export class dom {
   static whenVideosLoaded(
     videos: Array<HTMLVideoElement>,
     timeout = 10000
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: Array<Promise<any>> = [];
     videos.forEach(video => {
       const defer = new Defer();
@@ -394,6 +396,7 @@ export class dom {
    * @param name
    * @param data
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static event(element: HTMLElement, name: string, data: any) {
     const event = new CustomEvent(name, {detail: data});
     element.dispatchEvent(event);
@@ -974,7 +977,7 @@ export class dom {
    * ```
    */
   static disableScrolling() {
-    const disabler = (e: any) => {
+    const disabler = (e: Event) => {
       e.preventDefault();
     };
 
