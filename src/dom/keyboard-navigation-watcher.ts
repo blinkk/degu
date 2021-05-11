@@ -63,17 +63,17 @@ export class KeyboardNavigationWatcher implements EventDispatcher {
 
   private setKeyboard() {
     if (this.state !== KeyboardNavigationEvents.KEYBOARD) {
+      this.state = KeyboardNavigationEvents.KEYBOARD;
       this.eventManager.dispatch(KeyboardNavigationEvents.KEYBOARD);
       this.eventManager.dispatch(KeyboardNavigationEvents.ANY_CHANGE);
-      this.state = KeyboardNavigationEvents.KEYBOARD;
     }
   }
 
   private setMouse() {
     if (this.state !== KeyboardNavigationEvents.MOUSE) {
+      this.state = KeyboardNavigationEvents.MOUSE;
       this.eventManager.dispatch(KeyboardNavigationEvents.MOUSE);
       this.eventManager.dispatch(KeyboardNavigationEvents.ANY_CHANGE);
-      this.state = KeyboardNavigationEvents.MOUSE;
     }
   }
 
