@@ -1,4 +1,4 @@
-import {dom} from '..';
+import * as dom from '../dom/dom';
 
 /**
  * A class that fetches a bunch of blobs.

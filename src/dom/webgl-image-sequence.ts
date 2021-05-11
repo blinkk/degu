@@ -1,4 +1,4 @@
-import {dom} from '../dom/dom';
+import * as dom from '../dom/dom';
 import {is} from '../is/is';
 import {func} from '../func/func';
 import {Defer} from '../func/defer';

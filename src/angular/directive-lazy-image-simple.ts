@@ -1,5 +1,5 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {dom} from '../dom/dom';
+import * as dom from '../dom/dom';
 import {is} from '../is/is';
 import {
   elementVisibility,

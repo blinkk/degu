@@ -61,7 +61,7 @@ Import specific files:
 ```ts
 import { mathf } from 'degu/lib/mathf/mathf/'
 import { is } from 'degu/lib/is/is/'
-import { dom } from 'degu/lib/dom/dom/'
+import * as dom from './dom';
 ```
 
 ## ThreeJS deps

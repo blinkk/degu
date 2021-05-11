@@ -1,5 +1,6 @@
 import {Carousel} from './carousel';
-import {dom, DomWatcher, mathf, Raf} from '../..';
+import * as dom from '../../dom/dom';
+import {DomWatcher, mathf, Raf} from '../..';
 import {Transition} from './transitions';
 import {CubicBezier, EasingFunction} from '../../mathf/cubic-bezier';
 import {arrayf} from '../../arrayf/arrayf';

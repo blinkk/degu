@@ -7,7 +7,7 @@ import {interpolateSettings} from '../interpolate/multi-interpolate';
 import {DomWatcher} from '../dom/dom-watcher';
 import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
 import {Raf} from '../raf/raf';
-import {dom} from '../dom/dom';
+import * as dom from '../dom/dom';
 import {mathf} from '../mathf/mathf';
 import {stringf} from '../string/stringf';
 

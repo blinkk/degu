@@ -1,5 +1,5 @@
 import {is} from '../is/is';
-import {dom} from '..';
+import * as dom from '../dom/dom';
 
 /**
  * A class the loads a given set of images.

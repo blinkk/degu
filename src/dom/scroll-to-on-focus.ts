@@ -1,5 +1,5 @@
 import {DomWatcher} from './dom-watcher';
-import {dom} from './dom';
+import * as dom from '../dom/dom';
 import {func} from '../func/func';
 import {is} from '../is/is';
 

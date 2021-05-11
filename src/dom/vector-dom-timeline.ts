@@ -1,5 +1,5 @@
 import {VectorDom, VectorDomComponent} from './vector-dom';
-import {dom} from '../dom/dom';
+import * as dom from '../dom/dom';
 import {EASE} from '../ease/ease';
 import {func} from '../func/func';
 import {mathf} from '../mathf/mathf';
