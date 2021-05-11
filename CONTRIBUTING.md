@@ -31,7 +31,7 @@ npm run test -- --watch
 
 npm run lint
     Lint project.
-npm run lint-fix
+npm run fix
     Auto fix lint issues.
 
 npm run start
@@ -67,11 +67,6 @@ npm run publish-coverage
 // Quick publish
 npm run publish
   Build docs, run test and coverage and publish all
-
-
-
-// Lint
-npm run fix
 ```
 
 
