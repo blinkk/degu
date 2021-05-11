@@ -167,7 +167,7 @@ export class ViewportCssParallax {
     this.rafEv = elementVisibility.inview(
       this.rafEvElement,
       this.settingsData.rafEvOptions,
-      (element: any, changes: any) => {
+      (element: HTMLElement, changes: IntersectionObserverEntry) => {
         if (changes.isIntersecting) {
           this.raf.start();
         } else {

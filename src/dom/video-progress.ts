@@ -31,7 +31,7 @@ export class VideoProgress {
    * TODO (uxder): Look for a better way to check completely readyState of video
    *     besides polling.
    */
-  load(): Promise<any> {
+  load(): Promise<void> {
     this.video.load();
     if (this.video.readyState === 4) {
       this.videoReady.resolve();

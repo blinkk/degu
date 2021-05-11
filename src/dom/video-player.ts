@@ -86,7 +86,7 @@ export class VideoPlayer {
    * TODO (uxder): Look for a better way to check completely readyState of video
    *     besides polling.
    */
-  public load(): Promise<any> {
+  public load(): Promise<void> {
     this.video.load();
     if (this.video.readyState === 4) {
       this.videoReady.resolve();

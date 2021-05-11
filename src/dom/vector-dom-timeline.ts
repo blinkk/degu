@@ -260,7 +260,7 @@ export class VectorDomTimeline implements VectorDomComponent {
    * For each key we have it's own progression and timeline.
    * @see [[VectorDomTimeline.generateStoryboard]] for more.
    */
-  private storyboard: Object;
+  private storyboard: Record<string, VectorDomTimelineObject[]>;
 
   /**
    * The timeline options.
@@ -270,7 +270,7 @@ export class VectorDomTimeline implements VectorDomComponent {
   /**
    * An internal set of css keys and their lastest values.
    */
-  private cssKeys: Record<string, any>;
+  private cssKeys: Record<string, number | string>;
 
   /**
    * @param vc  The vectorDom that this component is attached to.
@@ -378,8 +378,8 @@ export class VectorDomTimeline implements VectorDomComponent {
   static generateStoryboard(
     keys: Array<keyof VectorDomTimelineObject>,
     timeline: Array<VectorDomTimelineObject>
-  ): Object {
-    const storyboard = {} as Record<string, any>;
+  ): Record<string, VectorDomTimelineObject[]> {
+    const storyboard = {} as Record<string, VectorDomTimelineObject[]>;
     keys.forEach(key => {
       if (skipKeys.includes(key)) {
         return;
@@ -459,7 +459,7 @@ export class VectorDomTimeline implements VectorDomComponent {
    * @param progress
    */
   static getStartAndEndTimelineFromStoryboard(
-    storyboard: Record<string, any>,
+    storyboard: Record<string, VectorDomTimelineObject[]>,
     key: string,
     progress: number
   ): VectorDomStartEnd | null {
@@ -477,7 +477,7 @@ export class VectorDomTimeline implements VectorDomComponent {
 
     let previous = activeStoryboard[0];
 
-    activeStoryboard.forEach((timeline: any) => {
+    activeStoryboard.forEach((timeline: VectorDomTimelineObject) => {
       // Loop until the timeline progress is greater or equal than current
       // progress
       if (!done && timeline.progress >= progress && progress > 0) {
@@ -565,7 +565,7 @@ export class VectorDomTimeline implements VectorDomComponent {
         // If the key is a css var, internally cache it.  Otherwise,
         // update the value on the host.
         if (key.startsWith('--')) {
-          this.cssKeys[key] = value;
+          this.cssKeys[key] = value as string;
         } else {
           // A bit hacky but get all properties of VectorDom that are mutable
           // so that we can assign a value without typescript complaining.
@@ -573,6 +573,7 @@ export class VectorDomTimeline implements VectorDomComponent {
             -readonly [P in keyof VectorDom]: VectorDom[P];
           };
           const vectorDomKey: keyof MutableVectorDom = key as keyof MutableVectorDom;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this.host as any)[vectorDomKey] = value;
         }
       }
@@ -583,7 +584,7 @@ export class VectorDomTimeline implements VectorDomComponent {
    * Applies the css variables.  Unneccesary calls get culled by
    * func.runOnceOnChange.
    */
-  private setCssKeys_(cssVars: Record<string, any>) {
+  private setCssKeys_(cssVars: Record<string, number | string>) {
     /**
      * Render this element only when it is inview
      * for performance boost.

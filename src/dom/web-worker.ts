@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * A class that makes it really easy to work with web workers.
  *
@@ -189,3 +190,4 @@ export class WebWorker {
     this.worker && this.worker.terminate();
   }
 }
+/* eslint-enable */

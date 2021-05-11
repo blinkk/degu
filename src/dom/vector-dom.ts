@@ -524,7 +524,7 @@ export class VectorDom {
     // Memoize getBoundingClient .
     this.getBoundingClient = func.memoizeSimple(
       this.getBoundingClient.bind(this)
-    ) as any;
+    ) as () => ClientRect;
     // Make sure render only runs when changes are detected.
     this.render_ = func.runOnceOnChange(this.render_.bind(this));
   }

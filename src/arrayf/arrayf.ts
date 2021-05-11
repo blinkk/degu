@@ -7,6 +7,7 @@ export class arrayf {
   /**
    * A deep copy that works with objects or arrays.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static deepCopy(input: Array<any> | [key: string]): Array<any> | Object {
     let value, key;
 
@@ -14,6 +15,7 @@ export class arrayf {
       return input;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const output: Record<string, any> = Array.isArray(input) ? [] : {};
 
     for (key in input) {
