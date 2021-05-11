@@ -210,6 +210,7 @@ export class LazyVideo {
 
       // Tell the parent element (video) to load.
       this.video.load();
+      this.video.setAttribute('load', 'true');
 
       // Fire an event.
       dom.event(this.video, LazyVideoEvents.LOAD_START, {});
