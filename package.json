@@ -21,6 +21,7 @@
     "lib"
   ],
   "ava": {
+    "compileEnhancements": false,
     "extensions": [
       "ts"
     ],
