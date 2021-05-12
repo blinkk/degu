@@ -55,11 +55,11 @@
     "all": true
   },
   "devDependencies": {
-    "@babel/core": "7.4.0",
+    "@babel/core": "^7.14.2",
     "@babel/plugin-proposal-class-properties": "7.4.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/polyfill": "7.4.0",
-    "@babel/preset-env": "7.4.2",
+    "@babel/preset-env": "^7.14.2",
     "@types/angular": "1.6.57",
     "@types/angular-sanitize": "^1.7.0",
     "@types/dat-gui": "0.6.3",
@@ -73,7 +73,7 @@
     "angular-sanitize": "^1.7.9",
     "angular-touch": "1.7.9",
     "ava": "1.4.1",
-    "babel-loader": "8.0.5",
+    "babel-loader": "^8.2.2",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
     "browser-env": "3.2.6",
     "clean-webpack-plugin": "2.0.1",
