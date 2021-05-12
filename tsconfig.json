@@ -9,14 +9,15 @@
       "dom",
       "es2018"
     ],
-    "module": "commonjs",
+    "moduleResolution": "node",
+    "module": "es2015",
+    "target": "es2018",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "pretty": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2018",
     "outDir": "lib"
   },
   "exclude": [
