@@ -22,7 +22,8 @@
   ],
   "ava": {
     "require": [
-      "ts-node/register/transpile-only"
+      "ts-node/register/transpile-only",
+      "./_ava/_setup-browser-env.js"
     ],
     "extensions": [
       "ts"
