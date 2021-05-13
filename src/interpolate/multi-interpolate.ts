@@ -1,5 +1,5 @@
 import * as mathf from '../mathf/mathf';
-import {EASE} from '../ease/ease';
+import * as EASE from '../ease/ease';
 import {Interpolate} from './interpolate';
 
 export interface rangedProgress {

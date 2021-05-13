@@ -1,5 +1,5 @@
 import documentMouseTracker from './document-mouse-tracker';
-import {EASE} from '../ease/ease';
+import * as EASE from '../ease/ease';
 import * as mathf from '../mathf/mathf';
 import {MatrixIV} from '../mathf/matrixIV';
 import {Vector} from '../mathf/vector';

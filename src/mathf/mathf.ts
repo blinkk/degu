@@ -1,4 +1,4 @@
-import {EASE} from '../ease/ease';
+import * as EASE from '../ease/ease';
 
 export interface circ {
   radius: number;

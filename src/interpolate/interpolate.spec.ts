@@ -1,6 +1,6 @@
 import {Interpolate} from './interpolate';
 import * as mathf from '../mathf/mathf';
-import {EASE} from '../ease/ease';
+import * as EASE from '../ease/ease';
 import test from 'ava';
 
 test('linear interpolation', t => {
