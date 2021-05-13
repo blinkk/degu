@@ -3,7 +3,6 @@ import * as dat from 'dat.gui';
 import * as is from '../is/is';
 import * as color from '../mathf/color';
 
-
 export interface DatGuifFolder {
   name: string;
   // Date Gui folder instance.
