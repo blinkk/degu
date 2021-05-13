@@ -10,9 +10,9 @@
       "es2018"
     ],
     "moduleResolution": "node",
-    "module": "es2015",
+    "module": "commonJs",
     "target": "es2018",
-    "esModuleInterop": true,
+    // "esModuleInterop": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
