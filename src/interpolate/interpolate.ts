@@ -1,4 +1,4 @@
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {is} from '../is/is';
 import {color, ColorRGBA} from '../mathf/color';
 import {cssUnit, CssUnitObjectTypes} from '../string/css-unit';

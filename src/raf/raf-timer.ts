@@ -1,5 +1,5 @@
 import {time} from '../time/time';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {Raf} from './raf';
 
 /**

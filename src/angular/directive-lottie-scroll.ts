@@ -2,7 +2,7 @@ import lottie, {AnimationItem} from 'lottie-web';
 import {RafProgress} from '../raf/raf-progress';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as dom from '../dom/dom';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {func} from '../func/func';
 import {cssUnit} from '../string/css-unit';
 import {

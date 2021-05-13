@@ -1,6 +1,6 @@
 import * as $ from 'jquery';
 import * as dom from '../dom/dom';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {
   elementVisibility,
   ElementVisibilityObject,

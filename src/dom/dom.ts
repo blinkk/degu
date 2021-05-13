@@ -1,4 +1,4 @@
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {Defer} from '../func/defer';
 import {func} from '../func/func';
 import {is} from '../is/is';

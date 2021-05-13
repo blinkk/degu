@@ -1,6 +1,6 @@
 import documentMouseTracker from './document-mouse-tracker';
 import {EASE} from '../ease/ease';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {MatrixIV} from '../mathf/matrixIV';
 import {Vector} from '../mathf/vector';
 import {Quaternion} from '../mathf/quaternion';

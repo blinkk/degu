@@ -3,7 +3,7 @@ import {is} from '../is/is';
 import {func} from '../func/func';
 import {Defer} from '../func/defer';
 import {BlobLoader} from '../loader/blob-loader';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {DomWatcher} from '../dom/dom-watcher';
 import {
   MultiInterpolate,

@@ -1,6 +1,6 @@
 import {Defer} from '../func/defer';
 import {func} from '../func/func';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 
 /**
  * VideoProgress is a class that allows you to quick seek videos.

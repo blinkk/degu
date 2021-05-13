@@ -2,7 +2,7 @@ import {DomWatcher} from './dom-watcher';
 import {cssUnit} from '../string/css-unit';
 import {elementVisibility, ElementVisibilityObject} from './element-visibility';
 import * as dom from './dom';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {Raf} from '../raf/raf';
 import {func} from '../func/func';
 import {CssVarInterpolate} from '../interpolate/css-var-interpolate';

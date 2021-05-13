@@ -1,7 +1,7 @@
 /**
  * A static class that helps with arrays.
  */
-import {mathf} from '..';
+import * as mathf from '../mathf/mathf';
 
 export class arrayf {
   /**

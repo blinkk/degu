@@ -1,5 +1,5 @@
 import {Raf} from '../raf/raf';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import * as dom from '../dom/dom';
 
 import {DomWatcher} from './dom-watcher';

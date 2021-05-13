@@ -1,4 +1,4 @@
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {MultiInterpolate, multiInterpolateConfig} from './multi-interpolate';
 import {
   ElementVisibilityObject,

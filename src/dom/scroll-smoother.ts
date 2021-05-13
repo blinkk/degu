@@ -1,5 +1,5 @@
 import {DomWatcher} from './dom-watcher';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {Raf} from '../raf/raf';
 
 export interface ScrollSmootherConfig {

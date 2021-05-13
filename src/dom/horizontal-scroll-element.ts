@@ -1,6 +1,6 @@
 import {elementVisibility, ElementVisibilityObject} from './element-visibility';
 import {DomWatcher} from './dom-watcher';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import * as dom from '../dom/dom';
 import {Raf} from '../raf/raf';
 import {func} from '..';
