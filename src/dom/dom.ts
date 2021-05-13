@@ -154,7 +154,7 @@ export function getScrollYAtPercent(
   percent: number
 ) {
   const wh = window.innerHeight;
-  const top = dom.getScrollTop(element);
+  const top = getScrollTop(element);
   const start = top - wh + startOffset;
   const end = top - wh + element.offsetHeight + heightOffset;
   return mathf.lerp(start, end, percent);
@@ -219,7 +219,7 @@ export function addStyles(
 ) {
   for (const key in styles) {
     if (key.startsWith('--')) {
-      dom.setCssVariable(element, key, styles[key]);
+      setCssVariable(element, key, styles[key]);
     }
   }
   Object.assign(element.style, styles);
@@ -303,7 +303,7 @@ export function playAllVideosInElement(element: HTMLElement, reset = false) {
     if (reset) {
       video.currentTime = 0;
     }
-    if (!dom.testVideoIsPlaying(video)) {
+    if (!testVideoIsPlaying(video)) {
       const playPromise = video.play();
       playPromise.then(() => {}).catch();
     }
@@ -746,7 +746,7 @@ export function unflushVideos(el: HTMLElement, noPlay = false) {
   });
 
   if (!noPlay) {
-    dom.playAllVideosInElement(el);
+    playAllVideosInElement(el);
   }
 }
 
@@ -802,7 +802,7 @@ export function getScrollTop(el: HTMLElement, includeParent = false): number {
 export function forceFocus(el: HTMLElement) {
   // Check if we previously forced focused element in which case,
   // revert that to it's previously state.
-  dom.resetForceFocus();
+  resetForceFocus();
 
   const currentIndex = el.getAttribute('tabindex');
   if (is.defined(currentIndex) && !is.nullLike(currentIndex)) {
@@ -895,11 +895,11 @@ export function isDisplayNone(el: Element): boolean {
  * ```
  */
 export function isDisplayNoneWithAncestors(el: Element): boolean {
-  if (dom.isDisplayNone(el)) {
+  if (isDisplayNone(el)) {
     return true;
   }
   if (el.parentElement) {
-    return dom.isDisplayNoneWithAncestors(el.parentElement);
+    return isDisplayNoneWithAncestors(el.parentElement);
   }
   return false;
 }
@@ -913,7 +913,7 @@ export function isDisplayNoneWithAncestors(el: Element): boolean {
  */
 export function isVisibleOnScreen(el: HTMLElement): boolean {
   const checkVisibility = (el: HTMLElement): boolean => {
-    const styles = dom.getComputedStyle(el as HTMLElement);
+    const styles = getComputedStyle(el as HTMLElement);
     return !(
       styles.opacity !== '1' ||
       styles.visibility === 'hidden' ||
@@ -1021,7 +1021,7 @@ export function disableScrolling() {
  * @param el
  */
 export function unorphan(el: HTMLElement, lastOnly = false): void {
-  let allTextNodes = dom.getAllTextNodes(el as HTMLElement);
+  let allTextNodes = getAllTextNodes(el as HTMLElement);
   if (lastOnly) {
     allTextNodes = [allTextNodes[allTextNodes.length - 1]];
   }
