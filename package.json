@@ -24,15 +24,11 @@
     "require": [
       "ts-node/register/transpile-only"
     ],
-    "extensions": {
-      "ts": "module"
-    },
-    "nonSemVerExperiments": {
-      "configurableModuleFormat": true
-    },
-    "nodeArguments": [
-      "--loader=ts-node/esm",
-      "--experimental-specifier-resolution=node"
+    "extensions": [
+      "ts"
+    ],
+    "files": [
+      "src/**/*.spec.ts"
     ]
   },
   "nyc": {
@@ -126,7 +122,7 @@
     "prepare": "npm run build",
     "server": "node server",
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
-    "test": "ava",
+    "test": "TS_NODE_PROJECT='./tsconfig.test.json' ava",
     "clean": "gts clean",
     "fix": "gts fix",
     "pretest": "npm run compile",
