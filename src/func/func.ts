@@ -1,4 +1,4 @@
-import {time} from '../time/time';
+import * as time from '../time/time';
 
 /**
  *  A basic debounce implementation.  Debounce will basically wait X amount

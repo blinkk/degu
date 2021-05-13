@@ -1,4 +1,4 @@
-import {time} from '../time/time';
+import * as time from '../time/time';
 import {
   elementVisibility,
   ElementVisibilityObject,

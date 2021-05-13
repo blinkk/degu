@@ -1,4 +1,4 @@
-import {time} from '../time/time';
+import * as time from '../time/time';
 
 /**
  * A class that helps with time with fps.
