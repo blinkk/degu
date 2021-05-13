@@ -1097,6 +1097,7 @@ export const dom = {
   resetAllVideosInElement,
   resetForceFocus,
   runAfterWindowLoad,
+  runAfterNotTopOfScreen,
   setCssVariable,
   setCssVariables,
   testDescendant,
