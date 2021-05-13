@@ -1,4 +1,4 @@
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {RafProgress} from './raf-progress';
 import test from 'ava';
 

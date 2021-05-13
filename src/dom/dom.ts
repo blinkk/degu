@@ -1,7 +1,7 @@
 import * as mathf from '../mathf/mathf';
 import {Defer} from '../func/defer';
 import {func} from '../func/func';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {DomWatcher} from '../dom/dom-watcher';
 
 /**
@@ -805,7 +805,7 @@ export function forceFocus(el: HTMLElement) {
   dom.resetForceFocus();
 
   const currentIndex = el.getAttribute('tabindex');
-  if (is.defined(currentIndex) && !is.null(currentIndex)) {
+  if (is.defined(currentIndex) && !is.nullLike(currentIndex)) {
     el.setAttribute('forcetabindex', currentIndex!);
   } else {
     el.setAttribute('forcetabindex', 'none');
@@ -825,7 +825,7 @@ export function resetForceFocus() {
   );
   previouslyFocusedElement.forEach(element => {
     const tabIndex = element.getAttribute('forcetabindex');
-    if (is.defined(tabIndex) && !is.null(tabIndex) && tabIndex !== 'none') {
+    if (is.defined(tabIndex) && !is.nullLike(tabIndex) && tabIndex !== 'none') {
       element.setAttribute('tabindex', tabIndex!);
     } else {
       element.removeAttribute('tabindex');

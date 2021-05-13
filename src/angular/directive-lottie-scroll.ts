@@ -11,7 +11,7 @@ import {
 } from '../interpolate/multi-interpolate';
 import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
 import {RafTimer} from '../raf/raf-timer';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {CubicBezier} from '../mathf/cubic-bezier';
 
 export interface lottieRangedProgress extends rangedProgress {
@@ -530,8 +530,8 @@ export class LottieController {
 
       // If child progress is defined.
       if (
-        !is.null(lottieObject.fromProgress) &&
-        !is.null(lottieObject.toProgress)
+        !is.nullLike(lottieObject.fromProgress) &&
+        !is.nullLike(lottieObject.toProgress)
       ) {
         progress = mathf.childProgress(
           progress,
@@ -681,8 +681,8 @@ export class LottieController {
       if (lottieObject.lottieInstance && lottieObject.lottieInstance.isLoaded) {
         // If child progress is defined.
         if (
-          !is.null(lottieObject.fromProgress) &&
-          !is.null(lottieObject.toProgress)
+          !is.nullLike(lottieObject.fromProgress) &&
+          !is.nullLike(lottieObject.toProgress)
         ) {
           progress = mathf.childProgress(
             progress,

@@ -1,6 +1,6 @@
 import {DomWatcher} from './dom-watcher';
 import {func} from '../func/func';
-import {is} from '../is/is';
+import * as is from '../is/is';
 
 export interface ScrollToCenterOfScreenOnFocusConfig {
   /**
@@ -152,7 +152,7 @@ export class ScrollToCenterOfScreenOnFocus {
    */
   private handleFocus(focusedElement: HTMLElement) {
     const targetPercent = +focusedElement.getAttribute(this.selector)!;
-    const targetBaseline = !is.null(
+    const targetBaseline = !is.nullLike(
       focusedElement.getAttribute('data-base-line')
     )
       ? +focusedElement.getAttribute('data-base-line')!

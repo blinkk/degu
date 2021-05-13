@@ -37,18 +37,18 @@ test('number', t => {
 
 test('function', t => {
   t.is(
-    is.function(() => {}),
+    is.functionLike(() => {}),
     true
   );
-  t.is(is.function('hello'), false);
-  t.is(is.function({}), false);
-  t.is(is.function(undefined), false);
+  t.is(is.functionLike('hello'), false);
+  t.is(is.functionLike({}), false);
+  t.is(is.functionLike(undefined), false);
 });
 
 test('null', t => {
-  t.is(is.null(null), true);
-  t.is(is.null(undefined), false);
-  t.is(is.null(2), false);
+  t.is(is.nullLike(null), true);
+  t.is(is.nullLike(undefined), false);
+  t.is(is.nullLike(2), false);
 });
 
 test('undefined', t => {

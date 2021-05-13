@@ -6,7 +6,7 @@ import * as mathf from '../mathf/mathf';
 import {Raf} from '../raf/raf';
 import {func} from '../func/func';
 import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {interpolateSettings} from '../interpolate/multi-interpolate';
 import {InviewProgress} from './inview-progress';
 

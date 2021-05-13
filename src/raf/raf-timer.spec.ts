@@ -1,4 +1,4 @@
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {RafTimer} from './raf-timer';
 import test from 'ava';
 

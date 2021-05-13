@@ -1,5 +1,5 @@
 import * as dom from '../dom/dom';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {func} from '../func/func';
 import {Defer} from '../func/defer';
 import {BlobLoader} from '../loader/blob-loader';

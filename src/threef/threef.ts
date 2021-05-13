@@ -765,7 +765,7 @@ export class threef {
             dictionary[key].push(child);
           }
         }
-        if (is.function(value)) {
+        if (is.functionLike(value)) {
           if (value(child, child.type)) {
             dictionary[key].push(child);
           }

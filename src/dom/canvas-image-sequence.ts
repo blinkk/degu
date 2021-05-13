@@ -1,5 +1,5 @@
 import * as dom from '../dom/dom';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {func} from '../func/func';
 import {Defer} from '../func/defer';
 import {BlobLoader} from '../loader/blob-loader';
@@ -1337,7 +1337,7 @@ export class CanvasImageSequence {
 
     this.clear();
 
-    if (!is.null(this.clipPathType)) {
+    if (!is.nullLike(this.clipPathType)) {
       this.context.save();
       this.applyCanvasClipping();
     }
@@ -1472,7 +1472,7 @@ export class CanvasImageSequence {
       );
     }
 
-    if (!is.null(this.clipPathType)) {
+    if (!is.nullLike(this.clipPathType)) {
       this.context!.restore();
     }
 

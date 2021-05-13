@@ -1,4 +1,4 @@
-import {is} from '../is/is';
+import * as is from '../is/is';
 
 /**
  * Degu BOM (browser object model) function

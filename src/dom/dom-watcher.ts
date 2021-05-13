@@ -1,5 +1,5 @@
 import {bom} from '../dom/bom';
-import {is} from '../is/is';
+import * as is from '../is/is';
 
 export interface DomWatcherConfig {
   // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
