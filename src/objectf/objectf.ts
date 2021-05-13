@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {arrayf} from '../arrayf/arrayf';
+import * as arrayf from '../arrayf/arrayf';
 
 /**
  * A class that helps with objects.
