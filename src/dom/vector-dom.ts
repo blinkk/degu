@@ -4,7 +4,7 @@ import * as mathf from '../mathf/mathf';
 import {MatrixIV} from '../mathf/matrixIV';
 import {Vector} from '../mathf/vector';
 import {Quaternion} from '../mathf/quaternion';
-import {func} from '../func/func';
+import * as func from '../func/func';
 import * as is from '../is/is';
 import {MouseTracker} from './mouse-tracker';
 import {DomWatcher} from './dom-watcher';

@@ -1,6 +1,6 @@
 import * as mathf from '../mathf/mathf';
 import {Defer} from '../func/defer';
-import {func} from '../func/func';
+import * as func from '../func/func';
 import * as is from '../is/is';
 import {DomWatcher} from '../dom/dom-watcher';
 

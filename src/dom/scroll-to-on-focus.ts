@@ -1,6 +1,6 @@
 import {DomWatcher} from './dom-watcher';
 import * as dom from '../dom/dom';
-import {func} from '../func/func';
+import * as func from '../func/func';
 import * as is from '../is/is';
 
 export interface ScrollToOnFocusConfig {

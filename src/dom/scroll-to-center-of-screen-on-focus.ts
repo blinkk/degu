@@ -1,5 +1,5 @@
 import {DomWatcher} from './dom-watcher';
-import {func} from '../func/func';
+import * as func from '../func/func';
 import * as is from '../is/is';
 
 export interface ScrollToCenterOfScreenOnFocusConfig {

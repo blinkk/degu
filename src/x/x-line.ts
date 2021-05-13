@@ -1,4 +1,4 @@
-import {func} from '../func/func';
+import * as func from '../func/func';
 
 import {XGameObject, XGameObjectConfig} from './x-game-object';
 

@@ -1,4 +1,4 @@
-import {func} from '../func/func';
+import * as func from '../func/func';
 import {Raf} from '../raf/raf';
 import {XGameObject} from './x-game-object';
 import {XStage} from './x-stage';

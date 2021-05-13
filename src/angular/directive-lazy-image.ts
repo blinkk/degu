@@ -6,7 +6,7 @@ import {
   ElementVisibilityObject,
 } from '../dom/element-visibility';
 import {INgDisposable} from './i-ng-disposable';
-import {func} from '../func/func';
+import * as func from '../func/func';
 import {Raf} from '../raf/raf';
 
 export class LazyImage implements INgDisposable {

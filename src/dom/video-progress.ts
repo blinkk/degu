@@ -1,5 +1,5 @@
 import {Defer} from '../func/defer';
-import {func} from '../func/func';
+import * as func from '../func/func';
 import * as mathf from '../mathf/mathf';
 
 /**
