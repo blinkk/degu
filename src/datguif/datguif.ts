@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as dat from 'dat.gui';
 import * as is from '../is/is';
-import {color} from '../mathf/color';
+import * as color from '../mathf/color';
+
 
 export interface DatGuifFolder {
   name: string;
