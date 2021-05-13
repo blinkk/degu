@@ -1,4 +1,4 @@
-import {bom} from '../dom/bom';
+import * as bom from '../dom/bom';
 import * as is from '../is/is';
 
 export interface DomWatcherConfig {
