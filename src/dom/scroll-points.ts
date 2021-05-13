@@ -71,7 +71,8 @@ export class ScrollPoints {
   private prevY = 0;
   private scrollDirection = 0;
   private scrolling = false;
-  private jQuery: JQueryStatic;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private jQuery: any;
 
   constructor(config: ScrollPointsConfig) {
     this.config = config;
