@@ -1,11 +1,13 @@
-import { is } from '../../is/is';
-import { ScriptLoader } from '../../loader/script-loader';
+import {is} from '../../is/is';
+import {ScriptLoader} from '../../loader/script-loader';
 
 const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
 
 declare global {
   interface Window {
-    YT: any;
+    YT: {
+      loaded: number;
+    };
   }
 }
 
@@ -48,7 +50,7 @@ interface YouTubeModalConfig {
   /**
    * Extra options passed to `YT.Player`.
    */
-  playerVars?: any;
+  playerVars?: YT.PlayerVars;
 
   /**
    * A {@link ScriptLoader} object used for loading the YouTube IFrame API.
@@ -77,8 +79,6 @@ const defaultConfig: YouTubeModalConfig = {
   useHandlerOnMobile: true,
   transitionDuration: 300,
   parentSelector: 'body',
-  onModalOpen: null,
-  onModalClose: null,
   playerVars: {
     autohide: 1,
     autoplay: 1,
@@ -86,15 +86,15 @@ const defaultConfig: YouTubeModalConfig = {
     modestbranding: 1,
     rel: 0,
     showinfo: 0,
-    iv_load_policy: 3
+    iv_load_policy: 3,
   },
-  scriptLoader: new ScriptLoader()
+  scriptLoader: new ScriptLoader(),
 };
 
 const Key = {
   ENTER: 'Enter',
   ESC: 'Escape',
-  SPACE: ' '
+  SPACE: ' ',
 };
 
 /**
@@ -121,28 +121,25 @@ const Key = {
  */
 export class YouTubeModal {
   private readonly config: YouTubeModalConfig;
-  private container: Node;
+  private container: HTMLElement;
   private modalEl: HTMLElement;
   private closeEl: HTMLElement;
   private attributionEl: HTMLElement;
   private playerEl: HTMLElement;
-  private player: YT.Player;
-  private activeVideoId: string;
-  private lastScrollY: number;
-  private lastFocusedEl: HTMLElement;
+  private player?: YT.Player;
+  private activeVideoId?: string;
+  private lastScrollY?: number;
+  private lastFocusedEl?: HTMLElement;
   private isVisible = false;
 
   constructor(config: YouTubeModalConfig) {
     this.config = Object.assign({}, defaultConfig, config);
-  }
 
-  /**
-   * Renders the modal to the DOM.
-   */
-  render() {
-    this.container = document.querySelector(this.config.parentSelector);
+    this.container = document.querySelector(
+      this.config.parentSelector!
+    ) as HTMLElement;
 
-    const el = this.createDom('div', this.config.namespace);
+    const el = this.createDom('div', this.config.namespace!);
     el.setAttribute('aria-model', 'true');
     el.setAttribute('role', 'dialog');
 
@@ -192,8 +189,8 @@ export class YouTubeModal {
     }
 
     // Ensure the YT API is loaded. This is safe to call multiple times.
-    await this.config.scriptLoader.load(YOUTUBE_IFRAME_API, {
-      test: () => window.YT && window.YT.loaded === 1
+    await this.config.scriptLoader!.load(YOUTUBE_IFRAME_API, {
+      test: () => window.YT && window.YT.loaded === 1,
     });
 
     if (options.attribution) {
@@ -212,16 +209,16 @@ export class YouTubeModal {
       if (options.startTime) {
         playerVars.start = options.startTime;
       }
-      playerVars.options = location.protocol + '//' + location.host;
+      playerVars.origin = location.protocol + '//' + location.host;
 
       const playerOptions = {
         videoId,
         playerVars,
         events: {
-          onReady: (e: any) => {
+          onReady: (e: YT.PlayerEvent) => {
             e.target.playVideo();
-          }
-        }
+          },
+        },
       };
       this.player = new YT.Player(this.playerEl, playerOptions);
     }
@@ -234,8 +231,8 @@ export class YouTubeModal {
   getPlayOptionsFromAttrs(el: HTMLElement): PlayOptions {
     const playOptions: PlayOptions = {};
 
-    const startTime = +el.getAttribute(
-      `data-${this.config.namespace}-video-start-seconds`
+    const startTime = +(
+      el.getAttribute(`data-${this.config.namespace}-video-start-seconds`) || 0
     );
     if (startTime > 0) {
       playOptions.startTime = startTime;
@@ -267,21 +264,21 @@ export class YouTubeModal {
         if (this.config.onModalOpen) {
           this.config.onModalOpen(this);
         }
-      }, this.config.transitionDuration + 100);
+      }, this.config.transitionDuration! + 100);
     } else {
       window.setTimeout(() => {
         if (this.lastFocusedEl) {
           this.lastFocusedEl.focus();
-          this.lastFocusedEl = null;
+          this.lastFocusedEl = undefined;
         }
         window.scrollTo({
           left: 0,
-          top: this.lastScrollY
+          top: this.lastScrollY,
         });
         if (this.config.onModalClose) {
           this.config.onModalClose(this);
         }
-      }, this.config.transitionDuration + 100);
+      }, this.config.transitionDuration! + 100);
     }
 
     // Transition the modal's visibility state.
@@ -293,10 +290,12 @@ export class YouTubeModal {
    */
   dispose() {
     document.removeEventListener('click', this.handleEvent.bind(this));
-    document.removeEventListener('keydown', this.handleKeyboardEvent.bind(this));
+    document.removeEventListener(
+      'keydown',
+      this.handleKeyboardEvent.bind(this)
+    );
     if (this.modalEl) {
       this.container.removeChild(this.modalEl);
-      this.modalEl = null;
     }
   }
 
@@ -320,7 +319,7 @@ export class YouTubeModal {
    * Delegated event listener that handles clicks and keyboard events on any
    * element marked with the `data-degu-youtube-modal-video-id` attribute.
    */
-   private handleEvent(e: Event) {
+  private handleEvent(e: Event) {
     // Traverse the DOM tree until a videoId is found, if any.
     let target = e.target as HTMLElement;
     while (target) {
@@ -332,7 +331,7 @@ export class YouTubeModal {
         this.play(videoId, playOptions);
         return;
       }
-      target = target.parentElement;
+      target = target.parentElement as HTMLElement;
     }
   }
 
@@ -364,8 +363,8 @@ export class YouTubeModal {
    * Sets the visibility of the modal by transitioning CSS class states.
    */
   private setVisible(visible: boolean) {
-    if (this.player) {
-      window.setTimeout(() => {
+    window.setTimeout(() => {
+      if (this.player) {
         if (visible) {
           if (this.player.getPlayerState() !== YT.PlayerState.PLAYING) {
             this.player.playVideo();
@@ -373,8 +372,8 @@ export class YouTubeModal {
         } else {
           this.player.pauseVideo();
         }
-      }, 100);
-    }
+      }
+    }, 100);
 
     // Allow for CSS transitions by enabling the `--enabled` class then the
     // `--visible` class.
