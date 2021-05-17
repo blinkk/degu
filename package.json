@@ -68,6 +68,7 @@
     "@types/node": "^14.11.2",
     "@types/offscreencanvas": "^2019.6.2",
     "@types/three": "0.103.2",
+    "@types/youtube": "0.0.42",
     "angular": "1.7.9",
     "angular-animate": "1.7.9",
     "angular-sanitize": "^1.7.9",
