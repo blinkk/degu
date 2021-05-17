@@ -218,9 +218,9 @@ export class Inview {
   private static gatherTargetElements(config: InviewConfig): HTMLElement[] {
     const targetElements = [config.element];
     if (config.childSelector) {
-      Array.from(
-        config.element.querySelectorAll(config.childSelector)
-      ).forEach(el => targetElements.push(<HTMLElement>el));
+      Array.from(config.element.querySelectorAll(config.childSelector)).forEach(
+        el => targetElements.push(<HTMLElement>el)
+      );
     }
     return targetElements;
   }

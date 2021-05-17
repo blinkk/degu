@@ -458,11 +458,10 @@ export class LottieController {
             });
 
             // Create the css var interpolation.
-            this.lottieObjects[
-              i
-            ].cssInterpolatorInstance = new CssVarInterpolate(this.element, {
-              interpolations: this.lottieObjects[i].interpolations,
-            });
+            this.lottieObjects[i].cssInterpolatorInstance =
+              new CssVarInterpolate(this.element, {
+                interpolations: this.lottieObjects[i].interpolations,
+              });
             this.lottieObjects[i].cssInterpolatorInstance!.useBatchUpdate(true);
 
             this.lottieObjects[i].lottieInDom = true;
