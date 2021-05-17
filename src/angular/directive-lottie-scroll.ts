@@ -1,9 +1,9 @@
 import lottie, {AnimationItem} from 'lottie-web';
 import {RafProgress} from '../raf/raf-progress';
 import {DomWatcher} from '../dom/dom-watcher';
-import {dom} from '../dom/dom';
-import {mathf} from '../mathf/mathf';
-import {func} from '../func/func';
+import * as dom from '../dom/dom';
+import * as mathf from '../mathf/mathf';
+import * as func from '../func/func';
 import {cssUnit} from '../string/css-unit';
 import {
   interpolateSettings,
@@ -11,7 +11,7 @@ import {
 } from '../interpolate/multi-interpolate';
 import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
 import {RafTimer} from '../raf/raf-timer';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {CubicBezier} from '../mathf/cubic-bezier';
 
 export interface lottieRangedProgress extends rangedProgress {
@@ -529,8 +529,8 @@ export class LottieController {
 
       // If child progress is defined.
       if (
-        !is.null(lottieObject.fromProgress) &&
-        !is.null(lottieObject.toProgress)
+        !is.nullLike(lottieObject.fromProgress) &&
+        !is.nullLike(lottieObject.toProgress)
       ) {
         progress = mathf.childProgress(
           progress,
@@ -680,8 +680,8 @@ export class LottieController {
       if (lottieObject.lottieInstance && lottieObject.lottieInstance.isLoaded) {
         // If child progress is defined.
         if (
-          !is.null(lottieObject.fromProgress) &&
-          !is.null(lottieObject.toProgress)
+          !is.nullLike(lottieObject.fromProgress) &&
+          !is.nullLike(lottieObject.toProgress)
         ) {
           progress = mathf.childProgress(
             progress,

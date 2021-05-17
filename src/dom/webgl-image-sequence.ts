@@ -1,9 +1,9 @@
-import {dom} from '../dom/dom';
-import {is} from '../is/is';
-import {func} from '../func/func';
+import * as dom from '../dom/dom';
+import * as is from '../is/is';
+import * as func from '../func/func';
 import {Defer} from '../func/defer';
 import {BlobLoader} from '../loader/blob-loader';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {DomWatcher} from '../dom/dom-watcher';
 import {
   MultiInterpolate,

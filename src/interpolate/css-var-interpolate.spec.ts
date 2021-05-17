@@ -1,4 +1,4 @@
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {CssVarInterpolate} from './css-var-interpolate';
 import test from 'ava';
 

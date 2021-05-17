@@ -1,11 +1,11 @@
 import documentMouseTracker from './document-mouse-tracker';
-import {EASE} from '../ease/ease';
-import {mathf} from '../mathf/mathf';
+import * as EASE from '../ease/ease';
+import * as mathf from '../mathf/mathf';
 import {MatrixIV} from '../mathf/matrixIV';
 import {Vector} from '../mathf/vector';
 import {Quaternion} from '../mathf/quaternion';
-import {func} from '../func/func';
-import {is} from '../is/is';
+import * as func from '../func/func';
+import * as is from '../is/is';
 import {MouseTracker} from './mouse-tracker';
 import {DomWatcher} from './dom-watcher';
 import {ElementVisibilityObject, elementVisibility} from './element-visibility';
@@ -967,7 +967,7 @@ export class VectorDom {
 
     this.element.style.transform = transform;
     this.element.style.opacity = alpha + '';
-    if (!is.null(this.forcedZIndex)) {
+    if (!is.nullLike(this.forcedZIndex)) {
       this.element.style.zIndex = this.forcedZIndex + '';
     } else {
       this.element.style.zIndex =

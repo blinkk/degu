@@ -1,10 +1,10 @@
 import {VectorDom, VectorDomComponent} from './vector-dom';
-import {dom} from '../dom/dom';
-import {EASE} from '../ease/ease';
-import {func} from '../func/func';
-import {mathf} from '../mathf/mathf';
+import * as dom from '../dom/dom';
+import * as EASE from '../ease/ease';
+import * as func from '../func/func';
+import * as mathf from '../mathf/mathf';
 import {Vector} from '../mathf/vector';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {HermiteCurve} from '../mathf/hermite-curve';
 import {Interpolate} from '../interpolate/interpolate';
 

@@ -1,6 +1,6 @@
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {Vector} from '../mathf/vector';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {DomWatcher} from './dom-watcher';
 
 /**

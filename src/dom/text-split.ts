@@ -1,4 +1,4 @@
-import {dom} from './dom';
+import * as dom from '../dom/dom';
 
 export interface textSplitConfig {
   element: HTMLElement;

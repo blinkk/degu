@@ -1,4 +1,4 @@
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {XGameObject} from './x-game-object';
 import {Vector} from '../mathf/vector';
 

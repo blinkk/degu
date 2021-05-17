@@ -1,4 +1,4 @@
-import {dom} from './dom';
+import * as dom from '../dom/dom';
 import {DomWatcher} from './dom-watcher';
 
 export interface textSplit2Config {

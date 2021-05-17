@@ -1,9 +1,9 @@
-import {dom} from '../dom/dom';
-import {is} from '../is/is';
-import {func} from '../func/func';
+import * as dom from '../dom/dom';
+import * as is from '../is/is';
+import * as func from '../func/func';
 import {Defer} from '../func/defer';
 import {BlobLoader} from '../loader/blob-loader';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {DomWatcher} from '../dom/dom-watcher';
 import {
   MultiInterpolate,
@@ -1336,7 +1336,7 @@ export class CanvasImageSequence {
 
     this.clear();
 
-    if (!is.null(this.clipPathType)) {
+    if (!is.nullLike(this.clipPathType)) {
       this.context.save();
       this.applyCanvasClipping();
     }
@@ -1471,7 +1471,7 @@ export class CanvasImageSequence {
       );
     }
 
-    if (!is.null(this.clipPathType)) {
+    if (!is.nullLike(this.clipPathType)) {
       this.context!.restore();
     }
 

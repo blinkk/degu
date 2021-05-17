@@ -1,6 +1,6 @@
 import {Camera} from './camera';
 import {Mesh} from './mesh';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {MatrixIV} from '../mathf/matrixIV';
 import {Vector} from '../mathf/vector';
 import {domCanvas} from '../dom/dom-canvas';

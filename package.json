@@ -21,13 +21,12 @@
     "lib"
   ],
   "ava": {
-    "compileEnhancements": false,
+    "require": [
+      "ts-node/register/transpile-only",
+      "./_ava/_setup-browser-env.js"
+    ],
     "extensions": [
       "ts"
-    ],
-    "require": [
-      "ts-node/register",
-      "./_ava/_setup-browser-env.js"
     ],
     "files": [
       "src/**/*.spec.ts"
@@ -55,11 +54,11 @@
     "all": true
   },
   "devDependencies": {
-    "@babel/core": "7.4.0",
+    "@babel/core": "^7.14.2",
     "@babel/plugin-proposal-class-properties": "7.4.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/polyfill": "7.4.0",
-    "@babel/preset-env": "7.4.2",
+    "@babel/preset-env": "^7.14.2",
     "@types/angular": "1.6.57",
     "@types/angular-sanitize": "^1.7.0",
     "@types/dat-gui": "0.6.3",
@@ -73,8 +72,8 @@
     "angular-animate": "1.7.9",
     "angular-sanitize": "^1.7.9",
     "angular-touch": "1.7.9",
-    "ava": "1.4.1",
-    "babel-loader": "8.0.5",
+    "ava": "3.15.0",
+    "babel-loader": "^8.2.2",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
     "browser-env": "3.2.6",
     "clean-webpack-plugin": "2.0.1",
@@ -85,12 +84,12 @@
     "eslint": "^7.25.0",
     "eslint-config-google": "^0.14.0",
     "eslint-loader": "^4.0.2",
+    "esm": "^3.2.25",
     "express": "4.17.1",
     "file-loader": "3.0.1",
     "gts": "^3.1.0",
     "html-webpack-plugin": "4.0.0-beta.5",
     "intersection-observer": "0.7.0",
-    "lottie-web": "5.7.0",
     "mini-css-extract-plugin": "0.5.0",
     "node-sass": "4.12.0",
     "npm-run-all": "4.1.5",
@@ -105,7 +104,7 @@
     "typedoc": "0.14.2",
     "typedoc-plugin-external-module-map": "1.0.0",
     "typedoc-plugin-no-inherit": "1.1.8",
-    "typescript": "^4.0.3",
+    "typescript": "^4.2.4",
     "webpack": "4.29.6",
     "webpack-cli": "3.3.0",
     "webpack-dev-middleware": "3.7.0",
@@ -125,7 +124,7 @@
     "prepare": "npm run build",
     "server": "node server",
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
-    "test": "ava",
+    "test": "TS_NODE_PROJECT='./tsconfig.test.json' ava",
     "clean": "gts clean",
     "fix": "gts fix",
     "pretest": "npm run compile",
@@ -136,6 +135,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "gts": "^3.1.0",
     "jquery": "^3.4.1",
+    "lottie-web": "5.7.0",
     "save-dev": "0.0.1-security"
   }
 }

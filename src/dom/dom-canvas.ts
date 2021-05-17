@@ -1,5 +1,6 @@
 import {Vector} from '../mathf/vector';
-import {color, ColorRGB} from '../mathf/color';
+import * as color from '../mathf/color';
+import {ColorRGB} from '../mathf/color';
 
 /**
  * Very basic HTML5 canvas helper methods.

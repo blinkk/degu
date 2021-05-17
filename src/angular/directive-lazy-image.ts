@@ -1,12 +1,12 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {dom} from '../dom/dom';
-import {is} from '../is/is';
+import * as dom from '../dom/dom';
+import * as is from '../is/is';
 import {
   elementVisibility,
   ElementVisibilityObject,
 } from '../dom/element-visibility';
 import {INgDisposable} from './i-ng-disposable';
-import {func} from '../func/func';
+import * as func from '../func/func';
 import {Raf} from '../raf/raf';
 
 export class LazyImage implements INgDisposable {

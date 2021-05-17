@@ -1,5 +1,5 @@
 import {MultiInterpolate, multiInterpolateHelper} from './multi-interpolate';
-import {EASE} from '../ease/ease';
+import * as EASE from '../ease/ease';
 import test from 'ava';
 
 test('Check Invalid Ranged progresses', t => {

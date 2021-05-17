@@ -1,10 +1,10 @@
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {MultiInterpolate, multiInterpolateConfig} from './multi-interpolate';
 import {
   ElementVisibilityObject,
   elementVisibility,
 } from '../dom/element-visibility';
-import {dom} from '../dom/dom';
+import * as dom from '../dom/dom';
 import {cssUnit} from '../string/css-unit';
 import {objectf} from '../objectf/objectf';
 

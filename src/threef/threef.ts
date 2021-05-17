@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
-import {mathf} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {is} from '..';
 import {Defer} from '../func/defer';
 
@@ -765,7 +765,7 @@ export class threef {
             dictionary[key].push(child);
           }
         }
-        if (is.function(value)) {
+        if (is.functionLike(value)) {
           if (value(child, child.type)) {
             dictionary[key].push(child);
           }

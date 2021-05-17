@@ -1,6 +1,6 @@
 import * as $ from 'jquery';
-import {dom} from '../dom/dom';
-import {mathf} from '../mathf/mathf';
+import * as dom from '../dom/dom';
+import * as mathf from '../mathf/mathf';
 import {
   elementVisibility,
   ElementVisibilityObject,
@@ -71,7 +71,8 @@ export class ScrollPoints {
   private prevY = 0;
   private scrollDirection = 0;
   private scrolling = false;
-  private jQuery: JQueryStatic;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private jQuery: any;
 
   constructor(config: ScrollPointsConfig) {
     this.config = config;

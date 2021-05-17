@@ -1,5 +1,5 @@
 import {time} from './time';
-import {is} from '../is/is';
+import * as is from '../is/is';
 import test from 'ava';
 
 test('time is defined', t => {

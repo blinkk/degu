@@ -1,5 +1,5 @@
-import {is} from '../is/is';
-import {mathf} from '../mathf/mathf';
+import * as is from '../is/is';
+import * as mathf from '../mathf/mathf';
 
 export interface ProgressWatcherItem {
   range: number | number[];

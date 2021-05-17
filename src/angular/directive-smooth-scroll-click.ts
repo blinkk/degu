@@ -4,7 +4,8 @@ import * as $ from 'jquery';
  * A service that smooth scrolls to a specific #id.
  */
 class SmoothScrollController {
-  private jQuery: JQueryStatic;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private jQuery: any;
   private id: string;
   private offset: number;
   private $element: ng.IRootElementService;

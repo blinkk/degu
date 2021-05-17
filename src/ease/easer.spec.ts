@@ -1,4 +1,4 @@
-import {is} from '../is/is';
+import * as is from '../is/is';
 import {Easer} from './easer';
 import test from 'ava';
 

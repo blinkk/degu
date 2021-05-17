@@ -1,6 +1,6 @@
 import {dom, is, Raf} from '..';
 import {DomWatcher} from '../dom/dom-watcher';
-import {func} from '../func/func';
+import * as func from '../func/func';
 import {urlParams} from '../dom/url-params';
 
 export interface HighlightElementGroup {
