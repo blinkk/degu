@@ -572,7 +572,8 @@ export class VectorDomTimeline implements VectorDomComponent {
           type MutableVectorDom = {
             -readonly [P in keyof VectorDom]: VectorDom[P];
           };
-          const vectorDomKey: keyof MutableVectorDom = key as keyof MutableVectorDom;
+          const vectorDomKey: keyof MutableVectorDom =
+            key as keyof MutableVectorDom;
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (this.host as any)[vectorDomKey] = value;
         }
