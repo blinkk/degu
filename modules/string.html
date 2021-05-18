@@ -78,7 +78,6 @@
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/string.cssunit.html" class="tsd-kind-icon">css<wbr>Unit</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/string.stringf.html" class="tsd-kind-icon">stringf</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -87,7 +86,265 @@
 								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/string.cssunitobject.html" class="tsd-kind-icon">Css<wbr>Unit<wbr>Object</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="string.html#alphanumeric" class="tsd-kind-icon">alpha<wbr>Numeric</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="string.html#numberwithcommas" class="tsd-kind-icon">number<wbr>With<wbr>Commas</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="string.html#numeric" class="tsd-kind-icon">numeric</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="string.html#slugify" class="tsd-kind-icon">slugify</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="string.html#uuid" class="tsd-kind-icon">uuid</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="string.html#zeropad" class="tsd-kind-icon">zero<wbr>Pad</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal tsd-parent-kind-external-module"><a href="string.html#stringf" class="tsd-kind-icon">stringf</a></li>
+							</ul>
+						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="alphanumeric" class="tsd-anchor"></a>
+					<h3>alpha<wbr>Numeric</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">alpha<wbr>Numeric<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L65">string/stringf.ts:65</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Only returns alpha numberic values.  Handy for quick sanitization
+									in selext cases.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="numberwithcommas" class="tsd-anchor"></a>
+					<h3>number<wbr>With<wbr>Commas</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">number<wbr>With<wbr>Commas<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L56">string/stringf.ts:56</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Given a number, outputs it with commas.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="numeric" class="tsd-anchor"></a>
+					<h3>numeric</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">numeric<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L69">string/stringf.ts:69</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="slugify" class="tsd-anchor"></a>
+					<h3>slugify</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">slugify<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L5">string/stringf.ts:5</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Slugifies a string.
+									<a href="https://gist.github.com/hagemann/382adfc57adbd5af078dc93feef01fe1">https://gist.github.com/hagemann/382adfc57adbd5af078dc93feef01fe1</a></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="uuid" class="tsd-anchor"></a>
+					<h3>uuid</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">uuid<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L45">string/stringf.ts:45</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="zeropad" class="tsd-anchor"></a>
+					<h3>zero<wbr>Pad</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">zero<wbr>Pad<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L37">string/stringf.ts:37</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A basic zero padding.</p>
+								</div>
+								<pre><code><span class="hljs-built_in">string</span>f.zeroPad(<span class="hljs-string">'1'</span>) ---&gt; <span class="hljs-number">01</span>
+<span class="hljs-built_in">string</span>f.zeroPad(<span class="hljs-string">'0'</span>) ---&gt; <span class="hljs-number">00</span>
+<span class="hljs-built_in">string</span>f.zeroPad(<span class="hljs-string">'9'</span>) ---&gt; <span class="hljs-number">09</span>
+<span class="hljs-built_in">string</span>f.zeroPad(<span class="hljs-string">'10'</span>) ---&gt; <span class="hljs-number">10</span>
+<span class="hljs-built_in">string</span>f.zeroPad(<span class="hljs-string">'22'</span>) ---&gt; <span class="hljs-number">10</span></code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-external-module">
+					<a name="stringf" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> stringf</h3>
+					<div class="tsd-signature tsd-kind-icon">stringf<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L73">string/stringf.ts:73</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="stringf.alphanumeric-1" class="tsd-anchor"></a>
+						<h3>alpha<wbr>Numeric</h3>
+						<div class="tsd-signature tsd-kind-icon">alpha<wbr>Numeric<span class="tsd-signature-symbol">:</span> <a href="string.html#alphanumeric" class="tsd-signature-type">alphaNumeric</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L78">string/stringf.ts:78</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="stringf.numberwithcommas-1" class="tsd-anchor"></a>
+						<h3>number<wbr>With<wbr>Commas</h3>
+						<div class="tsd-signature tsd-kind-icon">number<wbr>With<wbr>Commas<span class="tsd-signature-symbol">:</span> <a href="string.html#numberwithcommas" class="tsd-signature-type">numberWithCommas</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L77">string/stringf.ts:77</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="stringf.numeric-1" class="tsd-anchor"></a>
+						<h3>numeric</h3>
+						<div class="tsd-signature tsd-kind-icon">numeric<span class="tsd-signature-symbol">:</span> <a href="string.html#numeric" class="tsd-signature-type">numeric</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L79">string/stringf.ts:79</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="stringf.slugify-1" class="tsd-anchor"></a>
+						<h3>slugify</h3>
+						<div class="tsd-signature tsd-kind-icon">slugify<span class="tsd-signature-symbol">:</span> <a href="string.html#slugify" class="tsd-signature-type">slugify</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L74">string/stringf.ts:74</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="stringf.uuid-1" class="tsd-anchor"></a>
+						<h3>uuid</h3>
+						<div class="tsd-signature tsd-kind-icon">uuid<span class="tsd-signature-symbol">:</span> <a href="string.html#uuid" class="tsd-signature-type">uuid</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L76">string/stringf.ts:76</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="stringf.zeropad-1" class="tsd-anchor"></a>
+						<h3>zero<wbr>Pad</h3>
+						<div class="tsd-signature tsd-kind-icon">zero<wbr>Pad<span class="tsd-signature-symbol">:</span> <a href="string.html#zeropad" class="tsd-signature-type">zeroPad</a></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkkcode/degu/blob/6f7751d/src/string/stringf.ts#L75">string/stringf.ts:75</a></li>
+							</ul>
+						</aside>
+					</section>
 				</section>
 			</section>
 		</div>
@@ -179,11 +436,29 @@
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/string.cssunit.html" class="tsd-kind-icon">css<wbr>Unit</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/string.stringf.html" class="tsd-kind-icon">stringf</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/string.cssunitobject.html" class="tsd-kind-icon">Css<wbr>Unit<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="string.html#alphanumeric" class="tsd-kind-icon">alpha<wbr>Numeric</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="string.html#numberwithcommas" class="tsd-kind-icon">number<wbr>With<wbr>Commas</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="string.html#numeric" class="tsd-kind-icon">numeric</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="string.html#slugify" class="tsd-kind-icon">slugify</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="string.html#uuid" class="tsd-kind-icon">uuid</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="string.html#zeropad" class="tsd-kind-icon">zero<wbr>Pad</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
+						<a href="string.html#stringf" class="tsd-kind-icon">stringf</a>
 					</li>
 				</ul>
 			</nav>

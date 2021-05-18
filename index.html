@@ -107,7 +107,7 @@ worker.run({a: <span class="hljs-number">5</span>, b: <span class="hljs-number">
 				<p>Import specific files:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { mathf } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/mathf/mathf/'</span>
 <span class="hljs-keyword">import</span> { is } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/is/is/'</span>
-<span class="hljs-keyword">import</span> { dom } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/dom/dom/'</span></code></pre>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> dom <span class="hljs-keyword">from</span> <span class="hljs-string">'./dom'</span>;</code></pre>
 				<h2 id="threejs-deps">ThreeJS deps</h2>
 				<p>Classes under <code>threef</code> require three.js deps. Currently supports r110.</p>
 				<pre><code class="language-bash">npm install --save-dev three@0.110.0
