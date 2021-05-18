@@ -1,5 +1,5 @@
 import {mathf} from './mathf';
-import {is} from '..';
+import {is} from '../is/is';
 
 export interface ColorRGBA {
   r: number;
