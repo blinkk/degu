@@ -4,7 +4,7 @@
   "description": "A general utility library for interactive websites, with a focus on performance.",
   "author": "Blinkk <hello@blinkk.com>",
   "main": "lib/index.js",
-  "module": "lib/index.es.js",
+  "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib"
@@ -115,7 +115,7 @@
     "build": "rm -rf lib && mkdir lib && tsc",
     "build-watch": "tsc --watch",
     "compile": "tsc",
-    "coverage": "nyc ava",
+    "coverage": "TS_NODE_PROJECT='./tsconfig.test.json' nyc ava",
     "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
     "dev-no-test": "concurrently \"tsc --watch\" \"npm run start\"",
     "doc": "typedoc",
