@@ -113,11 +113,101 @@ const Key = {
  * ```
  * const options = {...};
  * const ytModal = new YouTubeModal(options);
- * ytModal.render();
  * ```
  *
  * When the button is clicked (or triggered via keyboard), a full-screen modal
  * should appear and the YouTube video should automatically play.
+ *
+ * 3) Add SASS:
+ *
+ * ```
+ * $ytmodal-button-height: 50px !default
+ * $ytmodal-color-black: #000 !default
+ * $ytmodal-color-white: #fff !default
+ * $ytmodal-z-index: 2000 !default
+ *
+ * [data-degu-youtube-modal-video-id]
+ *   cursor: pointer
+ *
+ * .degu-youtube-modal
+ *   display: none
+ *   height: 100%
+ *   left: 0
+ *   opacity: 0
+ *   position: fixed
+ *   top: 0
+ *   transform: scale(1.15)
+ *   transition: all 0.3s cubic-bezier(.4,0,.2,1)
+ *   visibility: hidden
+ *   width: 100%
+ *   z-index: $ytmodal-z-index
+ *
+ *   &--enabled
+ *     display: block
+ *
+ *   &--visible
+ *     opacity: 1
+ *     transform: scale(1)
+ *     visibility: visible
+ *
+ * .degu-youtube-modal__x
+ *   align-items: center
+ *   background: $ytmodal-color-black
+ *   border: 2px solid rgba(99, 96, 96, 0.6)
+ *   border-radius: 50%
+ *   color: $ytmodal-color-white
+ *   cursor: pointer
+ *   display: flex
+ *   font-size: $ytmodal-button-height
+ *   height: $ytmodal-button-height
+ *   justify-content: center
+ *   line-height: $ytmodal-button-height
+ *   opacity: 0.8
+ *   overflow: hidden
+ *   position: absolute
+ *   right: 3.69853vw
+ *   text-align: center
+ *   top: 3.69853vw
+ *   transition: all 0.3s
+ *   width: $ytmodal-button-height
+ *   z-index: $ytmodal-z-index + 3
+ *
+ *   &:before
+ *     content: "\00D7"
+ *     display: block
+ *     font-family: 'arial', sans-serif
+ *     font-size: $ytmodal-button-height - 10px
+ *     height: $ytmodal-button-height - 10px
+ *     line-height: 1
+ *     text-align: center
+ *     margin-top: 2px
+ *     width: $ytmodal-button-height - 10px
+ *
+ *   &:hover
+ *     color: $ytmodal-color-black
+ *     background: $ytmodal-color-white
+ *
+ * .degu-youtube-modal__mask
+ *   background: $ytmodal-color-black
+ *   height: 100%
+ *   left: 0
+ *   position: absolute
+ *   top: 0
+ *   width: 100%
+ *   z-index: $ytmodal-z-index + 1
+ *
+ * .degu-youtube-modal__player
+ *   height: calc(100vh - 7.39707vw)
+ *   left: 50%
+ *   // Use max-height and max-width to fix the player to 16:9.
+ *   max-height: calc((100vw - 22.19121vw) * 9/16)
+ *   max-width: calc((100vh - 7.39707vw) * 16/9)
+ *   position: absolute
+ *   top: 50%
+ *   transform: translateX(-50%) translateY(-50%)
+ *   width: calc(100vw - 22.19121vw)
+ *   z-index: $ytmodal-z-index + 2
+ * ```
  */
 export class YouTubeModal {
   private readonly config: YouTubeModalConfig;
