@@ -6,7 +6,7 @@ import {
 } from '../dom/element-visibility';
 import * as dom from '../dom/dom';
 import {cssUnit} from '../string/css-unit';
-import {objectf} from '../objectf/objectf';
+import * as objectf from '../objectf/objectf';
 
 /**
  * A class that allows you to multiInterpolate css variables.
