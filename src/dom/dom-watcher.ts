@@ -1,5 +1,4 @@
 import * as bom from '../dom/bom';
-import * as is from '../is/is';
 
 export interface DomWatcherConfig {
   // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
@@ -207,7 +206,7 @@ export class DomWatcher {
   add(config: DomWatcherConfig) {
     // Check whether config.on is a array with multiple events such
     // as ['click', 'mousemove'] or is a single event.
-    if (is.array(config.on)) {
+    if (Array.isArray(config.on)) {
       const events = config.on as string[];
       events.forEach((eventName: string) => {
         const clone = Object.assign({}, config);
