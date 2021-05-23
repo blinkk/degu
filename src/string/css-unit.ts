@@ -1,5 +1,10 @@
-import * as is from '../is/is';
-import {ColorRGBA, color} from '../mathf/color';
+import {
+  cssRgb as isCssRgb,
+  cssRgba as isCssRgba,
+  cssHex as isCssHex,
+} from '../is/is';
+import {ColorRGBA} from '../mathf/color';
+import * as color from '../mathf/color';
 
 /**
  * The different types of structures that can be passed.
@@ -99,15 +104,15 @@ export class cssUnit {
       originalValue: css,
     };
 
-    if (is.cssRgba(css)) {
+    if (isCssRgba(css)) {
       result.type = CssUnitObjectTypes.rgba;
       result.value = color.cssToRgba(css);
       result.valueType = CssUnitObjectTypes.rgba;
-    } else if (is.cssRgb(css)) {
+    } else if (isCssRgb(css)) {
       result.type = CssUnitObjectTypes.rgb;
       result.value = color.cssToRgba(css);
       result.valueType = CssUnitObjectTypes.rgba;
-    } else if (is.cssHex(css)) {
+    } else if (isCssHex(css)) {
       result.value = color.cssToRgba(css);
       result.type = CssUnitObjectTypes.cssHex;
       result.valueType = CssUnitObjectTypes.rgba;

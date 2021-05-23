@@ -1,4 +1,4 @@
-import {mathf} from './mathf';
+import * as mathf from './mathf';
 import {Vector} from './vector';
 
 interface RayCastObject {

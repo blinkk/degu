@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 import * as mathf from '../mathf/mathf';
-import {is} from '..';
+import * as is from '../is/is';
 import {Defer} from '../func/defer';
 
 export interface threefGltfLoader {

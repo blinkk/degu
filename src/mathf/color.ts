@@ -1,4 +1,4 @@
-import {mathf} from './mathf';
+import * as mathf from '../mathf/mathf';
 import * as is from '../is/is';
 
 export interface ColorRGBA {

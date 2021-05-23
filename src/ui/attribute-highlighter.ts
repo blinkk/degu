@@ -1,4 +1,6 @@
-import {dom, is, Raf} from '..';
+import {Raf} from '../raf/raf';
+import * as dom from '../dom/dom';
+import * as is from '../is/is';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
 import * as urlParams from '../dom/url-params';

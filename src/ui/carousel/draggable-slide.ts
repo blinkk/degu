@@ -1,11 +1,13 @@
-import {Carousel} from './carousel';
-import * as dom from '../../dom/dom';
-import {DomWatcher, mathf, Raf} from '../..';
-import {Transition} from './transitions';
-import {CubicBezier, EasingFunction} from '../../mathf/cubic-bezier';
 import * as arrayf from '../../arrayf/arrayf';
-import {DefaultMap} from '../../map/default-map';
+import * as dom from '../../dom/dom';
+import * as mathf from '../../mathf/mathf';
 import {CachedMouseTracker} from '../../dom/cached-mouse-tracker';
+import {Carousel} from './carousel';
+import {CubicBezier, EasingFunction} from '../../mathf/cubic-bezier';
+import {DefaultMap} from '../../map/default-map';
+import {DomWatcher} from '../../dom/dom-watcher';
+import {Raf} from '../../raf/raf';
+import {Transition} from './transitions';
 
 /**
  * Small enum for readability when traversing slide indices.

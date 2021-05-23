@@ -1,7 +1,7 @@
 /**
  * A export function class that helps with arrays.
  */
-import * as mathf from '../mathf/mathf';
+import {wrap} from '../mathf/mathf';
 
 /**
  * A deep copy that works with objects or arrays.
@@ -113,11 +113,11 @@ export function loopSlice<T>(
   const result: T[] = [];
   const length = values.length;
   const increment = Math.sign(direction);
-  const endIndex = mathf.wrap(rawEndIndex, 0, length);
-  let index = mathf.wrap(startIndex, 0, length);
+  const endIndex = wrap(rawEndIndex, 0, length);
+  let index = wrap(startIndex, 0, length);
   while (index !== endIndex) {
     result.push(values[index]);
-    index = mathf.wrap(index + increment, 0, length);
+    index = wrap(index + increment, 0, length);
   }
   return result;
 }

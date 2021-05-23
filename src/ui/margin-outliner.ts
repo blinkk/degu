@@ -1,5 +1,5 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {urlParams} from '../dom/url-params';
+import * as urlParams from '../dom/url-params';
 
 export interface MarginOutlinerConfig {
   /**

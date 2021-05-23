@@ -1,7 +1,7 @@
 import {Vector} from './vector';
 import {Quaternion} from './quaternion';
 // import {MatrixIV} from './matrixIV';
-import {mathf} from './mathf';
+import * as mathf from './mathf';
 import test from 'ava';
 
 test('Create', t => {

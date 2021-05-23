@@ -1,4 +1,5 @@
-import {DomWatcher, Raf} from '..';
+import {DomWatcher} from '../dom/dom-watcher';
+import {Raf} from '../raf/raf';
 import {Vector} from '../mathf/vector';
 
 const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchstart', 'touchmove'];

@@ -1,4 +1,4 @@
-import {is} from '../../is/is';
+import * as is from '../../is/is';
 import {ScriptLoader} from '../../loader/script-loader';
 
 const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';

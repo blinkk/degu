@@ -1,5 +1,5 @@
 import * as EASE from '../ease/ease';
-import {mathf} from './mathf';
+import * as mathf from './mathf';
 import {MatrixIV} from './matrixIV';
 
 /**

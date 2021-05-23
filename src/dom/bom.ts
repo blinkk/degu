@@ -1,4 +1,15 @@
-import * as is from '../is/is';
+import {
+  ieOrEdge as isIeOrEdge,
+  edge as isEdge,
+  ie as isIe,
+  mobile as isMobile,
+  chrome as isChrome,
+  safari as isSafari,
+  ios as isIos,
+  firefox as isFirefox,
+  ipad as isIpad,
+  android as isAndroid,
+} from '../is/is';
 
 /**
  * Acts just like a regular window resize but fixes resize thrashing that
@@ -38,7 +49,7 @@ export function smartResize(callback: Function, options: Object): Function {
   let width = 0;
   const handler: EventListener = e => {
     const currentWidth = window.innerWidth;
-    const allowCallback = !is.mobile() || width !== currentWidth;
+    const allowCallback = !isMobile() || width !== currentWidth;
     if (allowCallback) {
       callback(e);
       width = currentWidth;
@@ -63,17 +74,17 @@ export function smartResize(callback: Function, options: Object): Function {
  */
 export function appendBrowserNameToElement(element: HTMLElement) {
   const checks: {[key: string]: Function} = {
-    ieOrEdge: is.ieOrEdge,
-    edge: is.edge,
-    ie: is.ie,
-    mobile: is.mobile,
-    safari: is.safari,
-    chrome: is.chrome,
-    chromeOs: is.chrome,
-    firefox: is.firefox,
-    ios: is.ios,
-    ipad: is.ipad,
-    android: is.android,
+    ieOrEdge: isIeOrEdge,
+    edge: isEdge,
+    ie: isIe,
+    mobile: isMobile,
+    safari: isSafari,
+    chrome: isChrome,
+    chromeOs: isChrome,
+    firefox: isFirefox,
+    ios: isIos,
+    ipad: isIpad,
+    android: isAndroid,
   };
 
   for (const key in checks) {

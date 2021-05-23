@@ -1,8 +1,9 @@
-import {CssClassesOnly, DraggableSlide, Transition} from './transitions';
-import {mathf, Raf} from '../..';
-import {EventDispatcher, EventManager} from '../events';
-import * as setf from '../../setf/setf';
 import * as arrayf from '../../arrayf/arrayf';
+import * as mathf from '../../mathf/mathf';
+import * as setf from '../../setf/setf';
+import {CssClassesOnly, DraggableSlide, Transition} from './transitions';
+import {EventDispatcher, EventManager} from '../events';
+import {Raf} from '../../raf/raf';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 

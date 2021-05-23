@@ -1,4 +1,4 @@
-import * as bom from '../dom/bom';
+import {smartResize} from '../dom/bom';
 
 export interface DomWatcherConfig {
   // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
@@ -235,7 +235,7 @@ export class DomWatcher {
 
     // If the on event is smartResize, wrap it with dom.smartResize.
     if (config.on === 'smartResize') {
-      config.remover = bom.smartResize(listener, config.eventOptions || {});
+      config.remover = smartResize(listener, config.eventOptions || {});
     } else {
       // Add listening.
       config.element.addEventListener(

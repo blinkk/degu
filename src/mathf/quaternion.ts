@@ -1,4 +1,4 @@
-import {mathf} from './mathf';
+import * as mathf from './mathf';
 import {MatrixIV} from './matrixIV';
 import {Vector} from './vector';
 
