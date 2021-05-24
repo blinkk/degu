@@ -462,56 +462,56 @@ export function bot(): boolean {
 /**
  * A utility function that generally tests the state of things.
  */
-export class is {
-  static android = android;
-  static array = array;
-  static boolean = boolean;
-  static bot = bot;
-  static chrome = chrome;
-  static chromeOs = chromeOs;
-  static cssHex = cssHex;
-  static cssRgb = cssRgb;
-  static cssRgba = cssRgba;
-  static date = date;
-  static defined = defined;
-  static edge = edge;
-  static even = even;
-  static firefox = firefox;
-  static float = float;
-  static function = functionLike;
-  static functionLike = functionLike;
-  static hex = hex;
-  static ie = ie;
-  static ieOrEdge = ieOrEdge;
-  static int = int;
-  static ios = ios;
-  static ipad = ipad;
-  static isGoogleCloudLikeUrl = isGoogleCloudLikeUrl;
-  static isLandscape = landscape;
-  static isPortrait = portrait;
-  static landscape = landscape;
-  static mobile = mobile;
-  static multipleOf = multipleOf;
-  static nan = nan;
-  static null = nullLike;
-  static nullLike = nullLike;
-  static number = number;
-  static object = object;
-  static odd = odd;
-  static portrait = portrait;
-  static powerOf2 = powerOf2;
-  static regex = regex;
-  static safari = safari;
-  static string = string;
-  static supportingAdvancedCssCalc = supportingAdvancedCssCalc;
-  static supportingCreateImageBitmap = supportingCreateImageBitmap;
-  static supportingDeviceOrientation = supportingDeviceOrientation;
-  static supportingFileApis = supportingFileApis;
-  static supportingOffScreenCanvas = supportingOffScreenCanvas;
-  static supportingTouch = supportingTouch;
-  static supportingWebp = supportingWebp;
-  static supportingWebpAsync = supportingWebpAsync;
-  static type = type;
-  static undefined = undefinedLike;
-  static windowLoaded = windowLoaded;
-}
+export const is = {
+  android,
+  array,
+  boolean,
+  bot,
+  chrome,
+  chromeOs,
+  cssHex,
+  cssRgb,
+  cssRgba,
+  date,
+  defined,
+  edge,
+  even,
+  firefox,
+  float,
+  functionLike,
+  function: functionLike,
+  hex,
+  ie,
+  ieOrEdge,
+  int,
+  ios,
+  ipad,
+  isGoogleCloudLikeUrl,
+  landscape,
+  portrait,
+  isLandscape: landscape,
+  mobile,
+  multipleOf,
+  nan,
+  nullLike,
+  null: nullLike,
+  number,
+  object,
+  odd,
+  isPortrait: portrait,
+  powerOf2,
+  regex,
+  safari,
+  string,
+  supportingAdvancedCssCalc,
+  supportingCreateImageBitmap,
+  supportingDeviceOrientation,
+  supportingFileApis,
+  supportingOffScreenCanvas,
+  supportingTouch,
+  supportingWebp,
+  supportingWebpAsync,
+  type,
+  undefined: undefinedLike,
+  windowLoaded,
+};
