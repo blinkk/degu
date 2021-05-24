@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.2](https://www.github.com/blinkk/degu/compare/v1.0.1...v1.0.2) (2021-05-24)
+
+
+### Miscellaneous Chores
+
+* release 1.0.2 ([9c56661](https://www.github.com/blinkk/degu/commit/9c56661459979c55454a8eaea01d73a2f5d2d543))
+
 ### [1.0.1](https://www.github.com/blinkkcode/degu/compare/v1.0.0...v1.0.1) (2021-05-19)
 
 
