@@ -3,7 +3,8 @@ import {ThreeInspector} from './three-inspector';
 
 import {elementVisibility} from '../dom/element-visibility';
 import {DomWatcher} from '../dom/dom-watcher';
-import {is, mathf} from '..';
+import * as mathf from '../mathf/mathf';
+import * as is from '../is/is';
 
 export enum SceneResizingAlgo {
   /**
