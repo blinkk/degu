@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/9</span>
+        <span class='fraction'>0/10</span>
       </div>
     </div>
     <p class="quiet">
@@ -95,7 +95,25 @@
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -109,24 +127,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -142,64 +142,76 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Gets a specific cookie entry by name.
+ * @param name
+ *
+ * ```ts
+ * cookie.getItem('myCookie'); // return cookie value.
+ * ```
+ */
+export function <span class="fstat-no" title="function not covered" >getItem(</span>name: string) {
+  const result = <span class="cstat-no" title="statement not covered" >document.cookie.match(</span>
+    '(^|[^;]+)\\s*' + name + '\\s*=\\s*([^;]+)'
+  );
+<span class="cstat-no" title="statement not covered" >  return result ? result.pop() : '';</span>
+}
+&nbsp;
+/**
+ * Sets a specific cookie.
+ * @param name
+ * @param value
+ * @param days
+ * ```ts
+ * cookie.setItem('userOptedOut', 'true', 10000); // return cookie value.
+ * ```
+ * https://stackoverflow.com/questions/7215547/how-to-update-and-delete-a-cookie
+ */
+export function <span class="fstat-no" title="function not covered" >setItem(</span>name: string, value: string, days: number) {
+  let expires;
+<span class="cstat-no" title="statement not covered" >  if (days) {</span>
+    const date = <span class="cstat-no" title="statement not covered" >new Date();</span>
+<span class="cstat-no" title="statement not covered" >    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);</span>
+<span class="cstat-no" title="statement not covered" >    expires = '; expires=' + date.toUTCString();</span>
+  } else {
+<span class="cstat-no" title="statement not covered" >    expires = '';</span>
+  }
+<span class="cstat-no" title="statement not covered" >  document.cookie = name + '=' + value + expires + '; path=/';</span>
+}
+&nbsp;
+/**
+ * Deletes a given cookie by name.
+ * @param name
+ */
+export function <span class="fstat-no" title="function not covered" >deleteItem(</span>name: string) {
+<span class="cstat-no" title="statement not covered" >  setItem(name, '', -1);</span>
+}
+&nbsp;
+/**
  * A helper class to work with cookies.
  */
-export class cookies {
-  /**
-   * Gets a specific cookie entry by name.
-   * @param name
-   *
-   * ```ts
-   * cookie.getItem('myCookie'); // return cookie value.
-   * ```
-   */
-<span class="fstat-no" title="function not covered" >  st</span>atic getItem(name: string) {
-    const result = <span class="cstat-no" title="statement not covered" >document.cookie.match(</span>
-      '(^|[^;]+)\\s*' + name + '\\s*=\\s*([^;]+)'
-    );
-<span class="cstat-no" title="statement not covered" >    return result ? result.pop() : '';</span>
-  }
-&nbsp;
-  /**
-   * Sets a specific cookie.
-   * @param name
-   * @param value
-   * @param days
-   * ```ts
-   * cookie.setItem('userOptedOut', 'true', 10000); // return cookie value.
-   * ```
-   * https://stackoverflow.com/questions/7215547/how-to-update-and-delete-a-cookie
-   */
-<span class="fstat-no" title="function not covered" >  st</span>atic setItem(name: string, value: string, days: number) {
-    let expires;
-<span class="cstat-no" title="statement not covered" >    if (days) {</span>
-      const date = <span class="cstat-no" title="statement not covered" >new Date();</span>
-<span class="cstat-no" title="statement not covered" >      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);</span>
-<span class="cstat-no" title="statement not covered" >      expires = '; expires=' + date.toUTCString();</span>
-    } else {
-<span class="cstat-no" title="statement not covered" >      expires = '';</span>
-    }
-<span class="cstat-no" title="statement not covered" >    document.cookie = name + '=' + value + expires + '; path=/';</span>
-  }
-&nbsp;
-  /**
-   * Deletes a given cookie by name.
-   * @param name
-   */
-<span class="fstat-no" title="function not covered" >  st</span>atic deleteItem(name: string) {
-<span class="cstat-no" title="statement not covered" >    cookies.setItem(name, '', -1);</span>
-  }
-}
+export const cookies = <span class="cstat-no" title="statement not covered" >{</span>
+  getItem,
+  setItem,
+  deleteItem,
+};
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 23 2021 22:36:01 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon May 24 2021 22:32:51 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

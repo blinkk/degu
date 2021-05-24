@@ -109,8 +109,27 @@
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -119,23 +138,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -145,6 +150,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -152,10 +164,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -170,10 +180,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable @typescript-eslint/no-explicit-any */
-/**
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Color utility functions.
  * @see http://krazydad.com/tutorials/makecolors.php
  * @hidden
@@ -197,9 +204,11 @@ export class colors {
 &nbsp;
 <span class="fstat-no" title="function not covered" >  st</span>atic hexToRgb(hexValue: string) {
     const rgx = <span class="cstat-no" title="statement not covered" >/^#?([a-f\d])([a-f\d])([a-f\d])$/i;</span>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hex = <span class="cstat-no" title="statement not covered" >hexValue.replace(rgx, <span class="fstat-no" title="function not covered" >(m</span>: any, r: any, g: any, b: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      return r + r + g + g + b + b;</span>
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rgb: any = <span class="cstat-no" title="statement not covered" >/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);</span>
     const r = <span class="cstat-no" title="statement not covered" >parseInt(rgb[1], 16);</span>
     const g = <span class="cstat-no" title="statement not covered" >parseInt(rgb[2], 16);</span>
@@ -207,11 +216,14 @@ export class colors {
 <span class="cstat-no" title="statement not covered" >    return 'rgb(' + r + ',' + g + ',' + b + ')';</span>
   }
 &nbsp;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 <span class="fstat-no" title="function not covered" >  st</span>atic hslToRgb(hslString: any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hsl: any = <span class="cstat-no" title="statement not covered" >/hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(hslString);</span>
     const h = <span class="cstat-no" title="statement not covered" >parseInt(hsl[1]) / 360;</span>
     const s = <span class="cstat-no" title="statement not covered" >parseInt(hsl[2]) / 100;</span>
     const l = <span class="cstat-no" title="statement not covered" >parseInt(hsl[3]) / 100;</span>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hue2rgb = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >fu</span>nction (p: any, q: any, t: any) {</span>
 <span class="cstat-no" title="statement not covered" >      if (t &lt; 0) <span class="cstat-no" title="statement not covered" >t += 1;</span></span>
 <span class="cstat-no" title="statement not covered" >      if (t &gt; 1) <span class="cstat-no" title="statement not covered" >t -= 1;</span></span>
@@ -220,6 +232,8 @@ export class colors {
 <span class="cstat-no" title="statement not covered" >      if (t &lt; 2 / 3) <span class="cstat-no" title="statement not covered" >return p + (q - p) * (2 / 3 - t) * 6;</span></span>
 <span class="cstat-no" title="statement not covered" >      return p;</span>
     };
+&nbsp;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let r: any, g: any, b: any;
 <span class="cstat-no" title="statement not covered" >    if (s === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      r = g = b = l;</span>
@@ -233,15 +247,13 @@ export class colors {
 <span class="cstat-no" title="statement not covered" >    return 'rgb(' + r * 255 + ',' + g * 255 + ',' + b * 255 + ')';</span>
   }
 }
-&nbsp;
-/* eslint-enable */
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 23 2021 22:36:01 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon May 24 2021 22:32:51 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
