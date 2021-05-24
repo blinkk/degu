@@ -59,8 +59,8 @@ worker.run({a: 5, b: 2}).then((result)=> {
 Import specific files:
 
 ```ts
-import { mathf } from 'degu/lib/mathf/mathf/'
-import { is } from 'degu/lib/is/is/'
+import * as mathf from 'degu/lib/mathf/mathf/'
+import * as is from 'degu/lib/is/is/'
 import * as dom from './dom';
 ```
 

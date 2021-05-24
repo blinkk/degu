@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * A utility class to run a simple convex hull monotone chain algo.
  * @see https://goo.gl/20M7Aw
@@ -60,8 +59,8 @@ export class ConvexHull {
    * @param  {number} b The second point.
    * @return {boolean} Whether the points cross.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cross(o: number, a: number, b: number): any {
     return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
   }
 }
-/* eslint-enable */

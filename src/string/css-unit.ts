@@ -1,8 +1,4 @@
-import {
-  cssRgb as isCssRgb,
-  cssRgba as isCssRgba,
-  cssHex as isCssHex,
-} from '../is/is';
+import * as is from '../is/is';
 import {ColorRGBA} from '../mathf/color';
 import * as color from '../mathf/color';
 
@@ -46,6 +42,48 @@ export interface CssUnitObject {
 }
 
 /**
+ * Takes a css unit value like '10px' or '20vw' and parses it into
+ * a CssUnitObject.
+ * @param css
+ */
+export function parse(css: string): CssUnitObject {
+  // const value = css.match(/-?\d+/g);
+  const value = css.replace(/[a-zA-Z%]+/g, '');
+  const unit = css.match(/[a-zA-Z%]+/g);
+
+  const result: CssUnitObject = {
+    value: null,
+    unit: null,
+    type: null,
+    valueType: null,
+    originalValue: css,
+  };
+
+  if (is.cssRgba(css)) {
+    result.type = CssUnitObjectTypes.rgba;
+    result.value = color.cssToRgba(css);
+    result.valueType = CssUnitObjectTypes.rgba;
+  } else if (is.cssRgb(css)) {
+    result.type = CssUnitObjectTypes.rgb;
+    result.value = color.cssToRgba(css);
+    result.valueType = CssUnitObjectTypes.rgba;
+  } else if (is.cssHex(css)) {
+    result.value = color.cssToRgba(css);
+    result.type = CssUnitObjectTypes.cssHex;
+    result.valueType = CssUnitObjectTypes.rgba;
+  } else {
+    result.value = value ? +value : null;
+    result.unit = unit ? unit[0] : null;
+    result.type = CssUnitObjectTypes.unit;
+    result.valueType = CssUnitObjectTypes.number;
+  }
+
+  result.originalValue = css;
+
+  return result;
+}
+
+/**
  * A class that helps parsing of css units.
  *
  *
@@ -85,46 +123,6 @@ export interface CssUnitObject {
  *
  * ```
  */
-export class cssUnit {
-  /**
-   * Takes a css unit value like '10px' or '20vw' and parses it into
-   * a CssUnitObject.
-   * @param css
-   */
-  static parse(css: string): CssUnitObject {
-    // const value = css.match(/-?\d+/g);
-    const value = css.replace(/[a-zA-Z%]+/g, '');
-    const unit = css.match(/[a-zA-Z%]+/g);
-
-    const result: CssUnitObject = {
-      value: null,
-      unit: null,
-      type: null,
-      valueType: null,
-      originalValue: css,
-    };
-
-    if (isCssRgba(css)) {
-      result.type = CssUnitObjectTypes.rgba;
-      result.value = color.cssToRgba(css);
-      result.valueType = CssUnitObjectTypes.rgba;
-    } else if (isCssRgb(css)) {
-      result.type = CssUnitObjectTypes.rgb;
-      result.value = color.cssToRgba(css);
-      result.valueType = CssUnitObjectTypes.rgba;
-    } else if (isCssHex(css)) {
-      result.value = color.cssToRgba(css);
-      result.type = CssUnitObjectTypes.cssHex;
-      result.valueType = CssUnitObjectTypes.rgba;
-    } else {
-      result.value = value ? +value : null;
-      result.unit = unit ? unit[0] : null;
-      result.type = CssUnitObjectTypes.unit;
-      result.valueType = CssUnitObjectTypes.number;
-    }
-
-    result.originalValue = css;
-
-    return result;
-  }
-}
+export const cssUnit = {
+  parse,
+};

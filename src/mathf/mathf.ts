@@ -1379,7 +1379,7 @@ export function smoothStart3(t: number): number {
 /**
  * Implements basic smooth stop.  See EASE for more.
  */
-function smoothStop3(t: number): number {
+export function smoothStop3(t: number): number {
   return 1 - (1 - t) * (1 - t) * (1 - t);
 }
 

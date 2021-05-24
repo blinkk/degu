@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as dat from 'dat.gui';
 import * as is from '../is/is';
 import * as color from '../mathf/color';
@@ -27,6 +26,7 @@ export interface guiDisplayConfig {
   /**
    * Optional step value.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options?: any;
 
   /**
@@ -114,6 +114,7 @@ export class Datguif {
     //@see https://github.com/dataarts/dat.gui/blob/master/API.md#new_GUI_new
     guiParams: dat.GUIParams
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const options: any = guiParams;
     if (!options) {
       options.load = JSON;
@@ -144,6 +145,7 @@ export class Datguif {
   // Adds a to level button
   addButton(label: string, callback: Function) {
     const id = label.replace(' ', '_');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const obj: any = {};
     obj[id] = callback;
     this.gui.add(obj, label.replace(' ', '_'));
@@ -205,6 +207,7 @@ export class Datguif {
 
   addObjectPropertyToFolder(
     folderName: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     obj: any,
     config: guiDisplayConfig
   ) {
@@ -218,6 +221,7 @@ export class Datguif {
     // If this looks "color" like.  Convert it to color and then handle
     // the update when it comes back. (Support for Three.Color)
     if (value.r && value.g && value.b) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const colorObj: any = {};
       colorObj[config.keyName] = color.normalizedRgbToRgb(
         color.colorRgbToRgb(value)
@@ -291,4 +295,3 @@ export class Datguif {
     }
   }
 }
-/* eslint-enable */

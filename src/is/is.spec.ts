@@ -1,4 +1,4 @@
-import {is} from './is';
+import * as is from './is';
 import test from 'ava';
 
 test('boolean', t => {
@@ -52,9 +52,9 @@ test('null', t => {
 });
 
 test('undefined', t => {
-  t.is(is.undefined(undefined), true);
-  t.is(is.undefined(null), false);
-  t.is(is.undefined(2), false);
+  t.is(is.undefinedLike(undefined), true);
+  t.is(is.undefinedLike(null), false);
+  t.is(is.undefinedLike(2), false);
 });
 
 test('defined', t => {

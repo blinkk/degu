@@ -1,4 +1,3 @@
-import * as time from '../time/time';
 import {
   elementVisibility,
   ElementVisibilityObject,
@@ -532,7 +531,7 @@ export class Raf {
     this.isRunningRaf = true;
 
     if (this.lastUpdateTime) {
-      const current = time.now();
+      const current = Date.now();
       const elapsed = current - this.lastUpdateTime;
       this.delta = elapsed;
       this.elaspedTime += elapsed / 1000;
@@ -553,12 +552,12 @@ export class Raf {
             }
           });
 
-        this.lastUpdateTime = time.now();
+        this.lastUpdateTime = Date.now();
       }
     }
 
     if (!this.lastUpdateTime) {
-      this.lastUpdateTime = time.now();
+      this.lastUpdateTime = Date.now();
     }
   }
 }
