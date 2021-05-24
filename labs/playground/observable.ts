@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Observer} from './observer';
 
 /**
@@ -78,7 +77,9 @@ export class Observable {
     const mapHandler = (observer: Observer) => {
       return this.subscribe(
         new Observer({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onNext: (val: any) => observer.onNext(mapFunction(val)),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onError: (e: any) => observer.onError(e),
           onComplete: () => observer.onComplete(),
         })
@@ -103,8 +104,10 @@ export class Observable {
    * ```
    * @param args
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static of(...args: any): any {
     const ofHandler = (observer: Observer) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       args.forEach((val: any) => {
         observer.onNext(val);
       });
@@ -147,6 +150,7 @@ export class Observable {
     eventName: string
   ): Observable {
     const fromEventHandler = (observer: Observer): Object => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const callbackFn = (e: any) => {
         observer.onNext(e);
       };
@@ -162,4 +166,3 @@ export class Observable {
     return obs;
   }
 }
-/* eslint-enable */

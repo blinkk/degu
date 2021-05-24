@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as THREE from 'three';
 import * as mathf from '../mathf/mathf';
 import * as is from '../is/is';
@@ -7,6 +6,7 @@ import {Defer} from '../func/defer';
 export interface threefGltfLoader {
   gltfPath: string;
   animationMarkerPath: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   gltfLoader: any;
 }
 
@@ -14,6 +14,7 @@ export interface threefGltfLoader {
  * A bunch of util for three.js
  */
 export class threef {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static deguThreefTempBoxHelper: any;
 
   /**
@@ -63,8 +64,10 @@ export class threef {
     const defer = new Defer();
 
     // Start loading gltf.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let gltfData: Record<string, any> = {};
     const gltfFetch = new Promise(resolve => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       config.gltfLoader.load(config.gltfPath, (gltf: any) => {
         gltfData = gltf;
         resolve({});
@@ -82,6 +85,7 @@ export class threef {
           .then(response => {
             return response.json();
           })
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .then((markerData: any) => {
             animationMarkerData = markerData;
             resolve({});
@@ -232,11 +236,14 @@ export class threef {
     camera: THREE.PerspectiveCamera,
     width: number,
     height: number,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options?: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any {
     const box = new THREE.Box3().setFromObject(object);
 
     // Get box corners.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const corners: Record<string, Record<string, any>> = {
       '000': {
         color: 0xffffff, // White
@@ -333,6 +340,7 @@ export class threef {
       object.visible = false;
       // TODO (uxder): This doesn't exist on mesh according to docs.
       // Need to investigate if we can just remove this.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (object as any)['alwaysInvisible'] = true;
       for (const key of Object.keys(corners)) {
         const corner = corners[key];
@@ -374,6 +382,7 @@ export class threef {
    * ```
    * @param object Object contains x,y,z
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static blenderToThreeEuler(euler: any) {
     return {
       x: -euler.x,
@@ -395,6 +404,7 @@ export class threef {
    * ```
    * @param vec3
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static blenderToThreeVec3(vec3: any) {
     return {
       x: -vec3.x,
@@ -557,8 +567,11 @@ export class threef {
 
     return new THREE.Vector3(
       // TODO (uxder): Figure out type fix here.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (vec3 as any)[xValue] * xFactor,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (vec3 as any)[yValue] * yFactor,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (vec3 as any)[zValue] * zFactor
     );
   }
@@ -733,8 +746,10 @@ export class threef {
    */
   static createObjectDictionaryFromScene(
     scene: THREE.Scene,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mapping: Record<string, any>
   ): Object {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dictionary: Record<string, any> = {
       // Stores objects by name.
       byName: {},
@@ -784,4 +799,3 @@ export class threef {
     return scene;
   }
 }
-/* eslint-enable */

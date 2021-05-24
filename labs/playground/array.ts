@@ -1,12 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @hidden
  */
 export class array {
   // Credit http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static shuffle(array: any) {
     let currentIndex: number = array.length,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       temporaryValue: any,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       randomIndex: any;
 
     // While there remain elements to shuffle...
@@ -24,4 +26,3 @@ export class array {
     return array;
   }
 }
-/* eslint-enable */

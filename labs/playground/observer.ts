@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface observerConfig {
   onNext?: Function;
   onError?: Function;
@@ -39,6 +38,7 @@ export class Observer {
    * Handles the callback when the observable notified next.
    * @param {T} value - Observableから提供される値
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onNext(value: any) {
     this.next_(value);
   }
@@ -47,6 +47,7 @@ export class Observer {
    * Handles the callback when the observable notified error.
    * @param {any} err - Observableから提供される値
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onError(err: any) {
     this.error_(err);
   }
@@ -58,4 +59,3 @@ export class Observer {
     this.complete_();
   }
 }
-/* eslint-enable */

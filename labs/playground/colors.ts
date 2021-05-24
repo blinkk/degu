@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Color utility functions.
  * @see http://krazydad.com/tutorials/makecolors.php
@@ -23,9 +22,11 @@ export class colors {
 
   static hexToRgb(hexValue: string) {
     const rgx = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hex = hexValue.replace(rgx, (m: any, r: any, g: any, b: any) => {
       return r + r + g + g + b + b;
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rgb: any = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     const r = parseInt(rgb[1], 16);
     const g = parseInt(rgb[2], 16);
@@ -33,11 +34,14 @@ export class colors {
     return 'rgb(' + r + ',' + g + ',' + b + ')';
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static hslToRgb(hslString: any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hsl: any = /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(hslString);
     const h = parseInt(hsl[1]) / 360;
     const s = parseInt(hsl[2]) / 100;
     const l = parseInt(hsl[3]) / 100;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hue2rgb = function (p: any, q: any, t: any) {
       if (t < 0) t += 1;
       if (t > 1) t -= 1;
@@ -46,6 +50,8 @@ export class colors {
       if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
       return p;
     };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let r: any, g: any, b: any;
     if (s === 0) {
       r = g = b = l;
@@ -59,5 +65,3 @@ export class colors {
     return 'rgb(' + r * 255 + ',' + g * 255 + ',' + b * 255 + ')';
   }
 }
-
-/* eslint-enable */

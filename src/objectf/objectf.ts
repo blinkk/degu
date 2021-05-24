@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as arrayf from '../arrayf/arrayf';
 
 /**
@@ -6,7 +5,9 @@ import * as arrayf from '../arrayf/arrayf';
  * @alias arrayf.deepcopy.
  */
 export function deepCopy(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   input: Array<any> | [key: string]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Array<any> | Object {
   return arrayf.deepCopy(input);
 }
@@ -17,6 +18,7 @@ export function deepCopy(
  * has limited usage.
  * @param object
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function jsonCopy(obj: Object | Array<any>): Object | Array<any> {
   return JSON.parse(JSON.stringify(obj));
 }
@@ -27,7 +29,9 @@ export function jsonCopy(obj: Object | Array<any>): Object | Array<any> {
  * @param b
  */
 export function areEqual(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   a: {[key: string]: any},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   b: {[key: string]: any}
 ): boolean {
   const aProps = Object.getOwnPropertyNames(a);
@@ -81,4 +85,3 @@ export const objectf = {
   copy,
   forEach,
 };
-/* eslint-enable */

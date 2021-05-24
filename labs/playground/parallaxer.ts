@@ -1,15 +1,18 @@
 import {MouseTracker} from '../../src/dom/mouse-tracker';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * A class that creates a parallax effect based on the mouse position.
  * @hidden
  */
 export class Parallaxer {
   private animate_: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private mousePosition_: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private rotationSensitivity: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private translateSensitivity: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private transformValues: any;
   private pivotElement_: HTMLElement | undefined;
   private rootElement_: HTMLElement;
@@ -25,7 +28,9 @@ export class Parallaxer {
    */
   constructor(
     rootElement: HTMLElement,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rotationSensitivity: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     translateSensitity: any,
     pivotElement?: HTMLElement
   ) {
@@ -82,6 +87,7 @@ export class Parallaxer {
 
     this.mouseTracker_ = new MouseTracker(
       this.pivotElement_ || document.body,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (mousePosition: any) => {
         this.mousePosition_ = mousePosition;
       },
@@ -162,5 +168,3 @@ export class Parallaxer {
     this.rootElement_.style.transformOrigin = '50% 50%';
   }
 }
-
-/* eslint-enable */
