@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 /**
  * Helper function to do true type checking.
  * See https://gomakethings.com/true-type-checking-with-vanilla-js/
  * @param value
  * @param type
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function type(value: any, type: String): boolean {
   const trueType = Object.prototype.toString
     .call(value)
@@ -18,6 +17,7 @@ export function type(value: any, type: String): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function boolean(value: any): boolean {
   return type(value, 'boolean');
 }
@@ -26,6 +26,7 @@ export function boolean(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function array(value: any): boolean {
   return type(value, 'array');
 }
@@ -34,6 +35,7 @@ export function array(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function string(value: any): boolean {
   return type(value, 'string');
 }
@@ -42,6 +44,7 @@ export function string(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function date(value: any) {
   return type(value, 'date');
 }
@@ -50,6 +53,7 @@ export function date(value: any) {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function number(value: any): boolean {
   return type(value, 'number');
 }
@@ -58,6 +62,7 @@ export function number(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function functionLike(value: any): boolean {
   return type(value, 'function');
 }
@@ -66,6 +71,7 @@ export function functionLike(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function nullLike(value: any): boolean {
   return type(value, 'null');
 }
@@ -74,6 +80,7 @@ export function nullLike(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function undefinedLike(value: any): boolean {
   return type(value, 'undefined');
 }
@@ -82,6 +89,7 @@ export function undefinedLike(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function defined(value: any): boolean {
   return !undefinedLike(value);
 }
@@ -90,6 +98,7 @@ export function defined(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function regex(value: any): boolean {
   return type(value, 'regexp');
 }
@@ -98,6 +107,7 @@ export function regex(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function object(value: any): boolean {
   return type(value, 'object');
 }
@@ -106,6 +116,7 @@ export function object(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function int(value: any): boolean {
   return number(value) && value % 1 === 0;
 }
@@ -114,6 +125,7 @@ export function int(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function float(value: any): boolean {
   return number(value) && !int(value);
 }
@@ -122,6 +134,7 @@ export function float(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function multipleOf(value: any, multiple: number): boolean {
   return number(value) && value % multiple === 0;
 }
@@ -130,6 +143,7 @@ export function multipleOf(value: any, multiple: number): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function powerOf2(value: number): boolean {
   return value !== 0 && (value & (value - 1)) === 0;
 }
@@ -138,6 +152,7 @@ export function powerOf2(value: number): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function even(value: any): boolean {
   return number(value) && multipleOf(value, 2);
 }
@@ -146,6 +161,7 @@ export function even(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function odd(value: any): boolean {
   return number(value) && !even(value);
 }
@@ -155,6 +171,7 @@ export function odd(value: any): boolean {
  * @param value
  * @tested
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function nan(value: any): boolean {
   return value !== value;
 }
@@ -302,6 +319,7 @@ export function supportingTouch(): boolean {
  * Whether device orientation is supported
  */
 export function supportingDeviceOrientation(): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return !!window['DeviceOrientationEvent'] as any;
 }
 
@@ -322,6 +340,7 @@ export function supportingFileApis(): boolean {
  * @see https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap;
  */
 export function supportingCreateImageBitmap(): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (!!window['createImageBitmap'] as any) && !firefox();
 }
 
@@ -336,6 +355,7 @@ export function supportingCreateImageBitmap(): boolean {
  *
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function cssHex(value: any): boolean {
   return string(value) && value.startsWith('#');
 }
@@ -350,6 +370,7 @@ export function cssHex(value: any): boolean {
  *
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function cssRgba(value: any) {
   return string(value) && value.startsWith('rgba(');
 }
@@ -364,6 +385,7 @@ export function cssRgba(value: any) {
  *
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function cssRgb(value: any) {
   return string(value) && value.startsWith('rgb(');
 }
@@ -379,6 +401,7 @@ export function cssRgb(value: any) {
  * ```
  * @param value
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function hex(value: any): boolean {
   const a = parseInt(value, 16);
   return string(value) && a.toString(16) === value.toLowerCase();
@@ -492,4 +515,3 @@ export class is {
   static undefined = undefinedLike;
   static windowLoaded = windowLoaded;
 }
-/* eslint-enable */
