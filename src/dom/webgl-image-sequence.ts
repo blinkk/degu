@@ -1291,11 +1291,11 @@ export class WebGlImageSequence {
         this.domWatcher.dispose();
         this.rafTimer && this.rafTimer.dispose();
         this.blobLoader && this.blobLoader.dispose();
-        this.element = null;
-        this.blobCache = null;
-        this.canvasElement = null;
+        // this.element = null;
+        // this.blobCache = null;
+        // this.canvasElement = null;
         dom.deleteImage(this.cacheImage);
-        this.cacheImage = null;
+        // this.cacheImage = null;
         this.gl = null;
     }
 
