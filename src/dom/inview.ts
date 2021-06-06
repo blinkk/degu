@@ -1,6 +1,12 @@
 import {Raf} from '../raf/raf';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as mathf from '../mathf/mathf';
+import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
+
+export enum InviewEvents {
+  IN = 'in',
+  OUT = 'out',
+}
 
 interface InviewClassNames {
   READY?: string;
@@ -214,7 +220,7 @@ export interface InviewConfig {
  *
  *
  */
-export class Inview {
+export class Inview implements EventDispatcher {
   private static gatherTargetElements(config: InviewConfig): HTMLElement[] {
     const targetElements = [config.element];
     if (config.childSelector) {
@@ -278,7 +284,11 @@ export class Inview {
    */
   private shouldRun = false;
 
+  private eventManager: EventManager;
+
   constructor(config: InviewConfig) {
+    this.eventManager = new EventManager();
+
     // Establish defaults on the config as needed and then handle errors for bad
     // configs.
     this.config = Inview.assignDefaultsToConfig(config);
@@ -300,6 +310,14 @@ export class Inview {
 
     // Initialize the class and properties
     this.init();
+  }
+
+  on(event: string, callback: EventCallback) {
+    this.eventManager.on(event, callback);
+  }
+
+  off(event: string, callback: EventCallback) {
+    this.eventManager.on(event, callback);
   }
 
   runInviewState(force?: boolean) {
@@ -332,6 +350,7 @@ export class Inview {
             : this.inviewClassNames.DOWN!
         );
         this.isInState = true;
+        this.eventManager.dispatch(InviewEvents.IN);
       });
     });
   }
@@ -352,6 +371,7 @@ export class Inview {
             : this.inviewClassNames.DOWN!
         );
         this.isInState = false;
+        this.eventManager.dispatch(InviewEvents.OUT);
       });
     });
   }
