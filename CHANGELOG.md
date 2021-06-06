@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/blinkk/degu/compare/v1.0.2...v1.1.0) (2021-06-06)
+
+
+### Features
+
+* add inview events ([c6ac873](https://www.github.com/blinkk/degu/commit/c6ac873036dbfb0f6a92830db66ba9f0a3e0a007))
+
 ### [1.0.2](https://www.github.com/blinkk/degu/compare/v1.0.1...v1.0.2) (2021-05-24)
 
 
