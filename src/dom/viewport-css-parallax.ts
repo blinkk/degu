@@ -10,6 +10,7 @@ import {Raf} from '../raf/raf';
 import * as dom from '../dom/dom';
 import * as mathf from '../mathf/mathf';
 import * as stringf from '../string/stringf';
+import {InviewProgress} from './inview-progress';
 
 export interface ViewportCssParallaxSettings {
   rootElement: HTMLElement;
@@ -44,6 +45,10 @@ export interface ViewportCssParallaxSettings {
 
   // The rafEvOptions so that you can add rootMargin etc to the base raf.
   rafEvOptions?: Object;
+
+  // Optionally pass inviewProgress.
+  // This can be used to trigger css classes at specific breakpoints.
+  inviewProgress?: InviewProgress | null;
 }
 
 export interface ViewportCssParallaxConfig {
@@ -206,6 +211,7 @@ export class ViewportCssParallax {
           rafEvOptions: {
             rootMargin: '300px 0px 300px 0px',
           },
+          inviewProgress: null,
         },
         ...(settings || {}),
       };
@@ -296,6 +302,11 @@ export class ViewportCssParallax {
 
     if (this.settingsData.clamp) {
       this.currentProgress = mathf.clamp01(this.currentProgress);
+    }
+
+    // Update inviewProgress if provided.
+    if (this.settingsData!.inviewProgress) {
+      this.settingsData!.inviewProgress.setProgress(this.currentProgress);
     }
 
     if (this.settingsData.debug) {
