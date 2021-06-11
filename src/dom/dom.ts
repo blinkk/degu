@@ -862,6 +862,17 @@ export function forceVOFocus(
 }
 
 /**
+ * Returns a list of focusable child elements from a parent element.
+ */
+export function getFocusableElements(element: HTMLElement): HTMLElement[] {
+  return Array.from(
+    element.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+  );
+}
+
+/**
  * Gets the current styles on a given element.
  *
  * ```
@@ -1080,6 +1091,7 @@ export const dom = {
   getAllTextNodes,
   getComputedStyle,
   getElementScrolledPercent,
+  getFocusableElements,
   getScrollElement,
   getScrollTop,
   getScrollYAtPercent,
