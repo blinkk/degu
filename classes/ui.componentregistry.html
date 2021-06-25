@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>X | @blinkk/degu</title>
+	<title>ComponentRegistry | @blinkk/degu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/x.html">x</a>
+					<a href="../modules/ui.html">ui</a>
 				</li>
 				<li>
-					<a href="x.x-1.html">X</a>
+					<a href="ui.componentregistry.html">ComponentRegistry</a>
 				</li>
 			</ul>
-			<h1>Class X</h1>
+			<h1>Class ComponentRegistry</h1>
 		</div>
 	</div>
 </header>
@@ -70,22 +70,38 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<h1 id="x-is-a-mini-canvas-dom-2d-engine-within-degu-">X is a mini canvas + dom 2d engine within degu.</h1>
+						<p>Component registry. The registry monitors the DOM for changes and
+							automatically mounts and unmounts any components as elements enter and
+						leave the DOM.</p>
 					</div>
-					<pre><code class="language-ts">
+					<p>Within the DOM, components are marked by the <code>data-component=&quot;ComponentName&quot;</code>
+						attribute. An element entering the DOM with that attribute will be
+						initialized by the registered component, along with any args passed to the
+					[register]{@link ComponentRegistry#register} method.</p>
+					<p>Usage:</p>
+					<pre><code><span class="hljs-comment">// main.ts</span>
+<span class="hljs-keyword">class</span> FooComponent {
+  el: HTMLElement;
+  <span class="hljs-keyword">options</span>: <span class="hljs-keyword">any</span>;
+  constructor(el: HTMLElement, <span class="hljs-keyword">options</span>: <span class="hljs-keyword">any</span>) {
+    <span class="hljs-keyword">this</span>.el = el;
+    <span class="hljs-keyword">this</span>.<span class="hljs-keyword">options</span> = <span class="hljs-keyword">options</span>;
+  }
+}
 
-</code></pre>
-					<dl class="tsd-comment-tags">
-						<dt>unstable</dt>
-						<dd></dd>
-					</dl>
+const registry = <span class="hljs-keyword">new</span> ComponentRegistry();
+registry.register(<span class="hljs-string">'FooComponent'</span>, FooComponent, {myOption: <span class="hljs-string">'value'</span>});
+registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.html --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"foo"</span> <span class="hljs-attr">data-component</span>=<span class="hljs-string">"FooComponent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><p>In the example above, when the &quot;foo&quot; element enters the DOM, the following
+					would be called automatically by the registry:</p>
+					<pre><code><span class="hljs-selector-tag">new</span> <span class="hljs-selector-tag">FooComponent</span>(<span class="hljs-selector-tag">el</span>, {<span class="hljs-attribute">myOption</span>: <span class="hljs-string">'value'</span>})</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">X</span>
+						<span class="target">ComponentRegistry</span>
 					</li>
 				</ul>
 			</section>
@@ -94,68 +110,44 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="x.x-1.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="x.x-1.html#stage" class="tsd-kind-icon">stage</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="ui.componentregistry.html#managers" class="tsd-kind-icon">managers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="ui.componentregistry.html#observer" class="tsd-kind-icon">observer</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="x.x-1.html#clear" class="tsd-kind-icon">clear</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="x.x-1.html#gameloop" class="tsd-kind-icon">game<wbr>Loop</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="x.x-1.html#getpointer" class="tsd-kind-icon">get<wbr>Pointer</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="x.x-1.html#ontick" class="tsd-kind-icon">on<wbr>Tick</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="x.x-1.html#rendergameobject" class="tsd-kind-icon">render<wbr>Game<wbr>Object</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="x.x-1.html#resize" class="tsd-kind-icon">resize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="x.x-1.html#setstagecolor" class="tsd-kind-icon">set<wbr>Stage<wbr>Color</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="x.x-1.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.componentregistry.html#dispose" class="tsd-kind-icon">dispose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.componentregistry.html#register" class="tsd-kind-icon">register</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.componentregistry.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.componentregistry.html#stop" class="tsd-kind-icon">stop</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="ui.componentregistry.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new X<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/x.xconfig.html" class="tsd-signature-type">XConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="x.x-1.html" class="tsd-signature-type">X</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L43">x/x.ts:43</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>config: <a href="../interfaces/x.xconfig.html" class="tsd-signature-type">XConfig</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="x.x-1.html" class="tsd-signature-type">X</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="stage" class="tsd-anchor"></a>
-					<h3>stage</h3>
-					<div class="tsd-signature tsd-kind-icon">stage<span class="tsd-signature-symbol">:</span> <a href="x.xstage.html" class="tsd-signature-type">XStage</a></div>
+					<a name="managers" class="tsd-anchor"></a>
+					<h3>managers</h3>
+					<div class="tsd-signature tsd-kind-icon">managers<span class="tsd-signature-symbol">:</span> <a href="ui.componentlifecyclemanager.html" class="tsd-signature-type">ComponentLifecycleManager</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L39">x/x.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L51">ui/component-registry.ts:51</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="observer" class="tsd-anchor"></a>
+					<h3>observer</h3>
+					<div class="tsd-signature tsd-kind-icon">observer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MutationObserver</span><span class="tsd-signature-symbol"> =&nbsp;new MutationObserver(this.onMutate.bind(this))</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L50">ui/component-registry.ts:50</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -163,39 +155,21 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="clear" class="tsd-anchor"></a>
-					<h3>clear</h3>
+					<a name="dispose" class="tsd-anchor"></a>
+					<h3>dispose</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">clear<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L133">x/x.ts:133</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="gameloop" class="tsd-anchor"></a>
-					<h3>game<wbr>Loop</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">game<wbr>Loop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L141">x/x.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L54">ui/component-registry.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>The main engine loop.  Here we call through all the
-									sprites on the main stage.</p>
+									<p>Disposes the registry.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -203,121 +177,38 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getpointer" class="tsd-anchor"></a>
-					<h3>get<wbr>Pointer</h3>
+					<a name="register" class="tsd-anchor"></a>
+					<h3>register</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Pointer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="x.xpointer.html" class="tsd-signature-type">XPointer</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cls<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ui.componentregistry.html" class="tsd-signature-type">ComponentRegistry</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L129">x/x.ts:129</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="x.xpointer.html" class="tsd-signature-type">XPointer</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="ontick" class="tsd-anchor"></a>
-					<h3>on<wbr>Tick</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Tick<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L244">x/x.ts:244</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="rendergameobject" class="tsd-anchor"></a>
-					<h3>render<wbr>Game<wbr>Object</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render<wbr>Game<wbr>Object<span class="tsd-signature-symbol">(</span>gameObject<span class="tsd-signature-symbol">: </span><a href="x.xgameobject.html" class="tsd-signature-type">XGameObject</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L167">x/x.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L61">ui/component-registry.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Renders a given sprite onto the canvas.  This is sort of imagined like
-										a stamping process in which we turn, scale, change alpha of the context
-									itself and stamp out the sprite per frame.</p>
+									<p>Registers a component to the registry.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>gameObject: <a href="x.xgameobject.html" class="tsd-signature-type">XGameObject</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
 								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="resize" class="tsd-anchor"></a>
-					<h3>resize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">resize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L121">x/x.ts:121</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setstagecolor" class="tsd-anchor"></a>
-					<h3>set<wbr>Stage<wbr>Color</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Stage<wbr>Color<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L117">x/x.ts:117</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The background color for the stage.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
 								<li>
-									<h5>color: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
+									<h5>cls: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="ui.componentregistry.html" class="tsd-signature-type">ComponentRegistry</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -331,12 +222,56 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/x/x.ts#L251">x/x.ts:251</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L71">ui/component-registry.ts:71</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Starts the main game loop.</p>
+									<p>Starts the component registry.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stop" class="tsd-anchor"></a>
+					<h3>stop</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L82">ui/component-registry.ts:82</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stops the component registry observer.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L87">ui/component-registry.ts:87</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates all component handlers registered to the registry.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -417,16 +352,16 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/time.html">time</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/ui.html">ui</a>
-					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/x.html">x</a>
+						<a href="../modules/ui.html">ui</a>
 						<ul>
 							<li class=" tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported">
-								<a href="../modules/x.__global.html">__global</a>
+								<a href="../modules/ui.__global.html">__global</a>
 							</li>
 						</ul>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/x.html">x</a>
 					</li>
 				</ul>
 			</nav>
@@ -435,87 +370,33 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.x-1.html" class="tsd-kind-icon">X</a>
+						<a href="ui.componentregistry.html" class="tsd-kind-icon">Component<wbr>Registry</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="x.x-1.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="ui.componentregistry.html#managers" class="tsd-kind-icon">managers</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="x.x-1.html#stage" class="tsd-kind-icon">stage</a>
+								<a href="ui.componentregistry.html#observer" class="tsd-kind-icon">observer</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="x.x-1.html#clear" class="tsd-kind-icon">clear</a>
+								<a href="ui.componentregistry.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="x.x-1.html#gameloop" class="tsd-kind-icon">game<wbr>Loop</a>
+								<a href="ui.componentregistry.html#register" class="tsd-kind-icon">register</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="x.x-1.html#getpointer" class="tsd-kind-icon">get<wbr>Pointer</a>
+								<a href="ui.componentregistry.html#start" class="tsd-kind-icon">start</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="x.x-1.html#ontick" class="tsd-kind-icon">on<wbr>Tick</a>
+								<a href="ui.componentregistry.html#stop" class="tsd-kind-icon">stop</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="x.x-1.html#rendergameobject" class="tsd-kind-icon">render<wbr>Game<wbr>Object</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="x.x-1.html#resize" class="tsd-kind-icon">resize</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="x.x-1.html#setstagecolor" class="tsd-kind-icon">set<wbr>Stage<wbr>Color</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="x.x-1.html#start" class="tsd-kind-icon">start</a>
+								<a href="ui.componentregistry.html#update" class="tsd-kind-icon">update</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.xgameobject.html" class="tsd-kind-icon">XGame<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.xline.html" class="tsd-kind-icon">XLine</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.xoffscreencanvas.html" class="tsd-kind-icon">XOff<wbr>Screen<wbr>Canvas</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.xpointer.html" class="tsd-kind-icon">XPointer</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.xrectangle.html" class="tsd-kind-icon">XRectangle</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.xstage.html" class="tsd-kind-icon">XStage</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.xtext.html" class="tsd-kind-icon">XText</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="x.xtexture.html" class="tsd-kind-icon">XTexture</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/x.xconfig.html" class="tsd-kind-icon">XConfig</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/x.xgameconfigcomputedbox.html" class="tsd-kind-icon">XGame<wbr>Config<wbr>Computed<wbr>Box</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/x.xgameobjectconfig.html" class="tsd-kind-icon">XGame<wbr>Object<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/x.xlineconfig.html" class="tsd-kind-icon">XLine<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/x.xrectangleconfig.html" class="tsd-kind-icon">XRectangle<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/x.xtextconfig.html" class="tsd-kind-icon">XText<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
-						<a href="../modules/x.html#xgameobjectdefaults" class="tsd-kind-icon">XGame<wbr>Object<wbr>Defaults</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

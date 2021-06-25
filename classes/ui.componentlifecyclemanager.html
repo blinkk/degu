@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LazyVideo | @blinkk/degu</title>
+	<title>ComponentLifecycleManager | @blinkk/degu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/dom.html">dom</a>
+					<a href="../modules/ui.html">ui</a>
 				</li>
 				<li>
-					<a href="dom.lazyvideo.html">LazyVideo</a>
+					<a href="ui.componentlifecyclemanager.html">ComponentLifecycleManager</a>
 				</li>
 			</ul>
-			<h1>Class LazyVideo</h1>
+			<h1>Class ComponentLifecycleManager</h1>
 		</div>
 	</div>
 </header>
@@ -70,62 +70,16 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Vanilla Implementation of Lazy Video.
-						This is a port of directive-lazy-video to a native implementation.</p>
+						<p>Lifecycle manager for a registered component. Handles the mounting and
+						unmounting of components as they enter or leave the DOM.</p>
 					</div>
-					<p>Basic Usage Example:</p>
-					<pre><code> const lazyVideoElements: Array&lt;HTMLElement&gt; =
-      <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>from(this.el.query<span class="hljs-constructor">SelectorAll('[<span class="hljs-params">lazy</span>-<span class="hljs-params">video</span>]')</span>);
- lazyVideoElements.for<span class="hljs-constructor">Each((<span class="hljs-params">element</span>:HTMLElement)</span>=&gt; {
-     this.lazyVideos.push(
-          <span class="hljs-keyword">new</span> <span class="hljs-constructor">LazyVideo(<span class="hljs-params">element</span>)</span>
-      );
- })
-
-
-&lt;video playsinline disableremoteplayback muted title=<span class="hljs-string">"hello"</span>
-  &lt;source <span class="hljs-keyword">type</span>=<span class="hljs-string">"video/mp4"</span> <span class="hljs-keyword">lazy</span>-video=<span class="hljs-string">"{{url}}"</span>&gt;&lt;/source&gt;
-&lt;video&gt;</code></pre><p>When the element comes into view, it will render as and load.</p>
-					<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">video</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"video/mp4"</span> <span class="hljs-attr">lazy-video</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{url}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"..."</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">source</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">video</span>&gt;</span></span></code></pre><p>This class does display: none detection so will try to intelligently load
-					videos ONLY when they are visible on the page.</p>
-					<p>This allows you to have conditional videos such as mobile only.</p>
-					<pre><code class="language-`">.only-mobile
-  +md
-    display: none
-
-&lt;video class=&quot;only-mobile&quot;&gt;
-  &lt;source type=&quot;video/mp4&quot; lazy-video=&quot;{{url}}&quot;&gt;&lt;/source&gt;
-&lt;video&gt;</code></pre>
-					<h1 id="autoplay">Autoplay</h1>
-					<p>By default, lazyvideo WILL not play your video but only load it.
-					You should use the events fired by lazyvideo and handle the timing of playing.</p>
-					<p>You can alternately, add <code>lazy-video-play-on-inview</code> to autoplay the video
-					when it comes into the viewport.</p>
-					<pre><code><span class="hljs-symbol">&lt;video&gt;</span>
-  &lt;<span class="hljs-keyword">source</span> <span class="hljs-built_in">type</span>=<span class="hljs-string">"video/mp4"</span> lazy-video=<span class="hljs-string">"{{url}}"</span> lazy-video-play-<span class="hljs-keyword">on</span>-inview&gt;&lt;/<span class="hljs-keyword">source</span>&gt;
-<span class="hljs-symbol">&lt;video&gt;</span></code></pre><h1 id="forward-scalar">Forward Scalar</h1>
-					<p>Adjust the forward scalar to higher values to load videos more aggressively.
-					<source lazy-video="{{url}}" lazy-video-forward-scalar="3"></source></p>
-					<h1 id="listen-for-events-">Listen for events.</h1>
-					<p>Events get fired on the video element.</p>
-					<pre><code><span class="hljs-keyword">import</span> { lazyVideoDirective, lazyVideoEvents } from <span class="hljs-symbol">'degu</span>/lib/angular/directive-<span class="hljs-keyword">lazy</span>-video';
-document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventListener(lazyVideoEvents.<span class="hljs-type">LOAD_START</span>, ()=. {
-   <span class="hljs-comment">// Loading started!</span>
-}, { once: <span class="hljs-literal">true</span>});
-
-
-&lt;video id=<span class="hljs-string">"myvideo"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"only-mobile"</span>&gt;
-  &lt;source <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"video/mp4"</span> <span class="hljs-keyword">lazy</span>-video=<span class="hljs-string">"{{url}}"</span>&gt;&lt;/source&gt;
-&lt;video&gt;</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">LazyVideo</span>
+						<span class="target">ComponentLifecycleManager</span>
 					</li>
 				</ul>
 			</section>
@@ -133,129 +87,204 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.lazyvideo.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported"><a href="ui.componentlifecyclemanager.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="ui.componentlifecyclemanager.html#args" class="tsd-kind-icon">args</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="ui.componentlifecyclemanager.html#cls" class="tsd-kind-icon">cls</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="ui.componentlifecyclemanager.html#mounted" class="tsd-kind-icon">mounted</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="ui.componentlifecyclemanager.html#name" class="tsd-kind-icon">name</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.lazyvideo.html#dispose" class="tsd-kind-icon">dispose</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.lazyvideo.html#ispainted" class="tsd-kind-icon">is<wbr>Painted</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.lazyvideo.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.lazyvideo.html#paint" class="tsd-kind-icon">paint</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="ui.componentlifecyclemanager.html#dispose" class="tsd-kind-icon">dispose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="ui.componentlifecyclemanager.html#ismounted" class="tsd-kind-icon">is<wbr>Mounted</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="ui.componentlifecyclemanager.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Lazy<wbr>Video<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.lazyvideo.html" class="tsd-signature-type">LazyVideo</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Component<wbr>Lifecycle<wbr>Manager<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cls<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ui.componentlifecyclemanager.html" class="tsd-signature-type">ComponentLifecycleManager</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/dom/lazy-video.ts#L133">dom/lazy-video.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L112">ui/component-registry.ts:112</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>el: <span class="tsd-signature-type">HTMLElement</span></h5>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>cls: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+									</ul>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="dom.lazyvideo.html" class="tsd-signature-type">LazyVideo</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="ui.componentlifecyclemanager.html" class="tsd-signature-type">ComponentLifecycleManager</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+					<a name="args" class="tsd-anchor"></a>
+					<h3>args</h3>
+					<div class="tsd-signature tsd-kind-icon">args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L110">ui/component-registry.ts:110</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Any args to pass to the component&#39;s constructor.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+					<a name="cls" class="tsd-anchor"></a>
+					<h3>cls</h3>
+					<div class="tsd-signature tsd-kind-icon">cls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L108">ui/component-registry.ts:108</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Constructor to create a component.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+					<a name="mounted" class="tsd-anchor"></a>
+					<h3>mounted</h3>
+					<div class="tsd-signature tsd-kind-icon">mounted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/ui.component.html" class="tsd-signature-type">Component</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L112">ui/component-registry.ts:112</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A map of elements and their mounted components.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L106">ui/component-registry.ts:106</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The name of the component.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 					<a name="dispose" class="tsd-anchor"></a>
 					<h3>dispose</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/dom/lazy-video.ts#L252">dom/lazy-video.ts:252</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="ispainted" class="tsd-anchor"></a>
-					<h3>is<wbr>Painted</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Painted<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/dom/lazy-video.ts#L246">dom/lazy-video.ts:246</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L161">ui/component-registry.ts:161</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Determines whether this element was painted (displayed on the screen).
-										The basis of this is having a css class of display none.  Other methods
-									of hiding the element will return true.</p>
+									<p>Disposes any component mounted by the manager.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="onresize" class="tsd-anchor"></a>
-					<h3>on<wbr>Resize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Resize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/dom/lazy-video.ts#L193">dom/lazy-video.ts:193</a></li>
-								</ul>
-							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="paint" class="tsd-anchor"></a>
-					<h3>paint</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">paint<span class="tsd-signature-symbol">(</span>force<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="ismounted" class="tsd-anchor"></a>
+					<h3>is<wbr>Mounted</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Mounted<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/dom/lazy-video.ts#L199">dom/lazy-video.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L125">ui/component-registry.ts:125</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks if the element is mounted by a component handled by the manager.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> force: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<h5>el: <span class="tsd-signature-type">HTMLElement</span></h5>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3da5d17/src/ui/component-registry.ts#L130">ui/component-registry.ts:130</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Mounts or unmounts all components handled by the manager.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -283,7 +312,7 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/debug.html">debug</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/dom.html">dom</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -334,8 +363,13 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/time.html">time</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/ui.html">ui</a>
+						<ul>
+							<li class=" tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported">
+								<a href="../modules/ui.__global.html">__global</a>
+							</li>
+						</ul>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/x.html">x</a>
@@ -346,23 +380,32 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="dom.lazyvideo.html" class="tsd-kind-icon">Lazy<wbr>Video</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="ui.componentlifecyclemanager.html" class="tsd-kind-icon">Component<wbr>Lifecycle<wbr>Manager</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="dom.lazyvideo.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-not-exported">
+								<a href="ui.componentlifecyclemanager.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="dom.lazyvideo.html#dispose" class="tsd-kind-icon">dispose</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+								<a href="ui.componentlifecyclemanager.html#args" class="tsd-kind-icon">args</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="dom.lazyvideo.html#ispainted" class="tsd-kind-icon">is<wbr>Painted</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+								<a href="ui.componentlifecyclemanager.html#cls" class="tsd-kind-icon">cls</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="dom.lazyvideo.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+								<a href="ui.componentlifecyclemanager.html#mounted" class="tsd-kind-icon">mounted</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="dom.lazyvideo.html#paint" class="tsd-kind-icon">paint</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
+								<a href="ui.componentlifecyclemanager.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="ui.componentlifecyclemanager.html#dispose" class="tsd-kind-icon">dispose</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="ui.componentlifecyclemanager.html#ismounted" class="tsd-kind-icon">is<wbr>Mounted</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+								<a href="ui.componentlifecyclemanager.html#update" class="tsd-kind-icon">update</a>
 							</li>
 						</ul>
 					</li>
