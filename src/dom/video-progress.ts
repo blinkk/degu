@@ -1,6 +1,7 @@
 import {Defer} from '../func/defer';
 import * as func from '../func/func';
 import * as mathf from '../mathf/mathf';
+import {Fps} from '../time/fps';
 
 /**
  * VideoProgress is a class that allows you to quick seek videos.
@@ -15,15 +16,24 @@ import * as mathf from '../mathf/mathf';
 export class VideoProgress {
   private video: HTMLVideoElement;
   private videoReady: Defer;
+  private fps: Fps;
 
   constructor(video: HTMLVideoElement) {
     this.video = video;
+    this.fps = new Fps(30);
     // Ensure we don't run into autoplay issues.
     this.video.muted = true;
     this.video.playsInline = true;
     this.video.autoplay = false;
 
     this.videoReady = new Defer();
+  }
+
+  /**
+   * Sets the FPS.
+   */
+  setFps(fps: number) {
+    this.fps.setFps(fps);
   }
 
   /**
@@ -46,14 +56,16 @@ export class VideoProgress {
   }
 
   setProgress(progress: number) {
-    const interpolatedTime = mathf.lerp(0, this.video.duration, progress);
-    // this.video.pause();
-    // if (this.video['fastSeek']) {
-    // this.video['fastSeek'](interpolatedTime);
-    // } else {
-    if (interpolatedTime) {
-      this.video.currentTime = interpolatedTime;
+    if (this.fps.canRun()) {
+      const interpolatedTime = mathf.lerp(0, this.video.duration, progress);
+      // this.video.pause();
+      // if (this.video['fastSeek']) {
+      // this.video['fastSeek'](interpolatedTime);
+      // } else {
+      if (interpolatedTime) {
+        this.video.currentTime = interpolatedTime;
+      }
+      // }
     }
-    // }
   }
 }
