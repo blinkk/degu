@@ -31,7 +31,7 @@ export function debounce(
   callback: Function,
   wait: number,
   immediate?: boolean
-): Function {
+): () => void {
   let timeOutId: undefined | number;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,7 +85,7 @@ export function debounce(
  * @param wait The amount to wait in ms.
  * @tested
  */
-export function throttle(callback: Function, wait: number): Function {
+export function throttle(callback: Function, wait: number): () => void {
   return func.debounce(callback, wait, true);
 }
 
