@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/blinkk/degu/compare/v1.1.0...v1.2.0) (2021-07-01)
+
+
+### Features
+
+* add a simple element component registry ([#109](https://www.github.com/blinkk/degu/issues/109)) ([3da5d17](https://www.github.com/blinkk/degu/commit/3da5d170a27461707561d6a88388fd94e93bc45b))
+* add events to css-parallaxer ([3ad474a](https://www.github.com/blinkk/degu/commit/3ad474a9ed5b923c241bd4e3ae844005dbcb4ce9))
+* add FPS controls to video-progress ([979b4cb](https://www.github.com/blinkk/degu/commit/979b4cbbc40ba01a509d57996334fa0fa19835b4))
+* add getFocusableElements() function ([#107](https://www.github.com/blinkk/degu/issues/107)) ([15a8963](https://www.github.com/blinkk/degu/commit/15a8963dcfc5e20eafc3e259ef7e56c7589c20d2))
+* add inviewProgress support to viewport-css-parallax. ([80014e9](https://www.github.com/blinkk/degu/commit/80014e93ca56386c7f3d24fa3b26ad02fe6111a4))
+
+
+### Bug Fixes
+
+* debounce return type ([#111](https://www.github.com/blinkk/degu/issues/111)) ([5811909](https://www.github.com/blinkk/degu/commit/5811909a94a552aa5333b047717d73715e2afcae))
+
 ## [1.1.0](https://www.github.com/blinkk/degu/compare/v1.0.2...v1.1.0) (2021-06-06)
 
 
