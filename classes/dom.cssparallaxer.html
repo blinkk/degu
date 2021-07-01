@@ -132,6 +132,13 @@ inviewProgress.add({
 }
 <span class="hljs-keyword">const</span> parallaxer = <span class="hljs-keyword">new</span> CssParallaxer(el);
 parallaxer.init(settings, [])</code></pre>
+					<h1 id="listening-to-events-">Listening to events.</h1>
+					<p>parallaxer.on(CssParallaxerEvents.RAF, ()=&gt; {
+						console.log(parallaxer.getProgress());
+					});</p>
+					<p>parallaxer.on(CssParallaxerEvents.RESIZE, ()=&gt; {
+						...
+					});</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -140,6 +147,12 @@ parallaxer.init(settings, [])</code></pre>
 					<li>
 						<span class="target">CssParallaxer</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/ui.eventdispatcher.html" class="tsd-signature-type">EventDispatcher</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -159,6 +172,8 @@ parallaxer.init(settings, [])</code></pre>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#getinterpolator" class="tsd-kind-icon">get<wbr>Interpolator</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#getprogress" class="tsd-kind-icon">get<wbr>Progress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#init" class="tsd-kind-icon">init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#off" class="tsd-kind-icon">off</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updateimmediately" class="tsd-kind-icon">update<wbr>Immediately</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updateprogress" class="tsd-kind-icon">update<wbr>Progress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updatesettings" class="tsd-kind-icon">update<wbr>Settings</a></li>
@@ -179,7 +194,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/5811909/src/dom/css-parallaxer.ts#L166">dom/css-parallaxer.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L182">dom/css-parallaxer.ts:182</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -205,7 +220,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/5811909/src/dom/css-parallaxer.ts#L414">dom/css-parallaxer.ts:414</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L442">dom/css-parallaxer.ts:442</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -222,7 +237,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/5811909/src/dom/css-parallaxer.ts#L286">dom/css-parallaxer.ts:286</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L311">dom/css-parallaxer.ts:311</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -247,7 +262,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/5811909/src/dom/css-parallaxer.ts#L410">dom/css-parallaxer.ts:410</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L438">dom/css-parallaxer.ts:438</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -269,7 +284,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/5811909/src/dom/css-parallaxer.ts#L186">dom/css-parallaxer.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L203">dom/css-parallaxer.ts:203</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -294,6 +309,60 @@ parallaxer.init(settings, [])</code></pre>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="off" class="tsd-anchor"></a>
+					<h3>off</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../modules/ui.html#eventcallback" class="tsd-signature-type">EventCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#off">off</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L250">dom/css-parallaxer.ts:250</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <a href="../modules/ui.html#eventcallback" class="tsd-signature-type">EventCallback</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="on" class="tsd-anchor"></a>
+					<h3>on</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><a href="../modules/ui.html#eventcallback" class="tsd-signature-type">EventCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#on">on</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L246">dom/css-parallaxer.ts:246</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <a href="../modules/ui.html#eventcallback" class="tsd-signature-type">EventCallback</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="updateimmediately" class="tsd-anchor"></a>
 					<h3>update<wbr>Immediately</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -303,7 +372,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/5811909/src/dom/css-parallaxer.ts#L340">dom/css-parallaxer.ts:340</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L365">dom/css-parallaxer.ts:365</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -320,7 +389,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/5811909/src/dom/css-parallaxer.ts#L293">dom/css-parallaxer.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L318">dom/css-parallaxer.ts:318</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -351,7 +420,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/5811909/src/dom/css-parallaxer.ts#L233">dom/css-parallaxer.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/3ad474a/src/dom/css-parallaxer.ts#L258">dom/css-parallaxer.ts:258</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -474,6 +543,12 @@ parallaxer.init(settings, [])</code></pre>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dom.cssparallaxer.html#init" class="tsd-kind-icon">init</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.cssparallaxer.html#off" class="tsd-kind-icon">off</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.cssparallaxer.html#on" class="tsd-kind-icon">on</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dom.cssparallaxer.html#updateimmediately" class="tsd-kind-icon">update<wbr>Immediately</a>
