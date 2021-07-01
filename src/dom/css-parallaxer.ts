@@ -9,6 +9,12 @@ import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
 import * as is from '../is/is';
 import {interpolateSettings} from '../interpolate/multi-interpolate';
 import {InviewProgress} from './inview-progress';
+import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
+
+export enum CssParallaxerEvents {
+  RAF = 'raf',
+  RESIZE = 'resize',
+}
 
 export interface CssParallaxSettings {
   // debug: false (boolean, optional) True outputs progress in the dev console.
@@ -136,11 +142,21 @@ export interface CssParallaxSettings {
  * ```
  *
  *
+ * # Listening to events.
+ *
+ * parallaxer.on(CssParallaxerEvents.RAF, ()=> {
+ *   console.log(parallaxer.getProgress());
+ * });
+ *
+ * parallaxer.on(CssParallaxerEvents.RESIZE, ()=> {
+ *  ...
+ * });
  *
  *
  *
  */
-export class CssParallaxer {
+export class CssParallaxer implements EventDispatcher {
+  private eventManager: EventManager;
   private element: HTMLElement;
   private rafEv: ElementVisibilityObject | null = null;
   private domWatcher: DomWatcher;
@@ -166,6 +182,7 @@ export class CssParallaxer {
   private windowWidth: number | null = null;
 
   constructor(element: HTMLElement) {
+    this.eventManager = new EventManager();
     this.element = element;
     this.raf = new Raf(this.onRaf.bind(this));
     this.domWatcher = new DomWatcher();
@@ -224,6 +241,14 @@ export class CssParallaxer {
     // On load, we need to initially, bring the animation to
     // start position.
     this.updateImmediately();
+  }
+
+  public on(event: string, callback: EventCallback) {
+    this.eventManager.on(event, callback);
+  }
+
+  public off(event: string, callback: EventCallback) {
+    this.eventManager.on(event, callback);
   }
 
   /**
@@ -372,6 +397,7 @@ export class CssParallaxer {
     this.calculateProgressOffsets();
     this.interpolator!.flush();
     this.updateImmediately();
+    this.eventManager.dispatch(CssParallaxerEvents.RESIZE);
   }
 
   protected onRaf() {
@@ -402,6 +428,8 @@ export class CssParallaxer {
       );
       this.interpolator!.update(roundedProgress);
     });
+
+    this.eventManager.dispatch(CssParallaxerEvents.RAF);
   }
 
   /**
@@ -412,6 +440,7 @@ export class CssParallaxer {
   }
 
   public dispose() {
+    this.eventManager.dispose();
     this.raf && this.raf.stop();
     this.domWatcher.dispose();
     this.rafEv!.dispose();
