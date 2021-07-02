@@ -1,7 +1,10 @@
 import * as arrayf from '../../arrayf/arrayf';
 import * as dom from '../../dom/dom';
 import * as mathf from '../../mathf/mathf';
-import {CachedMouseTracker} from '../../dom/cached-mouse-tracker';
+import {
+  CachedMouseTracker,
+  CachedMouseTrackerEvent,
+} from '../../dom/cached-mouse-tracker';
 import {Carousel} from './carousel';
 import {CubicBezier, EasingFunction} from '../../mathf/cubic-bezier';
 import {DefaultMap} from '../../map/default-map';
@@ -313,10 +316,10 @@ export class DraggableSlide implements Transition {
   private renderInteraction() {
     const currentMouseX = this.getMouseX();
     const delta = currentMouseX - this.interaction!.lastMouseX;
-    this.carousel!.getSlides().forEach(slide => {
-      this.xTranslate.set(slide, this.xTranslate.get(slide) + delta);
-    });
     this.interaction!.lastMouseX = currentMouseX;
+    this.carousel!.getSlides().forEach(slide => {
+      this.translate(slide, delta);
+    });
   }
 
   /**
@@ -397,7 +400,9 @@ export class DraggableSlide implements Transition {
    * @param delta
    */
   private translate(slide: HTMLElement, delta: number) {
-    this.xTranslate.set(slide, this.xTranslate.get(slide) + delta);
+    // Round to something reasonable
+    const final = Math.round((this.xTranslate.get(slide) + delta) * 100) / 100;
+    this.xTranslate.set(slide, final);
   }
 
   /**
@@ -466,9 +471,17 @@ export class DraggableSlide implements Transition {
     if (this.isInteracting()) {
       return;
     }
-    this.interaction = new Interaction(this.getMouseX(), performance.now());
-    this.transitionTarget = null;
-    this.carousel!.stopTransition();
+
+    // Delay to the post-write step to allow the mouse cached position to
+    // catch up.
+    const updateCallback = () => {
+      // Start interaction only once for this call
+      this.mouseTracker?.off(CachedMouseTrackerEvent.UPDATE, updateCallback);
+      this.interaction = new Interaction(this.getMouseX(), performance.now());
+      this.transitionTarget = null;
+      this.carousel!.stopTransition();
+    };
+    this.mouseTracker?.on(CachedMouseTrackerEvent.UPDATE, updateCallback);
   }
 
   /**
