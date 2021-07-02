@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.3.1](https://www.github.com/blinkk/degu/compare/v1.3.0...v1.3.1) (2021-07-02)
+
+
+### Bug Fixes
+
+* Remove rounding from webgl-image-sequence to closely match browser sizing algo. ([83f2bfc](https://www.github.com/blinkk/degu/commit/83f2bfc6c4cea5e0c790fc90fefa3f77533f170e))
+
 ## [1.3.0](https://www.github.com/blinkk/degu/compare/v1.2.0...v1.3.0) (2021-07-02)
 
 
