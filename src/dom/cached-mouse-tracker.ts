@@ -1,8 +1,13 @@
 import {DomWatcher} from '../dom/dom-watcher';
 import {Raf} from '../raf/raf';
 import {Vector} from '../mathf/vector';
+import {EventCallback, EventDispatcher, EventManager} from '../ui/events';
 
 const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchstart', 'touchmove'];
+
+export enum CachedMouseTrackerEvent {
+  UPDATE = 'update',
+}
 
 /**
  * Interface filled by either mousemove or touchmove events.
@@ -27,15 +32,17 @@ interface ClientPositionData {
  * If any of these needs arise this can serve as a reference:
  * https://github.com/angusm/toolbox-v2/blob/130326ee6b26e652d4bf7442c65ffbfeccc31649/src/toolbox/utils/cached-vectors/cursor.ts
  */
-export class CachedMouseTracker {
+export class CachedMouseTracker implements EventDispatcher {
   // Use static variables so that independent instances can operate as a
   // singleton but be disposed separately without the user needing to worry
   // about the singleton pattern.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static uses: Set<any> = new Set();
+  private static nextClientPosition: Vector | null;
   private static clientPosition: Vector | null;
   private static domWatcher: DomWatcher;
   private static raf: Raf;
+  private static eventManager: EventManager;
 
   /**
    * Updates the currently tracked position from either a touch event or a mouse
@@ -65,16 +72,29 @@ export class CachedMouseTracker {
    * @param data
    */
   private static updatePositionFromEvent(data: ClientPositionData): void {
+    this.nextClientPosition = new Vector(data.clientX, data.clientY);
+  }
+
+  private static loop(): void {
     this.raf.preRead(() => {
-      this.clientPosition = new Vector(data.clientX, data.clientY);
+      if (
+        this.nextClientPosition &&
+        this.clientPosition?.equals(this.nextClientPosition)
+      ) {
+        return;
+      }
+      this.clientPosition = this.nextClientPosition;
+      this.eventManager.dispatch(CachedMouseTrackerEvent.UPDATE);
     });
   }
 
   constructor() {
     if (CachedMouseTracker.uses.size === 0) {
-      CachedMouseTracker.raf = new Raf();
+      CachedMouseTracker.raf = new Raf(() => CachedMouseTracker.loop());
       CachedMouseTracker.clientPosition = Vector.ZERO;
+      CachedMouseTracker.nextClientPosition = Vector.ZERO;
       CachedMouseTracker.domWatcher = new DomWatcher();
+      CachedMouseTracker.eventManager = new EventManager();
       CURSOR_MOVE_EVENTS.forEach(cursorMoveEvent => {
         CachedMouseTracker.domWatcher.add({
           element: window,
@@ -83,8 +103,23 @@ export class CachedMouseTracker {
           callback: (e: Event) => CachedMouseTracker.updatePosition(e),
         });
       });
+      CachedMouseTracker.raf.start();
     }
     CachedMouseTracker.uses.add(this);
+  }
+
+  /**
+   * Add a callback to the given event.
+   */
+  on(event: string, callback: EventCallback): void {
+    CachedMouseTracker.eventManager.on(event, callback);
+  }
+
+  /**
+   * Remove a callback from the given event.
+   */
+  off(event: string, callback: EventCallback): void {
+    CachedMouseTracker.eventManager.off(event, callback);
   }
 
   /**
@@ -104,6 +139,7 @@ export class CachedMouseTracker {
       CachedMouseTracker.domWatcher.dispose();
       CachedMouseTracker.raf.dispose();
       CachedMouseTracker.clientPosition = null;
+      CachedMouseTracker.eventManager.dispose();
     }
   }
 }
