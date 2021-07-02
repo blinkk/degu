@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://www.github.com/blinkk/degu/compare/v1.2.0...v1.3.0) (2021-07-02)
+
+
+### Features
+
+* Add events to CachedMouseTracker ([bd997c2](https://www.github.com/blinkk/degu/commit/bd997c2463d1fc275c3f70400b5bec1acc80ce59))
+
+
+### Bug Fixes
+
+* Correct DraggableSlide translation jumps ([bd778e8](https://www.github.com/blinkk/degu/commit/bd778e82a07d4e8766177d346684e0e9c0dd4250))
+
 ## [1.2.0](https://www.github.com/blinkk/degu/compare/v1.1.0...v1.2.0) (2021-07-01)
 
 
