@@ -1137,10 +1137,10 @@ export class WebGlImageSequence {
         }
       }
 
-      x = diffX >> 0;
-      y = diffY >> 0;
-      width = (imageBox.width * this.containScale) >> 0;
-      height = (imageBox.height * this.containScale) >> 0;
+      x = diffX;
+      y = diffY;
+      width = imageBox.width * this.containScale;
+      height = imageBox.height * this.containScale;
     }
 
     // WebGL Draw.
