@@ -130,7 +130,7 @@ export class LazyVideo {
   /**
    * Whether to play / stop the video on inview.
    */
-  private playOnInview = false;
+  private playOnInview = true;
 
   constructor(el: HTMLElement) {
     this.el = el;
@@ -167,8 +167,15 @@ export class LazyVideo {
 
     /**
      * Check whether we should play this on inview.
+     * Add lazy-video-disable-inview-play to stop video from playing on inview.
+     *
+     * ```
+     *     <video disableRemotePlayback="" playsinline="" muted autoplay="false">
+     *       <source type="video/mp4" lazy-video="${src}" lazy-video-disable-inview-play>
+     *     </video>
+     * ```
      */
-    this.playOnInview = this.el.hasAttribute('lazy-video-play-on-inview');
+    this.playOnInview = !this.el.hasAttribute('lazy-video-disable-inview-play');
 
     this.ev = elementVisibility.inview(
       this.video,
@@ -205,12 +212,13 @@ export class LazyVideo {
         // Fire an event.
         dom.event(this.video, LazyVideoEvents.LOAD_LOADED, {});
         // Play the video if we opted to play on inview.
-        this.playVideo && this.playVideo();
+        this.playOnInview && this.playVideo();
       });
 
       // Tell the parent element (video) to load.
       this.video.load();
       this.video.setAttribute('load', 'true');
+      this.video.pause();
 
       // Fire an event.
       dom.event(this.video, LazyVideoEvents.LOAD_START, {});
