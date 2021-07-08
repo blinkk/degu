@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://www.github.com/blinkk/degu/compare/v1.3.1...v1.4.0) (2021-07-08)
+
+
+### Features
+
+* support custom attrs in ScriptLoader ([#114](https://www.github.com/blinkk/degu/issues/114)) ([bba69ee](https://www.github.com/blinkk/degu/commit/bba69eea25443d8df1693d1b92c2ba54f6167542))
+
 ### [1.3.1](https://www.github.com/blinkk/degu/compare/v1.3.0...v1.3.1) (2021-07-02)
 
 
