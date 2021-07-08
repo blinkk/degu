@@ -5,6 +5,11 @@ export interface ScriptLoaderConfig {
   test: () => boolean;
 
   /**
+   * Attributes to be added to the <script> tag.
+   */
+  attrs?: Record<string, string>;
+
+  /**
    * Timeout, in ms. Defaults to 5000ms.
    */
   timeout?: number;
@@ -52,7 +57,7 @@ export class ScriptLoader {
       }
 
       // Render the <script> tag to the DOM.
-      this.renderDom(url);
+      this.renderScriptTag(url, options);
 
       // Using RAF, repeatedly check if the script has been loaded.
       const startTime = Date.now();
@@ -84,10 +89,22 @@ export class ScriptLoader {
    * Renders the DOM for the script element. Subclasses should override this
    * method for more complex script renderings.
    */
-  protected renderDom(url: string): void {
+  protected renderScriptTag(url: string, options?: ScriptLoaderConfig): void {
     const script = document.createElement('script');
+    if (options?.attrs) {
+      for (const key in options.attrs) {
+        const val = options.attrs[key];
+        script.setAttribute(key, val);
+      }
+    }
     script.src = url;
     document.body.appendChild(script);
+  }
+
+  /** @deprecated */
+  protected renderDom(url: string): void {
+    // Deprecated. To be removed in a future version.
+    this.renderScriptTag(url);
   }
 
   dispose() {
