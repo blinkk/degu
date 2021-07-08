@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.4.1](https://www.github.com/blinkk/degu/compare/v1.4.0...v1.4.1) (2021-07-08)
+
+
+### Bug Fixes
+
+* Remove lazy-video inview playback option ([8bafe71](https://www.github.com/blinkk/degu/commit/8bafe71c32620b2a4476062b041f11e934cbdf6b))
+
 ## [1.4.0](https://www.github.com/blinkk/degu/compare/v1.3.1...v1.4.0) (2021-07-08)
 
 
