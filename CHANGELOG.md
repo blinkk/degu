@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://www.github.com/blinkk/degu/compare/v1.4.1...v1.5.0) (2021-07-11)
+
+
+### Features
+
+* add IN_ONCE event to inview ([89bb3f3](https://www.github.com/blinkk/degu/commit/89bb3f360d8190c00c7897cdd712f01b2949de57))
+
+
+### Bug Fixes
+
+* handle loading errors in ScriptLoader ([#117](https://www.github.com/blinkk/degu/issues/117)) ([6e13cfe](https://www.github.com/blinkk/degu/commit/6e13cfed196d421d1e62765cf8047800e2d1c1b4))
+
 ### [1.4.1](https://www.github.com/blinkk/degu/compare/v1.4.0...v1.4.1) (2021-07-08)
 
 
