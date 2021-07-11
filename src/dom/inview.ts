@@ -5,6 +5,7 @@ import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
 
 export enum InviewEvents {
   IN = 'in',
+  IN_ONCE = 'in-once',
   OUT = 'out',
 }
 
@@ -331,6 +332,7 @@ export class Inview implements EventDispatcher {
 
         if (!this.inOnce) {
           el.classList.add(this.inviewClassNames.IN_ONCE!);
+          this.eventManager.dispatch(InviewEvents.IN_ONCE);
           this.inOnce = true;
 
           if (window.scrollY === 0) {
