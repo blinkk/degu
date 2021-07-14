@@ -79,10 +79,33 @@ export interface ScrollProgressSettings {
  *   console.log(scrollProgress.getProgress());
  * });
  *
+ * ## How do I add css classes to elements?
+ * You can pass an instance of inviewProgress to scroll progress.
+ *
+ * ```ts
+ * const inviewProgress = new InviewProgress();
+ *
+ * // Add the class "active" when from range 0.2 - 0.4
+ * inviewProgress.add({
+ *    range: [0.2, 0.4],
+ *    element: el,
+ *    className: "active"
+ * })
+ *
+ * // Setup scroll progress
+ * const settings = {
+ *    debug: false,
+ *    top: '0px'
+ *    bottom: '10px',
+ *    inviewProgress: inviewProgress
+ * }
+ * const parallaxer = new ScrollProgress(el);
+ * parallaxer.init(settings, [])
+ * ```
  *
  *
  * ## How do add callbacks at specific points?
- * You can pass an instance of progressWatcher to css parallax.
+ * You can pass an instance of progressWatcher to scroll progress
  *
  * ```
  * const pg = new ProgressWatcher();
