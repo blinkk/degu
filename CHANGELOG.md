@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.0](https://www.github.com/blinkk/degu/compare/v1.5.0...v1.6.0) (2021-07-14)
+
+
+### Features
+
+* add active/inactive callbacks to inview-progress. ([78e2736](https://www.github.com/blinkk/degu/commit/78e27361282477a6f94077064105cab26896be58))
+* add manualProgressUpdates to css-parallaxer ([19ec1d8](https://www.github.com/blinkk/degu/commit/19ec1d822fce9a3d50036aa1c84052e121ef7ac3))
+* add mathf ([eff57d9](https://www.github.com/blinkk/degu/commit/eff57d970a1e934431f729a2974f823a9c8b789e))
+* add progressWatcher option to css-parallaxer ([b20153f](https://www.github.com/blinkk/degu/commit/b20153fb782f0e13787f262b557e335859a9d0c6))
+* add scroll-progress ([1f296ac](https://www.github.com/blinkk/degu/commit/1f296ac1b58705b0b9f880ab39c3553d5d02e651))
+
 ## [1.5.0](https://www.github.com/blinkk/degu/compare/v1.4.1...v1.5.0) (2021-07-11)
 
 
