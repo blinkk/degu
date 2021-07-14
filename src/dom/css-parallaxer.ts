@@ -61,6 +61,13 @@ export interface CssParallaxSettings {
 
   // Optionally pass progressWatcher.
   progressWatcher?: ProgressWatcher | null;
+
+  // Option to manually update progress.
+  // CssParallax automatically updates progress based on the root element progress.
+  // You can disable this with this option in which case you would use the
+  // setProgress(progress) method to manually update the progress of this
+  // css parallaxer.
+  manualProgressUpdates?: boolean;
 }
 
 /**
@@ -176,6 +183,93 @@ export interface CssParallaxSettings {
  * parallaxer.on(CssParallaxerEvents.RESIZE, ()=> {
  *  ...
  * });
+ *
+ *
+ * # How can I make css-parallax not scroll tied?
+ *
+ * You can tell css-parallax to not update progress internally by
+ * adding using the manualProgressUpdate oetption.
+ *
+ * ```
+ *  cssParallaxer = new window.MqnLib.CssParallaxer(
+ *    this.el
+ *  );
+ *
+ *   cssParallaxer.init({
+ *     manualProgressUpdates: true
+ *   }, [
+ *     {
+ *       id: '--progress',
+ *       progress: [{ from: 0, to: 1, start: 0, end: 1 }],
+ *     },
+ *   ]);
+ *
+ *
+ * ```
+ * Now you can manually update the internal progress value.
+ *
+ * ```
+ *  this.cssParallaxer.setManualProgress(progress);
+ * ```
+ *
+ * Using setManualProgress, if you wanted to play the cssParallaxer like a video,
+ * you could combine it with rafTimer.
+ *
+ * ```
+ * let rafTimer = new RafTimer((progress)=> {
+ *  this.cssParallaxer.setManualProgress(progress);
+ * });
+ * rafTimer.setDuration(300);
+ * rafTimer.play();
+ *
+ * ```
+ *
+ *
+ * You could also combine it with scrollProgress and progressWatcher,
+ * to trigger a css-parallax  animation at a given point.
+ *
+ * ```
+ * const progressWatcher = new ProgressWatcher();
+ *
+ * // Play the css-parallax from 0 to 0.5 when the scrollProgress reaches
+ * // 0.5.
+ * progressWatcher.add({
+ *     range: 0.5,
+ *     callback: (progress: number, direction: number)=> {
+ *         // Up
+ *         if(direction === -1) {
+ *            let rafTimer = new RafTimer((progress:number)=> {
+ *              const childProgress = mathf.inverseProgress(mathf.childProgress(progress, 0, 0.8));
+ *              this.cssParallaxer.setManualProgress(childProgress);
+ *            });
+ *            rafTimer.setDuration(600);
+ *            rafTimer.play();
+ *          }
+ *
+ *          // Down
+ *          if(direction === 1) {
+ *            let rafTimer = new RafTimer((progress:number)=> {
+ *              const childProgress = mathf.childProgress(progress, 0, 0.8);
+ *              this.cssParallaxer.setManualProgress(childProgress);
+ *            });
+ *            rafTimer.setDuration(600);
+ *            rafTimer.play();
+ *          }
+ *      }
+ * })
+ *
+ *
+ * const scrollProgress = new ScrollProgress(element);
+ * // Add your settings.
+ * const settings = {
+ *    debug: false,
+ *    top: '0px'
+ *    bottom: '10px'
+ *    progressWatcher: progressWatcher
+ * }
+ * scrollProgress.init(settings);
+ *
+ * ```
  *
  *
  *
@@ -299,6 +393,7 @@ export class CssParallaxer implements EventDispatcher {
           },
           inviewProgress: null,
           progressWatcher: null,
+          manualProgressUpdates: false,
         },
         ...(settings || {}),
       };
@@ -342,6 +437,10 @@ export class CssParallaxer implements EventDispatcher {
    * Calculates the current progress and returns a value between 0-1.
    */
   public updateProgress(lerp: number, damp: number): number {
+    if (this.settingsData!.manualProgressUpdates) {
+      return this.currentProgress;
+    }
+
     const progress = dom.getElementScrolledPercent(
       this.element,
       this.topOffset,
@@ -432,6 +531,10 @@ export class CssParallaxer implements EventDispatcher {
   }
 
   protected onRaf() {
+    if (this.settingsData!.manualProgressUpdates) {
+      return;
+    }
+
     this.raf.read(() => {
       // Mobile case.
       if (
@@ -468,6 +571,44 @@ export class CssParallaxer implements EventDispatcher {
    */
   public getProgress(): number {
     return this.currentProgress;
+  }
+
+  /**
+   * Set the internal progress value of css-parallaxer.
+   *
+   * Using this method will alter how css-parallaxer works.
+   * It will:
+   * 1) disable css-parallaxer to stop autoupdating the progress values
+   * based on scroll and instead leave it up to you to update the progress
+   * values.
+   * 2) Further, lerp, damp values will get ignored and progress
+   * updating is linear.  If you need eases, the ease should be applied to
+   * the progress argument.
+   * 3) Internal raf of css-parallaxer will be stopped.
+   *
+   * In short, using this method, will relieve css-parallaxer from internally
+   * trying to update the progress values and use css-parallaxer as an
+   * abstracton of css interpolations that you update via this method.
+   * @param progress
+   */
+  public setManualProgress(progress: number) {
+    this.raf && this.raf.stop();
+    this.currentProgress = progress;
+    this.settingsData!.manualProgressUpdates = true;
+    this.interpolator!.update(this.currentProgress);
+    if (this.settingsData!.debug) {
+      console.log(this.currentProgress, this.topOffset, this.bottomOffset);
+    }
+
+    // Update inviewProgress if provided.
+    if (this.settingsData!.inviewProgress) {
+      this.settingsData!.inviewProgress.setProgress(this.currentProgress);
+    }
+
+    // Update progressWatcher if provided.
+    if (this.settingsData!.progressWatcher) {
+      this.settingsData!.progressWatcher.setProgress(this.currentProgress);
+    }
   }
 
   public dispose() {
