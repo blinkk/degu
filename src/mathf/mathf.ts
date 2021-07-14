@@ -899,6 +899,15 @@ export function lerp(value1: number, value2: number, amount: number): number {
 }
 
 /**
+ * Given a progress value, returns the inverse progress.
+ * @param value
+ * @returns
+ */
+export function inverseProgress(value: number) {
+  return 1 - value;
+}
+
+/**
  * Inverse lerp function
  * @param a Start value
  * @param b End value
@@ -1482,6 +1491,7 @@ export const mathf = {
   int0,
   interpolateRange,
   inverseLerp,
+  inverseProgress,
   isBetween,
   lerp,
   lerpEase,
