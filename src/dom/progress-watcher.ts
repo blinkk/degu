@@ -21,7 +21,7 @@ export enum Direction {
  *
  *
  * // Triggers continously while runs from 0.2, 0.4
- *  this.progressWatcher.add({
+ *  progressWatcher.add({
  *    range: [0.2, 0.4],
  *    callback: (progress: number, direction: number)=> {
  *          console.log(progress, direction);
@@ -34,7 +34,7 @@ export enum Direction {
  *  })
  *
  * // Triggers only when 0.2 is crossed in upwards or downwards direction.
- *  this.progressWatcher.add({
+ *  progressWatcher.add({
  *    range: 0.2,
  *    callback: (progress: number, direction: number)=> {
  *        if(direction === Direction.Up) {
@@ -49,7 +49,7 @@ export enum Direction {
  *
  *
  *  // RunWhen.  Add a condition to run.
- *  this.progressWatcher.add({
+ *  progressWatcher.add({
  *    range: [0.2, 0.4],
  *    callback: (progress: number, direction: number)=> {
  *          console.log(progress, direction);
