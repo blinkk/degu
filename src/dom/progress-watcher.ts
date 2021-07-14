@@ -37,12 +37,12 @@ export enum Direction {
  *  progressWatcher.add({
  *    range: 0.2,
  *    callback: (progress: number, direction: number)=> {
- *        if(direction === Direction.Up) {
- *           ....
+ *        if(direction === -1) {
+ *          console.log('up');
  *        }
  *
- *        if(direction === Direction.Down) {
- *           ....
+ *        if(direction === 1) {
+ *          console.log('down');
  *        }
  *    }
  *  })
