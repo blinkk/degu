@@ -9,6 +9,7 @@ import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
 import * as is from '../is/is';
 import {interpolateSettings} from '../interpolate/multi-interpolate';
 import {InviewProgress} from './inview-progress';
+import {ProgressWatcher} from './progress-watcher';
 import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
 
 export enum CssParallaxerEvents {
@@ -57,6 +58,9 @@ export interface CssParallaxSettings {
   // Optionally pass inviewProgress.
   // This can be used to trigger css classes at specific breakpoints.
   inviewProgress?: InviewProgress | null;
+
+  // Optionally pass progressWatcher.
+  progressWatcher?: ProgressWatcher | null;
 }
 
 /**
@@ -141,6 +145,27 @@ export interface CssParallaxSettings {
  * parallaxer.init(settings, [])
  * ```
  *
+ * ## How do add callbacks at specific points?
+ * You can pass an instance of progressWatcher to css parallax.
+ *
+ * ```
+ * const pg = new ProgressWatcher();
+ * pg.add({
+ *    range: [0.2, 0.4],
+ *    callback: (progress: number, direction: number)=> {
+ *          console.log(progress, direction);
+ *    }
+ * })
+ *
+ * const settings = {
+ *    debug: false,
+ *    top: '0px'
+ *    bottom: '10px',
+ *    progressWatcher: pg
+ * }
+ * const parallaxer = new CssParallaxer(el);
+ * parallaxer.init(settings, [])
+ * ```
  *
  * # Listening to events.
  *
@@ -273,6 +298,7 @@ export class CssParallaxer implements EventDispatcher {
             rootMargin: '300px 0px 300px 0px',
           },
           inviewProgress: null,
+          progressWatcher: null,
         },
         ...(settings || {}),
       };
@@ -357,6 +383,11 @@ export class CssParallaxer implements EventDispatcher {
     // Update inviewProgress if provided.
     if (this.settingsData!.inviewProgress) {
       this.settingsData!.inviewProgress.setProgress(this.currentProgress);
+    }
+
+    // Update progressWatcher if provided.
+    if (this.settingsData!.progressWatcher) {
+      this.settingsData!.progressWatcher.setProgress(this.currentProgress);
     }
 
     return this.currentProgress;
