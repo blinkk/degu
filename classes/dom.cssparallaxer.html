@@ -132,13 +132,96 @@ inviewProgress.add({
 }
 <span class="hljs-keyword">const</span> parallaxer = <span class="hljs-keyword">new</span> CssParallaxer(el);
 parallaxer.init(settings, [])</code></pre>
-					<h1 id="listening-to-events-">Listening to events.</h1>
+					<h2 id="how-do-add-callbacks-at-specific-points-">How do add callbacks at specific points?</h2>
+					<p>You can pass an instance of progressWatcher to css parallax.</p>
+					<pre><code><span class="hljs-keyword">const</span> pg = <span class="hljs-keyword">new</span> ProgressWatcher();
+pg.add({
+   range: [<span class="hljs-number">0.2</span>, <span class="hljs-number">0.4</span>],
+   callback: <span class="hljs-function">(<span class="hljs-params">progress: <span class="hljs-built_in">number</span>, direction: <span class="hljs-built_in">number</span></span>)=&gt;</span> {
+         <span class="hljs-built_in">console</span>.log(progress, direction);
+   }
+})
+
+<span class="hljs-keyword">const</span> settings = {
+   debug: <span class="hljs-literal">false</span>,
+   top: <span class="hljs-string">'0px'</span>
+   bottom: <span class="hljs-string">'10px'</span>,
+   progressWatcher: pg
+}
+<span class="hljs-keyword">const</span> parallaxer = <span class="hljs-keyword">new</span> CssParallaxer(el);
+parallaxer.init(settings, [])</code></pre><h1 id="listening-to-events-">Listening to events.</h1>
 					<p>parallaxer.on(CssParallaxerEvents.RAF, ()=&gt; {
 						console.log(parallaxer.getProgress());
 					});</p>
 					<p>parallaxer.on(CssParallaxerEvents.RESIZE, ()=&gt; {
 						...
 					});</p>
+					<h1 id="how-can-i-make-css-parallax-not-scroll-tied-">How can I make css-parallax not scroll tied?</h1>
+					<p>You can tell css-parallax to not update progress internally by
+					adding using the manualProgressUpdate oetption.</p>
+					<pre><code> <span class="hljs-string">cssParallaxer</span> <span class="hljs-string">=</span> <span class="hljs-string">new</span> <span class="hljs-string">window.MqnLib.CssParallaxer(</span>
+   <span class="hljs-string">this.el</span>
+ <span class="hljs-string">);</span>
+
+  <span class="hljs-string">cssParallaxer.init({</span>
+<span class="hljs-attr">    manualProgressUpdates:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-string">},</span> <span class="hljs-string">[</span>
+    <span class="hljs-string">{</span>
+<span class="hljs-attr">      id:</span> <span class="hljs-string">'--progress'</span><span class="hljs-string">,</span>
+<span class="hljs-attr">      progress:</span> <span class="hljs-string">[{</span> <span class="hljs-attr">from:</span> <span class="hljs-number">0</span><span class="hljs-string">,</span> <span class="hljs-attr">to:</span> <span class="hljs-number">1</span><span class="hljs-string">,</span> <span class="hljs-attr">start:</span> <span class="hljs-number">0</span><span class="hljs-string">,</span> <span class="hljs-attr">end:</span> <span class="hljs-number">1</span> <span class="hljs-string">}],</span>
+    <span class="hljs-string">},</span>
+  <span class="hljs-string">]);</span>
+
+</code></pre><p>Now you can manually update the internal progress value.</p>
+					<pre><code> <span class="hljs-selector-tag">this</span><span class="hljs-selector-class">.cssParallaxer</span><span class="hljs-selector-class">.setManualProgress</span>(<span class="hljs-selector-tag">progress</span>);</code></pre><p>Using setManualProgress, if you wanted to play the cssParallaxer like a video,
+					you could combine it with rafTimer.</p>
+					<pre><code><span class="hljs-keyword">let</span> rafTimer = <span class="hljs-keyword">new</span> <span class="hljs-constructor">RafTimer((<span class="hljs-params">progress</span>)</span>=&gt; {
+ this.cssParallaxer.set<span class="hljs-constructor">ManualProgress(<span class="hljs-params">progress</span>)</span>;
+});
+rafTimer.set<span class="hljs-constructor">Duration(300)</span>;
+rafTimer.play<span class="hljs-literal">()</span>;
+</code></pre><p>You could also combine it with scrollProgress and progressWatcher,
+					to trigger a css-parallax  animation at a given point.</p>
+					<pre><code>const progressWatcher = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ProgressWatcher()</span>;
+
+<span class="hljs-comment">// Play the css-parallax from 0 to 0.5 when the scrollProgress reaches</span>
+<span class="hljs-comment">// 0.5.</span>
+progressWatcher.add({
+    range: <span class="hljs-number">0.5</span>,
+    callback:<span class="hljs-function"> (<span class="hljs-params">progress</span>: <span class="hljs-params">number</span>, <span class="hljs-params">direction</span>: <span class="hljs-params">number</span>)=&gt;</span> {
+        <span class="hljs-comment">// Up</span>
+        <span class="hljs-keyword">if</span>(direction<span class="hljs-operator"> === </span>-<span class="hljs-number">1</span>) {
+           <span class="hljs-keyword">let</span> rafTimer = <span class="hljs-keyword">new</span> <span class="hljs-constructor">RafTimer((<span class="hljs-params">progress</span>:<span class="hljs-params">number</span>)</span>=&gt; {
+             const childProgress = mathf.inverse<span class="hljs-constructor">Progress(<span class="hljs-params">mathf</span>.<span class="hljs-params">childProgress</span>(<span class="hljs-params">progress</span>, 0, 0.8)</span>);
+             this.cssParallaxer.set<span class="hljs-constructor">ManualProgress(<span class="hljs-params">childProgress</span>)</span>;
+           });
+           rafTimer.set<span class="hljs-constructor">Duration(600)</span>;
+           rafTimer.play<span class="hljs-literal">()</span>;
+         }
+
+         <span class="hljs-comment">// Down</span>
+         <span class="hljs-keyword">if</span>(direction<span class="hljs-operator"> === </span><span class="hljs-number">1</span>) {
+           <span class="hljs-keyword">let</span> rafTimer = <span class="hljs-keyword">new</span> <span class="hljs-constructor">RafTimer((<span class="hljs-params">progress</span>:<span class="hljs-params">number</span>)</span>=&gt; {
+             const childProgress = mathf.child<span class="hljs-constructor">Progress(<span class="hljs-params">progress</span>, 0, 0.8)</span>;
+             this.cssParallaxer.set<span class="hljs-constructor">ManualProgress(<span class="hljs-params">childProgress</span>)</span>;
+           });
+           rafTimer.set<span class="hljs-constructor">Duration(600)</span>;
+           rafTimer.play<span class="hljs-literal">()</span>;
+         }
+     }
+})
+
+
+const scrollProgress = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ScrollProgress(<span class="hljs-params">element</span>)</span>;
+<span class="hljs-comment">// Add your settings.</span>
+const settings = {
+   debug: <span class="hljs-literal">false</span>,
+   top: '<span class="hljs-number">0</span>px'
+   bottom: '<span class="hljs-number">10</span>px'
+   progressWatcher: progressWatcher
+}
+scrollProgress.init(settings);
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -174,6 +257,7 @@ parallaxer.init(settings, [])</code></pre>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#init" class="tsd-kind-icon">init</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#off" class="tsd-kind-icon">off</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#on" class="tsd-kind-icon">on</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#setmanualprogress" class="tsd-kind-icon">set<wbr>Manual<wbr>Progress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updateimmediately" class="tsd-kind-icon">update<wbr>Immediately</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updateprogress" class="tsd-kind-icon">update<wbr>Progress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updatesettings" class="tsd-kind-icon">update<wbr>Settings</a></li>
@@ -194,7 +278,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L182">dom/css-parallaxer.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L301">dom/css-parallaxer.ts:301</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -220,7 +304,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L442">dom/css-parallaxer.ts:442</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L614">dom/css-parallaxer.ts:614</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -237,7 +321,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L311">dom/css-parallaxer.ts:311</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L432">dom/css-parallaxer.ts:432</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -262,7 +346,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L438">dom/css-parallaxer.ts:438</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L572">dom/css-parallaxer.ts:572</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -284,7 +368,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L203">dom/css-parallaxer.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L322">dom/css-parallaxer.ts:322</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -319,7 +403,7 @@ parallaxer.init(settings, [])</code></pre>
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L250">dom/css-parallaxer.ts:250</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L369">dom/css-parallaxer.ts:369</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -346,7 +430,7 @@ parallaxer.init(settings, [])</code></pre>
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L246">dom/css-parallaxer.ts:246</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L365">dom/css-parallaxer.ts:365</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -363,6 +447,48 @@ parallaxer.init(settings, [])</code></pre>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setmanualprogress" class="tsd-anchor"></a>
+					<h3>set<wbr>Manual<wbr>Progress</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Manual<wbr>Progress<span class="tsd-signature-symbol">(</span>progress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L594">dom/css-parallaxer.ts:594</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the internal progress value of css-parallaxer.</p>
+								</div>
+								<p>Using this method will alter how css-parallaxer works.
+									It will:
+									1) disable css-parallaxer to stop autoupdating the progress values
+									based on scroll and instead leave it up to you to update the progress
+									values.
+									2) Further, lerp, damp values will get ignored and progress
+									updating is linear.  If you need eases, the ease should be applied to
+									the progress argument.
+								3) Internal raf of css-parallaxer will be stopped.</p>
+								<p>In short, using this method, will relieve css-parallaxer from internally
+									trying to update the progress values and use css-parallaxer as an
+								abstracton of css interpolations that you update via this method.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>progress: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="updateimmediately" class="tsd-anchor"></a>
 					<h3>update<wbr>Immediately</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -372,7 +498,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L365">dom/css-parallaxer.ts:365</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L495">dom/css-parallaxer.ts:495</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -389,7 +515,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L318">dom/css-parallaxer.ts:318</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L439">dom/css-parallaxer.ts:439</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -420,7 +546,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/css-parallaxer.ts#L258">dom/css-parallaxer.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/css-parallaxer.ts#L377">dom/css-parallaxer.ts:377</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -549,6 +675,9 @@ parallaxer.init(settings, [])</code></pre>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dom.cssparallaxer.html#on" class="tsd-kind-icon">on</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.cssparallaxer.html#setmanualprogress" class="tsd-kind-icon">set<wbr>Manual<wbr>Progress</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dom.cssparallaxer.html#updateimmediately" class="tsd-kind-icon">update<wbr>Immediately</a>

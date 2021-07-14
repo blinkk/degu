@@ -82,8 +82,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewprogressitem.html#activecallback" class="tsd-kind-icon">active<wbr>Callback</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewprogressitem.html#classname" class="tsd-kind-icon">class<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewprogressitem.html#element" class="tsd-kind-icon">element</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewprogressitem.html#inactivecallback" class="tsd-kind-icon">inactive<wbr>Callback</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewprogressitem.html#range" class="tsd-kind-icon">range</a></li>
 							</ul>
 						</section>
@@ -93,22 +95,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="classname" class="tsd-anchor"></a>
-					<h3>class<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">class<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="activecallback" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> active<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">active<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/inview-progress.ts#L6">dom/inview-progress.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/inview-progress.ts#L7">dom/inview-progress.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="classname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> class<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">class<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/inview-progress.ts#L6">dom/inview-progress.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="element" class="tsd-anchor"></a>
-					<h3>element</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> element</h3>
 					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/inview-progress.ts#L5">dom/inview-progress.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/inview-progress.ts#L5">dom/inview-progress.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="inactivecallback" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> inactive<wbr>Callback</h3>
+					<div class="tsd-signature tsd-kind-icon">inactive<wbr>Callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/inview-progress.ts#L8">dom/inview-progress.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -118,7 +140,7 @@
 					<div class="tsd-signature tsd-kind-icon">range<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/43cf784/src/dom/inview-progress.ts#L4">dom/inview-progress.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/19ec1d8/src/dom/inview-progress.ts#L4">dom/inview-progress.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -212,10 +234,16 @@
 						<a href="dom.inviewprogressitem.html" class="tsd-kind-icon">Inview<wbr>Progress<wbr>Item</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dom.inviewprogressitem.html#activecallback" class="tsd-kind-icon">active<wbr>Callback</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="dom.inviewprogressitem.html#classname" class="tsd-kind-icon">class<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="dom.inviewprogressitem.html#element" class="tsd-kind-icon">element</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dom.inviewprogressitem.html#inactivecallback" class="tsd-kind-icon">inactive<wbr>Callback</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="dom.inviewprogressitem.html#range" class="tsd-kind-icon">range</a>
