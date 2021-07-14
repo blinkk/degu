@@ -2,8 +2,10 @@ import {ProgressWatcher} from '../dom/progress-watcher';
 
 export interface InviewProgressItem {
   range: number | number[];
-  element: HTMLElement;
-  className: string;
+  element?: HTMLElement;
+  className?: string;
+  activeCallback?: Function;
+  inactiveCallback?: Function;
 }
 
 /**
@@ -20,6 +22,23 @@ export interface InviewProgressItem {
  *    className: "active"
  *  })
  *
+ *
+ *
+ * // Add active callbacks.  Called on every progress update when active.
+ *  this.inviewProgress.add({
+ *    range: [0.2, 0.4],
+ *    activeCallback: (progress:number, direction:number)=> {
+ *    }
+ *  })
+ *
+ *
+ * // Add inactive callbacks.  Called on every progress update when inactive.
+ *  this.inviewProgress.add({
+ *    range: [0.2, 0.4],
+ *    inactiveCallback: (progress:number, direction:number)=> {
+ *    }
+ *  })
+ *
  * inviewProgress.update(0.2)
  */
 export class InviewProgress {
@@ -30,21 +49,33 @@ export class InviewProgress {
   }
 
   add(inviewProgressItem: InviewProgressItem) {
-    const setActive = () => {
-      inviewProgressItem.element.classList.add(inviewProgressItem.className);
+    const setActive = (progress: number, direction: number) => {
+      if (inviewProgressItem.className && inviewProgressItem.element) {
+        inviewProgressItem.element.classList.add(inviewProgressItem.className);
+      }
+      if (inviewProgressItem.activeCallback) {
+        inviewProgressItem.activeCallback(progress, direction);
+      }
     };
 
-    const setInactive = () => {
-      inviewProgressItem.element.classList.remove(inviewProgressItem.className);
+    const setInactive = (progress: number, direction: number) => {
+      if (inviewProgressItem.className && inviewProgressItem.element) {
+        inviewProgressItem.element.classList.remove(
+          inviewProgressItem.className
+        );
+      }
+      if (inviewProgressItem.inactiveCallback) {
+        inviewProgressItem.inactiveCallback(progress, direction);
+      }
     };
 
     this.progressWatcher.add({
       range: inviewProgressItem.range,
-      callback: () => {
-        setActive();
+      callback: (progress: number, direction: number) => {
+        setActive(progress, direction);
       },
-      inactiveCallback: () => {
-        setInactive();
+      inactiveCallback: (progress: number, direction: number) => {
+        setInactive(progress, direction);
       },
     });
   }
