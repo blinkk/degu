@@ -611,6 +611,10 @@ export class CssParallaxer implements EventDispatcher {
     }
   }
 
+  public getRaf() {
+    return this.raf;
+  }
+
   public dispose() {
     this.eventManager.dispose();
     this.raf && this.raf.stop();
