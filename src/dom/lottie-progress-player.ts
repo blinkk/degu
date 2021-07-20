@@ -172,6 +172,10 @@ export class LottieProgressPlayer implements EventDispatcher {
     this.lottieInstance && this.lottieInstance['goToAndStop'](frame, true);
   }
 
+  public getLottieInstance() {
+    return this.lottieInstance;
+  }
+
   public on(event: string, callback: EventCallback) {
     this.eventManager.on(event, callback);
   }
