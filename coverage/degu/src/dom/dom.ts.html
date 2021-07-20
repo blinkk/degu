@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">19.05% </span>
+        <span class="strong">18.99% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>48/252</span>
+        <span class='fraction'>49/258</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/72</span>
+        <span class='fraction'>0/73</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">19.12% </span>
+        <span class="strong">19.07% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>48/251</span>
+        <span class='fraction'>49/257</span>
       </div>
     </div>
     <p class="quiet">
@@ -1167,7 +1167,26 @@
 <a name='L1119'></a><a href='#L1119'>1119</a>
 <a name='L1120'></a><a href='#L1120'>1120</a>
 <a name='L1121'></a><a href='#L1121'>1121</a>
-<a name='L1122'></a><a href='#L1122'>1122</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L1122'></a><a href='#L1122'>1122</a>
+<a name='L1123'></a><a href='#L1123'>1123</a>
+<a name='L1124'></a><a href='#L1124'>1124</a>
+<a name='L1125'></a><a href='#L1125'>1125</a>
+<a name='L1126'></a><a href='#L1126'>1126</a>
+<a name='L1127'></a><a href='#L1127'>1127</a>
+<a name='L1128'></a><a href='#L1128'>1128</a>
+<a name='L1129'></a><a href='#L1129'>1129</a>
+<a name='L1130'></a><a href='#L1130'>1130</a>
+<a name='L1131'></a><a href='#L1131'>1131</a>
+<a name='L1132'></a><a href='#L1132'>1132</a>
+<a name='L1133'></a><a href='#L1133'>1133</a>
+<a name='L1134'></a><a href='#L1134'>1134</a>
+<a name='L1135'></a><a href='#L1135'>1135</a>
+<a name='L1136'></a><a href='#L1136'>1136</a>
+<a name='L1137'></a><a href='#L1137'>1137</a>
+<a name='L1138'></a><a href='#L1138'>1138</a>
+<a name='L1139'></a><a href='#L1139'>1139</a>
+<a name='L1140'></a><a href='#L1140'>1140</a>
+<a name='L1141'></a><a href='#L1141'>1141</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -1943,6 +1962,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3067,6 +3105,25 @@ export function <span class="fstat-no" title="function not covered" >getScrollTo
 }
 &nbsp;
 /**
+ * Gets the Y distance of the element from the top of the document without
+ * regard to any transforms applied.
+ *
+ * ```ts
+ *   const top = dom.getScrollTopWithoutTransforms(el);
+ *   window.scroll(0, top);
+ * ```
+ *
+ */
+export function <span class="fstat-no" title="function not covered" >getScrollTopWithoutTransforms(</span>el: HTMLElement): number {
+  let offsetTop = <span class="cstat-no" title="statement not covered" >0;</span>
+<span class="cstat-no" title="statement not covered" >  do {</span>
+<span class="cstat-no" title="statement not covered" >    offsetTop += el.offsetTop;</span>
+<span class="cstat-no" title="statement not covered" >    el = el.offsetParent as HTMLElement;</span>
+  } while (el);
+<span class="cstat-no" title="statement not covered" >  return offsetTop;</span>
+}
+&nbsp;
+/**
  * An attempt at override VO focus.
  * Requires the element to have a tabindex="-1" and then focusing.
  * To fully reinstante the original state prior to running force focus,
@@ -3415,7 +3472,7 @@ export const dom = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 20 2021 19:24:56 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 20 2021 20:55:46 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
