@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.8.1](https://www.github.com/blinkk/degu/compare/v1.8.0...v1.8.1) (2021-07-20)
+
+
+### Bug Fixes
+
+* update text-split2 row logic. ([c617bf5](https://www.github.com/blinkk/degu/commit/c617bf57d235889304877fe73531d6461b96471e))
+
 ## [1.8.0](https://www.github.com/blinkk/degu/compare/v1.7.0...v1.8.0) (2021-07-20)
 
 
