@@ -193,7 +193,7 @@ export class TextSplit2 {
    */
   private onSmartResize() {
     let sentenceNumber = 0;
-    let y = dom.getScrollTop(this.words[0]);
+    let y = dom.getScrollTopWithoutTransforms(this.words[0]);
     // Clean up
     this.words.forEach(word => {
       word.removeAttribute('start');
@@ -201,13 +201,28 @@ export class TextSplit2 {
       word.removeAttribute('row');
     });
 
+    const wordHeight = this.words[0].offsetHeight;
     this.words[0].setAttribute('start', sentenceNumber + '');
     this.words.forEach((word, i) => {
-      const wordY = dom.getScrollTop(word, true);
+      const wordY = dom.getScrollTopWithoutTransforms(word);
 
       word.className.replace(/\bbg.*?\b/g, '');
 
-      if (wordY !== y) {
+      const delta = Math.abs(wordY - y);
+
+      // In a simple implementation, we would just check the Y position
+      // of each word in the sentance and if the Y position of a given
+      // word doesn't match the previous word, we know we are a new sentance.
+      // However, there are more complicated cases.  A sentence such as
+      // "Hello there <sup>3</sup>" is one of such cases.  In this case,
+      // the <sup> y position is slightly off and doesn't match.   With a
+      // simple implementation, the <sup> would get counted as a new sentance.
+      // To avoid this, we take the very first word and cache the height.
+      // If the next word is more than half the height of the wordHeight,
+      // then we are on a new sentance.  This gives a little wiggle room
+      // to the logic.
+      const isNewRow = delta >= wordHeight * 0.5;
+      if (isNewRow) {
         y = wordY;
         if (this.words[i - 1]) {
           this.words[i - 1].setAttribute('end', sentenceNumber + '');
@@ -215,6 +230,7 @@ export class TextSplit2 {
         sentenceNumber++;
         word.setAttribute('start', sentenceNumber + '');
       }
+
       word.setAttribute('row', sentenceNumber + '');
 
       // Last item.

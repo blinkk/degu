@@ -777,6 +777,25 @@ export function getScrollTop(el: HTMLElement, includeParent = false): number {
 }
 
 /**
+ * Gets the Y distance of the element from the top of the document without
+ * regard to any transforms applied.
+ *
+ * ```ts
+ *   const top = dom.getScrollTopWithoutTransforms(el);
+ *   window.scroll(0, top);
+ * ```
+ *
+ */
+export function getScrollTopWithoutTransforms(el: HTMLElement): number {
+  let offsetTop = 0;
+  do {
+    offsetTop += el.offsetTop;
+    el = el.offsetParent as HTMLElement;
+  } while (el);
+  return offsetTop;
+}
+
+/**
  * An attempt at override VO focus.
  * Requires the element to have a tabindex="-1" and then focusing.
  * To fully reinstante the original state prior to running force focus,
