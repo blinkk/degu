@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://www.github.com/blinkk/degu/compare/v1.7.0...v1.8.0) (2021-07-20)
+
+
+### Features
+
+* add splitByCharacter option to text-split2. ([d097f23](https://www.github.com/blinkk/degu/commit/d097f23f7d6f3716f904ec7f6f7f88251ccd0409))
+
 ## [1.7.0](https://www.github.com/blinkk/degu/compare/v1.6.0...v1.7.0) (2021-07-20)
 
 
