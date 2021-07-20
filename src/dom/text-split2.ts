@@ -3,6 +3,7 @@ import {DomWatcher} from './dom-watcher';
 
 export interface textSplit2Config {
   element: HTMLElement;
+  splitByCharacter?: boolean;
 }
 
 /**
@@ -102,11 +103,13 @@ export interface textSplit2Config {
 export class TextSplit2 {
   private element: HTMLElement;
   public originalHTML: string;
+  private splitByCharacter = false;
   private domWatcher: DomWatcher;
   private words: Array<HTMLElement> = [];
 
   constructor(private config: textSplit2Config) {
     this.element = config.element;
+    this.splitByCharacter = !!config.splitByCharacter;
     this.originalHTML = this.element.innerHTML;
     this.domWatcher = new DomWatcher();
     this.domWatcher.add({
@@ -129,7 +132,12 @@ export class TextSplit2 {
       let previousElement = node;
 
       // Split this text node by space.
-      const texts = node.textContent!.trim().split(' ');
+      let texts;
+      if (this.splitByCharacter) {
+        texts = node.textContent!.trim().split('');
+      } else {
+        texts = node.textContent!.trim().split(' ');
+      }
 
       texts.forEach(text => {
         const element = dom.createElementFromString(
@@ -141,7 +149,15 @@ export class TextSplit2 {
         // } else {
         //     element.innerHTML = text + '&nbsp;';
         // }
-        element.innerHTML = text + '&nbsp;';
+        if (this.splitByCharacter) {
+          if (text === ' ') {
+            text = '&nbsp;';
+          }
+
+          element.innerHTML = text;
+        } else {
+          element.innerHTML = text + '&nbsp;';
+        }
 
         element.classList.add('text-split__text');
         element.setAttribute('item', index + '');
