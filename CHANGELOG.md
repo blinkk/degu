@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.7.0](https://www.github.com/blinkk/degu/compare/v1.6.0...v1.7.0) (2021-07-20)
+
+
+### Features
+
+* add getLottieInstance to lottie-progress-player ([296857e](https://www.github.com/blinkk/degu/commit/296857e95eb39e07a17b1ea412f3a050909af267))
+* add getRaf to css-parallaxer ([e2068b3](https://www.github.com/blinkk/degu/commit/e2068b30dc75fd61bca844de27c70d231c16a6eb))
+* add lottie-progress-player ([4ca259f](https://www.github.com/blinkk/degu/commit/4ca259fbb739689e3106d60ec52db8865ad25de0))
+
 ## [1.6.0](https://www.github.com/blinkk/degu/compare/v1.5.0...v1.6.0) (2021-07-14)
 
 
