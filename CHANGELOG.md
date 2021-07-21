@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.8.2](https://www.github.com/blinkk/degu/compare/v1.8.1...v1.8.2) (2021-07-21)
+
+
+### Bug Fixes
+
+* add imagePath support to lottie-progress-player ([dc917ef](https://www.github.com/blinkk/degu/commit/dc917efba18777b281c4381d45ae4c225a520e2d))
+
 ### [1.8.1](https://www.github.com/blinkk/degu/compare/v1.8.0...v1.8.1) (2021-07-20)
 
 
