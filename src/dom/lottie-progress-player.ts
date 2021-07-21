@@ -14,9 +14,8 @@ export interface LottieProgressPlayerSettings {
   // The json path to the lottie json file.
   jsonPath: string | null;
 
-  // TODO (uxder)
   // // If images are not embedded in the json file, the image path to the image directory.
-  // image_path?: string | null;
+  imagePath?: string | null;
 
   // The aspect ratio sizing settings to use for lottie. // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAspectRatio
   // Defaults to xMidYMid slice.
@@ -108,6 +107,7 @@ export class LottieProgressPlayer implements EventDispatcher {
         jsonPath: null,
         renderer: 'canvas',
         preserveAspectRatio: 'xMidYMid slice',
+        imagePath: null,
       },
       ...settings,
     };
@@ -130,13 +130,13 @@ export class LottieProgressPlayer implements EventDispatcher {
       loop: true,
       autoplay: false,
       path: this.settings.jsonPath,
+      assetsPath: this.settings.imagePath,
       renderer: this.settings.renderer,
       rendererSettings: {
         // https://github.com/airbnb/lottie-web/issues/1860
         // https://github.com/airbnb/lottie-web/wiki/Renderer-Settings
         // For svg.
         // progressiveLoad: true,
-
         preserveAspectRatio: this.settings.preserveAspectRatio,
       },
       container: this.containerElement,
