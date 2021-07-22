@@ -697,6 +697,15 @@ class RafRegistry {
     RafRegistry.runRafCallbacks(this.postWrites);
 
     this.flushScheduled = false;
+
+    if (
+      this.preReads.length ||
+      this.reads.length ||
+      this.writes.length ||
+      this.postWrites.length
+    ) {
+      this.start();
+    }
   }
 
   /**
