@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://www.github.com/blinkk/degu/compare/v1.8.2...v1.9.0) (2021-07-22)
+
+
+### Features
+
+* Start subsequent raf run if necessary ([a949e94](https://www.github.com/blinkk/degu/commit/a949e947c8dd8eb6e8024598b87f6251f733baaf))
+
 ### [1.8.2](https://www.github.com/blinkk/degu/compare/v1.8.1...v1.8.2) (2021-07-21)
 
 
