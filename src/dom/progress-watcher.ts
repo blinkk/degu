@@ -78,7 +78,7 @@ export enum Direction {
  */
 export class ProgressWatcher {
   private watchers: ProgressWatcherItem[] = [];
-  private currentProgress = 0;
+  private currentProgress = -1;
   private direction = 0;
 
   constructor() {}
@@ -126,11 +126,13 @@ export class ProgressWatcher {
       } else {
         // If we are only watching for a specific value, we used the
         // previous progress to see if we passed it.
-        isBetween = mathf.isBetween(
-          <number>watcher.range,
-          this.currentProgress,
-          previousProgress
-        );
+        if (this.currentProgress !== previousProgress) {
+          isBetween = mathf.isBetween(
+            <number>watcher.range,
+            this.currentProgress,
+            previousProgress
+          );
+        }
       }
 
       if (isBetween) {
