@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.9.1](https://www.github.com/blinkk/degu/compare/v1.9.0...v1.9.1) (2021-07-25)
+
+
+### Bug Fixes
+
+* progressWatcher handling of 0 and 1 bounds ([#127](https://www.github.com/blinkk/degu/issues/127)) ([26d2d5b](https://www.github.com/blinkk/degu/commit/26d2d5bb1d5619aaceef8a55a55c0ddac4e53605))
+
 ## [1.9.0](https://www.github.com/blinkk/degu/compare/v1.8.2...v1.9.0) (2021-07-22)
 
 
