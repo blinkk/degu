@@ -10,6 +10,8 @@ export default class InviewSample {
             element: document.getElementById('test0'),
             elementBaseline: 0,
             viewportOffset: 0.2,
+            outviewElementBaseline: 1,
+            outviewViewportOffset: 0.8,
         });
 
         new Inview({

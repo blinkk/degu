@@ -36,7 +36,7 @@ export interface InviewConfig {
   element: HTMLElement;
 
   /**
-   * Defines the baseline of the element.
+   * Defines the baseline of the element for inview..
    * The element baseline is the location in which we should use to
    * check the current element position.  Since we want to check
    * where in a viewport an element is, we need to know what point to use
@@ -50,6 +50,20 @@ export interface InviewConfig {
    * the bottom of the screen and 1 is the top of the screen.  Defaults to 0.
    */
   viewportOffset?: number;
+
+  /**
+   * Defines the baseline of the element for triggering outview.  This value
+   * defaults to to 1 (bottom of element) unless specified.
+   * See elementBaseline option to understand what this means.
+   */
+  outviewElementBaseline?: number;
+
+  /**
+   * Defines the viewport offset. This is a number between 0-1 where 0 is
+   * the bottom of the screen and 1 is the top of the screen.  Defaults to 1.
+   * This value can be ignored if using outviewOnlyOnElementExit or downOnlyMode.
+   */
+  outviewViewportOffset?: number;
 
   /**
    * Inview ClassNames. An optional object defining the inview class names
@@ -172,6 +186,13 @@ export interface InviewConfig {
  * elementBaseline - 0, viewportOffset - 1
  * => inview should happen when then top of the element 0%, hits the top of the screen.
  *
+ * elementBaseline - 0, viewportOffset - 0.2, outviewViewportPortOffset - 0.8, outviewElementBaseline - 1
+ * => inview should happen when the top of the element crosses the bottom 20% of the viewport.
+ * => outview should happen when the bottom of the element crosses the top 80% of the viewport.
+ *
+ * elementBaseline - 0, viewportOffset - 0, outviewViewportPortOffset - 0.8, outviewElementBaseline - 0
+ * => inview should happen when the top of the element crosses the bottom 20% of the viewport.
+ * => outview should happen when the top of the element crosses the top 80% of the viewport.
  *
  *
  * # FOUC
@@ -239,6 +260,8 @@ export class Inview implements EventDispatcher {
         viewportOffset: 0,
         outviewOnlyOnElementExit: false,
         downOnlyMode: false,
+        outviewElementBaseline: 1,
+        outviewViewportOffset: 1,
       },
       config
     );
@@ -495,7 +518,13 @@ export class Inview implements EventDispatcher {
       // A value greater than 1 would mean that the element is above the
       // viewport == outview.
       const outPercent =
-        1 - mathf.inverseLerp(0, wh, box.top + box.height, true);
+        1 -
+        mathf.inverseLerp(
+          0,
+          wh,
+          box.top + box.height * this.config.outviewElementBaseline!,
+          true
+        );
 
       if (this.config.outviewOnlyOnElementExit) {
         // This is the percent where the TOP of the element is in the viewport.
@@ -537,7 +566,10 @@ export class Inview implements EventDispatcher {
         // The outview conditions are in the outpercent (bottom of the element)
         // is greater than 1
         // or the inpercent (the element baseline) is below 0 under the screen.
-        if (inPercent < this.config.viewportOffset! || outPercent >= 1) {
+        if (
+          inPercent < this.config.viewportOffset! ||
+          outPercent >= this.config.outviewViewportOffset!
+        ) {
           this.runOutviewState(force);
         } else {
           this.runInviewState(force);
