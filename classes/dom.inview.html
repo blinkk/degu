@@ -125,6 +125,12 @@
 					=&gt; inview should happen when 50% of the element cross the middle of the screen.</p>
 					<p>elementBaseline - 0, viewportOffset - 1
 					=&gt; inview should happen when then top of the element 0%, hits the top of the screen.</p>
+					<p>elementBaseline - 0, viewportOffset - 0.2, outviewViewportPortOffset - 0.8, outviewElementBaseline - 1
+						=&gt; inview should happen when the top of the element crosses the bottom 20% of the viewport.
+					=&gt; outview should happen when the bottom of the element crosses the top 80% of the viewport.</p>
+					<p>elementBaseline - 0, viewportOffset - 0, outviewViewportPortOffset - 0.8, outviewElementBaseline - 0
+						=&gt; inview should happen when the top of the element crosses the bottom 20% of the viewport.
+					=&gt; outview should happen when the top of the element crosses the top 80% of the viewport.</p>
 					<h1 id="fouc">FOUC</h1>
 					<p>While inview is booting up, there is a split second where it needs to evaluate the
 					inview state.  When inview is ready, the element will receive &#39;.ready&#39; class.</p>
@@ -206,7 +212,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L288">dom/inview.ts:288</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L311">dom/inview.ts:311</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -232,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L381">dom/inview.ts:381</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L404">dom/inview.ts:404</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -250,7 +256,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L320">dom/inview.ts:320</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L343">dom/inview.ts:343</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -277,7 +283,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L316">dom/inview.ts:316</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L339">dom/inview.ts:339</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,7 +309,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L324">dom/inview.ts:324</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L347">dom/inview.ts:347</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -326,7 +332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L360">dom/inview.ts:360</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L383">dom/inview.ts:383</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

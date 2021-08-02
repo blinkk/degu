@@ -88,7 +88,9 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#elementbaseline" class="tsd-kind-icon">element<wbr>Baseline</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#evintersectionobserveroptions" class="tsd-kind-icon">ev<wbr>Intersection<wbr>Observer<wbr>Options</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#inviewclassnames" class="tsd-kind-icon">inview<wbr>Class<wbr>Names</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#outviewelementbaseline" class="tsd-kind-icon">outview<wbr>Element<wbr>Baseline</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#outviewonlyonelementexit" class="tsd-kind-icon">outview<wbr>Only<wbr>OnElement<wbr>Exit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#outviewviewportoffset" class="tsd-kind-icon">outview<wbr>Viewport<wbr>Offset</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dom.inviewconfig.html#viewportoffset" class="tsd-kind-icon">viewport<wbr>Offset</a></li>
 							</ul>
 						</section>
@@ -103,7 +105,7 @@
 					<div class="tsd-signature tsd-kind-icon">child<wbr>Selector<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L72">dom/inview.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L86">dom/inview.ts:86</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -124,7 +126,7 @@
 					<div class="tsd-signature tsd-kind-icon">down<wbr>Only<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L100">dom/inview.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L114">dom/inview.ts:114</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -139,7 +141,7 @@
 					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L36">dom/inview.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L36">dom/inview.ts:36</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -154,12 +156,12 @@
 					<div class="tsd-signature tsd-kind-icon">element<wbr>Baseline<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L46">dom/inview.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L46">dom/inview.ts:46</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Defines the baseline of the element.
+							<p>Defines the baseline of the element for inview..
 								The element baseline is the location in which we should use to
 								check the current element position.  Since we want to check
 								where in a viewport an element is, we need to know what point to use
@@ -174,7 +176,7 @@
 					<div class="tsd-signature tsd-kind-icon">ev<wbr>Intersection<wbr>Observer<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L88">dom/inview.ts:88</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L102">dom/inview.ts:102</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -195,7 +197,7 @@
 					<div class="tsd-signature tsd-kind-icon">inview<wbr>Class<wbr>Names<span class="tsd-signature-symbol">:</span> <a href="dom.inviewclassnames.html" class="tsd-signature-type">InviewClassNames</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L58">dom/inview.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L72">dom/inview.ts:72</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -206,12 +208,29 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="outviewelementbaseline" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> outview<wbr>Element<wbr>Baseline</h3>
+					<div class="tsd-signature tsd-kind-icon">outview<wbr>Element<wbr>Baseline<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L59">dom/inview.ts:59</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Defines the baseline of the element for triggering outview.  This value
+								defaults to to 1 (bottom of element) unless specified.
+							See elementBaseline option to understand what this means.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="outviewonlyonelementexit" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> outview<wbr>Only<wbr>OnElement<wbr>Exit</h3>
 					<div class="tsd-signature tsd-kind-icon">outview<wbr>Only<wbr>OnElement<wbr>Exit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L95">dom/inview.ts:95</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L109">dom/inview.ts:109</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -223,12 +242,29 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="outviewviewportoffset" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> outview<wbr>Viewport<wbr>Offset</h3>
+					<div class="tsd-signature tsd-kind-icon">outview<wbr>Viewport<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L66">dom/inview.ts:66</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Defines the viewport offset. This is a number between 0-1 where 0 is
+								the bottom of the screen and 1 is the top of the screen.  Defaults to 1.
+							This value can be ignored if using outviewOnlyOnElementExit or downOnlyMode.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="viewportoffset" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> viewport<wbr>Offset</h3>
 					<div class="tsd-signature tsd-kind-icon">viewport<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/aaa7a48/src/dom/inview.ts#L52">dom/inview.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/ddf55b7/src/dom/inview.ts#L52">dom/inview.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -346,7 +382,13 @@
 								<a href="dom.inviewconfig.html#inviewclassnames" class="tsd-kind-icon">inview<wbr>Class<wbr>Names</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dom.inviewconfig.html#outviewelementbaseline" class="tsd-kind-icon">outview<wbr>Element<wbr>Baseline</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="dom.inviewconfig.html#outviewonlyonelementexit" class="tsd-kind-icon">outview<wbr>Only<wbr>OnElement<wbr>Exit</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dom.inviewconfig.html#outviewviewportoffset" class="tsd-kind-icon">outview<wbr>Viewport<wbr>Offset</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="dom.inviewconfig.html#viewportoffset" class="tsd-kind-icon">viewport<wbr>Offset</a>
