@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.9.2](https://www.github.com/blinkk/degu/compare/v1.9.1...v1.9.2) (2021-08-02)
+
+
+### Bug Fixes
+
+* add outview offset options to inview ([202660b](https://www.github.com/blinkk/degu/commit/202660b75807d4df834e467445d384838fa3604a))
+* broken examples/ ([cd23d73](https://www.github.com/blinkk/degu/commit/cd23d73cab88e3e1bd341bfdbe6eb24f166731ce))
+
 ### [1.9.1](https://www.github.com/blinkk/degu/compare/v1.9.0...v1.9.1) (2021-07-25)
 
 
