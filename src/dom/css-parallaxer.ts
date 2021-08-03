@@ -454,7 +454,7 @@ export class CssParallaxer implements EventDispatcher {
     // getting slightly delayed causing FOUC.
     if (
       (this.settingsData!.lerpOnlyInRange && progress <= 0) ||
-      progress >= 1
+      (this.settingsData!.lerpOnlyInRange && progress >= 1)
     ) {
       this.currentProgress = progress;
     } else {
