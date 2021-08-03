@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.9.3](https://www.github.com/blinkk/degu/compare/v1.9.2...v1.9.3) (2021-08-03)
+
+
+### Bug Fixes
+
+* lerpOnlyInRange bug with progress >=1 ([e470b5c](https://www.github.com/blinkk/degu/commit/e470b5c024d8bf7fb31ba8a8f7833ac139ca3163))
+
 ### [1.9.2](https://www.github.com/blinkk/degu/compare/v1.9.1...v1.9.2) (2021-08-02)
 
 
