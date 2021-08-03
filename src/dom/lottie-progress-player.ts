@@ -189,7 +189,7 @@ export class LottieProgressPlayer implements EventDispatcher {
     this.eventManager.dispatch(LottieProgressPlayerEvents.RESIZE);
   }
 
-  protected dispose(): void {
+  public dispose(): void {
     this.domWatcher && this.domWatcher.dispose();
   }
 }
