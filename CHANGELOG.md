@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.9.4](https://www.github.com/blinkk/degu/compare/v1.9.3...v1.9.4) (2021-08-03)
+
+
+### Bug Fixes
+
+* lottie progress player dispose method ([9881ec4](https://www.github.com/blinkk/degu/commit/9881ec452c7b124e3e3302548d31506aa0cb926e))
+
 ### [1.9.3](https://www.github.com/blinkk/degu/compare/v1.9.2...v1.9.3) (2021-08-03)
 
 
