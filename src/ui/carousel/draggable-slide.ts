@@ -481,6 +481,9 @@ export class DraggableSlide implements Transition {
       this.transitionTarget = null;
       this.carousel!.stopTransition();
     };
+    // Set interaction immediately to avoid clicking starting a drag.
+    // To improve the accuracy this is overwritten in the callback.
+    this.interaction = new Interaction(this.getMouseX(), performance.now());
     this.mouseTracker?.on(CachedMouseTrackerEvent.UPDATE, updateCallback);
   }
 
