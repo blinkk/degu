@@ -116,6 +116,7 @@ export class DraggableSlide implements Transition {
   private carousel?: Carousel;
   private resizeTimeout: number | null;
   private interaction: Interaction | null;
+  private startInteractionCallback: () => void;
   private raf: Raf;
 
   /**
@@ -143,6 +144,7 @@ export class DraggableSlide implements Transition {
       getTranslateX(el)
     );
     this.lastXTranslate = DefaultMap.usingFunction(() => null);
+    this.startInteractionCallback = () => this.startInteractionOnMouseUpdate();
   }
 
   /**
@@ -474,17 +476,33 @@ export class DraggableSlide implements Transition {
 
     // Delay to the post-write step to allow the mouse cached position to
     // catch up.
-    const updateCallback = () => {
-      // Start interaction only once for this call
-      this.mouseTracker?.off(CachedMouseTrackerEvent.UPDATE, updateCallback);
-      this.interaction = new Interaction(this.getMouseX(), performance.now());
-      this.transitionTarget = null;
-      this.carousel!.stopTransition();
-    };
-    // Set interaction immediately to avoid clicking starting a drag.
-    // To improve the accuracy this is overwritten in the callback.
+    this.mouseTracker?.on(
+      CachedMouseTrackerEvent.UPDATE,
+      this.startInteractionCallback
+    );
+  }
+
+  /**
+   * Starts a drag on the slide.
+   * @private
+   */
+  private startInteractionOnMouseUpdate(): void {
+    // Start interaction only once for this call
+    this.cancelStartInteractionCallback();
     this.interaction = new Interaction(this.getMouseX(), performance.now());
-    this.mouseTracker?.on(CachedMouseTrackerEvent.UPDATE, updateCallback);
+    this.transitionTarget = null;
+    this.carousel!.stopTransition();
+  }
+
+  /**
+   * Clear the callback for starting an interaction.
+   * @private
+   */
+  private cancelStartInteractionCallback(): void {
+    this.mouseTracker?.off(
+      CachedMouseTrackerEvent.UPDATE,
+      this.startInteractionCallback
+    );
   }
 
   /**
@@ -493,6 +511,8 @@ export class DraggableSlide implements Transition {
    */
   private endInteraction(): void {
     if (this.interaction === null) {
+      // Cancel the callback in case the interaction was about to start.
+      this.cancelStartInteractionCallback();
       return;
     }
 
