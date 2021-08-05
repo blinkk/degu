@@ -1,5 +1,14 @@
 # Changelog
 
+### [1.9.5](https://www.github.com/blinkk/degu/compare/v1.9.4...v1.9.5) (2021-08-05)
+
+
+### Bug Fixes
+
+* improve carousel click-drag prevention ([693c55f](https://www.github.com/blinkk/degu/commit/693c55fa8462772983e393b5aeae398b34931512))
+* prevent clicks starting a carousel drag ([014841b](https://www.github.com/blinkk/degu/commit/014841bd049a8169f20313fa7c454fcd425cdeb2))
+* Rollback release-please-action to 2.29.0 ([3167e30](https://www.github.com/blinkk/degu/commit/3167e3063c2a333856592df6be14f94aa26df7a1))
+
 ### [1.9.4](https://www.github.com/blinkk/degu/compare/v1.9.3...v1.9.4) (2021-08-03)
 
 
