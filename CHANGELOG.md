@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.9.6](https://www.github.com/blinkk/degu/compare/v1.9.5...v1.9.6) (2021-08-10)
+
+
+### Bug Fixes
+
+* update vararg type for component registry ([#136](https://www.github.com/blinkk/degu/issues/136)) ([299140a](https://www.github.com/blinkk/degu/commit/299140a5de5a1e921682aaa49641759e6cb81243))
+
 ### [1.9.5](https://www.github.com/blinkk/degu/compare/v1.9.4...v1.9.5) (2021-08-05)
 
 
