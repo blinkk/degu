@@ -60,7 +60,7 @@ export class ComponentRegistry {
   /** Registers a component to the registry. */
   register(
     name: string,
-    cls: new (el: HTMLElement, ...args: unknown[]) => Component,
+    cls: new (el: HTMLElement, ...args: any[]) => Component,
     ...args: unknown[]
   ): ComponentRegistry {
     this.managers.push(new ComponentLifecycleManager(name, cls, ...args));
