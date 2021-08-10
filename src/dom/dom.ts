@@ -892,6 +892,44 @@ export function getFocusableElements(element: HTMLElement): HTMLElement[] {
 }
 
 /**
+ * Gets all focusable elements within an element and sets it to the given tabindex.
+ * This method is paired with "unsetFocusableElementsToTabIndex" to undo this
+ * action.
+ *
+ * ```
+ * # Set all focusable elements to -1 tabindex.
+ *   dom.setFocusableElementsToTabIndex(parentElement, -1);
+ *
+ * # Later undo this effect.  Focusable elements revert to their original tab index.
+ *   dom.unsetFocusableElementsToTabIndex(parentElement);
+ * ```
+ */
+export function setFocusableElementsToTabIndex(
+  element: HTMLElement,
+  tabindex: number
+) {
+  const elements: HTMLElement[] = getFocusableElements(element);
+  elements.forEach(element => {
+    const currentTabIndex = element.tabIndex;
+    element.setAttribute('originalTabIndex', currentTabIndex + '');
+    element.tabIndex = tabindex;
+  });
+}
+
+/**
+ * Reverts all focusable elements within an element to its original tabindex
+ * after the 'dom.setFocusableElementsToTabIndex()` method has been executed.
+ */
+export function unsetFocusableElementsToTabIndex(element: HTMLElement) {
+  const elements: HTMLElement[] = getFocusableElements(element);
+
+  elements.forEach(element => {
+    const originalTabIndex = !element.getAttribute('originalTabIndex');
+    element.tabIndex = +originalTabIndex;
+  });
+}
+
+/**
  * Gets the current styles on a given element.
  *
  * ```
@@ -1117,8 +1155,8 @@ export const dom = {
   getStyle,
   isDisplayNone,
   isDisplayNoneWithAncestors,
-  isVisibleOnScreen,
   isOverlapping,
+  isVisibleOnScreen,
   makeBase64ImageFromBlob,
   makeImageFromBlob,
   pauseAllVideosInElement,
@@ -1127,14 +1165,16 @@ export const dom = {
   removeElement,
   resetAllVideosInElement,
   resetForceFocus,
-  runAfterWindowLoad,
   runAfterNotTopOfScreen,
+  runAfterWindowLoad,
   setCssVariable,
   setCssVariables,
+  setFocusableElementsToTabIndex,
   testDescendant,
   testVideoIsPlaying,
   unflushVideos,
   unorphan,
+  unsetFocusableElementsToTabIndex,
   whenVideosLoaded,
   whenVideosLoadedInElement,
 };
