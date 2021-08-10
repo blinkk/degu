@@ -1,5 +1,17 @@
 # Changelog
 
+### [1.9.7](https://www.github.com/blinkk/degu/compare/v1.9.6...v1.9.7) (2021-08-10)
+
+
+### Features
+
+* add dom.setFocusableElementsToTabIndex ([441e081](https://www.github.com/blinkk/degu/commit/441e08151ed98fc4cfa17a052b2f1e36449329a2))
+
+
+### Miscellaneous Chores
+
+* release 1.9.7 ([5da6b50](https://www.github.com/blinkk/degu/commit/5da6b505bd514be8a4049f82d4d38c2cf6faa33f))
+
 ### [1.9.6](https://www.github.com/blinkk/degu/compare/v1.9.5...v1.9.6) (2021-08-10)
 
 
