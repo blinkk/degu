@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.9.8](https://www.github.com/blinkk/degu/compare/v1.9.7...v1.9.8) (2021-08-11)
+
+
+### Bug Fixes
+
+* fix setFocusableElementsToTabIndex ([afe30c6](https://www.github.com/blinkk/degu/commit/afe30c624af78a2a8a86de2db0aeed6e73d68dd3))
+
 ### [1.9.7](https://www.github.com/blinkk/degu/compare/v1.9.6...v1.9.7) (2021-08-10)
 
 
