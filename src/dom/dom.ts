@@ -911,7 +911,9 @@ export function setFocusableElementsToTabIndex(
   const elements: HTMLElement[] = getFocusableElements(element);
   elements.forEach(element => {
     const currentTabIndex = element.tabIndex;
-    element.setAttribute('originalTabIndex', currentTabIndex + '');
+    if (!element.hasAttribute('originalTabIndex')) {
+      element.setAttribute('originalTabIndex', currentTabIndex + '');
+    }
     element.tabIndex = tabindex;
   });
 }
@@ -924,8 +926,10 @@ export function unsetFocusableElementsToTabIndex(element: HTMLElement) {
   const elements: HTMLElement[] = getFocusableElements(element);
 
   elements.forEach(element => {
-    const originalTabIndex = !element.getAttribute('originalTabIndex');
-    element.tabIndex = +originalTabIndex;
+    if (element.hasAttribute('originalTabIndex')) {
+      const originalTabIndex = !element.getAttribute('originalTabIndex');
+      element.tabIndex = +originalTabIndex;
+    }
   });
 }
 
