@@ -406,6 +406,10 @@ export class CssParallaxer implements EventDispatcher {
     }
   }
 
+  public getSettings(): CssParallaxSettings | null {
+    return this.settingsData;
+  }
+
   /**
    * Takes a css string declaration such as '100px', '100vh' or '100%'
    * and converts that into a relative pixel number.
