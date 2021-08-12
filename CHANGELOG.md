@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://www.github.com/blinkk/degu/compare/v1.9.8...v1.10.0) (2021-08-12)
+
+
+### Features
+
+* add cssParallax.getSettings method ([79f156c](https://www.github.com/blinkk/degu/commit/79f156c12b4a19f484291b5b68d95e67174bf6e1))
+
 ### [1.9.8](https://www.github.com/blinkk/degu/compare/v1.9.7...v1.9.8) (2021-08-11)
 
 
