@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://www.github.com/blinkk/degu/compare/v1.10.0...v1.11.0) (2021-08-13)
+
+
+### Features
+
+* add progressElement option to css-parallaxer ([897192d](https://www.github.com/blinkk/degu/commit/897192d767d961340dbed1003886c9985689c720))
+
 ## [1.10.0](https://www.github.com/blinkk/degu/compare/v1.9.8...v1.10.0) (2021-08-12)
 
 
