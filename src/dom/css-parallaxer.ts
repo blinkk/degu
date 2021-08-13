@@ -68,6 +68,16 @@ export interface CssParallaxSettings {
   // setProgress(progress) method to manually update the progress of this
   // css parallaxer.
   manualProgressUpdates?: boolean;
+
+  //
+  // In some cases, you may want to track the progress of a specific
+  // element but add the css variables to another.  In this case,
+  // you can instantiate cssParallax with the element you want to add
+  // css variables to and pass the element you want to track the progress to
+  // with this option.  Typically, the progressElement would be a child
+  // of the element you instantiate against.
+  //
+  progressElement?: HTMLElement;
 }
 
 /**
@@ -446,7 +456,7 @@ export class CssParallaxer implements EventDispatcher {
     }
 
     const progress = dom.getElementScrolledPercent(
-      this.element,
+      this.settingsData?.progressElement || this.element,
       this.topOffset,
       this.bottomOffset,
       true
