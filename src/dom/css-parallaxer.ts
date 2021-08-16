@@ -324,6 +324,14 @@ export class CssParallaxer implements EventDispatcher {
     });
   }
 
+  public on(event: string, callback: EventCallback) {
+    this.eventManager.on(event, callback);
+  }
+
+  public off(event: string, callback: EventCallback) {
+    this.eventManager.on(event, callback);
+  }
+
   /**
    * Initializes module.
    * You can optionally rerun this method to refresh settings.
@@ -333,10 +341,19 @@ export class CssParallaxer implements EventDispatcher {
     settings?: CssParallaxSettings,
     interpolations?: Array<interpolateSettings>
   ) {
-    this.updateSettings(settings);
+    if (settings) {
+      this.updateSettings(settings);
+    }
+    if (interpolations) {
+      this.updateInterpolations(interpolations);
+    }
+  }
 
-    this.calculateProgressOffsets();
-
+  /**
+   * Updates the interpolations.
+   * @param settings
+   */
+  public updateInterpolations(interpolations: Array<interpolateSettings>) {
     // Only run this on the first initialization.
     if (!this.initialized) {
       // Create interpolator.
@@ -370,14 +387,6 @@ export class CssParallaxer implements EventDispatcher {
     // On load, we need to initially, bring the animation to
     // start position.
     this.updateImmediately();
-  }
-
-  public on(event: string, callback: EventCallback) {
-    this.eventManager.on(event, callback);
-  }
-
-  public off(event: string, callback: EventCallback) {
-    this.eventManager.on(event, callback);
   }
 
   /**
@@ -414,6 +423,7 @@ export class CssParallaxer implements EventDispatcher {
         ...(settings || {}),
       };
     }
+    this.calculateProgressOffsets();
   }
 
   public getSettings(): CssParallaxSettings | null {
