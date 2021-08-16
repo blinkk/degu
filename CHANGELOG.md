@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.12.0](https://www.github.com/blinkk/degu/compare/v1.11.0...v1.12.0) (2021-08-16)
+
+
+### Features
+
+* Add getElementProgressPoint ([42dcb9b](https://www.github.com/blinkk/degu/commit/42dcb9b7a4a6baa3d6905672d01f069fcda41de5))
+* add setInterpolations to css-parallaxer ([1ffe135](https://www.github.com/blinkk/degu/commit/1ffe1355a9551e14a2dd1ef259d3e2567d92f14c))
+
 ## [1.11.0](https://www.github.com/blinkk/degu/compare/v1.10.0...v1.11.0) (2021-08-13)
 
 
