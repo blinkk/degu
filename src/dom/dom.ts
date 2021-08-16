@@ -127,6 +127,39 @@ export function getElementScrolledPercent(
 }
 
 /**
+ * Given a rootElement and targetElement, returns the progress value of the
+ * targetElement.
+ *
+ * The baseLine is a number that is from 0 to 1.  0 is the top of the element,
+ * 0.5 would be the middle and 1 would be the bottom of the element.
+ *
+ * @see cssParallaxer.getElementProgressPoint for an in detail usecase of this
+ * method.
+ */
+export function getElementProgressPoint(
+  rootElement: HTMLElement,
+  targetElement: HTMLElement,
+  baseline = 0,
+  startOffset = 0,
+  heightOffset = 0,
+  noClamp = false
+): number {
+  const y =
+    Math.abs(
+      rootElement.getBoundingClientRect().top -
+        (targetElement.getBoundingClientRect().top +
+          targetElement.offsetHeight * baseline)
+    ) - startOffset;
+
+  const totalScrollDistance = Math.abs(
+    getScrollYAtPercent(rootElement, startOffset, heightOffset, 0) -
+      getScrollYAtPercent(rootElement, startOffset, heightOffset, 1)
+  );
+  const percent = y / totalScrollDistance;
+  return noClamp ? percent : mathf.clampAsPercent(percent);
+}
+
+/**
  * Inverse of getElementScrolledPercent.
  * Given an element on the page, finds the scrollY value in order
  * to scroll into that element by the provided percent.
@@ -151,10 +184,13 @@ export function getScrollYAtPercent(
   element: HTMLElement,
   startOffset = 0,
   heightOffset = 0,
-  percent: number
+  percent: number,
+  withTransform = true
 ) {
   const wh = window.innerHeight;
-  const top = getScrollTop(element);
+  const top = withTransform
+    ? getScrollTop(element)
+    : getScrollTopWithoutTransforms(element);
   const start = top - wh + startOffset;
   const end = top - wh + element.offsetHeight + heightOffset;
   return mathf.lerp(start, end, percent);

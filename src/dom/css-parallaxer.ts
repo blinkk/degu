@@ -423,6 +423,11 @@ export class CssParallaxer implements EventDispatcher {
         ...(settings || {}),
       };
     }
+
+    if (!this.settingsData.progressElement) {
+      this.settingsData.progressElement = this.element;
+    }
+
     this.calculateProgressOffsets();
   }
 
@@ -633,6 +638,68 @@ export class CssParallaxer implements EventDispatcher {
     if (this.settingsData!.progressWatcher) {
       this.settingsData!.progressWatcher.setProgress(this.currentProgress);
     }
+  }
+
+  /**
+   * Allows you to acquire the percent of a given element within the css-parallax
+   * root element.
+   *
+   * The element would be the element you want.  The baseLine is a number that
+   * is from 0 to 1.  0 is the top of the element, 0.5 would be the middle and 1
+   * would be the bottom of the element.
+   *
+   *
+   * Example:
+   * ```html
+   * <div myparallax>
+   *    ...
+   *    <div section1>...</div>
+   *    ...
+   * </div>
+   * ```
+   *
+   * ```ts
+   * const cssParallaxer = new CssParallaxer(document.querySelector('[myparallax]));
+   *
+   * // Don't use init and instead use a combination of updateSettings and
+   * // updateInterpolations to manually initialize the module.
+   * cssParallax.updateSettings({
+   *   debug: false,
+   *   lerp: 1,
+   *   damp: 1,
+   *   lerpOnlyInRange: false,
+   *   top: window.innerHeight + 'px',
+   *   bottom: window.innerHeight + 'px',
+   * })
+   *
+   *
+   * // Now let's say I want an interpolation that starts when section1
+   * // comes into view and ends when 80% of section1 has been scrolled in.  We can
+   * // calculate this with getElementProgressPoint.
+   * const section1Element = document.querySelector('[section1]');
+   * const sectionInProgressPoint = cssParallax.getElementProgressPoint(section1Element, 0)
+   * const sectionOutProgressPoint = cssParallax.getElementProgressPoint(section1Element, 0.8)
+   *
+   *
+   * cssParallax.updateInterpolations([
+   *   {
+   *     id: '--my-custom-progress',
+   *     progress: [{
+   *       from: sectionInProgressPoint, to: sectionOutProgressPoint, start: 0, end: 1 }],
+   *   },
+   * ]);
+   *
+   * ```
+   */
+  public getElementProgressPoint(targetElement: HTMLElement, baseline = 0) {
+    return dom.getElementProgressPoint(
+      this.settingsData?.progressElement || this.element,
+      targetElement,
+      baseline,
+      this.topOffset,
+      this.bottomOffset,
+      true
+    );
   }
 
   public getRaf() {
