@@ -252,6 +252,7 @@ scrollProgress.init(settings);
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#dispose" class="tsd-kind-icon">dispose</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#getelementprogresspoint" class="tsd-kind-icon">get<wbr>Element<wbr>Progress<wbr>Point</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#getinterpolator" class="tsd-kind-icon">get<wbr>Interpolator</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#getprogress" class="tsd-kind-icon">get<wbr>Progress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#getraf" class="tsd-kind-icon">get<wbr>Raf</a></li>
@@ -261,6 +262,7 @@ scrollProgress.init(settings);
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#setmanualprogress" class="tsd-kind-icon">set<wbr>Manual<wbr>Progress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updateimmediately" class="tsd-kind-icon">update<wbr>Immediately</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updateinterpolations" class="tsd-kind-icon">update<wbr>Interpolations</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updateprogress" class="tsd-kind-icon">update<wbr>Progress</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.cssparallaxer.html#updatesettings" class="tsd-kind-icon">update<wbr>Settings</a></li>
 							</ul>
@@ -280,7 +282,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L311">dom/css-parallaxer.ts:311</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L311">dom/css-parallaxer.ts:311</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -306,10 +308,81 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L632">dom/css-parallaxer.ts:632</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L709">dom/css-parallaxer.ts:709</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getelementprogresspoint" class="tsd-anchor"></a>
+					<h3>get<wbr>Element<wbr>Progress<wbr>Point</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Element<wbr>Progress<wbr>Point<span class="tsd-signature-symbol">(</span>targetElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, baseline<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L694">dom/css-parallaxer.ts:694</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Allows you to acquire the percent of a given element within the css-parallax
+									root element.</p>
+								</div>
+								<p>The element would be the element you want.  The baseLine is a number that
+									is from 0 to 1.  0 is the top of the element, 0.5 would be the middle and 1
+								would be the bottom of the element.</p>
+								<p>Example:</p>
+								<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">myparallax</span>&gt;</span>
+   ...
+   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">section1</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+   ...
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
+								<pre><code class="language-ts">const cssParallaxer = new CssParallaxer(document.querySelector(&#39;[myparallax]));
+
+// Don&#39;t use init and instead use a combination of updateSettings and
+// updateInterpolations to manually initialize the module.
+cssParallax.updateSettings({
+  debug: false,
+  lerp: 1,
+  damp: 1,
+  lerpOnlyInRange: false,
+  top: window.innerHeight + &#39;px&#39;,
+  bottom: window.innerHeight + &#39;px&#39;,
+})
+
+
+// Now let&#39;s say I want an interpolation that starts when section1
+// comes into view and ends when 80% of section1 has been scrolled in.  We can
+// calculate this with getElementProgressPoint.
+const section1Element = document.querySelector(&#39;[section1]&#39;);
+const sectionInProgressPoint = cssParallax.getElementProgressPoint(section1Element, 0)
+const sectionOutProgressPoint = cssParallax.getElementProgressPoint(section1Element, 0.8)
+
+
+cssParallax.updateInterpolations([
+  {
+    id: &#39;--my-custom-progress&#39;,
+    progress: [{
+      from: sectionInProgressPoint, to: sectionOutProgressPoint, start: 0, end: 1 }],
+  },
+]);
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>targetElement: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> baseline: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -323,7 +396,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L446">dom/css-parallaxer.ts:446</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L461">dom/css-parallaxer.ts:461</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -348,7 +421,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L586">dom/css-parallaxer.ts:586</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L601">dom/css-parallaxer.ts:601</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -370,7 +443,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L628">dom/css-parallaxer.ts:628</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L705">dom/css-parallaxer.ts:705</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="raf.raf-1.html" class="tsd-signature-type">Raf</a></h4>
@@ -387,7 +460,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L419">dom/css-parallaxer.ts:419</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L434">dom/css-parallaxer.ts:434</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/dom.cssparallaxsettings.html" class="tsd-signature-type">CssParallaxSettings</a>
@@ -407,7 +480,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L332">dom/css-parallaxer.ts:332</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L340">dom/css-parallaxer.ts:340</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -442,7 +515,7 @@ scrollProgress.init(settings);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L379">dom/css-parallaxer.ts:379</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L331">dom/css-parallaxer.ts:331</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -469,7 +542,7 @@ scrollProgress.init(settings);
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L375">dom/css-parallaxer.ts:375</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L327">dom/css-parallaxer.ts:327</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -495,7 +568,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L608">dom/css-parallaxer.ts:608</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L623">dom/css-parallaxer.ts:623</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -537,9 +610,37 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L509">dom/css-parallaxer.ts:509</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L524">dom/css-parallaxer.ts:524</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updateinterpolations" class="tsd-anchor"></a>
+					<h3>update<wbr>Interpolations</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Interpolations<span class="tsd-signature-symbol">(</span>interpolations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/interpolate.interpolatesettings.html" class="tsd-signature-type">interpolateSettings</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L356">dom/css-parallaxer.ts:356</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates the interpolations.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>interpolations: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/interpolate.interpolatesettings.html" class="tsd-signature-type">interpolateSettings</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -554,7 +655,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L453">dom/css-parallaxer.ts:453</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L468">dom/css-parallaxer.ts:468</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -585,7 +686,7 @@ scrollProgress.init(settings);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4e175d4/src/dom/css-parallaxer.ts#L387">dom/css-parallaxer.ts:387</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/42dcb9b/src/dom/css-parallaxer.ts#L396">dom/css-parallaxer.ts:396</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -701,6 +802,9 @@ scrollProgress.init(settings);
 								<a href="dom.cssparallaxer.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.cssparallaxer.html#getelementprogresspoint" class="tsd-kind-icon">get<wbr>Element<wbr>Progress<wbr>Point</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dom.cssparallaxer.html#getinterpolator" class="tsd-kind-icon">get<wbr>Interpolator</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -726,6 +830,9 @@ scrollProgress.init(settings);
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dom.cssparallaxer.html#updateimmediately" class="tsd-kind-icon">update<wbr>Immediately</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.cssparallaxer.html#updateinterpolations" class="tsd-kind-icon">update<wbr>Interpolations</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="dom.cssparallaxer.html#updateprogress" class="tsd-kind-icon">update<wbr>Progress</a>
