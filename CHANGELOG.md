@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://www.github.com/blinkk/degu/compare/v1.12.0...v1.13.0) (2021-08-17)
+
+
+### Features
+
+* Add dom.addStylesToPage ([00fe0c6](https://www.github.com/blinkk/degu/commit/00fe0c6a1f3f631a4d00a6d2e2f8916a8694f7db))
+
 ## [1.12.0](https://www.github.com/blinkk/degu/compare/v1.11.0...v1.12.0) (2021-08-16)
 
 
