@@ -1170,10 +1170,23 @@ export function isOverlapping(
 }
 
 /**
+ * Adds the given cssStyle to the page.
+ * @param cssStyle
+ *
+ * ```
+ * dom.addStylesToPage(".myclass { background: blue}");
+ * ```
+ */
+export function addStylesToPage(cssStyle: string) {
+  document.head.insertAdjacentHTML('beforeend', `<style>${cssStyle}</style>`);
+}
+
+/**
  * Degu DOM utility functions.
  */
 export const dom = {
   addStyles,
+  addStylesToPage,
   appendAfter,
   aspect,
   copyBase64Image,
