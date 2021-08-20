@@ -78,6 +78,9 @@ export interface CssParallaxSettings {
   // of the element you instantiate against.
   //
   progressElement?: HTMLElement;
+
+  // Whether to use subpixelrendering.  Defaults to true.
+  subpixelRendering?: boolean;
 }
 
 /**
@@ -361,7 +364,9 @@ export class CssParallaxer implements EventDispatcher {
         interpolations: interpolations || [],
       });
       this.interpolator.useBatchUpdate(true);
-      this.interpolator.useSubPixelRendering(false);
+      this.interpolator.useSubPixelRendering(
+        this.settingsData!.subpixelRendering!
+      );
       this.element.classList.add('css-parallax-ready');
       this.rafEv = elementVisibility.inview(
         this.element,
@@ -413,6 +418,7 @@ export class CssParallaxer implements EventDispatcher {
           inviewProgress: null,
           progressWatcher: null,
           manualProgressUpdates: false,
+          subpixelRendering: true,
         },
         ...(settings || {}),
       };
