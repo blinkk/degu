@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://www.github.com/blinkk/degu/compare/v1.13.0...v1.14.0) (2021-08-20)
+
+
+### Features
+
+* Default css-parallax to subPixelRender true ([045e464](https://www.github.com/blinkk/degu/commit/045e4645aff68d1d33b42b48631386d8f1001647))
+
 ## [1.13.0](https://www.github.com/blinkk/degu/compare/v1.12.0...v1.13.0) (2021-08-17)
 
 
