@@ -250,4 +250,20 @@ export class CubicBezier {
       return this.interpolateProgress(progress, p0, p1, p2, p3);
     };
   }
+
+  /**
+   * Makes an easing function from comma separated values.
+   * ```
+   * const myEasingFunction = CubicBezier.makeEasingFunctionFromString('0,0.2,0.93,1');
+   * ```
+   */
+  public static makeEasingFunctionFromString(value: string) {
+    const values = value.split(',');
+    return CubicBezier.makeEasingFunction(
+      +values[0],
+      +values[1],
+      +values[2],
+      +values[3]
+    );
+  }
 }
