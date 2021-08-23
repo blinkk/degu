@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://www.github.com/blinkk/degu/compare/v1.14.0...v1.15.0) (2021-08-23)
+
+
+### Features
+
+* Add makeEasingFunctionFromString ([be6922d](https://www.github.com/blinkk/degu/commit/be6922df1c5554fd8f376df542913a67b2612f38))
+
 ## [1.14.0](https://www.github.com/blinkk/degu/compare/v1.13.0...v1.14.0) (2021-08-20)
 
 
