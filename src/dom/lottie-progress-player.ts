@@ -93,6 +93,7 @@ export class LottieProgressPlayer implements EventDispatcher {
   private eventManager: EventManager;
   private settings: LottieProgressPlayerSettings;
   private lottieInstance: AnimationItem | null = null;
+  private currentProgress = 0;
 
   constructor(
     containerElement: HTMLElement,
@@ -157,6 +158,7 @@ export class LottieProgressPlayer implements EventDispatcher {
    * Update the lottie by progress
    */
   public setProgress(progress: number) {
+    this.currentProgress = progress;
     const frame = mathf.lerp(
       this.settings.startFrame,
       this.settings.endFrame,
@@ -174,6 +176,10 @@ export class LottieProgressPlayer implements EventDispatcher {
 
   public getLottieInstance() {
     return this.lottieInstance;
+  }
+
+  public getProgress() {
+    return this.currentProgress;
   }
 
   public on(event: string, callback: EventCallback) {
