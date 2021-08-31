@@ -150,6 +150,7 @@ export class LottieProgressPlayer implements EventDispatcher {
     // Supposed lottie optimization.
     this.lottieInstance.setSubframe(false);
     this.lottieInstance.addEventListener('DOMLoaded', () => {
+      this.setProgress(1);
       this.eventManager.dispatch(LottieProgressPlayerEvents.DOMLOADED);
     });
   }
