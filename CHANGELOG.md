@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.16.1](https://www.github.com/blinkk/degu/compare/v1.16.0...v1.16.1) (2021-08-31)
+
+
+### Bug Fixes
+
+* Lottie progress bug ([46e914d](https://www.github.com/blinkk/degu/commit/46e914d125118a61e5fea9fab89fb1846bf4a026))
+
 ## [1.16.0](https://www.github.com/blinkk/degu/compare/v1.15.0...v1.16.0) (2021-08-24)
 
 
