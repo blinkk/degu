@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.16.2](https://www.github.com/blinkk/degu/compare/v1.16.1...v1.16.2) (2021-09-01)
+
+
+### Bug Fixes
+
+* lottie player should start on first frame ([90359d7](https://www.github.com/blinkk/degu/commit/90359d75861c6dd3ce7b1a9215cb717d937dc035))
+
 ### [1.16.1](https://www.github.com/blinkk/degu/compare/v1.16.0...v1.16.1) (2021-08-31)
 
 
