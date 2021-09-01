@@ -86,6 +86,20 @@ export interface LottieProgressPlayerSettings {
  *   )
  * });
  * ```
+ *
+ * # Lottie player events.
+ *
+ * If you need to hook into lottie events, these are available on lottie progress
+ * player.
+ *
+ *
+ * Example: Immediately update the lottie-progress-player to the last frame on
+ * load.
+ * ```
+ *   this.lottieProgressPlayer.on(LottieProgressPlayerEvents.DOMLOADED, ()=> {
+ *       this.lottieProgressPlayer.setProgress(1);
+ *    })
+ * ```
  */
 export class LottieProgressPlayer implements EventDispatcher {
   private containerElement: HTMLElement;
@@ -150,7 +164,7 @@ export class LottieProgressPlayer implements EventDispatcher {
     // Supposed lottie optimization.
     this.lottieInstance.setSubframe(false);
     this.lottieInstance.addEventListener('DOMLoaded', () => {
-      this.setProgress(1);
+      this.setProgress(0);
       this.eventManager.dispatch(LottieProgressPlayerEvents.DOMLOADED);
     });
   }
