@@ -108,7 +108,14 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
   lottieProgressPlayer.setProgress(
      <span class="hljs-keyword">this</span>.scrollProgress.getProgress();
   )
-});</code></pre>
+});</code></pre><h1 id="lottie-player-events-">Lottie player events.</h1>
+					<p>If you need to hook into lottie events, these are available on lottie progress
+					player.</p>
+					<p>Example: Immediately update the lottie-progress-player to the last frame on
+					load.</p>
+					<pre><code>  <span class="hljs-keyword">this</span>.lottieProgressPlayer.<span class="hljs-literal">on</span>(LottieProgressPlayerEvents.DOMLOADED, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
+      <span class="hljs-keyword">this</span>.lottieProgressPlayer.setProgress(<span class="hljs-number">1</span>);
+   })</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -163,7 +170,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L96">dom/lottie-progress-player.ts:96</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L110">dom/lottie-progress-player.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -192,7 +199,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L129">dom/lottie-progress-player.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L143">dom/lottie-progress-player.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -209,7 +216,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L199">dom/lottie-progress-player.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L213">dom/lottie-progress-player.ts:213</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -226,7 +233,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L178">dom/lottie-progress-player.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L192">dom/lottie-progress-player.ts:192</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span>
@@ -246,7 +253,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L182">dom/lottie-progress-player.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L196">dom/lottie-progress-player.ts:196</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -264,7 +271,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#off">off</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L190">dom/lottie-progress-player.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L204">dom/lottie-progress-player.ts:204</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -291,7 +298,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/ui.eventdispatcher.html">EventDispatcher</a>.<a href="../interfaces/ui.eventdispatcher.html#on">on</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L186">dom/lottie-progress-player.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L200">dom/lottie-progress-player.ts:200</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -317,7 +324,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L174">dom/lottie-progress-player.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L188">dom/lottie-progress-player.ts:188</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -345,7 +352,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/179eb54/src/dom/lottie-progress-player.ts#L161">dom/lottie-progress-player.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/adc4b45/src/dom/lottie-progress-player.ts#L175">dom/lottie-progress-player.ts:175</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
