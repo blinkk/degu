@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://www.github.com/blinkk/degu/compare/v1.16.2...v1.17.0) (2021-09-09)
+
+
+### Features
+
+* Add removeNativeLazyImage ([e3dd52d](https://www.github.com/blinkk/degu/commit/e3dd52db830b36ed581ce57d2e568d627032c41b))
+
 ### [1.16.2](https://www.github.com/blinkk/degu/compare/v1.16.1...v1.16.2) (2021-09-01)
 
 
