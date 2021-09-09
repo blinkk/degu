@@ -1182,6 +1182,27 @@ export function addStylesToPage(cssStyle: string) {
 }
 
 /**
+ * Finds all loading="lazy" within an element and removes the attribute.
+ * The context and reason why you may want to use this is because of how
+ * native lazy loading works.  Native lazy image loading will only load an image
+ * when it is rendered and painted on the screen.  Say you have
+ * a carousel module with many slides.  Even if the user has scrolled into
+ * the module, carousel image in slides 2,3 etc with lazy loading will
+ * not load until the user clicks into that slide and the image is painted.
+ *
+ * To avoid this, you can run this when the module comes into view.
+ */
+export function removeNativeLazyImage(rootElement: HTMLElement) {
+  const lazyElements: HTMLElement[] = Array.from(
+    rootElement.querySelectorAll('[loading=lazy]')
+  );
+
+  lazyElements.forEach(element => {
+    element.removeAttribute('loading');
+  });
+}
+
+/**
  * Degu DOM utility functions.
  */
 export const dom = {
