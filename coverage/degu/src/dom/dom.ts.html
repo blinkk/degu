@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">19.15% </span>
+        <span class="strong">19.01% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>54/282</span>
+        <span class='fraction'>54/284</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/103</span>
+        <span class='fraction'>0/106</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/81</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">19.22% </span>
+        <span class="strong">19.08% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>54/281</span>
+        <span class='fraction'>54/283</span>
       </div>
     </div>
     <p class="quiet">
@@ -1300,7 +1300,21 @@
 <a name='L1252'></a><a href='#L1252'>1252</a>
 <a name='L1253'></a><a href='#L1253'>1253</a>
 <a name='L1254'></a><a href='#L1254'>1254</a>
-<a name='L1255'></a><a href='#L1255'>1255</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L1255'></a><a href='#L1255'>1255</a>
+<a name='L1256'></a><a href='#L1256'>1256</a>
+<a name='L1257'></a><a href='#L1257'>1257</a>
+<a name='L1258'></a><a href='#L1258'>1258</a>
+<a name='L1259'></a><a href='#L1259'>1259</a>
+<a name='L1260'></a><a href='#L1260'>1260</a>
+<a name='L1261'></a><a href='#L1261'>1261</a>
+<a name='L1262'></a><a href='#L1262'>1262</a>
+<a name='L1263'></a><a href='#L1263'>1263</a>
+<a name='L1264'></a><a href='#L1264'>1264</a>
+<a name='L1265'></a><a href='#L1265'>1265</a>
+<a name='L1266'></a><a href='#L1266'>1266</a>
+<a name='L1267'></a><a href='#L1267'>1267</a>
+<a name='L1268'></a><a href='#L1268'>1268</a>
+<a name='L1269'></a><a href='#L1269'>1269</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -1412,14 +1426,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2662,6 +2690,12 @@ import {DomWatcher} from '../dom/dom-watcher';
  *     will affect the point at which your progress hits 1 (ends).
  * @param {boolean} Optionally remove percent clamping.  This means it can return
  *     values outside 0-1.
+ * @param {number} Optionally pass the window.innerHeight value.  This is
+ *    useful for cases in which you have cached the window.innerHeight value.
+ *    One usecase for this is on mobile, the window.innerHeight value can change
+ *    as the user scrolls (since the url bar appears and disappears). To avoid
+ *    jumps in the return progress percent, you want to cache the
+ *    window.innerHeight value and pass it here.
  * @return {number} percent The amount in percentage that the user has scrolled
  *     in the element.
  *
@@ -2670,10 +2704,18 @@ export function <span class="fstat-no" title="function not covered" >getElementS
   element: HTMLElement,
   startOffset = <span class="branch-0 cbranch-no" title="branch not covered" >0,</span>
   heightOffset = <span class="branch-0 cbranch-no" title="branch not covered" >0,</span>
-  noClamp = <span class="branch-0 cbranch-no" title="branch not covered" >false</span>
+  noClamp = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
+  innerHeight = <span class="branch-0 cbranch-no" title="branch not covered" >0</span>
 ): number {
   const box = <span class="cstat-no" title="statement not covered" >element.getBoundingClientRect();</span>
-  const wh = <span class="cstat-no" title="statement not covered" >window.innerHeight;</span>
+  let wh;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (innerHeight) {</span>
+<span class="cstat-no" title="statement not covered" >    wh = innerHeight;</span>
+  } else {
+<span class="cstat-no" title="statement not covered" >    wh = window.innerHeight;</span>
+  }
+&nbsp;
   // We need to calculate this so that we start the 0% when the element comes
   // in (the top of the element).  But the 100% is marked when the BOTTOM
   // of the element passes the bottom of the screen.
@@ -2708,8 +2750,8 @@ export function <span class="fstat-no" title="function not covered" >getElementP
     ) - startOffset;
 &nbsp;
   const totalScrollDistance = <span class="cstat-no" title="statement not covered" >Math.abs(</span>
-    getScrollYAtPercent(rootElement, startOffset, heightOffset, 0) -
-      getScrollYAtPercent(rootElement, startOffset, heightOffset, 1)
+    getScrollYAtPercent(rootElement, startOffset, heightOffset, 0, true) -
+      getScrollYAtPercent(rootElement, startOffset, heightOffset, 1, true)
   );
   const percent = <span class="cstat-no" title="statement not covered" >y / totalScrollDistance;</span>
 <span class="cstat-no" title="statement not covered" >  return noClamp ? percent : mathf.clampAsPercent(percent);</span>
@@ -3814,7 +3856,7 @@ export const dom = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Sep 09 2021 20:02:13 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Sep 15 2021 22:47:13 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
