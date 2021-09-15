@@ -312,6 +312,7 @@ export class CssParallaxer implements EventDispatcher {
   private height: number | null = null;
 
   private windowWidth: number | null = null;
+  private windowHeight: number | null = null;
 
   constructor(element: HTMLElement) {
     this.eventManager = new EventManager();
@@ -325,6 +326,7 @@ export class CssParallaxer implements EventDispatcher {
         this.onWindowResize();
       }, 300),
     });
+    this.cacheWindowSize();
   }
 
   public on(event: string, callback: EventCallback) {
@@ -480,7 +482,8 @@ export class CssParallaxer implements EventDispatcher {
       this.settingsData?.progressElement || this.element,
       this.topOffset,
       this.bottomOffset,
-      true
+      true,
+      this.windowHeight || window.innerHeight
     );
 
     // Don't apply lerp / damp when we are out of range.
@@ -557,8 +560,13 @@ export class CssParallaxer implements EventDispatcher {
     });
   }
 
-  protected onWindowResize() {
+  private cacheWindowSize() {
+    this.windowHeight = window.innerHeight;
     this.windowWidth = window.innerWidth;
+  }
+
+  protected onWindowResize() {
+    this.cacheWindowSize();
     this.calculateProgressOffsets();
     this.interpolator!.flush();
     this.updateImmediately();

@@ -106,6 +106,12 @@ import {DomWatcher} from '../dom/dom-watcher';
  *     will affect the point at which your progress hits 1 (ends).
  * @param {boolean} Optionally remove percent clamping.  This means it can return
  *     values outside 0-1.
+ * @param {number} Optionally pass the window.innerHeight value.  This is
+ *    useful for cases in which you have cached the window.innerHeight value.
+ *    One usecase for this is on mobile, the window.innerHeight value can change
+ *    as the user scrolls (since the url bar appears and disappears). To avoid
+ *    jumps in the return progress percent, you want to cache the
+ *    window.innerHeight value and pass it here.
  * @return {number} percent The amount in percentage that the user has scrolled
  *     in the element.
  *
@@ -114,10 +120,18 @@ export function getElementScrolledPercent(
   element: HTMLElement,
   startOffset = 0,
   heightOffset = 0,
-  noClamp = false
+  noClamp = false,
+  innerHeight = 0
 ): number {
   const box = element.getBoundingClientRect();
-  const wh = window.innerHeight;
+  let wh;
+
+  if (innerHeight) {
+    wh = innerHeight;
+  } else {
+    wh = window.innerHeight;
+  }
+
   // We need to calculate this so that we start the 0% when the element comes
   // in (the top of the element).  But the 100% is marked when the BOTTOM
   // of the element passes the bottom of the screen.
@@ -152,8 +166,8 @@ export function getElementProgressPoint(
     ) - startOffset;
 
   const totalScrollDistance = Math.abs(
-    getScrollYAtPercent(rootElement, startOffset, heightOffset, 0) -
-      getScrollYAtPercent(rootElement, startOffset, heightOffset, 1)
+    getScrollYAtPercent(rootElement, startOffset, heightOffset, 0, true) -
+      getScrollYAtPercent(rootElement, startOffset, heightOffset, 1, true)
   );
   const percent = y / totalScrollDistance;
   return noClamp ? percent : mathf.clampAsPercent(percent);
