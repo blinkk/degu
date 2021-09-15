@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.17.1](https://www.github.com/blinkk/degu/compare/v1.17.0...v1.17.1) (2021-09-15)
+
+
+### Bug Fixes
+
+* css parallax scroll jump behavior ([8e6fcdc](https://www.github.com/blinkk/degu/commit/8e6fcdcd047b124ac97719aabbb42d6a5defe1d2))
+
 ## [1.17.0](https://www.github.com/blinkk/degu/compare/v1.16.2...v1.17.0) (2021-09-09)
 
 
