@@ -230,7 +230,7 @@ export class YouTubeModal {
     ) as HTMLElement;
 
     const el = this.createDom('div', this.config.namespace!);
-    el.setAttribute('aria-model', 'true');
+    el.setAttribute('aria-modal', 'true');
     el.setAttribute('role', 'dialog');
 
     const closeEl = this.createDom('button', `${this.config.namespace}__x`);
