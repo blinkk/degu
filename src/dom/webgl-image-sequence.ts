@@ -726,7 +726,6 @@ export class WebGlImageSequence {
    * were provided.
    */
   resizeImageSets() {
-    console.log('resizeing');
     const newSet = this.getSourceThatShouldLoad(this.imageSets);
     if (newSet !== this.activeImageSet) {
       this.loadNewSet(this.imageSets);
