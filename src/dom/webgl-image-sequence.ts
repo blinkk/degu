@@ -660,19 +660,7 @@ export class WebGlImageSequence {
       element: window,
       on: 'smartResize',
       callback: () => {
-        // Evaluate if we need to load a different image set.
-        const newSet = this.getSourceThatShouldLoad(this.imageSets);
-        if (newSet !== this.activeImageSet) {
-          this.loadNewSet(this.imageSets);
-          // Autoload the content.
-          this.load().then(() => {
-            // Set last frame to null to allow redrawing.
-            this.lastDrawSource = null;
-            this.fps.lock(false);
-            this.renderByProgress(this.progress || 0);
-            this.fps.lock(true);
-          });
-        }
+        this.resizeImageSets();
       },
       id: 'image-set-resize',
       eventOptions: {passive: true},
@@ -731,6 +719,26 @@ export class WebGlImageSequence {
     this.canvasElement.style.width = this.canvasElement.width / this.dpr + 'px';
     this.canvasElement.style.height =
       this.canvasElement.height / this.dpr + 'px';
+  }
+
+  /**
+   * Evaluates if we need to load a different image set if multiple image sets
+   * were provided.
+   */
+  resizeImageSets() {
+    console.log('resizeing');
+    const newSet = this.getSourceThatShouldLoad(this.imageSets);
+    if (newSet !== this.activeImageSet) {
+      this.loadNewSet(this.imageSets);
+      // Autoload the content.
+      this.load().then(() => {
+        // Set last frame to null to allow redrawing.
+        this.lastDrawSource = null;
+        this.fps.lock(false);
+        this.renderByProgress(this.progress || 0);
+        this.fps.lock(true);
+      });
+    }
   }
 
   /**
