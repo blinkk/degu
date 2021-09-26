@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.17.2](https://www.github.com/blinkk/degu/compare/v1.17.1...v1.17.2) (2021-09-26)
+
+
+### Bug Fixes
+
+* typo in `aria-modal` ([#153](https://www.github.com/blinkk/degu/issues/153)) ([6e23c5e](https://www.github.com/blinkk/degu/commit/6e23c5e5be8601f94de845247bb1f751ff07a158))
+
 ### [1.17.1](https://www.github.com/blinkk/degu/compare/v1.17.0...v1.17.1) (2021-09-15)
 
 
