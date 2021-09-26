@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.17.3](https://www.github.com/blinkk/degu/compare/v1.17.2...v1.17.3) (2021-09-26)
+
+
+### Miscellaneous Chores
+
+* release 1.17.3 ([8311e33](https://www.github.com/blinkk/degu/commit/8311e33329e692b3d4840681e0b33926bb225504))
+
 ### [1.17.2](https://www.github.com/blinkk/degu/compare/v1.17.1...v1.17.2) (2021-09-26)
 
 
