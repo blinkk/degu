@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.17.4](https://www.github.com/blinkk/degu/compare/v1.17.3...v1.17.4) (2021-10-13)
+
+
+### Bug Fixes
+
+* unsetFocusableElementsToTabIndex coverage ([f3342f5](https://www.github.com/blinkk/degu/commit/f3342f538f4257a3126d33b4c765d95315257847))
+
 ### [1.17.3](https://www.github.com/blinkk/degu/compare/v1.17.2...v1.17.3) (2021-09-26)
 
 
