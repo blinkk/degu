@@ -973,13 +973,14 @@ export function setFocusableElementsToTabIndex(
  * after the 'dom.setFocusableElementsToTabIndex()` method has been executed.
  */
 export function unsetFocusableElementsToTabIndex(element: HTMLElement) {
-  const elements: HTMLElement[] = getFocusableElements(element);
+  const elements: HTMLElement[] = Array.from(
+    element.querySelectorAll('[originalTabIndex]')
+  );
 
   elements.forEach(element => {
-    if (element.hasAttribute('originalTabIndex')) {
-      const originalTabIndex = !element.getAttribute('originalTabIndex');
-      element.tabIndex = +originalTabIndex;
-    }
+    const originalTabIndex: string =
+      element.getAttribute('originalTabIndex') || '';
+    element.tabIndex = +originalTabIndex;
   });
 }
 
