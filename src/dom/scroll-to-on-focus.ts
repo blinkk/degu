@@ -2,6 +2,10 @@ import {DomWatcher} from './dom-watcher';
 import * as dom from '../dom/dom';
 import * as func from '../func/func';
 import * as is from '../is/is';
+import {
+  KeyboardNavigationEvents,
+  KeyboardNavigationWatcher,
+} from './keyboard-navigation-watcher';
 
 export interface ScrollToOnFocusConfig {
   /**
@@ -24,6 +28,16 @@ export interface ScrollToOnFocusConfig {
    * Handy for debuggin.
    */
   mouseDown?: boolean;
+
+  /**
+   * Forces to run only when the user is navigating via keyboard.
+   * In most cases, if the `mouseDown` option is set to false, you won't
+   * need this.  However, if this module is listening to an interactive
+   * element like a button, set this option to true to disable scrolling
+   * when using the mouse.
+   * Defaults to false.
+   */
+  keyboardModeOnly?: boolean;
 
   /**
    * For any element with data-scroll-to-on-focus automatically set
@@ -156,6 +170,9 @@ export class ScrollToOnFocus {
   private bottomProgressOffset: number;
   private debug = false;
   private config: ScrollToOnFocusConfig;
+  private keyboardModeOnly = false;
+  private keyboardWatcher: KeyboardNavigationWatcher;
+  private isUsingKeyboard = false;
 
   constructor(config: ScrollToOnFocusConfig) {
     this.element = config.element;
@@ -163,8 +180,12 @@ export class ScrollToOnFocus {
     this.selector = 'data-scroll-to-on-focus';
     this.topProgressOffset = func.setDefault(config.topProgressOffset, 0);
     this.bottomProgressOffset = func.setDefault(config.bottomProgressOffset, 0);
+    this.keyboardModeOnly = func.setDefault(config.keyboardModeOnly, false);
     this.debug = func.setDefault(config.debug, false);
     this.config = config;
+
+    this.keyboardWatcher = new KeyboardNavigationWatcher();
+    this.watchKeyboardEvents();
 
     const elements: Array<HTMLElement> = Array.from(
       this.element.querySelectorAll(`[${this.selector}]`)
@@ -172,6 +193,16 @@ export class ScrollToOnFocus {
 
     elements.forEach(el => {
       this.watchElement(el);
+    });
+  }
+
+  private watchKeyboardEvents() {
+    this.keyboardWatcher.on(KeyboardNavigationEvents.MOUSE, () => {
+      this.isUsingKeyboard = false;
+    });
+
+    this.keyboardWatcher.on(KeyboardNavigationEvents.KEYBOARD, () => {
+      this.isUsingKeyboard = true;
     });
   }
 
@@ -238,6 +269,10 @@ export class ScrollToOnFocus {
    * Handle focus on an element.
    */
   private handleFocus(focusedElement: HTMLElement) {
+    if (this.keyboardModeOnly && !this.isUsingKeyboard) {
+      return;
+    }
+
     const targetPercent = focusedElement.getAttribute(this.selector);
 
     if (this.debug) {
@@ -270,5 +305,6 @@ export class ScrollToOnFocus {
 
   public dispose() {
     this.watcher && this.watcher.dispose();
+    this.keyboardWatcher && this.keyboardWatcher.dispose();
   }
 }
