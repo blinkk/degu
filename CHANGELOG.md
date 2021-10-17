@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://www.github.com/blinkk/degu/compare/v1.17.4...v1.18.0) (2021-10-17)
+
+
+### Features
+
+* Add keyboardModeOnly to scroll-to-on-focus ([a1e8faa](https://www.github.com/blinkk/degu/commit/a1e8faa1788c8edd1b9701f37c200bddfce20889))
+
 ### [1.17.4](https://www.github.com/blinkk/degu/compare/v1.17.3...v1.17.4) (2021-10-13)
 
 
