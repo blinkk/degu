@@ -43,11 +43,12 @@ export interface LottieProgressPlayerSettings {
  *
  *
  * # Required - loading Lottie
- * Prior to using lottieProgressPlayer, a requirement is to load lottie first.
+ * Prior to using lottieProgressPlayer, you must load lottie first.
  * You can do this using degu script loader.
  *
  * ```
  *
+ *   import {ScriptLoader} from '@blinkk/degu/lib/loader/script-loader';
  *   this.scriptLoader
  *     .load(
  *       'https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.14/lottie.min.js',
@@ -59,7 +60,10 @@ export interface LottieProgressPlayerSettings {
  *       this.lottieProgressPlayer = new LottieProgressPlayer(
  *         this.lottieElement,
  *         {
- *          ... // Settings
+ *          jsonPath: ..,
+ *          startFrame: 0,
+ *          ...
+ *          lottie: window['lottie']
  *         }
  *       );
  *
