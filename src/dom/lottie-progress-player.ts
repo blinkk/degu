@@ -1,8 +1,8 @@
+import lottie, {AnimationItem} from 'lottie-web';
 import {DomWatcher} from './dom-watcher';
 import * as mathf from '../mathf/mathf';
 import * as func from '../func/func';
 import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
-import {AnimationItem, LottiePlayer} from '../third-party/lottie';
 
 export enum LottieProgressPlayerEvents {
   RESIZE = 'resize',
@@ -31,7 +31,7 @@ export interface LottieProgressPlayerSettings {
   endFrame: number;
 
   // Required.  Pass lottie instance.
-  lottie: LottiePlayer;
+  lottie: typeof lottie;
 }
 
 /**
@@ -140,7 +140,7 @@ export class LottieProgressPlayer implements EventDispatcher {
   private settings: LottieProgressPlayerSettings;
   private lottieInstance: AnimationItem | null = null;
   private currentProgress = 0;
-  private lottie: LottiePlayer;
+  private lottie: typeof lottie;
 
   constructor(
     containerElement: HTMLElement,
