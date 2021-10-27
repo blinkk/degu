@@ -652,7 +652,11 @@ export class Carousel implements EventDispatcher {
   private onRaf(): void {
     this.raf.read(() => {
       if (!this.condition()) {
+        // Don't continue autoplay timing when the carousel isn't running
+        this.pause();
         return;
+      } else {
+        this.unpause();
       }
 
       if (this.isBeingInteractedWith()) {
