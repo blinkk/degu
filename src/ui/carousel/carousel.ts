@@ -107,6 +107,13 @@ class AutoplayTimeout {
    * Disable the timeout to pause the autplay.
    */
   pause(): void {
+    // We check if the carousel is already paused to ensure pause() is safe to
+    // call multiple times.
+    // If not the value in timePassed slowly accumulates with the time between
+    // pause() calls.
+    if (this.isPaused()) {
+      return;
+    }
     this.timePassed += +new Date() - this.lastStartTime;
     this.clear();
   }
