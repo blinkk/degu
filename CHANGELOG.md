@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://www.github.com/blinkk/degu/compare/v1.18.0...v1.19.0) (2021-11-02)
+
+
+### Features
+
+* Add dom.addDelegatedListener ([202775a](https://www.github.com/blinkk/degu/commit/202775a61f7b4bd517920c7404d1fcc323280930))
+
 ## [1.18.0](https://www.github.com/blinkk/degu/compare/v1.17.4...v1.18.0) (2021-10-17)
 
 
