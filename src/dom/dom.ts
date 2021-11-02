@@ -1218,9 +1218,62 @@ export function removeNativeLazyImage(rootElement: HTMLElement) {
 }
 
 /**
+ * Listens for a specified event on any element within the provided element and
+ * then recursively calls the listener on all ancestors of the originating
+ * element.
+ *
+ * For example a given module,  when any click event happens within the module,
+ * call your listener repeatedly starting from the originating element and all
+ * of its ancestors (bubble up) up to the document root.
+ *
+ * ```ts
+ *   dom.addDelegatedListener(
+ *     myModuleElement || document.documentElement,
+ *     'click',
+ *     (e: HTMLElement, event: any) => {
+ *       if (!e) {
+ *         return;
+ *       }
+ *        // Called on the element that was clicked and it's parent
+ *        // recursively until the document root.
+ *        ...
+ *     }
+ *   );
+ * ```
+ *
+ * @param {Element} el Element to host the listener.
+ * @param {string} type Listener type.
+ * @param {function} listener Listener function.
+ */
+export function addDelegatedListener(
+  el: HTMLElement,
+  type: string,
+  listener: Function
+) {
+  const handler = (e: any) => {
+    e = e || window.event;
+    let target = e.target || e.srcElement;
+    target = target.nodeType === 3 ? target.parentNode : target;
+    do {
+      listener(target, e);
+      if (target.parentNode) {
+        target = target.parentNode;
+      }
+    } while (target.parentNode);
+  };
+  el.addEventListener(type, handler);
+
+  // Return a function to remove the listener.
+  return () => {
+    el.removeEventListener(type, handler);
+  };
+}
+
+/**
  * Degu DOM utility functions.
  */
 export const dom = {
+  addDelegatedListener,
   addStyles,
   addStylesToPage,
   appendAfter,
