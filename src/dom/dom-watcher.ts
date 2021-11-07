@@ -83,7 +83,7 @@ export interface DomWatcherConfig {
  * ```
  *
  *
- * Advanged Usage
+ * Advanced Usage
  * ```ts
  * let new watcher = new DomWatcher();
  *
@@ -131,6 +131,21 @@ export interface DomWatcherConfig {
  *
  * ```
  *
+ * #### ResizeObserver
+ * https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+ * DomWatcher supports resizeObserver.  To use it simply, watch the resize
+ * of an element that isn't the window.  Using window will use the standard
+ * window resize events.
+ *
+ * ```ts
+ *     watcher.add({
+ *         element: myElement,
+ *         on: 'resize',
+ *         callback: (entries) => {
+ *            ....
+ *         },
+ *     });
+ * ```
  *
  * #### Debouncing
  *
@@ -223,7 +238,7 @@ export class DomWatcher {
    * @param config
    */
   private addSingleEvent(config: DomWatcherConfig) {
-    const listener = (event: Event) => {
+    const listener = (event: Event | ResizeObserverEntry[]) => {
       if (config.runWhen) {
         config.runWhen() && config.callback(event);
       } else {
@@ -236,6 +251,16 @@ export class DomWatcher {
     // If the on event is smartResize, wrap it with dom.smartResize.
     if (config.on === 'smartResize') {
       config.remover = bom.smartResize(listener, config.eventOptions || {});
+    }
+    // Use the resizeObserver if we want to listen to resizing of DOM elements.
+    else if (config.on === 'resize' && config.element !== window) {
+      const resizeObserver = new ResizeObserver(entries => {
+        listener(entries);
+      });
+      resizeObserver.observe(config.element as HTMLElement);
+      config.remover = () => {
+        resizeObserver.unobserve(config.element as HTMLElement);
+      };
     } else {
       // Add listening.
       config.element.addEventListener(
