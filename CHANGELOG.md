@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.0](https://www.github.com/blinkk/degu/compare/v1.19.0...v1.20.0) (2021-11-07)
+
+
+### Features
+
+* Add resizeObserver watching ([2c047c1](https://www.github.com/blinkk/degu/commit/2c047c193c3a47e789077faf63da63a844206cbe))
+
 ## [1.19.0](https://www.github.com/blinkk/degu/compare/v1.18.0...v1.19.0) (2021-11-02)
 
 
