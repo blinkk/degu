@@ -104,7 +104,7 @@ watcher.add({
 
 <span class="hljs-comment">// Removes all watchers.</span>
 watcher.removeAll();</code></pre>
-					<p>Advanged Usage</p>
+					<p>Advanced Usage</p>
 					<pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-keyword">new</span> watcher = <span class="hljs-keyword">new</span> DomWatcher();
 
 <span class="hljs-comment">// Removes by Id</span>
@@ -149,6 +149,18 @@ watcher.add({
    runWhen: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.validate()}
 });
 </code></pre>
+					<h4 id="resizeobserver">ResizeObserver</h4>
+					<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver</a>
+						DomWatcher supports resizeObserver.  To use it simply, watch the resize
+						of an element that isn&#39;t the window.  Using window will use the standard
+					window resize events.</p>
+					<pre><code class="language-ts">    watcher.add({
+        element: myElement,
+        on: <span class="hljs-string">'resize'</span>,
+        callback: <span class="hljs-function">(<span class="hljs-params">entries</span>) =&gt;</span> {
+           ....
+        },
+    });</code></pre>
 					<h4 id="debouncing">Debouncing</h4>
 					<pre><code class="language-ts"><span class="hljs-comment">// Add debouncing.</span>
     watcher.add({
@@ -236,7 +248,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c7e307/src/dom/dom-watcher.ts#L196">dom/dom-watcher.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c047c1/src/dom/dom-watcher.ts#L211">dom/dom-watcher.ts:211</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.domwatcher.html" class="tsd-signature-type">DomWatcher</a></h4>
@@ -256,7 +268,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c7e307/src/dom/dom-watcher.ts#L206">dom/dom-watcher.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c047c1/src/dom/dom-watcher.ts#L221">dom/dom-watcher.ts:221</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -286,7 +298,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c7e307/src/dom/dom-watcher.ts#L324">dom/dom-watcher.ts:324</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c047c1/src/dom/dom-watcher.ts#L349">dom/dom-watcher.ts:349</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -308,7 +320,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c7e307/src/dom/dom-watcher.ts#L281">dom/dom-watcher.ts:281</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c047c1/src/dom/dom-watcher.ts#L306">dom/dom-watcher.ts:306</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -330,7 +342,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c7e307/src/dom/dom-watcher.ts#L264">dom/dom-watcher.ts:264</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c047c1/src/dom/dom-watcher.ts#L289">dom/dom-watcher.ts:289</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -361,7 +373,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c7e307/src/dom/dom-watcher.ts#L309">dom/dom-watcher.ts:309</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/2c047c1/src/dom/dom-watcher.ts#L334">dom/dom-watcher.ts:334</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
