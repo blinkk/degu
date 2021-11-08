@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://www.github.com/blinkk/degu/compare/v1.20.0...v1.21.0) (2021-11-08)
+
+
+### Features
+
+* Add mutation observers to dom-watcher ([b42881e](https://www.github.com/blinkk/degu/commit/b42881e33cafbbd2f7c3ace437668a88e5e16395))
+
 ## [1.20.0](https://www.github.com/blinkk/degu/compare/v1.19.0...v1.20.0) (2021-11-07)
 
 
