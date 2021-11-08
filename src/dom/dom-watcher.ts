@@ -147,6 +147,23 @@ export interface DomWatcherConfig {
  *     });
  * ```
  *
+ * #### MutationObserver
+ * https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+ * DomWatcher supports mutation observers. You can pass mutation config
+ * to the event options.
+ *
+ * ```ts
+ *     watcher.add({
+ *         element: myElement,
+ *         on: 'mutation',
+ *         callback: (mutationList) => {
+ *            ....
+ *         },
+ *         { childList: true }
+ *     });
+ * ```
+ *
+ *
  * #### Debouncing
  *
  * ```ts
@@ -238,7 +255,9 @@ export class DomWatcher {
    * @param config
    */
   private addSingleEvent(config: DomWatcherConfig) {
-    const listener = (event: Event | ResizeObserverEntry[]) => {
+    const listener = (
+      event: Event | ResizeObserverEntry[] | MutationRecord[]
+    ) => {
       if (config.runWhen) {
         config.runWhen() && config.callback(event);
       } else {
@@ -260,6 +279,17 @@ export class DomWatcher {
       resizeObserver.observe(config.element as HTMLElement);
       config.remover = () => {
         resizeObserver.unobserve(config.element as HTMLElement);
+      };
+    } else if (config.on === 'mutation') {
+      const mutationObserver = new MutationObserver(mutationsList => {
+        listener(mutationsList);
+      });
+      mutationObserver.observe(
+        config.element as HTMLElement,
+        config.eventOptions
+      );
+      config.remover = () => {
+        mutationObserver.disconnect();
       };
     } else {
       // Add listening.
