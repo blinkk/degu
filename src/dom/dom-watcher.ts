@@ -153,14 +153,25 @@ export interface DomWatcherConfig {
  * to the event options.
  *
  * ```ts
+ *
+ * const watchMutations = ()=> {
  *     watcher.add({
  *         element: myElement,
+ *         id: 'mutations',
  *         on: 'mutation',
  *         callback: (mutationList) => {
  *            ....
  *         },
  *         { childList: true }
  *     });
+ * }
+ *
+ * // Temporarily stop watching mutations.
+ * this.watcher.removeById('mutations');
+ * ... (update dom, do something)
+ * // Rewatch mutations.
+ * watchMutations();
+ *
  * ```
  *
  *
