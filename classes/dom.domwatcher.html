@@ -165,14 +165,25 @@ watcher.add({
 					<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver</a>
 						DomWatcher supports mutation observers. You can pass mutation config
 					to the event options.</p>
-					<pre><code class="language-ts">    watcher.add({
+					<pre><code class="language-ts">
+<span class="hljs-keyword">const</span> watchMutations = <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
+    watcher.add({
         element: myElement,
+        id: <span class="hljs-string">'mutations'</span>,
         on: <span class="hljs-string">'mutation'</span>,
         callback: <span class="hljs-function">(<span class="hljs-params">mutationList</span>) =&gt;</span> {
            ....
         },
         { childList: <span class="hljs-literal">true</span> }
-    });</code></pre>
+    });
+}
+
+<span class="hljs-comment">// Temporarily stop watching mutations.</span>
+<span class="hljs-keyword">this</span>.watcher.removeById(<span class="hljs-string">'mutations'</span>);
+... (update dom, <span class="hljs-keyword">do</span> something)
+<span class="hljs-comment">// Rewatch mutations.</span>
+watchMutations();
+</code></pre>
 					<h4 id="debouncing">Debouncing</h4>
 					<pre><code class="language-ts"><span class="hljs-comment">// Add debouncing.</span>
     watcher.add({
@@ -260,7 +271,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/eef0ab1/src/dom/dom-watcher.ts#L228">dom/dom-watcher.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/1a0326f/src/dom/dom-watcher.ts#L239">dom/dom-watcher.ts:239</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.domwatcher.html" class="tsd-signature-type">DomWatcher</a></h4>
@@ -280,7 +291,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/eef0ab1/src/dom/dom-watcher.ts#L238">dom/dom-watcher.ts:238</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/1a0326f/src/dom/dom-watcher.ts#L249">dom/dom-watcher.ts:249</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -310,7 +321,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/eef0ab1/src/dom/dom-watcher.ts#L379">dom/dom-watcher.ts:379</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/1a0326f/src/dom/dom-watcher.ts#L390">dom/dom-watcher.ts:390</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,7 +343,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/eef0ab1/src/dom/dom-watcher.ts#L336">dom/dom-watcher.ts:336</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/1a0326f/src/dom/dom-watcher.ts#L347">dom/dom-watcher.ts:347</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -354,7 +365,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/eef0ab1/src/dom/dom-watcher.ts#L319">dom/dom-watcher.ts:319</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/1a0326f/src/dom/dom-watcher.ts#L330">dom/dom-watcher.ts:330</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -385,7 +396,7 @@ watcher.add({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/eef0ab1/src/dom/dom-watcher.ts#L364">dom/dom-watcher.ts:364</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/1a0326f/src/dom/dom-watcher.ts#L375">dom/dom-watcher.ts:375</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
