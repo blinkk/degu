@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.22.1](https://www.github.com/blinkk/degu/compare/v1.22.0...v1.22.1) (2021-11-09)
+
+
+### Bug Fixes
+
+* debounce behavior [#164](https://www.github.com/blinkk/degu/issues/164) ([e2ebe32](https://www.github.com/blinkk/degu/commit/e2ebe32417d8950b6efbc14d1b837b3f6f33efca))
+
 ## [1.22.0](https://www.github.com/blinkk/degu/compare/v1.21.0...v1.22.0) (2021-11-09)
 
 
