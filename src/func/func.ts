@@ -46,8 +46,9 @@ export function debounce(
       timeOutId = undefined;
     };
 
-    // For debouncing.
-    if (!immediate && timeOutId === undefined) {
+    // Debouncing should reset the timer if it is called again.
+    if (!immediate) {
+      clearTimeout(timeOutId);
       timeOutId = +setTimeout(runLater, wait);
     }
 
