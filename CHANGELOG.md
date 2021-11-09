@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.22.0](https://www.github.com/blinkk/degu/compare/v1.21.0...v1.22.0) (2021-11-09)
+
+
+### Features
+
+* Carousel pauses if condition not met ([dc449d8](https://www.github.com/blinkk/degu/commit/dc449d8ad2701032beba9198d7c49e79125b454a))
+
+
+### Bug Fixes
+
+* Carousel autoplay progressing on pause() ([762afbe](https://www.github.com/blinkk/degu/commit/762afbef25ac073ea46790d021a0f4f003add6f3))
+
 ## [1.21.0](https://www.github.com/blinkk/degu/compare/v1.20.0...v1.21.0) (2021-11-08)
 
 
