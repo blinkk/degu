@@ -485,6 +485,16 @@ export function removeElement(element: HTMLElement) {
 }
 
 /**
+ * Removes all children of a given element.  This can be prefereable over
+ * `element.innerHTML = ''` since that does not remove listeners.
+ */
+export function removeAllChildren(element: HTMLElement) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
+
+/**
  * Executes a callback after window has loaded.
  * This isn't a simple window load event listening but
  * first makes a check if the window has already loaded.
@@ -1305,6 +1315,7 @@ export const dom = {
   playAllVideosInElement,
   removeClassByPrefix,
   removeElement,
+  removeAllChildren,
   resetAllVideosInElement,
   resetForceFocus,
   runAfterNotTopOfScreen,
