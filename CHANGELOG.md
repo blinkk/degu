@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.0](https://www.github.com/blinkk/degu/compare/v1.22.1...v1.23.0) (2021-11-14)
+
+
+### Features
+
+* Add dom.removeAllChildren ([9a2622d](https://www.github.com/blinkk/degu/commit/9a2622dced5fe6c255c635205b44fc43bb4bf56e))
+
 ### [1.22.1](https://www.github.com/blinkk/degu/compare/v1.22.0...v1.22.1) (2021-11-09)
 
 
