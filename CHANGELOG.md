@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.1](https://www.github.com/blinkk/degu/compare/v1.23.0...v1.23.1) (2021-11-14)
+
+
+### Bug Fixes
+
+* margin-outliner dispose method ([b96d53f](https://www.github.com/blinkk/degu/commit/b96d53f73bdd5711e6ad4b3e7e7d6193a2a7d625))
+
 ## [1.23.0](https://www.github.com/blinkk/degu/compare/v1.22.1...v1.23.0) (2021-11-14)
 
 
