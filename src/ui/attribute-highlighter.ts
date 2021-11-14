@@ -442,6 +442,7 @@ export class AttributeHighlighter {
   }
 
   public dispose() {
+    this.removeHighlighters();
     this.watcher && this.watcher.dispose();
     this.attributeWatcher && this.attributeWatcher.dispose();
     this.raf && this.raf.dispose();
