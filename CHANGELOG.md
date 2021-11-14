@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.23.2](https://www.github.com/blinkk/degu/compare/v1.23.1...v1.23.2) (2021-11-14)
+
+
+### Bug Fixes
+
+* attribute-highlighter dispose method ([87cb6c6](https://www.github.com/blinkk/degu/commit/87cb6c62192c3189a9885f8cfab47e80e812a28b))
+
 ### [1.23.1](https://www.github.com/blinkk/degu/compare/v1.23.0...v1.23.1) (2021-11-14)
 
 
