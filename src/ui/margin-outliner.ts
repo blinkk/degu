@@ -179,6 +179,7 @@ export class MarginOutliner {
   }
 
   public dispose() {
+    this.removeSpacers();
     this.watcher && this.watcher.dispose();
   }
 }
