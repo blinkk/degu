@@ -42,6 +42,20 @@ test('throttle', async t => {
   t.is(count, 3);
 });
 
+test('runOnlyOnce', async t => {
+  let count = 0;
+  // Create a
+  const test = func.runOnlyOnce(() => {
+    count++;
+  });
+
+  test();
+  test();
+  test();
+  // Should have been called just once
+  t.is(count, 1);
+});
+
 test('waitUntil', async t => {
   let testValue = 0;
   let waitUntilCallbackCalled = false;

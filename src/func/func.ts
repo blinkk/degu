@@ -331,6 +331,24 @@ export function memoize(callback: Function): Function {
 }
 
 /**
+ * A function that only ever runs once even if it is called multiple times.
+ * ```
+ * let hello = func.runOnlyOnce(()=> {
+ *    console.log('hello');
+ * })
+ *
+ * hello() // hello
+ * hello() // cull
+ * hello() // cull
+ * * ```
+ */
+export function runOnlyOnce(callback: Function): Function {
+  return runOnceOnChange(() => {
+    callback();
+  });
+}
+
+/**
  * Runs a function ONLY when the parameters have changed.
  *
  *
@@ -457,6 +475,7 @@ export const func = {
   repeatUntil,
   memoizeSimple,
   memoize,
+  runOnlyOnce,
   runOnceOnChange,
   setDefault,
   times,
