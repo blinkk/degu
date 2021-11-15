@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.0](https://www.github.com/blinkk/degu/compare/v1.23.2...v1.24.0) (2021-11-15)
+
+
+### Features
+
+* Add func.runOnlyOnce ([34ad0f5](https://www.github.com/blinkk/degu/commit/34ad0f5a81598f15273888bb1eea33ff6812f407))
+
 ### [1.23.2](https://www.github.com/blinkk/degu/compare/v1.23.1...v1.23.2) (2021-11-14)
 
 
