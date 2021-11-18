@@ -38,11 +38,13 @@ interface SourceSetMediaDeclaration {
  *   }
  * ```
  *
- * ## AutoWidth
+ * ## FIFE Images - automatically autowidthed
  * DeguImage will automatically look at your image source and if it is
  * FIFE like, apply autowidth where it fetches the right size image based
  * on your image render width.
  *
+ * ## NON-FIFE images
+ * TODO: Add documentation on <picture> srcset mode.
  *
  */
 export class DeguImage extends LitElement {
@@ -73,10 +75,9 @@ export class DeguImage extends LitElement {
   @property() autoRenderWidth = 0;
 
   /**
-   * Whether this should use responsive source set.  Applied to FIFE enabled
-   * images.
+   * Whether this is a fife like image.
    */
-  private isDynamicSourceSet: boolean;
+  private isFife: boolean;
 
   /**
    * A list of source set min, max and load widths.
@@ -106,7 +107,7 @@ export class DeguImage extends LitElement {
 
     this.watcher = new DomWatcher();
 
-    this.isDynamicSourceSet =
+    this.isFife =
       !this.src.endsWith('.svg') &&
       this.src.startsWith('https://lh3.googleusercontent.com') &&
       // Skip cases where a FIFE parameter has already been appended.
@@ -119,7 +120,7 @@ export class DeguImage extends LitElement {
       this.desktopWidth
     );
 
-    if (this.isDynamicSourceSet) {
+    if (this.isFife) {
       this.watcher.add({
         element: this as HTMLElement,
         on: 'resize',
@@ -214,7 +215,7 @@ export class DeguImage extends LitElement {
 
   render() {
     return html`
-      ${this.isDynamicSourceSet
+      ${this.isFife
         ? this.renderImage(this.src + '=rw-e365-w' + this.autoRenderWidth)
         : this.renderDynamicSourceSetImage()}
     `;
