@@ -8,6 +8,12 @@
     "rules": {
       // "@typescript-eslint/no-unused-vars": "off"
       // "@typescript-eslint/no-explicit-any": "off"
+      // TODO Update to no explicit public.
+      // "@typescript-eslint/explicit-member-accessibility": ["error",
+      //     {
+      //       "accessibility": "no-public"
+      //     }
+      // ]
     }
   }]
 }
