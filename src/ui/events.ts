@@ -9,12 +9,12 @@ export interface EventDispatcher {
    *
    * Adding the same event/callback pair a second time should have no effect.
    */
-  on(event: string, callback: EventCallback): void;
+  on(event: string, callback: EventCallback | Function): void;
 
   /**
    * Stops the callback from being run each time the event is dispatched.
    */
-  off(event: string, callback: EventCallback): void;
+  off(event: string, callback: EventCallback | Function): void;
 }
 
 /**
@@ -28,11 +28,11 @@ export interface EventDispatcher {
  *     this.eventManager = new EventManager();
  *   }
  *
- *   on(event: string, callback: Callback) {
+ *   on(event: string, callback: Function) {
  *     this.eventManager.on(event, callback);
  *   }
  *
- *   off(event: string, callback: Callback) {
+ *   off(event: string, callback: Function) {
  *     this.eventManager.off(event, callback);
  *   }
  *
@@ -43,16 +43,18 @@ export interface EventDispatcher {
  * ```
  */
 export class EventManager {
-  private callbacks: DefaultMap<string, Set<EventCallback>>;
+  private callbacks: DefaultMap<string, Set<EventCallback | Function>>;
 
   constructor() {
-    this.callbacks = DefaultMap.usingFunction(() => new Set<EventCallback>());
+    this.callbacks = DefaultMap.usingFunction(
+      () => new Set<EventCallback | Function>()
+    );
   }
 
   /**
    * Run the given callback when the given event is dispatched.
    */
-  on(event: string, callback: EventCallback): void {
+  on(event: string, callback: EventCallback | Function): void {
     this.callbacks.get(event).add(callback);
   }
 
@@ -67,7 +69,7 @@ export class EventManager {
   /**
    * Stop running the given callback on the given event.
    */
-  off(event: string, callback: EventCallback): void {
+  off(event: string, callback: EventCallback | Function): void {
     const callbacks = this.callbacks.get(event);
     callbacks.delete(callback);
     if (callbacks.size === 0) {
