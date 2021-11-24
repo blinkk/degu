@@ -75,9 +75,9 @@ export class DeguImage extends LitElement {
   @property() autoRenderWidth = 0;
 
   /**
-   * Whether this is a fife like image.
+   * Whether this is a google service like image.
    */
-  private isFife: boolean;
+  private isGoogleImage: boolean;
 
   /**
    * A list of source set min, max and load widths.
@@ -107,7 +107,7 @@ export class DeguImage extends LitElement {
 
     this.watcher = new DomWatcher();
 
-    this.isFife =
+    this.isGoogleImage =
       !this.src.endsWith('.svg') &&
       this.src.startsWith('https://lh3.googleusercontent.com') &&
       // Skip cases where a google image service parameter has already been
@@ -121,7 +121,7 @@ export class DeguImage extends LitElement {
       this.desktopWidth
     );
 
-    if (this.isFife) {
+    if (this.isGoogleImage) {
       this.watcher.add({
         element: this as HTMLElement,
         on: 'resize',
@@ -216,7 +216,7 @@ export class DeguImage extends LitElement {
 
   render() {
     return html`
-      ${this.isFife
+      ${this.isGoogleImage
         ? this.renderImage(this.src + '=rw-e365-w' + this.autoRenderWidth)
         : this.renderDynamicSourceSetImage()}
     `;
