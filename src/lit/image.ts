@@ -22,7 +22,7 @@ interface SourceSetMediaDeclaration {
  * ```
  *
  * ```html
- * <degu-image src="xxx" a11y-label=""></degu-image>
+ * <degu-image src="xxx" alt=""></degu-image>
  * ```
  *
  * ```css
@@ -38,12 +38,12 @@ interface SourceSetMediaDeclaration {
  *   }
  * ```
  *
- * ## FIFE Images - automatically autowidthed
- * DeguImage will automatically look at your image source and if it is
- * FIFE like, apply autowidth where it fetches the right size image based
- * on your image render width.
+ * ## Google Image Service Images - automatically autowidthed
+ * DeguImage will automatically look at your image source and if it is google
+ * image service like, apply autowidth where it fetches the right size image
+ * based on your image render width.
  *
- * ## NON-FIFE images
+ * ## Google Image Service images
  * TODO: Add documentation on <picture> srcset mode.
  *
  */
@@ -51,8 +51,8 @@ export class DeguImage extends LitElement {
   @property({type: String, attribute: 'src'})
   src: string;
 
-  @property({type: String, attribute: 'a11y-label'})
-  private a11yLabel: string;
+  @property({type: String, attribute: 'alt'})
+  private alt: string;
 
   @property({type: String, attribute: 'width'})
   private aspectRatioWidth: number;
@@ -110,7 +110,8 @@ export class DeguImage extends LitElement {
     this.isFife =
       !this.src.endsWith('.svg') &&
       this.src.startsWith('https://lh3.googleusercontent.com') &&
-      // Skip cases where a FIFE parameter has already been appended.
+      // Skip cases where a google image service parameter has already been
+      // appended.
       !this.src.includes('=');
 
     this.setBreakPointsMaxWidth(
@@ -208,7 +209,7 @@ export class DeguImage extends LitElement {
         src="${src}"
         width="${this.aspectRatioWidth}"
         height="${this.aspectRatioHeight}"
-        alt="${this.a11yLabel}"
+        alt="${this.alt}"
       />
     `;
   }

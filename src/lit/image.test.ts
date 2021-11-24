@@ -32,7 +32,7 @@ describe('DeguImage', () => {
             width="640"
             height="640"
             style="aspect-ratio: 1"
-            a11y-label="Image Aria Label"
+            alt="Image Aria Label"
             class=""
           ></degu-image>
         </div>`
