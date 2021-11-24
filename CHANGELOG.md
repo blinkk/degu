@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.25.0](https://www.github.com/blinkk/degu/compare/v1.24.0...v1.25.0) (2021-11-24)
+
+
+### Features
+
+* Add lit image ([ac1868a](https://www.github.com/blinkk/degu/commit/ac1868a6df7b268a44c60f3a6a8ef932e7942580))
+
 ## [1.24.0](https://www.github.com/blinkk/degu/compare/v1.23.2...v1.24.0) (2021-11-15)
 
 
