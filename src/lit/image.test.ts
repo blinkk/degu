@@ -51,7 +51,7 @@ describe('DeguImage', () => {
       expect(image.getAttribute('alt')).to.equal('Image Aria Label');
     });
 
-    it('renders FIFE image with autowidth sizes.', async () => {
+    it('renders google image with autowidth sizes.', async () => {
       // Starting size.
       expect(root.offsetWidth).to.equal(500);
       expect(image.src.endsWith('500')).to.equal(true);
