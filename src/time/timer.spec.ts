@@ -16,7 +16,7 @@ test('timer is called once after a set duration', async t => {
     duration: 1,
     repeat: false,
   });
-  timer.on(Timer.Event.END, () => {
+  timer.on(Timer.Event.TRIGGERED, () => {
     increment();
   });
 
@@ -36,7 +36,7 @@ test('timer is called multiple time after a set duration in repeat mode', async 
     duration: 20,
     repeat: true,
   });
-  timer.on(Timer.Event.END, () => {
+  timer.on(Timer.Event.TRIGGERED, () => {
     increment();
   });
 
@@ -56,7 +56,7 @@ test('timer can be paused and unpaused', async t => {
     duration: 10,
     repeat: false,
   });
-  timer.on(Timer.Event.END, () => {
+  timer.on(Timer.Event.TRIGGERED, () => {
     increment();
   });
 
