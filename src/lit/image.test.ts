@@ -22,6 +22,7 @@ describe('DeguImage', () => {
   let root: HTMLElement;
   let imageComponent: DeguImage;
   let image: HTMLImageElement;
+  let picture: HTMLPictureElement;
 
   describe('autowidth feature', () => {
     beforeEach(async () => {
@@ -71,6 +72,60 @@ describe('DeguImage', () => {
       // Wait at least 100ms due to debouncing.
       await aTimeout(200);
       expect(image.src.endsWith('1250')).to.equal(true);
+    });
+
+    it('renders without width and height if not specified', async () => {
+      root = await fixture(
+        html`<div id="root" style="width: 500px">
+          <degu-image
+            src="https://lh3.googleusercontent.com/Gvs7l32oWrEt2sEphd1U1ERiGO25n4CosYiD7EL-uEEn9Kb6L1aR-gw-RdB5ZfCp7y0gF8WyHkZHNe7Xk_CzLUKOGdODQIafKFg"
+            style="aspect-ratio: 1"
+            alt="Image Aria Label"
+            class=""
+          ></degu-image>
+        </div>`
+      );
+
+      imageComponent = root.querySelector('degu-image');
+      image = imageComponent.querySelector('img');
+      picture = imageComponent.querySelector('picture');
+      expect(image.hasAttribute('width')).to.equal(false);
+      expect(image.hasAttribute('height')).to.equal(false);
+    });
+  });
+
+  describe('svg images', () => {
+    beforeEach(async () => {
+      root = await fixture(
+        html`<div id="root" style="width: 500px">
+          <degu-image
+            src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg"
+            alt="Logo"
+          ></degu-image>
+        </div>`
+      );
+
+      imageComponent = root.querySelector('degu-image');
+      image = imageComponent.querySelector('img');
+      picture = imageComponent.querySelector('picture');
+    });
+
+    it('is defined', () => {
+      assert.instanceOf(imageComponent, DeguImage);
+      assert.instanceOf(image, HTMLImageElement);
+    });
+
+    it('renders an image with alt', async () => {
+      expect(image.getAttribute('alt')).to.equal('Logo');
+    });
+
+    it('renders in single image mode', async () => {
+      expect(picture).to.equal(null);
+    });
+
+    it('renders without width and height if not specified', async () => {
+      expect(image.hasAttribute('width')).to.equal(false);
+      expect(image.hasAttribute('height')).to.equal(false);
     });
   });
 });

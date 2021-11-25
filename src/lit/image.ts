@@ -1,4 +1,5 @@
 import {LitElement, html} from 'lit';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {property} from 'lit/decorators.js';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
@@ -33,8 +34,8 @@ interface SourceSetMediaDeclaration {
  *   }
  *
  *   degu-image img {
- *     max-width: 100%
- *     height: auto
+ *     max-width: 100%;
+ *     height: auto;
  *   }
  * ```
  *
@@ -178,11 +179,14 @@ export class DeguImage extends LitElement {
   }
 
   private renderSourceSet(media: string | null, renderWidth: number) {
+    const srcset = this.isGoogleImage
+      ? `${this.src}=rw-e365-w${renderWidth},
+          ${this.src}=rw-e365-w${renderWidth * 2} 2x`
+      : `${this.src}`;
+
     return html`
       <source type="image/webp"
-        srcset="
-          ${this.src}=rw-e365-w${renderWidth},
-          ${this.src}=rw-e365-w${renderWidth * 2} 2x"
+        srcset="${srcset}"
         media="${media}"
       ></source>
     `;
@@ -206,9 +210,11 @@ export class DeguImage extends LitElement {
     return html`
       <img
         loading="lazy"
+        width=${ifDefined(this.aspectRatioWidth ? this.aspectRatioWidth : null)}
+        height=${ifDefined(
+          this.aspectRatioHeight ? this.aspectRatioHeight : null
+        )}
         src="${src}"
-        width="${this.aspectRatioWidth}"
-        height="${this.aspectRatioHeight}"
         alt="${this.alt}"
       />
     `;
@@ -218,6 +224,8 @@ export class DeguImage extends LitElement {
     return html`
       ${this.isGoogleImage
         ? this.renderImage(this.src + '=rw-e365-w' + this.autoRenderWidth)
+        : this.src.endsWith('.svg')
+        ? this.renderImage(this.src)
         : this.renderDynamicSourceSetImage()}
     `;
   }
