@@ -1,5 +1,5 @@
-import {EventManager, EventDispatcher} from "../ui/events";
-import {time} from "./time";
+import {EventManager, EventDispatcher} from '../ui/events';
+import {time} from './time';
 
 export interface TimerConfig {
   // Duration in ms.
@@ -9,15 +9,12 @@ export interface TimerConfig {
   repeat?: boolean;
 }
 
-
 enum TimerEvent {
   START = 'START',
   PAUSED = 'PAUSED',
   UNPAUSED = 'UNPAUSED',
-  END = 'END',
+  TRIGGERED = 'TRIGGERED',
 }
-
-
 
 /**
  * A subscribable timer.
@@ -30,8 +27,8 @@ enum TimerEvent {
  *    repeat: false
  * })
  *
- * // Called on timer complete
- * myTimer.on(Timer.Event.END, ()=> {
+ * // Called on timer is triggered
+ * myTimer.on(Timer.Event.TRIGGERED, ()=> {
  *    console.log('timer is done');
  * })
  *
@@ -51,7 +48,7 @@ enum TimerEvent {
  * })
  *
  * // Called every 5000ms.
- * myTimer.on(Timer.Event.END, ()=> {
+ * myTimer.on(Timer.Event.TRIGGERED, ()=> {
  *    console.log('timer is done');
  * })
  *
@@ -68,27 +65,26 @@ enum TimerEvent {
  *
  */
 export class Timer implements EventDispatcher {
-
   private eventManager: EventManager;
   private settings: TimerConfig;
   private timerId: number | null = null;
   private startTime: number | null = null;
   private timeRemaining: number | null = null;
   constructor(config?: TimerConfig) {
-     this.eventManager = new EventManager();
-     this.settings = {
-       ...{
-         duration: 5000,
-         repeat: false
-       },
-       ...(config || {})
-     }
+    this.eventManager = new EventManager();
+    this.settings = {
+      ...{
+        duration: 5000,
+        repeat: false,
+      },
+      ...(config || {}),
+    };
   }
 
   static Event = TimerEvent;
 
   start() {
-    if(this.timerId) {
+    if (this.timerId) {
       window.clearTimeout(this.timerId);
     }
 
@@ -98,26 +94,26 @@ export class Timer implements EventDispatcher {
   }
 
   private createTimer(duration: number) {
-    this.timerId = window.setTimeout(()=> {
-      this.eventManager.dispatch(Timer.Event.END);
+    this.timerId = window.setTimeout(() => {
+      this.eventManager.dispatch(Timer.Event.TRIGGERED);
 
       // If repeating start again.
-      if(this.settings.repeat) {
+      if (this.settings.repeat) {
         this.start();
       } else {
         this.dispose();
       }
-    }, duration)
+    }, duration);
   }
 
   pause() {
     this.eventManager.dispatch(Timer.Event.PAUSED);
 
-    if(this.timerId) {
+    if (this.timerId) {
       window.clearTimeout(this.timerId);
     }
-    this.timeRemaining = this.settings.duration -
-      (Date.now() - (this.startTime || 0));
+    this.timeRemaining =
+      this.settings.duration - (Date.now() - (this.startTime || 0));
   }
 
   unpause() {
@@ -137,7 +133,7 @@ export class Timer implements EventDispatcher {
 
   dispose() {
     this.eventManager.dispose();
-    if(this.timerId) {
+    if (this.timerId) {
       window.clearTimeout(this.timerId);
     }
   }
