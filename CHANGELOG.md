@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.25.1](https://www.github.com/blinkk/degu/compare/v1.25.0...v1.25.1) (2021-11-25)
+
+
+### Bug Fixes
+
+* degu-image svg rendering [#178](https://www.github.com/blinkk/degu/issues/178) ([eb56084](https://www.github.com/blinkk/degu/commit/eb56084bee92d90bb18bde85eb3034c4f3bc9a97))
+
 ## [1.25.0](https://www.github.com/blinkk/degu/compare/v1.24.0...v1.25.0) (2021-11-24)
 
 
