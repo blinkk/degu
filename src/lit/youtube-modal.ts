@@ -188,14 +188,14 @@ export class DeguYoutubeModal extends LitElement {
     }
 
     @media (max-width: 1024px) {
-      .mqn3-modal__close {
+      .modal__close {
         width: 46px;
         height: 46px;
       }
     }
 
     @media (max-width: 600px) {
-      .mqn3-modal__close {
+      .modal__close {
         width: 34px;
         height: 34px;
       }
