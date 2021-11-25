@@ -31,8 +31,12 @@
       margin: 0 auto;
     }
     .section__header {
-      font-size: 20px;
+      font-size: 24px;
       margin-bottom: 20px;
+    }
+    p {
+      margin-top: 16px;
+      margin-bottom: 8px;
     }
 
   </style>
@@ -62,9 +66,18 @@
       a11y-label="Video Aria Label"
       autoplayinview="true"
     ></degu-video>
-
-
   </div>
+
+
+  <div class="section">
+    <div class="section__header">Degu Youtube Inline</div>
+    <p>Programmatically filled - see lit-component.js for example.</p>
+    <degu-youtube-inline id="youtube-inline-test1" style="aspect-ratio: 16/9"></degu-youtube-inline>
+    <button id="change-youtube-video">Change Video</button>
+    <p>This one is created via video-id</p>
+    <degu-youtube-inline video-id="5qap5aO4i9A" style="aspect-ratio: 16/9"></degu-youtube-inline>
+  </div>
+
 
 </body>
 </html>
