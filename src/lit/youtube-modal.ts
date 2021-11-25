@@ -15,10 +15,12 @@ import * as dom from '../dom/dom';
  * import { DeguYoutubeModal} from '../lib/lit/youtube-modal';
  * import DetailsDialogElement from '@github/details-dialog-element';
  *
+ * window.customElements.define('degu-youtube-inline', DeguYoutubeInline);
+ * window.customElements.define('degu-youtube-modal', DeguYoutubeModal);
+ *
  * // Define a host.  When you register against a host, the component will
  * // look for any clicks within that host with the data attribute
  * // `youtube-modal="<youtube-id>".
- *
  * const myHost = document.body;
  * DeguYoutubeModal.register(myHost)
  * ```
