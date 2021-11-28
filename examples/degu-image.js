@@ -1,9 +1,9 @@
 
- import { DeguImage} from '../lib/lit/image';
+ import { register} from '../lib/lit/lit';
 
 export default class DeguImageSample {
 
   constructor() {
-    window.customElements.define('degu-image', DeguImage);
+    register();
   }
 }
