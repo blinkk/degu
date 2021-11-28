@@ -10,12 +10,12 @@ import * as func from '../func/func';
 const addStylesToPage = func.runOnlyOnce(() => {
   dom.addStylesToPage(`
     degu-video {
-      display: inline-block
-      line-height: 0
-      width: 100%
+      display: inline-block;
+      line-height: 0;
+      width: 100%;
     }
     video {
-        width: 100%
+        width: 100%;
     }
 `);
 });
@@ -30,7 +30,7 @@ describe('Mqn3Video', () => {
     root = await fixture(
       html`<div id="root" style="width: 500px">
         <degu-video
-          src="https://storage.googleapis.com/mannequin/blobs/7b0c13d7-e9cc-4efa-93c1-9db323d7283b.mp4"
+          src="https://storage.googleapis.com/googwebreview.appspot.com/grow-ext-file-upload/1638127354399989/PXL_20211127_042647380.mp4"
           width="640"
           height="640"
           style="aspect-ratio: 1"
