@@ -29,9 +29,9 @@ describe('DeguImage', () => {
       root = await fixture(
         html`<div id="root" style="width: 500px">
           <degu-image
-            src="https://lh3.googleusercontent.com/Gvs7l32oWrEt2sEphd1U1ERiGO25n4CosYiD7EL-uEEn9Kb6L1aR-gw-RdB5ZfCp7y0gF8WyHkZHNe7Xk_CzLUKOGdODQIafKFg"
-            width="640"
-            height="640"
+            src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
+            width="4032"
+            height="3024"
             style="aspect-ratio: 1"
             alt="Image Aria Label"
             class=""
@@ -78,7 +78,7 @@ describe('DeguImage', () => {
       root = await fixture(
         html`<div id="root" style="width: 500px">
           <degu-image
-            src="https://lh3.googleusercontent.com/Gvs7l32oWrEt2sEphd1U1ERiGO25n4CosYiD7EL-uEEn9Kb6L1aR-gw-RdB5ZfCp7y0gF8WyHkZHNe7Xk_CzLUKOGdODQIafKFg"
+            src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
             style="aspect-ratio: 1"
             alt="Image Aria Label"
             class=""
@@ -120,6 +120,22 @@ describe('DeguImage', () => {
     });
 
     it('renders in single image mode', async () => {
+      expect(picture).to.equal(null);
+    });
+
+    it('renders in single image mode even with parameters', async () => {
+      root = await fixture(
+        html`<div id="root" style="width: 500px">
+          <degu-image
+            src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg?bgColor=FFEFA4"
+            alt="Logo"
+          ></degu-image>
+        </div>`
+      );
+
+      imageComponent = root.querySelector('degu-image');
+      image = imageComponent.querySelector('img');
+      picture = imageComponent.querySelector('picture');
       expect(picture).to.equal(null);
     });
 

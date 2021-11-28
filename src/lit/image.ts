@@ -109,7 +109,7 @@ export class DeguImage extends LitElement {
     this.watcher = new DomWatcher();
 
     this.isGoogleImage =
-      !this.src.endsWith('.svg') &&
+      !this.src.includes('.svg') &&
       this.src.startsWith('https://lh3.googleusercontent.com') &&
       // Skip cases where a google image service parameter has already been
       // appended.
@@ -224,7 +224,7 @@ export class DeguImage extends LitElement {
     return html`
       ${this.isGoogleImage
         ? this.renderImage(this.src + '=rw-e365-w' + this.autoRenderWidth)
-        : this.src.endsWith('.svg')
+        : this.src.includes('.svg')
         ? this.renderImage(this.src)
         : this.renderDynamicSourceSetImage()}
     `;
