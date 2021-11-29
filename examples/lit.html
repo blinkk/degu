@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Degu Image</title>
+  <style>
+    degu-image {
+       display: inline-block;
+       line-height: 0;
+        width: 100%;
+    }
+
+    degu-image img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    degu-video {
+      display: inline-block;
+      line-height: 0;
+      width: 100%;
+    }
+    video {
+        width: 100%;
+    }
+
+    .section {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .section__header {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+  </style>
+</head>
+<body init-sample="litSample">
+
+
+  <div class="section">
+    <div class="section__header">Degu Image</div>
+    <degu-image src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg" alt="Logo" class="header__logo__image"></degu-image>
+    <degu-image
+      width="2650" height="720"
+      src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg" alt="Logo" class="header__logo__image"></degu-image>
+
+    <degu-image
+      src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
+            width="4032"
+            height="3024"
+      alt="Logo" class="header__logo__image"></degu-image>
+  </div>
+
+  <div class="section">
+    <div class="section__header">Degu Video</div>
+    <degu-video
+      src="./public/video-test.mp4"
+      width="800"
+      height="450"
+      style="aspect-ratio: 800/450"
+      aria-label="Video Aria Label"
+      autoplayinview="true"
+    ></degu-video>
+
+
+  </div>
+
+<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</html>
