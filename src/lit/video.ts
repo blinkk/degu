@@ -7,7 +7,7 @@ import {
 } from '../dom/element-visibility';
 import {LitElement, html} from 'lit';
 import {property} from 'lit/decorators.js';
-
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {DomWatcher} from '../dom/dom-watcher';
 
 /**
@@ -27,7 +27,7 @@ import {DomWatcher} from '../dom/dom-watcher';
  *     width="640"
  *     height="640"
  *     style="aspect-ratio: 1"
- *     a11y-label="Video Aria Label"
+ *     aria-label="Video Aria Label"
  *     autoplayinview="true"
  *   ></degu-video>
  * ```
@@ -49,8 +49,8 @@ export class DeguVideo extends LitElement {
   @property({type: String, attribute: 'src'})
   src: string;
 
-  @property({type: String, attribute: 'a11y-label'})
-  private a11yLabel: string;
+  @property({type: String, attribute: 'aria-label'})
+  ariaLabel: string;
 
   @property({type: String, attribute: 'width'})
   private width: number;
@@ -192,15 +192,24 @@ export class DeguVideo extends LitElement {
     return this;
   }
 
+  /**
+   * If aria-label is set, the root gets role="img" and the inner video
+   * should be hidden.
+   */
   render() {
+    if (this.ariaLabel) {
+      this.setAttribute('role', 'img');
+    } else {
+      this.removeAttribute('role');
+    }
+
     return html`
       <video
         ?loop="${this.loop}"
-        aria-label="${this.a11yLabel}"
+        aria-hidden=${ifDefined(this.ariaLabel ? true : null)}
         disableRemotePlayback
         muted
         playsinline
-        role="img"
       >
          <source type="video/mp4"></source>
       </video>
