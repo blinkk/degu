@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.26.0](https://www.github.com/blinkk/degu/compare/v1.25.2...v1.26.0) (2021-11-29)
+
+
+### Features
+
+* Add timer ([4874afb](https://www.github.com/blinkk/degu/commit/4874afbe99a6b15ced5fffb2c38289ca48799da8))
+* Allow Function type in events ([cb2f4d5](https://www.github.com/blinkk/degu/commit/cb2f4d526e8dd9325acd6703587b695375ed8b22))
+
 ### [1.25.2](https://www.github.com/blinkk/degu/compare/v1.25.1...v1.25.2) (2021-11-28)
 
 
