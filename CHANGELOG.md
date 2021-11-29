@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.0](https://www.github.com/blinkk/degu/compare/v1.26.0...v1.27.0) (2021-11-29)
+
+
+### Features
+
+* Add video component ([4844f05](https://www.github.com/blinkk/degu/commit/4844f050e8635e89626832bc9d3586a67dd183fd))
+
 ## [1.26.0](https://www.github.com/blinkk/degu/compare/v1.25.2...v1.26.0) (2021-11-29)
 
 
