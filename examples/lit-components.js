@@ -1,8 +1,7 @@
-
-import { DeguImage} from '../lib/lit/image';
-import { DeguVideo} from '../lib/lit/video';
-import { DeguYoutubeInline} from '../lib/lit/youtube-inline';
-import { DeguYoutubeModal} from '../lib/lit/youtube-modal';
+import {DeguImage} from '../lib/lit/image';
+import {DeguVideo} from '../lib/lit/video';
+import {DeguYoutubeInline} from '../lib/lit/youtube-inline';
+import {DeguYoutubeModal} from '../lib/lit/youtube-modal';
 import DetailsDialogElement from '@github/details-dialog-element';
 
 export default class LitComponentSample {
