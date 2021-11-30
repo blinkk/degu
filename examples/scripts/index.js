@@ -110,7 +110,7 @@ import WebGlImageSequenceSample9 from '../webgl-image-sequence9';
 import X2Sample from '../x2';
 import XSample from '../x';
 import InviewSample from '../inview';
-import LitSample from '../lit';
+import ComponentsSample from '../components';
 
 
 
@@ -223,7 +223,7 @@ const samples = {
   'glslPlayground29': GlslPlayground29,
   'glslPlayground30': GlslPlayground30,
   'inviewSample': InviewSample,
-  'litSample': LitSample,
+  'ComponentsSample': ComponentsSample,
 };
 
 class Main {
