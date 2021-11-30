@@ -66,7 +66,7 @@ const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
  * ```ts
  * import { DeguYouTubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
  * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
- * DeguYouTubeInline.ScriptLoader = new MyLoader();
+ * DeguYouTubeInline.scriptLoader = new MyLoader();
  * ```
  */
 export class DeguYouTubeInline extends LitElement {
