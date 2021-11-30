@@ -1,7 +1,7 @@
-import {DeguImage} from '../lib/lit/image';
-import {DeguVideo} from '../lib/lit/video';
-import {DeguYouTubeInline} from '../lib/lit/youtube-inline';
-import {DeguYouTubeModal} from '../lib/lit/youtube-modal';
+import {DeguImage} from '../lib/components/image';
+import {DeguVideo} from '../lib/components/video';
+import {DeguYouTubeInline} from '../lib/components/youtube-inline';
+import {DeguYouTubeModal} from '../lib/components/youtube-modal';
 import DetailsDialogElement from '@github/details-dialog-element';
 
 export default class ComponentsSample {

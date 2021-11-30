@@ -12,7 +12,7 @@ import * as dom from '../dom/dom';
  * https://github.com/github/details-dialog-element/blob/main/src/index.ts
  *
  * ```ts
- * import { DeguYouTubeModal} from '../lib/lit/youtube-modal';
+ * import { DeguYouTubeModal} from '../lib/components/youtube-modal';
  * import DetailsDialogElement from '@github/details-dialog-element';
  *
  * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);

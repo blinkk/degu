@@ -17,7 +17,7 @@ interface SourceSetMediaDeclaration {
  * Usage:
  *
  * ```ts
- * import { DeguImage} from '@blinkk/degu/lib/lit/image';
+ * import { DeguImage} from '@blinkk/degu/lib/components/image';
  *
  * window.customElements.define('degu-image', DeguImage);
  * ```

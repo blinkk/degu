@@ -16,7 +16,7 @@ import {DomWatcher} from '../dom/dom-watcher';
  * Usage:
  *
  * ```ts
- * import { DeguVideo} from '@blinkk/degu/lib/lit/video';
+ * import { DeguVideo} from '@blinkk/degu/lib/components/video';
  *
  * window.customElements.define('degu-video', DeguVideo);
  * ```

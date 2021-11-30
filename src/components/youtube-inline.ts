@@ -11,7 +11,7 @@ const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
  * Usage:
  *
  * ```ts
- * import { DeguYouTubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
+ * import { DeguYouTubeInline} from '@blinkk/degu/lib/components/youtube-inline';
  *
  * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
  * ```
@@ -34,7 +34,7 @@ const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
  * ```
  *
  * ```ts
- * import { DeguYouTubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
+ * import { DeguYouTubeInline} from '@blinkk/degu/lib/components/youtube-inline';
  * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
  *
  *   // Initially load a video
@@ -64,7 +64,7 @@ const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
  * You can set your own custom script loader (subclass degu ScriptLoader)
  *
  * ```ts
- * import { DeguYouTubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
+ * import { DeguYouTubeInline} from '@blinkk/degu/lib/components/youtube-inline';
  * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
  * DeguYouTubeInline.scriptLoader = new MyLoader();
  * ```
