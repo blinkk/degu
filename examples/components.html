@@ -37,7 +37,7 @@
 
   </style>
 </head>
-<body init-sample="litSample">
+<body init-sample="ComponentsSample">
 
 
   <div class="section">
@@ -64,8 +64,21 @@
       aria-label="Video Aria Label"
       autoplayinview="true"
     ></degu-video>
+  </div>
 
+  <div class="section">
+    <div class="section__header">Degu Youtube Inline</div>
+    <p>Programmatically filled - see lit-component.js for example.</p>
+    <degu-youtube-inline id="youtube-inline-test1" style="aspect-ratio: 16/9"></degu-youtube-inline>
+    <button id="change-youtube-video">Change Video</button>
+    <p>This one is created via video-id</p>
+    <degu-youtube-inline video-id="5qap5aO4i9A" style="aspect-ratio: 16/9"></degu-youtube-inline>
+  </div>
 
+  <div class="section" id="youtube-modal-section">
+    <div class="section__header">Degu Youtube Modal</div>
+    <button youtube-modal="8Qn_spdM5Zg">Watch StarWars</button>
+    <button youtube-modal="TcMBFSGVi1c">Watch Avengers</button>
   </div>
 
 <script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
