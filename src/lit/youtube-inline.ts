@@ -59,9 +59,18 @@ const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
  *    })
  * ```
  *
+ *
+ * ### Custom Script Loaders
+ * You can set your own custom script loader (subclass degu ScriptLoader)
+ *
+ * ```ts
+ * import { DeguYouTubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
+ * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
+ * DeguYouTubeInline.ScriptLoader = new MyLoader();
+ * ```
  */
 export class DeguYouTubeInline extends LitElement {
-  scriptLoader = new ScriptLoader();
+  static scriptLoader = new ScriptLoader();
 
   @property({type: String, attribute: 'video-id', reflect: true})
   private videoId: string;
@@ -129,7 +138,7 @@ export class DeguYouTubeInline extends LitElement {
       }
       return;
     }
-    await this.scriptLoader.load(YOUTUBE_IFRAME_API, {
+    await DeguYouTubeInline.scriptLoader.load(YOUTUBE_IFRAME_API, {
       test: () => !!window.YT && window.YT['loaded'] === 1,
     });
 
