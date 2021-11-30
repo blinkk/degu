@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://www.github.com/blinkk/degu/compare/v1.27.0...v2.0.0) (2021-11-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Move lit -> components
+
+### Features
+
+* Add youtube-modal ([c6a9f32](https://www.github.com/blinkk/degu/commit/c6a9f32dfc5fa7fb8a378e72b4c6d275ba2ace9d))
+
+
+### Miscellaneous Chores
+
+* Move lit -> components ([3db6afb](https://www.github.com/blinkk/degu/commit/3db6afb854774c3adc7164cb6e10e9b9a1a46e67))
+
 ## [1.27.0](https://www.github.com/blinkk/degu/compare/v1.26.0...v1.27.0) (2021-11-29)
 
 
