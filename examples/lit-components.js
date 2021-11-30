@@ -1,7 +1,7 @@
 import {DeguImage} from '../lib/lit/image';
 import {DeguVideo} from '../lib/lit/video';
-import {DeguYoutubeInline} from '../lib/lit/youtube-inline';
-import {DeguYoutubeModal} from '../lib/lit/youtube-modal';
+import {DeguYouTubeInline} from '../lib/lit/youtube-inline';
+import {DeguYouTubeModal} from '../lib/lit/youtube-modal';
 import DetailsDialogElement from '@github/details-dialog-element';
 
 export default class LitComponentSample {
@@ -9,8 +9,8 @@ export default class LitComponentSample {
   constructor() {
     window.customElements.define('degu-image', DeguImage);
     window.customElements.define('degu-video', DeguVideo);
-    window.customElements.define('degu-youtube-inline', DeguYoutubeInline);
-    window.customElements.define('degu-youtube-modal', DeguYoutubeModal);
+    window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
+    window.customElements.define('degu-youtube-modal', DeguYouTubeModal);
 
 
     // Youtube Inline Samples
@@ -35,7 +35,7 @@ export default class LitComponentSample {
     // Youtube Modal Sample
     // const host = document.getElementById('youtube-modal-section');
     const host = document.body;
-    const youtubeModal = DeguYoutubeModal.register(host);
+    const youtubeModal = DeguYouTubeModal.register(host);
 
 
   }

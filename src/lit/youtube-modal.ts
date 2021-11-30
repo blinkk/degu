@@ -1,7 +1,7 @@
 import DetailsDialogElement from '@github/details-dialog-element';
 import {LitElement, html, css} from 'lit';
 import {query} from 'lit/decorators.js';
-import {DeguYoutubeInline} from './youtube-inline';
+import {DeguYouTubeInline} from './youtube-inline';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as dom from '../dom/dom';
 
@@ -12,17 +12,17 @@ import * as dom from '../dom/dom';
  * https://github.com/github/details-dialog-element/blob/main/src/index.ts
  *
  * ```ts
- * import { DeguYoutubeModal} from '../lib/lit/youtube-modal';
+ * import { DeguYouTubeModal} from '../lib/lit/youtube-modal';
  * import DetailsDialogElement from '@github/details-dialog-element';
  *
- * window.customElements.define('degu-youtube-inline', DeguYoutubeInline);
- * window.customElements.define('degu-youtube-modal', DeguYoutubeModal);
+ * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
+ * window.customElements.define('degu-youtube-modal', DeguYouTubeModal);
  *
  * // Define a host.  When you register against a host, the component will
  * // look for any clicks within that host with the data attribute
  * // `youtube-modal="<youtube-id>".
  * const myHost = document.body;
- * DeguYoutubeModal.register(myHost)
+ * DeguYouTubeModal.register(myHost)
  * ```
  *
  * Now somewhere within your host, just add buttons or elements with the
@@ -34,7 +34,7 @@ import * as dom from '../dom/dom';
  * ```
  *
  */
-export class DeguYoutubeModal extends LitElement {
+export class DeguYouTubeModal extends LitElement {
   private watcher: DomWatcher;
   private hasFirstUpdateCompleted = false;
   private isOpen = false;
@@ -52,7 +52,7 @@ export class DeguYoutubeModal extends LitElement {
   details: HTMLDetailsElement;
 
   @query('degu-youtube-inline')
-  youtubeInline: DeguYoutubeInline;
+  youtubeInline: DeguYouTubeInline;
 
   private youtubeId: string;
 
@@ -119,8 +119,8 @@ export class DeguYoutubeModal extends LitElement {
   /**
    * Creates an instance of YoutubeModal.
    */
-  static register(host: HTMLElement): DeguYoutubeModal {
-    const modal = new DeguYoutubeModal(host);
+  static register(host: HTMLElement): DeguYouTubeModal {
+    const modal = new DeguYouTubeModal(host);
     return modal;
   }
 

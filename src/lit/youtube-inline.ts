@@ -1,6 +1,5 @@
 import {LitElement, css, html} from 'lit';
 import {query, property} from 'lit/decorators.js';
-import {TetrahedronBufferGeometry} from 'three';
 
 import {ScriptLoader} from '../loader/script-loader';
 const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
@@ -12,9 +11,9 @@ const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
  * Usage:
  *
  * ```ts
- * import { DeguYoutubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
+ * import { DeguYouTubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
  *
- * window.customElements.define('degu-youtube-inline', DeguYoutubeInline);
+ * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
  * ```
  *
  * ```html
@@ -35,8 +34,8 @@ const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
  * ```
  *
  * ```ts
- * import { DeguYoutubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
- * window.customElements.define('degu-youtube-inline', DeguYoutubeInline);
+ * import { DeguYouTubeInline} from '@blinkk/degu/lib/lit/youtube-inline';
+ * window.customElements.define('degu-youtube-inline', DeguYouTubeInline);
  *
  *   // Initially load a video
  *   const youtubeInlineTest = document.getElementById('myVideo');
@@ -61,7 +60,7 @@ const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
  * ```
  *
  */
-export class DeguYoutubeInline extends LitElement {
+export class DeguYouTubeInline extends LitElement {
   scriptLoader = new ScriptLoader();
 
   @property({type: String, attribute: 'video-id', reflect: true})
