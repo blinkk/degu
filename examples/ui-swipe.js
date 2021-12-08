@@ -1,4 +1,5 @@
 
+import {DomWatcher} from '../lib/dom/dom-watcher';
 import {Swipe} from '../lib/ui/swipe'
 
 export default class UiSwipeSample {
@@ -33,6 +34,42 @@ export default class UiSwipeSample {
     div.addEventListener(Swipe.Events.RIGHT, ()=> {
       console.log('right');
     })
+
+
+
+    // Check dom watcher.
+    const watcher = new DomWatcher();
+
+
+    watcher.add({
+      element: div,
+      on: 'swipe-up',
+      callback: ()=> {
+        console.log('up')
+      }
+    })
+    watcher.add({
+      element: div,
+      on: 'swipe-down',
+      callback: ()=> {
+        console.log('down')
+      }
+    })
+    watcher.add({
+      element: div,
+      on: 'swipe-left',
+      callback: ()=> {
+        console.log('left')
+      }
+    })
+    watcher.add({
+      element: div,
+      on: 'swipe-right',
+      callback: ()=> {
+        console.log('right')
+      }
+    })
+
   }
 
 }

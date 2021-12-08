@@ -1,4 +1,5 @@
 import * as bom from '../dom/bom';
+import {Swipe} from '../ui/swipe';
 
 export interface DomWatcherConfig {
   // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
@@ -175,6 +176,13 @@ export interface DomWatcherConfig {
  * ```
  *
  *
+ * ### Non-standard events
+ * DomWatcher provides other non-standard events.  These include:
+ * - swipe-up
+ * - swipe-down
+ * - swipe-left
+ * - swipe-right
+ *
  * #### Debouncing
  *
  * ```ts
@@ -238,8 +246,14 @@ export class DomWatcher {
    */
   private watcherConfigs: Array<DomWatcherConfig>;
 
+  /**
+   * A map of all swipe instances with the HTMLElement as the key.
+   */
+  private swipeCache: Map<HTMLElement, Swipe>;
+
   constructor() {
     this.watcherConfigs = [];
+    this.swipeCache = new Map();
   }
 
   /**
@@ -302,6 +316,34 @@ export class DomWatcher {
       config.remover = () => {
         mutationObserver.disconnect();
       };
+    } else if ((config.on as string).startsWith('swipe')) {
+      // Create the swipe instance if we haven't created one for this element.
+      const el = config.element as HTMLElement;
+      if (!this.swipeCache.has(el)) {
+        this.swipeCache.set(el, new Swipe(el));
+      }
+
+      const swipe = this.swipeCache.get(el);
+      if (config.on === 'swipe-up') {
+        swipe.on(Swipe.Events.UP, (e: Event) => {
+          listener(e);
+        });
+      }
+      if (config.on === 'swipe-down') {
+        swipe.on(Swipe.Events.DOWN, (e: Event) => {
+          listener(e);
+        });
+      }
+      if (config.on === 'swipe-left') {
+        swipe.on(Swipe.Events.LEFT, (e: Event) => {
+          listener(e);
+        });
+      }
+      if (config.on === 'swipe-right') {
+        swipe.on(Swipe.Events.RIGHT, (e: Event) => {
+          listener(e);
+        });
+      }
     } else {
       // Add listening.
       config.element.addEventListener(
@@ -350,6 +392,11 @@ export class DomWatcher {
       remover && remover();
     });
     this.watcherConfigs = [];
+
+    // Go through swipes in delete all.
+    this.swipeCache.forEach((swipe: Swipe) => {
+      swipe.dispose();
+    });
   }
 
   /**
