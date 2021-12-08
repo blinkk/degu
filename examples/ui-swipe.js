@@ -3,7 +3,6 @@ import {Swipe} from '../lib/ui/swipe'
 
 export default class UiSwipeSample {
   constructor() {
-    console.log('test')
     const div = document.getElementById('myElement');
 
     const swipe = new Swipe(div);
