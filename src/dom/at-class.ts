@@ -8,7 +8,7 @@ export type AtClassEvaluationCallBack = (...args: any[]) => boolean;
 
 export interface AtClassConfig {
   /**
-   * The root element to observer.
+   * The root element to observe and to scope at class functionality to.
    */
   element: HTMLElement;
 
@@ -18,7 +18,7 @@ export interface AtClassConfig {
   conditions: [string, AtClassEvaluationCallBack][];
 
   /**
-   * Whether to reevaluate on resize.
+   * Whether to update on element resize events.
    */
   watchResize: boolean;
 }
