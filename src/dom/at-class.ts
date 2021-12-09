@@ -86,7 +86,7 @@ export class AtClass {
 
   /**
    * Scans the rootElement and creates a cache of all elements with @ classes
-   * with the current root element.
+   * within the current root element.
    */
   scanElements() {
     this.config.conditions.forEach(condition => {
