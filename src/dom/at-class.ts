@@ -148,14 +148,16 @@ class AtClassElement {
 
   /**
    * A record of condition to classNames.  For example,
-   * if this element started with, blue@desktop, left@desktop,
-   * red@tablet, orange@mobile this would look as follows:
+   * if this element started with, `blue@desktop left@desktop,
+   * red@tablet orange@mobile` as the class names, this would look as follows:
    *
-   * desktop: [blue, left],
-   * tablet: [red],
-   * mobile: [orange],
+   * {
+   *   desktop: [blue, left],
+   *   tablet: [red],
+   *   mobile: [orange],
+   * }
    */
-  private conditionToClassName: Record<string, string[]> = {};
+  private conditionToClassNames: Record<string, string[]> = {};
   constructor(element: HTMLElement) {
     this.element = element;
     const classNames = element.className.split(' ');
@@ -166,22 +168,22 @@ class AtClassElement {
         const classNameParts = className.split('@');
         const conditionName = classNameParts[1];
 
-        if (!this.conditionToClassName[conditionName]) {
-          this.conditionToClassName[conditionName] = [];
+        if (!this.conditionToClassNames[conditionName]) {
+          this.conditionToClassNames[conditionName] = [];
         }
 
-        this.conditionToClassName[conditionName].push(classNameParts[0]);
+        this.conditionToClassNames[conditionName].push(classNameParts[0]);
       }
     });
   }
 
   removeClassesForCondition(conditionName: string) {
-    this.conditionToClassName[conditionName].forEach((className: string) => {
+    this.conditionToClassNames[conditionName].forEach((className: string) => {
       this.element.classList.remove(className);
     });
   }
   addClassesForCondition(conditionName: string) {
-    this.conditionToClassName[conditionName].forEach((className: string) => {
+    this.conditionToClassNames[conditionName].forEach((className: string) => {
       this.element.classList.add(className);
     });
   }
