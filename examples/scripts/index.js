@@ -111,6 +111,7 @@ import X2Sample from '../x2';
 import XSample from '../x';
 import InviewSample from '../inview';
 import ComponentsSample from '../components';
+import AtClassSample from '../at-class';
 
 
 
@@ -224,6 +225,7 @@ const samples = {
   'glslPlayground30': GlslPlayground30,
   'inviewSample': InviewSample,
   'ComponentsSample': ComponentsSample,
+  'atClassSample': AtClassSample,
 };
 
 class Main {
