@@ -156,6 +156,7 @@ class AtClassElement {
    * }
    */
   private conditionToClassNames: Record<string, string[]> = {};
+
   constructor(element: HTMLElement) {
     this.element = element;
     const classNames = element.className.split(' ');
