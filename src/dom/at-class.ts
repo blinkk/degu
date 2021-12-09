@@ -180,6 +180,7 @@ class AtClassElement {
       this.element.classList.remove(className);
     });
   }
+
   addClassesForCondition(conditionName: string) {
     this.conditionToClassNames[conditionName].forEach((className: string) => {
       this.element.classList.add(className);
