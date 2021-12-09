@@ -1,50 +1,6 @@
 import {element} from 'angular';
 import {DomWatcher} from '../dom/dom-watcher';
 
-class AtClassElement {
-  private element: HTMLElement;
-
-  /**
-   * A record of condition to classNames.  For example,
-   * if this element started with, blue@desktop, left@desktop,
-   * red@tablet, orange@mobile this would look as follows:
-   *
-   * desktop: [blue, left],
-   * tablet: [red],
-   * mobile: [orange],
-   */
-  private conditionToClassName: Record<string, string[]> = {};
-  constructor(element: HTMLElement) {
-    this.element = element;
-    const classNames = element.className.split(' ');
-
-    // Create the conditionToClassName record.
-    classNames.forEach((className: string) => {
-      if (className.includes('@')) {
-        const classNameParts = className.split('@');
-        const conditionName = classNameParts[1];
-
-        if (!this.conditionToClassName[conditionName]) {
-          this.conditionToClassName[conditionName] = [];
-        }
-
-        this.conditionToClassName[conditionName].push(classNameParts[0]);
-      }
-    });
-  }
-
-  removeClassesForCondition(conditionName: string) {
-    this.conditionToClassName[conditionName].forEach((className: string) => {
-      this.element.classList.remove(className);
-    });
-  }
-  addClassesForCondition(conditionName: string) {
-    this.conditionToClassName[conditionName].forEach((className: string) => {
-      this.element.classList.add(className);
-    });
-  }
-}
-
 /**
  * A function that returns true or false.
  */
@@ -180,5 +136,53 @@ export class AtClass {
 
   dispose() {
     this.watcher.dispose();
+  }
+}
+
+/**
+ * A wrapper class around any element that has the css class has @ in the css
+ * classes.
+ */
+class AtClassElement {
+  private element: HTMLElement;
+
+  /**
+   * A record of condition to classNames.  For example,
+   * if this element started with, blue@desktop, left@desktop,
+   * red@tablet, orange@mobile this would look as follows:
+   *
+   * desktop: [blue, left],
+   * tablet: [red],
+   * mobile: [orange],
+   */
+  private conditionToClassName: Record<string, string[]> = {};
+  constructor(element: HTMLElement) {
+    this.element = element;
+    const classNames = element.className.split(' ');
+
+    // Create the conditionToClassName record.
+    classNames.forEach((className: string) => {
+      if (className.includes('@')) {
+        const classNameParts = className.split('@');
+        const conditionName = classNameParts[1];
+
+        if (!this.conditionToClassName[conditionName]) {
+          this.conditionToClassName[conditionName] = [];
+        }
+
+        this.conditionToClassName[conditionName].push(classNameParts[0]);
+      }
+    });
+  }
+
+  removeClassesForCondition(conditionName: string) {
+    this.conditionToClassName[conditionName].forEach((className: string) => {
+      this.element.classList.remove(className);
+    });
+  }
+  addClassesForCondition(conditionName: string) {
+    this.conditionToClassName[conditionName].forEach((className: string) => {
+      this.element.classList.add(className);
+    });
   }
 }
