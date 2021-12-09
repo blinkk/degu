@@ -117,8 +117,6 @@ export class AtClass {
       return condition[1]();
     });
 
-    // Now go through each AtClassElement on the page and update
-    // it's classes.
     falseCases.forEach(falseCase => {
       const falseCaseName = falseCase[0];
       this.atClassElements.forEach(atClassElement => {
