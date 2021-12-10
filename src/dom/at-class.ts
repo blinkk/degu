@@ -1,4 +1,5 @@
 import {DomWatcher} from '../dom/dom-watcher';
+import {func} from '../func/func';
 
 /**
  * A function that returns true or false.
@@ -78,7 +79,7 @@ export class AtClass {
       this.watcher.add({
         element: this.rootElement,
         on: 'resize',
-        callback: this.update.bind(this),
+        callback: func.debounce(this.update.bind(this), 50),
       });
     }
   }
@@ -96,7 +97,7 @@ export class AtClass {
       );
 
       // Include rootElement.
-      if (this.rootElement.classList.contains('@')) {
+      if (this.rootElement.matches(`[class*="@${conditionName}"]`)) {
         elements.push(this.rootElement);
       }
 
@@ -184,16 +185,16 @@ class AtClassElement {
   }
 
   removeClassesForCondition(conditionName: string) {
-    if (this.conditionToClassNames[conditionName]) {
-      this.element.classList.remove(
-        ...this.conditionToClassNames[conditionName]
-      );
+    const conditions = this.conditionToClassNames[conditionName];
+    if (conditions) {
+      this.element.classList.remove(...conditions);
     }
   }
 
   addClassesForCondition(conditionName: string) {
-    if (this.conditionToClassNames[conditionName]) {
-      this.element.classList.add(...this.conditionToClassNames[conditionName]);
+    const conditions = this.conditionToClassNames[conditionName];
+    if (conditions) {
+      this.element.classList.add(...conditions);
     }
   }
 }
