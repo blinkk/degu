@@ -44,11 +44,9 @@ export class Swipe implements EventDispatcher {
   private rootElement: HTMLElement;
   private eventManager: EventManager;
   private watcher: DomWatcher;
-  private x: Number;
-  private y: Number;
-  private isSwiping = false;
+  private x: number;
+  private y: number;
   private allowSwipe = false;
-  private debounceDuration = 300;
 
   constructor(rootElement: HTMLElement) {
     this.rootElement = rootElement;
@@ -101,9 +99,15 @@ export class Swipe implements EventDispatcher {
 
   static Events = SwipeEvent;
 
-  private onPointerDown(e: TouchEvent) {
-    this.x = (e.touches && e.touches[0].clientX) || e['x'];
-    this.y = (e.touches && e.touches[0].clientY) || e['y'];
+  private onPointerDown(e: TouchEvent | MouseEvent) {
+    if (e instanceof TouchEvent) {
+      this.x = e.touches[0].clientX;
+      this.y = e.touches[0].clientY;
+    }
+    if (e instanceof MouseEvent) {
+      this.x = e.x;
+      this.y = e.y;
+    }
     this.allowSwipe = true;
   }
 
@@ -112,17 +116,15 @@ export class Swipe implements EventDispatcher {
   }
 
   private onPointerMove(e: TouchEvent) {
-    if (!this.x || !this.y || this.isSwiping || !this.allowSwipe) {
+    if (!this.x || !this.y || !this.allowSwipe) {
       return;
     }
-
-    this.isSwiping = true;
 
     const currentX = (e.touches && e.touches[0].clientX) || e['x'];
     const currentY = (e.touches && e.touches[0].clientY) || e['y'];
 
-    const diffX = currentX - +this.x;
-    const diffY = currentY - +this.y;
+    const diffX = currentX - this.x;
+    const diffY = currentY - this.y;
 
     // Determine swipe direction
     if (Math.abs(diffX) > Math.abs(diffY)) {
@@ -143,10 +145,7 @@ export class Swipe implements EventDispatcher {
       }
     }
 
-    window.setTimeout(() => {
-      this.isSwiping = false;
-      this.allowSwipe = false;
-    }, this.debounceDuration);
+    this.allowSwipe = false;
   }
 
   on(eventName: string, callback: Function) {
