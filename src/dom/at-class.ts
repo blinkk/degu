@@ -1,4 +1,3 @@
-import {element} from 'angular';
 import {DomWatcher} from '../dom/dom-watcher';
 
 /**
@@ -15,7 +14,7 @@ export interface AtClassConfig {
   /**
    * A list of tuple [name, callback] to check on each resize.
    */
-  conditions: [string, AtClassEvaluationCallBack][];
+  conditions: Array<[string, AtClassEvaluationCallBack]>;
 
   /**
    * Whether to update on element resize events.
@@ -93,8 +92,13 @@ export class AtClass {
       const conditionName = condition[0];
 
       const elements = Array.from(
-        this.rootElement.querySelectorAll(`[class*="@${conditionName}"`)
+        this.rootElement.querySelectorAll(`[class*="@${conditionName}"]`)
       );
+
+      // Include rootElement.
+      if (this.rootElement.classList.contains('@')) {
+        elements.push(this.rootElement);
+      }
 
       elements.forEach(element => {
         this.atClassElements.add(new AtClassElement(element as HTMLElement));
@@ -110,11 +114,14 @@ export class AtClass {
     // are false and apply classes where conditions are true.
     // Note the order of execution is important here.  We want to
     // remove first and then apply true conditions.
-    const falseCases = this.config.conditions.filter(condition => {
-      return !condition[1]();
-    });
-    const trueCases = this.config.conditions.filter(condition => {
-      return condition[1]();
+    const trueCases = [];
+    const falseCases = [];
+    this.config.conditions.forEach(condition => {
+      if (condition[1]()) {
+        trueCases.push(condition);
+      } else {
+        falseCases.push(condition);
+      }
     });
 
     falseCases.forEach(falseCase => {
@@ -177,14 +184,16 @@ class AtClassElement {
   }
 
   removeClassesForCondition(conditionName: string) {
-    this.conditionToClassNames[conditionName].forEach((className: string) => {
-      this.element.classList.remove(className);
-    });
+    if (this.conditionToClassNames[conditionName]) {
+      this.element.classList.remove(
+        ...this.conditionToClassNames[conditionName]
+      );
+    }
   }
 
   addClassesForCondition(conditionName: string) {
-    this.conditionToClassNames[conditionName].forEach((className: string) => {
-      this.element.classList.add(className);
-    });
+    if (this.conditionToClassNames[conditionName]) {
+      this.element.classList.add(...this.conditionToClassNames[conditionName]);
+    }
   }
 }
