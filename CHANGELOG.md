@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://www.github.com/blinkk/degu/compare/v2.0.0...v2.1.0) (2021-12-12)
+
+
+### Features
+
+* Add At-class ([7294d8d](https://www.github.com/blinkk/degu/commit/7294d8da14a9be934bef54af4fa4cb8b7e596cbb))
+* Add Swipe ([38d8edc](https://www.github.com/blinkk/degu/commit/38d8edcf14927172b1f1089eb1b9714f1c0f9423))
+
 ## [2.0.0](https://www.github.com/blinkk/degu/compare/v1.27.0...v2.0.0) (2021-11-30)
 
 
