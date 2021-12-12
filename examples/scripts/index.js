@@ -112,6 +112,7 @@ import XSample from '../x';
 import InviewSample from '../inview';
 import ComponentsSample from '../components';
 import UiSwipeSample from '../ui-swipe';
+import AtClassSample from '../at-class';
 
 
 
@@ -226,6 +227,7 @@ const samples = {
   'inviewSample': InviewSample,
   'ComponentsSample': ComponentsSample,
   'UiSwipeSample': UiSwipeSample,
+  'atClassSample': AtClassSample,
 };
 
 class Main {
