@@ -120,8 +120,17 @@ export class Swipe implements EventDispatcher {
       return;
     }
 
-    const currentX = (e.touches && e.touches[0].clientX) || e['x'];
-    const currentY = (e.touches && e.touches[0].clientY) || e['y'];
+    let currentX;
+    let currentY;
+    if (e instanceof TouchEvent) {
+      currentX = e.touches[0].clientX;
+      currentY = e.touches[0].clientX;
+    }
+
+    if (e instanceof MouseEvent) {
+      currentX = e.x;
+      currentY = e.y;
+    }
 
     const diffX = currentX - this.x;
     const diffY = currentY - this.y;
