@@ -4,6 +4,7 @@ import {query} from 'lit/decorators.js';
 import {DeguYouTubeInline} from './youtube-inline';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as dom from '../dom/dom';
+import * as is from '../is/is';
 
 /**
  * DeguYutubeModal wraps details-dialog-element and degu-youtube-inline.
@@ -65,6 +66,20 @@ export class DeguYouTubeModal extends LitElement {
       (el: HTMLElement) => {
         const youtubeModalId = el.getAttribute('youtube-modal');
         if (youtubeModalId) {
+          // If the clicked element has the attribute
+          // `youtube-modal-redirect-mobile` redirect the user to youtube
+          // instead of opening a modal.
+          const REDIRECT_ATTRIBUTE = 'youtube-modal-redirect-mobile';
+          const redirectAttributeValue = el.getAttribute(REDIRECT_ATTRIBUTE);
+          const shouldRedirectToYoutube =
+            redirectAttributeValue === 'true' || redirectAttributeValue === '';
+
+          if (shouldRedirectToYoutube && is.mobile()) {
+            const redirectUrl = `https://m.youtube.com/watch?v=${youtubeModalId}`;
+            window.location.href = redirectUrl;
+            return;
+          }
+
           // Attach this element if it is not in the dom yet.
           if (!this.isConnected) {
             this.host.appendChild(this);
