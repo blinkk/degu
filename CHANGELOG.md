@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://www.github.com/blinkk/degu/compare/v2.1.0...v2.2.0) (2022-01-04)
+
+
+### Features
+
+* Add loading property to degu image ([880593d](https://www.github.com/blinkk/degu/commit/880593d146c4add5db896d4e8298c69d9b39c893))
+
 ## [2.1.0](https://www.github.com/blinkk/degu/compare/v2.0.0...v2.1.0) (2021-12-12)
 
 
