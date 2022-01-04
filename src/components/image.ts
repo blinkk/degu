@@ -55,6 +55,9 @@ export class DeguImage extends LitElement {
   @property({type: String, attribute: 'alt'})
   private alt: string;
 
+  @property({type: String, attribute: 'loading'})
+  private loading: string;
+
   @property({type: String, attribute: 'width'})
   private aspectRatioWidth: number;
 
@@ -102,6 +105,11 @@ export class DeguImage extends LitElement {
     },
   };
   private watcher: DomWatcher;
+
+  constructor() {
+    super();
+    this.loading = 'lazy';
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -209,7 +217,7 @@ export class DeguImage extends LitElement {
   private renderImage(src: string) {
     return html`
       <img
-        loading="lazy"
+        loading="${this.loading}"
         width=${ifDefined(this.aspectRatioWidth ? this.aspectRatioWidth : null)}
         height=${ifDefined(
           this.aspectRatioHeight ? this.aspectRatioHeight : null

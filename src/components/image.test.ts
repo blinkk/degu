@@ -94,6 +94,43 @@ describe('DeguImage', () => {
     });
   });
 
+  describe('loading mode', () => {
+    it('defaults to lazy', async () => {
+      root = await fixture(
+        html`<div id="root" style="width: 500px">
+          <degu-image
+            src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
+            style="aspect-ratio: 1"
+            alt="Image Aria Label"
+            class=""
+          ></degu-image>
+        </div>`
+      );
+
+      imageComponent = root.querySelector('degu-image');
+      image = imageComponent.querySelector('img');
+      expect(image.getAttribute('loading')).to.equal('lazy');
+    });
+
+    it('allows users to specify loading mode', async () => {
+      root = await fixture(
+        html`<div id="root" style="width: 500px">
+          <degu-image
+            src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
+            style="aspect-ratio: 1"
+            loading="eager"
+            alt="Image Aria Label"
+            class=""
+          ></degu-image>
+        </div>`
+      );
+
+      imageComponent = root.querySelector('degu-image');
+      image = imageComponent.querySelector('img');
+      expect(image.getAttribute('loading')).to.equal('eager');
+    });
+  });
+
   describe('svg images', () => {
     beforeEach(async () => {
       root = await fixture(
