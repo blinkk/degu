@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.0](https://www.github.com/blinkk/degu/compare/v2.2.0...v2.3.0) (2022-01-12)
+
+
+### Features
+
+* Add redirect capabilities to youtube-modal ([8359b7f](https://www.github.com/blinkk/degu/commit/8359b7fab15ea1f23b4e853c57b00022a214b034))
+
+
+### Bug Fixes
+
+* degu-image should calculate the max of the container and image ([2f5d076](https://www.github.com/blinkk/degu/commit/2f5d07619678eb45b23694d55fb665a5b1eb6ede))
+
 ## [2.2.0](https://www.github.com/blinkk/degu/compare/v2.1.0...v2.2.0) (2022-01-04)
 
 
