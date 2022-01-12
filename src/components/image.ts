@@ -143,7 +143,11 @@ export class DeguImage extends LitElement {
   private onResize() {
     // Calculate the width to the nearest 50 pixel.
     // Example: 420 --> 450, 451 --> 500
-    const width = Math.ceil(this.offsetWidth / 50) * 50;
+    const image = this.querySelector('img');
+    const width =
+      Math.ceil(
+        Math.max(this.offsetWidth, image ? image.offsetWidth : 0) / 50
+      ) * 50;
 
     // Calculate the autowidth render size and take the historical maximum.
     this.autoRenderWidth = Math.max(
