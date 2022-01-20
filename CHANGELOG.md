@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.1](https://www.github.com/blinkk/degu/compare/v2.3.0...v2.3.1) (2022-01-20)
+
+
+### Bug Fixes
+
+* swipe event calculations on mobile ([5ce93c7](https://www.github.com/blinkk/degu/commit/5ce93c7971591da829e56a029ee980a3082236d6))
+
 ## [2.3.0](https://www.github.com/blinkk/degu/compare/v2.2.0...v2.3.0) (2022-01-12)
 
 
