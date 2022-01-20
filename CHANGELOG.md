@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.2](https://www.github.com/blinkk/degu/compare/v2.3.1...v2.3.2) (2022-01-20)
+
+
+### Bug Fixes
+
+* update swipe to always listen to touch events ([3cceffd](https://www.github.com/blinkk/degu/commit/3cceffdad5b40c187555d59dcd309e7feceae449))
+
 ### [2.3.1](https://www.github.com/blinkk/degu/compare/v2.3.0...v2.3.1) (2022-01-20)
 
 
