@@ -46,6 +46,8 @@ export class Swipe implements EventDispatcher {
   private watcher: DomWatcher;
   private x: number;
   private y: number;
+  private mouseX: number;
+  private mouseY: number;
   private allowSwipe = false;
 
   constructor(rootElement: HTMLElement) {
@@ -112,28 +114,12 @@ export class Swipe implements EventDispatcher {
   }
 
   private onPointerUp() {
-    this.allowSwipe = false;
-  }
-
-  private onPointerMove(e: TouchEvent) {
     if (!this.x || !this.y || !this.allowSwipe) {
       return;
     }
 
-    let currentX;
-    let currentY;
-    if (e instanceof TouchEvent) {
-      currentX = e.touches[0].clientX;
-      currentY = e.touches[0].clientX;
-    }
-
-    if (e instanceof MouseEvent) {
-      currentX = e.x;
-      currentY = e.y;
-    }
-
-    const diffX = currentX - this.x;
-    const diffY = currentY - this.y;
+    const diffX = this.x - this.mouseX;
+    const diffY = this.y - this.mouseY;
 
     // Determine swipe direction
     if (Math.abs(diffX) > Math.abs(diffY)) {
@@ -153,8 +139,18 @@ export class Swipe implements EventDispatcher {
         dom.event(this.rootElement, Swipe.Events.DOWN, {});
       }
     }
-
     this.allowSwipe = false;
+  }
+
+  private onPointerMove(e: TouchEvent | MouseEvent) {
+    if (e instanceof TouchEvent) {
+      this.mouseX = e.touches[0].clientX;
+      this.mouseY = e.touches[0].clientY;
+    }
+    if (e instanceof MouseEvent) {
+      this.mouseX = e.x;
+      this.mouseY = e.y;
+    }
   }
 
   on(eventName: string, callback: Function) {
