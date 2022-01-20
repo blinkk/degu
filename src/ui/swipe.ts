@@ -54,52 +54,49 @@ export class Swipe implements EventDispatcher {
     this.rootElement = rootElement;
     this.eventManager = new EventManager();
     this.watcher = new DomWatcher();
-
-    const isTouchSupported = 'ontouchstart' in document.documentElement;
-
-    // Add listeners
-    if (isTouchSupported) {
-      this.watcher.add({
-        element: this.rootElement as HTMLElement,
-        on: 'touchstart',
-        eventOptions: {passive: true},
-        callback: this.onPointerDown.bind(this),
-      });
-      this.watcher.add({
-        element: this.rootElement as HTMLElement,
-        on: 'touchend',
-        eventOptions: {passive: true},
-        callback: this.onPointerUp.bind(this),
-      });
-      this.watcher.add({
-        element: this.rootElement as HTMLElement,
-        on: 'touchmove',
-        eventOptions: {passive: true},
-        callback: this.onPointerMove.bind(this),
-      });
-    } else {
-      this.watcher.add({
-        element: this.rootElement as HTMLElement,
-        on: 'mousedown',
-        eventOptions: {passive: true},
-        callback: this.onPointerDown.bind(this),
-      });
-      this.watcher.add({
-        element: this.rootElement as HTMLElement,
-        on: 'mouseup',
-        eventOptions: {passive: true},
-        callback: this.onPointerUp.bind(this),
-      });
-      this.watcher.add({
-        element: this.rootElement as HTMLElement,
-        on: 'mousemove',
-        eventOptions: {passive: true},
-        callback: this.onPointerMove.bind(this),
-      });
-    }
+    this.listenToEvents();
   }
 
   static Events = SwipeEvent;
+
+  private listenToEvents() {
+    this.watcher.add({
+      element: this.rootElement as HTMLElement,
+      on: 'touchstart',
+      eventOptions: {passive: true},
+      callback: this.onPointerDown.bind(this),
+    });
+    this.watcher.add({
+      element: this.rootElement as HTMLElement,
+      on: 'touchend',
+      eventOptions: {passive: true},
+      callback: this.onPointerUp.bind(this),
+    });
+    this.watcher.add({
+      element: this.rootElement as HTMLElement,
+      on: 'touchmove',
+      eventOptions: {passive: true},
+      callback: this.onPointerMove.bind(this),
+    });
+    this.watcher.add({
+      element: this.rootElement as HTMLElement,
+      on: 'mousedown',
+      eventOptions: {passive: true},
+      callback: this.onPointerDown.bind(this),
+    });
+    this.watcher.add({
+      element: this.rootElement as HTMLElement,
+      on: 'mouseup',
+      eventOptions: {passive: true},
+      callback: this.onPointerUp.bind(this),
+    });
+    this.watcher.add({
+      element: this.rootElement as HTMLElement,
+      on: 'mousemove',
+      eventOptions: {passive: true},
+      callback: this.onPointerMove.bind(this),
+    });
+  }
 
   private onPointerDown(e: TouchEvent | MouseEvent) {
     if (e instanceof TouchEvent) {
