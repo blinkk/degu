@@ -18,12 +18,10 @@ npm install
 ```
 npm run dev
 
-    The main dev command which basically build the project with tsc,
-    and also run the examples project (basically npm start) and run ava
-    (unit testing).
+    The main dev command which basically build the project.
 
-npm run dev-no-test
-    Run the project without test.
+npm run dev-with-test
+    Run the project with tests.
 
 npm run test
 npm run test -- --watch
@@ -81,9 +79,9 @@ When writing a class
   lot of methods and classes that are unfamiliar.  The exception would be
   for advanced examples.
 
-Use release-please style commit messages, e.g. 
-- feat: add some new feature 
-- chore: update docs 
+Use release-please style commit messages, e.g.
+- feat: add some new feature
+- chore: update docs
 - refactor: move some file into another place
 
 ### Testing with Ava

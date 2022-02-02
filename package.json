@@ -9,8 +9,9 @@
   "directories": {
     "lib": "lib"
   },
+  "type": "module",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "license": "MIT",
   "repository": {
@@ -23,7 +24,7 @@
   "ava": {
     "require": [
       "ts-node/register/transpile-only",
-      "./_ava/_setup-browser-env.js"
+      "./_ava/_setup-browser-env.cjs"
     ],
     "extensions": [
       "ts"
@@ -97,10 +98,10 @@
     "html-webpack-plugin": "4.0.0-beta.5",
     "intersection-observer": "0.7.0",
     "mini-css-extract-plugin": "0.5.0",
-    "node-sass": "4.12.0",
     "npm-run-all": "4.1.5",
     "nyc": "14.1.1",
     "pixi.js": "4.8.1",
+    "sass": "^1.49.7",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
     "three": "0.110.0",
@@ -122,14 +123,14 @@
     "build-watch": "tsc --watch",
     "compile": "tsc",
     "coverage": "TS_NODE_PROJECT='./tsconfig.test.json' nyc ava",
-    "dev": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
-    "dev-no-test": "concurrently \"tsc --watch\" \"npm run start\"",
+    "dev-with-test": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
+    "dev": "concurrently \"tsc --watch\" \"npm run start\"",
     "doc": "typedoc",
     "doc-server": "simplehttpserver ./docs",
     "lint": "gts lint",
     "prepare": "npm run build",
     "server": "node server",
-    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
+    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.cjs",
     "test": "TS_NODE_PROJECT='./tsconfig.test.json' ava && web-test-runner --node-resolve",
     "test-lit": "web-test-runner --node-resolve",
     "clean": "gts clean",
