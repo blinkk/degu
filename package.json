@@ -9,7 +9,6 @@
   "directories": {
     "lib": "lib"
   },
-  "type": "module",
   "engines": {
     "node": ">=16.0.0"
   },
@@ -24,7 +23,7 @@
   "ava": {
     "require": [
       "ts-node/register/transpile-only",
-      "./_ava/_setup-browser-env.cjs"
+      "./_ava/_setup-browser-env.js"
     ],
     "extensions": [
       "ts"
@@ -130,7 +129,7 @@
     "lint": "gts lint",
     "prepare": "npm run build",
     "server": "node server",
-    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.cjs",
+    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
     "test": "TS_NODE_PROJECT='./tsconfig.test.json' ava && web-test-runner --node-resolve",
     "test-lit": "web-test-runner --node-resolve",
     "clean": "gts clean",
