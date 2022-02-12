@@ -150,7 +150,7 @@ export class DeguYouTubeModal extends LitElement {
     }
 
     .modal[open] .modal__mask {
-      background-color: #202124;
+      background-color: var(--modal-mask-bg-color, #202124);
       content: ' ';
       display: block;
       position: fixed;
@@ -244,7 +244,7 @@ export class DeguYouTubeModal extends LitElement {
       right: -2px;
       opacity: 0;
       border-radius: 100%;
-      background-color: #3c4043;
+      background-color: var(--modal-close-default-color, #3c4043);
       transform-origin: center center;
       transform: scale3d(0.8, 0.8, 0.8);
       z-index: 0;
@@ -261,7 +261,7 @@ export class DeguYouTubeModal extends LitElement {
     }
     .modal__close:hover:after {
       opacity: 1;
-      background-color: #ffffff;
+      background-color: var(--modal-close-hover-color, #ffffff);
       transform: scale3d(1, 1, 1);
     }
   `;
