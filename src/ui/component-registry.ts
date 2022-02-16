@@ -69,13 +69,13 @@ export class ComponentRegistry {
 
   /** Starts the component registry. */
   start() {
-    this.update();
     this.observer.observe(document.body, {
       attributes: true,
       attributeFilter: ['data-component'],
       subtree: true,
       childList: true,
     });
+    this.update();
   }
 
   /** Stops the component registry observer. */
