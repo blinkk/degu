@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.3](https://www.github.com/blinkk/degu/compare/v2.3.2...v2.3.3) (2022-02-14)
+
+
+### Miscellaneous Chores
+
+* release 2.3.3 ([fe6f44f](https://www.github.com/blinkk/degu/commit/fe6f44f871a4592af270133c81ee950214ad5346))
+
 ### [2.3.2](https://www.github.com/blinkk/degu/compare/v2.3.1...v2.3.2) (2022-01-20)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@blinkk/degu",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "A general utility library for interactive websites, with a focus on performance.",
   "author": "Blinkk <hello@blinkk.com>",
   "main": "lib/index.js",
