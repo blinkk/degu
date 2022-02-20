@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.4.0](https://www.github.com/blinkk/degu/compare/v2.3.3...v2.4.0) (2022-02-20)
+
+
+### Features
+
+* Add google-image-scalar option ([646ddea](https://www.github.com/blinkk/degu/commit/646ddea180fbd026d8443dbe9e6440aa0964dceb))
+* Add google-params optons to image [#215](https://www.github.com/blinkk/degu/issues/215) ([aeeee6c](https://www.github.com/blinkk/degu/commit/aeeee6c7154c9da37015c69754af9cad4e7fdb23))
+
+
+### Bug Fixes
+
+* fix parameter ordering ([1a85a5f](https://www.github.com/blinkk/degu/commit/1a85a5f41272367cc72a8450016a6dff1f8bd630))
+
 ### [2.3.3](https://www.github.com/blinkk/degu/compare/v2.3.2...v2.3.3) (2022-02-14)
 
 
