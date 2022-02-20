@@ -76,6 +76,9 @@ export class DeguImage extends LitElement {
   @property({type: Number, attribute: 'desktop-width'})
   private desktopWidth: number;
 
+  @property({type: String, attribute: 'google-params'})
+  private googleParams: string;
+
   @property() autoRenderWidth = 0;
 
   /**
@@ -115,6 +118,11 @@ export class DeguImage extends LitElement {
     super.connectedCallback();
 
     this.watcher = new DomWatcher();
+
+    // Add default params.
+    if (!this.googleParams) {
+      this.googleParams = 'rw-e365';
+    }
 
     this.isGoogleImage =
       !this.src.includes('.svg') &&
@@ -192,8 +200,8 @@ export class DeguImage extends LitElement {
 
   private renderSourceSet(media: string | null, renderWidth: number) {
     const srcset = this.isGoogleImage
-      ? `${this.src}=rw-e365-w${renderWidth},
-          ${this.src}=rw-e365-w${renderWidth * 2} 2x`
+      ? `${this.src}=${this.googleParams}-w${renderWidth},
+          ${this.src}=${this.googleParams}-w${renderWidth * 2} 2x`
       : `${this.src}`;
 
     return html`
@@ -235,7 +243,9 @@ export class DeguImage extends LitElement {
   render() {
     return html`
       ${this.isGoogleImage
-        ? this.renderImage(this.src + '=rw-e365-w' + this.autoRenderWidth)
+        ? this.renderImage(
+            this.src + `=${this.googleParams}-w` + this.autoRenderWidth
+          )
         : this.src.includes('.svg')
         ? this.renderImage(this.src)
         : this.renderDynamicSourceSetImage()}
