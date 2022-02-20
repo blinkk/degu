@@ -82,6 +82,14 @@ export class DeguImage extends LitElement {
   @property() autoRenderWidth = 0;
 
   /**
+   * Specify a scalar to force increase the size of the google image.
+   * Note that an alternative to this is to pass a width parameter via
+   * googleParams.
+   */
+  @property({type: String, attribute: 'google-image-scalar'})
+  private googleImageScalar: number;
+
+  /**
    * Whether this is a google service like image.
    */
   private isGoogleImage: boolean;
@@ -158,10 +166,11 @@ export class DeguImage extends LitElement {
       ) * 50;
 
     // Calculate the autowidth render size and take the historical maximum.
-    this.autoRenderWidth = Math.max(
-      this.autoRenderWidth,
-      Math.ceil(width * window.devicePixelRatio)
-    );
+    this.autoRenderWidth =
+      Math.max(
+        this.autoRenderWidth,
+        Math.ceil(width * window.devicePixelRatio)
+      ) * (this.googleImageScalar || 1);
   }
 
   disconnectedCallback() {

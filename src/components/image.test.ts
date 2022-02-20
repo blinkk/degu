@@ -75,6 +75,25 @@ describe('DeguImage', () => {
       expect(image.src.endsWith('w1250-rw-e365')).to.equal(true);
     });
 
+    it('allows user to specify google image scalar', async () => {
+      root = await fixture(
+        html`<div id="root" style="width: 500px">
+          <degu-image
+            src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
+            style="aspect-ratio: 1"
+            google-params="v1"
+            google-image-scalar="2"
+            alt="Image Aria Label"
+            class=""
+          ></degu-image>
+        </div>`
+      );
+
+      imageComponent = root.querySelector('degu-image');
+      image = imageComponent.querySelector('img');
+      expect(image.src.endsWith('w1000-v1')).to.equal(true);
+    });
+
     it('allows user to specify google parameters', async () => {
       root = await fixture(
         html`<div id="root" style="width: 500px">
