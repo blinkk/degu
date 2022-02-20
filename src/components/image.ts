@@ -200,8 +200,8 @@ export class DeguImage extends LitElement {
 
   private renderSourceSet(media: string | null, renderWidth: number) {
     const srcset = this.isGoogleImage
-      ? `${this.src}=${this.googleParams}-w${renderWidth},
-          ${this.src}=${this.googleParams}-w${renderWidth * 2} 2x`
+      ? `${this.src}=w${renderWidth}-${this.googleParams},
+          ${this.src}=w${renderWidth * 2}-${this.googleParams} 2x`
       : `${this.src}`;
 
     return html`
@@ -244,7 +244,7 @@ export class DeguImage extends LitElement {
     return html`
       ${this.isGoogleImage
         ? this.renderImage(
-            this.src + `=${this.googleParams}-w` + this.autoRenderWidth
+            this.src + `=w${this.autoRenderWidth}-${this.googleParams}`
           )
         : this.src.includes('.svg')
         ? this.renderImage(this.src)
