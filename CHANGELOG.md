@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.4.1](https://www.github.com/blinkk/degu/compare/v2.4.0...v2.4.1) (2022-02-21)
+
+
+### Bug Fixes
+
+* swipe event errors in Safari ([02aacdf](https://www.github.com/blinkk/degu/commit/02aacdf50eefc8a5e0a11b84f4c006a5d1be888b))
+
 ## [2.4.0](https://www.github.com/blinkk/degu/compare/v2.3.3...v2.4.0) (2022-02-20)
 
 
