@@ -99,7 +99,7 @@ export class Swipe implements EventDispatcher {
   }
 
   private onPointerDown(e: TouchEvent | MouseEvent) {
-    if (e instanceof TouchEvent) {
+    if (window.TouchEvent && e instanceof TouchEvent) {
       this.x = e.touches[0].clientX;
       this.y = e.touches[0].clientY;
     }
@@ -140,7 +140,7 @@ export class Swipe implements EventDispatcher {
   }
 
   private onPointerMove(e: TouchEvent | MouseEvent) {
-    if (e instanceof TouchEvent) {
+    if (window.TouchEvent && e instanceof TouchEvent) {
       this.mouseX = e.touches[0].clientX;
       this.mouseY = e.touches[0].clientY;
     }
