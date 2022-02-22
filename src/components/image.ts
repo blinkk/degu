@@ -127,10 +127,7 @@ export class DeguImage extends LitElement {
 
     this.watcher = new DomWatcher();
 
-    // Add default params.
-    if (!this.googleParams) {
-      this.googleParams = 'rw-e365';
-    }
+    this.googleParams = this.googleParams ? '-' + this.googleParams : '';
 
     this.isGoogleImage =
       !this.src.includes('.svg') &&
@@ -209,8 +206,8 @@ export class DeguImage extends LitElement {
 
   private renderSourceSet(media: string | null, renderWidth: number) {
     const srcset = this.isGoogleImage
-      ? `${this.src}=w${renderWidth}-${this.googleParams},
-          ${this.src}=w${renderWidth * 2}-${this.googleParams} 2x`
+      ? `${this.src}=rw-e365-w${renderWidth}${this.googleParams},
+          ${this.src}=rw-e365-w${renderWidth * 2}${this.googleParams} 2x`
       : `${this.src}`;
 
     return html`
@@ -253,7 +250,7 @@ export class DeguImage extends LitElement {
     return html`
       ${this.isGoogleImage
         ? this.renderImage(
-            this.src + `=w${this.autoRenderWidth}-${this.googleParams}`
+            this.src + `=rw-e365-w${this.autoRenderWidth}${this.googleParams}`
           )
         : this.src.includes('.svg')
         ? this.renderImage(this.src)
