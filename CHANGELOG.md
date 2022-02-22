@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.4.2](https://www.github.com/blinkk/degu/compare/v2.4.1...v2.4.2) (2022-02-22)
+
+
+### Bug Fixes
+
+* goog params to override instead of replace ([a117259](https://www.github.com/blinkk/degu/commit/a1172595a2d6fa9beb340c7ebc1a36f65576559c))
+
 ### [2.4.1](https://www.github.com/blinkk/degu/compare/v2.4.0...v2.4.1) (2022-02-21)
 
 
