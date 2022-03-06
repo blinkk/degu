@@ -130,6 +130,7 @@ export class DeguImage extends LitElement {
     this.googleParams = this.googleParams ? '-' + this.googleParams : '';
 
     this.isGoogleImage =
+      this.src &&
       !this.src.includes('.svg') &&
       this.src.startsWith('https://lh3.googleusercontent.com') &&
       // Skip cases where a google image service parameter has already been
