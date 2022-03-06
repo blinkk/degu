@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.4.3](https://www.github.com/blinkk/degu/compare/v2.4.2...v2.4.3) (2022-03-06)
+
+
+### Bug Fixes
+
+* errors when src isn’t defined ([d970e90](https://www.github.com/blinkk/degu/commit/d970e90dfeb8c478529977d918641225573339bd))
+
 ### [2.4.2](https://www.github.com/blinkk/degu/compare/v2.4.1...v2.4.2) (2022-02-22)
 
 
