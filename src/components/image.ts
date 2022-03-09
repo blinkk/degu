@@ -253,7 +253,7 @@ export class DeguImage extends LitElement {
         ? this.renderImage(
             this.src + `=rw-e365-w${this.autoRenderWidth}${this.googleParams}`
           )
-        : this.src.includes('.svg')
+        : this.src && this.src.includes('.svg')
         ? this.renderImage(this.src)
         : this.renderDynamicSourceSetImage()}
     `;
