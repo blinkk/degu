@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.4.4](https://www.github.com/blinkk/degu/compare/v2.4.3...v2.4.4) (2022-03-09)
+
+
+### Bug Fixes
+
+* Fix errors with sourceless images ([138e83c](https://www.github.com/blinkk/degu/commit/138e83c570bf8065b8b444968327070858b6e451))
+
 ### [2.4.3](https://www.github.com/blinkk/degu/compare/v2.4.2...v2.4.3) (2022-03-06)
 
 
