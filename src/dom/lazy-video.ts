@@ -97,6 +97,8 @@ export const LazyVideoEvents = {
  *
  */
 export class LazyVideo {
+  private static readonly VALID_TYPES = new Set(['mp4', 'webm']);
+
   /**
    * The root video element.
    */
@@ -111,6 +113,7 @@ export class LazyVideo {
    * The url of the video to load.
    */
   private url: string;
+  private type: string | null;
   private setComplete: boolean;
   // Ev used to trigger the load of the video.
   private ev: ElementVisibilityObject;
@@ -160,6 +163,9 @@ export class LazyVideo {
      */
     this.url = this.el.getAttribute('lazy-video') || '';
 
+    const rawType = this.url.split('.').slice(-1)[0]; // Grab extension
+    this.type = LazyVideo.VALID_TYPES.has(rawType) ? rawType : null;
+
     /**
      * Whether this directive has finished setting the video.
      */
@@ -206,6 +212,9 @@ export class LazyVideo {
   public paint(force = false): void {
     if ((this.isPainted() && !this.setComplete) || force) {
       this.setComplete = true;
+      if (this.type !== null) {
+        this.el.setAttribute('type', `video/${this.type}`);
+      }
       this.el.setAttribute('src', this.url);
 
       dom.whenVideosLoaded([this.video]).then(() => {
