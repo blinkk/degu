@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://www.github.com/blinkk/degu/compare/v2.4.4...v2.5.0) (2022-03-15)
+
+
+### Features
+
+* Add atTabIndex ([0b6aa21](https://www.github.com/blinkk/degu/commit/0b6aa21902ff008366d11938bc16a3f90f4f2018))
+
 ### [2.4.4](https://www.github.com/blinkk/degu/compare/v2.4.3...v2.4.4) (2022-03-09)
 
 
