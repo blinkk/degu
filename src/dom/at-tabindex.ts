@@ -77,7 +77,6 @@ export class AtTabIndex {
     new Set<AtTabIndexElement>();
 
   constructor(config: AtTabIndexConfig) {
-    console.log('at tab index 2');
     this.config = config;
     this.rootElement = config.element;
     this.watcher = new DomWatcher();
