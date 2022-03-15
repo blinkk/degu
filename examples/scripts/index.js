@@ -113,6 +113,7 @@ import InviewSample from '../inview';
 import ComponentsSample from '../components';
 import UiSwipeSample from '../ui-swipe';
 import AtClassSample from '../at-class';
+import AtTabIndexSample from '../at-tabindex';
 
 
 
@@ -228,6 +229,7 @@ const samples = {
   'ComponentsSample': ComponentsSample,
   'UiSwipeSample': UiSwipeSample,
   'atClassSample': AtClassSample,
+  'atTabIndexSample': AtTabIndexSample,
 };
 
 class Main {
