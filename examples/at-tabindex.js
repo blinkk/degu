@@ -12,7 +12,8 @@ export default class AtTabIndexSample {
         ['tablet', ()=> window.innerWidth < 1000 && window.innerWidth > 780],
         ['mobile', ()=> window.innerWidth < 780],
       ],
-      watchResize: true
+      watchResize: true,
+      updateChildren: true
     })
   }
 }

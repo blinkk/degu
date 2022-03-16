@@ -1,5 +1,6 @@
 import {DomWatcher} from '../dom/dom-watcher';
 import {func} from '../func/func';
+import * as dom from '../dom/dom';
 
 /**
  * A function that returns true or false.
@@ -21,6 +22,11 @@ export interface AtTabIndexConfig {
    * Whether to update on element resize events.
    */
   watchResize: boolean;
+
+  /**
+   * Whether to apply the tab index to all focusable child elements.
+   */
+  updateChildren: boolean;
 }
 
 /**
@@ -46,6 +52,7 @@ export interface AtTabIndexConfig {
  *       ['desktop-gt', () => window.innerWidth >= 1440],
  *     ],
  *     watchResize: true,
+ *     updateChildren: true
  *   });
  *
  *  // Later
@@ -62,6 +69,21 @@ export interface AtTabIndexConfig {
  * </div>
  *
  * <div at-tab-index="2@mobile">Tab index only on mobile</div>
+ * ```
+ *
+ *
+ * When updateChildren is true, at-tab-index will update the focusable children
+ * as well.
+ *
+ * You can add `at-tab-index-ignore` if you want to ignore specific children
+ * from updating.
+ * ```
+ * <div at-tab-index="4@mobile" at-tab-index-ignore>
+ *      <button>This button will get tab-index 4 on mobile</button>
+ *      <button>This button will get tab-index 4 on mobile</button>
+ *      <button at-tab-index-ignore>This button will get tab-index 4 on mobile</button>
+ * </div>
+ *
  * ```
  *
  */
@@ -138,14 +160,20 @@ export class AtTabIndex {
     falseCases.forEach(falseCase => {
       const falseCaseName = falseCase[0];
       this.atTabIndexElements.forEach(atTabIndexElement => {
-        atTabIndexElement.removeTabIndexForCondition(falseCaseName);
+        atTabIndexElement.removeTabIndexForCondition(
+          falseCaseName,
+          this.config.updateChildren
+        );
       });
     });
 
     trueCases.forEach(trueCase => {
       const trueCaseName = trueCase[0];
       this.atTabIndexElements.forEach(atTabIndexElement => {
-        atTabIndexElement.addTabIndexForCondition(trueCaseName);
+        atTabIndexElement.addTabIndexForCondition(
+          trueCaseName,
+          this.config.updateChildren
+        );
       });
     });
   }
@@ -189,15 +217,37 @@ class AtTabIndexElement {
     });
   }
 
-  removeTabIndexForCondition(conditionName: string) {
-    this.element.removeAttribute('tabindex');
+  removeTabIndexForCondition(conditionName: string, updateChildren = false) {
+    if (!this.element.hasAttribute('at-tab-index-ignore')) {
+      this.element.removeAttribute('tabindex');
+    }
+
+    if (updateChildren) {
+      const elements = dom.getFocusableElements(this.element);
+      elements.forEach(element => {
+        if (!element.hasAttribute('at-tab-index-ignore')) {
+          element.removeAttribute('tabindex');
+        }
+      });
+    }
   }
 
-  addTabIndexForCondition(conditionName: string) {
+  addTabIndexForCondition(conditionName: string, updateChildren = false) {
     const conditions = this.conditionToTabIndex[conditionName];
     if (conditions) {
       conditions.forEach(condition => {
-        this.element.setAttribute('tabindex', condition);
+        if (!this.element.hasAttribute('at-tab-index-ignore')) {
+          this.element.setAttribute('tabindex', condition);
+        }
+
+        if (updateChildren) {
+          const elements = dom.getFocusableElements(this.element);
+          elements.forEach(element => {
+            if (!element.hasAttribute('at-tab-index-ignore')) {
+              element.setAttribute('tabindex', condition);
+            }
+          });
+        }
       });
     }
   }
