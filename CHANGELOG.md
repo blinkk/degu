@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://www.github.com/blinkk/degu/compare/v2.8.0...v2.9.0) (2022-03-28)
+
+
+### Features
+
+* Add control methods to degu video ([ee8de86](https://www.github.com/blinkk/degu/commit/ee8de86c718aec564c6bf7d56b87c997b5db0bae))
+
 ## [2.8.0](https://www.github.com/blinkk/degu/compare/v2.7.0...v2.8.0) (2022-03-28)
 
 
