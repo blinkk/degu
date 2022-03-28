@@ -74,7 +74,7 @@ export class DeguVideo extends LitElement {
   private watcher: DomWatcher;
   private hasStartedLoad = false;
 
-  private video: HTMLVideoElement;
+  video: HTMLVideoElement;
 
   static CmsOptions: Record<string, string> = {
     LOOP: 'loop',
@@ -170,8 +170,7 @@ export class DeguVideo extends LitElement {
     // replay on inview.
     if (this.hasStartedLoad && this.autoplayInview) {
       if (!this.isPainted() && !this.inviewEv.state().inview) {
-        this.video.currentTime = 0;
-        this.video.pause();
+        this.reset();
       } else {
         this.play();
       }
@@ -186,6 +185,15 @@ export class DeguVideo extends LitElement {
       const playPromise = this.video.play();
       playPromise.then(() => {}).catch();
     }
+  }
+
+  reset() {
+    this.video.currentTime = 0;
+    this.video.pause();
+  }
+
+  pause() {
+    this.video.pause();
   }
 
   createRenderRoot() {
