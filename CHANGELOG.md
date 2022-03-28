@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://www.github.com/blinkk/degu/compare/v2.6.0...v2.7.0) (2022-03-28)
+
+
+### Features
+
+* Add type module to project ([618a786](https://www.github.com/blinkk/degu/commit/618a7866d52d4975248de3b2cddf40df9bea1541))
+
 ## [2.6.0](https://www.github.com/blinkk/degu/compare/v2.5.0...v2.6.0) (2022-03-16)
 
 
