@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://www.github.com/blinkk/degu/compare/v2.7.0...v2.8.0) (2022-03-28)
+
+
+### Features
+
+* Remove src-set feature and fix scalar calculations ([7e20807](https://www.github.com/blinkk/degu/commit/7e20807aa558ea5f6e689b02e6d447851db50840))
+
 ## [2.7.0](https://www.github.com/blinkk/degu/compare/v2.6.0...v2.7.0) (2022-03-28)
 
 
