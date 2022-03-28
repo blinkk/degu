@@ -4,11 +4,6 @@ import {property} from 'lit/decorators.js';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
 
-interface SourceSetMediaDeclaration {
-  media: string;
-  renderWidth: number;
-}
-
 /**
  *
  * # DeguImage Component.
@@ -43,10 +38,6 @@ interface SourceSetMediaDeclaration {
  * DeguImage will automatically look at your image source and if it is google
  * image service like, apply autowidth where it fetches the right size image
  * based on your image render width.
- *
- * ## Google Image Service images
- * TODO: Add documentation on <picture> srcset mode.
- *
  */
 export class DeguImage extends LitElement {
   @property({type: String, attribute: 'src'})
@@ -63,18 +54,6 @@ export class DeguImage extends LitElement {
 
   @property({type: String, attribute: 'height'})
   private aspectRatioHeight: number;
-
-  @property({type: Number, attribute: 'mobile-width'})
-  private mobileWidth: number;
-
-  @property({type: Number, attribute: 'tablet-width'})
-  private tabletWidth: number;
-
-  @property({type: Number, attribute: 'laptop-width'})
-  private laptopWidth: number;
-
-  @property({type: Number, attribute: 'desktop-width'})
-  private desktopWidth: number;
 
   @property({type: String, attribute: 'google-params'})
   private googleParams: string;
@@ -94,27 +73,6 @@ export class DeguImage extends LitElement {
    */
   private isGoogleImage: boolean;
 
-  /**
-   * A list of source set min, max and load widths.
-   */
-  private breakpoints: Record<string, SourceSetMediaDeclaration> = {
-    desktop: {
-      media: '(min-width: 1440px)',
-      renderWidth: 2880,
-    },
-    laptop: {
-      media: '(min-width: 1024px) and (max-width: 1399px)',
-      renderWidth: 1440,
-    },
-    tablet: {
-      media: '(min-width: 768px) and (max-width: 1023px)',
-      renderWidth: 1024,
-    },
-    mobile: {
-      media: '(max-width: 767px)',
-      renderWidth: 768,
-    },
-  };
   private watcher: DomWatcher;
 
   constructor() {
@@ -137,13 +95,6 @@ export class DeguImage extends LitElement {
       // appended.
       !this.src.includes('=');
 
-    this.setBreakPointsMaxWidth(
-      this.mobileWidth,
-      this.tabletWidth,
-      this.laptopWidth,
-      this.desktopWidth
-    );
-
     if (this.isGoogleImage) {
       this.watcher.add({
         element: this as HTMLElement,
@@ -164,41 +115,15 @@ export class DeguImage extends LitElement {
       ) * 50;
 
     // Calculate the autowidth render size and take the historical maximum.
-    this.autoRenderWidth =
-      Math.max(
-        this.autoRenderWidth,
-        Math.ceil(width * window.devicePixelRatio)
-      ) * (this.googleImageScalar || 1);
+    this.autoRenderWidth = Math.max(
+      this.autoRenderWidth,
+      Math.ceil(width * (this.googleImageScalar || 1) * window.devicePixelRatio)
+    );
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.watcher && this.watcher.dispose();
-  }
-
-  /**
-   * Set the maximum rendering width of the image at a given viewport.
-   * For example, if you know that the max size of your image is 800 (pixels)
-   * on desktopWidth, you can pass 800 and the image will be capped to that size.
-   */
-  setBreakPointsMaxWidth(
-    mobileWidth: number,
-    tabletWidth: number,
-    laptopWidth: number,
-    desktopWidth: number
-  ) {
-    if (mobileWidth) {
-      this.breakpoints.mobile.renderWidth = mobileWidth;
-    }
-    if (tabletWidth) {
-      this.breakpoints.tablet.renderWidth = tabletWidth;
-    }
-    if (laptopWidth) {
-      this.breakpoints.laptop.renderWidth = laptopWidth;
-    }
-    if (desktopWidth) {
-      this.breakpoints.desktop.renderWidth = desktopWidth;
-    }
   }
 
   createRenderRoot() {
@@ -216,20 +141,6 @@ export class DeguImage extends LitElement {
         srcset="${srcset}"
         media="${media}"
       ></source>
-    `;
-  }
-
-  private renderDynamicSourceSetImage() {
-    const breakpoints: SourceSetMediaDeclaration[] = Object.values(
-      this.breakpoints
-    );
-    return html`
-      <picture>
-        ${breakpoints.map(breakpoint => {
-          return this.renderSourceSet(breakpoint.media, breakpoint.renderWidth);
-        })}
-        ${this.renderImage(this.src)}
-      </picture>
     `;
   }
 
@@ -253,9 +164,7 @@ export class DeguImage extends LitElement {
         ? this.renderImage(
             this.src + `=rw-e365-w${this.autoRenderWidth}${this.googleParams}`
           )
-        : this.src && this.src.includes('.svg')
-        ? this.renderImage(this.src)
-        : this.renderDynamicSourceSetImage()}
+        : this.renderImage(this.src)}
     `;
   }
 }
