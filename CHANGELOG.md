@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.0](https://www.github.com/blinkk/degu/compare/v2.9.0...v2.10.0) (2022-04-06)
+
+
+### Features
+
+* Add keyboard events to youtube-modal ([db1ad88](https://www.github.com/blinkk/degu/commit/db1ad8815ac780fdab78f22098651dc142082aa4))
+
 ## [2.9.0](https://www.github.com/blinkk/degu/compare/v2.8.0...v2.9.0) (2022-03-28)
 
 
