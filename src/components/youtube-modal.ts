@@ -60,43 +60,64 @@ export class DeguYouTubeModal extends LitElement {
   constructor(host: HTMLElement) {
     super();
     this.host = host;
+    this.watcher = new DomWatcher();
+    this.watcher.add({
+      element: this.host,
+      on: 'keydown',
+      callback: (e: KeyboardEvent) => {
+        if (
+          (e.key === 'Enter' || e.code === 'Space') &&
+          dom.testDescendant(
+            document.activeElement as HTMLElement,
+            this.host
+          ) &&
+          document.activeElement.hasAttribute('youtube-modal')
+        ) {
+          this.handleClick(document.activeElement as HTMLElement);
+        }
+      },
+    });
+
     this.delegateDisposer = dom.addDelegatedListener(
       this.host,
       'click',
       (el: HTMLElement) => {
-        const youtubeModalId = el.getAttribute('youtube-modal');
-        if (youtubeModalId) {
-          // If the clicked element has the attribute
-          // `youtube-modal-redirect-mobile` redirect the user to youtube
-          // instead of opening a modal.
-          const REDIRECT_ATTRIBUTE = 'youtube-modal-redirect-mobile';
-          const redirectAttributeValue = el.getAttribute(REDIRECT_ATTRIBUTE);
-          const shouldRedirectToYoutube =
-            redirectAttributeValue === 'true' || redirectAttributeValue === '';
-
-          if (shouldRedirectToYoutube && is.mobile()) {
-            const redirectUrl = `https://m.youtube.com/watch?v=${youtubeModalId}`;
-            window.location.href = redirectUrl;
-            return;
-          }
-
-          // Attach this element if it is not in the dom yet.
-          if (!this.isConnected) {
-            this.host.appendChild(this);
-          }
-
-          // Wait for child components to render.
-          window.setTimeout(() => {
-            this.openModalAndPlay(youtubeModalId);
-          });
-        }
+        this.handleClick(el);
       }
     );
   }
 
+  private handleClick(el: HTMLElement) {
+    const youtubeModalId = el.getAttribute('youtube-modal');
+    if (youtubeModalId) {
+      // If the clicked element has the attribute
+      // `youtube-modal-redirect-mobile` redirect the user to youtube
+      // instead of opening a modal.
+      const REDIRECT_ATTRIBUTE = 'youtube-modal-redirect-mobile';
+      const redirectAttributeValue = el.getAttribute(REDIRECT_ATTRIBUTE);
+      const shouldRedirectToYoutube =
+        redirectAttributeValue === 'true' || redirectAttributeValue === '';
+
+      if (shouldRedirectToYoutube && is.mobile()) {
+        const redirectUrl = `https://m.youtube.com/watch?v=${youtubeModalId}`;
+        window.location.href = redirectUrl;
+        return;
+      }
+
+      // Attach this element if it is not in the dom yet.
+      if (!this.isConnected) {
+        this.host.appendChild(this);
+      }
+
+      // Wait for child components to render.
+      window.setTimeout(() => {
+        this.openModalAndPlay(youtubeModalId);
+      });
+    }
+  }
+
   connectedCallback() {
     super.connectedCallback();
-    this.watcher = new DomWatcher();
 
     this.updateComplete.then(this.onUpdateComplete.bind(this));
   }
