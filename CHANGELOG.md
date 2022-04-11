@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.11.1](https://www.github.com/blinkk/degu/compare/v2.11.0...v2.11.1) (2022-04-11)
+
+
+### Bug Fixes
+
+* Update canvas render width setting ([3449b24](https://www.github.com/blinkk/degu/commit/3449b24ea4315941c394bcd0fc8d087322d2ff91))
+
 ## [2.11.0](https://www.github.com/blinkk/degu/compare/v2.10.0...v2.11.0) (2022-04-11)
 
 
