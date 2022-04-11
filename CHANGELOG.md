@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.0](https://www.github.com/blinkk/degu/compare/v2.10.0...v2.11.0) (2022-04-11)
+
+
+### Features
+
+* Add canvas rendering option ([32c9bcf](https://www.github.com/blinkk/degu/commit/32c9bcf6bffb32fb12dcb28e3d6a058eb5c39cda))
+
 ## [2.10.0](https://www.github.com/blinkk/degu/compare/v2.9.0...v2.10.0) (2022-04-06)
 
 
