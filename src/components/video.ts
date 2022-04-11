@@ -197,12 +197,14 @@ export class DeguVideo extends LitElement {
     return !dom.isDisplayNoneWithAncestors(this) && this.ev.state().inview;
   }
 
-  runUpdate(force = false) {
+  private updateCanvasSize() {
     if (this.canvasElement) {
       this.canvasElement.width = this.videoElement.offsetWidth;
       this.canvasElement.height = this.videoElement.offsetHeight;
     }
+  }
 
+  runUpdate(force = false) {
     // If the video hasn't been loaded yet.
     if ((this.isPainted() && !this.hasStartedLoad) || force) {
       this.hasStartedLoad = true;
@@ -210,6 +212,8 @@ export class DeguVideo extends LitElement {
       dom.whenVideosLoaded([this.video]).then(() => {
         // Fire an event on the root.
         dom.event(this, DeguVideo.Events.LOAD_LOADED, {});
+
+        this.updateCanvasSize();
 
         // Play the video if we opted to play on inview.
         this.autoplayInview && this.play();
@@ -226,6 +230,8 @@ export class DeguVideo extends LitElement {
     // If we have already loaded this, then reset the video on outview,
     // replay on inview.
     if (this.hasStartedLoad && this.autoplayInview) {
+      this.updateCanvasSize();
+
       if (!this.isPainted() && !this.inviewEv.state().inview) {
         this.reset();
       } else {
