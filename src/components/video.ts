@@ -6,9 +6,10 @@ import {
   elementVisibility,
 } from '../dom/element-visibility';
 import {LitElement, html} from 'lit';
-import {property} from 'lit/decorators.js';
+import {query, property} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {DomWatcher} from '../dom/dom-watcher';
+import {Raf} from '../raf/raf';
 
 /**
  * # Degu Video Component
@@ -37,12 +38,29 @@ import {DomWatcher} from '../dom/dom-watcher';
  *   degu-video {
  *     display: inline-block;
  *     line-height: 0;
- *     width: 100%
+ *     width: 100%;
  *   }
  *
- *   degu-video video {
- *       width: 100%;
+ *   degu-video .degu-video {
+ *     position: relative;
  *   }
+ *
+ *    degu-video video {
+ *        width: 100%;
+ *    }
+ *
+ *    degu-video[canvas="true"] video {
+ *      visibility: hidden;
+ *    }
+ *
+ *    degu-video canvas {
+ *        width: 100%;
+ *        position: absolute;
+ *        height: 100%;
+ *        top: 0;
+ *        left: 0%;
+ *        z-index: 1;
+ *    }
  * ```
  */
 export class DeguVideo extends LitElement {
@@ -69,10 +87,22 @@ export class DeguVideo extends LitElement {
   @property({type: Boolean, attribute: 'loop'})
   loop: boolean;
 
+  // Whether to render out to a canvas instead of video.  The main advantage
+  // of this is it normalizes color discoloration across browsers.
+  @property({type: Boolean, attribute: 'canvas'})
+  canvas: boolean;
+
+  @query('canvas')
+  canvasElement: HTMLCanvasElement;
+
+  @query('video')
+  videoElement: HTMLCanvasElement;
+
   ev: ElementVisibilityObject;
   private inviewEv: ElementVisibilityObject;
   private watcher: DomWatcher;
   private hasStartedLoad = false;
+  private raf: Raf;
 
   video: HTMLVideoElement;
 
@@ -88,6 +118,8 @@ export class DeguVideo extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    this.canvas = !!this.getAttribute('canvas');
   }
 
   firstUpdated() {
@@ -121,13 +153,33 @@ export class DeguVideo extends LitElement {
     this.ev.readyPromise.then(() => {
       this.runUpdate();
     });
+
+    this.raf = new Raf(this.onRaf.bind(this));
+    if (this.canvas && this.canvasElement) {
+      this.raf.start();
+    }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    this.raf.dispose();
     this.watcher && this.watcher.dispose();
     this.ev && this.ev.dispose();
     this.inviewEv && this.inviewEv.dispose();
+  }
+
+  onRaf() {
+    if (this.canvas && this.canvasElement) {
+      this.canvasElement
+        .getContext('2d')
+        .drawImage(
+          this.videoElement,
+          0,
+          0,
+          this.canvasElement.width,
+          this.canvasElement.height
+        );
+    }
   }
 
   onResize() {
@@ -146,6 +198,11 @@ export class DeguVideo extends LitElement {
   }
 
   runUpdate(force = false) {
+    if (this.canvasElement) {
+      this.canvasElement.width = this.videoElement.offsetWidth;
+      this.canvasElement.height = this.videoElement.offsetHeight;
+    }
+
     // If the video hasn't been loaded yet.
     if ((this.isPainted() && !this.hasStartedLoad) || force) {
       this.hasStartedLoad = true;
@@ -212,6 +269,7 @@ export class DeguVideo extends LitElement {
     }
 
     return html`
+    <div class="degu-video">
       <video
         ?loop="${this.loop}"
         aria-hidden=${ifDefined(this.ariaLabel ? true : null)}
@@ -221,6 +279,9 @@ export class DeguVideo extends LitElement {
       >
          <source type="video/mp4"></source>
       </video>
+
+      ${this.canvas ? html`<canvas></canvas>` : ''}
+    </div>
     `;
   }
 }

@@ -21,8 +21,26 @@
       line-height: 0;
       width: 100%;
     }
-    video {
+
+    degu-video .degu-video {
+      position: relative;
+    }
+
+    degu-video video {
         width: 100%;
+    }
+
+    degu-video[canvas="true"] video {
+      visibility: hidden;
+    }
+
+    degu-video canvas {
+        width: 100%;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0%;
+        z-index: 1;
     }
 
     .section {
@@ -76,6 +94,19 @@
       aria-label="Video Aria Label"
       autoplayinview="true"
     ></degu-video>
+
+
+    <div class="section__header">Degu Video Canvas Rendering</div>
+    <degu-video
+      src="./public/video-test.mp4"
+      width="800"
+      height="450"
+      style="aspect-ratio: 800/450"
+      aria-label="Video Aria Label"
+      canvas="true"
+      autoplayinview="true"
+    ></degu-video>
+
   </div>
 
   <div class="section">
