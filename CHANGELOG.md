@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.11.2](https://www.github.com/blinkk/degu/compare/v2.11.1...v2.11.2) (2022-04-12)
+
+
+### Bug Fixes
+
+* Use degu-video wrapper only in canvas mode ([207c87c](https://www.github.com/blinkk/degu/commit/207c87c1a9d1ca0319c38f3d60d6dfa616d5022a))
+
 ### [2.11.1](https://www.github.com/blinkk/degu/compare/v2.11.0...v2.11.1) (2022-04-11)
 
 
