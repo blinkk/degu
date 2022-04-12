@@ -263,6 +263,20 @@ export class DeguVideo extends LitElement {
     return this;
   }
 
+  renderVideo() {
+    return html`<video
+        ?loop="${this.loop}"
+        aria-hidden=${ifDefined(this.ariaLabel ? true : null)}
+        disableRemotePlayback
+        muted
+        playsinline
+      >
+         <source type="video/mp4"></source>
+      </video>
+      ${this.canvas ? html`<canvas></canvas>` : ''}
+      `;
+  }
+
   /**
    * If aria-label is set, the root gets role="img" and the inner video
    * should be hidden.
@@ -275,19 +289,9 @@ export class DeguVideo extends LitElement {
     }
 
     return html`
-    <div class="degu-video">
-      <video
-        ?loop="${this.loop}"
-        aria-hidden=${ifDefined(this.ariaLabel ? true : null)}
-        disableRemotePlayback
-        muted
-        playsinline
-      >
-         <source type="video/mp4"></source>
-      </video>
-
-      ${this.canvas ? html`<canvas></canvas>` : ''}
-    </div>
+      ${this.canvas
+        ? html`<div class="degu-video">${this.renderVideo()}</div>`
+        : this.renderVideo()}
     `;
   }
 }
