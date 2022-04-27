@@ -3,7 +3,7 @@ import * as bom from '../dom/bom';
 type MediaQueryListListener = (
   this: MediaQueryList,
   ev: MediaQueryListEventMap[keyof MediaQueryListEventMap]
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) => any;
 type ResizeObserverListener = (a: ResizeObserverEntry[]) => void;
 type MutationObserverListener = (a: MutationRecord[]) => void;
