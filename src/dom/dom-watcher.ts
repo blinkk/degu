@@ -1,5 +1,9 @@
 import * as bom from '../dom/bom';
 
+type MediaQueryListListener = (this: MediaQueryList, ev: MediaQueryListEventMap[keyof MediaQueryListEventMap]) => any;
+type ResizeObserverListener = (a: ResizeObserverEntry[]) => void;
+type MutationObserverListener = (a: MutationRecord[]) => void;
+
 export interface DomWatcherConfig {
   // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
   // The default event listerner options including passive, once etc.
@@ -8,7 +12,7 @@ export interface DomWatcherConfig {
   /**
    * The element to Watch
    */
-  element: HTMLElement | Window | Document;
+  element: HTMLElement | Window | Document | MediaQueryList;
 
   /**
    * The name of the event to watch.
@@ -285,7 +289,7 @@ export class DomWatcher {
     // Use the resizeObserver if we want to listen to resizing of DOM elements.
     else if (config.on === 'resize' && config.element !== window) {
       const resizeObserver = new ResizeObserver(entries => {
-        listener(entries);
+        (<ResizeObserverListener>listener)(entries);
       });
       resizeObserver.observe(config.element as HTMLElement);
       config.remover = () => {
@@ -293,14 +297,30 @@ export class DomWatcher {
       };
     } else if (config.on === 'mutation') {
       const mutationObserver = new MutationObserver(mutationsList => {
-        listener(mutationsList);
+        (<MutationObserverListener>listener)(mutationsList);
       });
       mutationObserver.observe(
         config.element as HTMLElement,
-        config.eventOptions
+        <MutationObserverInit | undefined>config.eventOptions
       );
       config.remover = () => {
         mutationObserver.disconnect();
+      };
+    } else if (config.element instanceof MediaQueryList) {
+      // Add listening.
+      config.element.addEventListener(
+        config.on as keyof MediaQueryListEventMap,
+        <MediaQueryListListener>listener,
+        <boolean | AddEventListenerOptions>config.eventOptions || {}
+      );
+
+      // Generate the remover.
+      config.remover = () => {
+        config.element.removeEventListener(
+          config.on as keyof MediaQueryListEventMap,
+          <MediaQueryListListener>listener,
+          <boolean | EventListenerOptions>config.eventOptions || {}
+        );
       };
     } else {
       // Add listening.
