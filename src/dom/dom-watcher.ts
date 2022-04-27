@@ -1,6 +1,10 @@
 import * as bom from '../dom/bom';
 
-type MediaQueryListListener = (this: MediaQueryList, ev: MediaQueryListEventMap[keyof MediaQueryListEventMap]) => any;
+type MediaQueryListListener = (
+  this: MediaQueryList,
+  ev: MediaQueryListEventMap[keyof MediaQueryListEventMap]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+) => any;
 type ResizeObserverListener = (a: ResizeObserverEntry[]) => void;
 type MutationObserverListener = (a: MutationRecord[]) => void;
 
@@ -234,6 +238,42 @@ export interface DomWatcherConfig {
  *
  * ```
  *
+ * #### MatchMedia
+ * https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+ * DomWatcher supports MediaQueryLists that result from calls to matchMedia.
+ * That way DomWatcher can be configured to watch for changes across any/all
+ * breakpoints a site is designed around.
+ *
+ * ```ts
+ * const mediaQueries = new Map([
+ *   [
+ *     'desktop',
+ *     window.matchMedia('(min-width: 1440px)')],
+ *   [
+ *     'laptop',
+ *     window.matchMedia('(min-width: 1024px) and (max-width: 1439px)')],
+ *   [
+ *     'tablet',
+ *     window.matchMedia('(min-width: 600px) and (max-width: 1023px)')],
+ *   [
+ *     'mobile',
+ *     window.matchMedia('(max-width: 599px)')],
+ * ]);
+ * const watchBreakpoints = () => {
+ *     Array.from(mediaQueries.entries())
+ *       .forEach(([breakpoint, mediaQuery]) => {
+ *         watcher.add({
+ *           element: mediaQuery,
+ *           on: 'change',
+ *           callback: (e) => {
+ *              if (e.matches) {
+ *                // Handle the breakpoint
+ *              }
+ *           },
+ *         });
+ *       });
+ * }
+ * ```
  *
  */
 export class DomWatcher {
