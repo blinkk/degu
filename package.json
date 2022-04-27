@@ -40,13 +40,15 @@
     ],
     "exclude": [
       "_ava",
+      "_typedoc_theme",
       "**/*.d.ts",
       "docs/",
       "examples/",
       "coverage/",
       "lib/",
       "webpack/",
-      "src/playground"
+      "src/playground",
+      "server.js"
     ],
     "reporter": [
       "html",
