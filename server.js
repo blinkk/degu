@@ -1,8 +1,8 @@
-const express = require('express'); //your original BE server
+import express from 'express'; //your original BE server
 const app = express();
-const config = require('./webpack/webpack.config.dev');
-const webpack = require('webpack');
-const middleware = require('webpack-dev-middleware'); //webpack hot reloading middleware
+import config from './webpack/webpack.config.dev.cjs';
+import webpack from'webpack';
+import middleware from'webpack-dev-middleware'; //webpack hot reloading middleware
 const compiler = webpack(config); //move your `devServer` config from `webpack.config.js`
 
 app.use(
