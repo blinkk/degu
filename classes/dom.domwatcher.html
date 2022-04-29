@@ -226,6 +226,39 @@ watchMutations();
   ev.dispose();
   watcher.dispose();
 </code></pre>
+					<h4 id="matchmedia">MatchMedia</h4>
+					<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia">https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia</a>
+						DomWatcher supports MediaQueryLists that result from calls to matchMedia.
+						That way DomWatcher can be configured to watch for changes across any/all
+					breakpoints a site is designed around.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> mediaQueries = <span class="hljs-keyword">new</span> Map([
+  [
+    <span class="hljs-string">'desktop'</span>,
+    <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">'(min-width: 1440px)'</span>)],
+  [
+    <span class="hljs-string">'laptop'</span>,
+    <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">'(min-width: 1024px) and (max-width: 1439px)'</span>)],
+  [
+    <span class="hljs-string">'tablet'</span>,
+    <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">'(min-width: 600px) and (max-width: 1023px)'</span>)],
+  [
+    <span class="hljs-string">'mobile'</span>,
+    <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">'(max-width: 599px)'</span>)],
+]);
+<span class="hljs-keyword">const</span> watchBreakpoints = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-built_in">Array</span>.from(mediaQueries.entries())
+      .forEach(<span class="hljs-function">(<span class="hljs-params">[breakpoint, mediaQuery]</span>) =&gt;</span> {
+        watcher.add({
+          element: mediaQuery,
+          on: <span class="hljs-string">'change'</span>,
+          callback: <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+             <span class="hljs-keyword">if</span> (e.matches) {
+               <span class="hljs-comment">// Handle the breakpoint</span>
+             }
+          },
+        });
+      });
+}</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -271,7 +304,7 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/896e18f/src/dom/dom-watcher.ts#L239">dom/dom-watcher.ts:239</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/7b4e001/src/dom/dom-watcher.ts#L283">dom/dom-watcher.ts:283</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.domwatcher.html" class="tsd-signature-type">DomWatcher</a></h4>
@@ -291,7 +324,7 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/896e18f/src/dom/dom-watcher.ts#L249">dom/dom-watcher.ts:249</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/7b4e001/src/dom/dom-watcher.ts#L293">dom/dom-watcher.ts:293</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -321,7 +354,7 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/896e18f/src/dom/dom-watcher.ts#L390">dom/dom-watcher.ts:390</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/7b4e001/src/dom/dom-watcher.ts#L450">dom/dom-watcher.ts:450</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -343,7 +376,7 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/896e18f/src/dom/dom-watcher.ts#L347">dom/dom-watcher.ts:347</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/7b4e001/src/dom/dom-watcher.ts#L407">dom/dom-watcher.ts:407</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -365,7 +398,7 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/896e18f/src/dom/dom-watcher.ts#L330">dom/dom-watcher.ts:330</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/7b4e001/src/dom/dom-watcher.ts#L390">dom/dom-watcher.ts:390</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -396,7 +429,7 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/896e18f/src/dom/dom-watcher.ts#L375">dom/dom-watcher.ts:375</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/7b4e001/src/dom/dom-watcher.ts#L435">dom/dom-watcher.ts:435</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

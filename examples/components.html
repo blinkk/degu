@@ -21,8 +21,26 @@
       line-height: 0;
       width: 100%;
     }
-    video {
+
+    degu-video .degu-video {
+      position: relative;
+    }
+
+    degu-video video {
         width: 100%;
+    }
+
+    degu-video[canvas="true"] video {
+      visibility: hidden;
+    }
+
+    degu-video canvas {
+        width: 100%;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0%;
+        z-index: 1;
     }
 
     .section {
@@ -48,6 +66,7 @@
       src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg" alt="Logo" class="header__logo__image"></degu-image>
 
     <degu-image
+      style="aspect-ratio: calc(4032/3024)"
       src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
             width="4032"
             height="3024"
@@ -75,6 +94,19 @@
       aria-label="Video Aria Label"
       autoplayinview="true"
     ></degu-video>
+
+
+    <div class="section__header">Degu Video Canvas Rendering</div>
+    <degu-video
+      src="./public/video-test.mp4"
+      width="800"
+      height="450"
+      style="aspect-ratio: 800/450"
+      aria-label="Video Aria Label"
+      canvas="true"
+      autoplayinview="true"
+    ></degu-video>
+
   </div>
 
   <div class="section">
@@ -90,6 +122,7 @@
     <div class="section__header">Degu Youtube Modal</div>
     <button youtube-modal="8Qn_spdM5Zg">Watch StarWars</button>
     <button youtube-modal="TcMBFSGVi1c" youtube-modal-redirect-mobile="false">Watch Avengers</button>
+    <div youtube-modal="TcMBFSGVi1c" tabindex="0" youtube-modal-redirect-mobile="false" role="button">Watch Avengers</div>
   </div>
 
 <script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
