@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.12.0](https://www.github.com/blinkk/degu/compare/v2.11.2...v2.12.0) (2022-04-29)
+
+
+### Features
+
+* Support matchMedia in DomWatcher ([ec9637c](https://www.github.com/blinkk/degu/commit/ec9637c7ac45e7cdee4ca6d431a0344fc764edc0))
+
+
+### Bug Fixes
+
+* resolver server.js import issues ([7b4e001](https://www.github.com/blinkk/degu/commit/7b4e0013aceacd9fe3fcec0aafd3ce81b48e952a))
+
 ### [2.11.2](https://www.github.com/blinkk/degu/compare/v2.11.1...v2.11.2) (2022-04-12)
 
 
