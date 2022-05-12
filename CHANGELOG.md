@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.13.0](https://github.com/blinkk/degu/compare/v2.12.0...v2.13.0) (2022-05-12)
+
+
+### Features
+
+* Add run update event to video ([5b1749a](https://github.com/blinkk/degu/commit/5b1749a3f7539c1c387691b74f6bf5f46a7421ce))
+
+
+### Miscellaneous Chores
+
+* release 2.13.0 ([a8d0e73](https://github.com/blinkk/degu/commit/a8d0e730cb8c741070ac973bfdce189dbfbfdd82))
+
 ## [2.12.0](https://www.github.com/blinkk/degu/compare/v2.11.2...v2.12.0) (2022-04-29)
 
 
