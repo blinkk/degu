@@ -114,6 +114,7 @@ export class DeguVideo extends LitElement {
     LOAD_START: 'LOAD_START',
     LOAD_LOADED: 'LOAD_LOADED',
     FORCE_LOAD: 'FORCE_LOAD',
+    RUN_UPDATE: 'RUN_UPDATE',
   };
 
   connectedCallback() {
@@ -136,6 +137,14 @@ export class DeguVideo extends LitElement {
       on: DeguVideo.Events.FORCE_LOAD,
       callback: () => {
         this.runUpdate(true);
+      },
+    });
+
+    this.watcher.add({
+      element: this,
+      on: DeguVideo.Events.RUN_UPDATE,
+      callback: () => {
+        this.runUpdate();
       },
     });
 
