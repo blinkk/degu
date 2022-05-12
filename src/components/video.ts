@@ -12,7 +12,7 @@ import {DomWatcher} from '../dom/dom-watcher';
 import {Raf} from '../raf/raf';
 
 /**
- * # Degu Video Component
+ * Degu Video Component
  *
  * Usage:
  *
