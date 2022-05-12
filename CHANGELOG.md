@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.13.1](https://github.com/blinkk/degu/compare/v2.13.0...v2.13.1) (2022-05-12)
+
+
+### Bug Fixes
+
+* Update docs ([2835153](https://github.com/blinkk/degu/commit/28351530ceb1e9dd03a8aa8996af7775970dfe43))
+
 ## [2.13.0](https://github.com/blinkk/degu/compare/v2.12.0...v2.13.0) (2022-05-12)
 
 
