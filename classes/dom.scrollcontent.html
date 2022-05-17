@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Window | @blinkk/degu</title>
+	<title>ScrollContent | @blinkk/degu</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,27 +54,45 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/ui.html">ui</a>
+					<a href="../modules/dom.html">dom</a>
 				</li>
 				<li>
-					<a href="../modules/ui.__global.html">__global</a>
-				</li>
-				<li>
-					<a href="ui.__global.window.html">Window</a>
+					<a href="dom.scrollcontent.html">ScrollContent</a>
 				</li>
 			</ul>
-			<h1>Interface Window</h1>
+			<h1>Class ScrollContent</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Given a &quot;scrollable&quot; div, this class allows you to drag the
+						content area on desktop (non-touch devices).</p>
+					</div>
+					<p>For example:</p>
+					<pre><code>[scroll-<span class="hljs-built_in">content</span>]
+   <span class="hljs-built_in">max</span>-<span class="hljs-built_in">height</span>: 400px
+   overflow: scroll
+
+&lt;div scroll-<span class="hljs-built_in">content</span>&gt;
+   ... bunch of <span class="hljs-built_in">content</span> that <span class="hljs-built_in">is</span> very tall.
+&lt;/div&gt;</code></pre><p>The above would present a div with a scrollbar.  But
+					the user can&#39;t &quot;drag&quot; within the content and move it.</p>
+					<p>This class will automatically set that up.</p>
+					<pre><code>  <span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">document</span>.querySelectorAll(<span class="hljs-string">'[scroll-content]'</span>)).forEach(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> {
+    <span class="hljs-keyword">new</span> ScrollContent(el <span class="hljs-keyword">as</span> HTMLElement);
+  });</code></pre>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Window</span>
+						<span class="target">ScrollContent</span>
 					</li>
 				</ul>
 			</section>
@@ -82,34 +100,65 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Properties</h3>
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="ui.__global.window.html#yt" class="tsd-kind-icon">YT</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="dom.scrollcontent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dom.scrollcontent.html#dispose" class="tsd-kind-icon">dispose</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="yt" class="tsd-anchor"></a>
-					<h3>YT</h3>
-					<div class="tsd-signature tsd-kind-icon">YT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/7aed10d/src/ui/youtube-modal/youtube-modal.ts#L8">ui/youtube-modal/youtube-modal.ts:8</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>loaded<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
-							</li>
-						</ul>
-					</div>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Scroll<wbr>Content<span class="tsd-signature-symbol">(</span>container<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.scrollcontent.html" class="tsd-signature-type">ScrollContent</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/7aed10d/src/dom/scroll-content.ts#L41">dom/scroll-content.ts:41</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>container: <span class="tsd-signature-type">HTMLElement</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="dom.scrollcontent.html" class="tsd-signature-type">ScrollContent</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="dispose" class="tsd-anchor"></a>
+					<h3>dispose</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">dispose<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/7aed10d/src/dom/scroll-content.ts#L128">dom/scroll-content.ts:128</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -119,13 +168,80 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/angular.html">angular</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/arrayf.html">arrayf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/components.html">components</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/datguif.html">datguif</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/debug.html">debug</a>
+					</li>
 					<li class="current tsd-kind-external-module">
+						<a href="../modules/dom.html">dom</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/ease.html">ease</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/func.html">func</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/interpolate.html">interpolate</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/is.html">is</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/iterable_iterator.html">iterable-<wbr>iterator</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/loader.html">loader</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/map.html">map</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/mathf.html">mathf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/objectf.html">objectf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/pseudo_3d_canvas.html">pseudo-<wbr>3d-<wbr>canvas</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/raf.html">raf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/setf.html">setf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/shaders.html">shaders</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/string.html">string</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/threef.html">threef</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/time.html">time</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/ui.html">ui</a>
-						<ul>
-							<li class="current tsd-kind-module tsd-parent-kind-external-module tsd-is-not-exported">
-								<a href="../modules/ui.__global.html">__global</a>
-							</li>
-						</ul>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/x.html">x</a>
 					</li>
 				</ul>
 			</nav>
@@ -133,11 +249,14 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="ui.__global.window.html" class="tsd-kind-icon">Window</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="dom.scrollcontent.html" class="tsd-kind-icon">Scroll<wbr>Content</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="ui.__global.window.html#yt" class="tsd-kind-icon">YT</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="dom.scrollcontent.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="dom.scrollcontent.html#dispose" class="tsd-kind-icon">dispose</a>
 							</li>
 						</ul>
 					</li>
