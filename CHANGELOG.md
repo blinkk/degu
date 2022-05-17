@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.14.0](https://github.com/blinkk/degu/compare/v2.13.1...v2.14.0) (2022-05-17)
+
+
+### Features
+
+* Add scroll-content ([7aed10d](https://github.com/blinkk/degu/commit/7aed10d80185fb046837126f83bceb537d482b01))
+
 ### [2.13.1](https://github.com/blinkk/degu/compare/v2.13.0...v2.13.1) (2022-05-12)
 
 
