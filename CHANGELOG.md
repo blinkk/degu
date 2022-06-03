@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.15.0](https://github.com/blinkk/degu/compare/v2.14.0...v2.15.0) (2022-06-03)
+
+
+### Features
+
+* Add video.getHexColorAt ([ce2228b](https://github.com/blinkk/degu/commit/ce2228b866f0cf631637842e7f2e55002784205a))
+
 ## [2.14.0](https://github.com/blinkk/degu/compare/v2.13.1...v2.14.0) (2022-05-17)
 
 
