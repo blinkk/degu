@@ -21,9 +21,12 @@ export default class ComponentsSample {
     const colorTest = document.getElementById('color-test');
     const colorContainer = document.getElementById('color-container');
 
+
     colorTest.addEventListener(DeguVideo.Events.CANVAS_READY, ()=> {
-        const color = colorTest.getHexColorAt(10,200,0);
-        dom.setCssVariable(colorContainer,'--background', color);
+        window.setInterval(()=> {
+          const color = colorTest.getHexColorAt(10,200);
+          dom.setCssVariable(colorContainer,'--background', color);
+        }, 50)
     });
 
 

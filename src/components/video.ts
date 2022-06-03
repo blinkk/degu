@@ -219,8 +219,8 @@ export class DeguVideo extends LitElement {
       v
     );
 
-    this.video.currentTime = timeBeforeStop;
     if (isPlaying) {
+      this.video.currentTime = timeBeforeStop;
       this.play();
     }
 
