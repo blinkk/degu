@@ -2,7 +2,7 @@ import {DeguImage} from '../lib/components/image';
 import {DeguVideo} from '../lib/components/video';
 import {DeguYouTubeInline} from '../lib/components/youtube-inline';
 import {DeguYouTubeModal} from '../lib/components/youtube-modal';
-import DetailsDialogElement from '@github/details-dialog-element';
+import * as dom from '../lib/dom/dom';
 
 export default class ComponentsSample {
 
@@ -16,6 +16,17 @@ export default class ComponentsSample {
     // Youtube Inline Samples
     const youtubeInlineTest = document.getElementById('youtube-inline-test1');
     youtubeInlineTest.load('t_cKM_JYtbs')
+
+    const colorTest = document.getElementById('color-test');
+    const colorContainer = document.getElementById('color-container');
+
+    colorTest.addEventListener(DeguVideo.Events.CANVAS_READY, ()=> {
+        window.setInterval(()=> {
+          const color = colorTest.getHexColorAt(10,200);
+          dom.setCssVariable(colorContainer,'--background', color);
+        }, 50)
+    });
+
 
     let index = 0;
     const youtubeIds = [

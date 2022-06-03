@@ -5,11 +5,13 @@ import {
   ElementVisibilityObject,
   elementVisibility,
 } from '../dom/element-visibility';
-import {LitElement, html} from 'lit';
-import {query, property} from 'lit/decorators.js';
-import {ifDefined} from 'lit/directives/if-defined.js';
 import {DomWatcher} from '../dom/dom-watcher';
+import {LitElement, html} from 'lit';
 import {Raf} from '../raf/raf';
+import {Vector} from '../mathf/vector';
+import {domCanvas} from '../dom/dom-canvas';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import {query, property} from 'lit/decorators.js';
 
 /**
  * Degu Video Component
@@ -115,16 +117,17 @@ export class DeguVideo extends LitElement {
     LOAD_LOADED: 'LOAD_LOADED',
     FORCE_LOAD: 'FORCE_LOAD',
     RUN_UPDATE: 'RUN_UPDATE',
+    CANVAS_READY: 'CANVAS_READY',
   };
 
   connectedCallback() {
     super.connectedCallback();
-
     this.canvas = !!this.getAttribute('canvas');
   }
 
   firstUpdated() {
     this.video = this.querySelector('video');
+    this.video.crossOrigin = 'Anonymous';
     this.watcher = new DomWatcher();
     this.watcher.add({
       element: this,
@@ -191,6 +194,36 @@ export class DeguVideo extends LitElement {
     }
   }
 
+  /**
+   * Given that degu-video is using canvas mode, gets the hex value of the video
+   * at a given coordinate.
+   */
+  getHexColorAt(x: number, y: number, seconds = undefined): string {
+    if (!this.canvas) {
+      throw new Error('Video must be set to canvas mode to extract color');
+    }
+
+    const timeBeforeStop = this.video.currentTime;
+    const isPlaying = dom.testVideoIsPlaying(this.video);
+
+    if (seconds !== undefined) {
+      this.video.currentTime = seconds;
+    }
+
+    const v = new Vector(x, y);
+    const color = domCanvas.getColorAtPointAsHex(
+      this.canvasElement.getContext('2d'),
+      v
+    );
+
+    if (isPlaying) {
+      this.video.currentTime = timeBeforeStop;
+      this.play();
+    }
+
+    return color;
+  }
+
   onResize() {
     if (!this.hasStartedLoad) {
       this.runUpdate();
@@ -220,12 +253,16 @@ export class DeguVideo extends LitElement {
       this.video.querySelector('source').setAttribute('src', this.src);
       dom.whenVideosLoaded([this.video]).then(() => {
         // Fire an event on the root.
-        dom.event(this, DeguVideo.Events.LOAD_LOADED, {});
 
         this.updateCanvasSize();
+        dom.event(this, DeguVideo.Events.LOAD_LOADED, {});
 
         // Play the video if we opted to play on inview.
         this.autoplayInview && this.play();
+
+        // Run onRaf once so the canvas is in sync with the video.
+        this.onRaf();
+        dom.event(this, DeguVideo.Events.CANVAS_READY, {});
       });
 
       // Tell the parent element (video) to load.
