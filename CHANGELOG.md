@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.17.0](https://github.com/blinkk/degu/compare/v2.16.0...v2.17.0) (2022-06-06)
+
+
+### Features
+
+* Add video.canvasReady flag ([eb540b1](https://github.com/blinkk/degu/commit/eb540b18c2f0cd20f697e83f416fb04680f1cffc))
+
 ## [2.16.0](https://github.com/blinkk/degu/compare/v2.15.0...v2.16.0) (2022-06-06)
 
 
