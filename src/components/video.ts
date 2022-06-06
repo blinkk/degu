@@ -104,7 +104,8 @@ export class DeguVideo extends LitElement {
   private inviewEv: ElementVisibilityObject;
   private watcher: DomWatcher;
   private hasStartedLoad = false;
-  public hasLoaded = true;
+  public hasLoaded = false;
+  public canvasReady = false;
   private raf: Raf;
 
   video: HTMLVideoElement;
@@ -263,6 +264,7 @@ export class DeguVideo extends LitElement {
         // Run onRaf once so the canvas is in sync with the video.
         this.onRaf();
         dom.event(this, DeguVideo.Events.CANVAS_READY, {});
+        this.canvasReady = true;
       });
 
       // Tell the parent element (video) to load.
