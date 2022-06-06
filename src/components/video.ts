@@ -104,6 +104,7 @@ export class DeguVideo extends LitElement {
   private inviewEv: ElementVisibilityObject;
   private watcher: DomWatcher;
   private hasStartedLoad = false;
+  public hasLoaded = true;
   private raf: Raf;
 
   video: HTMLVideoElement;
@@ -252,8 +253,7 @@ export class DeguVideo extends LitElement {
       this.hasStartedLoad = true;
       this.video.querySelector('source').setAttribute('src', this.src);
       dom.whenVideosLoaded([this.video]).then(() => {
-        // Fire an event on the root.
-
+        this.hasLoaded = true;
         this.updateCanvasSize();
         dom.event(this, DeguVideo.Events.LOAD_LOADED, {});
 
