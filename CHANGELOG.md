@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.0](https://github.com/blinkk/degu/compare/v2.15.0...v2.16.0) (2022-06-06)
+
+
+### Features
+
+* Add video.hasLoaded flag ([ea87165](https://github.com/blinkk/degu/commit/ea8716551b6966d684382b1ba94085ade63c3f46))
+
 ## [2.15.0](https://github.com/blinkk/degu/compare/v2.14.0...v2.15.0) (2022-06-03)
 
 
