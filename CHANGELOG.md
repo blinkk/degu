@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.18.0](https://github.com/blinkk/degu/compare/v2.17.0...v2.18.0) (2022-06-14)
+
+
+### Features
+
+* Set lazy image loading to eager if the image is already on screen ([d7d5a3b](https://github.com/blinkk/degu/commit/d7d5a3b2633e1bb35b733e849fc59f5541a56e42))
+
 ## [2.17.0](https://github.com/blinkk/degu/compare/v2.16.0...v2.17.0) (2022-06-06)
 
 
