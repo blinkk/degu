@@ -53,6 +53,26 @@
       margin-bottom: 20px;
     }
 
+    .mobile-only {
+      display: none;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .mobile-only {
+        display: block;
+      }
+    }
+
+    .desktop-only {
+      display: none;
+    }
+
+    @media only screen and (min-width: 600px) {
+      .desktop-only {
+        display: block;
+      }
+    }
+
   </style>
 </head>
 <body init-sample="ComponentsSample">
@@ -65,18 +85,26 @@
       width="2650" height="720"
       src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg" alt="Logo" class="header__logo__image"></degu-image>
 
+
+    <div style="height: 10vh"></div>
+    <degu-image
+      class="desktop-only"
+      width="100" height="100"
+      src="https://placeholder-dot-madebygoog.appspot.com/1x1.svg" alt="Logo"></degu-image>
+    <degu-image
+      class="mobile-only"
+      width="100" height="200"
+      src="https://placeholder-dot-madebygoog.appspot.com/1x2.svg" alt="Logo"></degu-image>
+
+    <degu-image
+      width="100" height="100"
+      loading="eager"
+      src="https://placeholder-dot-madebygoog.appspot.com/5x5.svg" alt="Logo"></degu-image>
+
+
     <degu-image
       style="aspect-ratio: calc(4032/3024)"
       src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
-            width="4032"
-            height="3024"
-            loading="eager"
-      alt="Logo" class="header__logo__image"></degu-image>
-
-    <degu-image
-      src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
-           google-params="v1"
-           google-image-scalar="2"
             width="4032"
             height="3024"
             loading="eager"

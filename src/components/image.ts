@@ -3,6 +3,11 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {property} from 'lit/decorators.js';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
+import * as dom from '../dom/dom';
+import {
+  elementVisibility,
+  ElementVisibilityObject,
+} from '../dom/element-visibility';
 
 /**
  *
@@ -103,6 +108,22 @@ export class DeguImage extends LitElement {
       });
       this.onResize();
     }
+
+    // One time element visibility check to see if this image is already
+    // on the screen in which case we don't use lazy image loading.
+    elementVisibility.inview(
+      this,
+      {threshold: 0},
+      (element, changes, dispose) => {
+        if (changes.isIntersecting) {
+          const isPainted = !dom.isDisplayNoneWithAncestors(this);
+          if (isPainted) {
+            this.loading = 'eager';
+          }
+        }
+        dispose();
+      }
+    );
   }
 
   private onResize() {
@@ -128,20 +149,6 @@ export class DeguImage extends LitElement {
 
   createRenderRoot() {
     return this;
-  }
-
-  private renderSourceSet(media: string | null, renderWidth: number) {
-    const srcset = this.isGoogleImage
-      ? `${this.src}=rw-e365-w${renderWidth}${this.googleParams},
-          ${this.src}=rw-e365-w${renderWidth * 2}${this.googleParams} 2x`
-      : `${this.src}`;
-
-    return html`
-      <source type="image/webp"
-        srcset="${srcset}"
-        media="${media}"
-      ></source>
-    `;
   }
 
   private renderImage(src: string) {
