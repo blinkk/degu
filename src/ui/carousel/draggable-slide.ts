@@ -571,6 +571,9 @@ export class DraggableSlide implements Transition {
    * Factors in upcoming X translation changes.
    */
   private getCenter(el: HTMLElement): number {
+    if (!el) {
+      return 0;
+    }
     const rect = el.getBoundingClientRect();
     const raw = rect.left + rect.width / 2;
     const xTranslationDelta = this.xTranslate.get(el) - getTranslateX(el);
