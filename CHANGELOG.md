@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.18.1](https://github.com/blinkk/degu/compare/v2.18.0...v2.18.1) (2022-06-22)
+
+
+### Bug Fixes
+
+* guard against empty slides ([d3363ac](https://github.com/blinkk/degu/commit/d3363acbaf541aa8b3facc24e974a1de898307c0))
+
 ## [2.18.0](https://github.com/blinkk/degu/compare/v2.17.0...v2.18.0) (2022-06-14)
 
 
