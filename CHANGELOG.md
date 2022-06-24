@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.1](https://github.com/blinkk/degu/compare/v2.19.0...v2.19.1) (2022-06-24)
+
+
+### Bug Fixes
+
+* enablejsapi ([72fc9f6](https://github.com/blinkk/degu/commit/72fc9f6b3b42a264caf787f1d5353e834b631a4d))
+
 ## [2.19.0](https://github.com/blinkk/degu/compare/v2.18.1...v2.19.0) (2022-06-24)
 
 
