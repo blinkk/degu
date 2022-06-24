@@ -153,7 +153,7 @@ export class DeguYouTubeInline extends LitElement {
       rel: 0,
       showinfo: 0,
       iv_load_policy: 3,
-      enable_js_api: this.enableJsApi ? 1 : 0,
+      enablejsapi: this.enableJsApi ? 1 : 0,
     };
 
     const playerVars = Object.assign({}, config);
