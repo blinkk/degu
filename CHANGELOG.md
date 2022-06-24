@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.0](https://github.com/blinkk/degu/compare/v2.18.1...v2.19.0) (2022-06-24)
+
+
+### Features
+
+* Add enable js api to youtube-inline ([195eaab](https://github.com/blinkk/degu/commit/195eaabfde615ecab68e77c4a8dab6653294b789))
+
 ## [2.18.1](https://github.com/blinkk/degu/compare/v2.18.0...v2.18.1) (2022-06-22)
 
 
