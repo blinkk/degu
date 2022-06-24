@@ -75,6 +75,9 @@ export class DeguYouTubeInline extends LitElement {
   @property({type: String, attribute: 'video-id', reflect: true})
   private videoId: string;
 
+  @property({type: Boolean, attribute: 'enable-js-api', reflect: true})
+  enableJsApi? = false;
+
   @query('.container__player')
   playerElement: HTMLElement;
 
@@ -150,7 +153,9 @@ export class DeguYouTubeInline extends LitElement {
       rel: 0,
       showinfo: 0,
       iv_load_policy: 3,
+      enable_js_api: this.enableJsApi ? 1 : 0,
     };
+
     const playerVars = Object.assign({}, config);
     const playerOptions = {
       videoId: this.videoId,
