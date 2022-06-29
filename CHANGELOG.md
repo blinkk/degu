@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.0](https://github.com/blinkk/degu/compare/v2.19.1...v2.20.0) (2022-06-29)
+
+
+### Features
+
+* Support multiple video source for video component ([ae4ad32](https://github.com/blinkk/degu/commit/ae4ad32acf8d23de5b4cc381d755de98a88507bd))
+
 ## [2.19.1](https://github.com/blinkk/degu/compare/v2.19.0...v2.19.1) (2022-06-24)
 
 
