@@ -64,6 +64,20 @@ import {query, property} from 'lit/decorators.js';
  *        z-index: 1;
  *    }
  * ```
+ *
+ *
+ * # Support for different video types, you can add comma separated sources.
+ * ```html
+ *   <degu-video>
+ *     src="video.mp4, video.webm"
+ *     width="640"
+ *     height="640"
+ *     style="aspect-ratio: 1"
+ *     aria-label="Video Aria Label"
+ *     autoplayinview="true"
+ *   >
+ * </degu-video>
+ * ```
  */
 export class DeguVideo extends LitElement {
   @property({type: String, attribute: 'src'})
@@ -248,11 +262,39 @@ export class DeguVideo extends LitElement {
     }
   }
 
+  /**
+   * Given the video source adds HTML source elements to the video.
+   * src can be singlar or have multiple videos comma separated.
+   *
+   * For example:
+   * src="video.mp4, video.webm"
+   * src="video.mp4"
+   */
+  private addVideoSources() {
+    let sources = this.src.split(',');
+    sources = sources.map(src => {
+      return src.trim();
+    });
+
+    for (const source of sources) {
+      if (!source || source === '') {
+        continue;
+      }
+      const sourceElement = document.createElement('source');
+      sourceElement.src = source;
+      const type = source.split('.').slice(-1)[0];
+      sourceElement.type = `video/${type.toLowerCase()}`;
+      this.video.appendChild(sourceElement);
+    }
+  }
+
   runUpdate(force = false) {
     // If the video hasn't been loaded yet.
     if ((this.isPainted() && !this.hasStartedLoad) || force) {
       this.hasStartedLoad = true;
-      this.video.querySelector('source').setAttribute('src', this.src);
+
+      this.addVideoSources();
+
       dom.whenVideosLoaded([this.video]).then(() => {
         this.hasLoaded = true;
         this.updateCanvasSize();
@@ -318,11 +360,8 @@ export class DeguVideo extends LitElement {
         disableRemotePlayback
         muted
         playsinline
-      >
-         <source type="video/mp4"></source>
-      </video>
-      ${this.canvas ? html`<canvas></canvas>` : ''}
-      `;
+      ></video>
+      ${this.canvas ? html`<canvas></canvas>` : ''} `;
   }
 
   /**
