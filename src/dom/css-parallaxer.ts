@@ -567,6 +567,9 @@ export class CssParallaxer implements EventDispatcher {
 
   protected onWindowResize() {
     this.cacheWindowSize();
+    if (this.settingsData) {
+      return;
+    }
     this.calculateProgressOffsets();
     this.interpolator!.flush();
     this.updateImmediately();
