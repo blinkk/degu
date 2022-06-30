@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.20.1](https://github.com/blinkk/degu/compare/v2.20.0...v2.20.1) (2022-06-30)
+
+
+### Bug Fixes
+
+* guard against empty settings ([580ff71](https://github.com/blinkk/degu/commit/580ff71c378fd4cfe2ab6a289897a0690ee5222e))
+
 ## [2.20.0](https://github.com/blinkk/degu/compare/v2.19.1...v2.20.0) (2022-06-29)
 
 
