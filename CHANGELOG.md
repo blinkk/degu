@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.0](https://github.com/blinkk/degu/compare/v2.20.1...v2.21.0) (2022-07-03)
+
+
+### Features
+
+* Add bom.sleep() ([7c7c489](https://github.com/blinkk/degu/commit/7c7c489463e3e43baa2bf65aaeab68fdf64a968d))
+
 ## [2.20.1](https://github.com/blinkk/degu/compare/v2.20.0...v2.20.1) (2022-06-30)
 
 
