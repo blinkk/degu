@@ -1217,13 +1217,13 @@ export function addStylesToPage(cssStyle: string) {
  * ```
  */
 export function closestElementComposed(selector, baseElement) {
-  return (
-    (baseElement &&
-      baseElement !== document &&
-      baseElement !== window &&
-      baseElement.closest(selector)) ||
-    this.closestElement(selector, baseElement.getRootNode().host)
-  );
+  function closestFrom(baseElement) {
+    if (!baseElement || baseElement === document || baseElement === window)
+      return null;
+    const found = baseElement.closest(selector);
+    return found ? found : closestFrom(baseElement.getRootNode().host);
+  }
+  return closestFrom(baseElement);
 }
 
 /**
