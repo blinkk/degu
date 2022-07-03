@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.79% </span>
+        <span class="strong">19% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>56/298</span>
+        <span class='fraction'>57/300</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/114</span>
+        <span class='fraction'>0/119</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/85</span>
+        <span class='fraction'>0/86</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.86% </span>
+        <span class="strong">19.06% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>56/297</span>
+        <span class='fraction'>57/299</span>
       </div>
     </div>
     <p class="quiet">
@@ -1379,7 +1379,27 @@
 <a name='L1331'></a><a href='#L1331'>1331</a>
 <a name='L1332'></a><a href='#L1332'>1332</a>
 <a name='L1333'></a><a href='#L1333'>1333</a>
-<a name='L1334'></a><a href='#L1334'>1334</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L1334'></a><a href='#L1334'>1334</a>
+<a name='L1335'></a><a href='#L1335'>1335</a>
+<a name='L1336'></a><a href='#L1336'>1336</a>
+<a name='L1337'></a><a href='#L1337'>1337</a>
+<a name='L1338'></a><a href='#L1338'>1338</a>
+<a name='L1339'></a><a href='#L1339'>1339</a>
+<a name='L1340'></a><a href='#L1340'>1340</a>
+<a name='L1341'></a><a href='#L1341'>1341</a>
+<a name='L1342'></a><a href='#L1342'>1342</a>
+<a name='L1343'></a><a href='#L1343'>1343</a>
+<a name='L1344'></a><a href='#L1344'>1344</a>
+<a name='L1345'></a><a href='#L1345'>1345</a>
+<a name='L1346'></a><a href='#L1346'>1346</a>
+<a name='L1347'></a><a href='#L1347'>1347</a>
+<a name='L1348'></a><a href='#L1348'>1348</a>
+<a name='L1349'></a><a href='#L1349'>1349</a>
+<a name='L1350'></a><a href='#L1350'>1350</a>
+<a name='L1351'></a><a href='#L1351'>1351</a>
+<a name='L1352'></a><a href='#L1352'>1352</a>
+<a name='L1353'></a><a href='#L1353'>1353</a>
+<a name='L1354'></a><a href='#L1354'>1354</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -2585,6 +2605,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3921,6 +3961,26 @@ export function <span class="fstat-no" title="function not covered" >addStylesTo
 }
 &nbsp;
 /**
+ * https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
+ *
+ * Looks for the closest element that matches the selector across the shadow DOM
+ * and standard DOM boundaries.
+ *
+ * ```
+ * dom.addStylesToPage(".my-shadow-dom-parent", element);
+ * ```
+ */
+export function <span class="fstat-no" title="function not covered" >closestElementComposed(</span>selector, baseElement) {
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    (baseElement &amp;&amp;
+      baseElement !== document &amp;&amp;
+      baseElement !== window &amp;&amp;
+      baseElement.closest(selector)) ||
+    this.closestElement(selector, baseElement.getRootNode().host)
+  );
+}
+&nbsp;
+/**
  * Finds all loading="lazy" within an element and removes the attribute.
  * The context and reason why you may want to use this is because of how
  * native lazy loading works.  Native lazy image loading will only load an image
@@ -4051,7 +4111,7 @@ export const dom = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jul 03 2022 19:28:25 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jul 03 2022 21:15:18 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>
