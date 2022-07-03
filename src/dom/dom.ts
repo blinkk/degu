@@ -1207,6 +1207,26 @@ export function addStylesToPage(cssStyle: string) {
 }
 
 /**
+ * https://stackoverflow.com/questions/54520554/custom-element-getrootnode-closest-function-crossing-multiple-parent-shadowd
+ *
+ * Looks for the closest element that matches the selector across the shadow DOM
+ * and standard DOM boundaries.
+ *
+ * ```
+ * dom.addStylesToPage(".my-shadow-dom-parent", element);
+ * ```
+ */
+export function closestElementComposed(selector, baseElement) {
+  return (
+    (baseElement &&
+      baseElement !== document &&
+      baseElement !== window &&
+      baseElement.closest(selector)) ||
+    this.closestElement(selector, baseElement.getRootNode().host)
+  );
+}
+
+/**
  * Finds all loading="lazy" within an element and removes the attribute.
  * The context and reason why you may want to use this is because of how
  * native lazy loading works.  Native lazy image loading will only load an image
