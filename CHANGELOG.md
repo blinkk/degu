@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.22.1](https://github.com/blinkk/degu/compare/v2.22.0...v2.22.1) (2022-07-03)
+
+
+### Bug Fixes
+
+* Adjust dom.closestElementComposed ([ca37a92](https://github.com/blinkk/degu/commit/ca37a9293a23fc6e31561c7977e125ab35e5eee7))
+
 ## [2.22.0](https://github.com/blinkk/degu/compare/v2.21.0...v2.22.0) (2022-07-03)
 
 
