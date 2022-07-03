@@ -51,6 +51,13 @@ export function smartResize(callback: Function, options: Object): Function {
 }
 
 /**
+ * Returns a promise that resolves after the given amount of time.
+ */
+export function sleep(durationMs: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, durationMs));
+}
+
+/**
  * Checks the current browser and appends a css class name to the element.
  *
  * ```
