@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.22.0](https://github.com/blinkk/degu/compare/v2.21.0...v2.22.0) (2022-07-03)
+
+
+### Features
+
+* Add dom.closestElementComposed ([2415e59](https://github.com/blinkk/degu/commit/2415e59dafaf779695dc125b544a2d97f30638f8))
+
 ## [2.21.0](https://github.com/blinkk/degu/compare/v2.20.1...v2.21.0) (2022-07-03)
 
 
