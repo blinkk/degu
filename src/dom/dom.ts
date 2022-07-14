@@ -1221,7 +1221,14 @@ export function closestElementComposed(selector, baseElement) {
     if (!baseElement || baseElement === document || baseElement === window)
       return null;
     const found = baseElement.closest(selector);
-    return found ? found : closestFrom(baseElement.getRootNode().host);
+    if (found) {
+      return found;
+    }
+    const foundClosestFromSlot = closestFrom(baseElement.assignedSlot);
+    if (foundClosestFromSlot) {
+      return foundClosestFromSlot;
+    }
+    return closestFrom(baseElement.getRootNode().host);
   }
   return closestFrom(baseElement);
 }
