@@ -63,6 +63,13 @@ export class DeguImage extends LitElement {
   @property({type: String, attribute: 'google-params'})
   private googleParams: string;
 
+  /**
+   * When enabled prevents eager loading of images when they are already
+   * visible on the screen.
+   */
+  @property({type: Boolean, attribute: 'disable-eager'})
+  private disableEager = false;
+
   @property() autoRenderWidth = 0;
 
   /**
@@ -91,6 +98,7 @@ export class DeguImage extends LitElement {
     this.watcher = new DomWatcher();
 
     this.googleParams = this.googleParams ? '-' + this.googleParams : '';
+    this.disableEager = this.getAttribute('disable-eager') === 'true';
 
     this.isGoogleImage =
       this.src &&
@@ -117,7 +125,7 @@ export class DeguImage extends LitElement {
       (element, changes, dispose) => {
         if (changes.isIntersecting) {
           const isPainted = !dom.isDisplayNoneWithAncestors(this);
-          if (isPainted) {
+          if (isPainted && !this.disableEager) {
             this.loading = 'eager';
           }
         }
