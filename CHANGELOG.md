@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.0](https://github.com/blinkk/degu/compare/v2.22.1...v2.23.0) (2022-07-24)
+
+
+### Features
+
+* Add disable-eager option to image ([b018b69](https://github.com/blinkk/degu/commit/b018b69e59ae7ccb8c716907c8eaa89b38ec7965))
+
 ## [2.22.1](https://github.com/blinkk/degu/compare/v2.22.0...v2.22.1) (2022-07-03)
 
 
