@@ -345,19 +345,31 @@ export function pauseAllVideosInElement(element: HTMLElement, reset = false) {
  * Plays all videos inside of a given element.
  * @param element The element to search videos in for.
  * @param reset Whether to start playing from currentTime 0.
+ * @param repeat Whether to repeat attempts if the play request was prevented.
  */
-export function playAllVideosInElement(element: HTMLElement, reset = false) {
+export function playAllVideosInElement(
+  element: HTMLElement,
+  reset = false,
+  repeat = false
+) {
   const videos = Array.from(element.querySelectorAll('video'));
   videos.forEach(video => {
-    // try {
     if (reset) {
       video.currentTime = 0;
     }
     if (!testVideoIsPlaying(video)) {
       const playPromise = video.play();
-      playPromise.then(() => {}).catch();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(_ => {})
+          .catch(error => {
+            // Auto-play was prevented - retry
+            if (repeat) {
+              playAllVideosInElement(element, reset, repeat);
+            }
+          });
+      }
     }
-    // } catch(e) {}
   });
 }
 
