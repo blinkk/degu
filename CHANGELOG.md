@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.0](https://github.com/blinkk/degu/compare/v2.23.0...v2.24.0) (2022-07-26)
+
+
+### Features
+
+* Add retry options to playVideosInElement ([3017629](https://github.com/blinkk/degu/commit/3017629943545c1cc25f7962f0355d8cd246609b))
+
 ## [2.23.0](https://github.com/blinkk/degu/compare/v2.22.1...v2.23.0) (2022-07-24)
 
 
