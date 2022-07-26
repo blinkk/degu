@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.75% </span>
+        <span class="strong">18.57% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>57/304</span>
+        <span class='fraction'>57/307</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/121</span>
+        <span class='fraction'>0/126</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/87</span>
+        <span class='fraction'>0/88</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.81% </span>
+        <span class="strong">18.63% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>57/303</span>
+        <span class='fraction'>57/306</span>
       </div>
     </div>
     <p class="quiet">
@@ -1399,7 +1399,19 @@
 <a name='L1351'></a><a href='#L1351'>1351</a>
 <a name='L1352'></a><a href='#L1352'>1352</a>
 <a name='L1353'></a><a href='#L1353'>1353</a>
-<a name='L1354'></a><a href='#L1354'>1354</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L1354'></a><a href='#L1354'>1354</a>
+<a name='L1355'></a><a href='#L1355'>1355</a>
+<a name='L1356'></a><a href='#L1356'>1356</a>
+<a name='L1357'></a><a href='#L1357'>1357</a>
+<a name='L1358'></a><a href='#L1358'>1358</a>
+<a name='L1359'></a><a href='#L1359'>1359</a>
+<a name='L1360'></a><a href='#L1360'>1360</a>
+<a name='L1361'></a><a href='#L1361'>1361</a>
+<a name='L1362'></a><a href='#L1362'>1362</a>
+<a name='L1363'></a><a href='#L1363'>1363</a>
+<a name='L1364'></a><a href='#L1364'>1364</a>
+<a name='L1365'></a><a href='#L1365'>1365</a>
+<a name='L1366'></a><a href='#L1366'>1366</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -1747,16 +1759,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -3099,19 +3123,31 @@ export function <span class="fstat-no" title="function not covered" >pauseAllVid
  * Plays all videos inside of a given element.
  * @param element The element to search videos in for.
  * @param reset Whether to start playing from currentTime 0.
+ * @param repeat Whether to repeat attempts if the play request was prevented.
  */
-export function <span class="fstat-no" title="function not covered" >playAllVideosInElement(</span>element: HTMLElement, reset = <span class="branch-0 cbranch-no" title="branch not covered" >false)</span> {
+export function <span class="fstat-no" title="function not covered" >playAllVideosInElement(</span>
+  element: HTMLElement,
+  reset = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
+  repeat = <span class="branch-0 cbranch-no" title="branch not covered" >false</span>
+) {
   const videos = <span class="cstat-no" title="statement not covered" >Array.from(element.querySelectorAll('video'));</span>
 <span class="cstat-no" title="statement not covered" >  videos.forEach(<span class="fstat-no" title="function not covered" >video </span>=&gt; {</span>
-    // try {
 <span class="cstat-no" title="statement not covered" >    if (reset) {</span>
 <span class="cstat-no" title="statement not covered" >      video.currentTime = 0;</span>
     }
 <span class="cstat-no" title="statement not covered" >    if (!testVideoIsPlaying(video)) {</span>
       const playPromise = <span class="cstat-no" title="statement not covered" >video.play();</span>
-<span class="cstat-no" title="statement not covered" >      playPromise.then(<span class="fstat-no" title="function not covered" >() =</span>&gt; {}).catch();</span>
+<span class="cstat-no" title="statement not covered" >      if (playPromise !== undefined) {</span>
+<span class="cstat-no" title="statement not covered" >        playPromise</span>
+          .then(<span class="fstat-no" title="function not covered" >_ </span>=&gt; {})
+          .catch(<span class="fstat-no" title="function not covered" >error </span>=&gt; {
+            // Auto-play was prevented - retry
+<span class="cstat-no" title="statement not covered" >            if (repeat) {</span>
+<span class="cstat-no" title="statement not covered" >              playAllVideosInElement(element, reset, repeat);</span>
+            }
+          });
+      }
     }
-    // } catch(e) {}
   });
 }
 &nbsp;
@@ -4111,7 +4147,7 @@ export const dom = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jul 24 2022 23:48:44 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Jul 26 2022 21:09:34 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>
