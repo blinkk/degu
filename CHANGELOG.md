@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.1](https://github.com/blinkk/degu/compare/v2.24.0...v2.24.1) (2022-07-27)
+
+
+### Bug Fixes
+
+* Render nothing when image width is 0 ([927d603](https://github.com/blinkk/degu/commit/927d60367b55dc66b7d1a1b6a2e877e2cf348189))
+
 ## [2.24.0](https://github.com/blinkk/degu/compare/v2.23.0...v2.24.0) (2022-07-26)
 
 
