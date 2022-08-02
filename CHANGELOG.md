@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.25.0](https://github.com/blinkk/degu/compare/v2.24.1...v2.25.0) (2022-08-02)
+
+
+### Features
+
+* Add option to use width and hegith for google image size calculations ([12dc8e1](https://github.com/blinkk/degu/commit/12dc8e172f175b0fb92a6737e17221d6a9b92bc5))
+
+
+### Bug Fixes
+
+* Default google-image to use max of width and height ([3ff2ab7](https://github.com/blinkk/degu/commit/3ff2ab7151e14d8f4b499774938fab92b8c57597))
+
+
+### Miscellaneous Chores
+
+* release 2.25.0 ([359995a](https://github.com/blinkk/degu/commit/359995ad56e70951313e59223932a3132e6f1680))
+
 ## [2.24.1](https://github.com/blinkk/degu/compare/v2.24.0...v2.24.1) (2022-07-27)
 
 
