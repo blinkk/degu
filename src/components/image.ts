@@ -64,14 +64,6 @@ export class DeguImage extends LitElement {
   private googleParams: string;
 
   /**
-   * Whether to use larger of width and height of the container element to
-   * calculate the final width of the image.  Normally only the width of the
-   * container is used.
-   */
-  @property({type: Boolean, attribute: 'google-width-and-height'})
-  private googleWidthAndHeight: string;
-
-  /**
    * When enabled prevents eager loading of images when they are already
    * visible on the screen.
    */
@@ -151,11 +143,10 @@ export class DeguImage extends LitElement {
         Math.max(this.offsetWidth, image ? image.offsetWidth : 0) / 50
       ) * 50;
 
-    const height = this.googleWidthAndHeight
-      ? 0
-      : Math.ceil(
-          Math.max(this.offsetHeight, image ? image.offsetHeight : 0) / 50
-        ) * 50;
+    const height =
+      Math.ceil(
+        Math.max(this.offsetHeight, image ? image.offsetHeight : 0) / 50
+      ) * 50;
 
     // Calculate the autowidth render size and take the historical maximum.
     this.autoRenderWidth = Math.max(
