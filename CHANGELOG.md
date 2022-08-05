@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.1](https://github.com/blinkk/degu/compare/v2.25.0...v2.25.1) (2022-08-05)
+
+
+### Bug Fixes
+
+* Add origin to youtube api ([41004fc](https://github.com/blinkk/degu/commit/41004fc52ac714501ba4b6a6bf2d4c7ce23a21a9))
+
 ## [2.25.0](https://github.com/blinkk/degu/compare/v2.24.1...v2.25.0) (2022-08-02)
 
 
