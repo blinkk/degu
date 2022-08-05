@@ -102,7 +102,7 @@
 					<div class="tsd-signature tsd-kind-icon">cast<wbr>Ray<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT ){const float delt &#x3D; 0.01f;const float mint &#x3D; 0.001f;const float maxt &#x3D; 10.0f;for( float t &#x3D; mint; t &lt; maxt; t +&#x3D; delt ){const vec3 p &#x3D; ro + rd*t;if( p.y &lt; f( p.x, p.z ) ){resT &#x3D; t - 0.5f*delt;return true;}}return false;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT ){const float delt &#x3D; 0.01f;const float mint &#x3D; 0.001f;const float maxt &#x3D; 10.0f;for( float t &#x3D; mint; t &lt; maxt; t +&#x3D; delt ){const vec3 p &#x3D; ro + rd*t;if( p.y &lt; f( p.x, p.z ) ){resT &#x3D; t - 0.5f*delt;return true;}}return false;}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-mathf.ts#L136">shaders/three-shader-chunks/degu-mathf.ts:136</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-mathf.ts#L136">shaders/three-shader-chunks/degu-mathf.ts:136</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -122,7 +122,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Vertex<wbr>Shader<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 v_uv;varying vec3 v_position;void main() {v_position &#x3D; position;v_uv &#x3D; uv;gl_Position &#x3D; projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 v_uv;varying vec3 v_position;void main() {v_position &#x3D; position;v_uv &#x3D; uv;gl_Position &#x3D; projectionMatrix * viewMatrix * modelMatrix * vec4( position, 1.0 );}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three/default-vertex-shader.ts#L17">shaders/three/default-vertex-shader.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three/default-vertex-shader.ts#L17">shaders/three/default-vertex-shader.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -146,7 +146,7 @@
 					<div class="tsd-signature tsd-kind-icon">degu<wbr>Get2d<wbr>Rotation<wbr>Matrix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"mat2 deguGet2dRotationMatrix(float theta) {float s &#x3D; sin(theta);float c &#x3D; cos(theta);return mat2(c, -s, s, c);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;mat2 deguGet2dRotationMatrix(float theta) {float s &#x3D; sin(theta);float c &#x3D; cos(theta);return mat2(c, -s, s, c);}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-mathf.ts#L28">shaders/three-shader-chunks/degu-mathf.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-mathf.ts#L28">shaders/three-shader-chunks/degu-mathf.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -179,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">degu<wbr>Get2d<wbr>Scale<wbr>Matrix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"mat2 deguGetScaleMatrix(float scale) {return mat2(scale, 0, 0, scale);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;mat2 deguGetScaleMatrix(float scale) {return mat2(scale, 0, 0, scale);}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-mathf.ts#L45">shaders/three-shader-chunks/degu-mathf.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-mathf.ts#L45">shaders/three-shader-chunks/degu-mathf.ts:45</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">degu<wbr>Rotate2d<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"vec2 deguRotate2d(vec2 pt, float theta) {mat2 rotationMatrix &#x3D; deguGet2dRotationMatrix(theta);return rotationMatrix * pt;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;vec2 deguRotate2d(vec2 pt, float theta) {mat2 rotationMatrix &#x3D; deguGet2dRotationMatrix(theta);return rotationMatrix * pt;}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-mathf.ts#L62">shaders/three-shader-chunks/degu-mathf.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-mathf.ts#L62">shaders/three-shader-chunks/degu-mathf.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -214,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">degu<wbr>Rotate2d<wbr>Image<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"vec3 deguRotate2dImage(sampler2D texture, float aspect, vec2 uv, vec2 center, float theta, vec3 backgroundColor) {// Adjust for the center point.uv -&#x3D; center;mat2 rotationMatrix &#x3D; deguGet2dRotationMatrix(theta);// Go to square uv coordinates.uv.y /&#x3D; aspect;// Conduct rotation.uv &#x3D; rotationMatrix * uv;// Go back to whatever the aspect was.uv.y *&#x3D; aspect;// Adjust back for the center point.uv +&#x3D; center;vec3 texel &#x3D; texture2D(texture, uv).rgb;// Determine if this point is within the bounds of the rectangle.// If not, use the background color.vec2 s &#x3D; step(vec2(0.0), uv) - step(vec2(1.0), uv);float t &#x3D; s.x * s.y;vec3 color &#x3D; mix(backgroundColor, texel, t);return color;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;vec3 deguRotate2dImage(sampler2D texture, float aspect, vec2 uv, vec2 center, float theta, vec3 backgroundColor) {// Adjust for the center point.uv -&#x3D; center;mat2 rotationMatrix &#x3D; deguGet2dRotationMatrix(theta);// Go to square uv coordinates.uv.y /&#x3D; aspect;// Conduct rotation.uv &#x3D; rotationMatrix * uv;// Go back to whatever the aspect was.uv.y *&#x3D; aspect;// Adjust back for the center point.uv +&#x3D; center;vec3 texel &#x3D; texture2D(texture, uv).rgb;// Determine if this point is within the bounds of the rectangle.// If not, use the background color.vec2 s &#x3D; step(vec2(0.0), uv) - step(vec2(1.0), uv);float t &#x3D; s.x * s.y;vec3 color &#x3D; mix(backgroundColor, texel, t);return color;}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-mathf.ts#L81">shaders/three-shader-chunks/degu-mathf.ts:81</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-mathf.ts#L81">shaders/three-shader-chunks/degu-mathf.ts:81</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -239,7 +239,7 @@
 					<div class="tsd-signature tsd-kind-icon">degu<wbr>Shape2d<wbr>Checkerboard<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"float deguShape2dCheckerBoard(vec2 p, float xCount, float yCount) {float x &#x3D; floor(p.x * xCount);float y &#x3D; floor(p.y * yCount);return mod(x + y, 2.0);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;float deguShape2dCheckerBoard(vec2 p, float xCount, float yCount) {float x &#x3D; floor(p.x * xCount);float y &#x3D; floor(p.y * yCount);return mod(x + y, 2.0);}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-shape2d.ts#L21">shaders/three-shader-chunks/degu-shape2d.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-shape2d.ts#L21">shaders/three-shader-chunks/degu-shape2d.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -249,7 +249,7 @@
 					<div class="tsd-signature tsd-kind-icon">frag<wbr>Chroma<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 vTextureCoord;uniform sampler2D uSampler;uniform vec3 color;uniform float epsilon;void main() {vec4 currentColor &#x3D; texture2D(uSampler, vTextureCoord);vec3 colorDiff &#x3D; color - (currentColor.rgb / max(currentColor.a, 0.0000000001));float colorDistance &#x3D; length(colorDiff);if(colorDistance &lt; epsilon) {gl_FragColor &#x3D; vec4(0.0, 0.0, 0.0, 0.0);} else {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);};}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 vTextureCoord;uniform sampler2D uSampler;uniform vec3 color;uniform float epsilon;void main() {vec4 currentColor &#x3D; texture2D(uSampler, vTextureCoord);vec3 colorDiff &#x3D; color - (currentColor.rgb / max(currentColor.a, 0.0000000001));float colorDistance &#x3D; length(colorDiff);if(colorDistance &lt; epsilon) {gl_FragColor &#x3D; vec4(0.0, 0.0, 0.0, 0.0);} else {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);};}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/pixi/frag-chroma-key.ts#L26">shaders/pixi/frag-chroma-key.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/pixi/frag-chroma-key.ts#L26">shaders/pixi/frag-chroma-key.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -286,7 +286,7 @@
 					<div class="tsd-signature tsd-kind-icon">frag<wbr>Default<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"varying vec2 vTextureCoord;uniform sampler2D uSampler;void main() {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;varying vec2 vTextureCoord;uniform sampler2D uSampler;void main() {gl_FragColor &#x3D; texture2D(uSampler, vTextureCoord);}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/pixi/frag-default.ts#L4">shaders/pixi/frag-default.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/pixi/frag-default.ts#L4">shaders/pixi/frag-default.ts:4</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -301,7 +301,7 @@
 					<div class="tsd-signature tsd-kind-icon">normalized<wbr>Sin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"float normalizedSin(float radians) {return (sin(radians) + 1.0) / 2.0;}"</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;float normalizedSin(float radians) {return (sin(radians) + 1.0) / 2.0;}&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-mathf.ts#L125">shaders/three-shader-chunks/degu-mathf.ts:125</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-mathf.ts#L125">shaders/three-shader-chunks/degu-mathf.ts:125</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -332,7 +332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-mathf.ts#L159">shaders/three-shader-chunks/degu-mathf.ts:159</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-mathf.ts#L159">shaders/three-shader-chunks/degu-mathf.ts:159</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -360,7 +360,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/degu-shape2d.ts#L29">shaders/three-shader-chunks/degu-shape2d.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/degu-shape2d.ts#L29">shaders/three-shader-chunks/degu-shape2d.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -383,7 +383,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/41004fc/src/shaders/three-shader-chunks/noise.ts#L2">shaders/three-shader-chunks/noise.ts:2</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/bede9fd/src/shaders/three-shader-chunks/noise.ts#L2">shaders/three-shader-chunks/noise.ts:2</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
