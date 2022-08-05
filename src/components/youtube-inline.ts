@@ -141,9 +141,12 @@ export class DeguYouTubeInline extends LitElement {
       }
       return;
     }
-    await DeguYouTubeInline.scriptLoader.load(YOUTUBE_IFRAME_API, {
-      test: () => !!window.YT && window.YT['loaded'] === 1,
-    });
+    await DeguYouTubeInline.scriptLoader.load(
+      YOUTUBE_IFRAME_API + `&origin=${location.href}`,
+      {
+        test: () => !!window.YT && window.YT['loaded'] === 1,
+      }
+    );
 
     const config = {
       autohide: 1,
@@ -154,6 +157,7 @@ export class DeguYouTubeInline extends LitElement {
       showinfo: 0,
       iv_load_policy: 3,
       enablejsapi: this.enableJsApi ? 1 : 0,
+      origin: location.href,
     };
 
     const playerVars = Object.assign({}, config);
