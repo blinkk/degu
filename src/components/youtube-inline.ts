@@ -4,6 +4,10 @@ import {query, property} from 'lit/decorators.js';
 import {ScriptLoader} from '../loader/script-loader';
 const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
 
+enum YoutubeInlineEvent {
+  STATE_CHANGE = 'stateChange',
+}
+
 /**
  * # Degu Youtube Inline Component
  * Automatically adds an youtube iframe to your page.
@@ -173,6 +177,16 @@ export class DeguYouTubeInline extends LitElement {
           } else {
             this.pause();
           }
+        },
+        onStateChange: (e: any) => {
+          const event = new CustomEvent(YoutubeInlineEvent.STATE_CHANGE, {
+            detail: {
+              event: e,
+            },
+            bubbles: true,
+            composed: true,
+          });
+          this.dispatchEvent(event);
         },
       },
     };

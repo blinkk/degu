@@ -17,6 +17,10 @@ export default class ComponentsSample {
     const youtubeInlineTest = document.getElementById('youtube-inline-test1');
     youtubeInlineTest.load('t_cKM_JYtbs')
 
+    youtubeInlineTest.addEventListener('stateChange', (e)=> {
+      console.log('stateChange', e.detail.event.data);
+    })
+
     const colorTest = document.getElementById('color-test');
     const colorContainer = document.getElementById('color-container');
 
