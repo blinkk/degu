@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.26.0](https://github.com/blinkk/degu/compare/v2.25.1...v2.26.0) (2022-08-10)
+
+
+### Features
+
+* Add stateChange event to youtube-inline ([1cbd01e](https://github.com/blinkk/degu/commit/1cbd01e7e9e8d7586ec3c218d6337a2d5e76b005))
+
 ## [2.25.1](https://github.com/blinkk/degu/compare/v2.25.0...v2.25.1) (2022-08-05)
 
 
