@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.27.0](https://github.com/blinkk/degu/compare/v2.26.0...v2.27.0) (2022-08-11)
+
+
+### Features
+
+* Add raf waitRead and waitWrite ([cd6dce7](https://github.com/blinkk/degu/commit/cd6dce7d8e9797e72f727c8e9adf0397e9738dd7))
+
 ## [2.26.0](https://github.com/blinkk/degu/compare/v2.25.1...v2.26.0) (2022-08-10)
 
 
