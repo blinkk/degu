@@ -340,6 +340,18 @@ export class Raf {
       });
   }
 
+  waitRead(): Promise<void> {
+    return new Promise<void>(resolve => {
+      window.DEGU_RAF_REGISTRY &&
+        window.DEGU_RAF_REGISTRY.addOneTimeRead({
+          callback: () => {
+            resolve();
+          },
+          raf: this,
+        });
+    });
+  }
+
   /**
    * Adds a one time write callback executed by the global degu raf registry.
    * This allows you to batch write calls.
@@ -351,6 +363,18 @@ export class Raf {
         callback: callback,
         raf: this,
       });
+  }
+
+  waitWrite(): Promise<void> {
+    return new Promise<void>(resolve => {
+      window.DEGU_RAF_REGISTRY &&
+        window.DEGU_RAF_REGISTRY.addOneTimeWrite({
+          callback: () => {
+            resolve();
+          },
+          raf: this,
+        });
+    });
   }
 
   /**
