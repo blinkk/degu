@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.27.1](https://github.com/blinkk/degu/compare/v2.27.0...v2.27.1) (2022-08-17)
+
+
+### Bug Fixes
+
+* video play error handling ([8ad7081](https://github.com/blinkk/degu/commit/8ad7081c53fc893a4c33373b772f7d474a0ff9d6))
+
 ## [2.27.0](https://github.com/blinkk/degu/compare/v2.26.0...v2.27.0) (2022-08-11)
 
 
