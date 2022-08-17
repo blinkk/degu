@@ -336,7 +336,9 @@ export class DeguVideo extends LitElement {
   play() {
     if (!dom.testVideoIsPlaying(this.video)) {
       const playPromise = this.video.play();
-      playPromise.then(() => {}).catch();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {}).catch(() => {});
+      }
     }
   }
 
