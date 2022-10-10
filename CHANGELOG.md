@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.28.0](https://github.com/blinkk/degu/compare/v2.27.1...v2.28.0) (2022-10-10)
+
+
+### Features
+
+* add max-dpr to image ([d0fc9c0](https://github.com/blinkk/degu/commit/d0fc9c0b282ab1f5664201b8d35716edef641319))
+
 ## [2.27.1](https://github.com/blinkk/degu/compare/v2.27.0...v2.27.1) (2022-08-17)
 
 
