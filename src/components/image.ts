@@ -70,6 +70,9 @@ export class DeguImage extends LitElement {
   @property({type: Boolean, attribute: 'disable-eager'})
   private disableEager = false;
 
+  @property({type: Number, attribute: 'max-dpr'})
+  private maxDpr: number = window.devicePixelRatio;
+
   @property() autoRenderWidth = 0;
 
   /**
@@ -154,7 +157,7 @@ export class DeguImage extends LitElement {
       Math.ceil(
         Math.max(width, height) *
           (this.googleImageScalar || 1) *
-          window.devicePixelRatio
+          Math.min(window.devicePixelRatio, this.maxDpr)
       )
     );
   }
