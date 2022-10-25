@@ -85,7 +85,7 @@ export class DeguYouTubeInline extends LitElement {
   @query('.container__player')
   playerElement: HTMLElement;
 
-  private player?: YT.Player;
+  public player?: YT.Player;
 
   connectedCallback() {
     super.connectedCallback();
