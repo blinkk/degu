@@ -87,6 +87,8 @@ class AutoplayTimeout {
   private readonly delay: number;
   private lastStartTime: number;
   private timePassed: number;
+  private disabled: boolean;
+  private wasPausedWhenDisabled: boolean;
 
   constructor(callback: TimerHandler, delay: number) {
     this.callback = callback;
@@ -94,6 +96,27 @@ class AutoplayTimeout {
     this.timePassed = 0;
     this.timeout = setTimeout(callback, delay);
     this.lastStartTime = +new Date();
+    this.disabled = false;
+    this.wasPausedWhenDisabled = false;
+  }
+
+  enable() {
+    if (!this.disabled) {
+      return;
+    }
+    this.disabled = false;
+    if (!this.wasPausedWhenDisabled) {
+      this.unpause();
+    }
+  }
+
+  disable() {
+    if (this.disabled) {
+      return;
+    }
+    this.wasPausedWhenDisabled = this.isPaused();
+    this.pause();
+    this.disabled = true;
   }
 
   /**
@@ -653,6 +676,14 @@ export class Carousel implements EventDispatcher {
     }
   }
 
+  private disable() {
+    this.autoplayTimeout && this.autoplayTimeout.disable();
+  }
+
+  private enable() {
+    this.autoplayTimeout && this.autoplayTimeout.enable();
+  }
+
   /**
    * Run the loop to do all the necessary work for the carousel.
    */
@@ -660,10 +691,10 @@ export class Carousel implements EventDispatcher {
     this.raf.read(() => {
       if (!this.condition()) {
         // Don't continue autoplay timing when the carousel isn't running
-        this.pause();
+        this.disable();
         return;
       } else {
-        this.unpause();
+        this.enable();
       }
 
       if (this.isBeingInteractedWith()) {
