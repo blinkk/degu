@@ -32,6 +32,7 @@ import {query, property} from 'lit/decorators.js';
  *     style="aspect-ratio: 1"
  *     aria-label="Video Aria Label"
  *     autoplayinview="true"
+ *     controls="true"
  *   ></degu-video>
  * ```
  *
@@ -75,6 +76,7 @@ import {query, property} from 'lit/decorators.js';
  *     style="aspect-ratio: 1"
  *     aria-label="Video Aria Label"
  *     autoplayinview="true"
+ *     controls="true"
  *   >
  * </degu-video>
  * ```
@@ -103,6 +105,9 @@ export class DeguVideo extends LitElement {
   @property({type: Boolean, attribute: 'loop'})
   loop: boolean;
 
+  @property({type: Boolean, attribute: 'controls'})
+  controls: boolean;
+
   // Whether to render out to a canvas instead of video.  The main advantage
   // of this is it normalizes color discoloration across browsers.
   @property({type: Boolean, attribute: 'canvas'})
@@ -126,6 +131,7 @@ export class DeguVideo extends LitElement {
 
   static CmsOptions: Record<string, string> = {
     LOOP: 'loop',
+    CONTROLS: 'controls',
   };
 
   static Events: Record<string, string> = {
@@ -358,10 +364,11 @@ export class DeguVideo extends LitElement {
   renderVideo() {
     return html`<video
         ?loop="${this.loop}"
-        aria-hidden=${ifDefined(this.ariaLabel ? true : null)}
+        aria-hidden="${ifDefined(this.ariaLabel ? true : null)}"
         disableRemotePlayback
         muted
         playsinline
+        controls="${ifDefined(this.controls ? true : null)}"
       ></video>
       ${this.canvas ? html`<canvas></canvas>` : ''} `;
   }
