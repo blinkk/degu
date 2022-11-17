@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.28.1](https://github.com/blinkk/degu/compare/v2.28.0...v2.28.1) (2022-11-17)
+
+
+### Bug Fixes
+
+* add controls attribute to video component ([2fecff0](https://github.com/blinkk/degu/commit/2fecff0f81a2ad61cabb6e200f5eaec17316aa26))
+* make youtube api publicly accessible ([88a8f24](https://github.com/blinkk/degu/commit/88a8f244e5ddbffe5dee6c1e8b951b2c1ede1088))
+
 ## [2.28.0](https://github.com/blinkk/degu/compare/v2.27.1...v2.28.0) (2022-10-10)
 
 
