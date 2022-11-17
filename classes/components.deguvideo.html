@@ -83,6 +83,7 @@
     <span class="hljs-attr">style</span>=<span class="hljs-string">"aspect-ratio: 1"</span>
     <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"Video Aria Label"</span>
     <span class="hljs-attr">autoplayinview</span>=<span class="hljs-string">"true"</span>
+    <span class="hljs-attr">controls</span>=<span class="hljs-string">"true"</span>
   &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">degu-video</span>&gt;</span></code></pre>
 					<pre><code class="language-css">
   <span class="hljs-selector-tag">degu-video</span> {
@@ -119,6 +120,7 @@
     style="aspect-ratio: 1"
     aria-label="Video Aria Label"
     autoplayinview="true"
+    controls="true"
   &gt;
 <span class="hljs-tag">&lt;/<span class="hljs-name">degu-video</span>&gt;</span></code></pre>
 				</div>
@@ -193,6 +195,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="components.deguvideo.html#clienttop" class="tsd-kind-icon">client<wbr>Top</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="components.deguvideo.html#clientwidth" class="tsd-kind-icon">client<wbr>Width</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="components.deguvideo.html#contenteditable" class="tsd-kind-icon">content<wbr>Editable</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="components.deguvideo.html#controls" class="tsd-kind-icon">controls</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="components.deguvideo.html#dataset" class="tsd-kind-icon">dataset</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="components.deguvideo.html#dir" class="tsd-kind-icon">dir</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="components.deguvideo.html#draggable" class="tsd-kind-icon">draggable</a></li>
@@ -712,7 +715,7 @@
 					<div class="tsd-signature tsd-kind-icon">aria<wbr>Label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L87">components/video.ts:87</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L89">components/video.ts:89</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -772,7 +775,7 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L109">components/video.ts:109</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L114">components/video.ts:114</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -782,7 +785,7 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L112">components/video.ts:112</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L117">components/video.ts:117</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -792,7 +795,7 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<wbr>Ready<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L122">components/video.ts:122</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L127">components/video.ts:127</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -928,6 +931,16 @@
 						</ul>
 					</aside>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="controls" class="tsd-anchor"></a>
+					<h3>controls</h3>
+					<div class="tsd-signature tsd-kind-icon">controls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L109">components/video.ts:109</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="dataset" class="tsd-anchor"></a>
 					<h3>dataset</h3>
@@ -967,7 +980,7 @@
 					<div class="tsd-signature tsd-kind-icon">ev<span class="tsd-signature-symbol">:</span> <a href="../interfaces/dom.elementvisibilityobject.html" class="tsd-signature-type">ElementVisibilityObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L117">components/video.ts:117</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L122">components/video.ts:122</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1009,7 +1022,7 @@
 					<div class="tsd-signature tsd-kind-icon">has<wbr>Loaded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L121">components/video.ts:121</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L126">components/video.ts:126</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -1210,7 +1223,7 @@
 					<div class="tsd-signature tsd-kind-icon">loop<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L104">components/video.ts:104</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L106">components/video.ts:106</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3059,7 +3072,7 @@
 					<div class="tsd-signature tsd-kind-icon">src<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L84">components/video.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L86">components/video.ts:86</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3140,7 +3153,7 @@
 					<div class="tsd-signature tsd-kind-icon">video<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLVideoElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L125">components/video.ts:125</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L130">components/video.ts:130</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3150,7 +3163,7 @@
 					<div class="tsd-signature tsd-kind-icon">video<wbr>Element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L115">components/video.ts:115</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L120">components/video.ts:120</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -4264,7 +4277,7 @@ the node tree are violated.</p>
                 <aside class="tsd-sources">
         <p>Overrides LitElement.connectedCallback</p>
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L139">components/video.ts:139</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L145">components/video.ts:145</a></li>
         </ul>
 </aside>
 
@@ -4329,7 +4342,7 @@ the node tree are violated.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L354">components/video.ts:354</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L360">components/video.ts:360</a></li>
         </ul>
 </aside>
 
@@ -4355,7 +4368,7 @@ the node tree are violated.</p>
                 <aside class="tsd-sources">
         <p>Overrides LitElement.disconnectedCallback</p>
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L191">components/video.ts:191</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L197">components/video.ts:197</a></li>
         </ul>
 </aside>
 
@@ -4421,7 +4434,7 @@ if either event&#39;s cancelable attribute value is false or its preventDefault(
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L144">components/video.ts:144</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L150">components/video.ts:150</a></li>
         </ul>
 </aside>
 
@@ -4987,7 +5000,7 @@ Can contain duplicates.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L217">components/video.ts:217</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L223">components/video.ts:223</a></li>
         </ul>
 </aside>
         <div class="tsd-comment tsd-typography">
@@ -5498,7 +5511,7 @@ at a given coordinate.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L254">components/video.ts:254</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L260">components/video.ts:260</a></li>
         </ul>
 </aside>
         <div class="tsd-comment tsd-typography">
@@ -5737,7 +5750,7 @@ is in range of inview criteria.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L199">components/video.ts:199</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L205">components/video.ts:205</a></li>
         </ul>
 </aside>
 
@@ -5762,7 +5775,7 @@ is in range of inview criteria.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L243">components/video.ts:243</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L249">components/video.ts:249</a></li>
         </ul>
 </aside>
 
@@ -5787,7 +5800,7 @@ is in range of inview criteria.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L350">components/video.ts:350</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L356">components/video.ts:356</a></li>
         </ul>
 </aside>
 
@@ -5812,7 +5825,7 @@ is in range of inview criteria.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L336">components/video.ts:336</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L342">components/video.ts:342</a></li>
         </ul>
 </aside>
         <div class="tsd-comment tsd-typography">
@@ -6483,7 +6496,7 @@ match selectors.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L373">components/video.ts:373</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L380">components/video.ts:380</a></li>
         </ul>
 </aside>
         <div class="tsd-comment tsd-typography">
@@ -6535,7 +6548,7 @@ should be hidden.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L358">components/video.ts:358</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L364">components/video.ts:364</a></li>
         </ul>
 </aside>
 
@@ -6771,7 +6784,7 @@ options are honored.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L345">components/video.ts:345</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L351">components/video.ts:351</a></li>
         </ul>
 </aside>
 
@@ -6796,7 +6809,7 @@ options are honored.</p>
         <li class="tsd-description">
                 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L291">components/video.ts:291</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L297">components/video.ts:297</a></li>
         </ul>
 </aside>
 
@@ -7505,12 +7518,27 @@ implement <code>createProperty</code> like this:</p>
 
 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L127">components/video.ts:127</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L132">components/video.ts:132</a></li>
         </ul>
 </aside>
 
     
 
+                <section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+    <a name="cmsoptions.controls-1" class="tsd-anchor"></a>
+        <h3>CONTROLS</h3>
+
+        <div class="tsd-signature tsd-kind-icon">CONTROLS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;controls&quot;</span></div>
+
+<aside class="tsd-sources">
+        <ul>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L134">components/video.ts:134</a></li>
+        </ul>
+</aside>
+
+    
+
+</section>
                 <section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
     <a name="cmsoptions.loop-1" class="tsd-anchor"></a>
         <h3>LOOP</h3>
@@ -7519,7 +7547,7 @@ implement <code>createProperty</code> like this:</p>
 
 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L128">components/video.ts:128</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L133">components/video.ts:133</a></li>
         </ul>
 </aside>
 
@@ -7535,7 +7563,7 @@ implement <code>createProperty</code> like this:</p>
 
 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L131">components/video.ts:131</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L137">components/video.ts:137</a></li>
         </ul>
 </aside>
 
@@ -7549,7 +7577,7 @@ implement <code>createProperty</code> like this:</p>
 
 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L136">components/video.ts:136</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L142">components/video.ts:142</a></li>
         </ul>
 </aside>
 
@@ -7564,7 +7592,7 @@ implement <code>createProperty</code> like this:</p>
 
 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L134">components/video.ts:134</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L140">components/video.ts:140</a></li>
         </ul>
 </aside>
 
@@ -7579,7 +7607,7 @@ implement <code>createProperty</code> like this:</p>
 
 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L133">components/video.ts:133</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L139">components/video.ts:139</a></li>
         </ul>
 </aside>
 
@@ -7594,7 +7622,7 @@ implement <code>createProperty</code> like this:</p>
 
 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L132">components/video.ts:132</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L138">components/video.ts:138</a></li>
         </ul>
 </aside>
 
@@ -7609,7 +7637,7 @@ implement <code>createProperty</code> like this:</p>
 
 <aside class="tsd-sources">
         <ul>
-                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/88a8f24/src/components/video.ts#L135">components/video.ts:135</a></li>
+                    <li>Defined in <a href="https://github.com/blinkk/degu/blob/2fecff0/src/components/video.ts#L141">components/video.ts:141</a></li>
         </ul>
 </aside>
 
@@ -7833,6 +7861,9 @@ implement <code>createProperty</code> like this:</p>
 </li>
                 <li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
     <a href="components.deguvideo.html#contenteditable" class="tsd-kind-icon">content<wbr>Editable</a>
+</li>
+                <li class=" tsd-kind-property tsd-parent-kind-class">
+    <a href="components.deguvideo.html#controls" class="tsd-kind-icon">controls</a>
 </li>
                 <li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
     <a href="components.deguvideo.html#dataset" class="tsd-kind-icon">dataset</a>
