@@ -1084,7 +1084,7 @@ export function removeClassByPrefix(el: HTMLElement, prefix: string) {
 export function getAllTextNodes(el: HTMLElement): Array<Node> {
   let n;
   const a = [];
-  const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+  const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
   while ((n = walk.nextNode())) a.push(n);
   return a;
 }

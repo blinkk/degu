@@ -308,11 +308,7 @@ export function supportingAdvancedCssCalc(): boolean {
  * Whether touch is supported or not.
  */
 export function supportingTouch(): boolean {
-  return (
-    'ontouchstart' in window ||
-    navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0
-  );
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 }
 
 /**
