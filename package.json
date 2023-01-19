@@ -3,13 +3,21 @@
   "version": "2.28.1",
   "description": "A general utility library for interactive websites, with a focus on performance.",
   "author": "Blinkk <hello@blinkk.com>",
-  "main": "lib/index.js",
-  "module": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "type": "module",
+  "module": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js",
+      "types": "./lib/index.d.ts"
+    },
+    "./lib/*": {
+      "default": "./lib/*"
+    }
+  },
   "directories": {
     "lib": "lib"
   },
-  "type": "module",
   "engines": {
     "node": ">=16.0.0"
   },
@@ -110,6 +118,7 @@
     "ts-node": "8.1.0",
     "tslint": "5.16.0",
     "tslint-eslint-rules": "5.4.0",
+    "tsup": "^6.5.0",
     "typedoc": "0.14.2",
     "typedoc-plugin-external-module-map": "1.0.0",
     "typedoc-plugin-no-inherit": "1.1.8",
@@ -121,12 +130,12 @@
     "webpack-merge": "4.2.1"
   },
   "scripts": {
-    "build": "rm -rf lib && mkdir lib && tsc",
-    "build-watch": "tsc --watch",
-    "compile": "tsc",
+    "build": "rm -rf lib && mkdir lib && tsup",
+    "build-watch": "tsup --watch",
+    "compile": "tsup",
     "coverage": "TS_NODE_PROJECT='./tsconfig.test.json' nyc ava",
-    "dev-with-test": "concurrently \"tsc --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
-    "dev": "concurrently \"tsc --watch\" \"npm run start\"",
+    "dev-with-test": "concurrently \"tsup --watch\" \"npm run start\" \"./node_modules/.bin/ava --watch\"",
+    "dev": "concurrently \"tsup --watch\" \"npm run start\"",
     "doc": "typedoc",
     "doc-server": "simplehttpserver ./docs",
     "lint": "gts lint",
