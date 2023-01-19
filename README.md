@@ -82,6 +82,11 @@ degu supports only "evergreen" browsers back to the latest two versions:
 - Firefox
 - Safari
 
+## Upgrading
+
+If you have already been using version 2.x.y and are upgrading to version 3.x.y,
+see our [MIGRATION.md](MIGRATION.md) guide for details.
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) on how to develop for degu.
