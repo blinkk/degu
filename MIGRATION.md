@@ -30,11 +30,14 @@ After:
 import * as dom from '@blinkk/degu/lib/dom/dom.js';
 ```
 
-### Install peerDependencies when using `lit` or `lottie-web`
+### Install optional peerDependencies
 
-A few 3rd party dependencies have been moved to optional peerDependencies. If you're using a module that uses `lit` or `lottie-web`, you may need to install it in your project, e.g.
+A few 3rd party dependencies have been moved to optional peerDependencies. If you're using a module that uses one of the 3rd party libs below, you may need to `npm install` it into your project if you haven't already.
 
+* angular
+* dat.gui
+* lit
+* lottie-web
+* pixi.js
 
-```
-yarn install lottie-web
-```
+See the full list in [package.json#peerDependencies](package.json).
