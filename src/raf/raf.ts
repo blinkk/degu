@@ -806,6 +806,6 @@ class RafRegistry {
 }
 
 // Create raf registry as a global.
-if (window && !window.DEGU_RAF_REGISTRY) {
+if (typeof window !== 'undefined' && !window.DEGU_RAF_REGISTRY) {
   window.DEGU_RAF_REGISTRY = new RafRegistry();
 }
