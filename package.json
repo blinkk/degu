@@ -74,7 +74,6 @@
     "@open-wc/testing": "^3.0.3",
     "@types/angular": "1.6.57",
     "@types/angular-sanitize": "^1.7.0",
-    "@types/dat-gui": "0.6.3",
     "@types/dat.gui": "^0.7.5",
     "@types/jquery": "^3.3.32",
     "@types/mocha": "^9.0.0",
@@ -154,6 +153,8 @@
     "posttest": "npm run lint"
   },
   "peerDependencies": {
+    "angular": "*",
+    "dat.gui": "*",
     "jquery": "*",
     "lit": "*",
     "lottie-web": "*",
@@ -161,6 +162,12 @@
     "three": "*"
   },
   "peerDependenciesMeta": {
+    "angular": {
+      "optional": true
+    },
+    "dat.gui": {
+      "optional": true
+    },
     "jquery": {
       "optional": true
     },
