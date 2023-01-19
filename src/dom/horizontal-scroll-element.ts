@@ -3,7 +3,7 @@ import {DomWatcher} from './dom-watcher';
 import * as mathf from '../mathf/mathf';
 import * as dom from '../dom/dom';
 import {Raf} from '../raf/raf';
-import {func} from '..';
+import * as func from '../func/func';
 
 export const HorizontalScrollElementEvents = {
   INDEX_CHANGE: 'horizontal-scroll-element-index-change',

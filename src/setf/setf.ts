@@ -10,7 +10,3 @@ export function merge<T>(...sets: Array<Set<T>>): Set<T> {
   });
   return result;
 }
-
-export const setf = {
-  merge,
-};

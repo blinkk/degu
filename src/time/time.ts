@@ -124,7 +124,7 @@ export function pacificTimeToLocalTimeDate(pacificTime: string): Date {
   // UTC
   const utc = new Date(new Date(pacificTime).getTime() + pacificOffset);
 
-  return time.utcDateToLocalTimeZone(utc);
+  return utcDateToLocalTimeZone(utc);
 }
 
 /**
@@ -175,17 +175,3 @@ export function countdown(currentTime: Date, endTime: Date): Object {
     seconds: Math.floor((time % (1000 * 60)) / 1000),
   };
 }
-
-/**
- * A class that helps with time.
- */
-export const time = {
-  now,
-  timeDiffMs,
-  isInBetween,
-  utcDateToLocalTimeZone,
-  createLocalTimeZoneDate,
-  pacificTimeToLocalTimeDate,
-  easternTimeToLocalTimeDate,
-  countdown,
-};

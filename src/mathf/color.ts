@@ -1,3 +1,9 @@
+/**
+ * A library that helps with color transformations.
+ *
+ * @see https://www.alanzucconi.com/2016/01/06/colour-interpolation/
+ */
+
 import * as mathf from '../mathf/mathf';
 import * as is from '../is/is';
 
@@ -234,22 +240,3 @@ export function cssToRgba(css: string): ColorRGBA | null {
 export function rgbaToCss(rgba: ColorRGBA): string {
   return `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})`;
 }
-
-/**
- * A class that helps with color transformations.
- *
- * @see https://www.alanzucconi.com/2016/01/06/colour-interpolation/
- */
-export const color = {
-  hexToRgbNormalized,
-  colorRgbToRgb,
-  normalizedRgbToHex,
-  rgbToNormalizedRgb,
-  normalizedRgbToRgb,
-  rgbaLerp,
-  rgbaEase,
-  rgbToHex,
-  hexToRgba,
-  cssToRgba,
-  rgbaToCss,
-};

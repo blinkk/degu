@@ -1,6 +1,6 @@
 import * as mathf from '../mathf/mathf';
 import {Raf} from './raf';
-import {EASE} from '../ease/ease';
+import * as EASE from '../ease/ease';
 
 interface RafProgressRangeWatcher {
   range: number | Array<number>;

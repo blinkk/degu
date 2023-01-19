@@ -1,6 +1,6 @@
 import * as time from '../time/time';
 import * as mathf from '../mathf/mathf';
-import {EASE} from './ease';
+import * as EASE from './ease';
 import {Raf} from '../raf/raf';
 
 export interface easerConfig {

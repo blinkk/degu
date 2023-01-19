@@ -1,4 +1,4 @@
-import {func} from './func';
+import * as func from './func';
 import test from 'ava';
 
 test('debounce', async t => {
