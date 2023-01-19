@@ -1,5 +1,5 @@
 import {EventManager, EventDispatcher} from '../ui/events';
-import {time} from './time';
+import * as time from './time';
 
 export interface TimerConfig {
   // Duration in ms.

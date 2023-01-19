@@ -74,14 +74,3 @@ export function forEach(obj: Object, callback: Function) {
     callback(key, value);
   });
 }
-
-/**
- * A class that helps with objects.
- */
-export const objectf = {
-  deepCopy,
-  jsonCopy,
-  areEqual,
-  copy,
-  forEach,
-};

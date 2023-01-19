@@ -1,17 +1,17 @@
 import {XTexture} from './x-texture';
 import * as func from '../func/func';
-import {mathf, point} from '../mathf/mathf';
+import * as mathf from '../mathf/mathf';
 import {Vector} from '../mathf/vector';
 import * as EASE from '../ease/ease';
 
 export interface XGameConfigComputedBox {
   width: number;
   height: number;
-  topLeft: point;
-  topRight: point;
-  bottomLeft: point;
-  bottomRight: point;
-  centerPoint: point;
+  topLeft: mathf.point;
+  topRight: mathf.point;
+  bottomLeft: mathf.point;
+  bottomRight: mathf.point;
+  centerPoint: mathf.point;
 }
 
 export interface XGameObjectConfig {

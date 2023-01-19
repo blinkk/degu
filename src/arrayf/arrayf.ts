@@ -121,20 +121,3 @@ export function loopSlice<T>(
   }
   return result;
 }
-
-/**
- * Determines if the given values contain the given value.
- * @param values
- * @param value
- */
-export function contains<T>(values: T[], value: T): boolean {
-  return values.indexOf(value) !== -1;
-}
-
-export const arrayf = {
-  deepCopy,
-  max,
-  min,
-  loopSlice,
-  contains,
-};

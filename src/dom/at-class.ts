@@ -1,5 +1,5 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {func} from '../func/func';
+import * as func from '../func/func';
 
 /**
  * A function that returns true or false.

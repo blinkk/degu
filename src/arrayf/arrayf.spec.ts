@@ -1,4 +1,4 @@
-import {arrayf} from './arrayf';
+import * as arrayf from './arrayf';
 import test from 'ava';
 
 test('max', t => {

@@ -4,10 +4,7 @@ import {property} from 'lit/decorators.js';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
 import * as dom from '../dom/dom';
-import {
-  elementVisibility,
-  ElementVisibilityObject,
-} from '../dom/element-visibility';
+import {elementVisibility} from '../dom/element-visibility';
 
 /**
  *

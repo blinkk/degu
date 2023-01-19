@@ -1,4 +1,4 @@
-import {time} from './time';
+import * as time from './time';
 import * as is from '../is/is';
 import test from 'ava';
 

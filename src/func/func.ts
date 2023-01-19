@@ -87,7 +87,7 @@ export function debounce(
  * @tested
  */
 export function throttle(callback: Function, wait: number): () => void {
-  return func.debounce(callback, wait, true);
+  return debounce(callback, wait, true);
 }
 
 /**
@@ -464,19 +464,3 @@ export function times(count: number, callback: Function) {
     callback(i);
   });
 }
-/**
- * A class that helps with functions.
- */
-export const func = {
-  debounce,
-  throttle,
-  wait,
-  waitUntil,
-  repeatUntil,
-  memoizeSimple,
-  memoize,
-  runOnlyOnce,
-  runOnceOnChange,
-  setDefault,
-  times,
-};

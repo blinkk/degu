@@ -372,9 +372,9 @@ export function easeInOutBounce(t: number) {
   if (t === 0 || t === 1) {
     return t;
   } else if (t < 0.5) {
-    return EASE.easeInBounce(t * 2) * 0.5;
+    return easeInBounce(t * 2) * 0.5;
   } else {
-    return EASE.easeOutBounce(t * 2 - 1) * 0.5 + 0.5;
+    return easeOutBounce(t * 2 - 1) * 0.5 + 0.5;
   }
 }
 
@@ -388,38 +388,3 @@ export function easeInOutBounce(t: number) {
 export function linear(t: number) {
   return t;
 }
-/**
- * Basis easing functions.
- * @see https://easings.net/en for nice visualization of each.
- *
- */
-export const EASE = {
-  easeInBack,
-  easeInBounce,
-  easeInCirc,
-  easeInCubic,
-  easeInElastic,
-  easeInExpo,
-  easeInOutBack,
-  easeInOutBounce,
-  easeInOutCubic,
-  easeInOutElastic,
-  easeInOutExpo,
-  easeInOutQuad,
-  easeInOutQuart,
-  easeInOutSine,
-  easeInQuad,
-  easeInQuart,
-  easeInQuint,
-  easeInSine,
-  easeOutBack,
-  easeOutBounce,
-  easeOutCirc,
-  easeOutCubic,
-  easeOutElastic,
-  easeOutExpo,
-  easeOutQuad,
-  easeOutQuart,
-  easeOutSine,
-  linear,
-};

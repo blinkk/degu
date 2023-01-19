@@ -157,7 +157,7 @@ export function appendUrlParamsToLinks(
   whiteListKeys: Array<string> = []
 ) {
   if ('URLSearchParams' in window) {
-    const params = urlParams.asObject(window.location.search);
+    const params = asObject(window.location.search);
     elements.forEach((el: HTMLAnchorElement) => {
       // Don't process for links with href.
       if (!el.href) {
@@ -230,8 +230,7 @@ export function getHostName(url: string) {
 export function lastPageWasSameHost() {
   return (
     document.referrer &&
-    urlParams.getHostName(document.referrer) ===
-      urlParams.getHostName(window.location.href)
+    getHostName(document.referrer) === getHostName(window.location.href)
   );
 }
 
@@ -267,22 +266,3 @@ export function updateSearchParams(
   urlSearchParams.set(param, value);
   return urlSearchParams;
 }
-
-/**
- * Utility classes for url manipulation.
- */
-export const urlParams = {
-  areSameHostNames,
-  isTrue,
-  getValue,
-  hasParam,
-  addParamNow,
-  removeParamNow,
-  asObject,
-  appendUrlParamsToLinks,
-  addHistoryHash,
-  removeHistoryHash,
-  getHostName,
-  lastPageWasSameHost,
-  updateSearchParams,
-};

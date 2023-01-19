@@ -421,7 +421,7 @@ export function isGoogleCloudLikeUrl(url: string): boolean {
 }
 
 /**
- * Whether the current viewport is landscape or not.   Includes 1x1 aspect.
+ * Whether the current viewport is landscape or not. Includes 1x1 aspect.
  */
 export function isLandscape(): boolean {
   return window.innerWidth >= window.innerHeight;
@@ -429,11 +429,11 @@ export function isLandscape(): boolean {
 
 // Alias
 export function landscape(): boolean {
-  return window.innerWidth < window.innerHeight;
+  return isLandscape();
 }
 
 /**
- * Whether the current viewport is portrait or not.   Excludes 1x1 aspect.
+ * Whether the current viewport is portrait or not. Excludes 1x1 aspect.
  */
 export function isPortrait(): boolean {
   return window.innerWidth < window.innerHeight;
@@ -441,7 +441,7 @@ export function isPortrait(): boolean {
 
 // Alias
 export function portrait(): boolean {
-  return window.innerWidth < window.innerHeight;
+  return isPortrait();
 }
 
 /**
@@ -454,60 +454,3 @@ export function bot(): boolean {
   const re = new RegExp(botPattern, 'i');
   return re.test(navigator.userAgent);
 }
-
-/**
- * A utility function that generally tests the state of things.
- */
-export const is = {
-  android,
-  array,
-  boolean,
-  bot,
-  chrome,
-  chromeOs,
-  cssHex,
-  cssRgb,
-  cssRgba,
-  date,
-  defined,
-  edge,
-  even,
-  firefox,
-  float,
-  functionLike,
-  function: functionLike,
-  hex,
-  ie,
-  ieOrEdge,
-  int,
-  ios,
-  ipad,
-  isGoogleCloudLikeUrl,
-  landscape,
-  portrait,
-  isLandscape: landscape,
-  mobile,
-  multipleOf,
-  nan,
-  nullLike,
-  null: nullLike,
-  number,
-  object,
-  odd,
-  isPortrait: portrait,
-  powerOf2,
-  regex,
-  safari,
-  string,
-  supportingAdvancedCssCalc,
-  supportingCreateImageBitmap,
-  supportingDeviceOrientation,
-  supportingFileApis,
-  supportingOffScreenCanvas,
-  supportingTouch,
-  supportingWebp,
-  supportingWebpAsync,
-  type,
-  undefined: undefinedLike,
-  windowLoaded,
-};
