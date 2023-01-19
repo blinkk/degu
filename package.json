@@ -156,7 +156,9 @@
   "peerDependencies": {
     "jquery": "*",
     "lit": "*",
-    "lottie-web": "*"
+    "lottie-web": "*",
+    "pixi.js": "*",
+    "three": "*"
   },
   "peerDependenciesMeta": {
     "jquery": {
@@ -166,6 +168,12 @@
       "optional": true
     },
     "lottie-web": {
+      "optional": true
+    },
+    "pixi.js": {
+      "optional": true
+    },
+    "three": {
       "optional": true
     }
   }
