@@ -1,5 +1,33 @@
 # Changelog
 
+## [3.0.0](https://github.com/blinkk/degu/compare/v2.28.1...v3.0.0) (2023-01-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* add dat.gui and angular to peerDependencies
+* move three and pixi.js to peerDependencies
+* move deps to peerDependencies
+* remove utility map exports
+* switch to tsup for bundling
+
+### Bug Fixes
+
+* remove ie workarounds to fix tsc build ([14efc22](https://github.com/blinkk/degu/commit/14efc22e0c916d75fca02c51641274c5583ce3a1))
+
+
+### Build System
+
+* switch to tsup for bundling ([3085b6c](https://github.com/blinkk/degu/commit/3085b6cc2f529e23844c9afbfbd931f023fa7b00))
+
+
+### Code Refactoring
+
+* add dat.gui and angular to peerDependencies ([16b5e29](https://github.com/blinkk/degu/commit/16b5e2994161a98e2171c71faab312a46fc92f17))
+* move deps to peerDependencies ([278be32](https://github.com/blinkk/degu/commit/278be3253fefeba21a99be5d443041cdb6dbb835))
+* move three and pixi.js to peerDependencies ([29593da](https://github.com/blinkk/degu/commit/29593da5853fe07189db23caf9e39190ab133721))
+* remove utility map exports ([faad650](https://github.com/blinkk/degu/commit/faad65009403c4fe8452dc4263ff33bc14225fb0))
+
 ## [2.28.1](https://github.com/blinkk/degu/compare/v2.28.0...v2.28.1) (2022-11-17)
 
 
