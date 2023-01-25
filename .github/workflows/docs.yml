@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-
       - name: Build docs
         run: |
-                npm install
+                yarn install
                 npm run doc
       - name: Build coverage
         run: |
