@@ -1,13 +1,11 @@
 
 
 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { SceneRenderer } from '../lib/threef/scene-renderer';
-import { mathf } from '../lib/mathf/mathf';
 import { Raf } from '../lib/raf/raf';
-import { threef } from '../lib/threef/threef';
+import * as mathf from '../lib/mathf/mathf';
 
 // Import shader chunks
 import { deguMathf } from '../lib/shaders/three-shader-chunks/degu-mathf';

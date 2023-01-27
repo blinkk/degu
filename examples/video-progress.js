@@ -1,9 +1,8 @@
 
 import {VideoProgress} from '../lib/dom/video-progress';
 import {RafProgress} from '../lib/raf/raf-progress';
-import {dom} from '../lib/dom/dom';
-import {ScrollRenderFix} from '../lib/dom/scroll-render-fix';
-import {EASE} from '../lib/ease/ease';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
 
 /**
  * Experimental class that ties updates an html5 video with progress.

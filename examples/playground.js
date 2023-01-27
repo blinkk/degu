@@ -1,8 +1,7 @@
 
-import {dom} from '../lib/dom/dom';
+import * as dom from '../lib/dom/dom';
 import {WebWorker} from '../lib/dom/web-worker';
-import {func} from '../lib/func/func';
-import {mathf} from '../lib/mathf/mathf';
+import * as func from '../lib/func/func';
 
 
 export default class Playgroundsmaple {

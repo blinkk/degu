@@ -2,9 +2,9 @@
 
 import {RafProgress} from '../lib/raf/raf-progress';
 import {DomWatcher} from '../lib/dom/dom-watcher';
-import {EASE} from '../lib/ease/ease';
-import {dom} from '../lib/dom/dom';
-import {func} from '../lib/func/func';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
+import * as func from '../lib/func/func';
 import {elementVisibility} from '../lib/dom/element-visibility';
 import {CssVarInterpolate} from '../lib/interpolate/css-var-interpolate';
 
@@ -42,7 +42,7 @@ export default class CssVarInterpolateSample3 {
     // On init, immediately update the raf progress without lerping.
     this.progress =
             dom.getElementScrolledPercent(this.parentElement);
-    this.rafProgress.easeTo(this.progress, 1, EASE.Linear);
+    this.rafProgress.easeTo(this.progress, 1, EASE.linear);
     this.rafProgress.watch(this.onProgressUpdate.bind(this));
 
 
@@ -81,7 +81,7 @@ export default class CssVarInterpolateSample3 {
     // Optionally add offset to this if needed.
     this.progress =
             dom.getElementScrolledPercent(this.parentElement);
-    this.rafProgress.easeTo(this.progress, 0.25, EASE.Linear);
+    this.rafProgress.easeTo(this.progress, 0.25, EASE.linear);
   }
 
 

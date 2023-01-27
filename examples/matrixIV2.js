@@ -3,8 +3,6 @@
 import {domCanvas} from '../lib/dom/dom-canvas';
 import {Vector} from '../lib/mathf/vector';
 import {MatrixIV} from '../lib/mathf/matrixIV';
-import {mathf} from '../lib/mathf/mathf';
-import {func} from '../lib/func/func';
 
 
 /**

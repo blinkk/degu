@@ -20,17 +20,11 @@ import { Datguif } from '../lib/datguif/datguif';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 
-
-// import { Raf } from '../lib/raf/raf';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 import { RafProgress } from '../lib/raf/raf-progress';
-import { dom } from '../lib/dom/dom';
-import { EASE } from '../lib/ease/ease';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
 
 export default class ThreeObjectViewer7 {
     constructor() {
@@ -403,7 +397,7 @@ export default class ThreeObjectViewer7 {
     resize() {
         this.progress =
             dom.getElementScrolledPercent(this.parentElement, window.innerHeight);
-        this.rafProgress.easeTo(this.progress, 1, EASE.Linear);
+        this.rafProgress.easeTo(this.progress, 1, EASE.linear);
 
         this.width = this.canvasContainer.parentElement.offsetWidth;
         this.height = this.canvasContainer.parentElement.offsetHeight;

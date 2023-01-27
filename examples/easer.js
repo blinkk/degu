@@ -1,5 +1,5 @@
 import {Easer} from '../lib/ease/easer';
-import {EASE} from '../lib/ease/ease';
+import * as EASE from '../lib/ease/ease';
 
 export default class EaserSample {
   constructor() {

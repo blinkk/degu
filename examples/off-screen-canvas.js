@@ -1,7 +1,6 @@
 
 import {OffScreenCanvas} from '../lib/dom/off-screen-canvas';
-import {is} from '../lib/is/is';
-import {mathf} from '../lib/mathf/mathf';
+import * as is from '../lib/is/is';
 
 
 export default class OffScreenCanvasSample {

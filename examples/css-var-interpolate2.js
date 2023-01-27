@@ -1,8 +1,7 @@
 
 
-import {mathf} from '../lib/mathf/mathf';
 import {RafProgress} from '../lib/raf/raf-progress';
-import {EASE} from '../lib/ease/ease';
+import * as EASE from '../lib/ease/ease';
 import {CssVarInterpolate} from '../lib/interpolate/css-var-interpolate';
 
 export default class CssVarInterpolateSample2 {

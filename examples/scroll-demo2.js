@@ -1,13 +1,10 @@
 
 
 import {Raf} from '../lib/raf/raf';
-import {RafProgress, RAF_PROGRESS_EVENTS} from '../lib/raf/raf-progress';
 import {DomWatcher} from '../lib/dom/dom-watcher';
 import {VectorDom} from '../lib/dom/vector-dom';
-import {EASE} from '../lib/ease/ease';
-import {dom} from '../lib/dom/dom';
-import {mathf} from '../lib/mathf/mathf';
-import {CatmullRom} from '../lib/mathf/catmull-rom';
+import * as dom from '../lib/dom/dom';
+import * as mathf from '../lib/mathf/mathf';
 import {Vector} from '../lib/mathf/vector';
 import {Wave} from '../lib/mathf/wave';
 

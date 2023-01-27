@@ -5,7 +5,7 @@ import {Pseudo3dCanvas} from '../lib/pseudo-3d-canvas/pseudo-3d-canvas';
 import {CubeMesh} from '../lib/pseudo-3d-canvas/mesh';
 import {Camera} from '../lib/pseudo-3d-canvas/camera';
 import {Vector} from '../lib/mathf/vector';
-import {mathf} from '../lib/mathf/mathf';
+import * as mathf from '../lib/mathf/mathf';
 
 /**
  * Demonstrates pseudo3dCanvas.  This is more an experimentation

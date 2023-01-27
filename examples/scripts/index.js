@@ -115,9 +115,6 @@ import UiSwipeSample from '../ui-swipe';
 import AtClassSample from '../at-class';
 import AtTabIndexSample from '../at-tabindex';
 
-
-
-
 import WebGlSample from '../webgl';
 
 const samples = {

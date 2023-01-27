@@ -3,7 +3,7 @@ import {X} from '../lib/x/x';
 import {XLine} from '../lib/x/x-line';
 import {XRectangle} from '../lib/x/x-rectangle';
 import {Vector} from '../lib/mathf/vector';
-import {mathf} from '../lib/mathf/mathf';
+import * as mathf from '../lib/mathf/mathf';
 import {Raycast} from '../lib/mathf/raycast';
 import {MatrixIV} from '../lib/mathf/matrixIV';
 
@@ -159,5 +159,3 @@ export default class RayCastingSample {
     this.X.start();
   }
 }
-
-

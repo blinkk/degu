@@ -1,6 +1,5 @@
 
 import {PerlinNoise} from '../lib/mathf/perlin-noise';
-import {mathf} from '../lib/mathf/mathf';
 
 export default class PerlinNoiseSample {
   constructor() {

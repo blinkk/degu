@@ -1,8 +1,8 @@
 
 import {Interpolate} from '../lib/interpolate/interpolate';
-import {mathf} from '../lib/mathf/mathf';
+import * as mathf from '../lib/mathf/mathf';
 import {Raf} from '../lib/raf/raf';
-import {EASE} from '../lib/ease/ease';
+import * as EASE from '../lib/ease/ease';
 
 export default class InterpolateSample {
   constructor() {

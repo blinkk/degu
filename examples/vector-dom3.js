@@ -4,7 +4,6 @@ import * as dat from 'dat.gui';
 import {VectorDom} from '../lib/dom/vector-dom';
 import {Raf} from '../lib/raf/raf';
 import {Vector} from '../lib/mathf/vector';
-import {MouseTracker} from '../lib/dom/mouse-tracker';
 
 export default class VectorDomSample3 {
   constructor() {
