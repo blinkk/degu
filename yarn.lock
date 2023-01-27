@@ -1288,11 +1288,6 @@
     "@types/keygrip" "*"
     "@types/node" "*"
 
-"@types/dat-gui@0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@types/dat-gui/-/dat-gui-0.6.3.tgz#2285a22ee28fbed05f3932dda9144d18c9903b5d"
-  integrity sha512-N0JUd1/jrKQ00w0lz6uyx/4XhJ+qQb9Ir05DEzP4YS5N+vQUyKtcyVBG/u+NF7EkAkHHYDyzpvYf0AMS89R2OQ==
-
 "@types/dat.gui@^0.7.5":
   version "0.7.7"
   resolved "https://registry.yarnpkg.com/@types/dat.gui/-/dat.gui-0.7.7.tgz#2125aedfaa190364c5a50b0447858a7e159aea2e"
@@ -11223,9 +11218,9 @@ typical@^5.2.0:
   integrity sha512-dvdQgNDNJo+8B2uBQoqdb11eUCE1JQXhvjC/CZtgvZseVd5TYMXnq0+vuUemXbd/Se29cTaUuPX3YIc2xgbvIg==
 
 ua-parser-js@^1.0.2:
-  version "1.0.32"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.32.tgz#786bf17df97de159d5b1c9d5e8e9e89806f8a030"
-  integrity sha512-dXVsz3M4j+5tTiovFVyVqssXBu5HM47//YSOeZ9fQkdDKkfzv2v3PP1jmH6FUyPW+yCSn7aBVK1fGGKNhowdDA==
+  version "1.0.33"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.33.tgz#f21f01233e90e7ed0f059ceab46eb190ff17f8f4"
+  integrity sha512-RqshF7TPTE0XLYAqmjlu5cLLuGdKrNu9O1KLA/qp39QtbZwuzwv1dT46DZSopoUMsYgXpB3Cv8a03FI8b74oFQ==
 
 uglify-js@3.4.x:
   version "3.4.10"
