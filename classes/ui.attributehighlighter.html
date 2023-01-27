@@ -67,87 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that will visibly highlight element attribute on your page.</p>
-					</div>
-					<p>Setup:</p>
-					<p>1) Create your highlighter css class.
-						.my-highlighter
-						align-items: left
-						color: #FFF
-						background: rgba(#000, 0.8)
-						border-radius: 3px
-						box-shadow: none !important
-						display: flex
-						flex-direction: column
-						font-size: 11px
-						height: auto
-						justify-content: center
-						left: var(--left)
-						margin: 0 !important
-						max-width: var(--max-width)
-						padding: 0px 8px
-						position: fixed !important
-						// Slight off center.
-						top: calc(var(--center) + 10px)
-						transform: translateX(-50%) translateY(0%)
-						transition: transform 0.3s ease
-						transform-origin: top center
-						z-index: 9999
-						cursor: pointer
-						span
-						display: block
-						&amp;.active,
-						transform: translateX(-50%) translateY(0%) scale(1.2)
-						&amp;:hover,
-						cursor: pointer
-						z-index: 10000
-						&amp;:active
-						z-index: 10000
-					transform: translateX(-50%) translateY(10px) scale(1.2)</p>
-					<p> &amp;.up
-					top: calc(var(--center) - 10px + (var(--height)  * -1))</p>
-					<p>// When clicking on a highlighter, it can highlight the associated
-						// element.  The element gets .attribute-highlighter-active
-						.attribute-highlighter-active
-						border: 3px solid red !important
-					transition: border 0s ease !important</p>
-					<p>2) Instantiate attributeHighlighter.
-						const attributeHighlighter = new AttributeHighlighter({
-						cssClassName: &#39;.my-highlighter&#39;,
-						scopeQuerySelector: &#39;.my-module&#39;,
-						attributes: [
-						&#39;alt&#39;,
-						&#39;aria-label&#39;
-						]
-					})</p>
-					<p>Scoped Search:
-						Attributes accepts AttributeScopedConfig so you can do more complex
-					queries.</p>
-					<pre><code>   <span class="hljs-attribute">attributes</span>: [
-      <span class="hljs-string">'alt'</span>,
-      {
-         <span class="hljs-attribute">attribute</span>: <span class="hljs-string">'aria-label'</span>,
-         <span class="hljs-attribute">querySelector</span>: <span class="hljs-string">'.button'</span>
-      }
-   ]</code></pre><p>Now all &#39;alt&#39; and only aria-labels of classes with .button will be
-					highlighted on the page.</p>
-					<p>Optional url param:</p>
-					<p>You can optionally, configure it so that a url param
-					populates the attributes list.</p>
-					<pre><code> <span class="hljs-keyword">const</span> attributeHighlighter = <span class="hljs-keyword">new</span> AttributeHighlighter({
-   cssClassName: <span class="hljs-string">'.my-highlighter'</span>,
-   scopeQuerySelector: <span class="hljs-string">'.my-module'</span>,
-   attributes: [],
-   urlParamName: <span class="hljs-string">'attributeHighlight'</span>
- })</code></pre><p>Now you can do the following.  Use comma separation for multiple.</p>
-					<pre><code>xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt
-xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</code></pre><p>If no url param is specified, it defaults to the attributes originally
-					specified in the config.</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -188,7 +107,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/attribute-highlighter.ts#L209">ui/attribute-highlighter.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/attribute-highlighter.ts#L209">ui/attribute-highlighter.ts:209</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -214,7 +133,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/attribute-highlighter.ts#L444">ui/attribute-highlighter.ts:444</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/attribute-highlighter.ts#L444">ui/attribute-highlighter.ts:444</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -231,7 +150,7 @@ xxx.com?<span class="hljs-attribute">attributeHightlight</span>=alt,aria-label</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/attribute-highlighter.ts#L241">ui/attribute-highlighter.ts:241</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/attribute-highlighter.ts#L241">ui/attribute-highlighter.ts:241</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

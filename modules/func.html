@@ -100,58 +100,25 @@
 					<a name="debounce" class="tsd-anchor"></a>
 					<h3>debounce</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">debounce<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, wait<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, immediate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+						<li class="tsd-signature tsd-kind-icon">debounce<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span>, wait<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, immediate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L30">func/func.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L30">func/func.ts:30</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p> A basic debounce implementation.  Debounce will basically wait X amount
-									of seconds to execute AFTER it&#39;s last call.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">const</span> debouncer = func.debounce(<span class="hljs-function">(<span class="hljs-params">windowEvent</span>)=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(wiindowEvent);
-}, <span class="hljs-number">500</span>);
-
-<span class="hljs-comment">// Now when you resize, it will wait 500 ms until the last resize call.</span>
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'resize'</span>, debounce);
-
-Or
-
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'resize'</span>, func.debounce(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'throttled'</span>);
-}, <span class="hljs-number">500</span>))
-</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>tested</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The function to call.</p>
-									</div>
 								</li>
 								<li>
 									<h5>wait: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The ms to delay.</p>
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> immediate: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Optional, whether to immediately run (changes this to throttle)</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
@@ -181,55 +148,13 @@ Or
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L317">func/func.ts:317</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L317">func/func.ts:317</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Memoizes a function.  If the params passed to the function are the same
-										as a previous call, then the cached results are returned, saving an
-									unncessary excecution.</p>
-								</div>
-								<p>Consider the follwing example</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> expensiveCalculation = func.memoize(<span class="hljs-function">(<span class="hljs-params">a,b,c</span>)=&gt;</span> {
-  <span class="hljs-keyword">return</span> a + b + c;
-})
-
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3, callback executed and results cached.</span>
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3 from cache</span>
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3 from cache</span>
-
-expensiveCalculation(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 6, callback executed and results cached.</span>
-expensiveCalculation(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 6 from cache</span>
-
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3 from cache</span>
-expensiveCalculation(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 6 from cache</span></code></pre>
-								<p>A common case for memoize might be to use it in a class method.
-								You can implement that with this pattern.</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">class</span> MyClass {
-
-    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {
-       <span class="hljs-keyword">this</span>.calculate = func.memoize(<span class="hljs-keyword">this</span>.calculate.bind(<span class="hljs-keyword">this</span>)) <span class="hljs-keyword">as</span> <span class="hljs-built_in">any</span>;
-    }
-
-    calculate(a, b) {
-      <span class="hljs-keyword">return</span> a + b;
-    }
-}
-</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>tested</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The function to wrap the memoize mechanism.
-										It&#39;s expect that this function returns something.  Can&#39;t be void.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Function</span></h4>
@@ -246,53 +171,13 @@ expensiveCalculation(<span class="hljs-number">2</span>, <span class="hljs-numbe
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L255">func/func.ts:255</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L255">func/func.ts:255</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Memoizes a function with just a one time memory.   This memoize
-									conserves RAM (probably :))</p>
-								</div>
-								<p>If the same parameter is passed as the last execution, the results are
-									pulled from the cache.  When paramers change, the callback is reevaluated
-								for new results.</p>
-								<p>The key difference between <a href="func.html#memoize">func.memoize</a> is that this memoize stores
-								just the last results as opposed to a dictionary of all previous results.</p>
-								<p>If running a lot of executions, this can save memory.</p>
-								<p>Consider the following example.  The calculations are done only when
-									a mutation occurs in the parameters.  Otherwise, the results are
-								pull from the single cache.</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> expensiveCalculation = func.memoizeSimple(<span class="hljs-function">(<span class="hljs-params">a,b,c</span>)=&gt;</span> {
-  <span class="hljs-keyword">return</span> a + b + c;
-})
-
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3, callback executed and results cached.</span>
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3 from cache</span>
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3 from cache</span>
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3 from cache</span>
-
-expensiveCalculation(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 6, callback executed and results cached.</span>
-expensiveCalculation(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 6 from cache</span>
-
-<span class="hljs-comment">// Now in a classic memozize the below would not be reexecuted. But since</span>
-<span class="hljs-comment">// this memoize only has a simple memory, it will be reexecuted.</span>
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3, callback executed and results cached.</span>
-expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>); <span class="hljs-comment">// 3 from cache</span>
-</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>tested</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The function to wrap the memoize mechanism.
-										It&#39;s expect that this function returns something.  Can&#39;t be void.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Function</span></h4>
@@ -303,28 +188,19 @@ expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-numbe
 					<a name="noop" class="tsd-anchor"></a>
 					<h3>noop</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">noop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">noop<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/noop.ts#L10">func/noop.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/noop.ts#L10">func/noop.ts:10</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Does nothing. Use when you need to do nothing and want to make it clear that
-										you fully understood you were doing nothing and really truly intended to do
-									nothing.</p>
-								</div>
-								<p>It does nothing, but on purpose and doesn&#39;t look like a bug or error.
-								It exists solely for readability.</p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -341,15 +217,9 @@ expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-numbe
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L181">func/func.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L181">func/func.ts:181</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Similar to waitUntil but will repeatedly perform an
-									action until a condition is met.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -363,15 +233,6 @@ expensiveCalculation(<span class="hljs-number">1</span>, <span class="hljs-numbe
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> interval: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;100</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<pre><code>let someValue = <span class="hljs-number">0</span>;
-func.repeatUntil(
- <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {<span class="hljs-keyword">return</span> someValue === <span class="hljs-number">5</span>},
- <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { somevalue++; }
-).<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'some value is 5!!!'</span>);
-})</code></pre>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -388,74 +249,13 @@ func.repeatUntil(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L415">func/func.ts:415</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L415">func/func.ts:415</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Runs a function ONLY when the parameters have changed.</p>
-								</div>
-								<p>Running the below, you will see only four console.logs executed, each
-								when the params have changed.</p>
-								<pre><code class="language-ts">
-  <span class="hljs-keyword">let</span> expensiveOperation = func.runOnceOnChange(
-      <span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
-          <span class="hljs-comment">// Do expensive stuff here.</span>
-          <span class="hljs-built_in">console</span>.log(name);
-      }
-  );
-
-  expensiveOperation(<span class="hljs-string">'Scott'</span>);  <span class="hljs-comment">// Scott</span>
-  expensiveOperation(<span class="hljs-string">'Scott'</span>);
-  expensiveOperation(<span class="hljs-string">'Scott'</span>);
-  expensiveOperation(<span class="hljs-string">'Scott'</span>);
-  expensiveOperation(<span class="hljs-string">'Scott'</span>);
-  expensiveOperation(<span class="hljs-string">'John'</span>);   <span class="hljs-comment">// John</span>
-  expensiveOperation(<span class="hljs-string">'John'</span>);
-  expensiveOperation(<span class="hljs-string">'Aya'</span>);    <span class="hljs-comment">// Aya</span>
-  expensiveOperation(<span class="hljs-string">'Aya'</span>);
-  expensiveOperation(<span class="hljs-string">'John'</span>);   <span class="hljs-comment">// John</span>
-  expensiveOperation(<span class="hljs-string">'John'</span>);</code></pre>
-								<p>More in practice.  Here we want to do mutate only when the window.innerWidth
-								or windowHeight has changed.</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> updateCanvasSize = func.runOnceOnChange(
-   <span class="hljs-function">(<span class="hljs-params">windowWidth, windowHeight</span>)=&gt;</span> {
-      <span class="hljs-comment">// Do something expensive.</span>
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Change the canvas size'</span>);
-})
-
-<span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  updateCanvasSize(<span class="hljs-built_in">window</span>.innnerWidth, <span class="hljs-built_in">window</span>.innerHeight);
-});</code></pre>
-								<p>You can implement this for a class method as follows</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">class</span> MyClass {
-
-    <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {
-       <span class="hljs-keyword">this</span>.element = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'hello'</span>);
-       <span class="hljs-keyword">this</span>.render = func.runOnceOnChange(<span class="hljs-keyword">this</span>.render.bind(<span class="hljs-keyword">this</span>));
-
-       <span class="hljs-keyword">this</span>.render(<span class="hljs-number">800</span>);
-       <span class="hljs-keyword">this</span>.render(<span class="hljs-number">800</span>); <span class="hljs-comment">// Won't be called a second time.</span>
-    }
-
-    render(height) {
-      <span class="hljs-keyword">this</span>.element.style.height = height + <span class="hljs-string">'px'</span>;
-    }
-}
-</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>tested</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The callback to execute.  Doesn&#39;t require
-										the callback to return a value.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
@@ -472,24 +272,9 @@ func.repeatUntil(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L345">func/func.ts:345</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L345">func/func.ts:345</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A function that only ever runs once even if it is called multiple times.
-										<code>`</code>
-										let hello = func.runOnlyOnce(()=&gt; {
-										console.log(&#39;hello&#39;);
-									})</p>
-								</div>
-								<p>hello() // hello
-									hello() // cull
-								hello() // cull</p>
-								<ul>
-									<li><code>`</code></li>
-								</ul>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -510,23 +295,9 @@ func.repeatUntil(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L444">func/func.ts:444</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L444">func/func.ts:444</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A method that sets the default value if undefined.
-									Useful in setting explicit default values.</p>
-								</div>
-								<pre><code class="language-ts">
-func.setDefault(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>); <span class="hljs-comment">// 10</span>
-func.setDefault(<span class="hljs-literal">undefined</span>, <span class="hljs-number">20</span>); <span class="hljs-comment">// 20</span>
-func.setDefault(<span class="hljs-literal">undefined</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// false</span></code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>tested</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -550,47 +321,16 @@ func.setDefault(<span class="hljs-literal">undefined</span>, <span class="hljs-l
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L89">func/func.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L89">func/func.ts:89</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Throttles a function.  Throttle will run a function immediately when it&#39;s
-									called and wait X amount of seconds before it can be called again.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">const</span> throttler = func.throttle(<span class="hljs-function">(<span class="hljs-params">windowEvent</span>)=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(wiindowEvent);
-}, <span class="hljs-number">500</span>);
-
-<span class="hljs-comment">// Now when you resize, it will immediately call the throttle function</span>
-<span class="hljs-comment">// and wait 500 ms before it can be called again.</span>
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'resize'</span>, throttler);
-
-Or just:
-
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'resize'</span>, func.throttle(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'throttled'</span>);
-}, <span class="hljs-number">500</span>))
-</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>tested</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The callback function</p>
-									</div>
 								</li>
 								<li>
 									<h5>wait: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The amount to wait in ms.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
@@ -619,20 +359,9 @@ Or just:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L462">func/func.ts:462</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L462">func/func.ts:462</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Run the callback a specific number of times.</p>
-								</div>
-								<pre><code class="language-ts">
- <span class="hljs-comment">// Runs 5 times.</span>
- func.times(<span class="hljs-number">5</span>, <span class="hljs-function">(<span class="hljs-params">i</span>) =&gt;</span> {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'times'</span>, i);
- });
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -640,8 +369,6 @@ Or just:
 								</li>
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -658,22 +385,9 @@ Or just:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L104">func/func.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L104">func/func.ts:104</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A simple function that resolves after a specific amoutn of time.
-									This is useful to create a delay with await.</p>
-									<pre><code class="language-ts"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hohoho'</span>);
-<span class="hljs-keyword">await</span> func.wait(<span class="hljs-number">500</span>);
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hohoho after 500ms'</span>);</code></pre>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>tested</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -694,29 +408,9 @@ Or just:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/func/func.ts#L132">func/func.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/func/func.ts#L132">func/func.ts:132</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Wait until a condition becomes truthy.   This under the hood implements
-									polling to evaluate the condition so use wisely.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> someValue = <span class="hljs-number">0</span>;
-func.waitUntil(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> someValue === <span class="hljs-number">5</span>).then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'some value is 5!!!'</span>);
-})
-
-setTimeout(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  someValue = <span class="hljs-number">5</span>;
-}, <span class="hljs-number">1000</span>);
-</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>tested</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

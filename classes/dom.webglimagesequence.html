@@ -67,197 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that allows you to play through an image sequence (sprite) based on
-							progress.  This class is similar to canvas-image-sequence but only implements
-							a subset of the features in preferences for better memory management.
-						Compared to canvas-image-sequence, this class has better VRAM management.</p>
-					</div>
-					<p>Usage:</p>
-					<p>HTML / SASS</p>
-					<pre><code>&lt;<span class="hljs-selector-tag">div</span> class=<span class="hljs-string">"my-element"</span>&gt;&lt;/div&gt;
-
-
-<span class="hljs-selector-class">.my-element</span>
-  <span class="hljs-attribute">width</span>: <span class="hljs-number">100vw</span>
-  <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span></code></pre><p>Then in your JS:</p>
-					<pre><code class="language-ts">
-<span class="hljs-comment">// All images are assumed to be the same dimensions.</span>
-<span class="hljs-keyword">let</span> myImages = [
-  <span class="hljs-string">'image-1.jpg'</span>,
-  <span class="hljs-string">'image-2.jpg'</span>,
-  <span class="hljs-string">'image-3.jpg'</span>,
-  <span class="hljs-string">'image-4.jpg'</span>,
-   ...
-  <span class="hljs-string">'image-100.jpg'</span>,
-]
-
-<span class="hljs-keyword">let</span> sequence = <span class="hljs-keyword">new</span> WebGlImageSequence(
-  <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.my-element'</span>),
-  <span class="hljs-comment">// Pass in your imageSet.  You can specific multiple (see below).</span>
-  [{images: myImages}],
-   <span class="hljs-comment">// Optional sizing.</span>
-  {
-     cover: <span class="hljs-literal">false</span>, <span class="hljs-comment">// Use cover mode.  Defaults to false.</span>
-     bottom: <span class="hljs-number">0</span> <span class="hljs-comment">// Align to the bottom.</span>
-     left: <span class="hljs-number">0.2</span> <span class="hljs-comment">// Align to the left</span>
-     leftNoClip: <span class="hljs-literal">true</span> <span class="hljs-comment">// When aligning to left, use the no clip algo.</span>
-  },
-  is.ipad() : <span class="hljs-number">1</span> : <span class="hljs-literal">undefined</span> <span class="hljs-comment">// Force dpr 1 on ipad that has less memory.</span>
-);
-
-<span class="hljs-comment">// Loads the images.</span>
-sequence.load();
-
-<span class="hljs-comment">// At a later time.  If images aren't loaded yet, render will get ignored.</span>
-sequence.renderByProgress(<span class="hljs-number">0</span>);  <span class="hljs-comment">// Renders frame at progress 0.</span>
-sequence.renderByProgress(<span class="hljs-number">0.5</span>);  <span class="hljs-comment">// Renders frame at progress 0.5</span>
-sequence.renderByProgress(<span class="hljs-number">1</span>);  <span class="hljs-comment">// Renders frame at progress 1</span>
-
-<span class="hljs-comment">// When done.</span>
-sequence.dispose();
-</code></pre>
-					<h3 id="sizing-options-">Sizing options.</h3>
-					<p>WebGlImageSequence has two render modes, contain (default) and cover.
-						Contain will by default vertically center your image but you can offset this
-					by providing a bottom value.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">let</span> sequence = <span class="hljs-keyword">new</span> WebGlImageSequence(
-  <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.my-element'</span>),
-  [{images: myImages}],
-  {
-    cover: <span class="hljs-literal">true</span>
-  }
-);
-</code></pre>
-					<h2 id="multiinterpolate-capabilities-">MultiInterpolate capabilities.</h2>
-					<p>WebGL Image Sequence has multiinterpolation built in to make it easier to
-						manage more complex sequences.
-						Normally, you may want to map an image sequence to just play from start to
-					end.  But what if you wanted more flexiblity?  You can do things like:</p>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> progressPoints = [
-      {
-        <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>, to: <span class="hljs-number">0.5</span>, start: <span class="hljs-number">0</span>, end: <span class="hljs-number">1</span>,
-      },
-      {
-        <span class="hljs-keyword">from</span>: <span class="hljs-number">0.5</span>, to: <span class="hljs-number">1</span>, start: <span class="hljs-number">1</span>, end: <span class="hljs-number">0</span>,
-      },
-];
-sequence.setMultiInterpolation(progressPoints);
-sequence.load();
-</code></pre>
-					<p>In the above, now the image sequence will play from start to end and back to
-						the start.  You can define your own progress points to have full control over
-					how you want your image sequence sprite to play out.</p>
-					<h2 id="playback-capability">Playback capability</h2>
-					<p>You can also play your canvas image sequence with a timer.
-					The playback also provides a completion promise.</p>
-					<pre><code class="language-ts"><span class="hljs-comment">// Create a complicated playback.</span>
-<span class="hljs-keyword">let</span> progressPoints = [
-      {
-        <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>, to: <span class="hljs-number">0.5</span>, start: <span class="hljs-number">0</span>, end: <span class="hljs-number">1</span>,
-      },
-      {
-        <span class="hljs-keyword">from</span>: <span class="hljs-number">0.5</span>, to: <span class="hljs-number">1</span>, start: <span class="hljs-number">1</span>, end: <span class="hljs-number">0</span>,
-      },
-];
-sequence.setMultiInterpolation(progressPoints);
-<span class="hljs-comment">// Now load the images.</span>
-sequence.load().then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-   <span class="hljs-comment">// Now play the image sequence from progress 0 - 1 over a span of 3000 ms.</span>
-   sequence.play(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3000</span>).then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'done'</span>);
-   })
-})
-
-
-<span class="hljs-comment">// Use stop if you need to stop the animation.</span>
-sequence.stop();
-</code></pre>
-					<h3 id="lerp-towards-capability">Lerp Towards Capability</h3>
-					<p>By setting a lerp value, webGlImageSequence will automatically &quot;lerp&quot; towards
-						frames if the delta between the currently rendered frame and the requested
-					progress is large.</p>
-					<ul>
-						<li>This is useful to &quot;smooth&quot; out movement between frames.</li>
-					</ul>
-					<p>To use this feature, simply set the lerp value.</p>
-					<p>As an exmaple we initially set the progress to 0 but immediately, change it to 1.
-						You will see that the progress value will lerp.   Internally, this happens
-					by running raf until the frame value delta is less than 1 and stable.</p>
-					<pre><code class="language-ts"> sequence.lerpAmount = <span class="hljs-number">0.12</span>;
- sequence.renderByProgress(<span class="hljs-number">0</span>);
- sequence.renderByProgress(<span class="hljs-number">1</span>);</code></pre>
-					<p>Another usecase for setting lerp is to handle resolving state after playing
-					a sequence. See webgl-image-sequence4 for more on this.</p>
-					<h2 id="selectively-loading-different-sets-of-images-">Selectively loading different sets of images.</h2>
-					<p>You can pass different sets of images to use.   Use the when condition
-						to modify your set.   Note that the when condition is only evaluated
-						upon resize.  If a new image set is matched, loading of that image
-					set will automatically happen in the background and render when complete.</p>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> myImages = [
-  <span class="hljs-string">'image-1.jpg'</span>,
-   ...
-  <span class="hljs-string">'image-100.jpg'</span>,
-];
-
-<span class="hljs-keyword">let</span> myMobileImages = [
-  <span class="hljs-string">'image-mobile-1.jpg'</span>,
-  <span class="hljs-string">'image-mobile-100.jpg'</span>,
-];
- <span class="hljs-keyword">let</span> sequence = <span class="hljs-keyword">new</span> WebGlImageSequence(
-  <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.my-element'</span>),
-  [{
-    when: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-built_in">window</span>.innerWidth &gt;= <span class="hljs-number">768</span>},
-    images: myImages
-  },
-  {
-    when: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-built_in">window</span>.innerWidth &lt; <span class="hljs-number">768</span>},
-    images: myMobileImages
-  }]
-);
-</code></pre>
-					<p>Can I have imageSets for only desktop or mobile?  Yes you can!</p>
-					<pre><code class="language-ts"> <span class="hljs-keyword">let</span> sequence = <span class="hljs-keyword">new</span> WebGLImageSequence(
-  <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.my-element'</span>),
-  [
-  {
-    when: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-built_in">window</span>.innerWidth &lt; <span class="hljs-number">768</span>},
-    images: myMobileImages
-  }]
-);
-</code></pre>
-					<p>Here we specify WebGLImageSequence with an imageSet for only mobile.  This
-						means the images will only load on mobile and canvasImageSequence won&#39;t
-					do anything on desktop (nothing will show since there are no images).</p>
-					<p>############# Dev Notes ####################
-						Read the Dev Notes in canvas-image-sequence as this class has the same
-						foundation as canvas-image-sequence.  The primary difference is that
-					this class implements webGL instead of canvas2D as the renderer.</p>
-					<p>In order to keep image-cache down, we still want to utilize the
-						cacheImage technique and generate objectURL and revoke them per drawCall.
-					You also want to avoid image.decode and imageBitmaps (for now).</p>
-					<p>WebGL is primary is better over the canvas2d version because in the
-						canvas2D version, the VRAM (gpu memory) gets very large as it each image
-						gets composited.  The same thing happens in webGL but there is finer
-					control over the memory since we can destory textures.</p>
-					<pre><code>  var texture = webgl.create<span class="hljs-constructor">TextureFromImage(<span class="hljs-params">gl</span>, <span class="hljs-params">image</span>)</span>;
-  <span class="hljs-comment">// Draw out</span><span class="hljs-operator">
-  ...
-
-  </span><span class="hljs-comment">// Clear VRAM memory by deleting the texture after render.</span>
-  webgl.delete<span class="hljs-constructor">Texture(<span class="hljs-params">gl</span>, <span class="hljs-params">texture</span>)</span>;
-</code></pre><p>TODO (uxder): Possibly upgrade to compressed textures.
-					<a href="https://blog.playcanvas.com/webgl-texture-compression-made-easy/">https://blog.playcanvas.com/webgl-texture-compression-made-easy/</a></p>
-					<dl class="tsd-comment-tags">
-						<dt>unstable</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -311,13 +120,13 @@ sequence.stop();
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Web<wbr>GlImage<wbr>Sequence<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, imageSets<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/dom.webglimagesequenceimageset.html" class="tsd-signature-type">WebGlImageSequenceImageSet</a><span class="tsd-signature-symbol">&gt;</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/dom.webglimagesequenceoptions.html" class="tsd-signature-type">WebGlImageSequenceOptions</a>, dpr<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.webglimagesequence.html" class="tsd-signature-type">WebGlImageSequence</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Web<wbr>GlImage<wbr>Sequence<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, imageSets<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/dom.webglimagesequenceimageset.html" class="tsd-signature-type">WebGlImageSequenceImageSet</a><span class="tsd-signature-symbol">&gt;</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.webglimagesequenceoptions.html" class="tsd-signature-type">WebGlImageSequenceOptions</a>, dpr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.webglimagesequence.html" class="tsd-signature-type">WebGlImageSequence</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L570">dom/webgl-image-sequence.ts:570</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L570">dom/webgl-image-sequence.ts:570</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -348,15 +157,9 @@ sequence.stop();
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Playing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L519">dom/webgl-image-sequence.ts:519</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L519">dom/webgl-image-sequence.ts:519</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A flag to note whether the canvas-image-sequence is being &quot;played&quot; using
-							the play method.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="lerpamount" class="tsd-anchor"></a>
@@ -364,17 +167,9 @@ sequence.stop();
 					<div class="tsd-signature tsd-kind-icon">lerp<wbr>Amount<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L513">dom/webgl-image-sequence.ts:513</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L513">dom/webgl-image-sequence.ts:513</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The lerp amount when there is a delta between target and current frame
-								greater than 1.  This defaults to 1 (meaning no lerp).  Change this value
-								if you want canvasImageSequennce to smoothly interpolate between large
-							deltas between the target and current frames.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -389,7 +184,7 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L1284">dom/webgl-image-sequence.ts:1284</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L1284">dom/webgl-image-sequence.ts:1284</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -406,14 +201,9 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L972">dom/webgl-image-sequence.ts:972</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L972">dom/webgl-image-sequence.ts:972</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Flush the draw cache.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -428,14 +218,9 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L874">dom/webgl-image-sequence.ts:874</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L874">dom/webgl-image-sequence.ts:874</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets internally used current image seet.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -450,16 +235,9 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L1277">dom/webgl-image-sequence.ts:1277</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L1277">dom/webgl-image-sequence.ts:1277</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the image dimension that were fetched.  This is based
-										on the &quot;first&quot; image in the sequence.
-									The sizes will be null if called prior to loading images.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
 						</li>
 					</ul>
@@ -474,14 +252,9 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L746">dom/webgl-image-sequence.ts:746</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L746">dom/webgl-image-sequence.ts:746</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Starts loading the images.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -496,14 +269,9 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L777">dom/webgl-image-sequence.ts:777</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L777">dom/webgl-image-sequence.ts:777</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Allows you to set new imageSets.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -524,14 +292,9 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L827">dom/webgl-image-sequence.ts:827</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L827">dom/webgl-image-sequence.ts:827</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Makes a deletable image clone.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -552,41 +315,19 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L1238">dom/webgl-image-sequence.ts:1238</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L1238">dom/webgl-image-sequence.ts:1238</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Plays the canvas image sequence with a timer. Playing will &quot;hijack&quot; the
-									progress events while playing.   For example:</p>
-								</div>
-								<pre><code class="language-ts">   canvasImageSequence.play(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3000</span>).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'play complete'</span>);
-  });</code></pre>
-								<p>Here we tell the canvasImageSequence to play from start to end over
-									a 3000ms period.  During this 3000ms period, any calls other to
-									calls &quot;renderByProgress&quot; will get ignored since they can conflict with
-								the playback.</p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>from: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A number between 0 - 1</p>
-									</div>
 								</li>
 								<li>
 									<h5>to: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A number between 0 - 1</p>
-									</div>
 								</li>
 								<li>
 									<h5>duration: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The duration in ms.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -604,22 +345,13 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L888">dom/webgl-image-sequence.ts:888</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L888">dom/webgl-image-sequence.ts:888</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Renders by progress.  0 would mean the very first frame and the 1 would
-									mean the last.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>n: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A progress value between 0 and 1.</p>
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> noMultiInterpolate: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
@@ -639,7 +371,7 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L714">dom/webgl-image-sequence.ts:714</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L714">dom/webgl-image-sequence.ts:714</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -656,15 +388,9 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L728">dom/webgl-image-sequence.ts:728</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L728">dom/webgl-image-sequence.ts:728</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Evaluates if we need to load a different image set if multiple image sets
-									were provided.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -679,27 +405,9 @@ sequence.stop();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L703">dom/webgl-image-sequence.ts:703</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L703">dom/webgl-image-sequence.ts:703</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets an optional multiinterpolations.  This allows you to define
-									more complex play sequences on your image sequence.</p>
-								</div>
-								<p>Here is an example of playing the image sequence from start to end
-								and back to end.</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> progressPoints = [
-      {
-        <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>, to: <span class="hljs-number">0.5</span>, start: <span class="hljs-number">0</span>, end: <span class="hljs-number">1</span>,
-      },
-      {
-        <span class="hljs-keyword">from</span>: <span class="hljs-number">0.5</span>, to: <span class="hljs-number">1</span>, start: <span class="hljs-number">1</span>, end: <span class="hljs-number">0</span>,
-      },
-];
-canvasImageSequence.setMultiInterpolation(progressPoints);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -720,20 +428,13 @@ canvasImageSequence.setMultiInterpolation(progressPoints);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L1213">dom/webgl-image-sequence.ts:1213</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L1213">dom/webgl-image-sequence.ts:1213</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates the internal sizing options.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <a href="../interfaces/dom.webglimagesequenceoptions.html" class="tsd-signature-type">WebGlImageSequenceOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -750,15 +451,9 @@ canvasImageSequence.setMultiInterpolation(progressPoints);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/webgl-image-sequence.ts#L1266">dom/webgl-image-sequence.ts:1266</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/webgl-image-sequence.ts#L1266">dom/webgl-image-sequence.ts:1266</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Immediately stops the canvas animation playing.
-									(that happens with play method).</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

@@ -67,64 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A very simple time based tween implementation.
-						TODO (uxder); Possibly refactor this to use raf-timer instead.</p>
-					</div>
-					<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Raf, Easer} <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu'</span>;
-
-<span class="hljs-comment">// Simple example.</span>
-<span class="hljs-keyword">let</span> easer = <span class="hljs-keyword">new</span> Easer({
-  duration: <span class="hljs-number">200</span>,
-  delay: <span class="hljs-number">100</span>,
-  easeFunction: EASE.linear
-});
-easer.onUpdate(<span class="hljs-function">(<span class="hljs-params">easeValue, complete</span>)=&gt;</span> {
-  <span class="hljs-comment">// Called on each raf cycle.</span>
-  <span class="hljs-comment">// element.style.left = 100 * easeValue + 'px';</span>
-})
-
-<span class="hljs-comment">// Start and listen to completion.</span>
-easer.start().then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'easing is complete'</span>);
-})
-
-
-<span class="hljs-comment">// Example where you want to handle raf updates on your own.</span>
-<span class="hljs-comment">// Here we tell easer that we will be calling the easer.calculate method</span>
-<span class="hljs-comment">// on raf.</span>
-<span class="hljs-keyword">let</span> easer = <span class="hljs-keyword">new</span> Easer({
-  duration: <span class="hljs-number">200</span>,
-  easeFunction: EASE.easeInOutExpo,
-  disableRaf: <span class="hljs-literal">true</span> <span class="hljs-comment">// Note that this option is set to true.</span>
-});
-easer.onComplete(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'this gets called on completion'</span>);
-})
-
-easer.onUpdate(<span class="hljs-function">(<span class="hljs-params">easeValue, complete</span>)=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'this gets called on each update'</span>);
-  <span class="hljs-comment">// Do something</span>
-  <span class="hljs-comment">// element.style.left = 100 * easeValue + 'px';</span>
-})
-
-<span class="hljs-comment">// Since we told easer to not internall update on raf, we need to</span>
-<span class="hljs-comment">// call calculate and tell easer to calculate.</span>
-<span class="hljs-keyword">var</span> raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  easer.calculate();
-});
-
-<span class="hljs-comment">// As an example, we throttle our raf instance to 10 FPS so easer will</span>
-<span class="hljs-comment">// only update at 10 frames per second.</span>
-raf.setFps(<span class="hljs-number">10</span>);
-
-easer.start(); <span class="hljs-comment">// Start easer</span>
-raf.start(); <span class="hljs-comment">// Start raf so easer calculate is called.</span>
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -170,15 +112,9 @@ raf.start(); <span class="hljs-comment">// Start raf so easer calculate is calle
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ease/easer.ts#L100">ease/easer.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ease/easer.ts#L100">ease/easer.ts:100</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>constructor</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -202,15 +138,9 @@ raf.start(); <span class="hljs-comment">// Start raf so easer calculate is calle
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ease/easer.ts#L207">ease/easer.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ease/easer.ts#L207">ease/easer.ts:207</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Calculates the current ease.  This method should generally be
-									called at 60FPS by Raf.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -225,7 +155,7 @@ raf.start(); <span class="hljs-comment">// Start raf so easer calculate is calle
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ease/easer.ts#L240">ease/easer.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ease/easer.ts#L240">ease/easer.ts:240</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -242,14 +172,9 @@ raf.start(); <span class="hljs-comment">// Start raf so easer calculate is calle
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ease/easer.ts#L167">ease/easer.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ease/easer.ts#L167">ease/easer.ts:167</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the internal instance of raf.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="raf.raf-1.html" class="tsd-signature-type">Raf</a></h4>
 							<p>The internal instance of raf.</p>
 						</li>
@@ -265,14 +190,9 @@ raf.start(); <span class="hljs-comment">// Start raf so easer calculate is calle
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ease/easer.ts#L192">ease/easer.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ease/easer.ts#L192">ease/easer.ts:192</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a complete callback.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -293,14 +213,9 @@ raf.start(); <span class="hljs-comment">// Start raf so easer calculate is calle
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ease/easer.ts#L199">ease/easer.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ease/easer.ts#L199">ease/easer.ts:199</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a complete callback.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -315,13 +230,13 @@ raf.start(); <span class="hljs-comment">// Start raf so easer calculate is calle
 					<a name="reset" class="tsd-anchor"></a>
 					<h3>reset</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">reset<span class="tsd-signature-symbol">(</span>easerConfig<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ease.easerconfig.html" class="tsd-signature-type">easerConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">reset<span class="tsd-signature-symbol">(</span>easerConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/ease.easerconfig.html" class="tsd-signature-type">easerConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ease/easer.ts#L147">ease/easer.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ease/easer.ts#L147">ease/easer.ts:147</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -344,14 +259,9 @@ raf.start(); <span class="hljs-comment">// Start raf so easer calculate is calle
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ease/easer.ts#L175">ease/easer.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ease/easer.ts#L175">ease/easer.ts:175</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Starts the easing.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>Returns a promise that resolved when the animation completes.</p>
 						</li>

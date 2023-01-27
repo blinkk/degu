@@ -67,209 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>VectorDom is a general object is similar to a GameObject in many engines (but
-						much simpler).</p>
-					</div>
-					<p>Vector-DOM allows you to specify the position (vec3), rotation (Quaternion) of
-					an html element using matrix3d transforms.</p>
-					<p>The z value of the position vector gets translated as the scale and z-index
-					is automatically adjusted based on the depth.</p>
-					<h4 id="basic-usage-">Basic Usage:</h4>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">const</span> element = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'myelement'</span>);
-<span class="hljs-keyword">const</span> vectorElement = <span class="hljs-keyword">new</span> VectorDom(element);
-
-<span class="hljs-comment">// By default the vector element will have an anchor at the center</span>
-<span class="hljs-comment">// of the element but override if needed.  This anchor value is generally</span>
-<span class="hljs-comment">// used for translate offset while rotation and scale offsets are</span>
-<span class="hljs-comment">// controlled by transforOrigin.</span>
-<span class="hljs-comment">// Here we set it to the top left.  Default is 0.5.</span>
-vectorElement.anchorX = <span class="hljs-number">0</span>;
-vectorElement.anchorY = <span class="hljs-number">0</span>;
-
-
-<span class="hljs-comment">// Update the transform origin if you want. Default center center.</span>
-vectorElement.transformOrigin = <span class="hljs-string">'center center'</span>
-
-<span class="hljs-comment">// Set the initial position, rotation of the vector dom.</span>
-<span class="hljs-comment">//  z indicates scale.</span>
-<span class="hljs-comment">// The z is shifted by 1.  So -1 = 0%.  0 = 100%; 1 = 200%.</span>
-vectorElement.setPosition( <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));
-
-<span class="hljs-comment">// Sets the Eular based rotation. See more on rotation below.</span>
-vectorElement.setRotation( <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">30</span>, <span class="hljs-number">20</span>, <span class="hljs-number">10</span>));
-
-<span class="hljs-comment">// Optionally set the global offset.  Here we center this element to the</span>
-<span class="hljs-comment">// center of the screen.</span>
-vectorElement.setOffset( <span class="hljs-keyword">new</span> Vector(
-     <span class="hljs-built_in">window</span>.innerWidth/ <span class="hljs-number">2</span>,  <span class="hljs-built_in">window</span>.innerHeight /<span class="hljs-number">2</span>, <span class="hljs-number">0</span>));
-
-<span class="hljs-comment">// After setting intial positions and options, run initialize.</span>
-vectorElement.init();
-
-
-<span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-comment">// On each raf, let's rotate the element.</span>
-  <span class="hljs-keyword">this</span>.vectorElement.rx += <span class="hljs-number">0.03</span>;
-  <span class="hljs-keyword">this</span>.vectorElement.ry += <span class="hljs-number">0.03</span>;
-  <span class="hljs-keyword">this</span>.vectorElement.rz += <span class="hljs-number">0.03</span>;
-
-  <span class="hljs-comment">// Move the element up 1px on each raf.</span>
-  <span class="hljs-keyword">let</span> up = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
-  <span class="hljs-keyword">this</span>.vectorElement.position.add(rotate);
-
-  <span class="hljs-comment">// Render updates the style.  It is automatically culled so only updated</span>
-  <span class="hljs-comment">// when values change.</span>
-  <span class="hljs-keyword">this</span>.vectorElement.render(<span class="hljs-literal">true</span>);
-})
-</code></pre>
-					<h4 id="element-visibility">Element Visibility</h4>
-					<p>Each vector dom also tracks its visility on the page using elementVisiblity.
-					You can access the element state with it.</p>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> v = <span class="hljs-keyword">new</span> VectorDom(myElement);
-v.state().inview; <span class="hljs-comment">// true or false.  The element is current inview.</span>
-v.state().inview &amp;&amp; doSomething();
-</code></pre>
-					<h4 id="render-when-in-view">Render When in View</h4>
-					<p>By default, the DOM will update when the element is inview.
-						You can turn of this feature by setting it to false which will update the
-					DOM even when the element is out of view.</p>
-					<pre><code class="language-ts">
-vectorDom.renderOnlyWhenInview = <span class="hljs-literal">false</span>;
-</code></pre>
-					<h4 id="rotations">Rotations</h4>
-					<p>VectorDom uses Quaternions under the hood but provides ways to think in terms
-					of Euler rotations.</p>
-					<p>In the object, internal Euler rotations are cached in <code>eulerRotation</code> and
-					the quaternion rotation is cache in <code>rotation</code>.</p>
-					<p>At the core, on each render, the quaternion rotation is USED to create the
-						rotation matrix.  This means that ultimately, VectorDOM is a quaternion
-					based system to avoid the issues associated with Euler rotation (gimbal lock).</p>
-					<p>So while you can update the values of <code>eularRotation</code>, changing those
-						values, will have NO effect unless, you sync it and tell VectorDOM to
-					use the current eularRotation values and apply that to VectorDOM.</p>
-					<p>To do this, run <code>syncEularRotation</code> and VectorDOM will internally,
-						convert the current eularRotation values and OVERWRITE the rotation quaternion
-					values - effectively, setting and applying the eular rotation to the VectorDOM.</p>
-					<pre><code class="language-ts">
-<span class="hljs-comment">// Tell Vector dom to update internal rotation with the values of</span>
-<span class="hljs-comment">// eularRotation.</span>
-vectorDom.syncEularRotation();
-vectorDom.render();
-</code></pre>
-					<p>By using this, you can manipulate the rotation values in Euler.</p>
-					<pre><code class="language-ts">
-vectorDom.rx = <span class="hljs-number">90</span>;  <span class="hljs-comment">// Set rotationX to 90 degrees.</span>
-vectorDom.eularRotation.x = <span class="hljs-number">90</span>;  <span class="hljs-comment">// Same as above, set rotationX to 90 degrees.</span>
-
-<span class="hljs-comment">// Sync it and render it.</span>
-vectorDom.syncEularRotation();
-vectorDom.render();
-
-
-<span class="hljs-comment">// Sets the euler rotation and quaternion rotation at once at anytime.</span>
-vectorDom.setRotation(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">180</span>, <span class="hljs-number">90</span>, <span class="hljs-number">0</span>));
-</code></pre>
-					<p>To keep it short you can also just pass, <code>true</code> to the render, which will tell
-					VectorDom that you want to sync on every render.</p>
-					<pre><code class="language-ts">
-vectorDom.render(<span class="hljs-literal">true</span>);
-</code></pre>
-					<p>Now if you prefer to use quaternions, you can access the internal rotation
-					and NOT sync the eular rotation.  Using quaternions will have more flexibility.</p>
-					<pre><code class="language-ts"><span class="hljs-comment">// Set the X rotation to 90.</span>
-<span class="hljs-keyword">let</span> q = Quaternion.fromEuler(<span class="hljs-number">90</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
-vectorDom.rotation = q;
-vectorDom.render();
-</code></pre>
-					<p>You can do more advanced things as well.</p>
-					<pre><code class="language-ts"><span class="hljs-comment">// Set initial rotation.</span>
-vectorDom.rotation = Quaternion.fromEular(<span class="hljs-number">30</span>,<span class="hljs-number">30</span>,<span class="hljs-number">30</span>);
-
-<span class="hljs-comment">// Add 90 degrees in X rotation to whatever it is now.</span>
-vectorDom.rotation.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
-
-<span class="hljs-comment">// Another way to do it.</span>
-<span class="hljs-comment">// Add rotation by 90 degrees in X and 20 degress in y and 10 on the Z.</span>
-<span class="hljs-keyword">let</span> xRadian = mathf.degreesToRadian(<span class="hljs-number">90</span>);
-<span class="hljs-keyword">let</span> yRadian = mathf.degreesToRadian(<span class="hljs-number">20</span>);
-<span class="hljs-keyword">let</span> zRadian = mathf.degreesToRadian(<span class="hljs-number">10</span>);
-<span class="hljs-keyword">let</span> q1 = Quaternion.IDENTITY.angleAxis(xRadian, Vector.RIGHT); <span class="hljs-comment">// x</span>
-<span class="hljs-keyword">let</span> q2 = Quaternion.IDENTITY.angleAxis(yRadian, Vector.UP); <span class="hljs-comment">/// y</span>
-<span class="hljs-keyword">let</span> q3 = Quaternion.IDENTITY.angleAxis(yRadian, Vector.FORWARD); <span class="hljs-comment">/// Z</span>
-vectorDOm.rotation.multiply(q1).multiply(q2).multiply(q3);
-
-
-<span class="hljs-comment">// Slerp to a specific Euler degree.</span>
- <span class="hljs-keyword">let</span> target = Quaternion.fromEuler(<span class="hljs-number">90</span>, <span class="hljs-number">20</span>, <span class="hljs-number">0</span>);
- myQuat.slerp(target, <span class="hljs-keyword">this</span>.progress);
-
-
-<span class="hljs-comment">// Lastely render without the sync option.</span>
-vectorDom.render();</code></pre>
-					<p>Getting Eular values from Quaternion.  In general, it is a one way street
-						for now in which you can convert from Euler -&gt; Quaternion but not the other
-						way around.  If needed, you can use the following but there are some rare
-					accuracy issues at the moment.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">let</span> eularRotation = vectorDom.rotation.toEulerVector();
-eularRotation.x <span class="hljs-comment">// the x rotation in degrees</span>
-eularRotation.y <span class="hljs-comment">// the y rotation in degrees</span>
-eularRotation.z <span class="hljs-comment">// the z rotation in degrees</span>
-</code></pre>
-					<p>To reiterate, the sync option overwrite the Eular rotation so doing this
-					won&#39;t work.</p>
-					<pre><code class="language-ts">
-<span class="hljs-comment">// Internally update the quaternion rotation.</span>
- <span class="hljs-keyword">let</span> target = Quaternion.fromEuler(<span class="hljs-number">90</span>, <span class="hljs-number">20</span>, <span class="hljs-number">0</span>);
- myQuat.slerp(target, <span class="hljs-keyword">this</span>.progress);
-
-<span class="hljs-comment">// Now the eularRotation which was still at 0,0,0 overwrote the internal</span>
-<span class="hljs-comment">// quaternion values.</span>
-<span class="hljs-keyword">this</span>.syncEularRotation();
-
-<span class="hljs-comment">// vectorDom will remain at 0,0,0.</span>
-vectorDom.render();</code></pre>
-					<p>The best of both worlds is that Quaternions are good at slerping and euler
-						is more intuitive.  You can use the internal rx, ry, rz values in degrees,
-					then apply that to the final quaternion rotation.</p>
-					<pre><code class="language-ts">
-<span class="hljs-comment">// Add some rotation to eularRotation and then slerp the quaternion rotation.</span>
-<span class="hljs-keyword">this</span>.flowerVector.eularRotation.x += <span class="hljs-number">0.1</span>;
-<span class="hljs-keyword">this</span>.flowerVector.rotation.slerpEulerVector(
-    <span class="hljs-keyword">this</span>.flowerVector.eularRotation, <span class="hljs-number">0.08</span>);
-<span class="hljs-keyword">this</span>.render();
-</code></pre>
-					<h4 id="components">Components</h4>
-					<p>VectorDom extends functionality via components.
-					Components can be access via <code>.components</code> or <code>._</code> for shorthand.</p>
-					<p>These two are the same thing.</p>
-					<pre><code class="language-ts">
-vectorDom.components.timeline.setProgress(<span class="hljs-number">0.4</span>);
-vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
-</code></pre>
-					<p>See more demo in /examples/vector-dom and /examples/scroll-demo</p>
-					<h4 id="other-notes">Other notes</h4>
-					<ul>
-						<li>globalPosition
-							Don&#39;t add padding to body element.
-							In order to avoid layout thrashing, VectorDom internally calculates the
-							globalPosition.  However this relies on the document.body to not have
-						padding.</li>
-						<li>globalPosition
-							Global position attempts to optimize calls to getBoundClientRect.
-							If you are having issues with this, try setting useBoundsForGlobalCalculation
-						to true.</li>
-					</ul>
-					<dl class="tsd-comment-tags">
-						<dt>unstable</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -367,13 +164,13 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Vector<wbr>Dom<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/dom.vectordomoptions.html" class="tsd-signature-type">VectorDomOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.vectordom.html" class="tsd-signature-type">VectorDom</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Vector<wbr>Dom<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.vectordomoptions.html" class="tsd-signature-type">VectorDomOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="dom.vectordom.html" class="tsd-signature-type">VectorDom</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L470">dom/vector-dom.ts:470</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L470">dom/vector-dom.ts:470</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -398,14 +195,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L470">dom/vector-dom.ts:470</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L470">dom/vector-dom.ts:470</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An alias to components.  This makes it shorter to write out components.</p>
-						</div>
-					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -421,14 +213,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">acceleration<span class="tsd-signature-symbol">:</span> <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L310">dom/vector-dom.ts:310</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L310">dom/vector-dom.ts:310</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The acceleration of this element.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="alpha" class="tsd-anchor"></a>
@@ -436,14 +223,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">alpha<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L370">dom/vector-dom.ts:370</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L370">dom/vector-dom.ts:370</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The opacity of this object.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="anchorx" class="tsd-anchor"></a>
@@ -451,15 +233,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">anchorX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L345">dom/vector-dom.ts:345</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L345">dom/vector-dom.ts:345</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The anchor point to calculate x, y positions. Defaults to the center of
-							the element.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="anchory" class="tsd-anchor"></a>
@@ -467,7 +243,7 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">anchorY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L346">dom/vector-dom.ts:346</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L346">dom/vector-dom.ts:346</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -477,15 +253,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L466">dom/vector-dom.ts:466</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L466">dom/vector-dom.ts:466</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>VectorDom extension components that add funcitonality to the base
-							VectorDom.</p>
-						</div>
-					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -501,23 +271,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">disable<wbr>Style<wbr>Renders<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L429">dom/vector-dom.ts:429</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L429">dom/vector-dom.ts:429</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An option to prevent VectorDom to writing out to the &quot;style&quot; attribute
-								of the element.  This option maybe used when you want to just use VectorDom
-								to calculate positions and transforms in memory but not actually have
-								VectorDom update the style value of the element.  It is also used by
-								VectorDomTimeline cssOnly option where the user can option to update
-							element positions via css variables.</p>
-						</div>
-						<p>A common usecase to enable this might when you want to NOT use the
-							internal VectorDom matrix system that updates the DOM transform3d and
-						instead just use the VectorDOM timeline feature with css variables.</p>
-						<p>This value defaults to false.</p>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="element" class="tsd-anchor"></a>
@@ -525,14 +281,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L300">dom/vector-dom.ts:300</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L300">dom/vector-dom.ts:300</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The html element that VectorDom should control.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="elementvisibility" class="tsd-anchor"></a>
@@ -540,14 +291,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">element<wbr>Visibility<span class="tsd-signature-symbol">:</span> <a href="../interfaces/dom.elementvisibilityobject.html" class="tsd-signature-type">ElementVisibilityObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L391">dom/vector-dom.ts:391</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L391">dom/vector-dom.ts:391</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Internal instance of element visibility.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="eularrotation" class="tsd-anchor"></a>
@@ -555,7 +301,7 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">eular<wbr>Rotation<span class="tsd-signature-symbol">:</span> <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L322">dom/vector-dom.ts:322</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L322">dom/vector-dom.ts:322</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -565,18 +311,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">eular<wbr>Rotation<wbr>AsRotation<wbr>Matrix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L438">dom/vector-dom.ts:438</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L438">dom/vector-dom.ts:438</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An option to completely ignore the internal quaternion based rotation and
-								instead use <code>eularRotation</code> values as the rotational matrix.  Since this
-								forces VectorDOM to use eularRotation instead (which is not the default),
-								this option may make certain components not work
-							(since they need Quaternions).  Defaults to false.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="forcedzindex" class="tsd-anchor"></a>
@@ -584,16 +321,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">forcedZIndex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L450">dom/vector-dom.ts:450</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L450">dom/vector-dom.ts:450</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The forced zIndex for this VectorDom.  This defaults to null where
-								VectorDom will automatically calculate the zIndex based on the depth of the
-							object.  Set zIndex only if you want to override this.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="height" class="tsd-anchor"></a>
@@ -601,14 +331,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L351">dom/vector-dom.ts:351</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L351">dom/vector-dom.ts:351</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The element height.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="mouse" class="tsd-anchor"></a>
@@ -616,15 +341,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">mouse<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MouseTracker</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L381">dom/vector-dom.ts:381</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L381">dom/vector-dom.ts:381</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The instance of documentMouseTracker, making it readily available in
-							VectorDom</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="offset" class="tsd-anchor"></a>
@@ -632,15 +351,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">offset<span class="tsd-signature-symbol">:</span> <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L328">dom/vector-dom.ts:328</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L328">dom/vector-dom.ts:328</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The total offset of this vector.  This is useful in realigning centeral
-							coordinates.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="options" class="tsd-anchor"></a>
@@ -648,14 +361,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/dom.vectordomoptions.html" class="tsd-signature-type">VectorDomOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L443">dom/vector-dom.ts:443</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L443">dom/vector-dom.ts:443</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The list of options passed to VectorDom upon creation.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="position" class="tsd-anchor"></a>
@@ -663,14 +371,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L305">dom/vector-dom.ts:305</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L305">dom/vector-dom.ts:305</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The position of this html element.  Z value refers to scale.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="renderonlywheninview" class="tsd-anchor"></a>
@@ -678,17 +381,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">render<wbr>Only<wbr>When<wbr>Inview<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L399">dom/vector-dom.ts:399</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L399">dom/vector-dom.ts:399</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Whether to prevent DOM render updates when the element is out of view.
-								This prevents this class from updating the element style or css variables
-								if it is out of view.
-							The default is true to provide performance benefits.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="renderwith3dprojectmatrix" class="tsd-anchor"></a>
@@ -696,18 +391,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">render<wbr>With3d<wbr>Project<wbr>Matrix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L460">dom/vector-dom.ts:460</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L460">dom/vector-dom.ts:460</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>In the render loop, whether to create a project, view matrix
-							and render this VectorDom in a pseudo3dworld.</p>
-						</div>
-						<p>This is turned on by default to assist with calculating certain
-							methods but for most cases, you may be able to turn this off
-						for a performance boost.</p>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="rotation" class="tsd-anchor"></a>
@@ -715,15 +401,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">rotation<span class="tsd-signature-symbol">:</span> <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L321">dom/vector-dom.ts:321</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L321">dom/vector-dom.ts:321</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The rotation of this VectorDom in Quaternion.  See setRotation to set
-							this in Eular angles and also rx, ry, rz.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="transformorigin" class="tsd-anchor"></a>
@@ -731,14 +411,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">transform<wbr>Origin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L375">dom/vector-dom.ts:375</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L375">dom/vector-dom.ts:375</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Sets the transform origin of this VectorDom.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="useboundsforglobalcalculation" class="tsd-anchor"></a>
@@ -746,22 +421,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">use<wbr>Bounds<wbr>For<wbr>Global<wbr>Calculation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L413">dom/vector-dom.ts:413</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L413">dom/vector-dom.ts:413</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Whether to use getBoundingClientRect to calculate the global position
-								of the element.  This is turned to &quot;false&quot; by default and instead,
-								the global position is calculated internally based on the amount of
-								scroll.  However, this value can be incorrect if your VectorDom element
-								resides inside of a position &quot;sticky&quot; in which case, the positioning
-							goes off.</p>
-						</div>
-						<p>In short, if you are using position sticky or some other crazy layouting
-							system and having issues with globalElementCenter or globalPosition
-						try setting this to true.</p>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="velocity" class="tsd-anchor"></a>
@@ -769,14 +431,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">velocity<span class="tsd-signature-symbol">:</span> <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L315">dom/vector-dom.ts:315</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L315">dom/vector-dom.ts:315</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The velocity of this element.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="width" class="tsd-anchor"></a>
@@ -784,14 +441,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L339">dom/vector-dom.ts:339</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L339">dom/vector-dom.ts:339</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The element width.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="zindexscalar" class="tsd-anchor"></a>
@@ -799,15 +451,9 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 					<div class="tsd-signature tsd-kind-icon">z<wbr>Index<wbr>Scalar<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L334">dom/vector-dom.ts:334</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L334">dom/vector-dom.ts:334</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The base zIndex scalar value.  As elements are scaled, the closer they are,
-							they get a higher index.  This is the scalar for the zIndex.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -815,488 +461,174 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="anchoroffsetvector" class="tsd-anchor"></a>
 					<h3>anchor<wbr>Offset<wbr>Vector</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> anchorOffsetVector<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L697">dom/vector-dom.ts:697</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the amount to offset to the center of the vectorDom
-									based on the anchor.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">anchor<wbr>Offset<wbr>Vector<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L697">dom/vector-dom.ts:697</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="ax" class="tsd-anchor"></a>
 					<h3>ax</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ax<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> ax<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L622">dom/vector-dom.ts:622</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L626">dom/vector-dom.ts:626</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">ax<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L622">dom/vector-dom.ts:622</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L626">dom/vector-dom.ts:626</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="ay" class="tsd-anchor"></a>
 					<h3>ay</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ay<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> ay<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L630">dom/vector-dom.ts:630</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L634">dom/vector-dom.ts:634</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">ay<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L630">dom/vector-dom.ts:630</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L634">dom/vector-dom.ts:634</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="az" class="tsd-anchor"></a>
 					<h3>az</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> az<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> az<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L638">dom/vector-dom.ts:638</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L642">dom/vector-dom.ts:642</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">az<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L638">dom/vector-dom.ts:638</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L642">dom/vector-dom.ts:642</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="bounds" class="tsd-anchor"></a>
 					<h3>bounds</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> bounds<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ClientRect</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L736">dom/vector-dom.ts:736</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The element bounds including left, top, width, height. Watch out calling
-										this on RAF since it can cause layout thrashing.  If possible,
-										use other values since they are cached.  Consider using globalPosition instead
-									which is more optimized.</p>
-								</div>
-								<p>Since this is using getBoundingClientRect() it is the
-								rendered width / height versus actual.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ClientRect</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">bounds<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L736">dom/vector-dom.ts:736</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="globalelementcenterposition" class="tsd-anchor"></a>
 					<h3>global<wbr>Element<wbr>Center<wbr>Position</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> globalElementCenterPosition<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L714">dom/vector-dom.ts:714</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The global element center position.  This is the x,y in relation to
-										the current window view to the center of the element.   If this value
-									is 0,0, the &quot;center&quot; of the element is at the top left of the window.</p>
-								</div>
-								<p>In short, this is asking, where on the screen is the center coordinates
-								of the element.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Element<wbr>Center<wbr>Position<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L714">dom/vector-dom.ts:714</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="globalposition" class="tsd-anchor"></a>
 					<h3>global<wbr>Position</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> globalPosition<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L678">dom/vector-dom.ts:678</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the global position of this element in relation to the window.
-										If the element is in the top, left of the window, this value would
-									would return 0,0.</p>
-								</div>
-								<p>This value can be incorrect if you element is in the sticky container
-								in which case, set the useBoundForGlobalCalculation to true.</p>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">global<wbr>Position<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L678">dom/vector-dom.ts:678</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="rx" class="tsd-anchor"></a>
 					<h3>rx</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> rx<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> rx<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L646">dom/vector-dom.ts:646</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L650">dom/vector-dom.ts:650</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">rx<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L646">dom/vector-dom.ts:646</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L650">dom/vector-dom.ts:650</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="ry" class="tsd-anchor"></a>
 					<h3>ry</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ry<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> ry<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L654">dom/vector-dom.ts:654</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L658">dom/vector-dom.ts:658</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">ry<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L654">dom/vector-dom.ts:654</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L658">dom/vector-dom.ts:658</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="rz" class="tsd-anchor"></a>
 					<h3>rz</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> rz<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> rz<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L662">dom/vector-dom.ts:662</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L666">dom/vector-dom.ts:666</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">rz<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L662">dom/vector-dom.ts:662</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L666">dom/vector-dom.ts:666</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="vx" class="tsd-anchor"></a>
 					<h3>vx</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> vx<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> vx<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L598">dom/vector-dom.ts:598</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L602">dom/vector-dom.ts:602</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">vx<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L598">dom/vector-dom.ts:598</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L602">dom/vector-dom.ts:602</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="vy" class="tsd-anchor"></a>
 					<h3>vy</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> vy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> vy<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L606">dom/vector-dom.ts:606</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L610">dom/vector-dom.ts:610</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">vy<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L606">dom/vector-dom.ts:606</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L610">dom/vector-dom.ts:610</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="vz" class="tsd-anchor"></a>
 					<h3>vz</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> vz<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> vz<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L614">dom/vector-dom.ts:614</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L618">dom/vector-dom.ts:618</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">vz<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L614">dom/vector-dom.ts:614</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L618">dom/vector-dom.ts:618</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="x" class="tsd-anchor"></a>
 					<h3>x</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> x<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> x<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L575">dom/vector-dom.ts:575</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L579">dom/vector-dom.ts:579</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L575">dom/vector-dom.ts:575</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L579">dom/vector-dom.ts:579</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="y" class="tsd-anchor"></a>
 					<h3>y</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> y<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> y<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L583">dom/vector-dom.ts:583</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L586">dom/vector-dom.ts:586</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L583">dom/vector-dom.ts:583</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L586">dom/vector-dom.ts:586</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="z" class="tsd-anchor"></a>
 					<h3>z</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> z<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> z<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L590">dom/vector-dom.ts:590</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L594">dom/vector-dom.ts:594</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>value: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">z<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L590">dom/vector-dom.ts:590</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L594">dom/vector-dom.ts:594</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -1311,7 +643,7 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L978">dom/vector-dom.ts:978</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L978">dom/vector-dom.ts:978</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1328,27 +660,13 @@ vectorDom._.timeline.setProgress(<span class="hljs-number">0.4</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L813">dom/vector-dom.ts:813</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L813">dom/vector-dom.ts:813</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Forces a zIndex on this VectorDom.  Normally, zIndex is auto calculated
-										by VectorDom based on the depth of the object.  This allows you to
-										force a given zIndex.  Pass null to release zIndex control back to
-									VectorDom.</p>
-								</div>
-								<pre><code class="language-ts">
-vectorDom.forceZIndex(<span class="hljs-number">20</span>);
-vectorDom.forceZIndex(<span class="hljs-literal">null</span>); <span class="hljs-comment">// release control</span>
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>zIndex: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1365,7 +683,7 @@ vectorDom.forceZIndex(<span class="hljs-literal">null</span>); <span class="hljs
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L532">dom/vector-dom.ts:532</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L532">dom/vector-dom.ts:532</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1382,14 +700,9 @@ vectorDom.forceZIndex(<span class="hljs-literal">null</span>); <span class="hljs
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L929">dom/vector-dom.ts:929</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L929">dom/vector-dom.ts:929</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Renders the VectorDom.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1410,7 +723,7 @@ vectorDom.forceZIndex(<span class="hljs-literal">null</span>); <span class="hljs
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L541">dom/vector-dom.ts:541</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L541">dom/vector-dom.ts:541</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1427,7 +740,7 @@ vectorDom.forceZIndex(<span class="hljs-literal">null</span>); <span class="hljs
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L750">dom/vector-dom.ts:750</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L750">dom/vector-dom.ts:750</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1450,7 +763,7 @@ vectorDom.forceZIndex(<span class="hljs-literal">null</span>); <span class="hljs
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L564">dom/vector-dom.ts:564</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L564">dom/vector-dom.ts:564</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1473,23 +786,13 @@ vectorDom.forceZIndex(<span class="hljs-literal">null</span>); <span class="hljs
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L764">dom/vector-dom.ts:764</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L764">dom/vector-dom.ts:764</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the rotation with a Eular degree vector.  Note this method will
-									overwrite the internal Quaternion rotation.</p>
-								</div>
-								<pre><code class="language-ts">
-vectorDom.setRotation(<span class="hljs-keyword">new</span> Vector(<span class="hljs-number">360</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1506,7 +809,7 @@ vectorDom.setRotation(<span class="hljs-keyword">new</span> Vector(<span class="
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L556">dom/vector-dom.ts:556</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L556">dom/vector-dom.ts:556</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1529,30 +832,13 @@ vectorDom.setRotation(<span class="hljs-keyword">new</span> Vector(<span class="
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L794">dom/vector-dom.ts:794</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L794">dom/vector-dom.ts:794</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Similar to syncEularRotation, syncs and overwrites the quaternion
-										rotation execpt does it with a slerp.  Use in place of syncEularRotation
-									and add a slerp amount.</p>
-								</div>
-								<p>In raf loop:</p>
-								<pre><code class="language-ts">
-vectorDom.rx += <span class="hljs-number">1</span>
-vectorDom.slerpEularRotation(<span class="hljs-number">0.08</span>);
-<span class="hljs-comment">// Note we don't pass true here since we don't want to sync.</span>
-vectorDom.render();
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>amount: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The amount to slerp.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1569,16 +855,9 @@ vectorDom.render();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L774">dom/vector-dom.ts:774</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L774">dom/vector-dom.ts:774</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Tells VectorDom to use the eularRotation values and overrite the internal
-										Quaternion rotation (which is ultimately used to calculate and generate
-									the rotational matrix.)</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1593,7 +872,7 @@ vectorDom.render();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L918">dom/vector-dom.ts:918</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L918">dom/vector-dom.ts:918</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -1610,15 +889,9 @@ vectorDom.render();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L859">dom/vector-dom.ts:859</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L859">dom/vector-dom.ts:859</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Takes the rotation, scale and translation matrices and combines them
-									into one.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
 						</li>
 					</ul>
@@ -1633,34 +906,9 @@ vectorDom.render();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/vector-dom.ts#L847">dom/vector-dom.ts:847</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/vector-dom.ts#L847">dom/vector-dom.ts:847</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Takes the current position x,y,z vector points and converts it over to
-										a 4x4 matrix with just consideration for translation.
-										[
-										0 0 0 x
-										0 0 0 y
-										0 0 0 z
-										0 0 0 1
-									]</p>
-								</div>
-								<p>Example of applying vector positions to dom elements.</p>
-								<pre><code class="language-ts">
-<span class="hljs-comment">// Create a vector</span>
- <span class="hljs-keyword">let</span> ballPosition = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">0</span>);
-
-
-<span class="hljs-comment">// Take those vector positions and convert that into a translation matrix.</span>
-<span class="hljs-keyword">let</span> matrix = ballPosition.toTranslationMatrixIV()
-
-<span class="hljs-comment">// Convert that to a css 3d translation.</span>
-<span class="hljs-keyword">let</span> ms = matrix.toCss3dMatrix();
-ball.style.transform = ms;
-</code></pre>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h4>
 						</li>
 					</ul>

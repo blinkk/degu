@@ -67,77 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Wrapper around <a href="https://github.com/dataarts/dat.gui/blob/master/API.md">https://github.com/dataarts/dat.gui/blob/master/API.md</a>
-						to make an object output easier.</p>
-					</div>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">const</span> gui = <span class="hljs-keyword">new</span> Datguif();
-
-<span class="hljs-comment">// Register an update callback.</span>
-gui.onUpdate(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'gui controls updated'</span>);
-})
-
-
-gui.addFolder(<span class="hljs-string">'Lights'</span>).open();
-gui.addFolder(<span class="hljs-string">'Other Config'</span>);
-
-
-<span class="hljs-comment">// Add a subfolder to lights</span>
-gui.addFolder(<span class="hljs-string">'Directional Lights'</span>, <span class="hljs-string">'Lights'</span>);
-gui.addFolder(<span class="hljs-string">'Atmosphere Lights'</span>, <span class="hljs-string">'Lights'</span>);
-
-
-<span class="hljs-keyword">const</span> otherConfig = {
-  <span class="hljs-string">'scale'</span>: <span class="hljs-number">0.5</span>,
-  <span class="hljs-string">'optimize'</span>: <span class="hljs-literal">false</span>
-}
-
-<span class="hljs-keyword">const</span> directionalLight = {
-  <span class="hljs-string">'intensity'</span>: <span class="hljs-number">0.5</span>,
-  <span class="hljs-string">'show'</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-string">'castShadow'</span>: <span class="hljs-literal">true</span>,
-}
-
-
-<span class="hljs-comment">// Add the directional light to the Directional Lights folder.</span>
-<span class="hljs-comment">// Only show intensity and castShadow properties.</span>
-gui.addObjectToFolder(<span class="hljs-string">'Directional Lights'</span>,
-  directionalLights,
- [
-  { keyName: <span class="hljs-string">'castShadow'</span>},
-  { keyName: <span class="hljs-string">'intensity'</span>, min: <span class="hljs-number">0</span>, max: <span class="hljs-number">100</span>, callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-       <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'intensity just changed'</span>);
-  }},
-  { keyName: <span class="hljs-string">'ease'</span>, [<span class="hljs-string">'linear'</span>, <span class="hljs-string">'easeInOutQuad'</span>]}
-]);
-
-
-<span class="hljs-comment">// Add the scale option to the Other config folder.</span>
-gui.addObjectPropertyToFolder(
-  <span class="hljs-string">'Other Config'</span>,
-  otherConfig,
- {
-   keyname: <span class="hljs-string">'scale'</span>
- }
-)
-
-
-<span class="hljs-comment">// Add functions.</span>
-guid.addToFolder(
- <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-   <span class="hljs-comment">// refresh code.</span>
-   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hohoho'</span>);
- },
- <span class="hljs-string">'Refresh'</span>
-)
-
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -186,7 +115,7 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L111">datguif/datguif.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L111">datguif/datguif.ts:111</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -212,7 +141,7 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L146">datguif/datguif.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L146">datguif/datguif.ts:146</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -232,20 +161,15 @@ guid.addToFolder(
 					<a name="addfolder" class="tsd-anchor"></a>
 					<h3>add<wbr>Folder</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Folder<span class="tsd-signature-symbol">(</span>folderName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parentFolderName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">dat.GUI</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Folder<span class="tsd-signature-symbol">(</span>folderName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parentFolderName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">dat.GUI</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L161">datguif/datguif.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L161">datguif/datguif.ts:161</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Add a folder to the datguif system.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -269,7 +193,7 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L208">datguif/datguif.ts:208</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L208">datguif/datguif.ts:208</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -298,7 +222,7 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L280">datguif/datguif.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L280">datguif/datguif.ts:280</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -327,7 +251,7 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L203">datguif/datguif.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L203">datguif/datguif.ts:203</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -356,14 +280,9 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L183">datguif/datguif.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L183">datguif/datguif.ts:183</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Checks if a folder of a given name already exists.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -384,7 +303,7 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L191">datguif/datguif.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L191">datguif/datguif.ts:191</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -407,7 +326,7 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L128">datguif/datguif.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L128">datguif/datguif.ts:128</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">dat.GUI</span></h4>
@@ -424,14 +343,9 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L135">datguif/datguif.ts:135</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L135">datguif/datguif.ts:135</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds an update callback.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -452,7 +366,7 @@ guid.addToFolder(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/datguif/datguif.ts#L139">datguif/datguif.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/datguif/datguif.ts#L139">datguif/datguif.ts:139</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

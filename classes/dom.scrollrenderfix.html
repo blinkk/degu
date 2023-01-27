@@ -67,36 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>What this class does is, it eats the window.wheel event
-							and eats the scroll.  It allows the rendering to catch up and then
-						once it is done,  it reapplies the scroll to the document.</p>
-					</div>
-					<p>While this sounds counter-intuitive, it allows rendering to catchup
-					and can smooth animations.</p>
-					<p>In short, if you have scroll tied animations or intense animations,
-					this can help fix the issue.</p>
-					<p>Thanks to Angus and Eric for this tip.</p>
-					<p>Since this issue is chrome specific, you might want scope it to only chrome.
-					Usage:</p>
-					<pre><code><span class="hljs-keyword">if</span> (<span class="hljs-keyword">is</span>.chrome()) {
-  <span class="hljs-keyword">new</span> ScrollRenderFix();
-}</code></pre><p>To take full advantage, use toolbox mutate or degu.read / writes.</p>
-					<pre><code>
-const raf = <span class="hljs-keyword">new</span> Raf();
-
-raf.read(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-regexp">//</span> <span class="hljs-keyword">do</span> some reading
-})
-
-raf.writing(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-regexp">//</span> <span class="hljs-keyword">do</span> some writing
-})
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -136,7 +106,7 @@ raf.writing(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-render-fix.ts#L75">dom/scroll-render-fix.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-render-fix.ts#L75">dom/scroll-render-fix.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -162,7 +132,7 @@ raf.writing(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-render-fix.ts#L109">dom/scroll-render-fix.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-render-fix.ts#L109">dom/scroll-render-fix.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

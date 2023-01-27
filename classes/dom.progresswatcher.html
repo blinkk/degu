@@ -67,69 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that provides callbacks for progress points.</p>
-					</div>
-					<pre><code><span class="hljs-keyword">const</span> progressWatcher = <span class="hljs-keyword">new</span> ProgressWatcher();
-
-
-<span class="hljs-comment">// Triggers continously while runs from 0.2, 0.4</span>
- progressWatcher.add({
-   range: [<span class="hljs-number">0.2</span>, <span class="hljs-number">0.4</span>],
-   callback: <span class="hljs-function">(<span class="hljs-params">progress: <span class="hljs-built_in">number</span>, direction: <span class="hljs-built_in">number</span></span>)=&gt;</span> {
-         <span class="hljs-built_in">console</span>.log(progress, direction);
-   }
-
-   <span class="hljs-comment">// Runs when the progress is NOT 0.2 - 0.4</span>
-   inactiveCallback: <span class="hljs-function">(<span class="hljs-params">progress: <span class="hljs-built_in">number</span>, direction: <span class="hljs-built_in">number</span></span>)=&gt;</span> {
-         <span class="hljs-built_in">console</span>.log(progress, direction);
-   }
- })
-
-<span class="hljs-comment">// Triggers only when 0.2 is crossed in upwards or downwards direction.</span>
- progressWatcher.add({
-   range: <span class="hljs-number">0.2</span>,
-   callback: <span class="hljs-function">(<span class="hljs-params">progress: <span class="hljs-built_in">number</span>, direction: <span class="hljs-built_in">number</span></span>)=&gt;</span> {
-       <span class="hljs-keyword">if</span>(direction === <span class="hljs-number">-1</span>) {
-         <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'up'</span>);
-       }
-
-       <span class="hljs-keyword">if</span>(direction === <span class="hljs-number">1</span>) {
-         <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'down'</span>);
-       }
-   }
- })
-
-
- <span class="hljs-comment">// RunWhen.  Add a condition to run.</span>
- progressWatcher.add({
-   range: [<span class="hljs-number">0.2</span>, <span class="hljs-number">0.4</span>],
-   callback: <span class="hljs-function">(<span class="hljs-params">progress: <span class="hljs-built_in">number</span>, direction: <span class="hljs-built_in">number</span></span>)=&gt;</span> {
-         <span class="hljs-built_in">console</span>.log(progress, direction);
-   },
-   runWhen: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-built_in">window</span>.innerWidth &lt; <span class="hljs-number">1000</span> }
- })
-
-
-<span class="hljs-comment">// Remove watchFor</span>
-progressWatcher.remove(callback);
-
-
-progressWatcher.update(<span class="hljs-number">0.2</span>)
-
-
-<span class="hljs-comment">// If using with css parallaxer, you might do something</span>
-<span class="hljs-comment">// like this.</span>
- onRaf() {
-      <span class="hljs-keyword">this</span>.progressWatcher.setProgress(
-          <span class="hljs-keyword">this</span>.cssParallaxer.getProgress()
-      );
-&amp;  }
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -173,7 +110,7 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/progress-watcher.ts#L82">dom/progress-watcher.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/progress-watcher.ts#L82">dom/progress-watcher.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.progresswatcher.html" class="tsd-signature-type">ProgressWatcher</a></h4>
@@ -193,14 +130,9 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/progress-watcher.ts#L92">dom/progress-watcher.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/progress-watcher.ts#L92">dom/progress-watcher.ts:92</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets a callback for a specific range.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -221,14 +153,9 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/progress-watcher.ts#L155">dom/progress-watcher.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/progress-watcher.ts#L155">dom/progress-watcher.ts:155</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes all watchers.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -243,14 +170,9 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/progress-watcher.ts#L162">dom/progress-watcher.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/progress-watcher.ts#L162">dom/progress-watcher.ts:162</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Disposes progress watcher.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -265,20 +187,13 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/progress-watcher.ts#L100">dom/progress-watcher.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/progress-watcher.ts#L100">dom/progress-watcher.ts:100</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes a given set callback.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -295,14 +210,9 @@ progressWatcher.update(<span class="hljs-number">0.2</span>)
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/progress-watcher.ts#L109">dom/progress-watcher.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/progress-watcher.ts#L109">dom/progress-watcher.ts:109</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates the progress value.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

@@ -67,55 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A basic quaternion class.</p>
-					</div>
-					<p>A good intro on quaternion is:
-					<a href="https://github.com/NickCuso/Tutorials/blob/master/Quaternions.md">https://github.com/NickCuso/Tutorials/blob/master/Quaternions.md</a></p>
-					<p>Some common uses:</p>
-					<pre><code class="language-ts"><span class="hljs-comment">// Slerp to a specific eular angle.</span>
- <span class="hljs-keyword">let</span> target = Quaternion.fromEuler(<span class="hljs-number">90</span>, <span class="hljs-number">20</span>, <span class="hljs-number">0</span>);
- myQuat.slerp(target, <span class="hljs-keyword">this</span>.progress);
-
-<span class="hljs-comment">// Add rotation by 90 degrees in X and 90 degress in y.</span>
-<span class="hljs-keyword">let</span> xRadian = mathf.degreesToRadian(<span class="hljs-number">90</span>);
-<span class="hljs-keyword">let</span> yRadian = mathf.degreesToRadian(<span class="hljs-number">90</span>);
-<span class="hljs-keyword">let</span> q1 = Quaternion.IDENTITY.angleAxis(xRadian, Vector.RIGHT); <span class="hljs-comment">// x</span>
-<span class="hljs-keyword">let</span> q2 = Quaternion.IDENTITY.angleAxis(yRadian, Vector.UP); <span class="hljs-comment">/// y</span>
-myQuat.rotation.multiply(q1).multiply(q2).multiply(q3);
-
-
-<span class="hljs-comment">// Add 90 degrees in X rotation to whatever it is now.</span>
-myQuat.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
-
-
-<span class="hljs-comment">// Create rotational matrix from Quaternion</span>
-<span class="hljs-keyword">const</span> rotationMatrix = MatrivIV.fromQuaternion(myQuat);
-<span class="hljs-keyword">const</span> matrixString = rotationMatrix.toCss3dMatrix();
-
-<span class="hljs-comment">// Apply it to a DOM element if you want</span>
-<span class="hljs-comment">// (although this would only be rotaiton, no positon or scale)</span>
-<span class="hljs-keyword">this</span>.element.style.transform = matrixString;
-</code></pre>
-					<p>Adapted from:
-					<a href="https://github.com/NickCuso/Tutorials/blob/master/Quaternions.md">https://github.com/NickCuso/Tutorials/blob/master/Quaternions.md</a></p>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p><a href="https://github.com/toji/gl-matrix">https://github.com/toji/gl-matrix</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://github.com/mattdesl/vecmath">https://github.com/mattdesl/vecmath</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://cubap.github.io/phaser3-docs/math_Quaternion.js.html">https://cubap.github.io/phaser3-docs/math_Quaternion.js.html</a></p>
-						</dd>
-						<dt>unstable</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -207,7 +158,7 @@ myQuat.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L64">mathf/quaternion.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L64">mathf/quaternion.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -238,14 +189,9 @@ myQuat.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0
 					<div class="tsd-signature tsd-kind-icon">w<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L64">mathf/quaternion.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L64">mathf/quaternion.ts:64</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The w component of this quaternion.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="x" class="tsd-anchor"></a>
@@ -253,14 +199,9 @@ myQuat.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0
 					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L52">mathf/quaternion.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L52">mathf/quaternion.ts:52</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The x component of this quaternion.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="y" class="tsd-anchor"></a>
@@ -268,14 +209,9 @@ myQuat.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0
 					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L56">mathf/quaternion.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L56">mathf/quaternion.ts:56</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The y component of this quaternion.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="z" class="tsd-anchor"></a>
@@ -283,14 +219,9 @@ myQuat.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0
 					<div class="tsd-signature tsd-kind-icon">z<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L60">mathf/quaternion.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L60">mathf/quaternion.ts:60</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The z component of this quaternion.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -298,122 +229,62 @@ myQuat.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
 					<a name="i" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> I</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> I<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L755">mathf/quaternion.ts:755</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">I<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L755">mathf/quaternion.ts:755</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
 					<a name="identity" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> IDENTITY</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> IDENTITY<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L774">mathf/quaternion.ts:774</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A static identity quaternion.  Multiplicative identity.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> q = Quaternion.IDENTITY;</code></pre>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">IDENTITY<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L774">mathf/quaternion.ts:774</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
 					<a name="j" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> J</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> J<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L759">mathf/quaternion.ts:759</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">J<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L759">mathf/quaternion.ts:759</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
 					<a name="k" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> K</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> K<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L763">mathf/quaternion.ts:763</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">K<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L763">mathf/quaternion.ts:763</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
 					<a name="one" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> ONE</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ONE<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L785">mathf/quaternion.ts:785</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A static one quaternion.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> q = Quaternion.ONE;</code></pre>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">ONE<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L785">mathf/quaternion.ts:785</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
 					<a name="zero" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> ZERO</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ZERO<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L751">mathf/quaternion.ts:751</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A static zero quaternion.  Additive identity.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> q = Quaternion.ZERO;</code></pre>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">ZERO<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L751">mathf/quaternion.ts:751</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -428,19 +299,9 @@ myQuat.addEular(<span class="hljs-number">90</span>, <span class="hljs-number">0
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L109">mathf/quaternion.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L109">mathf/quaternion.ts:109</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a given quaternion or vector to this quaternion.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">var</span> q = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-<span class="hljs-keyword">var</span> q2 = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-q.add(q2);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -461,37 +322,19 @@ q.add(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L147">mathf/quaternion.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L147">mathf/quaternion.ts:147</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Combines eular degrees to the quaternion.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-comment">// Add 30 degrees in x rotation.</span>
-<span class="hljs-keyword">var</span> q = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>x in degrees</p>
-									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>y in degrees</p>
-									</div>
 								</li>
 								<li>
 									<h5>z: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>z in degrees</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -508,35 +351,16 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L593">mathf/quaternion.ts:593</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L593">mathf/quaternion.ts:593</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates a rotation which rotates angle degrees around axis.
-										Assumes the axis vector is normalized.
-									<code>`</code>ts</p>
-								</div>
-								<p>// Rotate 23 degrees around X and Y axis.
-								let rad = mathf.degreesToRadian(23);</p>
-								<p>let q1 = Quaternion.IDENTITY.angleAxis(rad, Vector.UP); // Y
-								let q2 = Quaternion.IDENTITY.angleAxis(rad, Vector.RIGHT); // X</p>
-								<p>myQuat.multiply(q1).multiply(q2)</p>
-								<p><code>`</code></p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>rad: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Angle in radians</p>
-									</div>
 								</li>
 								<li>
 									<h5>axis: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>An axis vector to rotate on. Axis should be normalized.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -553,18 +377,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L83">mathf/quaternion.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L83">mathf/quaternion.ts:83</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Makes a clone of this quaternion.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">var</span> q = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0.4</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>);
-<span class="hljs-keyword">var</span> clone = q.clone();
-</code></pre>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
 						</li>
 					</ul>
@@ -579,14 +394,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L485">mathf/quaternion.ts:485</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L485">mathf/quaternion.ts:485</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Conjugate this quaternion</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
 						</li>
 					</ul>
@@ -601,20 +411,13 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L474">mathf/quaternion.ts:474</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L474">mathf/quaternion.ts:474</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Copies the content of another Quaternion into this quaterion.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>q: <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -631,15 +434,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L316">mathf/quaternion.ts:316</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L316">mathf/quaternion.ts:316</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Calculates the dot product of this Quaternion (or Vector) and the given
-									Quaternion (or Vector)</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -661,14 +458,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L419">mathf/quaternion.ts:419</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L419">mathf/quaternion.ts:419</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Inverts this quaternion.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
 						</li>
 					</ul>
@@ -683,14 +475,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L262">mathf/quaternion.ts:262</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L262">mathf/quaternion.ts:262</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Calculates the length / magnitude of this quaternion.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -705,14 +492,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L273">mathf/quaternion.ts:273</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L273">mathf/quaternion.ts:273</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Calculates the length squared</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -727,14 +509,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L325">mathf/quaternion.ts:325</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L325">mathf/quaternion.ts:325</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Linear interpolates this Quaternion towards the given quaternion or vector.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -742,8 +519,6 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 								</li>
 								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -760,15 +535,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L285">mathf/quaternion.ts:285</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L285">mathf/quaternion.ts:285</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Calculates the magnitude of this quaternion.
-									Alias of <a href="mathf.quaternion.html#length">Quaternion.length</a></p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -783,26 +552,13 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L238">mathf/quaternion.ts:238</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L238">mathf/quaternion.ts:238</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Multiplies the current quaternion with provided Quaternion a.</p>
-								</div>
-								<pre><code class="language-ts">  <span class="hljs-comment">// Given x, y, z radians, add x,y,z rotation to the current quaternion.</span>
-  <span class="hljs-keyword">let</span> q1 = Quaternion.IDENTITY.angleAxis(x, Vector.RIGHT);
-  <span class="hljs-keyword">let</span> q2 = Quaternion.IDENTITY.angleAxis(y, Vector.UP);
-  <span class="hljs-keyword">let</span> q3 = Quaternion.IDENTITY.angleAxis(z, Vector.FORWARD);
-  <span class="hljs-keyword">this</span>.multiply(q1).multiply(q2).multiply(q3);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>a: <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -819,14 +575,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L292">mathf/quaternion.ts:292</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L292">mathf/quaternion.ts:292</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Normalizes this quaternion.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
 						</li>
 					</ul>
@@ -841,14 +592,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L438">mathf/quaternion.ts:438</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L438">mathf/quaternion.ts:438</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set rotation X of the quaternion by given degree</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -869,14 +615,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L450">mathf/quaternion.ts:450</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L450">mathf/quaternion.ts:450</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set rotation Y of the quaternion by given degree</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -897,14 +638,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L462">mathf/quaternion.ts:462</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L462">mathf/quaternion.ts:462</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set rotation Y of the quaternion by given degree</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -925,14 +661,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L247">mathf/quaternion.ts:247</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L247">mathf/quaternion.ts:247</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Scales this Quaternion by a given scale.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -953,14 +684,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L90">mathf/quaternion.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L90">mathf/quaternion.ts:90</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets x, y, z, w of this quaternion.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -990,19 +716,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L376">mathf/quaternion.ts:376</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L376">mathf/quaternion.ts:376</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Slerps this quaternion towards the given quaternion or vector.
-									Inspired by: <a href="https://jsperf.com/quaternion-slerp-implementations">https://jsperf.com/quaternion-slerp-implementations</a></p>
-								</div>
-								<pre><code class="language-ts">
- <span class="hljs-keyword">let</span> target = Quaternion.fromEuler(<span class="hljs-number">90</span>, <span class="hljs-number">20</span>, <span class="hljs-number">0</span>);
- myQuat.slerp(target, <span class="hljs-keyword">this</span>.progress);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1010,8 +726,6 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 								</li>
 								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -1028,17 +742,9 @@ q.addEular(<span class="hljs-number">30</span>, <span class="hljs-number">0</spa
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L345">mathf/quaternion.ts:345</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L345">mathf/quaternion.ts:345</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Slerps to a specific rotation in Euler degrees.</p>
-								</div>
-								<pre><code class="language-ts">
-myQuat.slerpEuler(<span class="hljs-number">30</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">this</span>.progress);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1049,8 +755,6 @@ myQuat.slerpEuler(<span class="hljs-number">30</span>, <span class="hljs-number"
 								</li>
 								<li>
 									<h5>z: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
@@ -1070,15 +774,9 @@ myQuat.slerpEuler(<span class="hljs-number">30</span>, <span class="hljs-number"
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L357">mathf/quaternion.ts:357</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L357">mathf/quaternion.ts:357</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Slerps to a specific rotation in Eular degrees where eular is provided
-									by a Vector</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1086,8 +784,6 @@ myQuat.slerpEuler(<span class="hljs-number">30</span>, <span class="hljs-number"
 								</li>
 								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -1104,19 +800,9 @@ myQuat.slerpEuler(<span class="hljs-number">30</span>, <span class="hljs-number"
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L168">mathf/quaternion.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L168">mathf/quaternion.ts:168</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Subtracts a given quaternion or vector to this quaternion.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">var</span> q = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-<span class="hljs-keyword">var</span> q2 = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-q.subtract(q2);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1137,20 +823,13 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L677">mathf/quaternion.ts:677</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L677">mathf/quaternion.ts:677</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Limits the number of decimals on each quaternion dimension.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>numberOfDecimals: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -1167,20 +846,9 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L125">mathf/quaternion.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L125">mathf/quaternion.ts:125</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a given quaternion or vector to another quaternion or vector and
-									return a new one.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">var</span> q = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-<span class="hljs-keyword">var</span> q2 = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-<span class="hljs-keyword">var</span> q3 = Quaternion.add(q, q2);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1204,15 +872,9 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L669">mathf/quaternion.ts:669</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L669">mathf/quaternion.ts:669</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates a new quat from a set of arrays.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">var</span> q = Quaternion.fromArray([<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">0</span>]);</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1233,44 +895,19 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L506">mathf/quaternion.ts:506</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L506">mathf/quaternion.ts:506</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates a Quaternion from the given euler angle x, y, z.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> quat = Quaternion.fromEuler(<span class="hljs-number">180</span>, <span class="hljs-number">90</span>, <span class="hljs-number">-90</span>);
-</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p><a href="https://quaternions.online/">https://quaternions.online/</a></p>
-									</dd>
-									<dt>see</dt>
-									<dd><p><a href="https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles">https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles</a></p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>x: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>x</p>
-									</div>
 								</li>
 								<li>
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>y</p>
-									</div>
 								</li>
 								<li>
 									<h5>z: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>z</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -1287,23 +924,13 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L542">mathf/quaternion.ts:542</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L542">mathf/quaternion.ts:542</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts a Euler Degree vector to a Quaternion.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> eulerVector = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">90</span>, <span class="hljs-number">180</span>, <span class="hljs-number">0</span>);
-<span class="hljs-keyword">let</span> quat = Quaternion.fromEulerVector(eulerVector);</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>v: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -1320,20 +947,13 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L610">mathf/quaternion.ts:610</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L610">mathf/quaternion.ts:610</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates a quaternion from a rotation matrix.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>m: <a href="mathf.matrixiv.html" class="tsd-signature-type">MatrixIV</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -1350,14 +970,9 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L204">mathf/quaternion.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L204">mathf/quaternion.ts:204</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Multiplies two quaternions.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1365,8 +980,6 @@ q.subtract(q2);
 								</li>
 								<li>
 									<h5>b: <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h4>
@@ -1383,23 +996,16 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L691">mathf/quaternion.ts:691</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L691">mathf/quaternion.ts:691</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>source: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p><a href="https://github.com/mrdoob/three.js/issues/382">https://github.com/mrdoob/three.js/issues/382</a></p>
-									</div>
 								</li>
 								<li>
 									<h5>target: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 								<li>
 									<h5>up: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
@@ -1419,20 +1025,9 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L188">mathf/quaternion.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L188">mathf/quaternion.ts:188</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Subtracts a given quaternion or vector to another quaternion or vector and
-									return a new one.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">var</span> q = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-<span class="hljs-keyword">var</span> q2 = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-<span class="hljs-keyword">var</span> q3 = Quaternion.subtract(q, q2);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1456,34 +1051,13 @@ q.subtract(q2);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/quaternion.ts#L566">mathf/quaternion.ts:566</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/quaternion.ts#L566">mathf/quaternion.ts:566</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts a quaternion to a EulerVector consisting of degrees.
-										YXZ Local Axes Yaw (y), Pitch (x), Roll (z)
-									Outputs XYZ ordering.</p>
-								</div>
-								<p>This method is best avoided because of instability.</p>
-								<p>Yaw, Roll will be +-180.
-								Pitch will be +- 90.</p>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> quaternion = <span class="hljs-keyword">new</span> Quaternion(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>);
-<span class="hljs-keyword">let</span> v = Quaternion.toEulerVector(q);
-</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p><a href="https://bit.ly/1TzLyaC">https://bit.ly/1TzLyaC</a></p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>q: <a href="mathf.quaternion.html" class="tsd-signature-type">Quaternion</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h4>

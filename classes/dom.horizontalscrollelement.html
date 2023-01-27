@@ -67,162 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Notice: Experimental Class
-							This class was written fairly quickly and might change in the future.
-						Maybe?  use it as a reference.</p>
-					</div>
-					<p>This is useful in creating a draggable horizontal scroll area that is draggable.
-						This like a horizontal carousel basically.
-					The items will get centered in position.</p>
-					<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll"</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">"myscroller"</span>&gt;
-
-  &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll__track"</span> scroll-track&gt;
-
-    &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll-item"</span> scroll-<span class="hljs-built_in">item</span>&gt;
-     &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll-item__inner"</span> scroll-inner&gt;...&lt;/<span class="hljs-keyword">div</span>&gt;
-    &lt;/<span class="hljs-keyword">div</span>&gt;
-    &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll-item"</span> scroll-<span class="hljs-built_in">item</span>&gt;
-       &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll-item__inner"</span> scroll-inner&gt;...&lt;/<span class="hljs-keyword">div</span>&gt;
-    &lt;/<span class="hljs-keyword">div</span>&gt;
-    &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll-item"</span> scroll-<span class="hljs-built_in">item</span>&gt;
-       &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll-item__inner"</span> scroll-inner&gt;...&lt;/<span class="hljs-keyword">div</span>&gt;
-    &lt;/<span class="hljs-keyword">div</span>&gt;
-    ...
-
-  &lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;/<span class="hljs-keyword">div</span>&gt;
-
-
-const hr = new HorizontalScrollElement({
-  rootElement: document.getElementById('myscroller'),
-  resizeOnFirstEv: <span class="hljs-literal">false</span>,
-  slideDeltaValues: <span class="hljs-literal">true</span>,
-  snapToClosest: <span class="hljs-literal">true</span>,
-});</code></pre><p>Sample css to go with it.</p>
-					<ul>
-						<li>while dragging, the root element will receive a &quot;dragging&quot; css class.</li>
-						<li>the active child element will receive a &quot;slide-active&quot; class.</li>
-						<li>use scroll-item__inner (the inner element) to size your items.</li>
-						<li>scrolling works based on translateX(var(--horizontal-scroll-x))</li>
-					</ul>
-					<pre><code><span class="hljs-comment">#myscroller</span>
-<span class="hljs-attr">  width:</span> <span class="hljs-number">100</span><span class="hljs-string">%</span>
-<span class="hljs-attr">  display:</span> <span class="hljs-string">flex</span>
-<span class="hljs-attr">  overflow-x:</span> <span class="hljs-string">scroll</span>
-<span class="hljs-attr">  overflow-y:</span> <span class="hljs-string">hidden</span>
-<span class="hljs-attr">  -webkit-overflow-scrolling:</span> <span class="hljs-string">touch</span>
-<span class="hljs-attr">  transition:</span> <span class="hljs-number">0.2</span><span class="hljs-string">s</span> <span class="hljs-string">all</span> <span class="hljs-string">ease</span>
-<span class="hljs-attr">  transform:</span> <span class="hljs-string">scale(1.0)</span>
-<span class="hljs-attr">  user-drag:</span> <span class="hljs-string">none</span>
-  <span class="hljs-string">&amp;.resizing</span> <span class="hljs-string">*</span>
-<span class="hljs-attr">    transition:</span> <span class="hljs-string">none</span> <span class="hljs-type">!important</span>
-<span class="hljs-attr">    animation:</span> <span class="hljs-string">none</span> <span class="hljs-type">!important</span>
-
-
-  <span class="hljs-string">a</span>
-<span class="hljs-attr">    user-select:</span> <span class="hljs-string">none</span>
-<span class="hljs-attr">    user-drag:</span> <span class="hljs-string">none</span>
-  <span class="hljs-string">img</span>
-<span class="hljs-attr">    pointer-events:</span> <span class="hljs-string">none</span>
-  <span class="hljs-string">&amp;::-webkit-scrollbar</span>
-<span class="hljs-attr">      background:</span> <span class="hljs-string">transparent</span>
-<span class="hljs-attr">      width:</span> <span class="hljs-number">0</span>
-  <span class="hljs-string">&amp;.dragging</span>
-<span class="hljs-attr">      transform:</span> <span class="hljs-string">scale(1.01)</span>
-  <span class="hljs-string">&amp;.dragging</span> <span class="hljs-string">a</span>
-<span class="hljs-attr">    pointer-events:</span> <span class="hljs-string">none</span>
-  <span class="hljs-string">[scroll-track]</span>
-<span class="hljs-attr">    display:</span> <span class="hljs-string">flex</span>
-<span class="hljs-attr">    position:</span> <span class="hljs-string">relative</span>
-<span class="hljs-attr">    transform:</span> <span class="hljs-string">translateX(var(--horizontal-scroll-x))</span>
-<span class="hljs-attr">    will-change:</span> <span class="hljs-string">transform</span>
-  <span class="hljs-string">[scroll-item]</span>
-<span class="hljs-attr">      position:</span> <span class="hljs-string">relative</span>
-      <span class="hljs-string">&amp;:hover</span>
-<span class="hljs-attr">      cursor:</span> <span class="hljs-string">grab</span>
-  <span class="hljs-string">[scroll-inner]</span>
-
-<span class="hljs-attr">    position:</span> <span class="hljs-string">relative</span>
-<span class="hljs-attr">    width:</span> <span class="hljs-number">85</span><span class="hljs-string">vw</span>
-<span class="hljs-attr">    margin-right:</span> <span class="hljs-number">16</span><span class="hljs-string">px</span>
-<span class="hljs-attr">    margin-left:</span> <span class="hljs-number">16</span><span class="hljs-string">px</span>
-<span class="hljs-attr">    max-width:</span> <span class="hljs-number">1272</span><span class="hljs-string">px</span>
-    <span class="hljs-string">+sd-lt</span>
-<span class="hljs-attr">      margin-left:</span> <span class="hljs-number">12</span><span class="hljs-string">px</span>
-<span class="hljs-attr">      margin-right:</span> <span class="hljs-number">12</span><span class="hljs-string">px</span>
-    <span class="hljs-string">+md-lt</span>
-<span class="hljs-attr">    margin-left:</span> <span class="hljs-number">12</span><span class="hljs-string">px</span>
-<span class="hljs-attr">     margin-right:</span> <span class="hljs-number">12</span><span class="hljs-string">px</span>
-  <span class="hljs-string">[scroll-item]:first-child</span> <span class="hljs-string">[scroll-inner]</span>
-    <span class="hljs-string">+sd-lt</span>
-<span class="hljs-attr">      margin-left:</span> <span class="hljs-bullet">-24</span><span class="hljs-string">px</span>
-    <span class="hljs-string">+md-lt</span>
-<span class="hljs-attr">      margin-left:</span> <span class="hljs-number">0</span><span class="hljs-string">px</span>
-<span class="hljs-string">.myscroll</span> <span class="hljs-string">img</span>
-<span class="hljs-attr">  point-events:</span> <span class="hljs-string">none</span></code></pre><h1 id="turn-on-snapping">Turn on snapping</h1>
-					<p>The carousel defaults to a free flowing carousel but it can be turned to snap
-					by running the following method.</p>
-					<pre><code>hr.enable<span class="hljs-constructor">SnapToClosest(<span class="hljs-params">true</span>)</span>;</code></pre><h1 id="adding-slide-effects">Adding slide effects</h1>
-					<pre><code>hr.enableSlideDeltaValues(<span class="hljs-literal">true</span>);
-
-<span class="hljs-comment">// Now the chapter will sorta parallax as it slides in and shifts.</span>
-.myslide .mychapter
-  transform: translateX( calc(var(--horizontal-scroll-<span class="hljs-keyword">in</span>-x) * <span class="hljs-number">50</span>px))
-  will-change: transform
-
-
-var(--horizontal-scroll-<span class="hljs-keyword">in</span>-x) --&gt; <span class="hljs-number">-1</span> - <span class="hljs-number">0</span> - <span class="hljs-number">1</span>
-var(--horizontal-scroll-<span class="hljs-keyword">in</span>-x-ab) --&gt; <span class="hljs-number">1</span> - <span class="hljs-number">0</span> - <span class="hljs-number">1</span>
-var(--horizontal-scroll-<span class="hljs-keyword">in</span>-x-abs-inv) --&gt; <span class="hljs-number">-1</span> - <span class="hljs-number">0</span> - <span class="hljs-number">-1</span></code></pre><p>Now further, sometimes, you may want to apply these effects to elements outside the slide.
-					For example, you might having something like this:</p>
-					<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll"</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">"myscroller"</span>&gt;
-  &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll-item"</span> scroll-<span class="hljs-built_in">item</span>&gt;
-     &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"scroll-item__inner"</span> scroll-inner&gt;...&lt;/<span class="hljs-keyword">div</span>&gt;
-  &lt;/<span class="hljs-keyword">div</span>&gt;
-  ...
-&lt;/<span class="hljs-keyword">div</span>&gt;
-
-&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"chapters"</span>&gt;
-  &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"chapters"</span>&gt;... &lt;/<span class="hljs-keyword">div</span>&gt;
-  ...
-&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre><p>In this case, we have slides but also have the same number of chapters outside the slide.  This allow you to
-						&quot;fix&quot; the chapter in place and create different effects.  If you want to add the same horizontal-scroll-in
-					values to the chapters, you can do this:</p>
-					<pre><code><span class="hljs-comment">// Get your chapters or elements you want to apply the slide effects.</span>
-<span class="hljs-comment">// This should be the same count as your slides.</span>
-var chapters = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>from(document.query<span class="hljs-constructor">SelectorAll('.<span class="hljs-params">chapters</span>')</span>) <span class="hljs-keyword">as</span> Array&lt;HTMLElement&gt;;
-
-<span class="hljs-comment">// Now add them.</span>
-hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hljs-params">chapters</span>])</span>;
-
-
-<span class="hljs-comment">// You can add multiple.</span>
-hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hljs-params">chapters</span>, <span class="hljs-params">anotherSet</span>])</span>;
-</code></pre><h2 id="events">Events</h2>
-					<pre><code><span class="hljs-keyword">this</span>.rootElement.addEventListener(HorizontalScrollElementsEvents.INDEX_CHANGE, <span class="hljs-function"><span class="hljs-params">(event)</span>=&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(event.detail.index);
-})
-</code></pre><h1 id="troubleshooting">Troubleshooting</h1>
-					<h2 id="the-dragging-is-buggy">The dragging is buggy</h2>
-					<p>This is sometimes causes by the fact that you can focus into a <code>&lt;img&gt;</code> element.
-					Make sure you have:</p>
-					<pre><code><span class="hljs-selector-class">.mymodule</span> <span class="hljs-selector-tag">img</span>
-  point-events: <span class="hljs-attribute">none</span>
-
-or sometimes these can help:
-  user-select: <span class="hljs-attribute">none</span>
-  user-drag: <span class="hljs-attribute">none</span></code></pre><h2 id="resizing-messes-up-">Resizing messes up!</h2>
-					<p>When resizing happens, the carousel scans the sizes of the inner
-						elements.  This means that if you are translating sizing, it might
-					still be in the middle of fixing the size.</p>
-					<p>Look out for things like this where you are transiting everything (all):</p>
-					<pre><code>  transition: <span class="hljs-number">0.3</span>s <span class="hljs-keyword">all</span> ease-<span class="hljs-keyword">in</span>-<span class="hljs-keyword">out</span></code></pre><p>Switch them to only what you need</p>
-					<pre><code>  transition: <span class="hljs-number">0.3</span>s opacity ease-<span class="hljs-keyword">in</span>-<span class="hljs-keyword">out</span></code></pre><p>If you still can&#39;t solve it, pass a delay value to the delayResizeMs in the config.</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -276,7 +120,7 @@ or sometimes these can help:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L317">dom/horizontal-scroll-element.ts:317</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L317">dom/horizontal-scroll-element.ts:317</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -302,28 +146,13 @@ or sometimes these can help:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L812">dom/horizontal-scroll-element.ts:812</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L812">dom/horizontal-scroll-element.ts:812</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Allows you to add extra groups of html elements to add css effects to.  Each group
-									must be the same length as the number of slides in the system.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>elementGroups: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Example:</p>
-										<pre><code>var chapters = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>from(document.query<span class="hljs-constructor">SelectorAll('.<span class="hljs-params">chapters</span>')</span>);
-
-<span class="hljs-comment">// Now add them.</span>
-hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hljs-params">chapters</span>])</span>;
-
-</code></pre>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -340,7 +169,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L614">dom/horizontal-scroll-element.ts:614</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L614">dom/horizontal-scroll-element.ts:614</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -357,7 +186,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L828">dom/horizontal-scroll-element.ts:828</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L828">dom/horizontal-scroll-element.ts:828</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -374,7 +203,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L385">dom/horizontal-scroll-element.ts:385</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L385">dom/horizontal-scroll-element.ts:385</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -397,15 +226,9 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L791">dom/horizontal-scroll-element.ts:791</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L791">dom/horizontal-scroll-element.ts:791</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Whether to add css var that indicate the current delta value of the
-									css var.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -426,20 +249,13 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L783">dom/horizontal-scroll-element.ts:783</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L783">dom/horizontal-scroll-element.ts:783</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Turns off and on snapping.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -456,7 +272,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L764">dom/horizontal-scroll-element.ts:764</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L764">dom/horizontal-scroll-element.ts:764</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -479,7 +295,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L752">dom/horizontal-scroll-element.ts:752</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L752">dom/horizontal-scroll-element.ts:752</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -502,7 +318,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L744">dom/horizontal-scroll-element.ts:744</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L744">dom/horizontal-scroll-element.ts:744</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -519,7 +335,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L748">dom/horizontal-scroll-element.ts:748</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L748">dom/horizontal-scroll-element.ts:748</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -536,7 +352,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L678">dom/horizontal-scroll-element.ts:678</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L678">dom/horizontal-scroll-element.ts:678</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -553,7 +369,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L674">dom/horizontal-scroll-element.ts:674</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L674">dom/horizontal-scroll-element.ts:674</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -570,7 +386,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L666">dom/horizontal-scroll-element.ts:666</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L666">dom/horizontal-scroll-element.ts:666</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -593,7 +409,7 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L723">dom/horizontal-scroll-element.ts:723</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L723">dom/horizontal-scroll-element.ts:723</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -616,14 +432,9 @@ hr.add<span class="hljs-constructor">SlideDeltaValuesToElements([<span class="hl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/horizontal-scroll-element.ts#L685">dom/horizontal-scroll-element.ts:685</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/horizontal-scroll-element.ts#L685">dom/horizontal-scroll-element.ts:685</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Slides to a specific index.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

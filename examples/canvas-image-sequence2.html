@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Canvas Image Sequence Demo 2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canvas Image Sequence Demo 2</title>
 </head>
 <body init-sample="canvasImageSequenceSample2">
-  <a href="index.html">Back to home</a>
-  <h1>Demo of Canvas Image Sequence - MultiInterpolation</h1>
-  <p>Plays from start to end back to start</p>
-  <style>
-      .parent {
-          position: relative;
-          height: 800vh;
-      }
-      .child {
-          position: -webkit-sticky;
-          position: sticky;
-          top: 0px;
-          height: 100vh;
-          background-color: blue;
-      }
-      .container {
-        position: relative;
-        height: 100%;
-        width: 100%;
-      }
-      .canvas-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-      }
-  </style>
+<a href="index.html">Back to home</a>
+<h1>Demo of Canvas Image Sequence - MultiInterpolation</h1>
+<p>Plays from start to end back to start</p>
+<style>
+.parent {
+position: relative;
+height: 800vh;
+}
 
-  <div class="parent" id="parent">
-      <div class="child" id="child">
-        <div class="container">
-          <div class="canvas-container"></div>
-        </div>
-      </div>
-  </div>
-<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+.child {
+position: -webkit-sticky;
+position: sticky;
+top: 0px;
+height: 100vh;
+background-color: blue;
+}
+
+.container {
+position: relative;
+height: 100%;
+width: 100%;
+}
+
+.canvas-container {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+}
+
+</style>
+<div class="parent" id="parent">
+<div class="child" id="child">
+<div class="container">
+<div class="canvas-container"></div>
+</div>
+</div>
+</div>
+</body>
+<script src="scripts/index.js" type="module"></script>
 </html>

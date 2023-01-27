@@ -67,22 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A script loader that checks to verify if the script has loaded by repeatedly
-						calling a test method using RAF.</p>
-					</div>
-					<p>Example loading the YT API:</p>
-					<pre><code><span class="hljs-keyword">const</span> scriptLoader = <span class="hljs-keyword">new</span> RAFScriptLoader();
-scriptLoader.load(<span class="hljs-string">'https://www.youtube.com/iframe_api'</span>, {
-  <span class="hljs-attr">test</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.YT &amp;&amp; <span class="hljs-built_in">window</span>.YT[<span class="hljs-string">'loaded'</span>] === <span class="hljs-number">1</span>,
-}).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-  <span class="hljs-comment">// The YT API should be loaded now.</span>
-  <span class="hljs-keyword">const</span> player = <span class="hljs-keyword">new</span> YT.Player(...);
-});</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -117,7 +101,7 @@ scriptLoader.load(<span class="hljs-string">'https://www.youtube.com/iframe_api'
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/script-loader.ts#L115">loader/script-loader.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/script-loader.ts#L115">loader/script-loader.ts:115</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -134,27 +118,16 @@ scriptLoader.load(<span class="hljs-string">'https://www.youtube.com/iframe_api'
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/script-loader.ts#L45">loader/script-loader.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/script-loader.ts#L45">loader/script-loader.ts:45</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Loads a script element onto the page.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The script src.</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <a href="../interfaces/loader.scriptloaderconfig.html" class="tsd-signature-type">ScriptLoaderConfig</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Config options for loading the script.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>

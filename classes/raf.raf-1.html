@@ -67,156 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that creates a RAF loop and calls a specific callback.  Setting the
-						frame rate will throttle the animation.</p>
-					</div>
-					<p>Example usage;</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">var</span> raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function">(<span class="hljs-params">frame, lastUpdateTime, stop</span>)=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'this runs on request animation frame'</span>);
-  <span class="hljs-comment">// The current FPS.</span>
-  <span class="hljs-built_in">console</span>.log(raf.getCurrentFps());
-});
-raf.start();
-
-<span class="hljs-comment">// Later to stop raf.</span>
-raf.stop();
-
-<span class="hljs-comment">// Set the FPS</span>
-raf.setFps(<span class="hljs-number">30</span>);
-raf.start();
-
-
-<span class="hljs-comment">// Add or remove listeners</span>
-<span class="hljs-keyword">var</span> onRaf = <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hello'</span>)
-}
-raf.watch(onRaf);
-raf.unwatch(onRaf);
-
-<span class="hljs-comment">// Clock functions: Delta and elapsed time.</span>
-<span class="hljs-keyword">var</span> raf2 = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function">(<span class="hljs-params">frame, lastUpdateTime, stop</span>)=&gt;</span> {
-  <span class="hljs-comment">// Gets the time when raf started.</span>
-  <span class="hljs-keyword">const</span> startTime = raf.getStartTime();
-  <span class="hljs-comment">// Gets the delta between the last update</span>
-  <span class="hljs-keyword">const</span> delta = raf.getDelta();
-  <span class="hljs-comment">// Time elapsed</span>
-  <span class="hljs-keyword">const</span> elapsedTime = raf.getElapsedTime();
-}).start();
-</code></pre>
-					<p>RunWhen option.
-						You can pass a run condition to limit raf only when the condition resolve
-						to true.  This is useful to cull unncessary requests.
-						An example is to use elementVisility to only run RAF when an element is
-					in view and stop raf when it goes out of view.</p>
-					<pre><code class="language-ts">
-<span class="hljs-comment">// Runs only when the window is small.</span>
-<span class="hljs-keyword">var</span> raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'this runs when scren size is less than 1000'</span>);
-});
-raf.runWhen(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { <span class="hljs-built_in">window</span>.innerWidth &lt; <span class="hljs-number">1000</span>});
-raf.start();
-
-
-
-<span class="hljs-comment">// Runs only when myElement is in view.</span>
-<span class="hljs-comment">// Option 1: You can use runWhen condition</span>
-
-
-<span class="hljs-keyword">let</span> ev = elementVisibility.inview(myElement);
-<span class="hljs-keyword">var</span> raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'a raf that runs when element is in view.'</span>);
-});
-raf.runWhen(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-   <span class="hljs-keyword">return</span> ev.state().inview;
-});
-
-<span class="hljs-comment">// This normally works fine but elementVisibility has a split second to</span>
-<span class="hljs-comment">// boot up.</span>
-raf.start();
-
-<span class="hljs-comment">// if you want to be sure to only run RAF when ev is ready do this:</span>
-ev.readyPromise.then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  raf.start();
-})
-</code></pre>
-					<p>// Runs only when myElement is in view.
-					// Option 2: You can use runWhenElementIsInview option.</p>
-					<pre><code><span class="hljs-keyword">var</span> raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  ...
-})
-
-
-<span class="hljs-comment">// Set element and run when it's ready.</span>
-raf.runWhenElementIsInview(
-   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"myelement"</span>),
-   {
-     <span class="hljs-attr">rootMargin</span>: <span class="hljs-string">'500px 0px 500px 0px'</span>
-   }
-).then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-   raf.start();
-})
-
-</code></pre><h1 id="batch-read-write-">Batch read / write.</h1>
-					<p>Batch write / read.  To batch write and read, wrap your methods in
-						read and write calls.  Read / Write calls uses the degu raf registry
-					so your reads or writes can get delayed by one raf cycle.</p>
-					<pre><code>var raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-   raf.read(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-       <span class="hljs-keyword">this</span>.height = element.offsetHeight;
-   })
-
-   raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-       element.style.height = <span class="hljs-keyword">this</span>.height + <span class="hljs-number">20</span> + <span class="hljs-string">'px'</span>;
-   })
-})
-</code></pre><p>You can also create a read / write only raf by passing
-					no rafLoop to the constructor.</p>
-					<pre><code>var raf = <span class="hljs-keyword">new</span> Raf();
-   raf.read(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-       <span class="hljs-keyword">this</span>.height = element.offsetHeight;
-   })
-
-   raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-       element.style.height = <span class="hljs-keyword">this</span>.height + <span class="hljs-number">20</span> + <span class="hljs-string">'px'</span>;
-   })
-</code></pre><p>If you want read / writes to NOT cull, you can set the
-						read write mode.    This is needed if you pass a rafLoop
-						to the constructor but additionally, want to use the read
-					write outside your loop even when your raf is stopped.</p>
-					<pre><code><span class="hljs-keyword">var</span> raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-   raf.read(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-       <span class="hljs-keyword">this</span>.height = element.offsetHeight;
-   })
-
-   raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-       element.style.height = <span class="hljs-keyword">this</span>.height + <span class="hljs-number">20</span> + <span class="hljs-string">'px'</span>;
-   })
-})
-
-<span class="hljs-comment">// Raf is stopped.</span>
-raf.stop();
-
-<span class="hljs-comment">// This won't work.</span>
-raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-...
-})
-
-
-raf.setReadWriteMode(<span class="hljs-literal">true</span>);
-<span class="hljs-comment">// Now it will work even when raf is stopped.</span>
-raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-...
-})
-</code></pre>
-					<dl class="tsd-comment-tags">
-						<dt>class</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -276,31 +126,19 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Raf<span class="tsd-signature-symbol">(</span>rafLoop<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="raf.raf-1.html" class="tsd-signature-type">Raf</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Raf<span class="tsd-signature-symbol">(</span>rafLoop<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="raf.raf-1.html" class="tsd-signature-type">Raf</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L207">raf/raf.ts:207</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L207">raf/raf.ts:207</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>constructor</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> rafLoop: <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Optional function to be called on each
-											request animation frame.</p>
-										</div>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="raf.raf-1.html" class="tsd-signature-type">Raf</a></h4>
@@ -316,7 +154,7 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Disposed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L200">raf/raf.ts:200</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L200">raf/raf.ts:200</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -326,7 +164,7 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Playing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L194">raf/raf.ts:194</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L194">raf/raf.ts:194</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -336,7 +174,7 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Read<wbr>Write<wbr>Only<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L195">raf/raf.ts:195</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L195">raf/raf.ts:195</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -353,7 +191,7 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L498">raf/raf.ts:498</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L498">raf/raf.ts:498</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -370,14 +208,9 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L537">raf/raf.ts:537</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L537">raf/raf.ts:537</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the current frame rate that raf is running at.  Useful for debugging.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -392,22 +225,13 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L512">raf/raf.ts:512</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L512">raf/raf.ts:512</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the delta in ms between the last executed raf update.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>inSeconds: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Whether to acquire the delta time in seconds.  Defaults
-										to ms.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -424,14 +248,9 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L523">raf/raf.ts:523</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L523">raf/raf.ts:523</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the elasped time since raf started.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -446,14 +265,9 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L530">raf/raf.ts:530</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L530">raf/raf.ts:530</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the time (Date) when raf started.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -468,21 +282,13 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L385">raf/raf.ts:385</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L385">raf/raf.ts:385</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a one time post write callback executed by the global degu raf registry.
-									This allows you to batch post write calls.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -499,21 +305,13 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L322">raf/raf.ts:322</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L322">raf/raf.ts:322</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a one time read callback executed by the global degu raf registry.
-									This allows you to batch read calls.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -530,21 +328,13 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L335">raf/raf.ts:335</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L335">raf/raf.ts:335</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a one time read callback executed by the global degu raf registry.
-									This allows you to batch read calls.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -561,22 +351,13 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L409">raf/raf.ts:409</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L409">raf/raf.ts:409</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets a function to execute on each raf loop.  If the condition resolves
-										to true, the raf loop callbacks will be executed.  If false, the raf
-									loop is culled.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callbackCondition: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -587,43 +368,15 @@ raf.write(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</
 					<a name="runwhenelementisinview" class="tsd-anchor"></a>
 					<h3>run<wbr>When<wbr>Element<wbr>IsInview</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<wbr>When<wbr>Element<wbr>IsInview<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, intersectionObserverOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<wbr>When<wbr>Element<wbr>IsInview<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, intersectionObserverOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L445">raf/raf.ts:445</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L445">raf/raf.ts:445</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Allows you to pass an option to tell this raf to execute only when the
-										given element is in the viewport.  Optionally pass intersection observer
-									options.</p>
-								</div>
-								<p>Note that this still requires you to start the raf.  You can do this
-									with the promise that the method returns (resolved when ev is ready)
-								or at a later time.</p>
-								<p>Note it&#39;s recommended that you add a rootMargin to your ev settings
-								if need to do offscreen processing.</p>
-								<pre><code><span class="hljs-keyword">var</span> raf = <span class="hljs-keyword">new</span> Raf(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  ...
-})
-
-
-<span class="hljs-comment">// Set element and run when it's ready.</span>
-raf.runWhenElementIsInview(
-   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"myelement"</span>),
-   {
-     <span class="hljs-attr">rootMargin</span>: <span class="hljs-string">'300px 0px 300px 0px'</span>
-   }
-).then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-   raf.start();
-})
-
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -647,14 +400,9 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L470">raf/raf.ts:470</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L470">raf/raf.ts:470</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the fps .</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -675,20 +423,13 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L313">raf/raf.ts:313</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L313">raf/raf.ts:313</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the read write mode.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -705,14 +446,9 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L478">raf/raf.ts:478</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L478">raf/raf.ts:478</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Starts the RAF animation loop.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -733,14 +469,9 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L492">raf/raf.ts:492</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L492">raf/raf.ts:492</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Stops the RAF animation loop.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -755,14 +486,9 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L397">raf/raf.ts:397</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L397">raf/raf.ts:397</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes a progress listener.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -783,7 +509,7 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L343">raf/raf.ts:343</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L343">raf/raf.ts:343</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -800,7 +526,7 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L368">raf/raf.ts:368</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L368">raf/raf.ts:368</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -817,14 +543,9 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L305">raf/raf.ts:305</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L305">raf/raf.ts:305</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a raf listener</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -845,21 +566,13 @@ raf.runWhenElementIsInview(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/raf/raf.ts#L360">raf/raf.ts:360</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/raf/raf.ts#L360">raf/raf.ts:360</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a one time write callback executed by the global degu raf registry.
-									This allows you to batch write calls.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>callback: <span class="tsd-signature-type">Function</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

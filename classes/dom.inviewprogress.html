@@ -67,35 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that adds or removes css classes to a given element based on
-						progress values.</p>
-					</div>
-					<p>const inviewProgress = new InviewProgress();</p>
-					<p>// Adds the css class &#39;active&#39; to the el element while progress is
-						// from 0.2 to 0.4.  If out of range, active gets removed.
-						this.inviewProgress.add({
-						range: [0.2, 0.4],
-						element: el,
-						className: &quot;active&quot;
-					})</p>
-					<p>// Add active callbacks.  Called on every progress update when active.
-						this.inviewProgress.add({
-						range: [0.2, 0.4],
-						activeCallback: (progress:number, direction:number)=&gt; {
-						}
-					})</p>
-					<p>// Add inactive callbacks.  Called on every progress update when inactive.
-						this.inviewProgress.add({
-						range: [0.2, 0.4],
-						inactiveCallback: (progress:number, direction:number)=&gt; {
-						}
-					})</p>
-					<p>inviewProgress.update(0.2)</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -139,7 +110,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview-progress.ts#L45">dom/inview-progress.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview-progress.ts#L45">dom/inview-progress.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.inviewprogress.html" class="tsd-signature-type">InviewProgress</a></h4>
@@ -159,7 +130,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview-progress.ts#L51">dom/inview-progress.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview-progress.ts#L51">dom/inview-progress.ts:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -182,14 +153,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview-progress.ts#L86">dom/inview-progress.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview-progress.ts#L86">dom/inview-progress.ts:86</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Clears out the css class inviews.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -204,7 +170,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview-progress.ts#L105">dom/inview-progress.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview-progress.ts#L105">dom/inview-progress.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -221,14 +187,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview-progress.ts#L101">dom/inview-progress.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview-progress.ts#L101">dom/inview-progress.ts:101</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the internal instance of progress Watcher.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="dom.progresswatcher.html" class="tsd-signature-type">ProgressWatcher</a></h4>
 						</li>
 					</ul>
@@ -243,20 +204,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview-progress.ts#L94">dom/inview-progress.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview-progress.ts#L94">dom/inview-progress.ts:94</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the progress value.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

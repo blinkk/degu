@@ -67,27 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Given a &quot;scrollable&quot; div, this class allows you to drag the
-						content area on desktop (non-touch devices).</p>
-					</div>
-					<p>For example:</p>
-					<pre><code>[scroll-<span class="hljs-built_in">content</span>]
-   <span class="hljs-built_in">max</span>-<span class="hljs-built_in">height</span>: 400px
-   overflow: scroll
-
-&lt;div scroll-<span class="hljs-built_in">content</span>&gt;
-   ... bunch of <span class="hljs-built_in">content</span> that <span class="hljs-built_in">is</span> very tall.
-&lt;/div&gt;</code></pre><p>The above would present a div with a scrollbar.  But
-					the user can&#39;t &quot;drag&quot; within the content and move it.</p>
-					<p>This class will automatically set that up.</p>
-					<pre><code>  <span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">document</span>.querySelectorAll(<span class="hljs-string">'[scroll-content]'</span>)).forEach(<span class="hljs-function"><span class="hljs-params">el</span> =&gt;</span> {
-    <span class="hljs-keyword">new</span> ScrollContent(el <span class="hljs-keyword">as</span> HTMLElement);
-  });</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -127,7 +106,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-content.ts#L41">dom/scroll-content.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-content.ts#L41">dom/scroll-content.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -153,7 +132,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-content.ts#L128">dom/scroll-content.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-content.ts#L128">dom/scroll-content.ts:128</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

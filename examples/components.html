@@ -1,209 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Degu Image</title>
-    <style>
-      degu-image {
-        display: inline-block;
-        line-height: 0;
-        width: 100%;
-      }
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Degu Image</title>
+<style>
+degu-image {
+display: inline-block;
+line-height: 0;
+width: 100%;
+}
 
-      degu-image img {
-        max-width: 100%;
-        height: auto;
-      }
+degu-image img {
+max-width: 100%;
+height: auto;
+}
 
-      degu-video {
-        display: inline-block;
-        line-height: 0;
-        width: 100%;
-      }
+degu-video {
+display: inline-block;
+line-height: 0;
+width: 100%;
+}
 
-      degu-video .degu-video {
-        position: relative;
-      }
+degu-video .degu-video {
+position: relative;
+}
 
-      degu-video video {
-        width: 100%;
-      }
+degu-video video {
+width: 100%;
+}
 
-      degu-video[canvas='true'] video {
-        visibility: hidden;
-      }
+degu-video[canvas='true'] video {
+visibility: hidden;
+}
 
-      degu-video canvas {
-        width: 100%;
-        position: absolute;
-        height: 100%;
-        top: 0;
-        left: 0%;
-        z-index: 1;
-      }
+degu-video canvas {
+width: 100%;
+position: absolute;
+height: 100%;
+top: 0;
+left: 0%;
+z-index: 1;
+}
 
-      .section {
-        padding: 20px;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-      .section__header {
-        font-size: 20px;
-        margin-bottom: 20px;
-      }
+.section {
+padding: 20px;
+max-width: 800px;
+margin: 0 auto;
+}
 
-      .mobile-only {
-        display: none;
-      }
+.section__header {
+font-size: 20px;
+margin-bottom: 20px;
+}
 
-      @media only screen and (max-width: 600px) {
-        .mobile-only {
-          display: block;
-        }
-      }
+.mobile-only {
+display: none;
+}
 
-      .desktop-only {
-        display: none;
-      }
+@media only screen and (max-width: 600px) {
+.mobile-only {
+display: block;
+}
+}
 
-      @media only screen and (min-width: 600px) {
-        .desktop-only {
-          display: block;
-        }
-      }
-    </style>
-  </head>
-  <body init-sample="ComponentsSample">
-    <div class="section">
-      <div class="section__header">Degu Image</div>
-      <degu-image
-        src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg"
-        alt="Logo"
-        class="header__logo__image"
-      ></degu-image>
-      <degu-image
-        width="2650"
-        height="720"
-        src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg"
-        alt="Logo"
-        class="header__logo__image"
-      ></degu-image>
+.desktop-only {
+display: none;
+}
 
-      <div style="height: 10vh"></div>
-      <degu-image
-        class="desktop-only"
-        width="100"
-        height="100"
-        disable-eager="true"
-        src="https://placeholder-dot-madebygoog.appspot.com/1x1.svg"
-        alt="Logo"
-      ></degu-image>
-      <degu-image
-        class="mobile-only"
-        width="100"
-        height="200"
-        src="https://placeholder-dot-madebygoog.appspot.com/1x2.svg"
-        alt="Logo"
-      ></degu-image>
+@media only screen and (min-width: 600px) {
+.desktop-only {
+display: block;
+}
+}
 
-      <degu-image
-        width="100"
-        height="100"
-        src="https://placeholder-dot-madebygoog.appspot.com/5x5.svg"
-        alt="Logo"
-      ></degu-image>
-
-      <degu-image
-        style="aspect-ratio: calc(4032 / 3024)"
-        src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38"
-        width="4032"
-        height="3024"
-        loading="eager"
-        alt="Logo"
-        class="header__logo__image"
-      ></degu-image>
-    </div>
-
-    <div class="section">
-      <div class="section__header">Degu Video</div>
-      <degu-video
-        src="./public/video-test.mp4"
-        width="800"
-        height="450"
-        style="aspect-ratio: 800/450"
-        aria-label="Video Aria Label"
-        autoplayinview="true"
-      ></degu-video>
-
-      <div class="section__header">Degu Video - Multiple Sources</div>
-      <degu-video
-        src="./public/video-test.mp4, ./public/video-test.webm"
-        width="800"
-        height="450"
-        style="aspect-ratio: 800/450"
-        aria-label="Video Aria Label"
-        autoplayinview="true"
-      ></degu-video>
-
-      <div class="section__header">Degu Video Canvas Rendering</div>
-      <degu-video
-        src="./public/video-test.mp4"
-        width="800"
-        height="450"
-        style="aspect-ratio: 800/450"
-        aria-label="Video Aria Label"
-        canvas="true"
-        autoplayinview="true"
-      ></degu-video>
-
-      <div
-        id="color-container"
-        style="padding: 20px; background-color: var(--background)"
-      >
-        <degu-video
-          src="./public/video-test.mp4"
-          width="800"
-          height="450"
-          id="color-test"
-          style="aspect-ratio: 800/450"
-          aria-label="Video Aria Label"
-          canvas="true"
-          autoplayinview="true"
-        ></degu-video>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section__header">Degu Youtube Inline</div>
-      <p>Programmatically filled - see lit-component.js for example.</p>
-      <degu-youtube-inline
-        id="youtube-inline-test1"
-        style="aspect-ratio: 16/9"
-      ></degu-youtube-inline>
-      <button id="change-youtube-video">Change Video</button>
-      <p>This one is created via video-id</p>
-      <degu-youtube-inline
-        video-id="5qap5aO4i9A"
-        style="aspect-ratio: 16/9"
-        enable-js-api="true"
-      ></degu-youtube-inline>
-    </div>
-
-    <div class="section" id="youtube-modal-section">
-      <div class="section__header">Degu Youtube Modal</div>
-      <button youtube-modal="8Qn_spdM5Zg">Watch StarWars</button>
-      <button youtube-modal="TcMBFSGVi1c" youtube-modal-redirect-mobile="false">
-        Watch Avengers
-      </button>
-      <div
-        youtube-modal="TcMBFSGVi1c"
-        tabindex="0"
-        youtube-modal-redirect-mobile="false"
-        role="button"
-      >
-        Watch Avengers
-      </div>
-    </div>
-  <script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</style>
+</head>
+<body init-sample="ComponentsSample">
+<div class="section">
+<div class="section__header">Degu Image</div>
+<degu-image src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg" alt="Logo" class="header__logo__image"></degu-image>
+<degu-image width="2650" height="720" src="https://placeholder-dot-madebygoog.appspot.com/2650x720.svg" alt="Logo" class="header__logo__image"></degu-image>
+<div style="height: 10vh"></div>
+<degu-image class="desktop-only" width="100" height="100" disable-eager="true" src="https://placeholder-dot-madebygoog.appspot.com/1x1.svg" alt="Logo"></degu-image>
+<degu-image class="mobile-only" width="100" height="200" src="https://placeholder-dot-madebygoog.appspot.com/1x2.svg" alt="Logo"></degu-image>
+<degu-image width="100" height="100" src="https://placeholder-dot-madebygoog.appspot.com/5x5.svg" alt="Logo"></degu-image>
+<degu-image style="aspect-ratio: calc(4032 / 3024)" src="https://lh3.googleusercontent.com/vXVYAHWMv1dPPXh1QJ1Ykr-BAIDLDMH0uZEOsvQkAKKgIYyNGe8lkJvU2stCFg84Rk4q7T7rMDqzx2vUjZlqfJX_rHsPQwyxBvamt38" width="4032" height="3024" loading="eager" alt="Logo" class="header__logo__image"></degu-image>
+</div>
+<div class="section">
+<div class="section__header">Degu Video</div>
+<degu-video src="./public/video-test.mp4" width="800" height="450" style="aspect-ratio: 800/450" aria-label="Video Aria Label" autoplayinview="true"></degu-video>
+<div class="section__header">Degu Video - Multiple Sources</div>
+<degu-video src="./public/video-test.mp4, ./public/video-test.webm" width="800" height="450" style="aspect-ratio: 800/450" aria-label="Video Aria Label" autoplayinview="true"></degu-video>
+<div class="section__header">Degu Video Canvas Rendering</div>
+<degu-video src="./public/video-test.mp4" width="800" height="450" style="aspect-ratio: 800/450" aria-label="Video Aria Label" canvas="true" autoplayinview="true"></degu-video>
+<div id="color-container" style="padding: 20px; background-color: var(--background)">
+<degu-video src="./public/video-test.mp4" width="800" height="450" id="color-test" style="aspect-ratio: 800/450" aria-label="Video Aria Label" canvas="true" autoplayinview="true"></degu-video>
+</div>
+</div>
+<div class="section">
+<div class="section__header">Degu Youtube Inline</div>
+<p>Programmatically filled - see lit-component.js for example.</p>
+<degu-youtube-inline id="youtube-inline-test1" style="aspect-ratio: 16/9"></degu-youtube-inline>
+<button id="change-youtube-video">Change Video</button>
+<p>This one is created via video-id</p>
+<degu-youtube-inline video-id="5qap5aO4i9A" style="aspect-ratio: 16/9" enable-js-api="true"></degu-youtube-inline>
+</div>
+<div class="section" id="youtube-modal-section">
+<div class="section__header">Degu Youtube Modal</div>
+<button youtube-modal="8Qn_spdM5Zg">Watch StarWars</button>
+<button youtube-modal="TcMBFSGVi1c" youtube-modal-redirect-mobile="false">
+Watch Avengers
+</button>
+<div youtube-modal="TcMBFSGVi1c" tabindex="0" youtube-modal-redirect-mobile="false" role="button">
+Watch Avengers
+</div>
+</div>
+</body>
+<script src="scripts/index.js" type="module"></script>
 </html>

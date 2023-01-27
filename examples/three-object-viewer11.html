@@ -1,90 +1,98 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Three Object Viewer Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three Object Viewer Test</title>
 </head>
 <body init-sample="threeObjectViewer11">
-  <style>
-      body {
-          padding: 0;
-          margin: 0;
-      }
-      .parent {
-          position: relative;
-          height: 600vh;
-      }
-      .child {
-          position: -webkit-sticky;
-          position: sticky;
-          top: 0px;
-          height: 100vh;
-          width: 100vw;
-          background-color: white;
-      }
-      .container {
-        position: relative;
-        height: 100%;
-        width: 100%;
-      }
-      .canvas-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-      }
-      canvas {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          outline: none;
-      }
-      .text {
-          color: white;
-          position: absolute;
-      }
-      .text2 {
-          color: white;
-          position: absolute;
-          width: 150px
-      }
-      .text3 {
-          color: black;
-          position: absolute;
-          width: 150px;
-          font-size: 12px;
-      }
-      .text4 {
-          color: white;
-          position: absolute;
-          width: 150px
-      }
-  </style>
+<style>
+body {
+padding: 0;
+margin: 0;
+}
 
-  <div class="parent" id="parent">
-      <div class="child" id="child">
-        <div class="container">
-          <div id="canvas-container" class="canvas-container"></div>
-          <div id="canvas-dom-camera" class="canvas-container">
-            <div class="text" id="text-marker1">Blender RX</div>
-            <div class="text" id="text-marker2">Blender RY</div>
-            <div class="text" id="text-marker3">Blender RZ</div>
-            <div class="text2" id="text-marker4">This will track rotation / position and scale with camera.  See how I get large when camera comes in...</div>
-            <div class="text3" id="text-marker5">
-              All text-markers should have a rotation of 0,0,0 and scale of 1,1,1 when facing the camera
-              when the camera is at 90,0,0 (use apply transform).  From there any transforms should be applied.
-            </div>
-            <div class="text4" id="text-marker6">
-              I'm a billboarded text that always faces you and stuck to the top right corner of this box. I also don't scale :)</div>
-          </div>
-        </div>
-      </div>
-  </div>
-<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+.parent {
+position: relative;
+height: 600vh;
+}
+
+.child {
+position: -webkit-sticky;
+position: sticky;
+top: 0px;
+height: 100vh;
+width: 100vw;
+background-color: white;
+}
+
+.container {
+position: relative;
+height: 100%;
+width: 100%;
+}
+
+.canvas-container {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+}
+
+canvas {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+outline: none;
+}
+
+.text {
+color: white;
+position: absolute;
+}
+
+.text2 {
+color: white;
+position: absolute;
+width: 150px
+}
+
+.text3 {
+color: black;
+position: absolute;
+width: 150px;
+font-size: 12px;
+}
+
+.text4 {
+color: white;
+position: absolute;
+width: 150px
+}
+
+</style>
+<div class="parent" id="parent">
+<div class="child" id="child">
+<div class="container">
+<div id="canvas-container" class="canvas-container"></div>
+<div id="canvas-dom-camera" class="canvas-container">
+<div class="text" id="text-marker1">Blender RX</div>
+<div class="text" id="text-marker2">Blender RY</div>
+<div class="text" id="text-marker3">Blender RZ</div>
+<div class="text2" id="text-marker4">This will track rotation / position and scale with camera. See how I get large when camera comes in...</div>
+<div class="text3" id="text-marker5">
+All text-markers should have a rotation of 0,0,0 and scale of 1,1,1 when facing the camera
+when the camera is at 90,0,0 (use apply transform). From there any transforms should be applied.
+</div>
+<div class="text4" id="text-marker6">
+I'm a billboarded text that always faces you and stuck to the top right corner of this box. I also don't scale :)</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script src="scripts/index.js" type="module"></script>
 </html>

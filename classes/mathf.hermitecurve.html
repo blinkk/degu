@@ -67,38 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Calculates the points on a hermite curve given contrl points and a time.</p>
-					</div>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> hermitCurve = HermiteCurve.getPoint(
-         <span class="hljs-number">0.3</span>,
-         <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>),
-         <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">50</span>, <span class="hljs-number">100</span>),
-         <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">100</span>, <span class="hljs-number">200</span>),
-         <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">300</span>, <span class="hljs-number">300</span>),
-)
-
-<span class="hljs-keyword">let</span> myXPoint = hermiteCurve.x;
-<span class="hljs-keyword">let</span> myYPoint = hermiteCurve.y;</code></pre>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p><a href="http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20150105">http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20150105</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://en.wikibooks.org/wiki/Cg_Programming/Unity/Hermite_Curves#/media/File:Hermite_spline_2-segments.svg">https://en.wikibooks.org/wiki/Cg_Programming/Unity/Hermite_Curves#/media/File:Hermite_spline_2-segments.svg</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://en.wikipedia.org/wiki/Cubic_Hermite_spline">https://en.wikipedia.org/wiki/Cubic_Hermite_spline</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://en.wikibooks.org/wiki/Cg_Programming/Unity/Hermite_Curves">https://en.wikibooks.org/wiki/Cg_Programming/Unity/Hermite_Curves</a></p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -138,7 +106,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/hermite-curve.ts#L26">mathf/hermite-curve.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/hermite-curve.ts#L26">mathf/hermite-curve.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.hermitecurve.html" class="tsd-signature-type">HermiteCurve</a></h4>
@@ -158,49 +126,25 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/hermite-curve.ts#L44">mathf/hermite-curve.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/hermite-curve.ts#L44">mathf/hermite-curve.ts:44</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given start point p0 and it&#39;s tangent m0 and the endpoint p1 and it&#39;s
-									tangent m1, calculates a cubic hermit curve.</p>
-								</div>
-								<p>Keep in mind that t here is a progress of value 0-1 but it is for this
-									curve.  So at 0, we would be at the start point and 1 would be at the end
-								point.</p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>t: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The current progress.</p>
-									</div>
 								</li>
 								<li>
 									<h5>p0: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The start voint p0</p>
-									</div>
 								</li>
 								<li>
 									<h5>m0: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The tangent of p0</p>
-									</div>
 								</li>
 								<li>
 									<h5>p1: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The end point</p>
-									</div>
 								</li>
 								<li>
 									<h5>m1: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The tangent of p1</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h4>

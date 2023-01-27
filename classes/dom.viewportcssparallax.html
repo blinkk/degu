@@ -67,38 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that creat a viewport css parallax.  This is the base controller for
-							viewport-css-parallax so check documentation there.
-						<code>`</code></p>
-					</div>
-					<p>// Create the instance and set the root element
-					const parallaxer = new ViewportCssParallaxer();</p>
-					<p>// Add your settings.
-						const settings = {
-						rootElement: document.getElementById(&#39;hoho&#39;),
-						debug: false,
-						lerp: 0.18,
-						damp: 0.18,
-						elmenentBaseline: 0
-					}</p>
-					<p>parallaxer.init(settings,
-						[
-						{
-						id: &#39;--x&#39;,
-						progress: [
-						{from: 0, to: 1, start: &#39;0px&#39;, end: &#39;0px&#39;}
-						]
-						}
-						]
-					)</p>
-					<p>// Later Dispose.
-						parallaxer.dispose();
-					<code>`</code></p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -150,7 +118,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L121">dom/viewport-css-parallax.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L121">dom/viewport-css-parallax.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.viewportcssparallax.html" class="tsd-signature-type">ViewportCssParallax</a></h4>
@@ -166,7 +134,7 @@
 					<div class="tsd-signature tsd-kind-icon">initialized<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L121">dom/viewport-css-parallax.ts:121</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L121">dom/viewport-css-parallax.ts:121</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,7 +151,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L362">dom/viewport-css-parallax.ts:362</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L362">dom/viewport-css-parallax.ts:362</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -200,14 +168,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L331">dom/viewport-css-parallax.ts:331</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L331">dom/viewport-css-parallax.ts:331</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Flushes internal cache that culls two consecutive writes.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -216,13 +179,13 @@
 					<a name="init" class="tsd-anchor"></a>
 					<h3>init</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.viewportcssparallaxsettings.html" class="tsd-signature-type">ViewportCssParallaxSettings</a>, interpolations<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/interpolate.interpolatesettings.html" class="tsd-signature-type">interpolateSettings</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.viewportcssparallaxsettings.html" class="tsd-signature-type">ViewportCssParallaxSettings</a>, interpolations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/interpolate.interpolatesettings.html" class="tsd-signature-type">interpolateSettings</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L125">dom/viewport-css-parallax.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L125">dom/viewport-css-parallax.ts:125</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -248,7 +211,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L335">dom/viewport-css-parallax.ts:335</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L335">dom/viewport-css-parallax.ts:335</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -265,14 +228,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L322">dom/viewport-css-parallax.ts:322</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L322">dom/viewport-css-parallax.ts:322</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates the current progress immediately.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -287,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L186">dom/viewport-css-parallax.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L186">dom/viewport-css-parallax.ts:186</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -304,13 +262,13 @@
 					<a name="updatesettings" class="tsd-anchor"></a>
 					<h3>update<wbr>Settings</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Settings<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">?: </span><a href="../interfaces/dom.viewportcssparallaxsettings.html" class="tsd-signature-type">ViewportCssParallaxSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Settings<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.viewportcssparallaxsettings.html" class="tsd-signature-type">ViewportCssParallaxSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/viewport-css-parallax.ts#L196">dom/viewport-css-parallax.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/viewport-css-parallax.ts#L196">dom/viewport-css-parallax.ts:196</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

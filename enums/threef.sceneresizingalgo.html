@@ -93,16 +93,9 @@
 					<div class="tsd-signature tsd-kind-icon">contain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;contain&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L122">threef/scene-renderer.ts:122</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L122">threef/scene-renderer.ts:122</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An algo that &quot;attempts&quot; to recreate contain type effects.
-								Read below on the Resizing Algo section for more information on
-							this algo.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="cover" class="tsd-anchor"></a>
@@ -110,16 +103,9 @@
 					<div class="tsd-signature tsd-kind-icon">cover<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;cover&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L129">threef/scene-renderer.ts:129</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L129">threef/scene-renderer.ts:129</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An algo that &quot;attempts&quot; to recreate cover type effects.
-								Read below on the Resizing Algo section for more information on
-							this algo.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="manual" class="tsd-anchor"></a>
@@ -127,29 +113,9 @@
 					<div class="tsd-signature tsd-kind-icon">manual<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;manual&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L153">threef/scene-renderer.ts:153</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L153">threef/scene-renderer.ts:153</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Indicates that scene-renders should not attempt to resize and fix
-								camera aspect on resizing.  This will be handled manually.  Scene
-							defaults to manual if nothing is specified for resizingAlgo.</p>
-						</div>
-						<p>An example of manually handing the resizing.</p>
-						<pre><code>
-      <span class="hljs-keyword">this</span>.sceneRenderer.addScene({
-          resizingAlgo: <span class="hljs-string">'manual'</span>,
-          scene: scene,
-          <span class="hljs-built_in">camera</span>: <span class="hljs-built_in">camera</span>,
-          domElement: element,
-          onResize() {
-              <span class="hljs-built_in">camera</span>.aspect = element.offsetWidth / element.offsetHeight;
-              <span class="hljs-built_in">camera</span>.updateProjectionMatrix();
-          }
-      });
-</code></pre>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="resizewithfov" class="tsd-anchor"></a>
@@ -157,68 +123,9 @@
 					<div class="tsd-signature tsd-kind-icon">resize<wbr>With<wbr>Fov<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;resizeWithFov&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L115">threef/scene-renderer.ts:115</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L115">threef/scene-renderer.ts:115</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>This algo can be useful because it calculates the FOV
-							based on a scalar value.</p>
-						</div>
-						<p>This is useful in two scenerios.
-							1) You want to force an absolute size for your objects.
-							By passing a resizingScalar that doesn&#39;t change,
-							the projection will always be of a consistent size regardless
-						of the canvas size.</p>
-						<p>   The easiest way to describe this is to image a window in your house.
-							The window would be the canvas size (scene size).  By using a resizingScalar,
-							you can basically create a scene where your house window size might
-							change but what is projected out the window is exaclty the same size.
-						It more like peaking into another world without the world changing.</p>
-						<p>   To use this, set your resizingAlgo to &#39;resizeWithFov&#39; and also pass
-							a resizingScalar (something like 200 or 1000).  When you do this,
-						you&#39;ll notice that your objects are always the same size.</p>
-						<p>   If you have breakpoints in your project, could could change the
-							resizingScalar based on your breakpoints and the objects in your scene,
-						will nicely resizing and you have control over how it looks.</p>
-						<p>2) Knowing the characteristics described in 1,
-							you can make a responsive scene by changing adjusting the resizingScalar.
-							The basis of how it scales can change depending on how you want to
-						adjust the scalar.</p>
-						<p>   This provides you with the ability to resize the scene objects based on
-						axis</p>
-						<ul>
-							<li>x (element.offsetWidth)</li>
-							<li>y (element.offsetHeight)</li>
-							<li>x or y (Math.min(element.offsetWidth, element.offsetHeight))</li>
-						</ul>
-						<pre><code class="language-ts"> <span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> THREE.Scene();
- <span class="hljs-keyword">const</span> element = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'my-element'</span>);
- sceneRenderer.addScene({
-   resizingAlgo: <span class="hljs-string">'resizingWithFov'</span>,
-   domElement: element,
-   <span class="hljs-comment">// Update the scalar prior to resizing.</span>
-   onBeforeResize: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-    <span class="hljs-comment">// Resizing the objects in your scene based on the current width of the</span>
-    <span class="hljs-comment">// dom element.</span>
-    <span class="hljs-comment">// If you do this, the objects will get smaller as you narrow your browser.</span>
-    <span class="hljs-comment">// (or the element width gets smaller)</span>
-    scene.userData.resizingScalar = element.offsetWidth * <span class="hljs-number">0.2</span>
-
-
-    <span class="hljs-comment">// Resizing the objects in your scene based on the current height of the</span>
-    <span class="hljs-comment">// dom element.</span>
-    <span class="hljs-comment">// If you do this, the objects will get smaller as you shorten your browser</span>
-    <span class="hljs-comment">// (or the element height gets smaller).</span>
-    scene.userData.resizingScalar = element.offsetHeight * <span class="hljs-number">0.2</span>;
-
-
-    <span class="hljs-comment">// Resize both in x and y scales.</span>
-    scene.userData.resizingScalar = <span class="hljs-built_in">Math</span>.min(element.offsetHeight, element.offsetWidth) * <span class="hljs-number">0.2</span>;
-  }
-})
-</code></pre>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="resizewithzoom" class="tsd-anchor"></a>
@@ -226,25 +133,9 @@
 					<div class="tsd-signature tsd-kind-icon">resize<wbr>With<wbr>Zoom<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;resizeWithZoom&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L49">threef/scene-renderer.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L49">threef/scene-renderer.ts:49</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An algo that attempts to recreate a similar effect as background: contain
-								but it&#39;s based on zoom.  This require you to pass the resizeScalar value
-							which in this case would be used to multiply the zoom value.</p>
-						</div>
-						<p>This is a less preferred method so consider using &#39;contain&#39; instead.</p>
-						<p>Nuthsell:</p>
-						<ul>
-							<li>If you resize the height, your object will go down in size.</li>
-							<li>If you resize the width, your objects will go down in size by changing
-							the camera zoom.</li>
-							<li>Resizing is based on a NDC 0,0 coordinates.</li>
-							<li>resizingScalar can be passed to adust the zoom levels.</li>
-						</ul>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="standardaspect" class="tsd-anchor"></a>
@@ -252,31 +143,9 @@
 					<div class="tsd-signature tsd-kind-icon">standard<wbr>Aspect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;standardAspect&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L33">threef/scene-renderer.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L33">threef/scene-renderer.ts:33</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>This is most commonly used three.js aspect ratio based resizing but
-							doesn&#39;t really work great on mobile if you are using the full viewport.</p>
-						</div>
-						<p>Basically doing:
-							camera.aspect = aspect;
-						camera.updateProjectionMatrix();</p>
-						<p>Basically, the camera will project out objects to the aspect ratio
-						of the dom element.  It contains Y but clips X.</p>
-						<p>Thinking in terms of css, you can think of this similar to a
-						background-size: contain for height only and background-cover for width.</p>
-						<p>Using this, as you resize your scene, the tops and bottom will never be
-							clipped but the sides can be clipped.  All of this is relative to
-						how you setup your scene as well (camera position, object positions etc)</p>
-						<p>Nuthsell:</p>
-						<ul>
-							<li>If you resize the height, your object will go down in size.</li>
-							<li>If you resize the width, your objects will not change in size.</li>
-							<li>Resizing is based on a NDC 0,0 coordinates.</li>
-						</ul>
-					</div>
 				</section>
 			</section>
 		</div>

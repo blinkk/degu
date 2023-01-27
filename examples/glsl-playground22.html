@@ -1,56 +1,56 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GLSL Playground</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GLSL Playground</title>
 </head>
 <body init-sample="glslPlayground22">
-  <style>
-      .parent {
-          position: relative;
-          height: 100vh;
-      }
-      .child {
-          position: -webkit-sticky;
-          position: sticky;
-          top: 0px;
-          height: 100vh;
-          background-color: white;
-      }
-      .container {
-        position: relative;
-        height: 100%;
-        width: 100%;
-      }
-      .canvas-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-      }
-      canvas {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          outline: none;
-      }
-  </style>
+<style>
+.parent {
+position: relative;
+height: 100vh;
+}
 
-  <div class="parent" id="parent">
-      <div class="child" id="child">
-        <div class="container">
-          <div id="canvas-container" class="canvas-container"></div>
-        </div>
-      </div>
-  </div>
-<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+.child {
+position: -webkit-sticky;
+position: sticky;
+top: 0px;
+height: 100vh;
+background-color: white;
+}
+
+.container {
+position: relative;
+height: 100%;
+width: 100%;
+}
+
+.canvas-container {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+}
+
+canvas {
+position: absolute;
+top: 0;
+left: 0;
+height: 100%;
+width: 100%;
+outline: none;
+}
+
+</style>
+<div class="parent" id="parent">
+<div class="child" id="child">
+<div class="container">
+<div id="canvas-container" class="canvas-container"></div>
+</div>
+</div>
+</div>
+</body>
+<script src="scripts/index.js" type="module"></script>
 </html>

@@ -67,102 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Implements a basic type 1 inview.</p>
-					</div>
-					<pre><code>       <span class="hljs-selector-tag">new</span> <span class="hljs-selector-tag">Inview</span>({
-          <span class="hljs-attribute">element</span>: document.getElementById(<span class="hljs-string">'test2'</span>),
-          <span class="hljs-attribute">elementBaseline</span>: <span class="hljs-number">0</span>,
-          <span class="hljs-attribute">viewportOffset</span>: <span class="hljs-number">0.2</span>,
-          <span class="hljs-attribute">waitForOutOfViewToRefireInview</span>: false,
-          <span class="hljs-attribute">downOnlyMode</span>: false,
-          <span class="hljs-comment">// Optionally override default class names.</span>
-          <span class="hljs-attribute">inviewClassNames</span>: {
-            <span class="hljs-attribute">IN</span>: <span class="hljs-string">'mymodule--in'</span>
-          }
-      });</code></pre><p>Type 1 inview:</p>
-					<ul>
-						<li>will add an &#39;.in&#39; class to an element when the element is at
-							at certain percentage of the viewport. (viewport offset) or
-						when an X percentage of the element is visible or BOTH!.  See below.</li>
-						<li>will add an &#39;.in-once&#39; when inview happens the first time.</li>
-						<li>will immediately remove the &#39;.in&#39; class when the element goes out of
-						view</li>
-						<li>will immediately add &#39;.out&#39; class when the element goes out of
-						view</li>
-						<li><p>will add &#39;up&#39; and &#39;down&#39; class to the element based on the scroll direction
-							allowing you to add directional inview.</p>
-						</li>
-						<li><p>waitForOutOfViewToRefireInview, downOnlyMode are options to modify the
-							inview triggers.</p>
-						</li>
-					</ul>
-					<h1 id="inview-logic">Inview Logic</h1>
-					<p>The &quot;logic&quot; of how inview is calculated is important.  Two factors
-					are taken into consideration.</p>
-					<p>The first is the elementBaseline.
-						The elementBaseline defaults to the very top of the element as that is the
-						most common case.  However, this is the line or point in the element in which the
-						trigger point is evaluated.  You can set it to a given percentage of
-					the element (like the very bottom of the element instead of the top).</p>
-					<p>The second is the viewport offset.
-						The viewport offset ranges from 0-1 in which 0 is the bottom of the viewport window
-					and the 1 is the top.</p>
-					<p>Here are some examples of different settings.</p>
-					<p>elementBaseline - 0 (top), viewportOffset - 0.2
-					=&gt; inview should happen when the top of the element crosses the bottom 20% of the window.</p>
-					<p>elementBaseline - 0 (top), viewportOffset - 0.5
-					=&gt; inview should happen when the top of the element crosses the middle of the window.</p>
-					<p>elementBaseline - 1 (bottom), viewportOffset - 0.5
-					=&gt; inview should happen when the bottom of the element crosses the middle of the window.</p>
-					<p>elementBaseline - 0.2, viewportOffset - 0
-					=&gt; inview should happen when 20% of the element is visible.</p>
-					<p>elementBaseline - 0.5, viewportOffset - 0
-					=&gt; inview should happen when 50% of the element is visible.</p>
-					<p>elementBaseline - 0.5, viewportOffset - 0.5
-					=&gt; inview should happen when 50% of the element cross the middle of the screen.</p>
-					<p>elementBaseline - 0, viewportOffset - 1
-					=&gt; inview should happen when then top of the element 0%, hits the top of the screen.</p>
-					<p>elementBaseline - 0, viewportOffset - 0.2, outviewViewportPortOffset - 0.8, outviewElementBaseline - 1
-						=&gt; inview should happen when the top of the element crosses the bottom 20% of the viewport.
-					=&gt; outview should happen when the bottom of the element crosses the top 80% of the viewport.</p>
-					<p>elementBaseline - 0, viewportOffset - 0, outviewViewportPortOffset - 0.8, outviewElementBaseline - 0
-						=&gt; inview should happen when the top of the element crosses the bottom 20% of the viewport.
-					=&gt; outview should happen when the top of the element crosses the top 80% of the viewport.</p>
-					<h1 id="fouc">FOUC</h1>
-					<p>While inview is booting up, there is a split second where it needs to evaluate the
-					inview state.  When inview is ready, the element will receive &#39;.ready&#39; class.</p>
-					<p>You can do something like:</p>
-					<pre><code><span class="hljs-selector-class">.myelement</span>
-   <span class="hljs-attribute">visibility</span>: hidden
-<span class="hljs-selector-class">.myelement</span><span class="hljs-selector-class">.ready</span>
-   <span class="hljs-attribute">visibility</span>: visible
-</code></pre><h1 id="outviewonlyonelementexit-mode">outviewOnlyOnElementExit Mode</h1>
-					<p>This changes the behavior of inview a bit.</p>
-					<p>You can set it so that the outview doesn&#39;t fire based on the elementBaseline
-					but instead, when the full elmement, top and bottom are out of view.</p>
-					<p>In short, once inview is fired, the element will stay in an inview state
-					until the element is compeltely out off view.</p>
-					<p>To clarify:
-						When scrolling back and up, based on your inview trigger point, the
-						user might see the element go from an instate to outstate back and forth.
-						For example, let&#39;s say you trigger at the top of the element (elementBaseline 0)
-						and 0.2 viewport offset.  As the user scrolls down,
-						the top of the element hits the bottom 20%
-						of the viewport, the element becomes in an inview state.  If the user scrolls back
-					up immediately, and the element is at 0.19, the element goes back to outview.</p>
-					<p>This might be undesired.    By setting this option, it will fire outview until the
-						element has completely exited and therefore, preventing refiring of inview multiple
-					times while the element is inview.</p>
-					<h1 id="downonlymode-mode">downOnlyMode Mode</h1>
-					<p>Downonly modes assumes your primary experience is scrolling down.  So
-						it will add an inview, when the element crosses the inview threshold when
-						scrolling down and then &quot;KEEP&quot; that inview attached.  Outview is ONLY
-					fired when the element is completley out of view AND below the viewport.</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -212,7 +116,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview.ts#L311">dom/inview.ts:311</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview.ts#L311">dom/inview.ts:311</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -238,7 +142,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview.ts#L404">dom/inview.ts:404</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview.ts#L404">dom/inview.ts:404</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -255,7 +159,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview.ts#L343">dom/inview.ts:343</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview.ts#L343">dom/inview.ts:343</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -281,7 +185,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview.ts#L339">dom/inview.ts:339</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview.ts#L339">dom/inview.ts:339</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -301,13 +205,13 @@
 					<a name="runinviewstate" class="tsd-anchor"></a>
 					<h3>run<wbr>Inview<wbr>State</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<wbr>Inview<wbr>State<span class="tsd-signature-symbol">(</span>force<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<wbr>Inview<wbr>State<span class="tsd-signature-symbol">(</span>force<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview.ts#L347">dom/inview.ts:347</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview.ts#L347">dom/inview.ts:347</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -324,13 +228,13 @@
 					<a name="runoutviewstate" class="tsd-anchor"></a>
 					<h3>run<wbr>Outview<wbr>State</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<wbr>Outview<wbr>State<span class="tsd-signature-symbol">(</span>force<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<wbr>Outview<wbr>State<span class="tsd-signature-symbol">(</span>force<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/inview.ts#L383">dom/inview.ts:383</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/inview.ts#L383">dom/inview.ts:383</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

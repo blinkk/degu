@@ -67,71 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Implements a basic cubic beizer class.</p>
-					</div>
-					<p>The interpolate and interpolateProgress methods are designed to work with
-						normalized values. The most common usecase for this might to apply a CubiicBezier as an
-						easing function.  To do this, you can use the makeEasingFunction which
-						creates the CubicBezier internals and allows you to pass a t (time/progress),
-					to get results.</p>
-					<pre><code class="language-ts">  <span class="hljs-keyword">var</span> func = CubicBezier.makeEasingFunction(<span class="hljs-number">0.2</span>,<span class="hljs-number">0.17</span>,<span class="hljs-number">0.83</span>,<span class="hljs-number">0.67</span>));
-  func(<span class="hljs-number">0.2</span>); <span class="hljs-comment">// Pass progress.</span></code></pre>
-					<p>Use as instance:</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">let</span> myBezier = <span class="hljs-keyword">new</span> CubicBezier(<span class="hljs-number">0.2</span>, <span class="hljs-number">0.17</span>, <span class="hljs-number">0.83</span>, <span class="hljs-number">0.67</span>);
-myBezier.interpolate(<span class="hljs-number">0</span>);
-myBezier.interpolate(<span class="hljs-number">0.2</span>);
-myBezier.interpolate(<span class="hljs-number">0.5</span>);
-myBezier.interpolate(<span class="hljs-number">0.8</span>);
-myBezier.interpolate(<span class="hljs-number">1</span>);
-
-<span class="hljs-keyword">let</span> x = mathf.ease(<span class="hljs-number">0</span>, <span class="hljs-number">500</span>, <span class="hljs-keyword">this</span>.progress,
-           myBeizer.easingFunction());
-</code></pre>
-					<p>Use static method.</p>
-					<pre><code class="language-ts">CubicBezier.interpolateProgress(<span class="hljs-number">0</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.17</span>, <span class="hljs-number">0.83</span>, <span class="hljs-number">0.67</span>);
-CubicBezier.interpolateProgress(<span class="hljs-number">0.2</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.17</span>, <span class="hljs-number">0.83</span>, <span class="hljs-number">0.67</span>);
-CubicBezier.interpolateProgress(<span class="hljs-number">0.5</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.17</span>, <span class="hljs-number">0.83</span>, <span class="hljs-number">0.67</span>);
-CubicBezier.interpolateProgress(<span class="hljs-number">0.8</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.17</span>, <span class="hljs-number">0.83</span>, <span class="hljs-number">0.67</span>);
-CubicBezier.interpolateProgress(<span class="hljs-number">1</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.17</span>, <span class="hljs-number">0.83</span>, <span class="hljs-number">0.67</span>);
-
-
-<span class="hljs-keyword">let</span> x = mathf.ease(<span class="hljs-number">0</span>, <span class="hljs-number">500</span>, <span class="hljs-keyword">this</span>.progress,
-           CubicBezier.makeEasingFunction(<span class="hljs-number">0.2</span>,<span class="hljs-number">0.17</span>,<span class="hljs-number">0.83</span>,<span class="hljs-number">0.67</span>));
-</code></pre>
-					<p>You can also use getPoint and getBezierPoint as way to calculate standard
-					bezier curves (non normalized).</p>
-					<pre><code class="language-ts">
-  <span class="hljs-comment">// Create control vectors.</span>
-  <span class="hljs-keyword">let</span> c1 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">50</span>, <span class="hljs-number">400</span>);
-  <span class="hljs-keyword">let</span> c2 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">100</span>, <span class="hljs-number">200</span>);
-  <span class="hljs-keyword">let</span> c3 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">300</span>, <span class="hljs-number">300</span>);
-  <span class="hljs-keyword">let</span> c4 = <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">400</span>, <span class="hljs-number">400</span>);
-
-  <span class="hljs-comment">// Find the vector on the cubic bezier at 0.3 progress / t.</span>
-  <span class="hljs-keyword">const</span> vector = CubicBezier.getPoint(
-    <span class="hljs-number">0.3</span>, c1, c2, c3, c4
-   );
-</code></pre>
-					<p>References:</p>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p><a href="https://qiita.com/butchi_y/items/abb6d52fda6095b542e5">https://qiita.com/butchi_y/items/abb6d52fda6095b542e5</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="http://geom.web.fc2.com/">http://geom.web.fc2.com/</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="http://geom.web.fc2.com/geometry/bezier/cubic.html">http://geom.web.fc2.com/geometry/bezier/cubic.html</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://stackoverflow.com/questions/27053888/how-to-get-time-value-from-bezier-curve-given-length">https://stackoverflow.com/questions/27053888/how-to-get-time-value-from-bezier-curve-given-length</a></p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -186,7 +121,7 @@ CubicBezier.interpolateProgress(<span class="hljs-number">1</span>, <span class=
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L83">mathf/cubic-bezier.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L83">mathf/cubic-bezier.ts:83</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -217,7 +152,7 @@ CubicBezier.interpolateProgress(<span class="hljs-number">1</span>, <span class=
 					<div class="tsd-signature tsd-kind-icon">x2<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L80">mathf/cubic-bezier.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L80">mathf/cubic-bezier.ts:80</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -227,7 +162,7 @@ CubicBezier.interpolateProgress(<span class="hljs-number">1</span>, <span class=
 					<div class="tsd-signature tsd-kind-icon">x3<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L82">mathf/cubic-bezier.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L82">mathf/cubic-bezier.ts:82</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -237,7 +172,7 @@ CubicBezier.interpolateProgress(<span class="hljs-number">1</span>, <span class=
 					<div class="tsd-signature tsd-kind-icon">y2<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L81">mathf/cubic-bezier.ts:81</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L81">mathf/cubic-bezier.ts:81</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -247,7 +182,7 @@ CubicBezier.interpolateProgress(<span class="hljs-number">1</span>, <span class=
 					<div class="tsd-signature tsd-kind-icon">y3<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L83">mathf/cubic-bezier.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L83">mathf/cubic-bezier.ts:83</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -264,15 +199,9 @@ CubicBezier.interpolateProgress(<span class="hljs-number">1</span>, <span class=
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L228">mathf/cubic-bezier.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L228">mathf/cubic-bezier.ts:228</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns an easing function of this CubicBezier so it can be
-									used like other easing functions but used for instances.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/mathf.html#easingfunction" class="tsd-signature-type">EasingFunction</a></h4>
 							<p>A function that accepts a progresss value.</p>
 						</li>
@@ -288,25 +217,13 @@ CubicBezier.interpolateProgress(<span class="hljs-number">1</span>, <span class=
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L213">mathf/cubic-bezier.ts:213</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L213">mathf/cubic-bezier.ts:213</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Runs a basic cubic bezier interporalation.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> myBezier = <span class="hljs-keyword">new</span> CubicBezier(<span class="hljs-number">0.2</span>, <span class="hljs-number">0.17</span>, <span class="hljs-number">0.83</span>, <span class="hljs-number">0.67</span>);
-myBezier.interporate(<span class="hljs-number">0</span>);
-myBezier.interporate(<span class="hljs-number">0.2</span>);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The progress of the interpolation.  Value between 0-1.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -324,15 +241,9 @@ myBezier.interporate(<span class="hljs-number">0.2</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L105">mathf/cubic-bezier.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L105">mathf/cubic-bezier.ts:105</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given 4 points, start, 2, 3 and end, generates the x,y point along the
-									bezier curve at progress (0-1) value.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -340,51 +251,27 @@ myBezier.interporate(<span class="hljs-number">0.2</span>);
 								</li>
 								<li>
 									<h5>x1: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Start point x</p>
-									</div>
 								</li>
 								<li>
 									<h5>y1: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Start point y</p>
-									</div>
 								</li>
 								<li>
 									<h5>x2: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Control point 2 x</p>
-									</div>
 								</li>
 								<li>
 									<h5>y2: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Control point 2 y</p>
-									</div>
 								</li>
 								<li>
 									<h5>x3: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Control point 3 x</p>
-									</div>
 								</li>
 								<li>
 									<h5>y3: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Control point 3 y</p>
-									</div>
 								</li>
 								<li>
 									<h5>x4: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>End point x</p>
-									</div>
 								</li>
 								<li>
 									<h5>y4: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>End point y</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/mathf.point.html" class="tsd-signature-type">point</a></h4>
@@ -401,14 +288,9 @@ myBezier.interporate(<span class="hljs-number">0.2</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L142">mathf/cubic-bezier.ts:142</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L142">mathf/cubic-bezier.ts:142</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets a point along the cubic bezier.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -416,27 +298,15 @@ myBezier.interporate(<span class="hljs-number">0.2</span>);
 								</li>
 								<li>
 									<h5>v1: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The start vector</p>
-									</div>
 								</li>
 								<li>
 									<h5>v2: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The control2 vector</p>
-									</div>
 								</li>
 								<li>
 									<h5>v3: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The control3 vector</p>
-									</div>
 								</li>
 								<li>
 									<h5>v4: <a href="mathf.vector.html" class="tsd-signature-type">Vector</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The end vector</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/mathf.point.html" class="tsd-signature-type">point</a></h4>
@@ -453,47 +323,25 @@ myBezier.interporate(<span class="hljs-number">0.2</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L177">mathf/cubic-bezier.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L177">mathf/cubic-bezier.ts:177</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Runs a basic cubic bezier interporalation given progress and point values
-									for the 2nd and 3rd controls of the cubic bezier.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-keyword">let</span> x = CubicBezier.interpolateProgress(<span class="hljs-number">0.2</span>, <span class="hljs-number">0.17</span>, <span class="hljs-number">0.67</span>, <span class="hljs-number">0.83</span>, <span class="hljs-number">0.67</span>);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The progress of the interpolation.  Value between 0-1.</p>
-									</div>
 								</li>
 								<li>
 									<h5>x2: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The x of the third control point.</p>
-										</div>
-									</div>
 								</li>
 								<li>
 									<h5>y2: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The y of the second control point.</p>
-									</div>
 								</li>
 								<li>
 									<h5>x3: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5>y3: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The y of the fourth control point.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -511,40 +359,22 @@ myBezier.interporate(<span class="hljs-number">0.2</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L243">mathf/cubic-bezier.ts:243</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L243">mathf/cubic-bezier.ts:243</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns an easing function of this CubicBezier so it can be
-									used like other easing functions.  A static method.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>p0: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The first control point.</p>
-									</div>
 								</li>
 								<li>
 									<h5>p1: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The second control point.</p>
-									</div>
 								</li>
 								<li>
 									<h5>p2: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The third control point.</p>
-									</div>
 								</li>
 								<li>
 									<h5>p3: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The fourth control point.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Function</span></h4>
@@ -562,15 +392,9 @@ myBezier.interporate(<span class="hljs-number">0.2</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/cubic-bezier.ts#L260">mathf/cubic-bezier.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/cubic-bezier.ts#L260">mathf/cubic-bezier.ts:260</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Makes an easing function from comma separated values.</p>
-									<pre><code>const myEasingFunction = CubicBezier.makeEasingFunctionFromString('<span class="hljs-number">0</span>,<span class="hljs-number">0.2</span>,<span class="hljs-number">0.93</span>,<span class="hljs-number">1</span>');</code></pre>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

@@ -67,205 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that attempts to get around max webGL context issues by having a
-						single renderer on the page.</p>
-					</div>
-					<p>At a high level the issue is that you can&#39;t have more than 8 or so webGL
-						contexts as a general browser limitation.  Each context also can&#39;t share
-						resources.   So on pages where you might want to have like multiple webGL
-					canvases, you hit a road block.</p>
-					<p>The solution here is to have a single canvas that covers the entire page (100vw x 100vh)
-						This single renderer would accept three.js scenes, which each define
-					a root html element to indicate the size and position to render.</p>
-					<p>These scenes get reigstered to the sceneRenderer which upon calling,
-						sceneRenderer, will check the location of each registered scene dom element
-					and render it at the right place.</p>
-					<p>This means that you could potentially export out a single gltf file with
-						multiple scenes and load it once to render on various DOM elements allowing
-					you to recycle geometry and avoid the webGL context limitations.</p>
-					<p>For example usage, see:</p>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p>/examples/three-scene-renderer.js</p>
-						</dd>
-						<dt>see</dt>
-						<dd><p>/examples/three-scene-renderer2.js</p>
-							<p>A high level example:</p>
-							<pre><code><span class="hljs-comment">// Create an instance of SceneRenderer</span>
-<span class="hljs-keyword">this</span>.sceneRenderer = <span class="hljs-keyword">new</span> SceneRenderer({});
-
-<span class="hljs-comment">// Add as many scenes as you like.</span>
- <span class="hljs-keyword">this</span>.sceneRenderer.addScene({
-     <span class="hljs-comment">// The resizing algo.</span>
-     resizingAlgo: <span class="hljs-string">'resizeWithFov'</span>,
-     <span class="hljs-attr">resizingScalar</span>: <span class="hljs-number">1.0</span>,
-     <span class="hljs-attr">scene</span>: scene,
-     <span class="hljs-attr">camera</span>: camera,
-     <span class="hljs-comment">// The dom element that this scene should render and size to.</span>
-     domElement: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'my-element'</span>),
-     <span class="hljs-attr">onBeforeRender</span>: <span class="hljs-function">(<span class="hljs-params">renderer, scene, camera</span>)=&gt;</span> {
-          <span class="hljs-comment">// Add some animations or whatever you need on render.</span>
-          scene.children[ <span class="hljs-number">0</span> ].rotation.y = <span class="hljs-built_in">Date</span>.now() * <span class="hljs-number">0.001</span>;
-     },
-     <span class="hljs-attr">onAfterRender</span>: <span class="hljs-function">(<span class="hljs-params">renderer, scene, camera</span>)=&gt;</span> {
-         <span class="hljs-comment">// This is used for clean up.  For example, you may</span>
-         <span class="hljs-comment">// have had a need to alter the settings of the renderer.</span>
-         <span class="hljs-comment">// You would clean up here.</span>
-     }
-     onBeforeResize: <span class="hljs-function">(<span class="hljs-params">renderer, scene, camera</span>)=&gt;</span> {
-        <span class="hljs-comment">// Gets fired prior to resizing algo gets calculated.</span>
-
-        <span class="hljs-comment">// Update any of your scene options.</span>
-        scene.userData.resizingScalar = <span class="hljs-number">2.0</span>;
-     },
-     onResize(renderer, scene, camera) {
-        <span class="hljs-comment">// Gets fired after resizing algo gets calculated.</span>
-        <span class="hljs-comment">// Depending on the algo you use, the camera.fov and aspect</span>
-        <span class="hljs-comment">// would have been altered by this stage.</span>
-        <span class="hljs-comment">// If you need access to pre alter values, then use</span>
-        <span class="hljs-comment">// onBeforeResize</span>
-     }
-    });
- });
-
-<span class="hljs-comment">// Whereever you have RAF setup,</span>
-<span class="hljs-keyword">this</span>.sceneRenderer.render();
-
-<span class="hljs-comment">// Later dispose to clean up.</span>
-<span class="hljs-keyword">this</span>.sceneRenderer.dispose();
-</code></pre><h2 id="resizing-algos">Resizing Algos</h2>
-							<p>There are various resizing algos available.  The current recommendation is
-								to use &#39;contain&#39; or &#39;cover&#39; where possible as this has been designed to most closely
-							reflect how css background-contain would work.</p>
-							<p>You can also specify your own logic by setting resizingAlgo to &#39;manual&#39;.</p>
-							<p>Using &#39;Contain&#39; algo
-								The resizingAlgo contain accepts a few parameters.  Because in a 3d scene,
-								size is really relative to the current camera position and object sizes,
-								it is up to you to define the &quot;bounds&quot; of which should be contained in
-								your scene.  This is different per project but is specified in webGL world
-							scale.</p>
-							<p>Contain requires the following resizing options:</p>
-							<ul>
-								<li>scalarX - a float representing the horizontal scale of the bounding box</li>
-								<li>scalarY - a float representing the vertical scalar of the bounding box.</li>
-							</ul>
-							<p>The easiest way to figure out what values to use is to imagine
-								a box with an image on your screen and basically, you are defining
-							that box size and telling the scene-renderer to never crop that image (contain).</p>
-							<p>Start with the shape you want to draw.  If you say wanted a
-								tall image, perhaps it&#39;s like 1200x1800 pixels.  Try using
-							those values but reducing it by a factor of 1000 (for example).</p>
-							<p>scaleX: 1200 / 1000
-							scaleY: 1800 / 1000</p>
-							<p>The actual values of scaleX and scaleY will depend on your scene
-								object sizes and what you need.  What scaleX and scaleY define
-							are the relative size of the area that should be contained.</p>
-							<p>As a side note you can also achieve a quick &quot;contain&quot; effect
-							by using the &#39;resizeWithFov&#39; option and passing a single resizingScalar.</p>
-							<p>useFov
-								By default, size adjustments are performed by changing the camera zoom level.
-								This has an added benefit of correctly resizing text if you are calculating
-								text scale using threef.toDomCoordinates method.  It also doesn&#39;t skew
-							perspective.</p>
-							<p>If you don&#39;t want to adjust zoom for some reason, you can opt to change
-								scene size by alterning the useFov to a true value.  This will adjust the
-								camera FOV as needed.  If your scene is orthographic or 2d based, you won&#39;t
-							see a difference but in 3d scene it will alter and skew perspective.</p>
-							<p>Alignment options:
-								By default, without any alignment options, your scene
-								will scale at center / center point.  However, you
-								can define it so that it scales aligned to top, bottom,
-							left or right similar to how it would work in css.</p>
-							<p>top - a value between 0-1 to note the vertical position of the final box
-								bottom - a value between 0-1 to note the vertical position of the final box
-								left - a value between 0-1 to note the horizontal position of the final box
-							right - a value between 0-1 to note the horizontal position of the final box</p>
-							<p>top / bottom can&#39;t exist together
-							left / right can&#39;t exist together</p>
-							<p>An example of using &#39;contain&#39; algo</p>
-							<pre><code class="language-ts"> <span class="hljs-keyword">this</span>.sceneRenderer.addScene({
-     <span class="hljs-comment">// The resizing algo.</span>
-     resizingAlgo: <span class="hljs-string">'contain'</span>,
-     resizingOptions: {
-          useFov: <span class="hljs-literal">false</span>, <span class="hljs-comment">// Whether to use FOV instead of zoom</span>
-          scalarX: <span class="hljs-number">2.6</span>,
-          scalarY: <span class="hljs-number">3.8</span>,
-          top: <span class="hljs-number">0</span> <span class="hljs-comment">// Align this to the top</span>
-          left: <span class="hljs-number">0</span> <span class="hljs-comment">// Align this to the left</span>
-     },
-    });
- });</code></pre>
-							<p>Using &#39;Cover&#39; algo
-								Cover works in a very similar way to contain, you need to specify your
-								scalarX and scalarY values to tell scene-renderer to respect that box to
-								calculate the cover values.  You can specify top, bottom, left and right
-							values to cover scale from the specific axis.</p>
-							<pre><code class="language-ts"> <span class="hljs-keyword">this</span>.sceneRenderer.addScene({
-     <span class="hljs-comment">// The resizing algo.</span>
-     resizingAlgo: <span class="hljs-string">'cover'</span>,
-     resizingOptions: {
-          useFov: <span class="hljs-literal">false</span>, <span class="hljs-comment">// Whether to use FOV instead of zoom</span>
-          scalarX: <span class="hljs-number">2.6</span>,
-          scalarY: <span class="hljs-number">3.8</span>,
-          top: <span class="hljs-number">0</span> <span class="hljs-comment">// Align this to the top</span>
-          left: <span class="hljs-number">0</span> <span class="hljs-comment">// Align this to the left</span>
-     },
-    });
- });
-
-
-Advanced Resizing
-
-
-Here is an example of changing scalar and aspect ratio,
-based on your mobile versus desktop layout.
-
-<span class="hljs-string">``</span><span class="hljs-string">`ts
-
- const sizeScalar = 0.2;
- this.sceneRenderer.addScene({
-     // The resizing algo.
-     resizingAlgo: 'cover',
-     // Required - you should define the resizing options.
-     resizingOptions: {
-        scalarX: null,
-        scalarY: null,
-        top: null,
-     },
-     onBeforeResize: (renderer, scene, camera)=&gt; {
-        if(window.innerWidth &lt; 800) {
-            scene.userData.resizingOptions.scalarX = 400 * sizeScalar;
-            scene.userData.resizingOptions.scalarY = 800 * sizeScalar;
-            scene.userData.resizingOptions.top = 0;
-        } else {
-            scene.userData.resizingOptions.scalarX = 1920 * sizeScalar;
-            scene.userData.resizingOptions.scalarY = 1080 * sizeScalar;
-            scene.userData.resizingOptions.top = 0.5;
-        }
-     },
-    });
- });
-</span></code></pre>
-							<h3 id="applying-degu-shader-chunks">Applying Degu Shader Chunks</h3>
-							<p>You can apply shader chunks as follows:</p>
-							<pre><code><span class="hljs-keyword">import</span> {deguShape2d} <span class="hljs-keyword">from</span>
-<span class="hljs-string">'degu/lib/shaders/three-shader-chunks/degu-shape2d'</span>;
-<span class="hljs-keyword">import</span> {deguMathf} <span class="hljs-keyword">from</span>
-<span class="hljs-string">'degu/lib/shaders/three-shader-chunks/degu-mathf'</span>;
-  <span class="hljs-comment">// Apply shader chunks.</span>
-  deguMathf(<span class="hljs-keyword">this</span>.sceneRenderer.getThree());
-  deguShape2d(<span class="hljs-keyword">this</span>.sceneRenderer.getThree());
-</code></pre><p>@see examples/three-scene-renderer2.html for examples of the resizign strategies.</p>
-							<p>@see <a href="https://stackoverflow.com/questions/41919341/is-there-a-limit-to-the-number-of-three-webglrenderer-instances-in-a-page">https://stackoverflow.com/questions/41919341/is-there-a-limit-to-the-number-of-three-webglrenderer-instances-in-a-page</a>
-								@see <a href="https://stackoverflow.com/questions/30608723/is-it-possible-to-enable-unbounded-number-of-renderers-in-three-js/30633132#30633132">https://stackoverflow.com/questions/30608723/is-it-possible-to-enable-unbounded-number-of-renderers-in-three-js/30633132#30633132</a>
-							@see <a href="https://threejs.org/examples/webgl_multiple_elements.html">https://threejs.org/examples/webgl_multiple_elements.html</a></p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -312,7 +113,7 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L494">threef/scene-renderer.ts:494</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L494">threef/scene-renderer.ts:494</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -338,15 +139,9 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L842">threef/scene-renderer.ts:842</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L842">threef/scene-renderer.ts:842</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Add a THREE.Scene to be rendered when the given domElement is visible
-									in the scene.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -370,7 +165,7 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L947">threef/scene-renderer.ts:947</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L947">threef/scene-renderer.ts:947</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -387,14 +182,9 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L891">threef/scene-renderer.ts:891</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L891">threef/scene-renderer.ts:891</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the internal webGLRenderer.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">WebGLRenderer</span></h4>
 						</li>
 					</ul>
@@ -409,15 +199,9 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L830">threef/scene-renderer.ts:830</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L830">threef/scene-renderer.ts:830</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the last known size of root canvas.  Usually this is usually the window size
-									since the main renderer canvas covers the whole page.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -443,14 +227,9 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L546">threef/scene-renderer.ts:546</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L546">threef/scene-renderer.ts:546</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the THREE object.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">&quot;/home/runner/work/degu/degu/node_modules/three/src/Three&quot;</span></h4>
 						</li>
 					</ul>
@@ -465,14 +244,9 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L898">threef/scene-renderer.ts:898</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L898">threef/scene-renderer.ts:898</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Renders out each scene.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -487,14 +261,9 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L553">threef/scene-renderer.ts:553</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L553">threef/scene-renderer.ts:553</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Forces a resize event on the scene-renderer.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -509,14 +278,9 @@ based on your mobile versus desktop layout.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/scene-renderer.ts#L821">threef/scene-renderer.ts:821</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/scene-renderer.ts#L821">threef/scene-renderer.ts:821</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates the z-index of the main renderer canvas.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

@@ -67,200 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that helps with DOM events.  The main usecase for this class is
-							to be able to watch the dom and then later remove a group of events
-						all at once.</p>
-					</div>
-					<p>Basic Usage</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">let</span> watcher = <span class="hljs-keyword">new</span> DomWatcher();
-
-<span class="hljs-keyword">var</span> scrollCallback = <span class="hljs-function">(<span class="hljs-params">event, done</span>)=&gt;</span> {
-  <span class="hljs-comment">// on scroll events.</span>
-};
-watcher.add({
-  element: <span class="hljs-built_in">window</span>,
-  on: <span class="hljs-string">'scroll'</span>,
-  callback: scrollCallback,
-  eventOptions: { passive: <span class="hljs-literal">true</span> }
-})
-
-watcher.add({
-  element: element,
-  on: <span class="hljs-string">'click'</span>,
-  callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {},
-);
-
-
-# Add multiple events
-watcher.add({
-  element: element,
-  on: [<span class="hljs-string">'click'</span>, <span class="hljs-string">'mousemove'</span>],
-  callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {},
-);
-
-
-<span class="hljs-comment">// Removes all watchers.</span>
-watcher.removeAll();</code></pre>
-					<p>Advanced Usage</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">let</span> <span class="hljs-keyword">new</span> watcher = <span class="hljs-keyword">new</span> DomWatcher();
-
-<span class="hljs-comment">// Removes by Id</span>
-watcher.add({
-  element: element,
-  on: <span class="hljs-string">'click'</span>,
-  callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {},
-  id: <span class="hljs-string">'abc'</span>
-);
-
-
-<span class="hljs-comment">// Runs the callback associated with abc.  NOTE this is just dry running it</span>
-<span class="hljs-comment">// so it's not an actual browser event (hence no event data is provided).</span>
-watcher.run(<span class="hljs-string">'abc'</span>);
-
-watcher.removeById(<span class="hljs-string">'abc'</span>);
-
-
-<span class="hljs-comment">// Ids actually don't need to be unique.</span>
-watcher.add({ element: element, on: <span class="hljs-string">'click'</span>, callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {}, id: <span class="hljs-string">'group1'</span>);
-watcher.add({ element: anotherElement, on: <span class="hljs-string">'mousemove'</span>, callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {}, id: <span class="hljs-string">'group1'</span>);
-watcher.removeById(<span class="hljs-string">'group1'</span>);
-
-<span class="hljs-comment">// Conditional execution</span>
-watcher.add({
-   element: <span class="hljs-built_in">window</span>
-   callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'called only on mobile'</span>);
-   }
-   eventOptions: { passive: <span class="hljs-literal">true</span> }
-   on: <span class="hljs-string">'scroll'</span>,
-   runWhen: <span class="hljs-built_in">window</span>.innerWidth &lt; <span class="hljs-number">600</span>
-});
-
-
-watcher.add({
-   element: submitElement
-   callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'submitted'</span>);
-   }
-   on: <span class="hljs-string">'click'</span>,
-   runWhen: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.validate()}
-});
-</code></pre>
-					<h4 id="resizeobserver">ResizeObserver</h4>
-					<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver">https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver</a>
-						DomWatcher supports resizeObserver.  To use it simply, watch the resize
-						of an element that isn&#39;t the window.  Using window will use the standard
-					window resize events.</p>
-					<pre><code class="language-ts">    watcher.add({
-        element: myElement,
-        on: <span class="hljs-string">'resize'</span>,
-        callback: <span class="hljs-function">(<span class="hljs-params">entries</span>) =&gt;</span> {
-           ....
-        },
-    });</code></pre>
-					<h4 id="mutationobserver">MutationObserver</h4>
-					<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver</a>
-						DomWatcher supports mutation observers. You can pass mutation config
-					to the event options.</p>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">const</span> watchMutations = <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-    watcher.add({
-        element: myElement,
-        id: <span class="hljs-string">'mutations'</span>,
-        on: <span class="hljs-string">'mutation'</span>,
-        callback: <span class="hljs-function">(<span class="hljs-params">mutationList</span>) =&gt;</span> {
-           ....
-        },
-        { childList: <span class="hljs-literal">true</span> }
-    });
-}
-
-<span class="hljs-comment">// Temporarily stop watching mutations.</span>
-<span class="hljs-keyword">this</span>.watcher.removeById(<span class="hljs-string">'mutations'</span>);
-... (update dom, <span class="hljs-keyword">do</span> something)
-<span class="hljs-comment">// Rewatch mutations.</span>
-watchMutations();
-</code></pre>
-					<h4 id="debouncing">Debouncing</h4>
-					<pre><code class="language-ts"><span class="hljs-comment">// Add debouncing.</span>
-    watcher.add({
-        element: <span class="hljs-built_in">document</span>.body,
-        on: <span class="hljs-string">'mousemove'</span>,
-        callback: func.debounce(<span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
-            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'movemove!!'</span>);
-        }, <span class="hljs-number">500</span>),
-    });
-</code></pre>
-					<h4 id="smartresize">SmartResize</h4>
-					<p>How can I use this with bom.smartResize?
-					Just use the &#39;smartResize&#39; event instead.</p>
-					<pre><code class="language-ts">
-    watcher.add({
-        element: <span class="hljs-built_in">window</span>,
-        on: <span class="hljs-string">'smartResize'</span>,
-        callback: <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
-            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'smart resizing'</span>);
-        },
-    });
-</code></pre>
-					<p>Culling events only when an element is inview.
-					See example/scroll-demo for actual example.</p>
-					<pre><code class="language-ts">  <span class="hljs-keyword">let</span> ev = elementVisibility.inview(element, {});
-  <span class="hljs-keyword">let</span> watcher = <span class="hljs-keyword">new</span> DomWatcher();
-  watcher.add({
-     element: <span class="hljs-built_in">window</span>,
-     on: <span class="hljs-string">'scroll'</span>,
-     eventOptions: { passive: <span class="hljs-literal">true</span> },
-     callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-        <span class="hljs-comment">// Runs only when this element is inview.</span>
-     },
-     <span class="hljs-comment">// Tells to run scroll ONLY when the element is inview.</span>
-     runWhen: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> { <span class="hljs-keyword">return</span> ev.state().inview; }
-  });
-
-
-  <span class="hljs-comment">// Later</span>
-  ev.dispose();
-  watcher.dispose();
-</code></pre>
-					<h4 id="matchmedia">MatchMedia</h4>
-					<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia">https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia</a>
-						DomWatcher supports MediaQueryLists that result from calls to matchMedia.
-						That way DomWatcher can be configured to watch for changes across any/all
-					breakpoints a site is designed around.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> mediaQueries = <span class="hljs-keyword">new</span> Map([
-  [
-    <span class="hljs-string">'desktop'</span>,
-    <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">'(min-width: 1440px)'</span>)],
-  [
-    <span class="hljs-string">'laptop'</span>,
-    <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">'(min-width: 1024px) and (max-width: 1439px)'</span>)],
-  [
-    <span class="hljs-string">'tablet'</span>,
-    <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">'(min-width: 600px) and (max-width: 1023px)'</span>)],
-  [
-    <span class="hljs-string">'mobile'</span>,
-    <span class="hljs-built_in">window</span>.matchMedia(<span class="hljs-string">'(max-width: 599px)'</span>)],
-]);
-<span class="hljs-keyword">const</span> watchBreakpoints = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-    <span class="hljs-built_in">Array</span>.from(mediaQueries.entries())
-      .forEach(<span class="hljs-function">(<span class="hljs-params">[breakpoint, mediaQuery]</span>) =&gt;</span> {
-        watcher.add({
-          element: mediaQuery,
-          on: <span class="hljs-string">'change'</span>,
-          callback: <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-             <span class="hljs-keyword">if</span> (e.matches) {
-               <span class="hljs-comment">// Handle the breakpoint</span>
-             }
-          },
-        });
-      });
-}</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -304,7 +110,7 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/dom-watcher.ts#L283">dom/dom-watcher.ts:283</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/dom-watcher.ts#L283">dom/dom-watcher.ts:283</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.domwatcher.html" class="tsd-signature-type">DomWatcher</a></h4>
@@ -324,20 +130,13 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/dom-watcher.ts#L293">dom/dom-watcher.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/dom-watcher.ts#L293">dom/dom-watcher.ts:293</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds a watcher and immediately begins watching.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>config: <a href="../interfaces/dom.domwatcherconfig.html" class="tsd-signature-type">DomWatcherConfig</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -354,14 +153,9 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/dom-watcher.ts#L450">dom/dom-watcher.ts:450</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/dom-watcher.ts#L450">dom/dom-watcher.ts:450</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Disposes of domWatcher.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -376,14 +170,9 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/dom-watcher.ts#L407">dom/dom-watcher.ts:407</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/dom-watcher.ts#L407">dom/dom-watcher.ts:407</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes all dom watchers.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -398,21 +187,13 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/dom-watcher.ts#L390">dom/dom-watcher.ts:390</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/dom-watcher.ts#L390">dom/dom-watcher.ts:390</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes a given watcher by id.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The id of the watcher to remove.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -429,32 +210,13 @@ watchMutations();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/dom-watcher.ts#L435">dom/dom-watcher.ts:435</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/dom-watcher.ts#L435">dom/dom-watcher.ts:435</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Dry runs a callback by id.  This just calls the callback and isn&#39;t the
-										actual browser event so no event data will be available when using
-									this method.</p>
-								</div>
-								<pre><code class="language-ts">watcher.add({
-   element: element,
-   callback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'yo'</span>);
-   }
-   on: <span class="hljs-string">'click'</span>,
-   id: <span class="hljs-string">'yo'</span>
-});
-
-watcher.run(<span class="hljs-string">'yo'</span>);</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

@@ -67,28 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Creates a basic animation element that appends and removes classes.</p>
-					</div>
-					<pre><code class="language-`">const animationEl = new AnimationElement({
-   element: document.getElementById(&quot;my-element&quot;),
-   states: [
-     { name: &#39;intro&#39;, cssClass: &#39;my-element---intro&#39;},
-     { name: &#39;outro&#39;, cssClass: &#39;my-element---outro&#39;},
-   ]
-})
-
-
-animationEl.play(&#39;intro&#39;).then(()=&gt; {
-    // Do something.
-   animationEl.play(&#39;outro&#39;);
-})
-
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -131,7 +109,7 @@ animationEl.play(&#39;intro&#39;).then(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/animation-element.ts#L37">dom/animation-element.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/animation-element.ts#L37">dom/animation-element.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -157,7 +135,7 @@ animationEl.play(&#39;intro&#39;).then(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/animation-element.ts#L126">dom/animation-element.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/animation-element.ts#L126">dom/animation-element.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLElement</span></h4>
@@ -174,22 +152,9 @@ animationEl.play(&#39;intro&#39;).then(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/animation-element.ts#L67">dom/animation-element.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/animation-element.ts#L67">dom/animation-element.ts:67</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Plays a given state.</p>
-								</div>
-								<pre><code>animationElement.play(<span class="hljs-string">'intro'</span>).<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-regexp">//</span> Do something <span class="hljs-keyword">when</span> animation ends.
-})
-
-
-<span class="hljs-regexp">//</span> Automatically remove <span class="hljs-string">'intro'</span> <span class="hljs-keyword">when</span> animation <span class="hljs-keyword">is</span> complete.
-animationElement.play(<span class="hljs-string">'intro'</span>, <span class="hljs-literal">true</span>);
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -213,14 +178,9 @@ animationElement.play(<span class="hljs-string">'intro'</span>, <span class="hlj
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/animation-element.ts#L47">dom/animation-element.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/animation-element.ts#L47">dom/animation-element.ts:47</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes all states from the element.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -235,21 +195,9 @@ animationElement.play(<span class="hljs-string">'intro'</span>, <span class="hlj
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/animation-element.ts#L100">dom/animation-element.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/animation-element.ts#L100">dom/animation-element.ts:100</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Stack is similar to play but it doesn&#39;t remove previous cssClasses before
-									appending the current state.  This allows you to &quot;stack&quot; states.</p>
-								</div>
-								<pre><code>animationElement.play(<span class="hljs-string">'intro'</span>).then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-comment">// Do something when animation ends.</span>
-  <span class="hljs-comment">// Stacks the outro.  Now the element would have .intro and .outro together</span>
-  animationElement.stack(<span class="hljs-string">'outro'</span>);
-})
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -257,8 +205,6 @@ animationElement.play(<span class="hljs-string">'intro'</span>, <span class="hlj
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> resetOnComplete: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>

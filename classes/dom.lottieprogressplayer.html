@@ -67,57 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Lottie progress player class.</p>
-					</div>
-					<p>The lottie progress player is designed to play a lottie based on progress
-					or frame.</p>
-					<pre><code><span class="hljs-keyword">const</span> lottieProgressPlayer = new LottieProgressPlayer(myContainerElementToAddLottie,
-{
-   jsonPath: .. <span class="hljs-comment">// Path to lottie</span>
-   startFrame: <span class="hljs-number">0</span>,
-   endFrame: <span class="hljs-number">0</span>,
-}
-)
-
-
-<span class="hljs-comment">// Update the progress to 0.5.</span>
-lottieProgressPlayer.setProgress(<span class="hljs-number">0.5</span>);
-
-<span class="hljs-comment">// Update the lottie to frame 30</span>
-lottieProgressPlayer.setFrame(<span class="hljs-number">0.5</span>);</code></pre><p>The lottie progress player can go well with scrollProgress or
-					rafTimer classes.</p>
-					<p>If you want to autoplay your lottie.</p>
-					<pre><code><span class="hljs-keyword">let</span> rafTimer = <span class="hljs-keyword">new</span> <span class="hljs-constructor">RafTimer((<span class="hljs-params">progress</span>)</span>=&gt; {
- lottieProgressPlayer.set<span class="hljs-constructor">Progress(<span class="hljs-params">progress</span>)</span>
-});
-rafTimer.set<span class="hljs-constructor">Duration(300)</span>;
-rafTimer.play<span class="hljs-literal">()</span>;</code></pre><p>Or you could setup scroll progress and update it as you need.</p>
-					<pre><code><span class="hljs-keyword">const</span> scrollProgress = <span class="hljs-keyword">new</span> ScrollProgress(element);
-<span class="hljs-comment">// Add your settings.</span>
-<span class="hljs-keyword">const</span> settings = {
-   debug: <span class="hljs-literal">false</span>,
-   top: <span class="hljs-string">'0px'</span>
-   bottom: <span class="hljs-string">'10px'</span>
-}
-scrollProgress.init(settings);
-
-scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  lottieProgressPlayer.setProgress(
-     <span class="hljs-keyword">this</span>.scrollProgress.getProgress();
-  )
-});</code></pre><h1 id="lottie-player-events-">Lottie player events.</h1>
-					<p>If you need to hook into lottie events, these are available on lottie progress
-					player.</p>
-					<p>Example: Immediately update the lottie-progress-player to the last frame on
-					load.</p>
-					<pre><code>  <span class="hljs-keyword">this</span>.lottieProgressPlayer.<span class="hljs-literal">on</span>(LottieProgressPlayerEvents.DOMLOADED, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-      <span class="hljs-keyword">this</span>.lottieProgressPlayer.setProgress(<span class="hljs-number">1</span>);
-   })</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -170,7 +119,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L110">dom/lottie-progress-player.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L110">dom/lottie-progress-player.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -199,7 +148,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L143">dom/lottie-progress-player.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L143">dom/lottie-progress-player.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -216,7 +165,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L213">dom/lottie-progress-player.ts:213</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L213">dom/lottie-progress-player.ts:213</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -233,7 +182,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L192">dom/lottie-progress-player.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L192">dom/lottie-progress-player.ts:192</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
@@ -334,7 +283,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>destroy<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">destroy<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										<li class="tsd-signature tsd-kind-icon">destroy<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -355,7 +304,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>get<wbr>Duration<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">get<wbr>Duration<span class="tsd-signature-symbol">(</span>inFrames<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+										<li class="tsd-signature tsd-kind-icon">get<wbr>Duration<span class="tsd-signature-symbol">(</span>inFrames<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -376,7 +325,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>go<wbr>ToAnd<wbr>Play<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">go<wbr>ToAnd<wbr>Play<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, isFrame<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										<li class="tsd-signature tsd-kind-icon">go<wbr>ToAnd<wbr>Play<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, isFrame<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -403,7 +352,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>go<wbr>ToAnd<wbr>Stop<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">go<wbr>ToAnd<wbr>Stop<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, isFrame<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										<li class="tsd-signature tsd-kind-icon">go<wbr>ToAnd<wbr>Stop<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, isFrame<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -466,7 +415,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>pause<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">pause<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										<li class="tsd-signature tsd-kind-icon">pause<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -487,7 +436,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>play<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">play<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										<li class="tsd-signature tsd-kind-icon">play<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -508,7 +457,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>play<wbr>Segments<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">play<wbr>Segments<span class="tsd-signature-symbol">(</span>segments<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AnimationSegment</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AnimationSegment</span><span class="tsd-signature-symbol">[]</span>, forceFlag<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										<li class="tsd-signature tsd-kind-icon">play<wbr>Segments<span class="tsd-signature-symbol">(</span>segments<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AnimationSegment</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AnimationSegment</span><span class="tsd-signature-symbol">[]</span>, forceFlag<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -700,7 +649,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>stop<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -721,7 +670,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 								<li class="tsd-parameter">
 									<h5>toggle<wbr>Pause<span class="tsd-signature-symbol">: </span>function</h5>
 									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">toggle<wbr>Pause<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										<li class="tsd-signature tsd-kind-icon">toggle<wbr>Pause<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
@@ -783,7 +732,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L196">dom/lottie-progress-player.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L196">dom/lottie-progress-player.ts:196</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -800,7 +749,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L204">dom/lottie-progress-player.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L204">dom/lottie-progress-player.ts:204</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -826,7 +775,7 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L200">dom/lottie-progress-player.ts:200</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L200">dom/lottie-progress-player.ts:200</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -852,14 +801,9 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L188">dom/lottie-progress-player.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L188">dom/lottie-progress-player.ts:188</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Update the lottie to a specific frame.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -880,14 +824,9 @@ scrollProgress.on(ScrollProgressEvents.RAF, <span class="hljs-function"><span cl
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-progress-player.ts#L175">dom/lottie-progress-player.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-progress-player.ts#L175">dom/lottie-progress-player.ts:175</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Update the lottie by progress</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

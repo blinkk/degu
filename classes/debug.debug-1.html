@@ -67,27 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A window.console like utility but with some added features.</p>
-					</div>
-					<pre><code class="language-ts"> <span class="hljs-keyword">import</span> { debug, DebugLevel } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/debug/debug'</span>;
-<span class="hljs-comment">// Use debug.log as a replacement for console.log</span>
-debug.log(<span class="hljs-string">'hohoho'</span>, myvariable);
-
-<span class="hljs-comment">// Now suppress console.log for prod environment.</span>
-debug.setDebugLevel(DebugLevel.NONE);</code></pre>
-					<p>You could also use urlParams or set other conditions to display logs.</p>
-					<pre><code><span class="hljs-keyword">import</span> { <span class="hljs-keyword">debug</span>, DebugLevel } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/debug/debug'</span>;
-<span class="hljs-keyword">import</span> {urlParams} <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/dom/url-params'</span>;
-<span class="hljs-keyword">if</span>(urlParams.isTrue(<span class="hljs-string">'debug'</span>)) {
-  <span class="hljs-keyword">debug</span>.setDebugLevel(DebugLevel.<span class="hljs-keyword">ALL</span>);
- } <span class="hljs-keyword">else</span> {
-  <span class="hljs-keyword">debug</span>.setDebugLevel(DebugLevel.<span class="hljs-keyword">NONE</span>);
- }</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -116,19 +95,19 @@ debug.setDebugLevel(DebugLevel.NONE);</code></pre>
 					<a name="log" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> log</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">log<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">log<span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/debug/debug.ts#L38">debug/debug.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/debug/debug.ts#L38">debug/debug.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -145,7 +124,7 @@ debug.setDebugLevel(DebugLevel.NONE);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/debug/debug.ts#L33">debug/debug.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/debug/debug.ts#L33">debug/debug.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

@@ -67,63 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that can be used to monitor the scroll progress of a given element.</p>
-					</div>
-					<p>Simple usage:</p>
-					<p>const scrollProgress = new ScrollProgress(element);
-						// Add your settings.
-						const settings = {
-						debug: false,
-						top: &#39;0px&#39;
-						bottom: &#39;10px&#39;
-						}
-					scrollProgress.init(settings);</p>
-					<p>scrollProgress.on(ScrollProgressEvents.RAF, ()=&gt; {
-						console.log(scrollProgress.getProgress());
-					});</p>
-					<h2 id="how-do-i-add-css-classes-to-elements-">How do I add css classes to elements?</h2>
-					<p>You can pass an instance of inviewProgress to scroll progress.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> inviewProgress = <span class="hljs-keyword">new</span> InviewProgress();
-
-<span class="hljs-comment">// Add the class "active" when from range 0.2 - 0.4</span>
-inviewProgress.add({
-   range: [<span class="hljs-number">0.2</span>, <span class="hljs-number">0.4</span>],
-   element: el,
-   className: <span class="hljs-string">"active"</span>
-})
-
-<span class="hljs-comment">// Setup scroll progress</span>
-<span class="hljs-keyword">const</span> settings = {
-   debug: <span class="hljs-literal">false</span>,
-   top: <span class="hljs-string">'0px'</span>
-   bottom: <span class="hljs-string">'10px'</span>,
-   inviewProgress: inviewProgress
-}
-<span class="hljs-keyword">const</span> parallaxer = <span class="hljs-keyword">new</span> ScrollProgress(el);
-parallaxer.init(settings, [])</code></pre>
-					<h2 id="how-do-add-callbacks-at-specific-points-">How do add callbacks at specific points?</h2>
-					<p>You can pass an instance of progressWatcher to scroll progress</p>
-					<p><code>`</code>
-						const pg = new ProgressWatcher();
-						pg.add({
-						range: [0.2, 0.4],
-						callback: (progress: number, direction: number)=&gt; {
-						console.log(progress, direction);
-						}
-					})</p>
-					<p>const settings = {
-						debug: false,
-						top: &#39;0px&#39;
-						bottom: &#39;10px&#39;,
-						progressWatcher: pg
-						}
-						const sp = new ScrollProgress(el);
-					sp.init(settings, [])</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -176,7 +119,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L149">dom/scroll-progress.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L149">dom/scroll-progress.ts:149</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -202,7 +145,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L359">dom/scroll-progress.ts:359</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L359">dom/scroll-progress.ts:359</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -219,14 +162,9 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L355">dom/scroll-progress.ts:355</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L355">dom/scroll-progress.ts:355</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the current progress value.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -235,27 +173,19 @@ parallaxer.init(settings, [])</code></pre>
 					<a name="init" class="tsd-anchor"></a>
 					<h3>init</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">?: </span><a href="../interfaces/dom.scrollprogresssettings.html" class="tsd-signature-type">ScrollProgressSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.scrollprogresssettings.html" class="tsd-signature-type">ScrollProgressSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L171">dom/scroll-progress.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L171">dom/scroll-progress.ts:171</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Initializes module.
-									You can optionally rerun this method to refresh settings.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> settings: <a href="../interfaces/dom.scrollprogresssettings.html" class="tsd-signature-type">ScrollProgressSettings</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -272,7 +202,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L216">dom/scroll-progress.ts:216</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L216">dom/scroll-progress.ts:216</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -298,7 +228,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L212">dom/scroll-progress.ts:212</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L212">dom/scroll-progress.ts:212</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -324,7 +254,7 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L303">dom/scroll-progress.ts:303</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L303">dom/scroll-progress.ts:303</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -341,14 +271,9 @@ parallaxer.init(settings, [])</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L251">dom/scroll-progress.ts:251</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L251">dom/scroll-progress.ts:251</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Calculates the current progress and returns a value between 0-1.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -366,26 +291,19 @@ parallaxer.init(settings, [])</code></pre>
 					<a name="updatesettings" class="tsd-anchor"></a>
 					<h3>update<wbr>Settings</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Settings<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">?: </span><a href="../interfaces/dom.scrollprogresssettings.html" class="tsd-signature-type">ScrollProgressSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Settings<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/dom.scrollprogresssettings.html" class="tsd-signature-type">ScrollProgressSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-progress.ts#L184">dom/scroll-progress.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-progress.ts#L184">dom/scroll-progress.ts:184</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates the css parallaxer settings.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> settings: <a href="../interfaces/dom.scrollprogresssettings.html" class="tsd-signature-type">ScrollProgressSettings</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

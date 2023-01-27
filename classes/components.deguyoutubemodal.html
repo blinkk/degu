@@ -67,30 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>DeguYutubeModal wraps details-dialog-element and degu-youtube-inline.</p>
-					</div>
-					<p><a href="https://github.com/github/details-dialog-element">https://github.com/github/details-dialog-element</a>
-					<a href="https://github.com/github/details-dialog-element/blob/main/src/index.ts">https://github.com/github/details-dialog-element/blob/main/src/index.ts</a></p>
-					<pre><code class="language-ts"><span class="hljs-keyword">import</span> { DeguYouTubeModal} <span class="hljs-keyword">from</span> <span class="hljs-string">'../lib/components/youtube-modal'</span>;
-<span class="hljs-keyword">import</span> DetailsDialogElement <span class="hljs-keyword">from</span> <span class="hljs-string">'@github/details-dialog-element'</span>;
-
-<span class="hljs-built_in">window</span>.customElements.define(<span class="hljs-string">'degu-youtube-inline'</span>, DeguYouTubeInline);
-<span class="hljs-built_in">window</span>.customElements.define(<span class="hljs-string">'degu-youtube-modal'</span>, DeguYouTubeModal);
-
-<span class="hljs-comment">// Define a host.  When you register against a host, the component will</span>
-<span class="hljs-comment">// look for any clicks within that host with the data attribute</span>
-<span class="hljs-comment">// `youtube-modal="&lt;youtube-id&gt;".</span>
-<span class="hljs-keyword">const</span> myHost = <span class="hljs-built_in">document</span>.body;
-DeguYouTubeModal.register(myHost)</code></pre>
-					<p>Now somewhere within your host, just add buttons or elements with the
-					attribute <code>youtube-modal</code>.</p>
-					<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">youtube-modal</span>=<span class="hljs-string">"8Qn_spdM5Zg"</span>&gt;</span>Watch StarWars<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">youtube-modal</span>=<span class="hljs-string">"TcMBFSGVi1c"</span>&gt;</span>Watch Avengers<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -401,9 +377,9 @@ DeguYouTubeModal.register(myHost)</code></pre>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="components.deguyoutubemodal.html#toggle" class="tsd-kind-icon">toggle</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="components.deguyoutubemodal.html#toggleattribute" class="tsd-kind-icon">toggle<wbr>Attribute</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="components.deguyoutubemodal.html#webkitmatchesselector" class="tsd-kind-icon">webkit<wbr>Matches<wbr>Selector</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="components.deguyoutubemodal.html#willupdate" class="tsd-kind-icon">will<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="components.deguyoutubemodal.html#addinitializer" class="tsd-kind-icon">add<wbr>Initializer</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="components.deguyoutubemodal.html#createproperty" class="tsd-kind-icon">create<wbr>Property</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="components.deguyoutubemodal.html#getpropertyoptions" class="tsd-kind-icon">get<wbr>Property<wbr>Options</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="components.deguyoutubemodal.html#register" class="tsd-kind-icon">register</a></li>
 							</ul>
 						</section>
@@ -423,7 +399,7 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<aside class="tsd-sources">
 								<p>Overrides ReactiveElement.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L58">components/youtube-modal.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L58">components/youtube-modal.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -703,11 +679,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10385</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns node&#39;s node document&#39;s document base URL.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="childelementcount" class="tsd-anchor"></a>
@@ -730,11 +701,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10389</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the children.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="children" class="tsd-anchor"></a>
@@ -746,11 +712,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10803</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the child elements.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="classlist" class="tsd-anchor"></a>
@@ -762,12 +723,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4782</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Allows for manipulation of element&#39;s class content attribute as a
-							set of whitespace-separated tokens through a DOMTokenList object.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="classname" class="tsd-anchor"></a>
@@ -779,12 +734,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4787</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the value of element&#39;s class content attribute. Can be set
-							to change it.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="clientheight" class="tsd-anchor"></a>
@@ -858,7 +807,7 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<div class="tsd-signature tsd-kind-icon">details<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLDetailsElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L53">components/youtube-modal.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L53">components/youtube-modal.ts:53</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -868,7 +817,7 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<div class="tsd-signature tsd-kind-icon">details<wbr>Dialog<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">DetailsDialogElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L50">components/youtube-modal.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L50">components/youtube-modal.ts:50</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -904,11 +853,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10393</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the first child.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="firstelementchild" class="tsd-anchor"></a>
@@ -920,11 +864,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10807</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the first child that is an element, and null otherwise.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="hasupdated" class="tsd-anchor"></a>
@@ -933,20 +872,9 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.hasUpdated</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:434</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:474</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Is set to <code>true</code> after the first update. The element code cannot assume
-							that <code>renderRoot</code> exists before the element <code>hasUpdated</code>.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>category</dt>
-							<dd><p>updates</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="hidden" class="tsd-anchor"></a>
@@ -969,12 +897,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4796</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the value of element&#39;s id content attribute. Can be set to
-							change it.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="innerhtml" class="tsd-anchor"></a>
@@ -1019,11 +941,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10397</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns true if node is connected and false otherwise.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="iscontenteditable" class="tsd-anchor"></a>
@@ -1043,20 +960,9 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.isUpdatePending</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:428</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:468</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>True if there is a pending update as a result of calling <code>requestUpdate()</code>.
-							Should only be read.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>category</dt>
-							<dd><p>updates</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="lang" class="tsd-anchor"></a>
@@ -1079,11 +985,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10401</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the last child.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="lastelementchild" class="tsd-anchor"></a>
@@ -1095,11 +996,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10811</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the last child that is an element, and null otherwise.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="localname" class="tsd-anchor"></a>
@@ -1111,11 +1007,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4801</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the local name.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="namespaceuri" class="tsd-anchor"></a>
@@ -1128,11 +1019,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4805</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the namespace.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="nextelementsibling" class="tsd-anchor"></a>
@@ -1144,12 +1030,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10615</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the first following sibling that
-							is an element, and null otherwise.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="nextsibling" class="tsd-anchor"></a>
@@ -1161,11 +1041,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10407</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the next sibling.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="nodename" class="tsd-anchor"></a>
@@ -1177,30 +1052,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10430</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns a string appropriate for the type of node, as
-								follows:
-								Element
-								Its HTML-uppercased qualified name.
-								Attr
-								Its qualified name.
-								Text
-								&quot;#text&quot;.
-								CDATASection
-								&quot;#cdata-section&quot;.
-								ProcessingInstruction
-								Its target.
-								Comment
-								&quot;#comment&quot;.
-								Document
-								&quot;#document&quot;.
-								DocumentType
-								Its name.
-								DocumentFragment
-							&quot;#document-fragment&quot;.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="nodetype" class="tsd-anchor"></a>
@@ -1300,16 +1151,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5387</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user aborts the download.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onanimationcancel" class="tsd-anchor"></a>
@@ -1376,16 +1217,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5397</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the object loses the input focus.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The focus event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="oncancel" class="tsd-anchor"></a>
@@ -1408,16 +1239,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5403</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when playback is possible, but would require further buffering.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="oncanplaythrough" class="tsd-anchor"></a>
@@ -1440,16 +1261,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5409</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the contents of the object or selection have changed.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onclick" class="tsd-anchor"></a>
@@ -1461,16 +1272,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5414</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user clicks the left mouse button on the object</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The mouse event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onclose" class="tsd-anchor"></a>
@@ -1493,16 +1294,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5420</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user clicks the right mouse button in the client area, opening the context menu.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The mouse event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="oncopy" class="tsd-anchor"></a>
@@ -1547,16 +1338,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5426</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user double-clicks the object.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The mouse event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ondrag" class="tsd-anchor"></a>
@@ -1568,16 +1349,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5431</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires on the source object continuously during a drag operation.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ondragend" class="tsd-anchor"></a>
@@ -1589,16 +1360,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5436</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires on the source object when the user releases the mouse at the close of a drag operation.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ondragenter" class="tsd-anchor"></a>
@@ -1610,16 +1371,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5441</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires on the target element when the user drags the object to a valid drop target.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The drag event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ondragexit" class="tsd-anchor"></a>
@@ -1642,16 +1393,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5447</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires on the target object when the user moves the mouse out of a valid drop target during a drag operation.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The drag event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ondragover" class="tsd-anchor"></a>
@@ -1663,16 +1404,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5452</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires on the target element continuously while the user drags the object over a valid drop target.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ondragstart" class="tsd-anchor"></a>
@@ -1684,16 +1415,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5457</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires on the source object when the user starts to drag a text selection or selected object.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ondrop" class="tsd-anchor"></a>
@@ -1716,16 +1437,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5463</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the duration attribute is updated.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onemptied" class="tsd-anchor"></a>
@@ -1737,16 +1448,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5468</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the media element is reset to its initial state.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onended" class="tsd-anchor"></a>
@@ -1758,16 +1459,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5473</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the end of playback is reached.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onerror" class="tsd-anchor"></a>
@@ -1779,16 +1470,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5478</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when an error occurs during object loading.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onfocus" class="tsd-anchor"></a>
@@ -1800,16 +1481,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5483</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the object receives focus.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onfullscreenchange" class="tsd-anchor"></a>
@@ -1876,16 +1547,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5491</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user presses a key.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The keyboard event</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onkeypress" class="tsd-anchor"></a>
@@ -1897,16 +1558,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5496</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user presses an alphanumeric key.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onkeyup" class="tsd-anchor"></a>
@@ -1918,16 +1569,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5501</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user releases a key.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The keyboard event</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onload" class="tsd-anchor"></a>
@@ -1939,16 +1580,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5506</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires immediately after the browser loads the object.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onloadeddata" class="tsd-anchor"></a>
@@ -1960,16 +1591,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5511</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when media data is loaded at the current playback position.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onloadedmetadata" class="tsd-anchor"></a>
@@ -1981,16 +1602,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5516</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the duration and dimensions of the media have been determined.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onloadend" class="tsd-anchor"></a>
@@ -2013,16 +1624,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5522</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when Internet Explorer begins looking for media data.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onlostpointercapture" class="tsd-anchor"></a>
@@ -2045,16 +1646,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5528</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user clicks the object with either mouse button.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The mouse event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onmouseenter" class="tsd-anchor"></a>
@@ -2088,16 +1679,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5535</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user moves the mouse over the object.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The mouse event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onmouseout" class="tsd-anchor"></a>
@@ -2109,16 +1690,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5540</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user moves the mouse pointer outside the boundaries of the object.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The mouse event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onmouseover" class="tsd-anchor"></a>
@@ -2130,16 +1701,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5545</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user moves the mouse pointer into the object.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The mouse event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onmouseup" class="tsd-anchor"></a>
@@ -2151,16 +1712,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5550</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user releases a mouse button while the mouse is over the object.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The mouse event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onpaste" class="tsd-anchor"></a>
@@ -2183,16 +1734,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5555</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when playback is paused.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onplay" class="tsd-anchor"></a>
@@ -2204,16 +1745,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5560</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the play method is requested.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onplaying" class="tsd-anchor"></a>
@@ -2225,16 +1756,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5565</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the audio or video has started playing.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onpointercancel" class="tsd-anchor"></a>
@@ -2334,16 +1855,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5578</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs to indicate progress while downloading media data.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onratechange" class="tsd-anchor"></a>
@@ -2355,16 +1866,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5583</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the playback rate is increased or decreased.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onreset" class="tsd-anchor"></a>
@@ -2376,16 +1877,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5588</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user resets a form.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onresize" class="tsd-anchor"></a>
@@ -2408,16 +1899,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5594</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the user repositions the scroll box in the scroll bar on the object.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onsecuritypolicyviolation" class="tsd-anchor"></a>
@@ -2440,16 +1921,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5600</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the seek operation ends.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onseeking" class="tsd-anchor"></a>
@@ -2461,16 +1932,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5605</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the current playback position is moved.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onselect" class="tsd-anchor"></a>
@@ -2482,16 +1943,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5610</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when the current selection changes.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onstalled" class="tsd-anchor"></a>
@@ -2503,16 +1954,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5615</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the download has stopped.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onsubmit" class="tsd-anchor"></a>
@@ -2535,16 +1976,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5621</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs if the load operation has been intentionally halted.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ontimeupdate" class="tsd-anchor"></a>
@@ -2556,16 +1987,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5626</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs to indicate the current playback position.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ontoggle" class="tsd-anchor"></a>
@@ -2676,16 +2097,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5640</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when the volume is changed, or playback is muted or unmuted.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onwaiting" class="tsd-anchor"></a>
@@ -2697,16 +2108,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5645</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Occurs when playback stops because the next frame of a video resource is not available.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>The event.</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="onwheel" class="tsd-anchor"></a>
@@ -2740,12 +2141,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10437</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the node document.
-							Returns null for documents.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="parentelement" class="tsd-anchor"></a>
@@ -2757,11 +2152,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10441</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the parent element.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="parentnode" class="tsd-anchor"></a>
@@ -2773,11 +2163,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10445</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the parent.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="prefix" class="tsd-anchor"></a>
@@ -2789,11 +2174,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4812</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the namespace prefix.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="previouselementsibling" class="tsd-anchor"></a>
@@ -2805,12 +2185,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10620</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the first preceding sibling that
-							is an element, and null otherwise.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="previoussibling" class="tsd-anchor"></a>
@@ -2822,11 +2196,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10449</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the previous sibling.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="renderoptions" class="tsd-anchor"></a>
@@ -2835,16 +2204,9 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from LitElement.renderOptions</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/lit-element/lit-element.d.ts:74</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/lit-element/lit-element.d.ts:97</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<dl class="tsd-comment-tags">
-							<dt>category</dt>
-							<dd><p>rendering</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="renderroot" class="tsd-anchor"></a>
@@ -2853,20 +2215,9 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.renderRoot</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:415</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:455</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Node or ShadowRoot into which element DOM should be rendered. Defaults
-							to an open shadowRoot.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>category</dt>
-							<dd><p>rendering</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="scrollheight" class="tsd-anchor"></a>
@@ -2922,11 +2273,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4820</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns element&#39;s shadow root, if any, and if shadow root&#39;s mode is &quot;open&quot;, and null otherwise.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="slot" class="tsd-anchor"></a>
@@ -2938,12 +2284,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4825</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the value of element&#39;s slot content attribute. Can be set to
-							change it.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="spellcheck" class="tsd-anchor"></a>
@@ -2973,7 +2313,7 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<div class="tsd-signature tsd-kind-icon">summary<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L47">components/youtube-modal.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L47">components/youtube-modal.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -2998,11 +2338,6 @@ DeguYouTubeModal.register(myHost)</code></pre>
 							<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4829</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returns the HTML-uppercased qualified name.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="textcontent" class="tsd-anchor"></a>
@@ -3043,7 +2378,7 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<div class="tsd-signature tsd-kind-icon">youtube<wbr>Inline<span class="tsd-signature-symbol">:</span> <a href="components.deguyoutubeinline.html" class="tsd-signature-type">DeguYouTubeInline</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L56">components/youtube-modal.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L56">components/youtube-modal.ts:56</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3054,7 +2389,7 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from LitElement.[&#x27;_$litElement$&#x27;]</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/lit-element/lit-element.d.ts:70</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/lit-element/lit-element.d.ts:93</li>
 						</ul>
 					</aside>
 				</section>
@@ -3065,7 +2400,7 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement._initializers</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:218</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:257</li>
 						</ul>
 					</aside>
 				</section>
@@ -3076,28 +2411,9 @@ DeguYouTubeModal.register(myHost)</code></pre>
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.disableWarning</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:183</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:222</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Disable the given warning category for this class.</p>
-						</div>
-						<p>This method only exists in development builds, so it should be accessed
-						with a guard like:</p>
-						<pre><code class="language-ts"><span class="hljs-comment">// Disable for all ReactiveElement subclasses</span>
-ReactiveElement.disableWarning.?(<span class="hljs-string">'migration'</span>);
-
-<span class="hljs-comment">// Disable for only MyElement and subclasses</span>
-MyElement.disableWarning.?(<span class="hljs-string">'migration'</span>);</code></pre>
-						<dl class="tsd-comment-tags">
-							<dt>nocollapse</dt>
-							<dd></dd>
-							<dt>category</dt>
-							<dd><p>dev-mode</p>
-							</dd>
-						</dl>
-					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -3127,22 +2443,9 @@ MyElement.disableWarning.?(<span class="hljs-string">'migration'</span>);</code>
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.elementProperties</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:236</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:275</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Memoized list of all element properties, including any superclass properties.
-							Created lazily on user subclasses when finalizing the class.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>nocollapse</dt>
-							<dd></dd>
-							<dt>category</dt>
-							<dd><p>properties</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="elementstyles" class="tsd-anchor"></a>
@@ -3151,22 +2454,9 @@ MyElement.disableWarning.?(<span class="hljs-string">'migration'</span>);</code>
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.elementStyles</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:269</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:308</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Memoized list of all element styles.
-							Created lazily on user subclasses when finalizing the class.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>nocollapse</dt>
-							<dd></dd>
-							<dt>category</dt>
-							<dd><p>styles</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="enablewarning" class="tsd-anchor"></a>
@@ -3175,28 +2465,9 @@ MyElement.disableWarning.?(<span class="hljs-string">'migration'</span>);</code>
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.enableWarning</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:165</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:204</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Enable the given warning category for this class.</p>
-						</div>
-						<p>This method only exists in development builds, so it should be accessed
-						with a guard like:</p>
-						<pre><code class="language-ts"><span class="hljs-comment">// Enable for all ReactiveElement subclasses</span>
-ReactiveElement.enableWarning.?(<span class="hljs-string">'migration'</span>);
-
-<span class="hljs-comment">// Enable for only MyElement and subclasses</span>
-MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code></pre>
-						<dl class="tsd-comment-tags">
-							<dt>nocollapse</dt>
-							<dd></dd>
-							<dt>category</dt>
-							<dd><p>dev-mode</p>
-							</dd>
-						</dl>
-					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -3226,22 +2497,9 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.enabledWarnings</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:147</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:186</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Read or set all the enabled warning categories for this class.</p>
-						</div>
-						<p>This property is only used in development builds.</p>
-						<dl class="tsd-comment-tags">
-							<dt>nocollapse</dt>
-							<dd></dd>
-							<dt>category</dt>
-							<dd><p>dev-mode</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="properties" class="tsd-anchor"></a>
@@ -3250,38 +2508,9 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.properties</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:262</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:301</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>User-supplied object that maps property names to <code>PropertyDeclaration</code>
-								objects containing options for configuring reactive properties. When
-							a reactive property is set the element will update and render.</p>
-						</div>
-						<p>By default properties are public fields, and as such, they should be
-							considered as primarily settable by element users, either via attribute or
-						the property itself.</p>
-						<p>Generally, properties that are changed by the element should be private or
-							protected fields and should use the <code>state: true</code> option. Properties
-						marked as <code>state</code> do not reflect from the corresponding attribute</p>
-						<p>However, sometimes element code does need to set a public property. This
-							should typically only be done in response to user interaction, and an event
-							should be fired informing the user; for example, a checkbox sets its
-							<code>checked</code> property when clicked and fires a <code>changed</code> event. Mutating
-							public properties should typically not be done for non-primitive (object or
-							array) properties. In other cases when an element needs to manage state, a
-							private property set with the <code>state: true</code> option should be used. When
-							needed, state properties can be initialized via public properties to
-						facilitate complex interactions.</p>
-						<dl class="tsd-comment-tags">
-							<dt>nocollapse</dt>
-							<dd></dd>
-							<dt>category</dt>
-							<dd><p>properties</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="shadowrootoptions" class="tsd-anchor"></a>
@@ -3290,25 +2519,9 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<aside class="tsd-sources">
 						<p>Inherited from ReactiveElement.shadowRootOptions</p>
 						<ul>
-							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:394</li>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:434</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Options used when calling <code>attachShadow</code>. Set this property to customize
-								the options for the shadowRoot; for example, to create a closed
-							shadowRoot: <code>{mode: &#39;closed&#39;}</code>.</p>
-						</div>
-						<p>Note, these options are used in <code>createRenderRoot</code>. If this method
-						is customized, options should be respected if possible.</p>
-						<dl class="tsd-comment-tags">
-							<dt>nocollapse</dt>
-							<dd></dd>
-							<dt>category</dt>
-							<dd><p>rendering</p>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="styles" class="tsd-anchor"></a>
@@ -3317,7 +2530,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<aside class="tsd-sources">
 						<p>Overrides ReactiveElement.styles</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L163">components/youtube-modal.ts:163</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L163">components/youtube-modal.ts:163</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -3327,70 +2540,24 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="updatecomplete" class="tsd-anchor"></a>
 					<h3>update<wbr>Complete</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> updateComplete<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from ReactiveElement.updateComplete</p>
-								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:588</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns a Promise that resolves when the element has completed updating.
-										The Promise value is a boolean that is <code>true</code> if the element completed the
-										update without triggering another update. The Promise result is <code>false</code> if
-										a property was set inside <code>updated()</code>. If the Promise is rejected, an
-									exception was thrown during the update.</p>
-								</div>
-								<p>To await additional asynchronous work, override the <code>getUpdateComplete</code>
-									method. For example, it is sometimes useful to await a rendered element
-									before fulfilling this Promise. To do this, first await
-								<code>super.getUpdateComplete()</code>, then any subsequent state.</p>
-								<dl class="tsd-comment-tags">
-									<dt>category</dt>
-									<dd><p>updates</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>A promise of a boolean that resolves to true if the update completed
-							without triggering another update.</p>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">update<wbr>Complete<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<p>Inherited from ReactiveElement.updateComplete</p>
+						<ul>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:654</li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="observedattributes" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> observed<wbr>Attributes</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> observedAttributes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from ReactiveElement.observedAttributes</p>
-								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:308</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns a list of attributes corresponding to the registered properties.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>nocollapse</dt>
-									<dd></dd>
-									<dt>category</dt>
-									<dd><p>attributes</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">observed<wbr>Attributes<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<p>Inherited from ReactiveElement.observedAttributes</p>
+						<ul>
+							<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:347</li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -3406,23 +2573,9 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 							<aside class="tsd-sources">
 								<p>Inherited from ReactiveElement.addController</p>
 								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:457</li>
+									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:497</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Registers a <code>ReactiveController</code> to participate in the element&#39;s reactive
-										update cycle. The element automatically calls into any registered
-									controllers during its lifecycle callbacks.</p>
-								</div>
-								<p>If the element is connected when <code>addController()</code> is called, the
-								controller&#39;s <code>hostConnected()</code> callback will be immediately called.</p>
-								<dl class="tsd-comment-tags">
-									<dt>category</dt>
-									<dd><p>controllers</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -3437,8 +2590,8 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="addeventlistener" class="tsd-anchor"></a>
 					<h3>add<wbr>Event<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener&lt;K&gt;<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventListenerOrEventListenerObject</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener&lt;K&gt;<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventListenerOrEventListenerObject</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AddEventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -3518,7 +2671,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="after" class="tsd-anchor"></a>
 					<h3>after</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">after<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">after<span class="tsd-signature-symbol">(</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -3528,17 +2681,10 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:3196</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Inserts nodes just after node, while replacing strings in nodes with equivalent Text nodes.
-										Throws a &quot;HierarchyRequestError&quot; DOMException if the constraints of
-									the node tree are violated.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3549,7 +2695,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="animate" class="tsd-anchor"></a>
 					<h3>animate</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">animate<span class="tsd-signature-symbol">(</span>keyframes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Keyframe</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PropertyIndexedKeyframes</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">KeyframeAnimationOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Animation</span></li>
+						<li class="tsd-signature tsd-kind-icon">animate<span class="tsd-signature-symbol">(</span>keyframes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Keyframe</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PropertyIndexedKeyframes</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">KeyframeAnimationOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Animation</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -3576,7 +2722,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="append" class="tsd-anchor"></a>
 					<h3>append</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">append<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">append<span class="tsd-signature-symbol">(</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -3586,18 +2732,10 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10818</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Inserts nodes after the last child of node, while replacing
-										strings in nodes with equivalent Text nodes.
-										Throws a &quot;HierarchyRequestError&quot; DOMException if the constraints of
-									the node tree are violated.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3648,11 +2786,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4833</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates a shadow root for element and returns it.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -3674,19 +2807,9 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 							<aside class="tsd-sources">
 								<p>Inherited from ReactiveElement.attributeChangedCallback</p>
 								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:510</li>
+									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:558</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Synchronizes property values when attributes change.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>category</dt>
-									<dd><p>attributes</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -3707,7 +2830,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="before" class="tsd-anchor"></a>
 					<h3>before</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">before<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">before<span class="tsd-signature-symbol">(</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -3717,17 +2840,10 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:3202</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Inserts nodes just before node, while replacing strings in nodes with equivalent Text nodes.
-										Throws a &quot;HierarchyRequestError&quot; DOMException if the constraints of
-									the node tree are violated.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3774,7 +2890,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="clonenode" class="tsd-anchor"></a>
 					<h3>clone<wbr>Node</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">clone<wbr>Node<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Node</span></li>
+						<li class="tsd-signature tsd-kind-icon">clone<wbr>Node<span class="tsd-signature-symbol">(</span>deep<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Node</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -3784,11 +2900,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10455</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns a copy of node. If deep is true, the copy also includes the node&#39;s descendants.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -3815,11 +2926,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4837</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the first (starting at element) inclusive ancestor that matches selectors, and null otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -3916,7 +3022,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 							<aside class="tsd-sources">
 								<p>Overrides LitElement.connectedCallback</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L119">components/youtube-modal.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L119">components/youtube-modal.ts:119</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3937,11 +3043,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10460</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns true if other is an inclusive descendant of node, and false otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -3963,7 +3064,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 							<aside class="tsd-sources">
 								<p>Overrides LitElement.disconnectedCallback</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L316">components/youtube-modal.ts:316</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L316">components/youtube-modal.ts:316</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -3984,12 +3085,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:5074</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Dispatches a synthetic event event to target and returns true
-									if either event&#39;s cancelable attribute value is false or its preventDefault() method was not invoked, and false otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -4004,7 +3099,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="focus" class="tsd-anchor"></a>
 					<h3>focus</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">focus<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">FocusOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">focus<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FocusOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -4056,11 +3151,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4843</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns element&#39;s first attribute whose qualified name is qualifiedName, and null if there is no such attribute otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -4088,12 +3178,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4848</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns element&#39;s attribute whose namespace is namespace and local name is localName, and null if there is
-									no such attribute otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -4124,12 +3208,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4853</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the qualified names of all element&#39;s attributes.
-									Can contain duplicates.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
@@ -4394,7 +3472,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="getrootnode" class="tsd-anchor"></a>
 					<h3>get<wbr>Root<wbr>Node</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Root<wbr>Node<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">GetRootNodeOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Node</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Root<wbr>Node<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GetRootNodeOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Node</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -4404,11 +3482,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10464</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns node&#39;s shadow-including root.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -4433,11 +3506,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4868</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns true if element has an attribute whose qualified name is qualifiedName, and false otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -4462,11 +3530,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4872</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns true if element has an attribute whose namespace is namespace and local name is localName.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -4494,11 +3557,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4876</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns true if element has attributes, and false otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -4517,11 +3575,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10468</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns whether node has children.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -4705,11 +3758,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10474</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns whether node and otherNode have the same properties.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -4812,11 +3860,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4884</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns true if matching selectors against element&#39;s root yields element, and false otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -4859,11 +3902,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10481</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes empty exclusive Text nodes and concatenates the data of remaining contiguous exclusive Text nodes into the first of their nodes.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -4878,7 +3916,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L137">components/youtube-modal.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L137">components/youtube-modal.ts:137</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -4895,7 +3933,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="prepend" class="tsd-anchor"></a>
 					<h3>prepend</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">prepend<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">prepend<span class="tsd-signature-symbol">(</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -4905,18 +3943,10 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10825</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Inserts nodes before the first child of node, while
-										replacing strings in nodes with equivalent Text nodes.
-										Throws a &quot;HierarchyRequestError&quot; DOMException if the constraints of
-									the node tree are violated.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -4939,12 +3969,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10830</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the first element that is a descendant of node that
-									matches selectors.</p>
-								</div>
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -5028,12 +4052,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:10837</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns all element descendants of node that
-									match selectors.</p>
-								</div>
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -5130,11 +4148,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:3206</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes node.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -5153,11 +4166,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4890</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes element&#39;s first attribute whose qualified name is qualifiedName.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -5182,11 +4190,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4894</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes element&#39;s attribute whose namespace is namespace and local name is localName.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -5265,19 +4268,9 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 							<aside class="tsd-sources">
 								<p>Inherited from ReactiveElement.removeController</p>
 								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:462</li>
+									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:502</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Removes a <code>ReactiveController</code> from the element.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>category</dt>
-									<dd><p>controllers</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -5292,8 +4285,8 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="removeeventlistener" class="tsd-anchor"></a>
 					<h3>remove<wbr>Event<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener&lt;K&gt;<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventListenerOrEventListenerObject</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener&lt;K&gt;<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">K</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Event<wbr>Listener<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventListenerOrEventListenerObject</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EventListenerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -5379,7 +4372,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L290">components/youtube-modal.ts:290</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L290">components/youtube-modal.ts:290</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
@@ -5434,7 +4427,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="replacewith" class="tsd-anchor"></a>
 					<h3>replace<wbr>With</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">replace<wbr>With<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">replace<wbr>With<span class="tsd-signature-symbol">(</span>nodes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -5444,17 +4437,10 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:3212</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Replaces node with nodes, while replacing strings in nodes with equivalent Text nodes.
-										Throws a &quot;HierarchyRequestError&quot; DOMException if the constraints of
-									the node tree are violated.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> nodes: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -5475,11 +4461,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4899</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Displays element fullscreen and resolves promise when done.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -5488,51 +4469,26 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="requestupdate" class="tsd-anchor"></a>
 					<h3>request<wbr>Update</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">request<wbr>Update<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PropertyKey</span>, oldValue<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">unknown</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PropertyDeclaration</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">request<wbr>Update<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PropertyKey</span>, oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PropertyDeclaration</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from ReactiveElement.requestUpdate</p>
 								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:526</li>
+									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:574</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Requests an update which is processed asynchronously. This should be called
-										when an element should update based on some state not triggered by setting
-										a reactive property. In this case, pass no arguments. It should also be
-										called when manually implementing a property setter. In this case, pass the
-										property <code>name</code> and <code>oldValue</code> to ensure that any configured property
-									options are honored.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>category</dt>
-									<dd><p>updates</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> name: <span class="tsd-signature-type">PropertyKey</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>name of requesting property</p>
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> oldValue: <span class="tsd-signature-type">unknown</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>old value of requesting property</p>
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">PropertyDeclaration</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>property options to use instead of the previously
-										configured options</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -5543,7 +4499,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="scroll" class="tsd-anchor"></a>
 					<h3>scroll</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">scroll<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ScrollToOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">scroll<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ScrollToOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">scroll<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -5586,7 +4542,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="scrollby" class="tsd-anchor"></a>
 					<h3>scroll<wbr>By</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">scroll<wbr>By<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ScrollToOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">scroll<wbr>By<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ScrollToOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">scroll<wbr>By<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -5629,7 +4585,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="scrollintoview" class="tsd-anchor"></a>
 					<h3>scroll<wbr>Into<wbr>View</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">scroll<wbr>Into<wbr>View<span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ScrollIntoViewOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">scroll<wbr>Into<wbr>View<span class="tsd-signature-symbol">(</span>arg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ScrollIntoViewOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -5653,7 +4609,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="scrollto" class="tsd-anchor"></a>
 					<h3>scroll<wbr>To</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">scroll<wbr>To<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ScrollToOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">scroll<wbr>To<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ScrollToOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">scroll<wbr>To<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -5706,11 +4662,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4910</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the value of element&#39;s first attribute whose qualified name is qualifiedName to value.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -5738,11 +4689,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4914</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the value of element&#39;s attribute whose namespace is namespace and local name is localName to value.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -5847,7 +4793,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L151">components/youtube-modal.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L151">components/youtube-modal.ts:151</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -5864,7 +4810,7 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="toggleattribute" class="tsd-anchor"></a>
 					<h3>toggle<wbr>Attribute</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">toggle<wbr>Attribute<span class="tsd-signature-symbol">(</span>qualifiedName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, force<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">toggle<wbr>Attribute<span class="tsd-signature-symbol">(</span>qualifiedName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, force<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -5874,13 +4820,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 									<li>Defined in /home/runner/work/degu/degu/node_modules/typedoc/node_modules/typescript/lib/lib.dom.d.ts:4923</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>If force is not given, &quot;toggles&quot; qualifiedName, removing it if it is
-										present and adding it if it is not present. If force is true, adds qualifiedName. If force is false, removes qualifiedName.
-									Returns true if qualifiedName is now present, and false otherwise.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -5918,37 +4857,6 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="willupdate" class="tsd-anchor"></a>
-					<h3>will<wbr>Update</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">will<wbr>Update<span class="tsd-signature-symbol">(</span>_changedProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PropertyValues</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from ReactiveElement.willUpdate</p>
-								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:570</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<dl class="tsd-comment-tags">
-									<dt>category</dt>
-									<dd><p>updates</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>_changedProperties: <span class="tsd-signature-type">PropertyValues</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="addinitializer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> add<wbr>Initializer</h3>
@@ -5960,37 +4868,9 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 							<aside class="tsd-sources">
 								<p>Inherited from ReactiveElement.addInitializer</p>
 								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:217</li>
+									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:256</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Adds an initializer function to the class that is called during instance
-									construction.</p>
-								</div>
-								<p>This is useful for code that runs against a <code>ReactiveElement</code>
-									subclass, such as a decorator, that needs to do work for each
-								instance, such as setting up a <code>ReactiveController</code>.</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">const</span> myDecorator = <span class="hljs-function">(<span class="hljs-params">target: <span class="hljs-keyword">typeof</span> ReactiveElement, key: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
-  target.addInitializer(<span class="hljs-function">(<span class="hljs-params">instance: ReactiveElement</span>) =&gt;</span> {
-    <span class="hljs-comment">// This is run during construction of the element</span>
-    <span class="hljs-keyword">new</span> MyController(instance);
-  });
-}</code></pre>
-								<p>Decorating a field will then cause each instance to run an initializer
-								that adds a controller:</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">class</span> MyElement <span class="hljs-keyword">extends</span> LitElement {
-  <span class="hljs-meta">@myDecorator</span> foo;
-}</code></pre>
-								<p>Initializers are stored per-constructor. Adding an initializer to a
-									subclass does not add it to a superclass. Since initializers are run in
-									constructors, initializers will run in order of the class hierarchy,
-								starting with superclasses and progressing to the instance&#39;s class.</p>
-								<dl class="tsd-comment-tags">
-									<dt>nocollapse</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -6005,43 +4885,16 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 					<a name="createproperty" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Property<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PropertyKey</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PropertyDeclaration</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Property<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PropertyKey</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PropertyDeclaration</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from ReactiveElement.createProperty</p>
 								<ul>
-									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:334</li>
+									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:373</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates a property accessor on the element prototype if one does not exist
-										and stores a <code>PropertyDeclaration</code> for the property with the given options.
-										The property setter calls the property&#39;s <code>hasChanged</code> property option
-										or uses a strict identity check to determine whether or not to request
-									an update.</p>
-								</div>
-								<p>This method may be overridden to customize properties; however,
-									when doing so, it&#39;s important to call <code>super.createProperty</code> to ensure
-									the property is setup correctly. This method calls
-									<code>getPropertyDescriptor</code> internally to get a descriptor to install.
-									To customize what properties do when they are get or set, override
-									<code>getPropertyDescriptor</code>. To customize the options for a property,
-								implement <code>createProperty</code> like this:</p>
-								<pre><code class="language-ts"><span class="hljs-keyword">static</span> createProperty(name, options) {
-  options = <span class="hljs-built_in">Object</span>.assign(options, {myOption: <span class="hljs-literal">true</span>});
-  <span class="hljs-keyword">super</span>.createProperty(name, options);
-}</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>nocollapse</dt>
-									<dd></dd>
-									<dt>category</dt>
-									<dd><p>properties</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -6055,6 +4908,30 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="getpropertyoptions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Property<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Property<wbr>Options<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PropertyKey</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PropertyDeclaration</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from ReactiveElement.getPropertyOptions</p>
+								<ul>
+									<li>Defined in /home/runner/work/degu/degu/node_modules/@lit/reactive-element/reactive-element.d.ts:416</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">PropertyKey</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PropertyDeclaration</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="register" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> register</h3>
@@ -6065,14 +4942,9 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/components/youtube-modal.ts#L158">components/youtube-modal.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/components/youtube-modal.ts#L158">components/youtube-modal.ts:158</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates an instance of YoutubeModal.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -6994,14 +5866,14 @@ MyElement.enableWarning.?(<span class="hljs-string">'migration'</span>);</code><
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="components.deguyoutubemodal.html#webkitmatchesselector" class="tsd-kind-icon">webkit<wbr>Matches<wbr>Selector</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="components.deguyoutubemodal.html#willupdate" class="tsd-kind-icon">will<wbr>Update</a>
-							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 								<a href="components.deguyoutubemodal.html#addinitializer" class="tsd-kind-icon">add<wbr>Initializer</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 								<a href="components.deguyoutubemodal.html#createproperty" class="tsd-kind-icon">create<wbr>Property</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+								<a href="components.deguyoutubemodal.html#getpropertyoptions" class="tsd-kind-icon">get<wbr>Property<wbr>Options</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="components.deguyoutubemodal.html#register" class="tsd-kind-icon">register</a>

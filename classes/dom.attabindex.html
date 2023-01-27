@@ -67,53 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>AtTabIndex helps with accessibility by allows you to set tabindex values
-						to DomElements per specific conditions (usually some breakpoints.)</p>
-					</div>
-					<p>Setup</p>
-					<pre><code>  const atTabIndex = <span class="hljs-keyword">new</span> AtTabIndex({
-    element: <span class="hljs-keyword">this</span>.frame,
-    conditions: [
-      [<span class="hljs-string">'desktop'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &gt;= <span class="hljs-number">1440</span>],
-      [
-        <span class="hljs-string">'laptop'</span>,
-        <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &lt;= <span class="hljs-number">1439</span> &amp;&amp; <span class="hljs-built_in">window</span>.innerWidth &gt;= <span class="hljs-number">1024</span>,
-      ],
-      [<span class="hljs-string">'tablet'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &lt;= <span class="hljs-number">1023</span> &amp;&amp; <span class="hljs-built_in">window</span>.innerWidth &gt;= <span class="hljs-number">600</span>],
-      [<span class="hljs-string">'mobile'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &lt;= <span class="hljs-number">599</span>],
-      [<span class="hljs-string">'tablet-gt'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &gt;= <span class="hljs-number">600</span>],
-      [<span class="hljs-string">'tablet-lt'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &lt;= <span class="hljs-number">1023</span>],
-      [<span class="hljs-string">'laptop-gt'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &gt;= <span class="hljs-number">1024</span>],
-      [<span class="hljs-string">'laptop-lt'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &lt;= <span class="hljs-number">1439</span>],
-      [<span class="hljs-string">'desktop-gt'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &gt;= <span class="hljs-number">1440</span>],
-    ],
-    watchResize: <span class="hljs-literal">true</span>,
-    updateChildren: <span class="hljs-literal">true</span>
-  });
-
- <span class="hljs-regexp">//</span> Later
- atTabIndex.dispose();
-</code></pre><p>Usages:</p>
-					<pre><code>
-&lt;<span class="hljs-keyword">div</span> <span class="hljs-keyword">at</span>-<span class="hljs-literal">tab</span>-index=<span class="hljs-string">"2@tablet-lt 3@laptop-gt"</span>&gt;
-   Tab Index gets <span class="hljs-keyword">set</span> <span class="hljs-number">2</span> <span class="hljs-keyword">on</span> tablet-lt <span class="hljs-keyword">and</span> <span class="hljs-number">3</span> <span class="hljs-keyword">on</span> laptop-gt
-&lt;/<span class="hljs-keyword">div</span>&gt;
-
-&lt;<span class="hljs-keyword">div</span> <span class="hljs-keyword">at</span>-<span class="hljs-literal">tab</span>-index=<span class="hljs-string">"2@mobile"</span>&gt;Tab index only <span class="hljs-keyword">on</span> mobile&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre><p>When updateChildren is true, at-tab-index will update the focusable children
-					as well.</p>
-					<p>You can add <code>at-tab-index-ignore</code> if you want to ignore specific children
-					from updating.</p>
-					<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-keyword">at</span>-<span class="hljs-literal">tab</span>-index=<span class="hljs-string">"4@mobile"</span> <span class="hljs-keyword">at</span>-<span class="hljs-literal">tab</span>-index-ignore&gt;
-     &lt;button&gt;This button will <span class="hljs-keyword">get</span> <span class="hljs-literal">tab</span>-index <span class="hljs-number">4</span> <span class="hljs-keyword">on</span> mobile&lt;/button&gt;
-     &lt;button&gt;This button will <span class="hljs-keyword">get</span> <span class="hljs-literal">tab</span>-index <span class="hljs-number">4</span> <span class="hljs-keyword">on</span> mobile&lt;/button&gt;
-     &lt;button <span class="hljs-keyword">at</span>-<span class="hljs-literal">tab</span>-index-ignore&gt;This button will <span class="hljs-keyword">get</span> <span class="hljs-literal">tab</span>-index <span class="hljs-number">4</span> <span class="hljs-keyword">on</span> mobile&lt;/button&gt;
-&lt;/<span class="hljs-keyword">div</span>&gt;
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -155,7 +108,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/at-tabindex.ts#L99">dom/at-tabindex.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/at-tabindex.ts#L99">dom/at-tabindex.ts:99</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -181,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/at-tabindex.ts#L181">dom/at-tabindex.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/at-tabindex.ts#L181">dom/at-tabindex.ts:181</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -198,15 +151,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/at-tabindex.ts#L121">dom/at-tabindex.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/at-tabindex.ts#L121">dom/at-tabindex.ts:121</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Scans the rootElement and creates a cache of all elements with <code>at-tab-index</code>
-									within the current root element.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -221,14 +168,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/at-tabindex.ts#L145">dom/at-tabindex.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/at-tabindex.ts#L145">dom/at-tabindex.ts:145</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates all conditions and applies tabindex</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

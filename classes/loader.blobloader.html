@@ -67,33 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that fetches a bunch of blobs.</p>
-					</div>
-					<p>Here is an example of using the blob loader to fetch images.
-						const myImages = [
-						&#39;<a href="http://mydomain.com/dog.png&#39;">http://mydomain.com/dog.png&#39;</a>,
-						&#39;<a href="http://mydomain.com/cat.png&#39;">http://mydomain.com/cat.png&#39;</a>
-						&#39;<a href="http://mydomain.com/cow.jpg&#39;">http://mydomain.com/cow.jpg&#39;</a>
-					];</p>
-					<p>const blobLoader = new blobLoader();</p>
-					<p>// Loads images.
-					await results = blobLoader.load();</p>
-					<p>// The source of the image is the key.
-						results[&#39;<a href="http://mydomain.com/dog.png&#39;%5D">http://mydomain.com/dog.png&#39;]</a>; // DOG blob.
-					results[&#39;<a href="http://mydomain.com/cat.png&#39;%5D">http://mydomain.com/cat.png&#39;]</a>; // Cat blob.</p>
-					<p>const image = dom.makeImageFromBlob(blob);</p>
-					<p>// Use the image.
-					canvas.drawImage(image);</p>
-					<p>// Now delete it from memory.
-					dom.deleteImage(image);</p>
-					<p>// Later
-					blobLoader.dispose();</p>
-					<p><code>`</code></p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -144,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/blob-loader.ts#L51">loader/blob-loader.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/blob-loader.ts#L51">loader/blob-loader.ts:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -166,7 +139,7 @@
 					<div class="tsd-signature tsd-kind-icon">image<wbr>Sources<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/blob-loader.ts#L36">loader/blob-loader.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/blob-loader.ts#L36">loader/blob-loader.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,14 +149,9 @@
 					<div class="tsd-signature tsd-kind-icon">max<wbr>Retries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/blob-loader.ts#L51">loader/blob-loader.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/blob-loader.ts#L51">loader/blob-loader.ts:51</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The number of times to refetch an image if unsuccessful.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -198,7 +166,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/blob-loader.ts#L144">loader/blob-loader.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/blob-loader.ts#L144">loader/blob-loader.ts:144</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -215,7 +183,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/blob-loader.ts#L60">loader/blob-loader.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/blob-loader.ts#L60">loader/blob-loader.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -232,14 +200,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/blob-loader.ts#L103">loader/blob-loader.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/blob-loader.ts#L103">loader/blob-loader.ts:103</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Loads the requested images as Base64 images.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -254,7 +217,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/blob-loader.ts#L75">loader/blob-loader.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/blob-loader.ts#L75">loader/blob-loader.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -280,7 +243,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/loader/blob-loader.ts#L115">loader/blob-loader.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/loader/blob-loader.ts#L115">loader/blob-loader.ts:115</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

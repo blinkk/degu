@@ -67,115 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>An experimental class that works with offscreen canvas and makes it
-						pretty easy to run tasks on a canvas in a separate thread.</p>
-					</div>
-					<p>This works but there are some gotchas that users should be aware of.
-						As of now, offScreenCanvas is run a separate thread with
-						limitations, thisl class is best used for doing computational tasks
-					that can be wrapped in a task call.</p>
-					<p>It may not be well suited to say try to run a huge 3D application.
-						If you want run a large app, you are probably better off making or finding
-					a different offScreenCanvas implementation.</p>
-					<p>See the example usage in the /examples/off-screen-canvas sample.</p>
-					<p>Read the below for the walk through.  There are several limitations.</p>
-					<p>TODO (uxder): The process of setup and be simplified.  setCanvas for example
-					seems like an extra step.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">import</span> { OffScreenCanvas, is } <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu'</span>;
-
-<span class="hljs-comment">// Check for support and handle non-supporting browsers as you see fit.</span>
-<span class="hljs-keyword">if</span> (!is.supportingOffScreenCanvas()) {
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Sorry your browser is not suppported'</span>);
-}
-
-<span class="hljs-comment">// First create an instance of OffScreenCanvas.</span>
-<span class="hljs-keyword">const</span> offScreenCanvas = <span class="hljs-keyword">new</span> OffScreenCanvas();
-
-<span class="hljs-comment">// Grab the canvas element on your page (or create one).</span>
-<span class="hljs-keyword">const</span> canvas = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'canvas'</span>);
-
-<span class="hljs-comment">// Now set the offscreen canvas.  This is a REQUIRED step before</span>
-<span class="hljs-comment">// making calls.  It tells offScreenCanvas to prepare this canvas</span>
-<span class="hljs-comment">// to be transferable via webWorkers.</span>
-offScreenCanvas.setCanvas(canvas);
-
-
-<span class="hljs-comment">// Create a function that will run as a web worker.  This will get executed</span>
-<span class="hljs-comment">// on a different threadc.</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// Limitation 1: Note that this  code actually ends up getting stringified</span>
-<span class="hljs-comment">// (important), bundled and sent to a separate thread.</span>
-<span class="hljs-comment">// Therefore, it is sandboxed in it's own world.</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// Limitation 2:</span>
-<span class="hljs-comment">// The function should accept only 1 parameter AND it must be named "params"</span>
-<span class="hljs-comment">// by convention.  You can send any parameters up as an object.  This is done</span>
-<span class="hljs-comment">// as a convention and to make it easier to wrap up.  See WebWorker for more.</span>
-<span class="hljs-comment">//</span>
- <span class="hljs-keyword">const</span> task = <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> {
-      <span class="hljs-comment">// If a command called init was sent, set the canvas</span>
-       <span class="hljs-keyword">if</span> (params.command === <span class="hljs-string">'init'</span>) {
-          self.canvas = params.canvas;
-          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>, params.name);
-          self.ctx = canvas.getContext(<span class="hljs-string">'2d'</span>);
-       }
-
-      <span class="hljs-comment">// Defines an animation loop.</span>
-      <span class="hljs-keyword">var</span> animate = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-          <span class="hljs-comment">// Do something cool.</span>
-          <span class="hljs-comment">// This will draw on the canvas (on your main thread)</span>
-          ctx.fillRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">150</span>, <span class="hljs-number">75</span>);
-          requestAnimationFrame(animate);
-      };
-
-      <span class="hljs-keyword">if</span> (params.command === <span class="hljs-string">'animate'</span>) {
-        animate();
-        <span class="hljs-comment">// Return a mesagge when animate is sent.</span>
-        <span class="hljs-keyword">return</span> { message: <span class="hljs-string">'FROM WORKER: started animation'</span> };
-      }
-  };
-
-<span class="hljs-comment">// Now bind and set that task to your instanfe of OffScreenCanvas.</span>
-<span class="hljs-comment">// This will tell offScreenCanvas to run your task in a separate thread.</span>
-offScreenCanvas.setCanvasTask(task);
-
-
-<span class="hljs-comment">// Now initialize offscreen canvas.  The canvas is automatically sent</span>
-<span class="hljs-comment">// and will be available in your task with params.canvas.  You can send</span>
-<span class="hljs-comment">// additional key/value data.</span>
- offScreenCanvas.init({
-    command: <span class="hljs-string">'init'</span>,
-    name: <span class="hljs-string">'Scott'</span>
-  }).then(<span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> {
-
-           <span class="hljs-comment">// Once initialized, send additional commands with</span>
-           <span class="hljs-comment">// sendMessageToCanvas.</span>
-           offScreenCanvas.sendMessageToCanvas({
-               command: <span class="hljs-string">'animate'</span>,
-               data: <span class="hljs-string">'John'</span>
-           }).then(<span class="hljs-function">(<span class="hljs-params">message</span>) =&gt;</span> {
-               <span class="hljs-built_in">console</span>.log(message); <span class="hljs-comment">// FROM WORKER: started animation</span>
-           });
-       });
- }
-
-<span class="hljs-comment">// When you are all done, don't forget to terminate the WebWorker.</span>
-offScreenCanvas.terminate();</code></pre>
-					<p>Now assuing you had the canvas you set attached to the DOM, you should
-						see the canvas draw itself.  This is because, when you ran
-						<a href="dom.offscreencanvas.html#setcanvas">OffScreenCanvas.setCanvas</a>, you basically set it to release control of it
-						to a separate worker.  So the manipulations to the canvas
-					(draw call on context) get updated and visible.</p>
-					<dl class="tsd-comment-tags">
-						<dt>unstable</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -219,7 +110,7 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/off-screen-canvas.ts#L125">dom/off-screen-canvas.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/off-screen-canvas.ts#L125">dom/off-screen-canvas.ts:125</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="dom.offscreencanvas.html" class="tsd-signature-type">OffScreenCanvas</a></h4>
@@ -239,7 +130,7 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/off-screen-canvas.ts#L187">dom/off-screen-canvas.ts:187</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/off-screen-canvas.ts#L187">dom/off-screen-canvas.ts:187</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -256,14 +147,9 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/off-screen-canvas.ts#L161">dom/off-screen-canvas.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/off-screen-canvas.ts#L161">dom/off-screen-canvas.ts:161</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sends the first message to the worker with the transferable canvas</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -284,20 +170,13 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/off-screen-canvas.ts#L180">dom/off-screen-canvas.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/off-screen-canvas.ts#L180">dom/off-screen-canvas.ts:180</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sends a message to the worker.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>message: <span class="tsd-signature-type">Object</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -314,21 +193,13 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/off-screen-canvas.ts#L140">dom/off-screen-canvas.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/off-screen-canvas.ts#L140">dom/off-screen-canvas.ts:140</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the canvas to be used as offSetCanvas.  Save the canvas to be
-									used.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>canvas: <span class="tsd-signature-type">HTMLCanvasElement</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -345,17 +216,9 @@ offScreenCanvas.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/off-screen-canvas.ts#L153">dom/off-screen-canvas.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/off-screen-canvas.ts#L153">dom/off-screen-canvas.ts:153</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The handler for the offscreen canvas worker.
-										Note that the contents of this task are stringified and send to a separate
-										thread so the contents of the task are sandboxed.  Same limitations as
-									regular webworkers applieds (no access to DOM for exmaple)</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

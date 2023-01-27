@@ -67,49 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A subscribable timer.</p>
-					</div>
-					<p>Basic Usage:</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> myTimer = <span class="hljs-keyword">new</span> Timer({
-   duration: <span class="hljs-number">5000</span>,
-   repeat: <span class="hljs-literal">false</span>
-})
-
-<span class="hljs-comment">// Called on timer is triggered</span>
-myTimer.on(Timer.Event.TRIGGERED, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'timer is done'</span>);
-})
-
-<span class="hljs-comment">// Start it.</span>
-myTimer.start();
-
-<span class="hljs-comment">// Later dispose it.</span>
-myTimer.dispose();</code></pre>
-					<p>Advanced Usage - repeating timer and pause / unpausing.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> myTimer = <span class="hljs-keyword">new</span> Timer({
-   duration: <span class="hljs-number">5000</span>,
-   repeat: <span class="hljs-literal">true</span>
-})
-
-<span class="hljs-comment">// Called every 5000ms.</span>
-myTimer.on(Timer.Event.TRIGGERED, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-   <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'timer is done'</span>);
-})
-
-myTimer.start();
-
-<span class="hljs-comment">// Later</span>
-myTimer.pause();
-myTimer.unpause();
-
-<span class="hljs-comment">// Call this on page disposal to prevent any timers running later.</span>
-myTimer.dispose();
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -160,13 +117,13 @@ myTimer.dispose();
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Timer<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">?: </span><a href="../interfaces/time.timerconfig.html" class="tsd-signature-type">TimerConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="time.timer.html" class="tsd-signature-type">Timer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Timer<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/time.timerconfig.html" class="tsd-signature-type">TimerConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="time.timer.html" class="tsd-signature-type">Timer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/timer.ts#L72">time/timer.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/timer.ts#L72">time/timer.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -188,7 +145,7 @@ myTimer.dispose();
 					<div class="tsd-signature tsd-kind-icon">Event<span class="tsd-signature-symbol">:</span> <a href="../enums/time.timerevent.html" class="tsd-signature-type">TimerEvent</a><span class="tsd-signature-symbol"> =&nbsp;TimerEvent</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/timer.ts#L84">time/timer.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/timer.ts#L84">time/timer.ts:84</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -205,7 +162,7 @@ myTimer.dispose();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/timer.ts#L134">time/timer.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/timer.ts#L134">time/timer.ts:134</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -222,7 +179,7 @@ myTimer.dispose();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/timer.ts#L130">time/timer.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/timer.ts#L130">time/timer.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -248,7 +205,7 @@ myTimer.dispose();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/timer.ts#L126">time/timer.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/timer.ts#L126">time/timer.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -274,7 +231,7 @@ myTimer.dispose();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/timer.ts#L109">time/timer.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/timer.ts#L109">time/timer.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -291,7 +248,7 @@ myTimer.dispose();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/timer.ts#L86">time/timer.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/timer.ts#L86">time/timer.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -308,7 +265,7 @@ myTimer.dispose();
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/timer.ts#L119">time/timer.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/timer.ts#L119">time/timer.ts:119</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

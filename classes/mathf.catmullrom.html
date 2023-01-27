@@ -67,68 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A basic catmull-rom class.  Useful for creating splines or catmull-rom
-							interpolations.  They are useful compared to other splines because they are
-						guaranteed to go through specified control points.</p>
-					</div>
-					<p>This particular implementation uses hermite curves from point to point.
-						Given a set of points, we calculate the m0, m1 tangents between and
-					curve until we are out of points.</p>
-					<p>TODO (uxder): Using interpolate, create a spline.
-					TDOO (uxder): Take on SVG spline interpolate.</p>
-					<pre><code class="language-ts">   <span class="hljs-keyword">let</span> catmullInterpolate = CatmullRom.interpolate(
-       [
-           <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>),
-           <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>),
-           <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">200</span>, <span class="hljs-number">200</span>),
-           <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">300</span>, <span class="hljs-number">400</span>),
-           ... <span class="hljs-comment">// Can take any number of vectors.</span>
-       ],
-       <span class="hljs-number">0.25</span>,   <span class="hljs-comment">// Optional m0 tension</span>
-       <span class="hljs-number">0.25</span>    <span class="hljs-comment">// Optional m1 tensions</span>
-   );
-
-  <span class="hljs-keyword">let</span> progress = <span class="hljs-number">0.5</span>;
-  <span class="hljs-keyword">let</span> x = catmullInterplate(progress).x;  <span class="hljs-comment">// Returns the x value at 0.5 progress.</span>
-  <span class="hljs-keyword">let</span> y = catmullInterpolate(progress).y; <span class="hljs-comment">// Returns the y value at 0.5 progress.</span></code></pre>
-					<p>Or static method</p>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> mypoints = [
-          <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>),
-          <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>),
-          <span class="hljs-keyword">new</span> Vector(<span class="hljs-number">200</span>, <span class="hljs-number">200</span>),
-]
-<span class="hljs-keyword">this</span>.x = CatmullRom.getPoint(
-   myPoints,
-   <span class="hljs-number">0.5</span>, <span class="hljs-comment">// Progress</span>
-).x;
-<span class="hljs-keyword">this</span>.y = CatmullRom.getPoint(
-   myPoints,
-   <span class="hljs-number">0.5</span>, <span class="hljs-comment">// Progress</span>
-).y;
-</code></pre>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p><a href="http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20150105">http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20150105</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://www.youtube.com/watch?v=w_uU_rPayoQ">https://www.youtube.com/watch?v=w_uU_rPayoQ</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://en.wikibooks.org/wiki/Cg_Programming/Unity/Hermite_Curves">https://en.wikibooks.org/wiki/Cg_Programming/Unity/Hermite_Curves</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="https://en.wikipedia.org/wiki/Centripetal_Catmull%E2%80%93Rom_spline">https://en.wikipedia.org/wiki/Centripetal_Catmull%E2%80%93Rom_spline</a></p>
-						</dd>
-						<dt>see</dt>
-						<dd><p><a href="http://hadashia.hatenablog.com/entry/2017/12/30/150556">http://hadashia.hatenablog.com/entry/2017/12/30/150556</a></p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -163,17 +101,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/catmull-rom.ts#L86">mathf/catmull-rom.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/catmull-rom.ts#L86">mathf/catmull-rom.ts:86</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>For the given set of vectors, finds the p0 and p1 (start and end)
-										vectors that apply to the current progress range and then calculates
-										the in-between m0 and m1 tangents and applies the hermite-curve
-									and returns a vector of the current catmull-rom interpolation.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -181,8 +111,6 @@
 								</li>
 								<li>
 									<h5>progress: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> m0Tension: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0.5</span></h5>
@@ -205,29 +133,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/catmull-rom.ts#L68">mathf/catmull-rom.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/catmull-rom.ts#L68">mathf/catmull-rom.ts:68</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a function that can be called to apply camtull roll interpolations.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>points: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="mathf.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A point of vectors.</p>
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> m0Tension: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0.5</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> m1Tension: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0.5</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Function</span></h4>

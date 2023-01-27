@@ -67,66 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that looks for all elements with data-scroll-to-center-of-screen-on-focus
-							and when that element is focused, centers it to the vertical center
-						of the current viewport.</p>
-					</div>
-					<p>Why is this needed?</p>
-					<p>Let&#39;s say you have a title, body (chapter) that has an inview fade-in anim
-					that triggers when the threshold passes the bottom 30% of the viewport.</p>
-					<p>When using VO or another screenreader, the user can focus onto an element
-						while it is still below the threshold causing a situation where the
-					content is announced but not visible on the screen.</p>
-					<p>By using this class, you can force the element to the vertical center
-					of the screen to avoid these types of situations.</p>
-					<pre><code>
-  <span class="hljs-keyword">this</span>.scrollToCenterOfScreenOnFocus = <span class="hljs-keyword">new</span> ScrollToCenterOfScreenOnFocus({
-     element: <span class="hljs-keyword">this</span>.element,
-     debug: <span class="hljs-keyword">false</span>,
-     setTabIndex: <span class="hljs-keyword">true</span>,
-    setAriaRole: <span class="hljs-string">'region'</span>
-  });
-
-
-<span class="hljs-comment">// Most cases:</span>
-<span class="hljs-comment">// On focus of this element, would scroll the window so that the element</span>
-<span class="hljs-comment">// is dead center in the screen.</span>
-&lt;<span class="hljs-keyword">div</span> data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0.5"</span>&gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
-
-<span class="hljs-comment">// On focus scroll so that the top of this element is at the top of the screen.</span>
-&lt;<span class="hljs-keyword">div</span>
- data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0"</span>
- data-base-line=<span class="hljs-string">"0"</span>
- &gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
-
-<span class="hljs-comment">// On focus scroll so that the center of this element is at the top of the screen.</span>
-&lt;<span class="hljs-keyword">div</span>
- data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0"</span>
- data-base-line=<span class="hljs-string">"0.5"</span>
- &gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
-
-<span class="hljs-comment">// On focus of this element, would scroll the window so that the element</span>
-<span class="hljs-comment">// is 0.8 percent from the top</span>
-&lt;<span class="hljs-keyword">div</span> data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0.8"</span>&gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
-
-
-<span class="hljs-comment">// On focus, the bottom of this element should be at the center of the</span>
-<span class="hljs-comment">// screen.</span>
-&lt;<span class="hljs-keyword">div</span>
- data-scroll-to-center-of-screen-on-focus=<span class="hljs-string">"0.5"</span>
- data-base-line=<span class="hljs-string">"1"</span>
- &gt;xxx&lt;/<span class="hljs-keyword">div</span>&gt;
-
-</code></pre><p><code>data-scroll-to-center-of-screen-on-focus</code> value sets where on the screen
-						the element should align to. 0 would be the top, 0.5 would be center and 1
-					would be the bottom of the screen.</p>
-					<p><code>data-base-line</code> tells this class what part of the element should be aligned.
-					0 would mean the top of the element, 0.5 would be the center, 1 would be the bottom.</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -166,7 +106,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-to-center-of-screen-on-focus.ts#L108">dom/scroll-to-center-of-screen-on-focus.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-to-center-of-screen-on-focus.ts#L108">dom/scroll-to-center-of-screen-on-focus.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -192,7 +132,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-to-center-of-screen-on-focus.ts#L184">dom/scroll-to-center-of-screen-on-focus.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-to-center-of-screen-on-focus.ts#L184">dom/scroll-to-center-of-screen-on-focus.ts:184</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

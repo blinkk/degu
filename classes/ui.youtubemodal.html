@@ -67,106 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>YouTubeModal is a full-screen modal player.</p>
-					</div>
-					<p>Example usage:</p>
-					<p>1) Create a button that&#39;ll launch the modal:</p>
-					<pre><code>&lt;<span class="hljs-keyword">button </span><span class="hljs-meta">data</span>-degu-youtube-modal-video-id=<span class="hljs-string">"5qap5aO4i9A"</span>&gt;Watch now&lt;/<span class="hljs-keyword">button&gt;</span></code></pre><p>2) Initialize the YouTubeModal:</p>
-					<pre><code><span class="hljs-keyword">const</span> options = <span class="hljs-meta">{...}</span>;
-<span class="hljs-keyword">const</span> ytModal = new <span class="hljs-type">YouTubeModal</span>(options);</code></pre><p>When the button is clicked (or triggered via keyboard), a full-screen modal
-					should appear and the YouTube video should automatically play.</p>
-					<p>3) Add SASS:</p>
-					<pre><code>$ytmodal-button-<span class="hljs-built_in">height</span>: 50px !default
-$ytmodal-<span class="hljs-built_in">color</span>-black: #<span class="hljs-number">000</span> !default
-$ytmodal-<span class="hljs-built_in">color</span>-white: #fff !default
-$ytmodal-z-index: <span class="hljs-number">2000</span> !default
-
-[data-degu-youtube-modal-video-id]
-  cursor: pointer
-
-.degu-youtube-modal
-  <span class="hljs-built_in">display</span>: none
-  <span class="hljs-built_in">height</span>: <span class="hljs-number">100</span><span class="hljs-symbol">%</span>
-  left: <span class="hljs-number">0</span>
-  <span class="hljs-built_in">opacity</span>: <span class="hljs-number">0</span>
-  <span class="hljs-built_in">position</span>: fixed
-  top: <span class="hljs-number">0</span>
-  <span class="hljs-built_in">transform</span>: <span class="hljs-built_in">scale</span>(<span class="hljs-number">1.15</span>)
-  transition: all <span class="hljs-number">0.</span>3s cubic-bezier(.<span class="hljs-number">4</span>,<span class="hljs-number">0</span>,.<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)
-  visibility: hidden
-  <span class="hljs-built_in">width</span>: <span class="hljs-number">100</span><span class="hljs-symbol">%</span>
-  z-index: $ytmodal-z-index
-
-  &amp;--enabled
-    <span class="hljs-built_in">display</span>: <span class="hljs-built_in">block</span>
-
-  &amp;--visible
-    <span class="hljs-built_in">opacity</span>: <span class="hljs-number">1</span>
-    <span class="hljs-built_in">transform</span>: <span class="hljs-built_in">scale</span>(<span class="hljs-number">1</span>)
-    visibility: visible
-
-.degu-youtube-modal__x
-  align-items: <span class="hljs-built_in">center</span>
-  <span class="hljs-built_in">background</span>: $ytmodal-<span class="hljs-built_in">color</span>-black
-  <span class="hljs-built_in">border</span>: 2px solid rgba(<span class="hljs-number">99</span>, <span class="hljs-number">96</span>, <span class="hljs-number">96</span>, <span class="hljs-number">0.6</span>)
-  <span class="hljs-built_in">border</span>-<span class="hljs-built_in">radius</span>: <span class="hljs-number">50</span><span class="hljs-symbol">%</span>
-  <span class="hljs-built_in">color</span>: $ytmodal-<span class="hljs-built_in">color</span>-white
-  cursor: pointer
-  <span class="hljs-built_in">display</span>: flex
-  <span class="hljs-built_in">font</span>-size: $ytmodal-button-<span class="hljs-built_in">height</span>
-  <span class="hljs-built_in">height</span>: $ytmodal-button-<span class="hljs-built_in">height</span>
-  justify-<span class="hljs-built_in">content</span>: <span class="hljs-built_in">center</span>
-  line-<span class="hljs-built_in">height</span>: $ytmodal-button-<span class="hljs-built_in">height</span>
-  <span class="hljs-built_in">opacity</span>: <span class="hljs-number">0.8</span>
-  overflow: hidden
-  <span class="hljs-built_in">position</span>: absolute
-  right: <span class="hljs-number">3.</span>69853vw
-  text-align: <span class="hljs-built_in">center</span>
-  top: <span class="hljs-number">3.</span>69853vw
-  transition: all <span class="hljs-number">0.</span>3s
-  <span class="hljs-built_in">width</span>: $ytmodal-button-<span class="hljs-built_in">height</span>
-  z-index: $ytmodal-z-index + <span class="hljs-number">3</span>
-
-  &amp;:before
-    <span class="hljs-built_in">content</span>: <span class="hljs-string">"\00D7"</span>
-    <span class="hljs-built_in">display</span>: <span class="hljs-built_in">block</span>
-    <span class="hljs-built_in">font</span>-family: 'arial', sans-serif
-    <span class="hljs-built_in">font</span>-size: $ytmodal-button-<span class="hljs-built_in">height</span> - 10px
-    <span class="hljs-built_in">height</span>: $ytmodal-button-<span class="hljs-built_in">height</span> - 10px
-    line-<span class="hljs-built_in">height</span>: <span class="hljs-number">1</span>
-    text-align: <span class="hljs-built_in">center</span>
-    margin-top: 2px
-    <span class="hljs-built_in">width</span>: $ytmodal-button-<span class="hljs-built_in">height</span> - 10px
-
-  &amp;:hover
-    <span class="hljs-built_in">color</span>: $ytmodal-<span class="hljs-built_in">color</span>-black
-    <span class="hljs-built_in">background</span>: $ytmodal-<span class="hljs-built_in">color</span>-white
-
-.degu-youtube-modal__mask
-  <span class="hljs-built_in">background</span>: $ytmodal-<span class="hljs-built_in">color</span>-black
-  <span class="hljs-built_in">height</span>: <span class="hljs-number">100</span><span class="hljs-symbol">%</span>
-  left: <span class="hljs-number">0</span>
-  <span class="hljs-built_in">position</span>: absolute
-  top: <span class="hljs-number">0</span>
-  <span class="hljs-built_in">width</span>: <span class="hljs-number">100</span><span class="hljs-symbol">%</span>
-  z-index: $ytmodal-z-index + <span class="hljs-number">1</span>
-
-.degu-youtube-modal__player
-  <span class="hljs-built_in">height</span>: calc(100vh - <span class="hljs-number">7.</span>39707vw)
-  left: <span class="hljs-number">50</span><span class="hljs-symbol">%</span>
-  // Use <span class="hljs-built_in">max</span>-<span class="hljs-built_in">height</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">max</span>-<span class="hljs-built_in">width</span> to <span class="hljs-built_in">fix</span> the player to <span class="hljs-number">16</span>:<span class="hljs-number">9</span>.
-  <span class="hljs-built_in">max</span>-<span class="hljs-built_in">height</span>: calc((100vw - <span class="hljs-number">22.</span>19121vw) * <span class="hljs-number">9</span>/<span class="hljs-number">16</span>)
-  <span class="hljs-built_in">max</span>-<span class="hljs-built_in">width</span>: calc((100vh - <span class="hljs-number">7.</span>39707vw) * <span class="hljs-number">16</span>/<span class="hljs-number">9</span>)
-  <span class="hljs-built_in">position</span>: absolute
-  top: <span class="hljs-number">50</span><span class="hljs-symbol">%</span>
-  <span class="hljs-built_in">transform</span>: translateX(-<span class="hljs-number">50</span><span class="hljs-symbol">%</span>) translateY(-<span class="hljs-number">50</span><span class="hljs-symbol">%</span>)
-  <span class="hljs-built_in">width</span>: calc(100vw - <span class="hljs-number">22.</span>19121vw)
-  z-index: $ytmodal-z-index + <span class="hljs-number">2</span></code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -209,7 +109,7 @@ $ytmodal-z-index: <span class="hljs-number">2000</span> !default
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/youtube-modal/youtube-modal.ts#L223">ui/youtube-modal/youtube-modal.ts:223</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/youtube-modal/youtube-modal.ts#L223">ui/youtube-modal/youtube-modal.ts:223</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -235,14 +135,9 @@ $ytmodal-z-index: <span class="hljs-number">2000</span> !default
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/youtube-modal/youtube-modal.ts#L381">ui/youtube-modal/youtube-modal.ts:381</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/youtube-modal/youtube-modal.ts#L381">ui/youtube-modal/youtube-modal.ts:381</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Disposes the modal.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -257,15 +152,9 @@ $ytmodal-z-index: <span class="hljs-number">2000</span> !default
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/youtube-modal/youtube-modal.ts#L321">ui/youtube-modal/youtube-modal.ts:321</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/youtube-modal/youtube-modal.ts#L321">ui/youtube-modal/youtube-modal.ts:321</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts an element&#39;s data- attrs into a config object for
-									{@link YouTubeModal#play}.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -280,20 +169,15 @@ $ytmodal-z-index: <span class="hljs-number">2000</span> !default
 					<a name="play" class="tsd-anchor"></a>
 					<h3>play</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">play<span class="tsd-signature-symbol">(</span>videoId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, playOptions<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ui.playoptions.html" class="tsd-signature-type">PlayOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">play<span class="tsd-signature-symbol">(</span>videoId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, playOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/ui.playoptions.html" class="tsd-signature-type">PlayOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/youtube-modal/youtube-modal.ts#L270">ui/youtube-modal/youtube-modal.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/youtube-modal/youtube-modal.ts#L270">ui/youtube-modal/youtube-modal.ts:270</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Plays a YouTube video in the modal player.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -317,14 +201,9 @@ $ytmodal-z-index: <span class="hljs-number">2000</span> !default
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/youtube-modal/youtube-modal.ts#L344">ui/youtube-modal/youtube-modal.ts:344</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/youtube-modal/youtube-modal.ts#L344">ui/youtube-modal/youtube-modal.ts:344</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the active state of the modal.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

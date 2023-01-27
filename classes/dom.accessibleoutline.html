@@ -67,28 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that helps with enabling outline on a page ONLY when the user
-						is interacting with the keyboard.</p>
-					</div>
-					<p>Note it&#39;s recommended you use:
-						<a href="http://css-tricks.com/the-focus-visible-trick/">http://css-tricks.com/the-focus-visible-trick/</a>
-					instead of this class now.</p>
-					<p>It is common to do outline: none to disable button or inputs for
-						aesthetic reasons but this not good for accessibility.  To address the
-						issue, this class will apply outline: none only in the event,
-					the user is interacting with the keyboard.</p>
-					<p>Common usage is to instantiate this class with the body element.
-						This will add a data-current-input to the body element will indicates whether
-					the user is engaged in mouse or keyboard mode.</p>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">new</span> AccessibleOutline(<span class="hljs-built_in">document</span>.body);</code></pre>
-					<pre><code class="language-sass">[data-current-input=&#39;mouse&#39;] *:focus
-   outline: none</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -138,7 +116,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/accessible-outline.ts#L41">dom/accessible-outline.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/accessible-outline.ts#L41">dom/accessible-outline.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,7 +138,7 @@
 					<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/accessible-outline.ts#L40">dom/accessible-outline.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/accessible-outline.ts#L40">dom/accessible-outline.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -177,7 +155,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/accessible-outline.ts#L75">dom/accessible-outline.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/accessible-outline.ts#L75">dom/accessible-outline.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -203,7 +181,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/accessible-outline.ts#L91">dom/accessible-outline.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/accessible-outline.ts#L91">dom/accessible-outline.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -220,21 +198,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/accessible-outline.ts#L87">dom/accessible-outline.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/accessible-outline.ts#L87">dom/accessible-outline.ts:87</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the current input type by updating the data attribute on the
-									root element.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>type: <a href="../enums/dom.accessibleoutlineinputtypes.html" class="tsd-signature-type">AccessibleOutlineInputTypes</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -251,7 +221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/accessible-outline.ts#L67">dom/accessible-outline.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/accessible-outline.ts#L67">dom/accessible-outline.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -268,7 +238,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/accessible-outline.ts#L71">dom/accessible-outline.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/accessible-outline.ts#L71">dom/accessible-outline.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

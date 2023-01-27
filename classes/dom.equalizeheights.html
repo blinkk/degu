@@ -67,26 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Equalizes the heights of a set of html elements.</p>
-					</div>
-					<pre><code>&lt;div id=<span class="hljs-string">"myDiv"</span>&gt;
-  &lt;div data-equalize-heights&gt;...&lt;/div&gt;
-  &lt;div data-equalize-heights&gt;...&lt;/div&gt;
-&lt;/div&gt;
-
-<span class="hljs-keyword">let</span> root = document.get<span class="hljs-constructor">ElementById('<span class="hljs-params">myDiv</span>')</span>;
-<span class="hljs-keyword">new</span> <span class="hljs-constructor">EqualizeHeights(<span class="hljs-params">root</span>, '[<span class="hljs-params">data</span>-<span class="hljs-params">equalize</span>-<span class="hljs-params">heights</span>]')</span>;
-
-<span class="hljs-comment">// Apply equalize height only on desktop or above</span>
-<span class="hljs-keyword">new</span> <span class="hljs-constructor">EqualizeHeights(<span class="hljs-params">root</span>, '[<span class="hljs-params">data</span>-<span class="hljs-params">equalize</span>-<span class="hljs-params">heights</span>]', <span class="hljs-params">null</span>, '&gt;760')</span>;
-
-<span class="hljs-comment">// Apply equalize height based on shortest.</span>
-<span class="hljs-keyword">new</span> <span class="hljs-constructor">EqualizeHeights(<span class="hljs-params">root</span>, '[<span class="hljs-params">data</span>-<span class="hljs-params">equalize</span>-<span class="hljs-params">heights</span>]', <span class="hljs-params">true</span>, '&gt;760')</span>;</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -131,11 +111,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/equalize-heights.ts#L29">dom/equalize-heights.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/equalize-heights.ts#L29">dom/equalize-heights.ts:29</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -143,28 +121,12 @@
 								</li>
 								<li>
 									<h5>selector: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The css selector for elements to be equalized.</p>
-										</div>
-									</div>
 								</li>
 								<li>
 									<h5>setToShortest: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Whether to set the height to the shortest
-											element.  This will apply a max-height instead of a min-height value.</p>
-										</div>
-									</div>
 								</li>
 								<li>
 									<h5>breakpoint: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Example: &gt;760 or &lt;759</p>
-										</div>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="dom.equalizeheights.html" class="tsd-signature-type">EqualizeHeights</a></h4>
@@ -184,7 +146,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/equalize-heights.ts#L141">dom/equalize-heights.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/equalize-heights.ts#L141">dom/equalize-heights.ts:141</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -201,14 +163,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/equalize-heights.ts#L63">dom/equalize-heights.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/equalize-heights.ts#L63">dom/equalize-heights.ts:63</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Runs a function against the set of internal elements.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -229,7 +186,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/equalize-heights.ts#L133">dom/equalize-heights.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/equalize-heights.ts#L133">dom/equalize-heights.ts:133</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -246,14 +203,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/equalize-heights.ts#L72">dom/equalize-heights.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/equalize-heights.ts#L72">dom/equalize-heights.ts:72</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Equalizes the heights of all elments.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -268,14 +220,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/equalize-heights.ts#L115">dom/equalize-heights.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/equalize-heights.ts#L115">dom/equalize-heights.ts:115</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Takes all elements and sets the maximum height to the shortest element.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -290,14 +237,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/equalize-heights.ts#L95">dom/equalize-heights.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/equalize-heights.ts#L95">dom/equalize-heights.ts:95</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Takes all elements and sets the minimum height to the tallest element.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

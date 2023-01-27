@@ -67,59 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that helps with time with fps.</p>
-					</div>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">class</span> myClass {
-   contructor() {
-      <span class="hljs-keyword">this</span>.fps = <span class="hljs-keyword">new</span> Fps(<span class="hljs-number">30</span>);
-      draw();
-   }
-
-   draw() {
-       <span class="hljs-comment">// Keep loop going.</span>
-       requestAnimationFrame(draw);
-
-       <span class="hljs-comment">// Can run would return true when it is okay to execute limiting</span>
-       <span class="hljs-comment">// the calls to 30 FPS.</span>
-       <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.fps.canRun()) {
-         <span class="hljs-comment">// Do some expensive computation.</span>
-         canvas.drawImage(hugeImage);
-       }
-
-   }
-}</code></pre>
-					<p>The above works but it is a simple gating a call to run at a set rate.
-					Here is a slightly more complex usage where you can &quot;schedule&quot; the last call.</p>
-					<p>This will also draw at 30FPS but the difference is that it is debounced
-					so your very last call to draw is guaranteed to run when the drawing goes idle.</p>
-					<pre><code class="language-ts">
-<span class="hljs-keyword">class</span> myClass {
-   contructor() {
-      <span class="hljs-keyword">this</span>.fps = <span class="hljs-keyword">new</span> Fps(<span class="hljs-number">30</span>);
-      <span class="hljs-keyword">this</span>.index = <span class="hljs-number">0</span>;
-      draw(<span class="hljs-number">1</span>);
-      draw(<span class="hljs-number">2</span>);
-      draw(<span class="hljs-number">3</span>);  <span class="hljs-comment">// This last one gets executed in this example.</span>
-   }
-
-   draw(index) {
-       <span class="hljs-comment">// If this call came too quickly between 30FPS, schedule it to run.</span>
-       <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.fps.canRun()) {
-         <span class="hljs-keyword">this</span>.fps.schedule(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-            <span class="hljs-keyword">this</span>.draw(index);
-         });
-         <span class="hljs-keyword">return</span>;
-       }
-
-       <span class="hljs-comment">// Do something expensive here.</span>
-   }
-}</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -163,7 +110,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/fps.ts#L85">time/fps.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/fps.ts#L85">time/fps.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -189,16 +136,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/fps.ts#L156">time/fps.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/fps.ts#L156">time/fps.ts:156</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Checks the lastUpdateTime and checks if it is within the threshold
-										of being allowed to run.  This method would return true if it&#39;s okay
-									to run but return false a call should be culled.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -213,14 +153,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/fps.ts#L145">time/fps.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/fps.ts#L145">time/fps.ts:145</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Clears the schdule timeout.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -235,34 +170,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/fps.ts#L126">time/fps.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/fps.ts#L126">time/fps.ts:126</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Locks or Unlocks fps.  This forces canRun to always return true.
-										This is useful in cases you need to temporarily remove
-									FPS throttling.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-comment">// On Window resize we want to run the drawLoop regardless</span>
-<span class="hljs-comment">// of FPS.  We can temporarily tell fps to be unlocked.</span>
-resize() {
-   <span class="hljs-keyword">this</span>.fps.lock(<span class="hljs-literal">false</span>);
-   <span class="hljs-keyword">this</span>.drawLoop();
-   <span class="hljs-keyword">this</span>.fps.lock(<span class="hljs-literal">true</span>);
-}
-
-
-<span class="hljs-comment">// Runs on RAF</span>
-drawLoop() {
- <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.fps.canRun()) {
-    <span class="hljs-comment">// Do some expensive computation.</span>
-    canvas.drawImage(hugeImage);
- }
-}
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -283,14 +193,9 @@ drawLoop() {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/fps.ts#L133">time/fps.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/fps.ts#L133">time/fps.ts:133</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Schedules a callback to force run after a set period.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -311,20 +216,13 @@ drawLoop() {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/time/fps.ts#L96">time/fps.ts:96</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/time/fps.ts#L96">time/fps.ts:96</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the fps.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>fps: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

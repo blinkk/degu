@@ -67,102 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Notice: Experimental Class
-							This class was written fairly quickly and might change in the future.
-							Maybe?  use it as a reference.
-						Creates an interactable lottie button.</p>
-					</div>
-					<p>Note that I don&#39;t consider this to be stable.
-						I don&#39;t recommend directly using this class and instead for now,
-					copy it and use it as a base in your project.</p>
-					<pre><code>
-&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">"mylottiebutton"</span>&gt;
-     &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">"lottie"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
-
-&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre><p> Settings for lottie-button.  Specify the frame ranges from mouseenter, mouseleave and click.</p>
-					<p>The lottie file should have these states usually in this order:
-						inview
-						mouseenter
-						mouseleave
-					click</p>
-					<p>For the transitions to work, certain frames should be the same:</p>
-					<p>inview endFrame === mouseenter startFrame
-						mouseenter endFrame === mouseleave startFrame
-					mouseenter endFrame === click startFrame</p>
-					<p><code></code>
-						const config = {
-						rootElement: document.getElementById(&quot;mylottiebutton&quot;),
-						lottieElement: document.getElementById(&quot;lottie&quot;),
-						lottieJson: &#39;/source/my-lottie.json&#39;,
-						inview: {
-						start: 0,
-						end: 96,
-						},
-						mouseenter: {
-						start: 72,
-						end: 96,
-						},
-						mouseleave: {
-						start: 156,
-						end: 180,
-						},
-						click: {
-						start: 196,
-						end: 216,
-						},
-					}</p>
-					<p>const lb = new LottieButton(config);</p>
-					<pre><code>
-
-<span class="pf"><span class="hljs-comment"># Play Queuing</span>
-This option ensures that the previous animation <span class="hljs-keyword">state</span> is resolved
-prior <span class="hljs-keyword">to</span> the next playing but it can cause delays <span class="hljs-keyword">in</span> animation.
-</span></code></pre><p>lb.enablePlayQueue(true);</p>
-					<pre><code>
-
-<span class="routeros"><span class="hljs-comment"># Using angular controllers to pass states.</span>
-Sometimes, you want <span class="hljs-keyword">to</span> control the state of the button <span class="hljs-keyword">not</span> based on whether the<span class="hljs-built_in">
-user </span>click <span class="hljs-keyword">or</span> moused over.  You control specific states first disabling
-the mouseover, click etc listeners <span class="hljs-keyword">and</span> opting <span class="hljs-keyword">to</span> take control over this.
-
-
-<span class="hljs-keyword">To</span> <span class="hljs-keyword">do</span> this, <span class="hljs-builtin-name">set</span> the noListeners option <span class="hljs-keyword">to</span> <span class="hljs-literal">true</span>.</span></code></pre><p>const config = {
-						rootElement: document.getElementById(&quot;mylottiebutton&quot;),
-						lottieElement: document.getElementById(&quot;lottie&quot;),
-						lottieJson: &#39;/source/my-lottie.json&#39;,
-						inview: {
-						start: 0,
-						end: 96,
-						},
-						...
-						noListeners: true
-						}
-					const lb = new LottieButton(config);</p>
-					<pre><code>
-Now call specific methods <span class="hljs-keyword">on</span> lb <span class="hljs-keyword">to</span> <span class="hljs-built_in">set</span> the <span class="hljs-keyword">state</span>.
-</code></pre><p>lb.inview(); === inview
-						lb.outview(); === outview
-						lb.mousedown(); === click
-						lb.mouseup(); === unclick
-						lb.mouseenter(); === hover
-					lb.mouseleave(); === unhover</p>
-					<pre><code>
-Usually, it is expected that you go <span class="hljs-keyword">from</span> hover -&gt; click.
-But certain <span class="hljs-keyword">state</span> like click -&gt; unhover (mouseleave) won't work.
-However, you can force it by tricking lb <span class="hljs-keyword">to</span> think it is <span class="hljs-keyword">in</span> a hover
-<span class="hljs-keyword">state</span> and then run mouseleave.
-
-</code></pre><p>  this.lottieButton.setMouseState({
-						clicked: false,
-						hovering: true
-						})
-						this.lottieButton.mouseleave();
-					<code></code></p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -211,7 +115,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L222">dom/lottie-button.ts:222</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L222">dom/lottie-button.ts:222</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -237,7 +141,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L505">dom/lottie-button.ts:505</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L505">dom/lottie-button.ts:505</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -254,21 +158,13 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L280">dom/lottie-button.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L280">dom/lottie-button.ts:280</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Enables play queue system which ensures that the previous state is resolved
-									prior to the next state playing.  This can cause delays in animations.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -285,7 +181,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L497">dom/lottie-button.ts:497</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L497">dom/lottie-button.ts:497</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/dom.lottiebuttonmousestate.html" class="tsd-signature-type">LottieButtonMouseState</a></h4>
@@ -302,7 +198,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L380">dom/lottie-button.ts:380</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L380">dom/lottie-button.ts:380</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -319,7 +215,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L425">dom/lottie-button.ts:425</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L425">dom/lottie-button.ts:425</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -336,7 +232,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L452">dom/lottie-button.ts:452</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L452">dom/lottie-button.ts:452</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -353,7 +249,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L448">dom/lottie-button.ts:448</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L448">dom/lottie-button.ts:448</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -370,7 +266,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L429">dom/lottie-button.ts:429</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L429">dom/lottie-button.ts:429</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -387,7 +283,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L394">dom/lottie-button.ts:394</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L394">dom/lottie-button.ts:394</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -404,7 +300,7 @@ However, you can force it by tricking lb <span class="hljs-keyword">to</span> th
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lottie-button.ts#L501">dom/lottie-button.ts:501</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lottie-button.ts#L501">dom/lottie-button.ts:501</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

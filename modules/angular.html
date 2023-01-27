@@ -147,63 +147,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-css-parallax.ts#L109">angular/directive-css-parallax.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-css-parallax.ts#L109">angular/directive-css-parallax.ts:109</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A directive to run css var interpolations from yaml or json.</p>
-								</div>
-								<p>In yaml:</p>
-								<pre><code><span class="hljs-attr">partial:</span> <span class="hljs-string">myPartial</span>
-<span class="hljs-attr">css_parallax:</span>
-<span class="hljs-attr">  settings:</span>
-<span class="hljs-attr">    debug:</span> <span class="hljs-literal">false</span> <span class="hljs-string">(boolean,</span> <span class="hljs-string">optional)</span> <span class="hljs-literal">True</span> <span class="hljs-string">outputs</span> <span class="hljs-string">progress</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">dev</span> <span class="hljs-string">console.</span>
-<span class="hljs-attr">    top:</span> <span class="hljs-string">'0px'</span> <span class="hljs-string">(string)</span> <span class="hljs-string">A</span> <span class="hljs-string">css</span> <span class="hljs-string">number</span> <span class="hljs-string">to</span> <span class="hljs-string">offset</span> <span class="hljs-string">where</span> <span class="hljs-string">the</span> <span class="hljs-string">progress</span> <span class="hljs-string">begins.</span>  <span class="hljs-string">Accepts</span> <span class="hljs-string">%,</span> <span class="hljs-string">px,</span> <span class="hljs-string">vh.</span>
-<span class="hljs-attr">    bottom:</span> <span class="hljs-string">'0px'</span> <span class="hljs-string">(string)</span> <span class="hljs-string">A</span> <span class="hljs-string">css</span> <span class="hljs-string">number</span> <span class="hljs-string">to</span> <span class="hljs-string">offset</span> <span class="hljs-string">the</span> <span class="hljs-string">progress</span> <span class="hljs-string">ends.</span>  <span class="hljs-string">Accepts</span> <span class="hljs-string">%,</span> <span class="hljs-string">px,</span> <span class="hljs-string">vh.</span>
-<span class="hljs-attr">    height:</span> <span class="hljs-string">'100px'</span> <span class="hljs-string">(string)</span> <span class="hljs-string">Optional.</span>  <span class="hljs-string">An</span> <span class="hljs-string">absolute</span> <span class="hljs-string">height</span> <span class="hljs-string">to</span> <span class="hljs-string">use</span> <span class="hljs-string">to</span> <span class="hljs-string">calculate</span> <span class="hljs-string">the</span> <span class="hljs-string">percent.</span>  <span class="hljs-string">Accepts</span> <span class="hljs-string">%,</span> <span class="hljs-string">px,</span> <span class="hljs-string">vh.</span>  <span class="hljs-string">In</span> <span class="hljs-string">most</span> <span class="hljs-string">cases</span> <span class="hljs-string">you</span> <span class="hljs-string">won't</span> <span class="hljs-string">need</span> <span class="hljs-string">this.</span>
-<span class="hljs-attr">    lerp:</span> <span class="hljs-number">0.18</span> <span class="hljs-string">Optional</span> <span class="hljs-string">lerp.</span>  <span class="hljs-string">Defaults</span> <span class="hljs-string">to</span> <span class="hljs-number">1</span> <span class="hljs-string">assuming</span> <span class="hljs-literal">no</span> <span class="hljs-string">asymptotic</span> <span class="hljs-string">averaging.</span>
-<span class="hljs-attr">    damp:</span> <span class="hljs-number">0.18</span> <span class="hljs-string">Optional</span> <span class="hljs-string">damp.</span>  <span class="hljs-string">Defaults</span> <span class="hljs-string">to</span> <span class="hljs-number">1</span> <span class="hljs-string">assuming</span> <span class="hljs-literal">no</span> <span class="hljs-string">damping.</span>
-<span class="hljs-attr">    clamp:</span> <span class="hljs-literal">false</span> <span class="hljs-string">(boolean)</span>  <span class="hljs-string">Defaults</span> <span class="hljs-string">to</span> <span class="hljs-literal">true</span> <span class="hljs-string">where</span> <span class="hljs-string">by</span> <span class="hljs-string">progress</span> <span class="hljs-string">is</span> <span class="hljs-string">clamped</span> <span class="hljs-string">to</span> <span class="hljs-number">0</span> <span class="hljs-string">and</span> <span class="hljs-number">1.</span>
-<span class="hljs-attr">    precision:</span> <span class="hljs-string">(number)</span> <span class="hljs-string">Defaults</span> <span class="hljs-string">to</span> <span class="hljs-number">3.</span>  <span class="hljs-string">Lower</span> <span class="hljs-string">precision</span> <span class="hljs-string">means</span> <span class="hljs-string">less</span> <span class="hljs-string">dom</span> <span class="hljs-string">updates</span> <span class="hljs-string">but</span> <span class="hljs-string">less</span> <span class="hljs-string">accuracy.</span>
-
-    <span class="hljs-string">//</span> <span class="hljs-string">Allows</span> <span class="hljs-string">you</span> <span class="hljs-string">to</span> <span class="hljs-string">pass</span> <span class="hljs-string">through</span> <span class="hljs-string">option</span> <span class="hljs-string">to</span> <span class="hljs-string">intersection</span> <span class="hljs-string">observer</span> <span class="hljs-string">controlling</span>
-    <span class="hljs-string">//</span> <span class="hljs-string">start</span> <span class="hljs-string">and</span> <span class="hljs-string">stop</span> <span class="hljs-string">of</span> <span class="hljs-string">raf.</span>
-<span class="hljs-attr">    rafEvOptions:</span>
-<span class="hljs-attr">        rootMargin:</span> <span class="hljs-string">'0px 0px 0px 0px'</span>
-
-<span class="hljs-attr">  interpolations:</span>
-<span class="hljs-attr">    - id:</span> <span class="hljs-string">'--x'</span>
-<span class="hljs-attr">      progress:</span>
-<span class="hljs-attr">      - from:</span> <span class="hljs-number">0.5</span>
-<span class="hljs-attr">        to:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">        start:</span> <span class="hljs-string">'0px'</span>
-<span class="hljs-attr">        end:</span> <span class="hljs-string">'20px'</span>
-<span class="hljs-attr">    - id:</span> <span class="hljs-string">'--opacity'</span>
-<span class="hljs-attr">      progress:</span>
-<span class="hljs-attr">      - from:</span> <span class="hljs-number">0</span>
-<span class="hljs-attr">        to:</span> <span class="hljs-number">0.5</span>
-<span class="hljs-attr">        start:</span> <span class="hljs-number">0</span>
-<span class="hljs-attr">        end:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">      - from:</span> <span class="hljs-number">0.5</span>
-<span class="hljs-attr">        to:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">        start:</span> <span class="hljs-number">0</span>
-<span class="hljs-attr">        end:</span> <span class="hljs-number">1</span></code></pre><p>In your app:</p>
-								<pre><code class="language-ts">  <span class="hljs-keyword">import</span> { cssParallaxDirective } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/angular/directive-css-parallax'</span>;
-
-  <span class="hljs-keyword">const</span> app = angular.module(<span class="hljs-string">'myApp'</span>, []);
-  app.directive(<span class="hljs-string">'cssParallax'</span>, cssParallaxDirective);</code></pre>
-								<p>In the module, you want to use this:</p>
-								<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> </span></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> partial.css_parallax %}</span><span class="xml"><span class="hljs-tag"> <span class="hljs-attr">css-parallax</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{partial.css_parallax|jsonify}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string"></span></span></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %"&gt;&lt;/div&gt;</span></code></pre><h2 id="height-settings">Height Settings</h2>
-								<p>In rare instances, you might want to calculate a scroll percent from when an
-								element enters the viewport but not based on the height of the element itself.</p>
-								<p>Imagine a <div> with 500vh.</p>
-								<p>If you applied this settings:</p>
-								<pre><code>  <span class="hljs-attribute">setting</span>:
-    <span class="hljs-attribute">top</span>: <span class="hljs-string">'0px'</span>
-    <span class="hljs-attribute">height</span>: <span class="hljs-string">'100vw'</span></code></pre><p>Now the progress will start when that div comes in but end (1) when 100vw worth
-								of scroll has been completed.</p>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -226,7 +172,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-css-var-width.ts#L75">angular/directive-css-var-width.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-css-var-width.ts#L75">angular/directive-css-var-width.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
@@ -251,36 +197,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-inview.ts#L73">angular/directive-inview.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-inview.ts#L73">angular/directive-inview.ts:73</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A simple inview directive.  This is based on dom/Inview.</p>
-								</div>
-								<h1 id="basic-inview">Basic inview</h1>
-								<pre><code>&lt;<span class="hljs-keyword">div</span> inview&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
-
-when inview:
-&lt;<span class="hljs-keyword">div</span> inview <span class="hljs-built_in">class</span>=<span class="hljs-string">"in"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre><h1 id="settings">Settings</h1>
-								<p>Shifting position.</p>
-								<div inview inview-element-baseline="0" inview-viewport-offset="0.25"></div>
-								<h1 id="child-selectors">Child Selectors</h1>
-								<p>Use target selectors to add inview to child elements.
-									Note that the element used to determine inview state is still
-								the root inview directive element.</p>
-								<pre><code>&lt;<span class="hljs-keyword">div</span> inview inview-selector=<span class="hljs-string">"[add-inview]"</span>&gt;
-  &lt;<span class="hljs-keyword">div</span> add-inview&gt;<span class="hljs-keyword">my</span> title&lt;/<span class="hljs-keyword">div</span>&gt;
-  &lt;<span class="hljs-keyword">div</span> add-inview&gt;body&lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;/<span class="hljs-keyword">div</span>&gt;
-
-when inview:
-
-&lt;<span class="hljs-keyword">div</span> inview inview-selector=<span class="hljs-string">"[add-inview]"</span>&gt;
-  &lt;<span class="hljs-keyword">div</span> add-inview <span class="hljs-built_in">class</span>=<span class="hljs-string">"in"</span> inview-<span class="hljs-built_in">number</span>=<span class="hljs-string">"0"</span>&gt;<span class="hljs-keyword">my</span> title&lt;/<span class="hljs-keyword">div</span>&gt;
-  &lt;<span class="hljs-keyword">div</span> add-inview <span class="hljs-built_in">class</span>=<span class="hljs-string">"in"</span> inview-<span class="hljs-built_in">number</span>=<span class="hljs-string">"1"</span>&gt;body&lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -303,87 +222,9 @@ when inview:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lazy-image.ts#L565">angular/directive-lazy-image.ts:565</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lazy-image.ts#L565">angular/directive-lazy-image.ts:565</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Allows loading of images only if the element or the child
-										is currently visible on the screen.  The basis of whether it is visible
-									is determined based on if the dislay is NOT set to none.</p>
-								</div>
-								<p>Name your directive as lazyImage.</p>
-								<pre><code>    <span class="hljs-selector-tag">ngApp</span><span class="hljs-selector-class">.directive</span>(<span class="hljs-string">'lazyImage'</span>, lazyImageDirective);</code></pre><p>Now use it.</p>
-								<p>This will load the image:</p>
-								<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">lazy-image</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{url}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre><p>After render will turn into:</p>
-								<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{url}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span></span></code></pre><h2 id="as-background-image">As background image</h2>
-								<p>This will load the image as a background image:</p>
-								<div lazy-image="{{url}}" lazy-image-as-background="true"></div>
-								<p>After render will turn into:</p>
-								<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"backgroundImage: url(</span></span></span><span class="hljs-template-variable">{{url}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">)"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre><h2 id="conditional-loading-based-on-element-visibility">Conditional loading based on element visibility</h2>
-								<p>This will load only when on mobile.  The directive runs a test to see if the
-								directive element has display: none as a style.  If so, it will not run.</p>
-								<pre><code><span class="hljs-selector-class">.only-mobile</span>
-  +md
-    <span class="hljs-attribute">display</span>: none
-
-&lt;<span class="hljs-selector-tag">div</span> lazy-image=<span class="hljs-string">"{{url}}"</span> style=<span class="hljs-string">"only-mobile"</span>&gt;&lt;/div&gt;</code></pre><h2 id="adjust-lazyloading-timing-with-forward-load-scalar">Adjust lazyloading timing with forward-load-scalar</h2>
-								<p>The directive lazy loads images.   By default, it will load 100vh below
-								the current fold.  You can adjust this value, by passing the lazyImageForwardLoadScalar.</p>
-								<pre><code>&lt;div lazy-<span class="hljs-built_in">image</span>=<span class="hljs-string">"{{url}}"</span> lazy-<span class="hljs-built_in">image</span>-forward-<span class="hljs-built_in">load</span>-<span class="hljs-built_in">scalar</span>=<span class="hljs-string">"2"</span>&gt;&lt;/div&gt;
-
-// Zero means no foward <span class="hljs-built_in">load</span>
-&lt;div lazy-<span class="hljs-built_in">image</span>=<span class="hljs-string">"{{url}}"</span> lazy-<span class="hljs-built_in">image</span>-forward-<span class="hljs-built_in">load</span>-<span class="hljs-built_in">scalar</span>=<span class="hljs-string">"0"</span>&gt;&lt;/div&gt;</code></pre><h2 id="webp-support-">Webp support.</h2>
-								<p>This is typically done for local server images.  For example if you have
-									an image that is xxx.jpg or xxx.png, setting this option to true
-								will swap the extention to .webp if webp is available.</p>
-								<p>Note that if you are using Google Images, you shouldn&#39;t enable this and
-								instead use the google images support (below).</p>
-								<pre><code><span class="hljs-built_in">lazy</span>-image-<span class="hljs-built_in">swap</span>-<span class="hljs-keyword">for</span>-webp=<span class="hljs-string">"true"</span></code></pre><h2 id="google-images-support-">Google Images support.</h2>
-								<p>You can enable google images support.  The options are:</p>
-								<pre><code>lazy-<span class="hljs-built_in">image</span>-google-<span class="hljs-built_in">image</span>-<span class="hljs-keyword">try</span>-webp=<span class="hljs-string">"true"</span>
-   Lazy-<span class="hljs-built_in">image</span> will <span class="hljs-built_in">append</span> a -rw <span class="hljs-built_in">flag</span> <span class="hljs-keyword">to</span> the url <span class="hljs-keyword">if</span> webp is supported.
-lazy-<span class="hljs-built_in">image</span>-google-<span class="hljs-built_in">image</span>-autosize=<span class="hljs-string">"true"</span>
-   Lazy-<span class="hljs-built_in">image</span> will <span class="hljs-built_in">append</span> a -wXXX (width) <span class="hljs-built_in">param</span> based on the <span class="hljs-built_in">size</span> of the current element</code></pre><h1 id="autowidth-multiplier">Autowidth Multiplier</h1>
-								<p>For cases in which you want to intentionally load larger image, use the image multiplier
-								lazy-image-google-image-multiplier=&quot;1.2&quot;</p>
-								<h1 id="image-container">Image container</h1>
-								<p>By convention, a parent of the image that has the class, image-container will automatically
-									recieve a &quot;loaded&quot; class when the image loads.  This is helpful in controlling animations
-								when the image itself loads.</p>
-								<div class="image-container">
-									<div lazy-image="{{url}}" lazy-image-forward-load-scalar="0"></div>
-								</div>
-								<h1 id="you-can-also-opt-to-add-the-loaded-class-given-a-selector-">You can also opt to add the loaded class given a selector.</h1>
-								<p>For example, this would do a look up for add-inview on the parent of the lazy image
-									item.
-								lazy-image-loaded-selector=&quot;[add-inview]&quot;</p>
-								<h1 id="visibility-element">Visibility Element</h1>
-								<p>There are times when you want to trigger lazy image based on the visibility
-									of another element (often a parent).  You can do this by adding the
-									lazy-image-trigger-element-selector option.  Note that the logic for this
-								is to select the CLOSEST element with that selector.</p>
-								<p>For example:</p>
-								<pre><code>
-&lt;<span class="hljs-keyword">div</span> class=<span class="hljs-string">"image-container"</span> lazy-image-trigger&gt;
-  &lt;<span class="hljs-keyword">div</span> lazy-image=<span class="hljs-string">"{{url}}"</span> lazy-image-forward-<span class="hljs-built_in">load</span>-scalar=<span class="hljs-string">"0"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;/<span class="hljs-keyword">div</span>&gt;
-
-
-lazy-image-trigger-<span class="hljs-keyword">element</span>-selector=<span class="hljs-string">"[lazy-image-trigger]"</span>
-</code></pre><p>Since the parent container has the lazy-image-trigger and is the closest,
-								this image will load when the image container is inview.</p>
-								<h2 id="wait-for-bg-loading">Wait for Bg loading</h2>
-								<p>Force bg loading in background.</p>
-								<p>Normally when using lazy image as a background
-								image, we just set the style=&quot;url(...)&quot; to trigger the image loading.</p>
-								<p>However, setting this option will first preload the image in the background
-									and then set the style.  This <em>can</em> lead to confusing results because
-									if you have chrome dev tools open with &#39;disable cache&#39; it almost appears
-								like the image loaded twice.</p>
-								<p>If testing bandwidth, use incognito mode.</p>
-								<pre><code>lazy-image-<span class="hljs-built_in">wait</span>-<span class="hljs-keyword">for</span>-bg-<span class="hljs-built_in">load</span>=<span class="hljs-string">"true"</span></code></pre>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -406,37 +247,9 @@ lazy-image-trigger-<span class="hljs-keyword">element</span>-selector=<span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lazy-image-simple.ts#L209">angular/directive-lazy-image-simple.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lazy-image-simple.ts#L209">angular/directive-lazy-image-simple.ts:209</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Allows loading of images only if the element or the child
-										is currently visible on the screen.  The basis of whether it is visible
-									is determined based on if the dislay is NOT set to none.</p>
-								</div>
-								<p>Name your directive as lazyImageSimple.</p>
-								<pre><code><span class="hljs-selector-tag">ngApp</span><span class="hljs-selector-class">.directive</span>(<span class="hljs-string">'lazyImageSimple'</span>, lazyImageSimpleDirective);</code></pre><p>Now use it.
-								This will load the image:</p>
-								<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">lazy-image-simple</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{url}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre><p>After render will turn into:</p>
-								<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{url}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span></span></code></pre><h2 id="as-background-image">As background image</h2>
-								<p>This will load the image as a background image:</p>
-								<div lazy-image-simple="{{url}}" lazy-image-simple-as-background="true"></div>
-								<p>After render will turn into:</p>
-								<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"backgroundImage: url(</span></span></span><span class="hljs-template-variable">{{url}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">)"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre><h2 id="conditional-loading-based-on-element-visibility">Conditional loading based on element visibility</h2>
-								<p>This will load only when on mobile.  The directive runs a test to see if the
-								directive element has display: none as a style.  If so, it will not run.</p>
-								<pre><code><span class="hljs-selector-class">.only-mobile</span>
-  +md
-    <span class="hljs-attribute">display</span>: none
-
-&lt;<span class="hljs-selector-tag">div</span> lazy-image-simple=<span class="hljs-string">"{{url}}"</span> style=<span class="hljs-string">"only-mobile"</span>&gt;&lt;/div&gt;</code></pre><h2 id="adjust-lazyloading-timing-with-forward-load-scalar">Adjust lazyloading timing with forward-load-scalar</h2>
-								<p>The directive lazy loads images.   By default, it will load 100vh below
-								the current fold.  You can adjust this value, by passing the lazyImageForwardLoadScalar.</p>
-								<div lazy-image-simple="{{url}}" lazy-image-simple-forward-load-scalar="2"></div>
-								<p>// Zero means no foward load</p>
-								<div lazy-image-simple="{{url}}" lazy-image-simple-forward-load-scalar="0"></div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -459,49 +272,9 @@ lazy-image-trigger-<span class="hljs-keyword">element</span>-selector=<span clas
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lazy-video.ts#L180">angular/directive-lazy-video.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lazy-video.ts#L180">angular/directive-lazy-video.ts:180</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Allows loading of video only if the element or the child
-										is currently visible on the screen.  The basis of whether it is visible
-									is determined based on if the dislay is NOT set to none.</p>
-								</div>
-								<ul>
-									<li>Name your directive as lazyImage.</li>
-								</ul>
-								<pre><code>    <span class="hljs-keyword">import</span> { lazyVideoDirective } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/angular/directive-lazy-video'</span>;
-    ngApp.directive(<span class="hljs-string">'lazyVideo'</span>, lazyVideoDirective);</code></pre><p>This will load the image:
-									<video>
-										<source type="video/mp4" lazy-video="{{url}}"></source>
-								<video></p>
-								<p>After render will turn into:
-									<video>
-										<source type="video/mp4" lazy-video="{{url}}" src="..."></source>
-								<video></p>
-								<p>This will load only when on mobile.
-									.only-mobile
-									+md
-								display: none</p>
-								<video class="only-mobile">
-									<source type="video/mp4" lazy-video="{{url}}"></source>
-									<video>
-										<h1 id="forward-scalar">Forward Scalar</h1>
-										<p>Adjust the forward scalar to higher values to load videos more aggressively.
-										<source lazy-video="{{url}}" lazy-video-forward-load-scalar="3"></source></p>
-										<h1 id="listen-for-events-">Listen for events.</h1>
-										<p>Events get fired on the video element.</p>
-										<pre><code><span class="hljs-keyword">import</span> { lazyVideoDirective, lazyVideoEvents } from <span class="hljs-symbol">'degu</span>/lib/angular/directive-<span class="hljs-keyword">lazy</span>-video';
-document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventListener(lazyVideoEvents.<span class="hljs-type">LOAD_START</span>, ()=. {
-   <span class="hljs-comment">// Loading started!</span>
-}, { once: <span class="hljs-literal">true</span>});
-
-
-&lt;video id=<span class="hljs-string">"myvideo"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"only-mobile"</span>&gt;
-  &lt;source <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"video/mp4"</span> <span class="hljs-keyword">lazy</span>-video=<span class="hljs-string">"{{url}}"</span>&gt;&lt;/source&gt;
-&lt;video&gt;</code></pre>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -524,35 +297,9 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lottie-button.ts#L71">angular/directive-lottie-button.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lottie-button.ts#L71">angular/directive-lottie-button.ts:71</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p><code>`</code>
-										import { lottieButtonDirective } from &#39;degu/lib/angular/directive-lottie-button&#39;;
-									app.directive(&#39;lottieButton&#39;, lottieButtonDirective);</p>
-								</div>
-								<p>{% set playSettings = {
-									&#39;mouseover&#39;: {
-									&#39;start&#39;: 72,
-									&#39;end&#39;: 96,
-									},
-									&#39;mouseleave&#39;: {
-									&#39;start&#39;: 156,
-									&#39;end&#39;: 180,
-									},
-									&#39;click&#39;: {
-									&#39;start&#39;: 196,
-									&#39;end&#39;: 216,
-									},
-									}
-								%}</p>
-								<div lottie-button lottie-json-path="{{lottie_json_path}}" lottie-play-settings="{{playSettings|jsonify}}">
-									<div lottie-element></div>
-								</div>
-								```
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -575,234 +322,9 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lottie-scroll.ts#L1102">angular/directive-lottie-scroll.ts:1102</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lottie-scroll.ts#L1102">angular/directive-lottie-scroll.ts:1102</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A directive to run lottie animations based on yaml or json.</p>
-								</div>
-								<p>In yaml:</p>
-								<pre><code><span class="hljs-attribute">partial</span>: myPartial
-
-<span class="yaml"><span class="hljs-comment"># Lotties is a list so that you can create multiple lottie instances (such as</span>
-  <span class="hljs-string">portriat</span> <span class="hljs-string">versus</span> <span class="hljs-string">landscape)</span>
-<span class="hljs-attr">lottie_scrolls:</span>
-<span class="hljs-attr">   settings:</span>
-       <span class="hljs-comment"># Whether to output progress in the console.</span>
-       <span class="hljs-comment"># Optional - boolean . Defaults to false.</span>
-<span class="hljs-attr">       debug:</span> <span class="hljs-literal">false</span>
-
-       <span class="hljs-comment"># The lerp to apply</span>
-       <span class="hljs-comment"># Optional - number.  A number between 0-1.  Defaults to 1.</span>
-<span class="hljs-attr">       lerp:</span> <span class="hljs-number">0.18</span>
-
-       <span class="hljs-comment"># A css value to offset to where the progress begins.</span>
-       <span class="hljs-comment"># Options - string.  Accepts %, px, vh</span>
-<span class="hljs-attr">       top:</span> <span class="hljs-string">'0px'</span>
-
-       <span class="hljs-comment"># A css value to offset to where the progress ends.</span>
-       <span class="hljs-comment"># Options - string.  Accepts %, px, vh</span>
-<span class="hljs-attr">       bottom:</span> <span class="hljs-string">'0px'</span>
-
-<span class="hljs-attr">   lotties:</span>
-<span class="hljs-bullet">    -</span>
-      <span class="hljs-comment"># The query selector to select the container element of lottie</span>
-      <span class="hljs-comment"># Required - string</span>
-<span class="hljs-attr">      container_selector:</span> <span class="hljs-string">'[lottie-desktop]'</span>
-
-      <span class="hljs-comment"># The path to lottie json.</span>
-      <span class="hljs-comment"># Required - string</span>
-<span class="hljs-attr">      json_path:</span> <span class="hljs-string">xxx.json</span>
-
-      <span class="hljs-comment"># The image directory path.</span>
-      <span class="hljs-comment"># Options - string</span>
-<span class="hljs-attr">      image_path:</span> <span class="hljs-string">/images/</span>
-
-      <span class="hljs-comment"># The renderer to use.  'canvas', 'svg'</span>
-      <span class="hljs-comment"># Optional - string.  Defaults to canvas.</span>
-<span class="hljs-attr">      renderer:</span> <span class="hljs-string">canvas</span>
-
-      <span class="hljs-comment"># The aspect ratio settings</span>
-      <span class="hljs-comment"># https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAspectRatio</span>
-<span class="hljs-attr">      preserveAspectRatio:</span> <span class="hljs-string">'xMidYMin slice'</span>
-
-      <span class="hljs-comment"># The starting frame.</span>
-      <span class="hljs-comment"># This is the starting frame from which your "scroll" experience begins.</span>
-      <span class="hljs-comment"># If you have an intro, it should not include the intro frames.</span>
-      <span class="hljs-comment"># Example:</span>
-      <span class="hljs-comment"># lottie is from 0-100 frames.</span>
-      <span class="hljs-comment"># intro is from 0-10.</span>
-      <span class="hljs-comment"># startFrame should be set to 10.</span>
-      <span class="hljs-comment"># Optional - number.  Defaults to 0.</span>
-<span class="hljs-attr">      startFrame:</span> <span class="hljs-number">50</span>
-
-      <span class="hljs-comment"># The ending frame.</span>
-      <span class="hljs-comment"># Optional - number.  Defaults to the last frame.</span>
-<span class="hljs-attr">      endFrame:</span> <span class="hljs-number">200</span>
-
-      <span class="hljs-comment"># Optional:</span>
-      <span class="hljs-comment"># Normally the lottie animation is tied between the 0-1 progress</span>
-      <span class="hljs-comment"># your whole module.  You can define it so that this lottie</span>
-      <span class="hljs-comment"># instance will run under a child progress instead.</span>
-<span class="hljs-attr">      fromProgress:</span> <span class="hljs-number">0.5</span>
-<span class="hljs-attr">      toProgress:</span> <span class="hljs-number">1</span>
-
-
-      <span class="hljs-comment"># Autoplay is used for lottie animations that does not scrub with the scroll</span>
-      <span class="hljs-comment"># but instead play at a specific point.  Imagine this more like</span>
-      <span class="hljs-comment"># an inview effect where when the scroll is between the defined</span>
-      <span class="hljs-comment"># fromProgress and toProgress points, this lottie will start playing</span>
-      <span class="hljs-comment"># automatically.  If you define a loopStartFrom and loopEndFrame</span>
-      <span class="hljs-comment"># it will loop in that range.</span>
-<span class="hljs-attr">      autoplay:</span>
-<span class="hljs-attr">         fromFrame:</span> <span class="hljs-number">0</span>
-<span class="hljs-attr">         toFrame:</span> <span class="hljs-number">150</span>
-         <span class="hljs-comment"># Whether to trigger this when scrolling down</span>
-<span class="hljs-attr">         down:</span> <span class="hljs-literal">true</span>
-         <span class="hljs-comment"># Whether to trigger this when scrolling up</span>
-<span class="hljs-attr">         up:</span> <span class="hljs-literal">true</span>
-         <span class="hljs-comment"># Optional start and end to loop segments.</span>
-<span class="hljs-attr">         loopStartFrame:</span> <span class="hljs-number">150</span>
-<span class="hljs-attr">         loopEndFrame:</span> <span class="hljs-number">300</span>
-
-
-      <span class="hljs-comment"># Class triggers</span>
-      <span class="hljs-comment"># Trigger css class on your element at specific points.</span>
-<span class="hljs-attr">      classTriggers:</span>
-<span class="hljs-attr">      - class:</span> <span class="hljs-string">'inview'</span>
-<span class="hljs-attr">        fromFrame:</span> <span class="hljs-number">300</span>
-<span class="hljs-attr">        toFrame:</span> <span class="hljs-number">500</span>
-<span class="hljs-attr">      - class:</span> <span class="hljs-string">'inview-2'</span>
-<span class="hljs-attr">        fromFrame:</span> <span class="hljs-number">400</span>
-<span class="hljs-attr">        toFrame:</span> <span class="hljs-number">600</span>
-
-      <span class="hljs-comment"># Intro</span>
-      <span class="hljs-comment"># The intro will play an intro IF the current progress value is at 0.</span>
-      <span class="hljs-comment">#</span>
-      <span class="hljs-comment"># The intro.startFrame is where the intro should being.</span>
-      <span class="hljs-comment"># Why is there not endFrame?  It's because the end frame is your startFrame</span>
-      <span class="hljs-comment"># (where the scroll starts) above.</span>
-<span class="hljs-attr">      intro:</span>
-<span class="hljs-attr">         startFrame:</span> <span class="hljs-number">0</span>
-         <span class="hljs-comment"># The duration in ms.</span>
-<span class="hljs-attr">         duration:</span> <span class="hljs-number">1000</span>
-
-      <span class="hljs-comment"># Whether to display the current frame number in the dev console.</span>
-      <span class="hljs-comment"># Useful for debugging.</span>
-      <span class="hljs-comment"># Optional - boolean</span>
-<span class="hljs-attr">      debugFrame:</span> <span class="hljs-literal">false</span>
-
-      <span class="hljs-comment"># Css interpolations synchronized with the lottie scroll.</span>
-      <span class="hljs-comment"># Note that you can use fromFrame, toFrame and declare interpolations</span>
-      <span class="hljs-comment"># based on your lottie frame.</span>
-<span class="hljs-attr">      interpolations:</span>
-<span class="hljs-attr">      - id:</span> <span class="hljs-string">'--x'</span>
-<span class="hljs-attr">        progress:</span>
-<span class="hljs-attr">        - from:</span> <span class="hljs-number">0.5</span>
-<span class="hljs-attr">          to:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">          start:</span> <span class="hljs-string">'0px'</span>
-<span class="hljs-attr">          end:</span> <span class="hljs-string">'20px'</span>
-<span class="hljs-attr">      - id:</span> <span class="hljs-string">'--opacity'</span>
-<span class="hljs-attr">        progress:</span>
-<span class="hljs-attr">        - fromFrame:</span> <span class="hljs-number">200</span>
-<span class="hljs-attr">          toFrame:</span> <span class="hljs-number">300</span>
-<span class="hljs-attr">          start:</span> <span class="hljs-number">0</span>
-<span class="hljs-attr">          end:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">          cubic_ease:</span> <span class="hljs-number">0.27</span><span class="hljs-string">,0.06,0.3,1</span>
-<span class="hljs-attr">        - fromFrame:</span> <span class="hljs-number">300</span>
-<span class="hljs-attr">          toFrame:</span> <span class="hljs-number">500</span>
-<span class="hljs-attr">          start:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">          end:</span> <span class="hljs-number">0</span>
-
-
-     <span class="hljs-comment"># toFrame addition available in interpolations ONLY (for now)</span>
-     <span class="hljs-comment"># This allows you to add from the fromFrame value which can be handy.</span>
-<span class="hljs-attr">     fromFrame:</span> <span class="hljs-number">1300</span>
-<span class="hljs-attr">     toFrame:</span> <span class="hljs-string">'+30'</span>
-</span></code></pre><p>In your app:</p>
-								<p>Make sure lottie-web is installed.</p>
-								<pre><code>npm install lottie-<span class="hljs-symbol">web@</span><span class="hljs-number">5.7</span><span class="hljs-number">.0</span> --save</code></pre><pre><code class="language-ts">  <span class="hljs-keyword">import</span> { lottieScrollDirective } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/angular/directive-lottie-scroll'</span>;
-
-  <span class="hljs-keyword">const</span> app = angular.module(<span class="hljs-string">'myApp'</span>, []);
-  app.directive(<span class="hljs-string">'lottieScroll'</span>, lottieScrollDirective);</code></pre>
-								<p>In the module, you want to use do the following.</p>
-								<p>Note how we have can have two lottie instances.  By adding display: none, this
-								lottie directive will automatically cull frame updates.</p>
-								<pre><code>.mymodule
-   height: <span class="hljs-number">300</span>vh
-.mymodule__lottie
-   position: sticky
-   height: <span class="hljs-number">100</span>vh
-   width: <span class="hljs-number">100</span>%
-   top: <span class="hljs-number">0</span>px
-.mymodule__lottie<span class="hljs-comment">--desktop</span>
-  +md-lt
-    display: none
-.mymodule__lottie<span class="hljs-comment">--mobile</span>
-  +md
-    display: none
-
-  &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"mymodule"</span> {% <span class="hljs-keyword">if</span> partial.lottie_scrolls %} lottie-scroll=<span class="hljs-string">"{{partial.lottie_scrolls|jsonify}}{% endif %"</span>&gt;
-      &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"mymodule__lottie mymodule__lottie--desktop"</span> lottie-desktop&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
-      &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"mymodule__lottie mymodule__lottie--mobile"</span> lottie-mobile&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
-  &lt;/<span class="hljs-keyword">div</span>&gt;</code></pre><h1 id="fouc-control-loaded-class">Fouc control -  Loaded class</h1>
-								<p>A css class &quot;lottie-scroll-loaded&quot; gets appended to the directive element.
-								This can be used to hide the element during loading.</p>
-								<p>.mymodule
-									visibility: hidden
-									.mymodule.lottie-scroll-loaded
-								visibility: visible</p>
-								<p>Before Load:
-								<div class="mymodule" lottie-scroll="{{partial.lottie_scrolls|jsonify}}{% endif %">..</div></p>
-								<p>After Load
-								<div class="mymodule loaded" lottie-scroll="{{partial.lottie_scrolls|jsonify}}{% endif %">..</div></p>
-								<h1 id="events">Events</h1>
-								<p>You may have situations in which you want to extend or add additional more complicated
-									interaction.  There are a few ways to do this
-									1) you can create your own controller
-									and setup lottie interpolations manually (so don&#39;t use this directive).
-									This is recommended if you have a lot of custom needed.
-									2) You can extend this directive.
-								3) Use events to listen to the progress update event.</p>
-								<p>Events are useful if you want to add some custom interaction based on the progress.</p>
-								<p>Raf Progress events are fired on the root element of the directive.
-									Hooking into them with your own custom controller might look something
-								this:</p>
-								<pre><code>&lt;div
-  ng-controller=<span class="hljs-string">"MyController as ctrl"</span>
-  lottie-scroll=<span class="hljs-string">"{{partial.lottie_scrolls|jsonify}}"</span>&gt;
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"post-hero__lottie"</span> <span class="hljs-attr">lottie-container</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-
-
-
-  <span class="hljs-keyword">import</span> { LottieController, LottieScrollEvents, LottieScrollEventPayload, LottieScrollInitPayload } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/angular/directive-lottie-scroll'</span>;
-
-
-  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyController</span> </span>{
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">get</span> $inject() {
-        <span class="hljs-keyword">return</span> [<span class="hljs-string">'$scope'</span>, <span class="hljs-string">'$element'</span>];
-    }
-    private el: HTMLElement;
-    private $scope: ng.IScope;
-    <span class="hljs-keyword">constructor</span>($scope: ng.IScope, $element: ng.IAugmentedJQuery) {
-      <span class="hljs-keyword">this</span>.el = $element[<span class="hljs-number">0</span>];
-      <span class="hljs-keyword">this</span>.el.addEventListener(LottieScrollEvents.INIT, (e:any)=&gt; {
-          <span class="hljs-keyword">const</span> scrollEvent:LottieScrollInitPayload = e.detail;
-          <span class="hljs-built_in">console</span>.log(scrollEvent.controller); <span class="hljs-comment">// The controller</span>
-      });
-
-      <span class="hljs-keyword">this</span>.el.addEventListener(LottieScrollEvents.PROGRESS_UPDATE, (e:any)=&gt; {
-          <span class="hljs-keyword">const</span> scrollEvent:LottieScrollEventPayload = e.detail;
-          <span class="hljs-built_in">console</span>.log(scrollEvent.progress); <span class="hljs-comment">// current progress</span>
-          <span class="hljs-built_in">console</span>.log(scrollEvent.direction); <span class="hljs-comment">// current direction</span>
-      })
-    }
-  }</code></pre><p>Additional Docs:</p>
-								<p>Lottie supported Features:
-								<a href="https://github.com/airbnb/lottie/blob/master/supported-features.md">https://github.com/airbnb/lottie/blob/master/supported-features.md</a></p>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -825,21 +347,9 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-scroll-smooth-render-scrollable.ts#L73">angular/directive-scroll-smooth-render-scrollable.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-scroll-smooth-render-scrollable.ts#L73">angular/directive-scroll-smooth-render-scrollable.ts:73</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A directive to be used with scroll-smooth-render where you want
-									certain areas scrollable.</p>
-								</div>
-								<pre><code>   <span class="hljs-keyword">import</span> { scrollSmoothRenderScrollable } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/angular/directive-scroll-smooth-render-scrollable'</span>;
-  app.directive(<span class="hljs-string">'scrollArea'</span>, scrollSmoothRenderScrollable);
-
-&lt;<span class="hljs-keyword">div</span> scroll-area&gt;
-   a scrollable <span class="hljs-keyword">div</span>
-&lt;<span class="hljs-regexp">/div&gt;</span></code></pre>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
@@ -862,558 +372,397 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-smooth-scroll-click.ts#L105">angular/directive-smooth-scroll-click.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-smooth-scroll-click.ts#L105">angular/directive-smooth-scroll-click.ts:105</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A directive to scroll to a specific #id.</p>
-								</div>
-								<p>smooth-scroll-click (string): Contains the #id of the element to
-									scroll to.
-									smooth-scroll-click-offset (number): Optional offset value for the scroll.
-									smooth-scroll-click-duration (number): Optional value to specify scroll duration.
-								smooth-scroll-click-eval (boolean): Whether to force eval mode.</p>
-								<div
-								smooth-scroll-click="'id-to-smooth-scroll-to'"
-								smooth-scroll-click-offset="100"
-								smooth-scroll-click-duration="1000"
-							</div>
-							<div
-							smooth-scroll-click="myAngularCtrl.value"
-							smooth-scroll-click-offset="100"
-							smooth-scroll-click-eval="true"
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.smoothscrollcontroller.html" class="tsd-signature-type">SmoothScrollController</a></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="textsplitdirective" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> text<wbr>Split<wbr>Directive</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">text<wbr>Split<wbr>Directive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-text-split.ts#L43">angular/directive-text-split.ts:43</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.textsplitcontroller.html" class="tsd-signature-type">TextSplitController</a></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="viewportcssparallaxdirective" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> viewport<wbr>Css<wbr>Parallax<wbr>Directive</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">viewport<wbr>Css<wbr>Parallax<wbr>Directive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-viewport-css-parallax.ts#L138">angular/directive-viewport-css-parallax.ts:138</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.viewportcssparallaxcontroller.html" class="tsd-signature-type">ViewportCssParallaxController</a></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="visibilityoptimizedirective" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> visibility<wbr>Optimize<wbr>Directive</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">visibility<wbr>Optimize<wbr>Directive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-visibility-optimize.ts#L52">angular/directive-visibility-optimize.ts:52</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.visibilityoptimizecontroller.html" class="tsd-signature-type">VisibilityOptimizeController</a></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="watchscrolloverdirective" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> watch<wbr>Scroll<wbr>Over<wbr>Directive</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">watch<wbr>Scroll<wbr>Over<wbr>Directive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-watch-scroll-over.ts#L124">angular/directive-watch-scroll-over.ts:124</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.watchscrollovercontroller.html" class="tsd-signature-type">WatchScrollOverController</a></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-external-module">
+					<a name="lazyvideoevents" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Lazy<wbr>Video<wbr>Events</h3>
+					<div class="tsd-signature tsd-kind-icon">Lazy<wbr>Video<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lazy-video.ts#L10">angular/directive-lazy-video.ts:10</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="lazyvideoevents.load_start" class="tsd-anchor"></a>
+						<h3>LOAD_<wbr>START</h3>
+						<div class="tsd-signature tsd-kind-icon">LOAD_<wbr>START<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;LOAD_START&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lazy-video.ts#L11">angular/directive-lazy-video.ts:11</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-external-module">
+					<a name="lottiescrollevents" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Lottie<wbr>Scroll<wbr>Events</h3>
+					<div class="tsd-signature tsd-kind-icon">Lottie<wbr>Scroll<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lottie-scroll.ts#L27">angular/directive-lottie-scroll.ts:27</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="lottiescrollevents.init" class="tsd-anchor"></a>
+						<h3>INIT</h3>
+						<div class="tsd-signature tsd-kind-icon">INIT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;INIT&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lottie-scroll.ts#L28">angular/directive-lottie-scroll.ts:28</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="lottiescrollevents.progress_update" class="tsd-anchor"></a>
+						<h3>PROGRESS_<wbr>UPDATE</h3>
+						<div class="tsd-signature tsd-kind-icon">PROGRESS_<wbr>UPDATE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;LOTTIE_SCROLL_EVENT&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/angular/directive-lottie-scroll.ts#L29">angular/directive-lottie-scroll.ts:29</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_index_.html">"index"</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="angular.html">angular</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="arrayf.html">arrayf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="components.html">components</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="datguif.html">datguif</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="debug.html">debug</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="dom.html">dom</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="ease.html">ease</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="func.html">func</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="interpolate.html">interpolate</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="is.html">is</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="iterable_iterator.html">iterable-<wbr>iterator</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="loader.html">loader</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="map.html">map</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="mathf.html">mathf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="objectf.html">objectf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="pseudo_3d_canvas.html">pseudo-<wbr>3d-<wbr>canvas</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="raf.html">raf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="setf.html">setf</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="shaders.html">shaders</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="string.html">string</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="threef.html">threef</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="time.html">time</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="ui.html">ui</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="x.html">x</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.cssparallaxcontroller.html" class="tsd-kind-icon">Css<wbr>Parallax<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.cssvarwidth.html" class="tsd-kind-icon">Css<wbr>Var<wbr>Width</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.horizontalscrollelementcontroller.html" class="tsd-kind-icon">Horizontal<wbr>Scroll<wbr>Element<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.inviewcontroller.html" class="tsd-kind-icon">Inview<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.lazyimage.html" class="tsd-kind-icon">Lazy<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.lazyimagesimple.html" class="tsd-kind-icon">Lazy<wbr>Image<wbr>Simple</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.lazyvideocontroller.html" class="tsd-kind-icon">Lazy<wbr>Video<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/angular.lottiebuttoncontroller.html" class="tsd-kind-icon">Lottie<wbr>Button<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.lottiecontroller.html" class="tsd-kind-icon">Lottie<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.scrollsmoothrenderscrollablecontroller.html" class="tsd-kind-icon">Scroll<wbr>Smooth<wbr>Render<wbr>Scrollable<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/angular.smoothscrollcontroller.html" class="tsd-kind-icon">Smooth<wbr>Scroll<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/angular.textsplitcontroller.html" class="tsd-kind-icon">Text<wbr>Split<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.togglecontroller.html" class="tsd-kind-icon">Toggle<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.viewportcssparallaxcontroller.html" class="tsd-kind-icon">Viewport<wbr>Css<wbr>Parallax<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.visibilityoptimizecontroller.html" class="tsd-kind-icon">Visibility<wbr>Optimize<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/angular.watchscrollovercontroller.html" class="tsd-kind-icon">Watch<wbr>Scroll<wbr>Over<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/angular.nullcontroller.html" class="tsd-kind-icon">null<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.horizontalscrollelementcontrollerinitconfig.html" class="tsd-kind-icon">Horizontal<wbr>Scroll<wbr>Element<wbr>Controller<wbr>Init<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.ingdisposable.html" class="tsd-kind-icon">INg<wbr>Disposable</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottieautoplay.html" class="tsd-kind-icon">Lottie<wbr>Auto<wbr>Play</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottieclasstrigger.html" class="tsd-kind-icon">Lottie<wbr>Class<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottieobject.html" class="tsd-kind-icon">Lottie<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottiescrolleventpayload.html" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Event<wbr>Payload</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottiescrollinitpayload.html" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Init<wbr>Payload</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottiescrollintro.html" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Intro</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottiescrollsettings.html" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottieinterpolatesettings.html" class="tsd-kind-icon">lottie<wbr>Interpolate<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/angular.lottierangedprogress.html" class="tsd-kind-icon">lottie<wbr>Ranged<wbr>Progress</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#cssparallaxdirective" class="tsd-kind-icon">css<wbr>Parallax<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#cssvarwidthdirective" class="tsd-kind-icon">css<wbr>Var<wbr>Width<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#inviewdirective" class="tsd-kind-icon">inview<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#lazyimagedirective" class="tsd-kind-icon">lazy<wbr>Image<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#lazyimagesimpledirective" class="tsd-kind-icon">lazy<wbr>Image<wbr>Simple<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#lazyvideodirective" class="tsd-kind-icon">lazy<wbr>Video<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#lottiebuttondirective" class="tsd-kind-icon">lottie<wbr>Button<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#lottiescrolldirective" class="tsd-kind-icon">lottie<wbr>Scroll<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#scrollsmoothrenderscrollable" class="tsd-kind-icon">scroll<wbr>Smooth<wbr>Render<wbr>Scrollable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#smoothscrollclickdirective" class="tsd-kind-icon">smooth<wbr>Scroll<wbr>Click<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#textsplitdirective" class="tsd-kind-icon">text<wbr>Split<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#viewportcssparallaxdirective" class="tsd-kind-icon">viewport<wbr>Css<wbr>Parallax<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#visibilityoptimizedirective" class="tsd-kind-icon">visibility<wbr>Optimize<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="angular.html#watchscrolloverdirective" class="tsd-kind-icon">watch<wbr>Scroll<wbr>Over<wbr>Directive</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
+						<a href="angular.html#lazyvideoevents" class="tsd-kind-icon">Lazy<wbr>Video<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
+						<a href="angular.html#lottiescrollevents" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Events</a>
+					</li>
+				</ul>
+			</nav>
 		</div>
 	</div>
-	<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-	<ul class="tsd-parameters">
-		<li class="tsd-parameter">
-			<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.smoothscrollcontroller.html" class="tsd-signature-type">SmoothScrollController</a></h5>
-		</li>
-		<li class="tsd-parameter">
-			<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-		</li>
-	</ul>
-	</li>
-	</ul>
-	</section>
-	<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-		<a name="textsplitdirective" class="tsd-anchor"></a>
-		<h3><span class="tsd-flag ts-flagConst">Const</span> text<wbr>Split<wbr>Directive</h3>
-		<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-			<li class="tsd-signature tsd-kind-icon">text<wbr>Split<wbr>Directive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
-		</ul>
-		<ul class="tsd-descriptions">
-			<li class="tsd-description">
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-text-split.ts#L43">angular/directive-text-split.ts:43</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Implements the textSplit2 effect.</p>
-					</div>
-					<pre><code>    import { textSplitDirective } <span class="hljs-keyword">from</span> 'degu/lib/angular/directive-<span class="hljs-built_in">text</span>-split';
-    ngApp.directive('textSplit', textSplitDirective);
-
-
-   &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">text</span>-split aria-label=<span class="hljs-string">"text"</span>&gt;<span class="hljs-built_in">text</span>&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre>
-				</div>
-				<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-				<ul class="tsd-parameters">
-					<li class="tsd-parameter">
-						<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.textsplitcontroller.html" class="tsd-signature-type">TextSplitController</a></h5>
-					</li>
-					<li class="tsd-parameter">
-						<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</section>
-	<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-		<a name="viewportcssparallaxdirective" class="tsd-anchor"></a>
-		<h3><span class="tsd-flag ts-flagConst">Const</span> viewport<wbr>Css<wbr>Parallax<wbr>Directive</h3>
-		<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-			<li class="tsd-signature tsd-kind-icon">viewport<wbr>Css<wbr>Parallax<wbr>Directive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
-		</ul>
-		<ul class="tsd-descriptions">
-			<li class="tsd-description">
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-viewport-css-parallax.ts#L138">angular/directive-viewport-css-parallax.ts:138</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A directive to run css var interpolations from yaml or json.</p>
-					</div>
-					<p>This is different from css-parallax in that the progress value is NOT how
-					much an element is shown but rather, WHERE on the viewport it resides.</p>
-					<p>Progress is calculates from the top of the screen (1) to the bottom
-					of the screen (0).</p>
-					<p>This allows you to specify effects as the user scrolls.</p>
-					<p>In yaml:</p>
-					<pre><code>partial: myPartial
-css_parallax:
-  settings:
-    debug: <span class="hljs-literal">false</span> (boolean, optional) True outputs progress <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> dev console.
-    lerp: <span class="hljs-number">0.18</span> Optional lerp.  Defaults <span class="hljs-built_in">to</span> <span class="hljs-number">1</span> assuming no asymptotic averaging.
-    damp: <span class="hljs-number">0.18</span> Optional damp.  Defaults <span class="hljs-built_in">to</span> <span class="hljs-number">1</span> assuming no damping.
-    clamp: <span class="hljs-literal">false</span> (boolean)  Defaults <span class="hljs-built_in">to</span> <span class="hljs-literal">true</span> where <span class="hljs-keyword">by</span> progress is clamped <span class="hljs-built_in">to</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1.</span>
-    precision: (<span class="hljs-built_in">number</span>) Defaults <span class="hljs-built_in">to</span> <span class="hljs-number">3.</span>  Lower precision means less dom updates but less accuracy.
-    elementBaseline: <span class="hljs-number">0</span> (<span class="hljs-built_in">number</span>) defaults <span class="hljs-built_in">to</span> <span class="hljs-number">0</span> Should we use <span class="hljs-keyword">the</span> top (<span class="hljs-number">0</span>), <span class="hljs-keyword">middle</span> (<span class="hljs-number">0.5</span>), bottom(<span class="hljs-number">1</span>) <span class="hljs-keyword">or</span> bottom <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">element</span> <span class="hljs-built_in">to</span> determine where <span class="hljs-keyword">on</span> <span class="hljs-title">the</span> <span class="hljs-title">viewport</span> <span class="hljs-title">it</span> <span class="hljs-title">resides</span>.
-
-   <span class="hljs-comment"> // Allows you to pass through option to intersection observer controlling</span>
-   <span class="hljs-comment"> // start and stop of raf.</span>
-    rafEvOptions:
-        rootMargin: <span class="hljs-string">'0px 0px 0px 0px'</span>
-
-  interpolations:
-    - id: <span class="hljs-string">'--x'</span>
-      progress:
-      - <span class="hljs-built_in">from</span>: <span class="hljs-number">0.5</span>
-        <span class="hljs-built_in">to</span>: <span class="hljs-number">1</span>
-        <span class="hljs-built_in">start</span>: <span class="hljs-string">'0px'</span>
-        <span class="hljs-keyword">end</span>: <span class="hljs-string">'20px'</span>
-    - id: <span class="hljs-string">'--opacity'</span>
-      progress:
-      - <span class="hljs-built_in">from</span>: <span class="hljs-number">0</span>
-        <span class="hljs-built_in">to</span>: <span class="hljs-number">0.5</span>
-        <span class="hljs-built_in">start</span>: <span class="hljs-number">0</span>
-        <span class="hljs-keyword">end</span>: <span class="hljs-number">1</span>
-      - <span class="hljs-built_in">from</span>: <span class="hljs-number">0.5</span>
-        <span class="hljs-built_in">to</span>: <span class="hljs-number">1</span>
-        <span class="hljs-built_in">start</span>: <span class="hljs-number">0</span>
-        <span class="hljs-keyword">end</span>: <span class="hljs-number">1</span></code></pre><p>It might be more common to inline the settings:</p>
-					<pre><code>          {% <span class="hljs-keyword">set</span> parallax_settings = {
-            <span class="hljs-string">'settings'</span>: {
-              <span class="hljs-string">'debug'</span>: <span class="hljs-literal">true</span>,
-              <span class="hljs-string">'lerp'</span>: <span class="hljs-number">0.2</span>,
-              <span class="hljs-string">'damp'</span>: <span class="hljs-number">0.6</span>,
-              <span class="hljs-string">'clamp'</span>: <span class="hljs-literal">false</span>,
-              <span class="hljs-string">'elementBaseline'</span>: <span class="hljs-number">0</span>
-            },
-            <span class="hljs-string">'interpolations'</span>: [
-              {
-                  <span class="hljs-string">'id'</span>: <span class="hljs-string">'--opacity'</span>,
-                  <span class="hljs-string">'progress'</span>: [
-                      {
-                          <span class="hljs-string">'from'</span>: <span class="hljs-number">0</span>,
-                          <span class="hljs-string">'to'</span>: <span class="hljs-number">0.5</span>,
-                          <span class="hljs-string">'start'</span>: <span class="hljs-number">0</span>,
-                          <span class="hljs-string">'end'</span>: <span class="hljs-number">1</span>,
-                      }
-                  ]
-              }
-            ]
-          } %}
-
-       &lt;div <span class="hljs-keyword">class</span>=<span class="hljs-string">"sup"</span> viewport-css-parallax=<span class="hljs-string">"{{parallax_settings|jsonify}}"</span>&gt;
-           Hello <span class="hljs-keyword">this</span> <span class="hljs-keyword">is</span> a test.
-       &lt;/div&gt;
-
-</code></pre><p>In your app:</p>
-					<pre><code class="language-ts">  <span class="hljs-keyword">import</span> { viewportCssParallaxDirective } <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/angular/directive-viewport-css-parallax'</span>;
-
-  <span class="hljs-keyword">const</span> app = angular.module(<span class="hljs-string">'myApp'</span>, []);
-  app.directive(<span class="hljs-string">'viewportCssParallax'</span>, viewportCssParallaxDirective);</code></pre>
-					<p>In the module, you want to use this:</p>
-					<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> </span></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> partial.viewport_css_parallax %}</span><span class="xml"><span class="hljs-tag"> <span class="hljs-attr">viewport-css-parallax</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{partial.viewport_css_parallax|jsonify}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string"></span></span></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %"&gt;&lt;/div&gt;</span></code></pre>
-				</div>
-				<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-				<ul class="tsd-parameters">
-					<li class="tsd-parameter">
-						<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.viewportcssparallaxcontroller.html" class="tsd-signature-type">ViewportCssParallaxController</a></h5>
-					</li>
-					<li class="tsd-parameter">
-						<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</section>
-	<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-		<a name="visibilityoptimizedirective" class="tsd-anchor"></a>
-		<h3><span class="tsd-flag ts-flagConst">Const</span> visibility<wbr>Optimize<wbr>Directive</h3>
-		<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-			<li class="tsd-signature tsd-kind-icon">visibility<wbr>Optimize<wbr>Directive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
-		</ul>
-		<ul class="tsd-descriptions">
-			<li class="tsd-description">
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-visibility-optimize.ts#L52">angular/directive-visibility-optimize.ts:52</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Usage.
-							<code>`</code>ts
-						import { visibilityOptimizeDirective } from &#39;degu/lib/angular/directive-visibility-optimize&#39;;</p>
-					</div>
-					<p>  const app = angular.module(&#39;myApp&#39;, []);
-						app.directive(&#39;visibilityOptimize&#39;, visibilityOptimizeDirective);
-						<div visibilility-optimize>
-					<code>`</code></p>
-				</div>
-				<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-				<ul class="tsd-parameters">
-					<li class="tsd-parameter">
-						<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.visibilityoptimizecontroller.html" class="tsd-signature-type">VisibilityOptimizeController</a></h5>
-					</li>
-					<li class="tsd-parameter">
-						<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</section>
-	<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-		<a name="watchscrolloverdirective" class="tsd-anchor"></a>
-		<h3><span class="tsd-flag ts-flagConst">Const</span> watch<wbr>Scroll<wbr>Over<wbr>Directive</h3>
-		<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-			<li class="tsd-signature tsd-kind-icon">watch<wbr>Scroll<wbr>Over<wbr>Directive<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
-		</ul>
-		<ul class="tsd-descriptions">
-			<li class="tsd-description">
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-watch-scroll-over.ts#L124">angular/directive-watch-scroll-over.ts:124</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>On a large single page, let&#39;s say you have a fix header that is a bunch
-						of jump links.</p>
-					</div>
-					<p>Options:</p>
-					<ul>
-						<li>watch-scroll-over-query (string): query to find the target element.  If the query
-						returns multiple elements the first element is selected. Example: #id, .class</li>
-						<li>watch-scroll-over-query-eval (bool): Whether to run an eval on the query.</li>
-						<li>watch-scroll-over-class (string): The class name to append when the current
-						directive element resides over the target element.</li>
-						<li>watch-scroll-over-out-class (string): The class name to append when the current
-						directive element goes out.</li>
-					</ul>
-					<pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"header"</span> style=<span class="hljs-string">"position: fixed; top: 0"</span>&gt;
-
-   &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"nav"</span>
-         watch-scroll-<span class="hljs-keyword">over</span>
-         watch-scroll-<span class="hljs-keyword">over</span>-query=<span class="hljs-string">".section-1"</span>
-         watch-scroll-<span class="hljs-keyword">over</span>-<span class="hljs-built_in">class</span>=<span class="hljs-string">"active"</span>
-         watch-scroll-<span class="hljs-keyword">over</span>-<span class="hljs-built_in">class</span>=<span class="hljs-string">"out"</span>
-     &gt; Section <span class="hljs-number">1</span>&lt;/<span class="hljs-keyword">div</span>&gt;
-   &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"nav"</span>
-         watch-scroll-<span class="hljs-keyword">over</span>
-         watch-scroll-<span class="hljs-keyword">over</span>-query=<span class="hljs-string">".section-2"</span>
-         watch-scroll-<span class="hljs-keyword">over</span>-<span class="hljs-built_in">class</span>=<span class="hljs-string">"active"</span>&gt; Section <span class="hljs-number">2</span>&lt;/<span class="hljs-keyword">div</span>&gt;
-   &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"nav"</span>
-         watch-scroll-<span class="hljs-keyword">over</span>
-watch-scroll-<span class="hljs-keyword">over</span>-query=<span class="hljs-string">"[['.' + section.id]]"</span>
-watch-scroll-<span class="hljs-keyword">over</span>-query-eval=<span class="hljs-string">"true"</span>
-         watch-scroll-<span class="hljs-keyword">over</span>-<span class="hljs-built_in">class</span>=<span class="hljs-string">"active"</span>&gt; Section <span class="hljs-number">3</span>&lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;/<span class="hljs-keyword">div</span>&gt;
-
-&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"content"</span>&gt;
-   &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">".section-1"</span>&gt;...&lt;/<span class="hljs-keyword">div</span>&gt;
-   &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">".section-2"</span>&gt;...&lt;/<span class="hljs-keyword">div</span>&gt;
-   &lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">".section-3"</span>&gt;...&lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre><p>Now as the user scrolls, when the header nav goes over the .section-1 div,
-						the first nav item will receive the class &quot;active&quot; which gets removed
-					when it goes out the section.</p>
-					<p>TODO (uxder): More optimization around this.</p>
-				</div>
-				<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
-				<ul class="tsd-parameters">
-					<li class="tsd-parameter">
-						<h5>controller<span class="tsd-signature-symbol">: </span><a href="../classes/angular.watchscrollovercontroller.html" class="tsd-signature-type">WatchScrollOverController</a></h5>
-					</li>
-					<li class="tsd-parameter">
-						<h5>restrict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</section>
-	</section>
-	<section class="tsd-panel-group tsd-member-group ">
-		<h2>Object literals</h2>
-		<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-external-module">
-			<a name="lazyvideoevents" class="tsd-anchor"></a>
-			<h3><span class="tsd-flag ts-flagConst">Const</span> Lazy<wbr>Video<wbr>Events</h3>
-			<div class="tsd-signature tsd-kind-icon">Lazy<wbr>Video<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-			<aside class="tsd-sources">
-				<ul>
-					<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lazy-video.ts#L10">angular/directive-lazy-video.ts:10</a></li>
-				</ul>
-			</aside>
-			<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-				<a name="lazyvideoevents.load_start" class="tsd-anchor"></a>
-				<h3>LOAD_<wbr>START</h3>
-				<div class="tsd-signature tsd-kind-icon">LOAD_<wbr>START<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;LOAD_START&quot;</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lazy-video.ts#L11">angular/directive-lazy-video.ts:11</a></li>
-					</ul>
-				</aside>
-			</section>
-		</section>
-		<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-external-module">
-			<a name="lottiescrollevents" class="tsd-anchor"></a>
-			<h3><span class="tsd-flag ts-flagConst">Const</span> Lottie<wbr>Scroll<wbr>Events</h3>
-			<div class="tsd-signature tsd-kind-icon">Lottie<wbr>Scroll<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-			<aside class="tsd-sources">
-				<ul>
-					<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lottie-scroll.ts#L27">angular/directive-lottie-scroll.ts:27</a></li>
-				</ul>
-			</aside>
-			<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-				<a name="lottiescrollevents.init" class="tsd-anchor"></a>
-				<h3>INIT</h3>
-				<div class="tsd-signature tsd-kind-icon">INIT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;INIT&quot;</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lottie-scroll.ts#L28">angular/directive-lottie-scroll.ts:28</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-				<a name="lottiescrollevents.progress_update" class="tsd-anchor"></a>
-				<h3>PROGRESS_<wbr>UPDATE</h3>
-				<div class="tsd-signature tsd-kind-icon">PROGRESS_<wbr>UPDATE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;LOTTIE_SCROLL_EVENT&quot;</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/angular/directive-lottie-scroll.ts#L29">angular/directive-lottie-scroll.ts:29</a></li>
-					</ul>
-				</aside>
-			</section>
-		</section>
-	</section>
-</div>
-<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-	<nav class="tsd-navigation primary">
-		<ul>
-			<li class="globals  ">
-				<a href="../globals.html"><em>Globals</em></a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="_index_.html">"index"</a>
-			</li>
-			<li class="current tsd-kind-external-module">
-				<a href="angular.html">angular</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="arrayf.html">arrayf</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="components.html">components</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="datguif.html">datguif</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="debug.html">debug</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="dom.html">dom</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="ease.html">ease</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="func.html">func</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="interpolate.html">interpolate</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="is.html">is</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="iterable_iterator.html">iterable-<wbr>iterator</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="loader.html">loader</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="map.html">map</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="mathf.html">mathf</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="objectf.html">objectf</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="pseudo_3d_canvas.html">pseudo-<wbr>3d-<wbr>canvas</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="raf.html">raf</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="setf.html">setf</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="shaders.html">shaders</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="string.html">string</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="threef.html">threef</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="time.html">time</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="ui.html">ui</a>
-			</li>
-			<li class=" tsd-kind-external-module">
-				<a href="x.html">x</a>
-			</li>
-		</ul>
-	</nav>
-	<nav class="tsd-navigation secondary menu-sticky">
-		<ul class="before-current">
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.cssparallaxcontroller.html" class="tsd-kind-icon">Css<wbr>Parallax<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.cssvarwidth.html" class="tsd-kind-icon">Css<wbr>Var<wbr>Width</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.horizontalscrollelementcontroller.html" class="tsd-kind-icon">Horizontal<wbr>Scroll<wbr>Element<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.inviewcontroller.html" class="tsd-kind-icon">Inview<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.lazyimage.html" class="tsd-kind-icon">Lazy<wbr>Image</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.lazyimagesimple.html" class="tsd-kind-icon">Lazy<wbr>Image<wbr>Simple</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.lazyvideocontroller.html" class="tsd-kind-icon">Lazy<wbr>Video<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-				<a href="../classes/angular.lottiebuttoncontroller.html" class="tsd-kind-icon">Lottie<wbr>Button<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.lottiecontroller.html" class="tsd-kind-icon">Lottie<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.scrollsmoothrenderscrollablecontroller.html" class="tsd-kind-icon">Scroll<wbr>Smooth<wbr>Render<wbr>Scrollable<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-				<a href="../classes/angular.smoothscrollcontroller.html" class="tsd-kind-icon">Smooth<wbr>Scroll<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-				<a href="../classes/angular.textsplitcontroller.html" class="tsd-kind-icon">Text<wbr>Split<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.togglecontroller.html" class="tsd-kind-icon">Toggle<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.viewportcssparallaxcontroller.html" class="tsd-kind-icon">Viewport<wbr>Css<wbr>Parallax<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.visibilityoptimizecontroller.html" class="tsd-kind-icon">Visibility<wbr>Optimize<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
-				<a href="../classes/angular.watchscrollovercontroller.html" class="tsd-kind-icon">Watch<wbr>Scroll<wbr>Over<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-class tsd-parent-kind-external-module">
-				<a href="../classes/angular.nullcontroller.html" class="tsd-kind-icon">null<wbr>Controller</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.horizontalscrollelementcontrollerinitconfig.html" class="tsd-kind-icon">Horizontal<wbr>Scroll<wbr>Element<wbr>Controller<wbr>Init<wbr>Config</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.ingdisposable.html" class="tsd-kind-icon">INg<wbr>Disposable</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottieautoplay.html" class="tsd-kind-icon">Lottie<wbr>Auto<wbr>Play</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottieclasstrigger.html" class="tsd-kind-icon">Lottie<wbr>Class<wbr>Trigger</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottieobject.html" class="tsd-kind-icon">Lottie<wbr>Object</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottiescrolleventpayload.html" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Event<wbr>Payload</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottiescrollinitpayload.html" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Init<wbr>Payload</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottiescrollintro.html" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Intro</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottiescrollsettings.html" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Settings</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottieinterpolatesettings.html" class="tsd-kind-icon">lottie<wbr>Interpolate<wbr>Settings</a>
-			</li>
-			<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-				<a href="../interfaces/angular.lottierangedprogress.html" class="tsd-kind-icon">lottie<wbr>Ranged<wbr>Progress</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#cssparallaxdirective" class="tsd-kind-icon">css<wbr>Parallax<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#cssvarwidthdirective" class="tsd-kind-icon">css<wbr>Var<wbr>Width<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#inviewdirective" class="tsd-kind-icon">inview<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#lazyimagedirective" class="tsd-kind-icon">lazy<wbr>Image<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#lazyimagesimpledirective" class="tsd-kind-icon">lazy<wbr>Image<wbr>Simple<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#lazyvideodirective" class="tsd-kind-icon">lazy<wbr>Video<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#lottiebuttondirective" class="tsd-kind-icon">lottie<wbr>Button<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#lottiescrolldirective" class="tsd-kind-icon">lottie<wbr>Scroll<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#scrollsmoothrenderscrollable" class="tsd-kind-icon">scroll<wbr>Smooth<wbr>Render<wbr>Scrollable</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#smoothscrollclickdirective" class="tsd-kind-icon">smooth<wbr>Scroll<wbr>Click<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#textsplitdirective" class="tsd-kind-icon">text<wbr>Split<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#viewportcssparallaxdirective" class="tsd-kind-icon">viewport<wbr>Css<wbr>Parallax<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#visibilityoptimizedirective" class="tsd-kind-icon">visibility<wbr>Optimize<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-function tsd-parent-kind-external-module">
-				<a href="angular.html#watchscrolloverdirective" class="tsd-kind-icon">watch<wbr>Scroll<wbr>Over<wbr>Directive</a>
-			</li>
-			<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
-				<a href="angular.html#lazyvideoevents" class="tsd-kind-icon">Lazy<wbr>Video<wbr>Events</a>
-			</li>
-			<li class=" tsd-kind-object-literal tsd-parent-kind-external-module">
-				<a href="angular.html#lottiescrollevents" class="tsd-kind-icon">Lottie<wbr>Scroll<wbr>Events</a>
-			</li>
-		</ul>
-	</nav>
-</div>
-</div>
 </div>
 <footer>
 	<div class="container">

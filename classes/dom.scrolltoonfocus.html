@@ -67,85 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that jumps to a specific scroll point when a given
-						element is focused on.</p>
-					</div>
-					<p>This class is designed to help with a11y issues common with
-						css-parallax, lottie-directive or any other module where
-					scroll based progress is calculated.</p>
-					<p>Consider the following example:</p>
-					<pre><code>&lt;<span class="hljs-selector-tag">div</span> sticky-<span class="hljs-number">300vh</span>&gt;
-  &lt;<span class="hljs-selector-tag">div</span> sticky-child&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">1</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">2</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">3</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">4</span>&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre><p>Our module is 300vh tall and we have a sticky child.
-						We then setup css-parallax and for every 0.25 (25%) progress,
-						we hide the visibility / opacity of each chapter.
-					In other words, as you scroll, the chapters fade in and out.</p>
-					<p>The problem with this is that when using VO or another screenreader,
-						the scroll position never updates as you focus on each chapter and
-						creates a situation where you are selecting an element that might
-					still have an opacity 0.</p>
-					<p>To solve this, you can use this class.</p>
-					<pre><code>&lt;<span class="hljs-selector-tag">div</span> sticky-<span class="hljs-number">300vh</span>&gt;
-  &lt;<span class="hljs-selector-tag">div</span> sticky-child&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">1</span> data-scroll-to-on-focus=<span class="hljs-string">"0"</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">2</span> data-scroll-to-on-focus=<span class="hljs-string">"0.25"</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">3</span> data-scroll-to-on-focus=<span class="hljs-string">"0.5"</span>&gt;
-    &lt;<span class="hljs-selector-tag">div</span> chapter-<span class="hljs-number">4</span> data-scroll-to-on-focus=<span class="hljs-string">"0.75"</span>&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-new ScrollToOnFocus({
-   element: document.querySelector(<span class="hljs-string">'[sticky-child]'</span>),
-   setTabIndex: true
-   setAriaRole: <span class="hljs-string">'region'</span>
-   <span class="hljs-comment">// These values should match however you are calculating</span>
-   <span class="hljs-comment">// progress.</span>
-   topProgressOffset: <span class="hljs-number">0</span>,
-   bottomProgressOffset: <span class="hljs-number">0</span>,
-})
-
-<span class="hljs-comment">// The focus element require a tabindex so remove it if needed.</span>
-[data-scroll-to-on-focus]:focus-visible
-  <span class="hljs-attribute">outline</span>: <span class="hljs-number">2px</span> solid <span class="hljs-number">#1967D2</span>
-[data-scroll-to-on-focus]:focus:not(:focus-visible)
-  <span class="hljs-attribute">outline</span>: none</code></pre><p>Now when using VO, if you focus on chapter-2, it will jump to
-					the progress 0.25 position.</p>
-					<h3 id="note-on-role-region-and-tabindex">Note on role=&quot;region&quot; and tabindex</h3>
-					<p>By default, this class will add a tabindex=&quot;0&quot; to the data-scroll-to-on-focus
-						element.  Without a tabindex, we cannot acquire a focus event on the element.
-						When dong this, VO and other screenreaders will read and announce the content
-						of the element which can result in a unwanted double announcement (if you have
-					say a title and body within the element).</p>
-					<p>To avoid the issue, it is recommended to add role=&quot;region&quot; to your element.</p>
-					<h3 id="use-the-watchelement-method-">Use the watchElement method.</h3>
-					<p>If you are calculating your progress dynamically in javascript, you can
-					also use the watchElement to individually set focus.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> stf = <span class="hljs-keyword">new</span> ScrollToOnFocus({
-   element: <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'[sticky-child]'</span>),
-   setTabIndex: <span class="hljs-literal">true</span>
-   setAriaRole: <span class="hljs-string">'region'</span>
-   <span class="hljs-comment">// These values should match however you are calculating</span>
-   <span class="hljs-comment">// progress.</span>
-   topProgressOffset: <span class="hljs-number">0</span>,
-   bottomProgressOffset: <span class="hljs-number">0</span>,
-})
-
-
-<span class="hljs-comment">// When element1 is focused, it will scroll to 0.2.</span>
-stf.watchElement( element1, <span class="hljs-number">0.2</span>);
-
-<span class="hljs-comment">// When element2 is focused, it will scroll to 0.4.</span>
-stf.watchElement( element2, <span class="hljs-number">0.4</span>);</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -187,7 +108,7 @@ stf.watchElement( element2, <span class="hljs-number">0.4</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-to-on-focus.ts#L175">dom/scroll-to-on-focus.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-to-on-focus.ts#L175">dom/scroll-to-on-focus.ts:175</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -213,7 +134,7 @@ stf.watchElement( element2, <span class="hljs-number">0.4</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-to-on-focus.ts#L306">dom/scroll-to-on-focus.ts:306</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-to-on-focus.ts#L306">dom/scroll-to-on-focus.ts:306</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -230,14 +151,9 @@ stf.watchElement( element2, <span class="hljs-number">0.4</span>);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-to-on-focus.ts#L263">dom/scroll-to-on-focus.ts:263</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-to-on-focus.ts#L263">dom/scroll-to-on-focus.ts:263</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Update / Set the internal top and bottom offset.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -255,13 +171,13 @@ stf.watchElement( element2, <span class="hljs-number">0.4</span>);</code></pre>
 					<a name="watchelement" class="tsd-anchor"></a>
 					<h3>watch<wbr>Element</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">watch<wbr>Element<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, progress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">watch<wbr>Element<span class="tsd-signature-symbol">(</span>el<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, progress<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-to-on-focus.ts#L209">dom/scroll-to-on-focus.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-to-on-focus.ts#L209">dom/scroll-to-on-focus.ts:209</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

@@ -67,60 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Vanilla Implementation of Lazy Video.
-						This is a port of directive-lazy-video to a native implementation.</p>
-					</div>
-					<p>Basic Usage Example:</p>
-					<pre><code> const lazyVideoElements: Array&lt;HTMLElement&gt; =
-      <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>from(this.el.query<span class="hljs-constructor">SelectorAll('[<span class="hljs-params">lazy</span>-<span class="hljs-params">video</span>]')</span>);
- lazyVideoElements.for<span class="hljs-constructor">Each((<span class="hljs-params">element</span>:HTMLElement)</span>=&gt; {
-     this.lazyVideos.push(
-          <span class="hljs-keyword">new</span> <span class="hljs-constructor">LazyVideo(<span class="hljs-params">element</span>)</span>
-      );
- })
-
-
-&lt;video playsinline disableremoteplayback muted title=<span class="hljs-string">"hello"</span>
-  &lt;source <span class="hljs-keyword">type</span>=<span class="hljs-string">"video/mp4"</span> <span class="hljs-keyword">lazy</span>-video=<span class="hljs-string">"{{url}}"</span>&gt;&lt;/source&gt;
-&lt;video&gt;</code></pre><p>When the element comes into view, it will render as and load.</p>
-					<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">video</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"video/mp4"</span> <span class="hljs-attr">lazy-video</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{url}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"..."</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">source</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">video</span>&gt;</span></span></code></pre><p>This class does display: none detection so will try to intelligently load
-					videos ONLY when they are visible on the page.</p>
-					<p>This allows you to have conditional videos such as mobile only.</p>
-					<pre><code class="language-`">.only-mobile
-  +md
-    display: none
-
-&lt;video class=&quot;only-mobile&quot;&gt;
-  &lt;source type=&quot;video/mp4&quot; lazy-video=&quot;{{url}}&quot;&gt;&lt;/source&gt;
-&lt;video&gt;</code></pre>
-					<h1 id="autoplay">Autoplay</h1>
-					<p>By default, lazyvideo WILL not play your video but only load it.
-					You should use the events fired by lazyvideo and handle the timing of playing.</p>
-					<p>You can alternately, add <code>lazy-video-play-on-inview</code> to autoplay the video
-					when it comes into the viewport.</p>
-					<pre><code><span class="hljs-symbol">&lt;video&gt;</span>
-  &lt;<span class="hljs-keyword">source</span> <span class="hljs-built_in">type</span>=<span class="hljs-string">"video/mp4"</span> lazy-video=<span class="hljs-string">"{{url}}"</span> lazy-video-play-<span class="hljs-keyword">on</span>-inview&gt;&lt;/<span class="hljs-keyword">source</span>&gt;
-<span class="hljs-symbol">&lt;video&gt;</span></code></pre><h1 id="forward-scalar">Forward Scalar</h1>
-					<p>Adjust the forward scalar to higher values to load videos more aggressively.
-					<source lazy-video="{{url}}" lazy-video-forward-scalar="3"></source></p>
-					<h1 id="listen-for-events-">Listen for events.</h1>
-					<p>Events get fired on the video element.</p>
-					<pre><code><span class="hljs-keyword">import</span> { lazyVideoDirective, lazyVideoEvents } from <span class="hljs-symbol">'degu</span>/lib/angular/directive-<span class="hljs-keyword">lazy</span>-video';
-document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventListener(lazyVideoEvents.<span class="hljs-type">LOAD_START</span>, ()=. {
-   <span class="hljs-comment">// Loading started!</span>
-}, { once: <span class="hljs-literal">true</span>});
-
-
-&lt;video id=<span class="hljs-string">"myvideo"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"only-mobile"</span>&gt;
-  &lt;source <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"video/mp4"</span> <span class="hljs-keyword">lazy</span>-video=<span class="hljs-string">"{{url}}"</span>&gt;&lt;/source&gt;
-&lt;video&gt;</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -163,7 +109,7 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lazy-video.ts#L133">dom/lazy-video.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lazy-video.ts#L133">dom/lazy-video.ts:133</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -189,7 +135,7 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lazy-video.ts#L260">dom/lazy-video.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lazy-video.ts#L260">dom/lazy-video.ts:260</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -206,16 +152,9 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lazy-video.ts#L254">dom/lazy-video.ts:254</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lazy-video.ts#L254">dom/lazy-video.ts:254</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Determines whether this element was painted (displayed on the screen).
-										The basis of this is having a css class of display none.  Other methods
-									of hiding the element will return true.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
@@ -230,7 +169,7 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lazy-video.ts#L200">dom/lazy-video.ts:200</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lazy-video.ts#L200">dom/lazy-video.ts:200</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -247,7 +186,7 @@ document.getElementById(<span class="hljs-string">"myvideo"</span>).addEventList
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/lazy-video.ts#L206">dom/lazy-video.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/lazy-video.ts#L206">dom/lazy-video.ts:206</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

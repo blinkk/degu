@@ -67,44 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Yes, it&#39;s a class to scroll jack.  Technically, what this does it attempt to
-						add a smooth damp the scrollY position to make the &quot;mouse&quot; experience better.</p>
-					</div>
-					<p>Usage is simple:</p>
-					<pre><code>&lt;body&gt;
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"root"</span>&gt;</span>...my website<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></span>
-
-
-<span class="hljs-keyword">const</span> scrollSmoother = <span class="hljs-keyword">new</span> ScrollSmoother({
- <span class="hljs-attr">lerp</span>: <span class="hljs-number">0.23</span>,
- <span class="hljs-attr">damp</span>: <span class="hljs-number">0.2444</span>,
- <span class="hljs-attr">root</span>: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>),
- <span class="hljs-attr">topMode</span>: <span class="hljs-literal">true</span>
-})
-
-scrollSmoother.run();
-
-
-
-Optional callback
-<span class="hljs-keyword">const</span> scrollSmoother = <span class="hljs-keyword">new</span> ScrollSmoother({
- <span class="hljs-attr">lerp</span>: <span class="hljs-number">0.23</span>
- damp: <span class="hljs-number">0.2444</span>,
- <span class="hljs-attr">root</span>: <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'root'</span>),
- <span class="hljs-attr">onUpdate</span>: <span class="hljs-function">(<span class="hljs-params">currentY, targetY</span>)=&gt;</span> {
-   ...
- }
-})
-
-</code></pre><p>What is this doing?
-						Basically, when it runs, it will position fix the &quot;root&quot; element and then offset it by
-					the amount of scroll.</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -145,7 +107,7 @@ Optional callback
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smoother.ts#L67">dom/scroll-smoother.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smoother.ts#L67">dom/scroll-smoother.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -171,7 +133,7 @@ Optional callback
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smoother.ts#L158">dom/scroll-smoother.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smoother.ts#L158">dom/scroll-smoother.ts:158</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -182,13 +144,13 @@ Optional callback
 					<a name="resize" class="tsd-anchor"></a>
 					<h3>resize</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">resize<span class="tsd-signature-symbol">(</span>height<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">resize<span class="tsd-signature-symbol">(</span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smoother.ts#L100">dom/scroll-smoother.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smoother.ts#L100">dom/scroll-smoother.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>At TabIndex</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>At TabIndex</title>
 </head>
 <body init-sample="atTabIndexSample">
-  <a href="index.html">Back to home</a>
-  <div id="root">
-    <button at-tab-index="10@desktop 8@tablet 3@mobile">All</button>
-    <h1 at-tab-index="3@mobile">Mobile Only</h1>
-
-    <div at-tab-index="1@desktop 2@tablet 3@mobile">
-        <button>Test</button>
-        <a href="at-tabindex.html#">Test</a>
-    </div>
-
-    <div at-tab-index="1@desktop 2@tablet 3@mobile" at-tab-index-ignore>
-        <button>Test</button>
-        <button at-tab-index-ignore>Test</button>
-        <a href="at-tabindex.html#">Test</a>
-    </div>
-  </div>
-<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+<a href="index.html">Back to home</a>
+<div id="root">
+<button at-tab-index="10@desktop 8@tablet 3@mobile">All</button>
+<h1 at-tab-index="3@mobile">Mobile Only</h1>
+<div at-tab-index="1@desktop 2@tablet 3@mobile">
+<button>Test</button>
+<a href="#">Test</a>
+</div>
+<div at-tab-index="1@desktop 2@tablet 3@mobile" at-tab-index-ignore>
+<button>Test</button>
+<button at-tab-index-ignore>Test</button>
+<a href="#">Test</a>
+</div>
+</div>
+</body>
+<script src="scripts/index.js" type="module"></script>
 </html>
-

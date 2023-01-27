@@ -67,36 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that allows you to selectively apply css classes based on preset
-							conditions. After declaring your conditions, you can add css classes with
-						<className>@<condition>.</p>
-					</div>
-					<p>Example:</p>
-					<pre><code class="language-ts">
-<span class="hljs-comment">// Instantiate AtClass with your conditions.</span>
-<span class="hljs-keyword">const</span> atClass = <span class="hljs-keyword">new</span> AtClass({
-  element: <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'myElement'</span>),
-  conditions: [
-      [<span class="hljs-string">'desktop'</span>, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &gt; <span class="hljs-number">1000</span>],
-      [<span class="hljs-string">'tablet'</span>, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &lt; <span class="hljs-number">1000</span> &amp;&amp; <span class="hljs-built_in">window</span>.innerWidth &gt; <span class="hljs-number">780</span>],
-      [<span class="hljs-string">'mobile'</span>, <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> <span class="hljs-built_in">window</span>.innerWidth &lt; <span class="hljs-number">780</span>],
-  ],
-  watchResize: <span class="hljs-literal">true</span>
-})
-
-<span class="hljs-comment">// Later</span>
-atClass.dispose();</code></pre>
-					<p>Now by convention, you can apply css classes with <className>@<condition> rules.
-					In your html, you can do this:</p>
-					<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"myElement"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"blue@desktop left@desktop red@tablet orange@mobile"</span>&gt;</span>Title 1<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"green@desktop green@tablet blue@mobile"</span>&gt;</span>Title 2<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -138,7 +108,7 @@ atClass.dispose();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/at-class.ts#L69">dom/at-class.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/at-class.ts#L69">dom/at-class.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -164,7 +134,7 @@ atClass.dispose();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/at-class.ts#L143">dom/at-class.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/at-class.ts#L143">dom/at-class.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -181,15 +151,9 @@ atClass.dispose();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/at-class.ts#L91">dom/at-class.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/at-class.ts#L91">dom/at-class.ts:91</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Scans the rootElement and creates a cache of all elements with @ classes
-									within the current root element.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -204,14 +168,9 @@ atClass.dispose();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/at-class.ts#L113">dom/at-class.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/at-class.ts#L113">dom/at-class.ts:113</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates all conditions and applies classes.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

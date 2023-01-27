@@ -67,185 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that allows you to multiInterpolate css variables.</p>
-					</div>
-					<pre><code>
-HTML
-&lt;<span class="hljs-keyword">div</span> class=<span class="hljs-string">"ball"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;input id=<span class="hljs-string">"range"</span> type=<span class="hljs-string">"range"</span> name=<span class="hljs-string">"points"</span> step=<span class="hljs-string">"0.01"</span> <span class="hljs-built_in">min</span>=<span class="hljs-string">"0"</span> <span class="hljs-built_in">max</span>=<span class="hljs-string">"1"</span> style=<span class="hljs-string">"width: 500px;"</span>&gt;
-
-Sass
-  You can apply <span class="hljs-keyword">the</span> interpolated <span class="hljs-built_in">value</span> <span class="hljs-keyword">as</span> <span class="hljs-keyword">a</span> css <span class="hljs-built_in">variable</span>. If you specify
-  numerical values <span class="hljs-keyword">in</span> your <span class="hljs-built_in">from</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">to</span> values, <span class="hljs-built_in">add</span> <span class="hljs-keyword">the</span> unit <span class="hljs-keyword">in</span> css <span class="hljs-keyword">by</span>
-  multiplying <span class="hljs-keyword">it</span>.
-  Example <span class="hljs-keyword">of</span> <span class="hljs-keyword">using</span> vh:
-     top: calc(var(<span class="hljs-comment">--x) * 1vh)</span>
-  Example <span class="hljs-keyword">of</span> <span class="hljs-keyword">using</span> px:
-     top: calc(var(<span class="hljs-comment">--x) * 1px)</span>
-  Example <span class="hljs-keyword">of</span> <span class="hljs-keyword">a</span> complex <span class="hljs-built_in">variable</span> setup:
-  .ball
-     transform: translateX(calc(var(<span class="hljs-comment">--x) * 1px)) translateY(calc(var(--y) * 1px));</span>
-</code></pre><p>JS</p>
-					<pre><code class="language-ts">
- this.ball = document.getElementById('ball');
- this.range = document.getElementById('range');
-
- this.cssVarInterpolate = new CssVarInterpolate(
-   this.ball,
-   {
-     interpolations: [
-         {
-           progress: [
-             { from: 0, to: 1, start: 0, end: 500 },
-           ],
-           id: '--x'
-         },
-         {
-           progress: [
-              { from: 0, to: 0.2, start: 0, end: 100, easingFunction: EASE.easeOutSine },
-              { from: 0.2, to: 0.3, start: 100, end: 300, easingFunction: EASE.easeOutSine },
-              { from: 0.3, to: 0.5, start: 300, end: 0, easingFunction: EASE.easeOutSine },
-              { from: 0.5, to: 1, start: 0, end: 500, easingFunction: EASE.easeInQuad },
-           ],
-           id: '--y'
-         },
-         // You can use simple unit values.  See interpolate for more.
-         {
-           progress: [
-             { from: 0, to: 0.3, start: '10px', end: '30px' },
-           ],
-           id: '--z'
-         },
-
-        // You can also use a special noInteperlate mode.
-        // This is useful if you want to just apply non-interpolating values
-        // at specific ranges.  It requires a default value.
-        {
-           progress: [
-             { from: 0.2, to: 0.3, start: 'block', end: 'block' },
-           ],
-           id: '--display-settings',
-           noInterpolation: true,
-           noInterpolationDefault: 'none'
-        }
-
-
-       // Visibility id
-       // It's common to associate visibility: hidden with opacity: 0
-       // in order to boost rendering performance.
-       // This can be done by creating a non-interpolation (see above)
-       // but since it's a common take, it is available as a special
-       // parameter.
-       // Pass the visibilityId and it will create a css variable
-       // tied to the opacity that sets the value to hidden when
-       // the opacity value is &lt;= 0.
-         {
-           progress: [
-             { from: 0, to: 0.3, start: 0, end: 1 },
-           ],
-           id: '--my-opacity',
-           visibilityId: '--my-visibility
-         },
-
-
-      // Staggers allows to create multi entries of the same property with an
-      // offset.  For example, here 4 staggers would be created.
-      // hero-y-0, hero-y-1, hero-y-2, hero-y-3 and the from and end points
-      // would each be shifted by the progressOffset (0.008).
-      // You can then use those css variables to target your elements.
-      //
-      // An easy way might be to add [row="0"], [row="1"]
-      // your elements and add a sass mixin like the following.
-      //
-      //
-      //  =effect-stagger($stagger, $offset)
-      //   @for $i from 0 through $stagger
-      //       [row="#{$i}"]
-      //       transform: translateY(var(--hero2-y-#{$i + $offset}))
-      //
-      // .my-chapter
-      //     +effect-stagger(4,0)
-      //
-      // You could use this effect with https://github.com/blinkkcode/degu/blob/master/src/angular/directive-text-split.ts
-      // or https://github.com/blinkkcode/degu/blob/master/src/dom/text-split2.ts
-      //
-      {
-        progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
-        id: 'hero-y',
-        stagger: {
-            count: 4,
-            progressOffset: 0.008
-        }
-       }
-
-
-
-     ]}
- )
-
-// For perf boost
-this.interpolator.useSubPixelRendering(false);
-
- // Set the progress to the range value.
- this.progress = +this.range.value;
-
-
- // Note that cssVarInterpolate, will cull uncessary calls to
- // avoid layout updates/thrashing.  If the value of progress is the
- // same, won't make any uncessary calls but allow the animations
- // to complete.
- //
- //
- // Note that it is recommended to use &lt;a href="raf.rafprogress.html"&gt;RafProgress&lt;/a&gt; to manage progress
- // easing but here to keep the demo simple, we are using a simplified
- // model. See the css-var-interpolate example in /examples folder for this
- // same implemetnation using RafProgress.
- //
- const raf = new Raf(() =&gt; {
-    let progress = +this.range.value;
-
-   // Add some ease to the progress to smooth it out.
-   this.progress = mathf.ease(this.progress, progress, 0.25, EASE.easeInOutQuad);
-
-  // Reduce the precision of progress.  We dont need to report progress differences
-  // of 0.0000001.
-  this.progress = mathf.round(this.progress, 3);
-
-   this.cssVarInterpolate.update(this.progress);
- }).start();
-
-</code></pre>
-					<p>Ranged Progress Interpolations
-						You can also set the progress range.  This will tell cssVarInterpolate
-						to internally generate a <a href="../modules/mathf.html#childprogress">mathf.childProgress</a> and scope the interpolations
-					to a scoped range instead of 0-1.</p>
-					<pre><code class="language-ts"> <span class="hljs-keyword">this</span>.cssVarInterpolate.setProgressRange(<span class="hljs-number">0.2</span>, <span class="hljs-number">0.6</span>);</code></pre>
-					<p>Element Visibility
-						CssVarInterpolate by default will only update css variables when the
-					root element is inview to performance reasons.</p>
-					<p>If you want to turn this off, do the following:</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">this</span>.cssVarInterpolate.renderOutview(<span class="hljs-literal">true</span>);</code></pre>
-					<p>// No write mode.
-						There are times you may just want to use the css-var-interpolate to just
-					calculate values for you.</p>
-					<p>You can prevent css-var-interpolate from writing to the dom with:</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">this</span>.cssVarInterpolate.useNoWrite(<span class="hljs-literal">true</span>);</code></pre>
-					<p>then you can do something like this to get the values.</p>
-					<pre><code><span class="hljs-comment">// Update</span>
-   <span class="hljs-keyword">this</span>.cssVarInterpolate.update(<span class="hljs-keyword">this</span>.progress);
-
-<span class="hljs-comment">// Get the calculated values.</span>
-   <span class="hljs-keyword">const</span> values = <span class="hljs-keyword">this</span>.cssVarInterpolate.getValues();
-
-
-<span class="hljs-comment">// Now apply them or use them however you want.</span>
-   dom.setCssVariables(myElement, values);
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -296,36 +117,22 @@ this.interpolator.useSubPixelRendering(false);
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Css<wbr>Var<wbr>Interpolate<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, config<span class="tsd-signature-symbol">?: </span><a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-signature-type">multiInterpolateConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interpolate.cssvarinterpolate.html" class="tsd-signature-type">CssVarInterpolate</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Css<wbr>Var<wbr>Interpolate<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-signature-type">multiInterpolateConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interpolate.cssvarinterpolate.html" class="tsd-signature-type">CssVarInterpolate</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L280">interpolate/css-var-interpolate.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L280">interpolate/css-var-interpolate.ts:280</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>element: <span class="tsd-signature-type">HTMLElement</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The element to update the css variable to.
-												This can be the body element if you want a &quot;global&quot; css
-												variable or you can specific a more speicific element to
-											scope the results of your css variables.</p>
-										</div>
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> config: <a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-signature-type">multiInterpolateConfig</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-										</div>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="interpolate.cssvarinterpolate.html" class="tsd-signature-type">CssVarInterpolate</a></h4>
@@ -341,14 +148,9 @@ this.interpolator.useSubPixelRendering(false);
 					<div class="tsd-signature tsd-kind-icon">element<wbr>Visibility<span class="tsd-signature-symbol">:</span> <a href="../interfaces/dom.elementvisibilityobject.html" class="tsd-signature-type">ElementVisibilityObject</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L238">interpolate/css-var-interpolate.ts:238</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L238">interpolate/css-var-interpolate.ts:238</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Internal instance of element visibility.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="renderonlywheninview" class="tsd-anchor"></a>
@@ -356,17 +158,9 @@ this.interpolator.useSubPixelRendering(false);
 					<div class="tsd-signature tsd-kind-icon">render<wbr>Only<wbr>When<wbr>Inview<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L246">interpolate/css-var-interpolate.ts:246</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L246">interpolate/css-var-interpolate.ts:246</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Whether to prevent DOM render updates when the element is out of view.
-								This prevents this class from updating the element style or css variables
-								if it is out of view.
-							The default is true to provide performance benefits.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="runonceafteroutview" class="tsd-anchor"></a>
@@ -374,17 +168,9 @@ this.interpolator.useSubPixelRendering(false);
 					<div class="tsd-signature tsd-kind-icon">run<wbr>Once<wbr>After<wbr>Out<wbr>View<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L254">interpolate/css-var-interpolate.ts:254</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L254">interpolate/css-var-interpolate.ts:254</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Whether to run update once after the element
-								goes out of view so the state of interpololations are correctly resolved
-								to its starting state when elements come back into view.
-							The default is true.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -399,26 +185,9 @@ this.interpolator.useSubPixelRendering(false);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L378">interpolate/css-var-interpolate.ts:378</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L378">interpolate/css-var-interpolate.ts:378</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Flushes the update cache.  By default, two consecutive calls to
-										update with the same progress values will cull the second call
-										for performance booosts.  However, there are rare cases where
-										you may want to update with the same progress values and force
-										an update to the variable.  Calling flush will flush the internal
-									cache.</p>
-								</div>
-								<pre><code class="language-ts">
-cssVarInterpolate.update(<span class="hljs-number">0.2</span>);
-cssVarInterpolate.update(<span class="hljs-number">0.2</span>); <span class="hljs-comment">// Normally gets ignored</span>
-
-cssVarInterpolate.update(<span class="hljs-number">0.2</span>);
-cssVarInterpolate.flush(); <span class="hljs-comment">// Flush cache</span>
-cssVarInterpolate.update(<span class="hljs-number">0.2</span>); <span class="hljs-comment">// Will update.</span></code></pre>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -433,16 +202,9 @@ cssVarInterpolate.update(<span class="hljs-number">0.2</span>); <span class="hlj
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L534">interpolate/css-var-interpolate.ts:534</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L534">interpolate/css-var-interpolate.ts:534</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the last set of calculated values.  This will return an empty
-										object if no updates / calculations have been run.  If updates have
-									been executed, it will return an object with each css-var property value.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -457,14 +219,9 @@ cssVarInterpolate.update(<span class="hljs-number">0.2</span>); <span class="hlj
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L416">interpolate/css-var-interpolate.ts:416</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L416">interpolate/css-var-interpolate.ts:416</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets css var interpolate to render even when out of view.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -485,36 +242,13 @@ cssVarInterpolate.update(<span class="hljs-number">0.2</span>); <span class="hlj
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L344">interpolate/css-var-interpolate.ts:344</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L344">interpolate/css-var-interpolate.ts:344</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates the internal interpolations.   Use this to update your
-									interpolations.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">let</span> ci = <span class="hljs-keyword">new</span> CssVarInterpolate(element);
-ci.setInterpolations({
-  interpolations: [
-      {
-          progress: [
-              { <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>, to: <span class="hljs-number">1</span>, start: <span class="hljs-number">0</span>, end: <span class="hljs-number">500</span> },
-          ],
-          id: <span class="hljs-string">'--x'</span>
-
-      }
-  ]
-});
-
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>config: <a href="../interfaces/interpolate.multiinterpolateconfig.html" class="tsd-signature-type">multiInterpolateConfig</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -531,17 +265,9 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L356">interpolate/css-var-interpolate.ts:356</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L356">interpolate/css-var-interpolate.ts:356</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the internal precision.  Precision is used to evaluate how many
-										decimals should be valuated on progress.  Lower precision means, 0.8888
-										and 0.88888 would be same.    Enter the number of decimals you want to
-									account for.  Lower precision will have slight performance benefits.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -562,16 +288,9 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L524">interpolate/css-var-interpolate.ts:524</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L524">interpolate/css-var-interpolate.ts:524</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the start and end values of which interpolations begin.  This allows
-										you to set something like, given the main progress that is updated from
-									0-1, I only want this to interpolate from 0.2-0.6.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -579,8 +298,6 @@ ci.setInterpolations({
 								</li>
 								<li>
 									<h5>end: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -597,14 +314,9 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L427">interpolate/css-var-interpolate.ts:427</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L427">interpolate/css-var-interpolate.ts:427</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates the progress and updates the css variable values.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -612,11 +324,6 @@ ci.setInterpolations({
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> force: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Allows you to bypass the cache.  By default
-											two consecutive calls to update WITH the same progress values will
-										cull the second call.  Force allows you to force it to render again.</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -633,15 +340,9 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L408">interpolate/css-var-interpolate.ts:408</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L408">interpolate/css-var-interpolate.ts:408</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Allows batch update of css variables.  Recommend for improved
-									performance.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -662,23 +363,13 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L399">interpolate/css-var-interpolate.ts:399</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L399">interpolate/css-var-interpolate.ts:399</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets css-var-interpolate to no write mode in which it will only calculate
-										values but not write them to the dom.  This is used for cases in which
-										you want use the class to calculate values but take control of when
-									and where writing happens.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -695,17 +386,9 @@ ci.setInterpolations({
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/css-var-interpolate.ts#L388">interpolate/css-var-interpolate.ts:388</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/css-var-interpolate.ts#L388">interpolate/css-var-interpolate.ts:388</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Toggles subpixel rendering. When subpixel rendering is turned off,
-										&#39;px&#39; value interpolations will be turned into whole
-										numbers.  Subpixel rendering is turned on by default but can be
-									turned off for performance boosts.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

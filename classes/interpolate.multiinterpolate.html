@@ -67,125 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>MultiInterpolate allows you to interpolate multiple values at once against
-						a parent progress.</p>
-					</div>
-					<pre><code class="language-ts">
-
-JS
- import { MultiInterpolate, EASE } from '@blinkk/degu';
- let multiInterpolate = new MultiInterpolate({
-  interpolations: [
-    // This declaration would create the following.
-    // When progress is:
-    // 0 - 0.29999 ---&gt; x = 50.
-    //    It uses applies the start value of the first progress.
-    // 0.3 - 0.5   ---&gt; x = 50 - 100.
-    // 0.5 - 0.8   ---&gt; x = 100 - 800
-    // 0.8 - 1     ----&gt; x = 800.  The last value is used.
-    {
-      progress: [
-         { from: 0.3, to: 0.5, start: 50, end: 1000,
-            easingFunction: EASE.easeInOutSine },
-         { from: 0.5, to: 0.8, start: 1000, end: 8000,
-            easingFunction: EASE.easeInOutBounce }
-      ],
-      id: 'x',
-    },
-
-    // When the progress is from 0.5 - 1,
-    // The value of y would go from 0 to 100.
-    {
-      progress: [{ from: 0, to: 0.5, start: 0, end: 100 }],
-      id: 'y',
-    },
-    // When the progress is from 0.5 - 1,
-    // The value of someOtherId would go from 0 to 100.
-    {
-      progress: [{ from: 0, to: 1, start: 0, end: 100 }]
-      id: 'someOther',
-    },
-
-    // Multi interpolate also supports simple units.  See interpolate for
-    // unit and color support.
-    {
-      progress: [{ from: 0, to: 1, start: '0px', end: '100px' }]
-      id: 'z',
-    }
-
-
-    // There is also no interpolation mode.  This doesn't interpolate
-    // but rather just applies properties when specific ranges are matched.
-    {
-      progress: [
-         { from: 0.3, to: 0.5, start: 'none', end: 'none'},
-         { from: 0.5, to: 0.8, start: 'inline', end: 'inline }
-      ],
-      noInterpolation: true
-      noInterpolationDefault: 'block'
-      id: 'display-setting',
-    },
-
-
-    // Staggers allow to create multi entries of the same property with an
-    // offset.  For example, here 4 staggers would be created.
-    // hero-y-0, hero-y-1, hero-y-2, hero-y-3 and the from and end points
-    // would each be shifted by the progressOffset (0.008).
-    {
-      progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
-      id: 'hero-y',
-      stagger: {
-          count: 4,
-          progressOffset: 0.008
-      }
-    }
-
-
-    // onUpdate also provides you hooks when values up.
-    {
-      progress: [{ from: 0, to: 0.3, start: '0px', end: '100px' }]
-      id: 'hero-y',
-      onUpdate: (id:string, currentProgress:number, currentValue:string|number) =&gt; {
-         ...
-      }
-    }
-
- ]
-});
-
-// What are the values at 0 progress.
-let results = multiInterpolate.calculate(0);
-console.log(results['x']); // 50
-console.log(results['y']); // 0
-console.log(results['someOther']); // 0
-
-// What are the values at 0.3 progress (30%)
-results = multiInterpolate.calculate(0.3);
-console.log(results['x']); // 50
-console.log(results['y']); // ~60
-console.log(results['someOther']); // 30
-
-// What are the values at 0.7 progress (70%)
-results = multiInterpolate.calculate(0.7);
-console.log(results['x']); //~7441
-console.log(results['y']); // ~100
-console.log(results['someOther']); // 30
-
-results = multiInterpolate.calculate(1);
-console.log(results['x']); //~7441
-console.log(results['y']); // ~100
-console.log(results['someOther']); // 100
-
-</code></pre>
-					<dl class="tsd-comment-tags">
-						<dt>tested</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -227,7 +108,7 @@ console.log(results['someOther']); // 100
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/multi-interpolate.ts#L282">interpolate/multi-interpolate.ts:282</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/multi-interpolate.ts#L282">interpolate/multi-interpolate.ts:282</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -253,14 +134,9 @@ console.log(results['someOther']); // 100
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/multi-interpolate.ts#L387">interpolate/multi-interpolate.ts:387</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/multi-interpolate.ts#L387">interpolate/multi-interpolate.ts:387</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the current progress and returns all interpolations.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -283,18 +159,9 @@ console.log(results['someOther']); // 100
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/multi-interpolate.ts#L377">interpolate/multi-interpolate.ts:377</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/multi-interpolate.ts#L377">interpolate/multi-interpolate.ts:377</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the last know interpolations values.
-										<code>`</code>ts
-									multiInterpolate.calculate(0.5);</p>
-								</div>
-								<p>let results = multiInterpolate.getCalculations();</p>
-								<p><code>`</code></p>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -309,14 +176,9 @@ console.log(results['someOther']); // 100
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/multi-interpolate.ts#L294">interpolate/multi-interpolate.ts:294</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/multi-interpolate.ts#L294">interpolate/multi-interpolate.ts:294</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets and updates the config.  Validates, reorders and set the config.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

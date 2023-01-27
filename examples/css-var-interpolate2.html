@@ -1,46 +1,46 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Css Var Interpolate Sample 2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Css Var Interpolate Sample 2</title>
 </head>
 <body init-sample="cssVarInterpolateSample2">
-  <a href="index.html">Back to home</a>
-  <h1>Css variable interpolation</h1>
-  <p> Demonstrates uses of unit and color interpolations.</p>
-  <p>Css Var Interpolate will also only update css vars when the element is inview.
+<a href="index.html">Back to home</a>
+<h1>Css variable interpolation</h1>
+<p> Demonstrates uses of unit and color interpolations.</p>
+<p>Css Var Interpolate will also only update css vars when the element is inview.
+Try scrolling down and you will see that when the container is out of view,
+no updates are applied. (check the console to see if css variables are updated).
+</p>
+<style>
+.container {
+position: relative;
+background-color: var(--background);
+}
 
-    Try scrolling down and you will see that when the container is out of view,
-    no updates are applied. (check the console to see if css variables are updated).
-  </p>
-  <style>
-      .container {
-        position: relative;
-        background-color: var(--background);
-      }
-      .special_ball {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50px;
-            height: 50px;
-            background-color: green;
-            border-radius: 50%;
-            transform: translateX(calc(var(--x))) translateY(var(--y));
-      }
-      #range {
-        position: fixed;
-        z-index: 100;
-      }
-  </style>
+.special_ball {
+position: absolute;
+top: 0;
+left: 0;
+width: 50px;
+height: 50px;
+background-color: green;
+border-radius: 50%;
+transform: translateX(calc(var(--x))) translateY(var(--y));
+}
 
-  <input id="range" type="range" name="points" step="0.01" min="0" max="1" style="width: 500px;">
+#range {
+position: fixed;
+z-index: 100;
+}
 
-  <div id="container" class="container" style="width: 500px; height: 500px;">
-    <div id="ball" class="special_ball"></div>
-  </div>
-  <div style="width: 500px; height: 300vh;"></div>
-<script src="js/0.chunk.js"></script><script src="js/app.js"></script></body>
+</style>
+<input id="range" type="range" name="points" step="0.01" min="0" max="1" style="width: 500px;">
+<div id="container" class="container" style="width: 500px; height: 500px;">
+<div id="ball" class="special_ball"></div>
+</div>
+<div style="width: 500px; height: 300vh;"></div>
+</body>
+<script src="scripts/index.js" type="module"></script>
 </html>

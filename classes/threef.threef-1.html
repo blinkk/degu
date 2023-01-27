@@ -67,13 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A bunch of util for three.js</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -122,7 +115,7 @@
 					<div class="tsd-signature tsd-kind-icon">degu<wbr>Threef<wbr>Temp<wbr>Box<wbr>Helper<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L18">threef/threef.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L18">threef/threef.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -133,46 +126,15 @@
 					<a name="applyvectortodom" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> apply<wbr>Vector<wbr>ToDom</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">apply<wbr>Vector<wbr>ToDom<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, v<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Vector3</span>, euler<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Euler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">apply<wbr>Vector<wbr>ToDom<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span>, v<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector3</span>, euler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Euler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L628">threef/threef.ts:628</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L628">threef/threef.ts:628</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given vector and euler rotations, applies transforms to an html element.
-									This works if your dom element is absolutely positions with the canvas.</p>
-								</div>
-								<p>Given:</p>
-								<pre><code>.<span class="hljs-type">text</span> {
- <span class="hljs-built_in"> position</span>: absolute;
-}
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"position: relative; height: 100vh; width: 100vw"</span>&gt;</span>
-  </span><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">canvas</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span></span><span class="xml">
-  </span><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text"</span>&gt;</span>Hello hello<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><span class="xml">
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></code></pre><p>You would do:</p>
-								<pre><code>  const domCoordinates = threef.toDomCoordinates(
-      threeObject, threeCamara, canvasWidth, canvasHeight, 0.5
-  );
-  const domRotation = threef.toDomRotation(
-     threeObject, threeCamera, canvasWidth, canvasHeight
-  );
-
-  // <span class="hljs-keyword">Set</span> the <span class="hljs-keyword">position</span> <span class="hljs-keyword">and</span> rotation <span class="hljs-keyword">of</span> myDomElement <span class="hljs-keyword">to</span> <span class="hljs-keyword">match</span> the threeObject
-  threef.applyVectorToDom(myDomElement, domCoordinates, domRotation);
-
-  // <span class="hljs-keyword">Set</span> the <span class="hljs-keyword">position</span>, rotation <span class="hljs-keyword">only</span> <span class="hljs-keyword">of</span> myDomElement <span class="hljs-keyword">to</span> <span class="hljs-keyword">match</span> the threeObject <span class="hljs-keyword">without</span> scaling
-  domCoodinates.z = <span class="hljs-number">1</span>; // No scaling.
-  threef.applyVectorToDom(myDomElement, domCoordinates, domRotation);
-
-  // <span class="hljs-keyword">Set</span> the <span class="hljs-keyword">position</span> <span class="hljs-keyword">only</span> <span class="hljs-keyword">of</span> myDomElement <span class="hljs-keyword">to</span> <span class="hljs-keyword">match</span> the threeObject
-  // This results <span class="hljs-keyword">in</span> a billboarding effect.
-  threef.applyVectorToDom(myDomElement, domCoordinates);</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -199,25 +161,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L386">threef/threef.ts:386</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L386">threef/threef.ts:386</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts from the blender coordinate system over to three (XYZ).
-										This assumes that within blender, you are using the XYZ Euler rotation
-									settings.</p>
-								</div>
-								<p>If your settings are off, it&#39;s likely the object your exported
-									has rotations.  Select your object to Apply -&gt; Rotation &amp; Scale
-								in blender.</p>
-								<p>Example:</p>
-								<pre><code> <span class="hljs-selector-tag">threef</span><span class="hljs-selector-class">.blenderToThreeCoordinates</span>({
-    <span class="hljs-attribute">x</span>: mathf.<span class="hljs-built_in">degreeToRadian</span>(51.9),
-    y: mathf.<span class="hljs-built_in">degreeToRadian</span>(192),
-    z: mathf.<span class="hljs-built_in">degreeToRadian</span>(200)
-}),</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -249,28 +195,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L408">threef/threef.ts:408</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L408">threef/threef.ts:408</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts blender coords to three.js
-										<code>`</code>
-										targetPosition = threef.blenderToThreeVec3({
-										// Specify in blender coords
-										x: 0,
-										y: 0,
-										z: 1.0,
-									});</p>
-								</div>
-								<p><code>`</code></p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>vec3: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
@@ -298,24 +229,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L555">threef/threef.ts:555</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L555">threef/threef.ts:555</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Provides the ability to convert a vec3 into another coordinate system
-									as needed given the mapping.</p>
-								</div>
-								<p>Mapping supports the following strings: x,y,z,-x,-y,-z</p>
-								<p>Example:</p>
-								<pre><code>threef.convertCoordinateSystem(
-   new THREE.Vector3(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>),
-  [<span class="hljs-string">'-y'</span>, <span class="hljs-string">'z'</span>, <span class="hljs-string">'x'</span>]
-);  <span class="hljs-regexp">//</span> x -&gt; -<span class="hljs-number">2</span>, y -&gt; <span class="hljs-number">3</span>, z -&gt; <span class="hljs-number">1</span>
-
-This internally converts the Vector3 using this <span class="hljs-symbol">logic:</span>
- x -&gt; -y, y -&gt; z, z-&gt; x</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -339,50 +255,9 @@ This internally converts the Vector3 using this <span class="hljs-symbol">logic:
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L747">threef/threef.ts:747</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L747">threef/threef.ts:747</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given a list of names, looks through the objects in the scenes
-										and returns a dictionary of them so they can be quickly accessed
-									at a later time.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-comment">// Specify the types of objects you want.</span>
-<span class="hljs-keyword">const</span> typeMap = {
-    <span class="hljs-comment">// Normally just pass a string for the "object" type</span>
-    mesh: <span class="hljs-string">'Mesh'</span>,
-    <span class="hljs-comment">// Pass array for multiple</span>
-    myStuff: [<span class="hljs-string">'Mesh'</span>, <span class="hljs-string">'PointLight'</span>],
-    <span class="hljs-comment">// Custom search logic.</span>
-    materials: <span class="hljs-function">(<span class="hljs-params">object, <span class="hljs-keyword">type</span></span>) =&gt;</span> {
-        <span class="hljs-keyword">return</span> object.material
-    },
-    lights: <span class="hljs-function">(<span class="hljs-params">object, <span class="hljs-keyword">type</span></span>)=&gt;</span> {
-        <span class="hljs-keyword">return</span> ~<span class="hljs-keyword">type</span>.toLowerCase().indexOf(<span class="hljs-string">'light'</span>);
-     }
-    pointLight: <span class="hljs-string">'PointLight'</span>,
-    cameras: <span class="hljs-string">'PerspectiveCamera'</span>,
-}
-<span class="hljs-keyword">const</span> objectDictionary = threef.makeObjectDictionaryFromScene(
-  scene, typeMap
-);
-</code></pre>
-								<p>Based on your typemap, a dictionary is returns with that type of
-								object contained.</p>
-								<pre><code>objectDictionary.byName[<span class="hljs-string">'myObject1'</span>]; // Your THREE <span class="hljs-keyword">object</span>
-objectDictionary.byName[<span class="hljs-string">'myPointlight1'</span>]; // Your THREE pointlight.
-
-// <span class="hljs-keyword">All</span> <span class="hljs-type">text</span> markers.
-// <span class="hljs-keyword">By</span> convention, <span class="hljs-type">text</span> markers are <span class="hljs-keyword">any</span> <span class="hljs-keyword">object</span> that starts <span class="hljs-keyword">with</span> the
-// naming <span class="hljs-string">'text-marker'</span> (IE: <span class="hljs-type">text</span>-marker1, <span class="hljs-type">text</span>-marker2 etc.)
-objectDictionary.textMarkers;
-
-objectDictionary.mesh; // <span class="hljs-keyword">All</span> your meshes
-objectDictionary.materials; // <span class="hljs-keyword">All</span> your materials
-objectDictionary.lights; // <span class="hljs-keyword">All</span> your lights
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -406,7 +281,7 @@ objectDictionary.lights; // <span class="hljs-keyword">All</span> your lights
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L794">threef/threef.ts:794</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L794">threef/threef.ts:794</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -432,15 +307,9 @@ objectDictionary.lights; // <span class="hljs-keyword">All</span> your lights
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L653">threef/threef.ts:653</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L653">threef/threef.ts:653</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given an array THREE.AnimationClips, does a search for an animation
-									clip of the given name.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -464,55 +333,9 @@ objectDictionary.lights; // <span class="hljs-keyword">All</span> your lights
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L63">threef/threef.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L63">threef/threef.ts:63</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>GLTF + Animation Marker Export loader.</p>
-								</div>
-								<p>Loads the gltf file and also the associated animation marker
-								export and appends it to the gltf object.</p>
-								<pre><code><span class="hljs-keyword">import</span> { GLTFLoader } <span class="hljs-keyword">from</span> <span class="hljs-string">'three/examples/jsm/loaders/GLTFLoader'</span>;
-<span class="hljs-keyword">import</span> {DRACOLoader} <span class="hljs-keyword">from</span> <span class="hljs-string">'three/examples/jsm/loaders/DRACOLoader'</span>;
-
-  <span class="hljs-comment">// Create instance of three glft loader.</span>
-  <span class="hljs-keyword">const</span> gltfLoader = <span class="hljs-keyword">new</span> GLTFLoader();
-
-  <span class="hljs-comment">// Optional: Provide a DRACOLoader instance to decode compressed mesh data</span>
-  <span class="hljs-keyword">var</span> dracoLoader = <span class="hljs-keyword">new</span> THREE.DRACOLoader();
-  dracoLoader.setDecoderPath( <span class="hljs-string">'/examples/js/libs/draco/'</span> );
-  gltfLoader.setDRACOLoader( dracoLoader );
-
-
-  threef.load({
-    <span class="hljs-attr">gltfPath</span>: <span class="hljs-string">'public/dev/gltf/test1.gltf'</span>,
-    <span class="hljs-comment">// Optional animation marker path.</span>
-    animationMarkerPath: <span class="hljs-string">'public/dev/gltf/test1.gltf'</span>,
-    <span class="hljs-attr">gltfLoader</span>: gltfLoader
-  }).then(<span class="hljs-function">(<span class="hljs-params">gltf</span>) =&gt;</span> {
-      <span class="hljs-comment">// gltf.animationMarkers is available.</span>
-      <span class="hljs-comment">// Everything else works the same as the three gltf loader.</span>
-  });
-
-  <span class="hljs-comment">// Call again to load something else with the same loader.</span>
-  threef.load({
-    <span class="hljs-attr">gltfPath</span>: <span class="hljs-string">'public/dev/gltf/test2.gltf'</span>,
-    <span class="hljs-attr">animationMarkerPath</span>: <span class="hljs-string">'public/dev/gltf/test2.gltf'</span>,
-    <span class="hljs-attr">gltfLoader</span>: gltfLoader
-  }).then(<span class="hljs-function">(<span class="hljs-params">gltf</span>) =&gt;</span> {
-      <span class="hljs-comment">// gltf.animationMarkers is available.</span>
-      <span class="hljs-comment">// Everything else works the same as the three gltf loader.</span>
-  });</code></pre>
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p><a href="https://threejs.org/docs/#examples/en/loaders/GLTFLoader">https://threejs.org/docs/#examples/en/loaders/GLTFLoader</a></p>
-									</dd>
-									<dt>see</dt>
-									<dd><p><a href="https://github.com/mrdoob/three.js/tree/dev/examples/js/libs/draco#readme">https://github.com/mrdoob/three.js/tree/dev/examples/js/libs/draco#readme</a></p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -533,14 +356,9 @@ objectDictionary.lights; // <span class="hljs-keyword">All</span> your lights
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L584">threef/threef.ts:584</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L584">threef/threef.ts:584</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the FOV as camera on a DOM element.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -548,8 +366,6 @@ objectDictionary.lights; // <span class="hljs-keyword">All</span> your lights
 								</li>
 								<li>
 									<h5>camera: <span class="tsd-signature-type">PerspectiveCamera</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -560,52 +376,15 @@ objectDictionary.lights; // <span class="hljs-keyword">All</span> your lights
 					<a name="todomboundingrect" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> to<wbr>Dom<wbr>Bounding<wbr>Rect</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">to<wbr>Dom<wbr>Bounding<wbr>Rect<span class="tsd-signature-symbol">(</span>object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Mesh</span>, camera<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PerspectiveCamera</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Dom<wbr>Bounding<wbr>Rect<span class="tsd-signature-symbol">(</span>object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Mesh</span>, camera<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PerspectiveCamera</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L234">threef/threef.ts:234</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L234">threef/threef.ts:234</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the bounding rect in pixel values of a given object.
-										This basically, allows you to calculate the width / height of a given
-										object in screen space.  It will also get you x,y coordinates of the bounding
-									box around your object.</p>
-								</div>
-								<p>Imagine a cube on your screen
-									and you want to know the pixel width and height it occupies on the screen.
-									This makes sense if you are looking head on but what happens if the
-									camera is at an angle or the object is rotated.
-									Or you might want the approximate width and height of a sphere or
-									actual screen height and width of a human model when the camera is looking from a
-								top angle.</p>
-								<p>This method will allow you to do that.</p>
-								<p>It will start by drawing a Box3d cube (boundingBox) around the object.
-									It will then convert the Box3d into a square of 2d coordinate.
-									Using that square, it will then calculate the screenXY coordinates of each
-									corner of the cube.
-									It will then calculate the width and height this object occupies on
-								the screen based on these values.</p>
-								<p>If working on this method, since calculations can be involved, it is helpful
-								to pass in the current working scene to debug the corners.</p>
-								<pre><code>
-const <span class="hljs-built_in">box</span> = three.toDomBoudingRect(
-  myObject, camera, canvas.offsetWidth, canvas.offsetHeight,
-  {
-    <span class="hljs-built_in">scalar</span>: <span class="hljs-number">1</span>, // For z scaling <span class="hljs-built_in">factor</span>
-    <span class="hljs-built_in">scene</span>: <span class="hljs-built_in">scene</span>, // Pass <span class="hljs-keyword">in</span> your <span class="hljs-built_in">scene</span> to debug the corner.
-  }
-)
-
-<span class="hljs-built_in">box</span>.<span class="hljs-built_in">width</span> --&gt; The pixel <span class="hljs-built_in">width</span> on the screen.
-<span class="hljs-built_in">box</span>.<span class="hljs-built_in">height</span> --&gt; The pixel <span class="hljs-built_in">height</span> on the screen.
-<span class="hljs-built_in">box</span>.topLeft --&gt; The top left corner of the bounding <span class="hljs-built_in">box</span>.
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -632,53 +411,28 @@ const <span class="hljs-built_in">box</span> = three.toDomBoudingRect(
 					<a name="todomcoordinates" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> to<wbr>Dom<wbr>Coordinates</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">to<wbr>Dom<wbr>Coordinates<span class="tsd-signature-symbol">(</span>object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object3D</span>, camera<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PerspectiveCamera</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, scalar<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector3</span></li>
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Dom<wbr>Coordinates<span class="tsd-signature-symbol">(</span>object<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object3D</span>, camera<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PerspectiveCamera</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, scalar<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector3</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L133">threef/threef.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L133">threef/threef.ts:133</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given a three.js Mesh / Object3d, calculates the current position and maps that to the
-									DOM x, y, z position and considers camera position.</p>
-								</div>
-								<p>The returning x,y values are in pixels.
-								x / canvasWidth or y / canvasHeight would give you the percentage values.</p>
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p>three-object-viewer11.html for examples and also three-object-viewer11.blend</p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>object: <span class="tsd-signature-type">Object3D</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The three.js object to base the position off of.</p>
-									</div>
 								</li>
 								<li>
 									<h5>camera: <span class="tsd-signature-type">PerspectiveCamera</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The currently active camera.</p>
-									</div>
 								</li>
 								<li>
 									<h5>width: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The canvas width</p>
-									</div>
 								</li>
 								<li>
 									<h5>height: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The canvas width</p>
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> scalar: <span class="tsd-signature-type">number</span></h5>
@@ -698,15 +452,9 @@ const <span class="hljs-built_in">box</span> = three.toDomBoudingRect(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L424">threef/threef.ts:424</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L424">threef/threef.ts:424</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given a three.js object, calculates the euler rotation over to values that can
-									be applied via css.  Note this return euler rotations in radians (THREE.Euler).</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -730,14 +478,9 @@ const <span class="hljs-built_in">box</span> = three.toDomBoudingRect(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L172">threef/threef.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L172">threef/threef.ts:172</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts a Three local Vec3 position to exact screen coordinates.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -751,8 +494,6 @@ const <span class="hljs-built_in">box</span> = three.toDomBoudingRect(
 								</li>
 								<li>
 									<h5>height: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
@@ -780,32 +521,9 @@ const <span class="hljs-built_in">box</span> = three.toDomBoudingRect(
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/threef/threef.ts#L686">threef/threef.ts:686</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/threef/threef.ts#L686">threef/threef.ts:686</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Traverses the current scene checking for match conditions.</p>
-								</div>
-								<pre><code class="language-ts"><span class="hljs-comment">// Look for any meshes that are of the name 'hohoho' or 'hohoho2'.</span>
-<span class="hljs-comment">// and change the anistropy to 100.</span>
-
-threef.traverseSceneFor(
-  <span class="hljs-comment">// Test condition</span>
-  (threeObject)=&gt; {
-     <span class="hljs-keyword">return</span>
-        (threeObject instance of THREE.MESH) &amp;&amp;
-        ~[<span class="hljs-string">'hohoho'</span>, <span class="hljs-string">'hohoho2'</span>].indexOf(threeObject.name)
-  },
-  <span class="hljs-function">(<span class="hljs-params">threeObject</span>)=&gt;</span> {
-     threeObject.material.map.anistropy = <span class="hljs-number">100</span>;
-     threeObject.material.needsUpdate = <span class="hljs-literal">true</span>;
-  },
-  myScene
-)
-
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

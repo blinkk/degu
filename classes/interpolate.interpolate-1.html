@@ -67,79 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that interperolate between values. Interperolate is really a
-						compositoin around mathf.ease.</p>
-					</div>
-					<pre><code class="language-ts"><span class="hljs-keyword">import</span> { EASE, Interpolate } <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu'</span>
-<span class="hljs-keyword">let</span> inter = <span class="hljs-keyword">new</span> Interpolate({
-  <span class="hljs-keyword">from</span>: <span class="hljs-number">0</span>,
-  to: <span class="hljs-number">100</span>,
-  easeFunction: EASE.linear
-});
-
-inter.calculate(<span class="hljs-number">0.3</span>);  <span class="hljs-comment">// return 30.</span>
-
-inter.calculate(<span class="hljs-number">0.6</span>); <span class="hljs-comment">// return 60</span>
-
-<span class="hljs-comment">// Get the value from currentValue if needed.</span>
-<span class="hljs-built_in">console</span>.log(inter.currentValue); <span class="hljs-comment">// 60</span></code></pre>
-					<p>This can be useful to create low level tweens.
-						Here for example, we can manually, tween the x and y positions
-					of a ball with separate easing.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Raf, EASE, Interpolate } <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu'</span>
-
-<span class="hljs-keyword">this</span>.progress = <span class="hljs-number">0</span>;
-<span class="hljs-keyword">let</span> ballXInter = <span class="hljs-keyword">new</span> Interpolate({
-  <span class="hljs-keyword">from</span>: <span class="hljs-number">30</span>,
-  to: <span class="hljs-number">100</span> ,
-  easeFunction: EASE.easeOutSine
-})
-<span class="hljs-keyword">let</span> ballYInter = <span class="hljs-keyword">new</span> Interpolate({
-  <span class="hljs-keyword">from</span>: <span class="hljs-number">30</span>,
-  to: <span class="hljs-number">100</span> ,
-  easeFunction: EASE.linear
-})
-
-<span class="hljs-comment">// See RafTimer for how this works.  Basically, here we are running raf for</span>
-<span class="hljs-comment">// 300ms and the progress is a value between 0-1 which we used to passed to the</span>
-<span class="hljs-comment">// interperolators.</span>
-<span class="hljs-keyword">new</span> RafTimer(<span class="hljs-function">(<span class="hljs-params">progress</span>)=&gt;</span> {
-  <span class="hljs-comment">// Update the positions of ball.</span>
-  ball.x = ballXInter.calculate(<span class="hljs-keyword">this</span>.progress);
-  ball.y = ballYInter.calculate(<span class="hljs-keyword">this</span>.progress);
-}).start(<span class="hljs-number">300</span>);
-
-See more examples <span class="hljs-keyword">in</span> the /examples folder
-</code></pre>
-					<p>Unit and Color support.</p>
-					<p>Interpolate also uses <a href="../modules/string.html#cssunit">cssUnit</a> to interprete string values (as best as it
-						can).  You can pass basic css unit values such as &#39;10px&#39; or &#39;10vw&#39; as
-					from and to values.  Color values of rgba and hex are also supported.</p>
-					<p>It does NOT support cross unit interporalation at the moment such as
-					from: &#39;0px&#39;, to: &#39;10vw&#39;.  (Here the units don&#39;t match.)</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">let</span> inter = <span class="hljs-keyword">new</span> Interpolate({
-  <span class="hljs-keyword">from</span>: <span class="hljs-string">'0px'</span>,
-  to: <span class="hljs-string">'100px'</span>,
-  easeFunction: EASE.linear
-});
-inter.calculate(<span class="hljs-number">0.3</span>);  <span class="hljs-comment">// return '30px'.</span>
-
-
- inter = <span class="hljs-keyword">new</span> Interpolate({
-     <span class="hljs-keyword">from</span>: <span class="hljs-string">'rgba(255, 255, 255, 0)'</span>,
-     to: <span class="hljs-string">'rgba(0,0,0,1)'</span>,
-     easeFunction: EASE.linear
- });
-  inter.calculate(<span class="hljs-number">0.5</span>) <span class="hljs-comment">// 'rgba(127, 127, 127, 0.5)'</span></code></pre>
-					<dl class="tsd-comment-tags">
-						<dt>tested</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -187,7 +114,7 @@ inter.calculate(<span class="hljs-number">0.3</span>);  <span class="hljs-commen
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/interpolate.ts#L120">interpolate/interpolate.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/interpolate.ts#L120">interpolate/interpolate.ts:120</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -209,14 +136,9 @@ inter.calculate(<span class="hljs-number">0.3</span>);  <span class="hljs-commen
 					<div class="tsd-signature tsd-kind-icon">current<wbr>Progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/interpolate.ts#L120">interpolate/interpolate.ts:120</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/interpolate.ts#L120">interpolate/interpolate.ts:120</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The current progress.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="currentvalue" class="tsd-anchor"></a>
@@ -224,14 +146,9 @@ inter.calculate(<span class="hljs-number">0.3</span>);  <span class="hljs-commen
 					<div class="tsd-signature tsd-kind-icon">current<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/interpolate.ts#L115">interpolate/interpolate.ts:115</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/interpolate.ts#L115">interpolate/interpolate.ts:115</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The current interperolated value.</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -246,7 +163,7 @@ inter.calculate(<span class="hljs-number">0.3</span>);  <span class="hljs-commen
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/interpolate.ts#L138">interpolate/interpolate.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/interpolate.ts#L138">interpolate/interpolate.ts:138</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -272,20 +189,13 @@ inter.calculate(<span class="hljs-number">0.3</span>);  <span class="hljs-commen
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/interpolate/interpolate.ts#L134">interpolate/interpolate.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/interpolate/interpolate.ts#L134">interpolate/interpolate.ts:134</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Modify the interpolate settings.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>interpolateConfig: <a href="../interfaces/interpolate.interpolateconfig.html" class="tsd-signature-type">interpolateConfig</a></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="interpolate.interpolate-1.html" class="tsd-signature-type">Interpolate</a></h4>

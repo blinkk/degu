@@ -67,32 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Utility class to handle playing / stopping / playing segments of
-						a given video element.</p>
-					</div>
-					<pre><code class="language-ts"><span class="hljs-keyword">let</span> video = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'video'</span>);
-<span class="hljs-keyword">let</span> videoPlayer = <span class="hljs-keyword">new</span> VideoPlayer(video, {
-      rafCallback: <span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-          <span class="hljs-built_in">console</span>.log(videoPlayer.getTime());
-      }
-});
-
-videoPlayer.load().then(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"loaded"</span>);
-})
-
-
-videoPlayer.setPointer(<span class="hljs-number">1.2</span>);
-videoPlayer.play();
-videoPlayer.pause();
-videoPlayer.playToAndStop(<span class="hljs-number">4</span>);
-videoPlayer.playFrom(<span class="hljs-number">5</span>,<span class="hljs-number">6</span>);
-</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -142,7 +116,7 @@ videoPlayer.playFrom(<span class="hljs-number">5</span>,<span class="hljs-number
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L51">dom/video-player.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L51">dom/video-player.ts:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -171,14 +145,9 @@ videoPlayer.playFrom(<span class="hljs-number">5</span>,<span class="hljs-number
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L199">dom/video-player.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L199">dom/video-player.ts:199</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Disposes the class.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -193,14 +162,9 @@ videoPlayer.playFrom(<span class="hljs-number">5</span>,<span class="hljs-number
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L179">dom/video-player.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L179">dom/video-player.ts:179</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the current time.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -215,14 +179,9 @@ videoPlayer.playFrom(<span class="hljs-number">5</span>,<span class="hljs-number
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L172">dom/video-player.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L172">dom/video-player.ts:172</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the video element.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLVideoElement</span></h4>
 						</li>
 					</ul>
@@ -237,14 +196,9 @@ videoPlayer.playFrom(<span class="hljs-number">5</span>,<span class="hljs-number
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L106">dom/video-player.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L106">dom/video-player.ts:106</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Tests whether the video is currently playing.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -259,16 +213,9 @@ videoPlayer.playFrom(<span class="hljs-number">5</span>,<span class="hljs-number
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L89">dom/video-player.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L89">dom/video-player.ts:89</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Loads the video competely first.
-										TODO (uxder): Look for a better way to check completely readyState of video
-									besides polling.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -283,20 +230,9 @@ videoPlayer.playFrom(<span class="hljs-number">5</span>,<span class="hljs-number
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L122">dom/video-player.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L122">dom/video-player.ts:122</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Pauses a video.  Does not reset the pointer.</p>
-								</div>
-								<pre><code>// <span class="hljs-keyword">Pause</span> <span class="hljs-keyword">where</span> it at.
-videoPlayer.<span class="hljs-keyword">pause</span>();
-
-// Pauses and resets <span class="hljs-keyword">pointer</span> to <span class="hljs-number">0</span> mark.
-videoPlayer.<span class="hljs-keyword">pause</span>();
-videoPlayer.reset();</code></pre>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -311,14 +247,9 @@ videoPlayer.reset();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L136">dom/video-player.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L136">dom/video-player.ts:136</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Plays a video from the current pointer.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -333,14 +264,9 @@ videoPlayer.reset();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L164">dom/video-player.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L164">dom/video-player.ts:164</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Plays a specific segment of the video.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -364,15 +290,9 @@ videoPlayer.reset();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L155">dom/video-player.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L155">dom/video-player.ts:155</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Starts playing from the current pointer and stops at a specific time.
-									If the current time</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -393,14 +313,9 @@ videoPlayer.reset();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L129">dom/video-player.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L129">dom/video-player.ts:129</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Resets the video to the start.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -415,20 +330,13 @@ videoPlayer.reset();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/video-player.ts#L147">dom/video-player.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/video-player.ts#L147">dom/video-player.ts:147</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets the video currentTime to a specific position.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>seconds: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

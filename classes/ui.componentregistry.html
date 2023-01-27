@@ -67,36 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Component registry. The registry monitors the DOM for changes and
-							automatically mounts and unmounts any components as elements enter and
-						leave the DOM.</p>
-					</div>
-					<p>Within the DOM, components are marked by the <code>data-component=&quot;ComponentName&quot;</code>
-						attribute. An element entering the DOM with that attribute will be
-						initialized by the registered component, along with any args passed to the
-					[register]{@link ComponentRegistry#register} method.</p>
-					<p>Usage:</p>
-					<pre><code><span class="hljs-comment">// main.ts</span>
-<span class="hljs-keyword">class</span> FooComponent {
-  el: HTMLElement;
-  <span class="hljs-keyword">options</span>: <span class="hljs-keyword">any</span>;
-  constructor(el: HTMLElement, <span class="hljs-keyword">options</span>: <span class="hljs-keyword">any</span>) {
-    <span class="hljs-keyword">this</span>.el = el;
-    <span class="hljs-keyword">this</span>.<span class="hljs-keyword">options</span> = <span class="hljs-keyword">options</span>;
-  }
-}
-
-const registry = <span class="hljs-keyword">new</span> ComponentRegistry();
-registry.register(<span class="hljs-string">'FooComponent'</span>, FooComponent, {myOption: <span class="hljs-string">'value'</span>});
-registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.html --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"foo"</span> <span class="hljs-attr">data-component</span>=<span class="hljs-string">"FooComponent"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><p>In the example above, when the &quot;foo&quot; element enters the DOM, the following
-					would be called automatically by the registry:</p>
-					<pre><code><span class="hljs-selector-tag">new</span> <span class="hljs-selector-tag">FooComponent</span>(<span class="hljs-selector-tag">el</span>, {<span class="hljs-attribute">myOption</span>: <span class="hljs-string">'value'</span>})</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -137,7 +107,7 @@ registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.
 					<div class="tsd-signature tsd-kind-icon">managers<span class="tsd-signature-symbol">:</span> <a href="ui.componentlifecyclemanager.html" class="tsd-signature-type">ComponentLifecycleManager</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/component-registry.ts#L51">ui/component-registry.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/component-registry.ts#L51">ui/component-registry.ts:51</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -147,7 +117,7 @@ registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.
 					<div class="tsd-signature tsd-kind-icon">observer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MutationObserver</span><span class="tsd-signature-symbol"> =&nbsp;new MutationObserver(this.onMutate.bind(this))</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/component-registry.ts#L50">ui/component-registry.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/component-registry.ts#L50">ui/component-registry.ts:50</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,14 +134,9 @@ registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/component-registry.ts#L54">ui/component-registry.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/component-registry.ts#L54">ui/component-registry.ts:54</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Disposes the registry.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -180,20 +145,15 @@ registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.
 					<a name="register" class="tsd-anchor"></a>
 					<h3>register</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cls<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ui.componentregistry.html" class="tsd-signature-type">ComponentRegistry</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cls<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ui.componentregistry.html" class="tsd-signature-type">ComponentRegistry</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/component-registry.ts#L61">ui/component-registry.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/component-registry.ts#L61">ui/component-registry.ts:61</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Registers a component to the registry.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -205,7 +165,7 @@ registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.
 									</ul>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> args: <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="ui.componentregistry.html" class="tsd-signature-type">ComponentRegistry</a></h4>
@@ -222,14 +182,9 @@ registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/component-registry.ts#L71">ui/component-registry.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/component-registry.ts#L71">ui/component-registry.ts:71</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Starts the component registry.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -244,14 +199,9 @@ registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/component-registry.ts#L82">ui/component-registry.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/component-registry.ts#L82">ui/component-registry.ts:82</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Stops the component registry observer.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -266,14 +216,9 @@ registry.start();</code></pre><pre><code><span class="hljs-comment">&lt;!-- foo.
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/ui/component-registry.ts#L87">ui/component-registry.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/ui/component-registry.ts#L87">ui/component-registry.ts:87</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Updates all component handlers registered to the registry.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

@@ -67,80 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A class that makes it really easy to work with web workers.</p>
-					</div>
-					<p>This implementation limits your workers to just 1 parameter so it recommended
-					to use an object as your parameter.</p>
-					<p>Your worker function should return some result (any type).</p>
-					<p>You can create one time workers or work with the same worker.</p>
-					<p>1) One time workers</p>
-					<p>Every time you call <a href="dom.webworker.html#runonetimethrowawayworker">WebWorker.runOneTimeThrowAwayWorker</a>, it will create a
-					new ONE time worker that self terminates upon completion.</p>
-					<p>This is very useful in spawning multiple processes that all work at once.
-					Each worker will run async and will resolve a promise when done.</p>
-					<p>If you want to do many different calculations at once, a one time worker
-					might be the way.</p>
-					<p>2) Use the same worker.</p>
-					<p>Calling <a href="dom.webworker.html#run">WebWorker.run</a> will run a webworker.
-						Calling it again, will run the same worker.  Note that if you make
-						make two calls to the same worker in sequence before the webworker can
-					resolve the first call, it will only response to the second call.</p>
-					<p>There are some limitations / conventions in using this class.   Please
-					see the below.</p>
-					<pre><code class="language-ts">
-<span class="hljs-comment">// Create a web worker task function.</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// Limitation 1:</span>
-<span class="hljs-comment">// Note that task functon, actually ends up getting stringified</span>
-<span class="hljs-comment">// (important), bundled and sent to a separate thread.  Trying to execute</span>
-<span class="hljs-comment">// imported clases won't work. Consider the function being sandboxed in it's</span>
-<span class="hljs-comment">// own world.</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// Limitaton 2:</span>
-<span class="hljs-comment">// It's a web worker function.  Workers have limitations like not being</span>
-<span class="hljs-comment">// able to access the DOM.</span>
-<span class="hljs-comment">// See https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API#Web_Workers_concepts_and_usage for more.</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// Limitation 3:</span>
-<span class="hljs-comment">// The function should accept only 1 parameter AND it must be named "params"</span>
-<span class="hljs-comment">// by convention.  You can send any parameters up as an object.  This is done</span>
-<span class="hljs-comment">// as a convention and to make it easier to wrap up.  See &lt;a href="dom.webworker.html"&gt;WebWorker&lt;/a&gt; for</span>
-<span class="hljs-comment">// more.</span>
-<span class="hljs-keyword">var</span> task = <span class="hljs-function">(<span class="hljs-params">params</span>)=&gt;</span> {
-   <span class="hljs-keyword">return</span> params.a + params.b;
-}
-
-
-<span class="hljs-comment">// Now create an instance of WebWorker and set the task.</span>
-<span class="hljs-keyword">var</span> worker = <span class="hljs-keyword">new</span> WebWorker(task);
-
-
-<span class="hljs-comment">// Create two one time workers that run in parallel.</span>
-worker.runOneTimeThrowAwayWorker({a: <span class="hljs-number">2</span>, b: <span class="hljs-number">3</span>}).then(<span class="hljs-function">(<span class="hljs-params">result</span>)=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(result); <span class="hljs-comment">// 5</span>
-})
-worker.runOneTimeThrowAwayWorker({ a: <span class="hljs-number">5</span>, b: <span class="hljs-number">5</span>}).then(<span class="hljs-function">(<span class="hljs-params">result</span>)=&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(result); <span class="hljs-comment">// 10</span>
-})
-
-
-<span class="hljs-comment">// Reusing the same worker.</span>
-<span class="hljs-keyword">await</span> worker.run({a: <span class="hljs-number">6</span>, b:<span class="hljs-number">10</span>});
-<span class="hljs-keyword">await</span> worker.run({a:<span class="hljs-number">4</span>, b:<span class="hljs-number">10</span>});
-
-<span class="hljs-comment">// Kill the worker</span>
-worker.terminate();</code></pre>
-					<dl class="tsd-comment-tags">
-						<dt>unstable</dt>
-						<dd></dd>
-						<dt>experimental</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -182,7 +108,7 @@ worker.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/web-worker.ts#L103">dom/web-worker.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/web-worker.ts#L103">dom/web-worker.ts:103</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -202,13 +128,13 @@ worker.terminate();</code></pre>
 					<a name="run" class="tsd-anchor"></a>
 					<h3>run</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>paramsToSend<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span>, transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>paramsToSend<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span>, transfer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/web-worker.ts#L168">dom/web-worker.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/web-worker.ts#L168">dom/web-worker.ts:168</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -228,24 +154,15 @@ worker.terminate();</code></pre>
 					<a name="runonetimethrowawayworker" class="tsd-anchor"></a>
 					<h3>run<wbr>One<wbr>Time<wbr>Throw<wbr>Away<wbr>Worker</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">run<wbr>One<wbr>Time<wbr>Throw<wbr>Away<wbr>Worker<span class="tsd-signature-symbol">(</span>paramsToSend<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span>, transfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<wbr>One<wbr>Time<wbr>Throw<wbr>Away<wbr>Worker<span class="tsd-signature-symbol">(</span>paramsToSend<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Object</span>, transfer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Object</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/web-worker.ts#L146">dom/web-worker.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/web-worker.ts#L146">dom/web-worker.ts:146</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create an instance of a Worker and sends out the message with the
-									params. Resolves the promise when results come in.</p>
-								</div>
-								<p>Note that each time you call this method, a new Worker is created.
-									The Worker is terminated as soon as it resolves so it can be considered
-								a one time worker..</p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -269,7 +186,7 @@ worker.terminate();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/web-worker.ts#L189">dom/web-worker.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/web-worker.ts#L189">dom/web-worker.ts:189</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

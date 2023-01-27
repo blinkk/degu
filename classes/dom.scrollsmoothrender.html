@@ -67,59 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Provides a way to &quot;override&quot; and smooth out the default scroll behavior.
-							This class also allows you to ensure that rendering is synced to the scroll.
-						It is a step beyond the scroll-render-fix (see notes on that).</p>
-					</div>
-					<p>As with scroll-render-fix, this allows the rendering to catch up and then
-					once it is done,  it reapplies the scroll to the document.</p>
-					<p>It goes beyond scroll-render-fix in that it will allow you to
-					damp the scroll position to create a smoother experience.</p>
-					<p>Since this issue is chrome specific, you might want scope it to only chrome.
-					Usage:</p>
-					<pre><code>  const scroll = <span class="hljs-built_in">new</span> ScrollRenderSmooth({
-     // <span class="hljs-keyword">If</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">using</span> dynamicSensitivity use a <span class="hljs-keyword">value</span> <span class="hljs-keyword">like</span> <span class="hljs-number">3</span> <span class="hljs-keyword">or</span> <span class="hljs-number">4.</span>
-     // <span class="hljs-keyword">If</span> <span class="hljs-keyword">using</span> dynamicSensitivity usually something <span class="hljs-keyword">like</span> <span class="hljs-number">120.</span>
-     scrollSensitivity: <span class="hljs-number">120</span>,
-     dynamicSensitivity: <span class="hljs-keyword">true</span>,
-     lerp: <span class="hljs-number">1</span>,
-     damp: <span class="hljs-number">0.4</span>
- });</code></pre><p>To take full advantage, use toolbox mutate or degu.read / writes.</p>
-					<pre><code>
-const raf = <span class="hljs-keyword">new</span> Raf();
-
-raf.read(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-regexp">//</span> <span class="hljs-keyword">do</span> some reading
-})
-
-raf.writing(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span> {
-  <span class="hljs-regexp">//</span> <span class="hljs-keyword">do</span> some writing
-})
-</code></pre><p>Because scroll is hijacked, any updates to scroll position should
-					be done either via events or the provided override method.</p>
-					<p>Override method.</p>
-					<pre><code><span class="hljs-keyword">const</span> scroll = new ScrollRenderSmooth({
-     scrollSensitivity: <span class="hljs-number">4</span>,
-     lerp: <span class="hljs-number">1</span>,
-     damp: <span class="hljs-number">0.4</span>
- });
-
-scroll.overrideScrollPosition(()=&gt; {
-  window.scrollTo(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-})
-</code></pre><h2 id="my-div-has-a-scrollbar-and-it-s-not-scrollable-">My div has a scrollbar and it&#39;s not scrollable!</h2>
-					<p>See the /lib/angular/directive-scroll-smooth-render-scrollable directive.
-					Add this to any directive that has a scrollbar and it will act normally.</p>
-					<h2 id="deep-linking">Deep linking</h2>
-					<p>ScrollRenderSmooth watches for hash changes on the page.</p>
-					<p>However, if you want to run this manually do:</p>
-					<pre><code>scroll.checkPageHash()<span class="hljs-comment">;</span></code></pre><p>which will check the current page url and if there is a hash, it will
-					disable scrolling and jump to the positon and reenable smooth scrolling.</p>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -163,7 +110,7 @@ scroll.overrideScrollPosition(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smooth-render.ts#L108">dom/scroll-smooth-render.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smooth-render.ts#L108">dom/scroll-smooth-render.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -189,16 +136,9 @@ scroll.overrideScrollPosition(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smooth-render.ts#L217">dom/scroll-smooth-render.ts:217</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smooth-render.ts#L217">dom/scroll-smooth-render.ts:217</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Check the the current page hash (#) and if there is one,
-										disables the scroll smoothing and jumps to that section then reenables
-									the scroll smoothing.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -213,14 +153,9 @@ scroll.overrideScrollPosition(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smooth-render.ts#L241">dom/scroll-smooth-render.ts:241</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smooth-render.ts#L241">dom/scroll-smooth-render.ts:241</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Temporarily disables the effects of this class.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -235,7 +170,7 @@ scroll.overrideScrollPosition(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smooth-render.ts#L246">dom/scroll-smooth-render.ts:246</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smooth-render.ts#L246">dom/scroll-smooth-render.ts:246</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -252,28 +187,9 @@ scroll.overrideScrollPosition(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smooth-render.ts#L312">dom/scroll-smooth-render.ts:312</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smooth-render.ts#L312">dom/scroll-smooth-render.ts:312</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Because this class hijacks the regular scroll, to update the actual scroll position,
-									we need a public method to make this accessible.</p>
-								</div>
-								<p>You&#39;ll most likely not need this method but it is available in case you run
-								into edge cases where you have issues with the wheel jacking.</p>
-								<p>You can also look at the stopWheelJack() method as well.</p>
-								<pre><code><span class="hljs-keyword">const</span> scroll = new ScrollRenderSmooth({
-     scrollSensitivity: <span class="hljs-number">4</span>,
-     lerp: <span class="hljs-number">1</span>,
-     damp: <span class="hljs-number">0.4</span>
- });
-
-scroll.overrideScrollPosition(()=&gt; {
-  window.scrollTo(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
-})
-</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -294,14 +210,9 @@ scroll.overrideScrollPosition(()=&gt; {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/scroll-smooth-render.ts#L233">dom/scroll-smooth-render.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/scroll-smooth-render.ts#L233">dom/scroll-smooth-render.ts:233</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Immediately stops the wheel jacking.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

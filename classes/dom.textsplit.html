@@ -67,62 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Splits the textContent of a given htmlElement and provides css variables
-						that can be used to add various text effects.</p>
-					</div>
-					<p>Here is a basic example.</p>
-					<pre><code class="language-ts">
-&lt;div id="myElement"&gt;New York City&lt;/div&gt;
-
-let splitter = new TextSplit({
-  element: document.getElementById('myElement'),
-  split: ' ' // Split by spaces.  Use '' to split by character.
-});
-
-// Break up the text and wrap spans around it.
-splitter.split();</code></pre>
-					<p>This results in:</p>
-					<pre><code class="language-ts">&lt;div id="myElement" class="text-split-set" style="--item-total-count:3"&gt;
-  &lt;span style="--item-index:0"&gt;New&amp;nbsp;&lt;/span&gt;
-  &lt;span style="--item-index:1"&gt;York&amp;nbsp;&lt;/span&gt;
-  &lt;span style="--item-index:2"&gt;City&lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
-					<p>Notice that on the root element, you get the total number of items,
-					and also on each element, you get an index.</p>
-					<p>Now you can use css variables to add various effect.</p>
-					<pre><code> @keyframes textIn
-     from
-         <span class="hljs-attribute">opacity</span>: <span class="hljs-number">0</span>;
-     to
-         <span class="hljs-attribute">opacity</span>: <span class="hljs-number">1</span>;
-
- <span class="hljs-comment">// Help fight FOUC</span>
- <span class="hljs-selector-id">#myElement</span>
-   visiblity: hidden
- <span class="hljs-selector-id">#myElement</span><span class="hljs-selector-class">.text-split-set</span>
-   <span class="hljs-attribute">visibility</span>: visible
-
- <span class="hljs-selector-id">#myElement</span> <span class="hljs-selector-tag">span</span>,
-   <span class="hljs-attribute">position</span>: relative
-   <span class="hljs-attribute">font-size</span>: <span class="hljs-number">20px</span>
-   <span class="hljs-attribute">opacity</span>: <span class="hljs-number">0</span>
-   <span class="hljs-attribute">animation</span>: textIn <span class="hljs-number">1.3s</span> ease-in-out <span class="hljs-number">0s</span> <span class="hljs-number">1</span> forwards
-
-   <span class="hljs-comment">// Create a 0.2s stagger between each item.</span>
-   <span class="hljs-attribute">animation-delay</span>: calc(var(--item-index) * <span class="hljs-number">0.2s</span>
-
-   <span class="hljs-comment">// More advanced.  You may not know how many words or character there are</span>
-   <span class="hljs-comment">// but you want to the animation to finish in Xs seconds.</span>
-   <span class="hljs-comment">// Using item-total-count, you can break the subdivisions.</span>
-   <span class="hljs-comment">// Here no matter how many words/characters there are, set it so that the</span>
-   <span class="hljs-comment">// stagger animation always completes in 1s.</span>
-   <span class="hljs-attribute">animation-delay</span>: calc(var(--item-index) * (<span class="hljs-number">1s</span> / var(--item-total-count)))</code></pre>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -170,7 +114,7 @@ splitter.split();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/text-split.ts#L84">dom/text-split.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/text-split.ts#L84">dom/text-split.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -192,7 +136,7 @@ splitter.split();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">convert<wbr>Spaces<wbr>ToNbsp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/text-split.ts#L83">dom/text-split.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/text-split.ts#L83">dom/text-split.ts:83</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -202,7 +146,7 @@ splitter.split();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">original<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/text-split.ts#L81">dom/text-split.ts:81</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/text-split.ts#L81">dom/text-split.ts:81</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -212,7 +156,7 @@ splitter.split();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">splits<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/text-split.ts#L82">dom/text-split.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/text-split.ts#L82">dom/text-split.ts:82</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -229,14 +173,9 @@ splitter.split();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/dom/text-split.ts#L114">dom/text-split.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/dom/text-split.ts#L114">dom/text-split.ts:114</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Splits the text and wraps <span> around each sub item.</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

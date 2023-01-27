@@ -67,20 +67,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>This static class draws a lot to this stackoverflow link.</p>
-					</div>
-					<dl class="tsd-comment-tags">
-						<dt>see</dt>
-						<dd><p><a href="https://stackoverflow.com/questions/21279559/geolocation-closest-locationlat-long-from-my-position">https://stackoverflow.com/questions/21279559/geolocation-closest-locationlat-long-from-my-position</a></p>
-						</dd>
-						<dt>static</dt>
-						<dd></dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -116,7 +102,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/latlong.ts#L11">mathf/latlong.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/latlong.ts#L11">mathf/latlong.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -148,35 +134,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/latlong.ts#L103">mathf/latlong.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/latlong.ts#L103">mathf/latlong.ts:103</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given your current location and  a list of lat/longs, finds the distance of each.</p>
-								</div>
-								<pre><code class="language-ts">
-<span class="hljs-keyword">var</span> locations = [
-  [lat, long],
-  [lat, long],
-  [lat, long],
-  [lat, long],
-];
-
-<span class="hljs-keyword">var</span> result = logLong.getDistanceToLatLongs(myLat, myLong, locations);
-
-<span class="hljs-built_in">console</span>.log(result);
-
-<span class="hljs-comment">//  [</span>
-        {
-            <span class="hljs-string">'lat'</span> : xxx,
-            <span class="hljs-string">'long'</span>: xxx,
-            <span class="hljs-string">'distanceKm'</span>: x (<span class="hljs-built_in">number</span>)
-            <span class="hljs-string">'distanceMiles'</span>: x (<span class="hljs-built_in">number</span>)
-        }
-        ...
-    ]</code></pre>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -203,44 +163,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/blinkk/degu/blob/4606a71/src/mathf/latlong.ts#L49">mathf/latlong.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/blinkk/degu/blob/a5fe46f/src/mathf/latlong.ts#L49">mathf/latlong.ts:49</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Given a lat/longs, finds the closets lat,long in list of lat/longs
-									<code>`</code>ts</p>
-								</div>
-								<p>var locations = [
-									[lat, long],
-									[lat, long],
-									[lat, long],
-									[lat, long],
-								];</p>
-								<p>var result = logLong.nearestLatLong(myLat, myLong, locations);</p>
-								<p>console.log(result.closetIndex);
-									console.log(result.closestLocation);
-								<code>`</code></p>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>latitude: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>number</p>
-									</div>
 								</li>
 								<li>
 									<h5>longitude: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>number</p>
-									</div>
 								</li>
 								<li>
 									<h5>locations: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>An array of lat/longs.  [ [lat,long], [lat,long]  ]</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Object</span></h4>
