@@ -22,19 +22,7 @@ performant, kickass websites.
 ## Installation
 
 ```bash
-npm install resize-observer-polyfill --save-dev
-npm install intersection-observer --save-dev
-npm install degu@latest --save-dev
-```
-
-Include `resize-observer-polyfill` and `intersection-observer` polyfill:
-
-```ts
-import '../../node_modules/intersection-observer/intersection-observer.js';
-import ResizeObserver from 'resize-observer-polyfill';
-window['ResizeObserver'] = ResizeObserver;
-
-/* ... insert code that depends on degu ... */
+npm install @blinkk/degu@latest --save-dev
 ```
 
 ## Getting started
@@ -59,9 +47,9 @@ worker.run({a: 5, b: 2}).then((result)=> {
 Import specific files:
 
 ```ts
-import * as mathf from 'degu/lib/mathf/mathf/'
-import * as is from 'degu/lib/is/is/'
-import * as dom from './dom';
+import * as mathf from '@blinkk/degu/lib/mathf/mathf.js'
+import * as is from '@blinkk/degu/lib/is/is.js'
+import * as dom from '@blinkk/degu/lib/dom/dom.js';
 ```
 
 ## ThreeJS deps
