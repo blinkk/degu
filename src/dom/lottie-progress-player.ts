@@ -29,6 +29,9 @@ export interface LottieProgressPlayerSettings {
   // and check the console.  It will display the frame.
   startFrame: number;
   endFrame: number;
+
+  // Required.  Pass lottie instance.
+  lottie: typeof lottie;
 }
 
 /**
@@ -38,7 +41,36 @@ export interface LottieProgressPlayerSettings {
  * The lottie progress player is designed to play a lottie based on progress
  * or frame.
  *
+ *
+ * # Required - loading Lottie
+ * Prior to using lottieProgressPlayer, you must load lottie first.
+ * You can do this using degu script loader.
+ *
  * ```
+ *
+ *   import {ScriptLoader} from '@blinkk/degu/lib/loader/script-loader';
+ *   this.scriptLoader
+ *     .load(
+ *       'https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.14/lottie.min.js',
+ *       {
+ *         test: () => window['lottie'],
+ *       }
+ *     )
+ *     .then(() => {
+ *       this.lottieProgressPlayer = new LottieProgressPlayer(
+ *         this.lottieElement,
+ *         {
+ *          jsonPath: ..,
+ *          startFrame: 0,
+ *          ...
+ *          lottie: window['lottie']
+ *         }
+ *       );
+ *
+ *   }
+ * ```
+ *
+ * # General Usage
  * const lottieProgressPlayer = new LottieProgressPlayer(myContainerElementToAddLottie,
  * {
  *    jsonPath: .. // Path to lottie
@@ -108,6 +140,7 @@ export class LottieProgressPlayer implements EventDispatcher {
   private settings: LottieProgressPlayerSettings;
   private lottieInstance: AnimationItem | null = null;
   private currentProgress = 0;
+  private lottie: typeof lottie;
 
   constructor(
     containerElement: HTMLElement,
@@ -126,6 +159,8 @@ export class LottieProgressPlayer implements EventDispatcher {
       },
       ...settings,
     };
+
+    this.lottie = this.settings.lottie;
 
     this.domWatcher.add({
       element: window,
@@ -158,7 +193,7 @@ export class LottieProgressPlayer implements EventDispatcher {
     };
 
     this.lottieInstance = <AnimationItem>(
-      lottie.loadAnimation(lottieSettings as any)
+      this.lottie.loadAnimation(lottieSettings as any)
     );
 
     // Supposed lottie optimization.
@@ -191,6 +226,10 @@ export class LottieProgressPlayer implements EventDispatcher {
 
   public getLottieInstance() {
     return this.lottieInstance;
+  }
+
+  public resize() {
+    this.lottieInstance && this.lottieInstance.resize();
   }
 
   public getProgress() {
