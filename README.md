@@ -40,7 +40,7 @@ window['ResizeObserver'] = ResizeObserver;
 ## Getting started
 
 - Read the [API docs](https://blinkk.github.io/degu/)
-- Explore the [examples folder](/examples/)
+- Explore the [examples folder](https://github.com/blinkk/degu/tree/main/examples)
 
 Import the library:
 
@@ -85,15 +85,15 @@ degu supports only "evergreen" browsers back to the latest two versions:
 ## Upgrading
 
 If you have already been using version 2.x.y and are upgrading to version 3.x.y,
-see our [MIGRATION.md](MIGRATION.md) guide for details.
+see our [MIGRATION.md](https://github.com/blinkk/degu/blob/main/MIGRATION.md) guide for details.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) on how to develop for degu.
+Please read [CONTRIBUTING.md](https://github.com/blinkk/degu/blob/main/CONTRIBUTING.md) on how to develop for degu.
 
 ## License
 
-Please read [LICENSE.md](LICENSE.md)
+Please read [LICENSE.md](https://github.com/blinkk/degu/blob/main/LICENSE.md)
 
 [github-image]: https://github.com/blinkk/degu/workflows/Run%20tests/badge.svg
 [github-url]: https://github.com/blinkk/degu/actions
