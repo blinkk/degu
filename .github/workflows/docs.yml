@@ -36,7 +36,7 @@ jobs:
                 mv coverage/ ./docs/
       - name: Build examples
         run: |
-                npm run server &
+                NODE_OPTIONS=--openssl-legacy-provider npm run server &
                 sleep 5
                 wget --recursive --page-requisites --html-extension --convert-links localhost:8080
                 mv localhost:8080 ./docs/examples/
