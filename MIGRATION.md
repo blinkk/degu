@@ -22,12 +22,17 @@ Before:
 
 ```typescript
 import {dom} from '@blinkk/degu/lib/dom/dom';
+import {EASE} from '@blinkk/degu/lib/ease/ease';
+import {PerlinNoise} from '@blinkk/degu/lib/mathf/perlin-noise';
 ```
 
 After:
 
 ```typescript
 import * as dom from '@blinkk/degu/lib/dom/dom.js';
+import * as EASE from '@blinkk/degu/lib/ease/ease.js';
+import * as PerlinNoise from '@blinkk/degu/lib/mathf/perlin-noise.js';
+// Or: import {noise3} from '@blinkk/degu/lib/mathf/perlin-noise.js';
 ```
 
 ### Refactor/rename a few breaking changes

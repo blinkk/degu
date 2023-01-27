@@ -1,5 +1,4 @@
-
-import {domCanvas} from '../lib/dom/dom-canvas';
+import * as domCanvas from '../lib/dom/dom-canvas';
 import {Vector} from '../lib/mathf/vector';
 import {HermiteCurve} from '../lib/mathf/hermite-curve';
 
