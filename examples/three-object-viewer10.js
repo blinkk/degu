@@ -20,14 +20,12 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 
-
-// import { Raf } from '../lib/raf/raf';
 import { DomWatcher } from '../lib/dom/dom-watcher';
 import { RafProgress } from '../lib/raf/raf-progress';
-import { dom } from '../lib/dom/dom';
-import { EASE } from '../lib/ease/ease';
-import { mathf } from '../lib/mathf/mathf';
-import { threef } from '../lib/threef/threef';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
+import * as mathf from '../lib/mathf/mathf';
+import {threef} from '../lib/threef/threef';
 
 export default class ThreeObjectViewer10 {
     constructor() {
@@ -427,7 +425,7 @@ export default class ThreeObjectViewer10 {
     resize() {
         this.progress =
             dom.getElementScrolledPercent(this.parentElement, window.innerHeight);
-        this.rafProgress.easeTo(this.progress, 1, EASE.Linear);
+        this.rafProgress.easeTo(this.progress, 1, EASE.linear);
 
         this.width = this.canvasContainer.parentElement.offsetWidth;
         this.height = this.canvasContainer.parentElement.offsetHeight;

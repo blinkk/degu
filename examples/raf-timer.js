@@ -1,8 +1,8 @@
 
 
 import {RafTimer} from '../lib/raf/raf-timer';
-import {mathf} from '../lib/mathf/mathf';
-import {EASE} from '../lib/ease/ease';
+import * as mathf from '../lib/mathf/mathf';
+import * as EASE from '../lib/ease/ease';
 
 export default class RafTimerSample {
   constructor() {

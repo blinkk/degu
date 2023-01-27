@@ -3,10 +3,9 @@ import {X} from '../lib/x/x';
 import {XLine} from '../lib/x/x-line';
 import {XRectangle} from '../lib/x/x-rectangle';
 import {Vector} from '../lib/mathf/vector';
-import {mathf} from '../lib/mathf/mathf';
+import * as mathf from '../lib/mathf/mathf';
 import {Raycast} from '../lib/mathf/raycast';
 import {DomWatcher} from '../lib/dom/dom-watcher';
-
 
 /**
  * This is a quick demo of using raycasting to project 3d.
@@ -348,5 +347,3 @@ export default class RayCasting3Sample {
     this.projectionX.gameLoop();
   }
 }
-
-

@@ -4,7 +4,7 @@ import * as dat from 'dat.gui';
 import {VectorDom} from '../lib/dom/vector-dom';
 import {Raf} from '../lib/raf/raf';
 import {Vector} from '../lib/mathf/vector';
-import {mathf} from '../lib/mathf/mathf';
+import * as mathf from '../lib/mathf/mathf';
 
 export default class VectorDomSample2 {
   constructor() {

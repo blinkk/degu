@@ -19,8 +19,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { Raf } from '../lib/raf/raf';
 import {DomWatcher} from '../lib/dom/dom-watcher';
 import { RafProgress } from '../lib/raf/raf-progress';
-import {dom} from '../lib/dom/dom';
-import {EASE} from '../lib/ease/ease';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
 
 export default class ThreeObjectViewer2 {
     constructor() {
@@ -39,7 +39,7 @@ export default class ThreeObjectViewer2 {
             callback: (event) => {
               this.progress =
                           dom.getElementScrolledPercent(this.parentElement);
-              this.rafProgress.easeTo(this.progress, 0.18, EASE.Linear);
+              this.rafProgress.easeTo(this.progress, 0.18, EASE.linear);
             },
             eventOptions: {passive: true},
           });
@@ -136,7 +136,7 @@ export default class ThreeObjectViewer2 {
     resize() {
         this.progress =
           dom.getElementScrolledPercent(this.parentElement);
-        this.rafProgress.easeTo(this.progress, 1, EASE.Linear);
+        this.rafProgress.easeTo(this.progress, 1, EASE.linear);
 
         this.width = this.canvasContainer.parentElement.offsetWidth;
         this.height = this.canvasContainer.parentElement.offsetHeight;

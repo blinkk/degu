@@ -1,9 +1,8 @@
 
 import * as THREE from 'three';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import { SceneRenderer } from '../lib/threef/scene-renderer';
 import { Raf } from '../lib/raf/raf';
-import { threef } from '../lib/threef/threef';
+import {threef} from '../lib/threef/threef';
 
 export default class ThreeSceneRenderer {
 

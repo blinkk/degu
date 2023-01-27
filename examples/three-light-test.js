@@ -1,12 +1,10 @@
 
 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { SceneRenderer } from '../lib/threef/scene-renderer';
-import { mathf } from '../lib/mathf/mathf';
+import * as mathf from '../lib/mathf/mathf';
 import { Raf } from '../lib/raf/raf';
-import { threef } from '../lib/threef/threef';
 
 // https://threejs.org/examples/webgl_shadowmap_pcss.html
 const PCSS2 = `

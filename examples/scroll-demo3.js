@@ -1,12 +1,9 @@
 
-import {RafProgress, RAF_PROGRESS_EVENTS} from '../lib/raf/raf-progress';
+import {RafProgress} from '../lib/raf/raf-progress';
 import {DomWatcher} from '../lib/dom/dom-watcher';
 import {VectorDom} from '../lib/dom/vector-dom';
-import {EASE} from '../lib/ease/ease';
-import {dom} from '../lib/dom/dom';
-import {mathf} from '../lib/mathf/mathf';
-import {CatmullRom} from '../lib/mathf/catmull-rom';
-import {Vector} from '../lib/mathf/vector';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
 
 export default class ScrollDemoSample3 {
   constructor() {
@@ -27,7 +24,7 @@ export default class ScrollDemoSample3 {
       callback: (event) => {
         this.progress =
                     dom.getElementScrolledPercent(this.parentElement, window.innerHeight);
-        rafProgress.easeTo(this.progress, 0.08, EASE.Linear);
+        rafProgress.easeTo(this.progress, 0.08, EASE.linear);
       },
       eventOptions: {passive: true},
     });

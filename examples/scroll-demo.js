@@ -2,8 +2,8 @@
 import {RafProgress} from '../lib/raf/raf-progress';
 import {DomWatcher} from '../lib/dom/dom-watcher';
 import {VectorDom} from '../lib/dom/vector-dom';
-import {EASE} from '../lib/ease/ease';
-import {dom} from '../lib/dom/dom';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
 import {elementVisibility} from '../lib/dom/element-visibility';
 
 export default class ScrollDemoSample {
@@ -25,7 +25,7 @@ export default class ScrollDemoSample {
       callback: (event) => {
         this.progress =
                     dom.getElementScrolledPercent(this.parentElement);
-        rafProgress.easeTo(this.progress, 0.25, EASE.Linear);
+        rafProgress.easeTo(this.progress, 0.25, EASE.linear);
       },
       eventOptions: {passive: true},
     });
@@ -40,7 +40,7 @@ export default class ScrollDemoSample {
     // Update progress immediately on load.
     this.progress =
             dom.getElementScrolledPercent(this.parentElement);
-    rafProgress.easeTo(this.progress, 1, EASE.Linear);
+    rafProgress.easeTo(this.progress, 1, EASE.linear);
 
     rafProgress.watch(this.onProgressUpdate.bind(this));
 

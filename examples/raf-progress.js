@@ -1,7 +1,6 @@
 
-import {mathf} from '../lib/mathf/mathf';
-import {RafProgress, RAF_PROGRESS_EVENTS} from '../lib/raf/raf-progress';
-import {EASE} from '../lib/ease/ease';
+import {RafProgress} from '../lib/raf/raf-progress';
+import * as EASE from '../lib/ease/ease';
 
 export default class RafProgressSample {
   constructor() {

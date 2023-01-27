@@ -3,8 +3,8 @@
 import {RafProgress, RAF_PROGRESS_EVENTS} from '../lib/raf/raf-progress';
 import {CanvasImageSequence} from '../lib/dom/canvas-image-sequence';
 
-import {EASE} from '../lib/ease/ease';
-import {dom} from '../lib/dom/dom';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
 import {DomWatcher} from '../lib/dom/dom-watcher';
 
 /**
@@ -27,7 +27,7 @@ export default class CanvasImageSequenceSample7 {
       callback: (event) => {
         this.progress =
                     dom.getElementScrolledPercent(this.parentElement);
-        this.rafProgress.easeTo(this.progress, 0.25, EASE.Linear);
+        this.rafProgress.easeTo(this.progress, 0.25, EASE.linear);
       },
       eventOptions: {passive: true},
     });
@@ -35,7 +35,7 @@ export default class CanvasImageSequenceSample7 {
     // Update progress immediately on load.
     this.progress =
             dom.getElementScrolledPercent(this.parentElement);
-    this.rafProgress.easeTo(this.progress, 1, EASE.Linear);
+    this.rafProgress.easeTo(this.progress, 1, EASE.linear);
     this.rafProgress.watch(this.onProgressUpdate.bind(this));
 
 

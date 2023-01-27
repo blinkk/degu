@@ -1,9 +1,7 @@
 
 
-import {mathf} from '../lib/mathf/mathf';
+import * as mathf from '../lib/mathf/mathf';
 import {Raf} from '../lib/raf/raf';
-import {EASE} from '../lib/ease/ease';
-import {CubicBezier} from '../lib/mathf/cubic-bezier';
 import {CatmullRom} from '../lib/mathf/catmull-rom';
 import {Vector} from '../lib/mathf/vector';
 

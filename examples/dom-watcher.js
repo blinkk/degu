@@ -1,6 +1,6 @@
 
 import {DomWatcher} from '../lib/dom/dom-watcher';
-import {func} from '../lib/func/func';
+import * as func from '../lib/func/func';
 
 export default class DomWatcherSample {
   constructor() {

@@ -1,11 +1,11 @@
 
 import * as dat from 'dat.gui';
 import {Raf} from '../lib/raf/raf';
-import {RafProgress, RAF_PROGRESS_EVENTS} from '../lib/raf/raf-progress';
+import {RafProgress} from '../lib/raf/raf-progress';
 import {DomWatcher} from '../lib/dom/dom-watcher';
 import {VectorDom} from '../lib/dom/vector-dom';
-import {EASE} from '../lib/ease/ease';
-import {dom} from '../lib/dom/dom';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
 import {CssVarInterpolate} from '../lib/interpolate/css-var-interpolate';
 
 export default class ScrollDemoSample5 {
@@ -28,7 +28,7 @@ export default class ScrollDemoSample5 {
       callback: (event) => {
         this.progress =
                     dom.getElementScrolledPercent(this.parentElement);
-        rafProgress.easeTo(this.progress, 0.08, EASE.Linear);
+        rafProgress.easeTo(this.progress, 0.08, EASE.linear);
       },
       eventOptions: {passive: true},
     });
@@ -58,7 +58,7 @@ export default class ScrollDemoSample5 {
     // Update progress immediately on load.
     this.progress =
             dom.getElementScrolledPercent(this.parentElement);
-    rafProgress.easeTo(this.progress, 1, EASE.Linear);
+    rafProgress.easeTo(this.progress, 1, EASE.linear);
 
     rafProgress.watch(this.onProgressUpdate.bind(this));
 

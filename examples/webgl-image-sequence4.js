@@ -3,10 +3,9 @@
 import {RafProgress} from '../lib/raf/raf-progress';
 import {WebGlImageSequence} from '../lib/dom/webgl-image-sequence';
 
-import {EASE} from '../lib/ease/ease';
-import {dom} from '../lib/dom/dom';
+import * as EASE from '../lib/ease/ease';
+import * as dom from '../lib/dom/dom';
 import {DomWatcher} from '../lib/dom/dom-watcher';
-
 
 /**
  * This sample expands on canvas image sequence sample 1 and demonstrates
@@ -30,7 +29,7 @@ export default class CanvasImageSequenceSample3 {
       callback: (event) => {
         this.progress =
                     dom.getElementScrolledPercent(this.parentElement);
-        this.rafProgress.easeTo(this.progress, 0.25, EASE.Linear);
+        this.rafProgress.easeTo(this.progress, 0.25, EASE.linear);
       },
       eventOptions: {passive: true},
     });
@@ -38,7 +37,7 @@ export default class CanvasImageSequenceSample3 {
     // Update progress immediately on load.
     this.progress =
             dom.getElementScrolledPercent(this.parentElement);
-    this.rafProgress.easeTo(this.progress, 1, EASE.Linear);
+    this.rafProgress.easeTo(this.progress, 1, EASE.linear);
     this.rafProgress.watch(this.onProgressUpdate.bind(this));
 
 
