@@ -1,5 +1,4 @@
-
-import {PerlinNoise} from '../lib/mathf/perlin-noise';
+import {noise3} from '../lib/mathf/perlin-noise';
 
 export default class PerlinNoiseSample {
   constructor() {
@@ -28,7 +27,7 @@ export default class PerlinNoiseSample {
       let x = i / canvas.width;
       let y = this.y / canvas.height;
       let z = this.z / canvas.height;
-      let n = PerlinNoise.noise3(x * frequency, y * frequency, z * frequency);
+      let n = noise3(x * frequency, y * frequency, z * frequency);
       this.context.lineTo(i, -(n * amplitude) + canvas.height);
       this.context.stroke();
     }

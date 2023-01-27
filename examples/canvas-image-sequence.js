@@ -1,5 +1,5 @@
 
-import {RafProgress, RAF_PROGRESS_EVENTS} from '../lib/raf/raf-progress';
+import {RafProgress} from '../lib/raf/raf-progress';
 import {CanvasImageSequence} from '../lib/dom/canvas-image-sequence';
 
 import * as EASE from '../lib/ease/ease';

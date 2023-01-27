@@ -1,6 +1,4 @@
-
-
-import {domCanvas} from '../lib/dom/dom-canvas';
+import * as domCanvas from '../lib/dom/dom-canvas';
 import {Vector} from '../lib/mathf/vector';
 import {MatrixIV} from '../lib/mathf/matrixIV';
 

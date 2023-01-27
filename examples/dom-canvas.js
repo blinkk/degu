@@ -1,6 +1,5 @@
-
 import { Vector } from '../lib/mathf/vector';
-import {domCanvas} from '../lib/dom/dom-canvas';
+import * as domCanvas from '../lib/dom/dom-canvas';
 
 export default class DomCanvasSample {
   constructor() {

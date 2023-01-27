@@ -9,7 +9,7 @@ import {DomWatcher} from '../dom/dom-watcher';
 import {LitElement, html} from 'lit';
 import {Raf} from '../raf/raf';
 import {Vector} from '../mathf/vector';
-import {domCanvas} from '../dom/dom-canvas';
+import * as domCanvas from '../dom/dom-canvas';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {query, property} from 'lit/decorators.js';
 

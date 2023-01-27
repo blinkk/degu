@@ -12,7 +12,7 @@ import {
 } from '../interpolate/multi-interpolate';
 import {RafTimer} from '../raf/raf-timer';
 import {Fps} from '../time/fps';
-import {domCanvas} from '../dom/dom-canvas';
+import {getColorAtPointAsHex} from '../dom/dom-canvas';
 import {Vector} from '../mathf/vector';
 
 export interface CanvasImageSequenceImageSet {
@@ -621,7 +621,6 @@ interface rectConfig {
  * @see https://github.com/blinkkcode/degu/blob/master/examples/canvas-image-sequence3.js
  * @see https://github.com/blinkkcode/degu/blob/master/examples/canvas-image-sequence4.js
  * @see https://github.com/blinkkcode/degu/blob/master/examples/canvas-image-sequence5.js
- * @unstable
  */
 export class CanvasImageSequence {
   /**
@@ -1537,7 +1536,7 @@ export class CanvasImageSequence {
    * @param coords
    */
   getHexColorAtPoint(coords: Vector) {
-    return domCanvas.getColorAtPointAsHex(this.context!, coords);
+    return getColorAtPointAsHex(this.context!, coords);
   }
 
   /**

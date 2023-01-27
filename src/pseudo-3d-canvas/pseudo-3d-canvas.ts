@@ -3,7 +3,7 @@ import {Mesh} from './mesh';
 import * as mathf from '../mathf/mathf';
 import {MatrixIV} from '../mathf/matrixIV';
 import {Vector} from '../mathf/vector';
-import {domCanvas} from '../dom/dom-canvas';
+import * as domCanvas from '../dom/dom-canvas';
 
 interface Pseudo3dCanvasConfig {
   canvasElement: HTMLCanvasElement;
