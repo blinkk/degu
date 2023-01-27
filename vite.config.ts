@@ -56,7 +56,7 @@ export default defineConfig(() => {
   inputs.main = './examples/index.html';
   return {
     root: './examples',
-    base: '/examples/',
+    base: '/degu/examples/',
     appType: 'mpa',
     build: {
       minify: true,
