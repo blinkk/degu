@@ -24,7 +24,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -38,14 +38,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -115,7 +115,17 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -126,19 +136,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -147,9 +145,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,41 +195,51 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable node/no-extraneous-import */
-import {defineConfig} from 'vite';
+import {defineConfig, Plugin} from 'vite';
 import fg from 'fast-glob';
 import path from 'node:path';
 import jsBeautify from 'js-beautify';
 &nbsp;
 // Plugin that auto-injects the index.js file into every html page in examples.
-const examplesHtmlTransformPlugin = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return {</span>
-    name: 'examples-html-transform',
-<span class="fstat-no" title="function not covered" >    tr</span>ansformIndexHtml(html) {
-<span class="cstat-no" title="statement not covered" >      return prettyHtml(</span>
-        html.replace(
-          '&lt;/body&gt;',
-          '&lt;/body&gt;&lt;script src="scripts/index.js" type="module"&gt;&lt;/script&gt;'
-        )
-      );
+const examplesHtmlPlugin = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+  const plugin: Plugin = <span class="cstat-no" title="statement not covered" >{</span>
+    name: 'examples-html',
+    transformIndexHtml: {
+      order: 'pre',
+      handler: <span class="fstat-no" title="function not covered" >(h</span>tml) =&gt; <span class="cstat-no" title="statement not covered" >html.replace(</span>
+        '&lt;/body&gt;',
+        '&lt;/body&gt;&lt;script src="scripts/index.js" type="module"&gt;&lt;/script&gt;'
+      ),
     },
   };
+<span class="cstat-no" title="statement not covered" >  return plugin;</span>
 };
 &nbsp;
-// Pretty prints HTML.
-function <span class="fstat-no" title="function not covered" >prettyHtml(</span>html: string): string {
-<span class="cstat-no" title="statement not covered" >  try {</span>
-    const output = <span class="cstat-no" title="statement not covered" >jsBeautify.html(html, {</span>
-      indent_size: 0,
-      end_with_newline: true,
-      max_preserve_newlines: 0,
-      extra_liners: [],
-    });
-<span class="cstat-no" title="statement not covered" >    return output.trimStart();</span>
-  } catch (e) {
-<span class="cstat-no" title="statement not covered" >    console.error('failed to pretty html:', e);</span>
-<span class="cstat-no" title="statement not covered" >    return html;</span>
+// Plugin that pretty prints the html output.
+const prettyHtmlPlugin = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+  function <span class="fstat-no" title="function not covered" >prettyHtml(</span>html: string): string {
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const output = <span class="cstat-no" title="statement not covered" >jsBeautify.html(html, {</span>
+        indent_size: 0,
+        end_with_newline: true,
+        max_preserve_newlines: 0,
+        extra_liners: [],
+      });
+<span class="cstat-no" title="statement not covered" >      return output.trimStart();</span>
+    } catch (e) {
+<span class="cstat-no" title="statement not covered" >      console.error('failed to pretty html:', e);</span>
+<span class="cstat-no" title="statement not covered" >      return html;</span>
+    }
   }
-}
+  const plugin: Plugin = <span class="cstat-no" title="statement not covered" >{</span>
+    name: 'pretty-html',
+    transformIndexHtml: {
+      order: 'post',
+      handler: <span class="fstat-no" title="function not covered" >(h</span>tml) =&gt; <span class="cstat-no" title="statement not covered" >prettyHtml(html),</span>
+    },
+  };
+<span class="cstat-no" title="statement not covered" >  return plugin;</span>
+};
 &nbsp;
 export default defineConfig(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
   const inputs: Record&lt;string, string&gt; = <span class="cstat-no" title="statement not covered" >{};</span>
@@ -230,7 +260,7 @@ export default defineConfig(<span class="fstat-no" title="function not covered" 
         input: inputs,
       },
     },
-    plugins: [examplesHtmlTransformPlugin()],
+    plugins: [examplesHtmlPlugin(), prettyHtmlPlugin()],
   };
 });
 &nbsp;</pre></td></tr></table></pre>
@@ -240,7 +270,7 @@ export default defineConfig(<span class="fstat-no" title="function not covered" 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Jan 27 2023 19:06:37 GMT+0000 (Coordinated Universal Time)
+                at Fri Jan 27 2023 19:21:46 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../prettify.js"></script>
