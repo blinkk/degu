@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/blinkk/degu/compare/v3.1.0...v3.1.1) (2023-01-27)
+
+
+### Bug Fixes
+
+* fix imports in examples/ folder ([8f72cd7](https://github.com/blinkk/degu/commit/8f72cd7080514fadfc615ea9fced66e86188f946))
+
 ## [3.1.0](https://github.com/blinkk/degu/compare/v3.0.0...v3.1.0) (2023-01-27)
 
 
