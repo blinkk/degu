@@ -8,9 +8,9 @@
 
 A general utility library for interactive websites, with a focus on performance.
 
-- [API docs](https://blinkkcode.github.io/degu/)
-- [Examples](https://blinkkcode.github.io/degu/examples/)
-- [Coverage](https://blinkkcode.github.io/degu/coverage/)
+- [API docs](https://blinkk.github.io/degu/)
+- [Examples](https://blinkk.github.io/degu/examples/)
+- [Coverage](https://blinkk.github.io/degu/coverage/)
 
 ## Motivation
 
@@ -39,7 +39,7 @@ window['ResizeObserver'] = ResizeObserver;
 
 ## Getting started
 
-- Read the [API docs](https://blinkkcode.github.io/degu/)
+- Read the [API docs](https://blinkk.github.io/degu/)
 - Explore the [examples folder](/examples/)
 
 Import the library:
@@ -95,13 +95,13 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) on how to develop for degu.
 
 Please read [LICENSE.md](LICENSE.md)
 
-[github-image]: https://github.com/blinkkcode/degu/workflows/Run%20tests/badge.svg
-[github-url]: https://github.com/blinkkcode/degu/actions
-[codecov-image]: https://codecov.io/gh/blinkkcode/degu/branch/main/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/blinkkcode/degu
-[david-image]: https://david-dm.org/blinkkcode/degu.svg
-[david-url]: https://david-dm.org/blinkkcode/degu
+[github-image]: https://github.com/blinkk/degu/workflows/Run%20tests/badge.svg
+[github-url]: https://github.com/blinkk/degu/actions
+[codecov-image]: https://codecov.io/gh/blinkk/degu/branch/main/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/blinkk/degu
+[david-image]: https://david-dm.org/blinkk/degu.svg
+[david-url]: https://david-dm.org/blinkk/degu
 [npm-image]: https://img.shields.io/npm/v/@blinkk/degu.svg
 [npm-url]: https://npmjs.org/package/@blinkk/degu
-[snyk-image]: https://snyk.io/test/github/blinkkcode/degu/badge.svg
-[snyk-url]: https://snyk.io/test/github/blinkkcode/degu
+[snyk-image]: https://snyk.io/test/github/blinkk/degu/badge.svg
+[snyk-url]: https://snyk.io/test/github/blinkk/degu

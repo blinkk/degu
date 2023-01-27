@@ -28,20 +28,16 @@ jobs:
             ${{ runner.os }}-
       - name: Build docs
         run: |
-                yarn install
-                npm run doc
+          yarn install
+          npm run doc
       - name: Build coverage
         run: |
-                npm run coverage
-                mv coverage/ ./docs/
+          npm run coverage
+          mv ./coverage ./docs/coverage
       - name: Build examples
         run: |
-                NODE_OPTIONS=--openssl-legacy-provider npm run server &
-                sleep 5
-                wget --recursive --page-requisites --html-extension --convert-links localhost:8080
-                mv localhost:8080 ./docs/examples/
-                cp -r ./examples/public/ ./docs/examples/
-                pkill -f npm
+          npm run examples
+          mv ./examples/dist ./docs/examples
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
