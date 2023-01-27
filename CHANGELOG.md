@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/blinkk/degu/compare/v3.0.0...v3.1.0) (2023-01-27)
+
+
+### Features
+
+* add image inspector ([379ed26](https://github.com/blinkk/degu/commit/379ed26c2215a9b15d21b85c6d6c1b8b2c757a14))
+
 ## [3.0.0](https://github.com/blinkk/degu/compare/v2.28.1...v3.0.0) (2023-01-20)
 
 
