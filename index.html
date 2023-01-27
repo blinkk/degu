@@ -80,19 +80,11 @@
 					but it aims to provide the &quot;hammer and nails&quot; needed to build highly-interactive,
 				performant, kickass websites.</p>
 				<h2 id="installation">Installation</h2>
-				<pre><code class="language-bash">npm install resize-observer-polyfill --save-dev
-npm install intersection-observer --save-dev
-npm install degu@latest --save-dev</code></pre>
-				<p>Include <code>resize-observer-polyfill</code> and <code>intersection-observer</code> polyfill:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> <span class="hljs-string">'../../node_modules/intersection-observer/intersection-observer.js'</span>;
-<span class="hljs-keyword">import</span> ResizeObserver <span class="hljs-keyword">from</span> <span class="hljs-string">'resize-observer-polyfill'</span>;
-<span class="hljs-built_in">window</span>[<span class="hljs-string">'ResizeObserver'</span>] = ResizeObserver;
-
-<span class="hljs-comment">/* ... insert code that depends on degu ... */</span></code></pre>
+				<pre><code class="language-bash">npm install @blinkk/degu@latest --save-dev</code></pre>
 				<h2 id="getting-started">Getting started</h2>
 				<ul>
 					<li>Read the <a href="https://blinkk.github.io/degu/">API docs</a></li>
-					<li>Explore the <a href="/examples/">examples folder</a></li>
+					<li>Explore the <a href="https://github.com/blinkk/degu/tree/main/examples">examples folder</a></li>
 				</ul>
 				<p>Import the library:</p>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> {WebWorker} <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu'</span>;
@@ -105,9 +97,9 @@ worker.run({a: <span class="hljs-number">5</span>, b: <span class="hljs-number">
    <span class="hljs-built_in">console</span>.log(result); <span class="hljs-comment">// 10</span>
 })</code></pre>
 				<p>Import specific files:</p>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> mathf <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/mathf/mathf/'</span>
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> is <span class="hljs-keyword">from</span> <span class="hljs-string">'degu/lib/is/is/'</span>
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> dom <span class="hljs-keyword">from</span> <span class="hljs-string">'./dom'</span>;</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> mathf <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu/lib/mathf/mathf.js'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> is <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu/lib/is/is.js'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> dom <span class="hljs-keyword">from</span> <span class="hljs-string">'@blinkk/degu/lib/dom/dom.js'</span>;</code></pre>
 				<h2 id="threejs-deps">ThreeJS deps</h2>
 				<p>Classes under <code>threef</code> require three.js deps. Currently supports r110.</p>
 				<pre><code class="language-bash">npm install --save-dev three@0.110.0
@@ -122,11 +114,11 @@ npm install --save-dev @types/three@0.103.2</code></pre>
 				</ul>
 				<h2 id="upgrading">Upgrading</h2>
 				<p>If you have already been using version 2.x.y and are upgrading to version 3.x.y,
-				see our <a href="MIGRATION.md">MIGRATION.md</a> guide for details.</p>
+				see our <a href="https://github.com/blinkk/degu/blob/main/MIGRATION.md">MIGRATION.md</a> guide for details.</p>
 				<h2 id="contributing">Contributing</h2>
-				<p>Please read <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> on how to develop for degu.</p>
+				<p>Please read <a href="https://github.com/blinkk/degu/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> on how to develop for degu.</p>
 				<h2 id="license">License</h2>
-				<p>Please read <a href="LICENSE.md">LICENSE.md</a></p>
+				<p>Please read <a href="https://github.com/blinkk/degu/blob/main/LICENSE.md">LICENSE.md</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
