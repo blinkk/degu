@@ -1,5 +1,4 @@
 {
-  "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -34,7 +33,7 @@
     "node_modules",
     "lib",
     "labs",
-    "ref",
+    "ref"
   ],
   "typedocOptions": {
     "src": [
@@ -44,7 +43,7 @@
       "./src/*.spec.ts",
       "./labs/*.spec.ts",
       "./labs/**/*.ts",
-      "./ref/**/*.ts",
+      "./ref/**/*.ts"
     ],
     "excludeExternals": true,
     "excludePrivate": true,
@@ -56,6 +55,6 @@
     "listInvalidSymbolLinks": true,
     "mode": "modules",
     "out": "./docs",
-    "plugin": "none",
+    "plugin": "none"
   }
 }
