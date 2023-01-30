@@ -5,8 +5,17 @@ export default defineConfig({
   outDir: 'lib',
   target: 'node16',
   dts: true,
-  splitting: true,
+  splitting: false,
   format: ['esm'],
+  external: [
+    'angular',
+    'dat.ui',
+    'jquery',
+    'lit',
+    'lottie-web',
+    'pixi.js',
+    'three',
+  ],
   esbuildOptions(options) {
     options.chunkNames = 'chunks/[name]-[hash]';
   },
