@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.2](https://github.com/blinkk/degu/compare/v3.1.1...v3.1.2) (2023-01-30)
+
+
+### Bug Fixes
+
+* fix github pages base url ([d00c8b0](https://github.com/blinkk/degu/commit/d00c8b016a4b92bd3e63580d2e9291905c966bd0))
+* set optional libs as external ([0351be3](https://github.com/blinkk/degu/commit/0351be3852ff9c17510cfb8ebe47476bd72f8521))
+
 ## [3.1.1](https://github.com/blinkk/degu/compare/v3.1.0...v3.1.1) (2023-01-27)
 
 
