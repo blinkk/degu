@@ -242,7 +242,9 @@ export class LazyVideo {
   private playVideo() {
     if (!dom.testVideoIsPlaying(this.video)) {
       const playPromise = this.video.play();
-      playPromise.then(() => {}).catch();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {}).catch(() => {});
+      }
     }
   }
 
