@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.3](https://github.com/blinkk/degu/compare/v3.1.2...v3.1.3) (2023-02-01)
+
+
+### Bug Fixes
+
+* fix playback error in lazy-video ([3262d87](https://github.com/blinkk/degu/commit/3262d87d28e2cb97fc7d714b35fb30683b5f71c2))
+
 ## [3.1.2](https://github.com/blinkk/degu/compare/v3.1.1...v3.1.2) (2023-01-30)
 
 
