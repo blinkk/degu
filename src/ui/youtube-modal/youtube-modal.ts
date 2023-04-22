@@ -71,6 +71,11 @@ interface PlayOptions {
    * The time in seconds to offset the video when the video plays.
    */
   startTime?: number;
+
+  /**
+   * YT player orientation. Defaults to "landscape".
+   */
+  orientation?: string;
 }
 
 // Default configuration.
@@ -287,6 +292,9 @@ export class YouTubeModal {
       this.attributionEl.textContent = options.attribution;
     }
 
+    const orientation = options.orientation || 'landscape';
+    this.modalEl.setAttribute('data-orientation', orientation);
+
     this.setActive(true);
     if (this.player) {
       if (videoId === this.activeVideoId) {
@@ -333,6 +341,13 @@ export class YouTubeModal {
     );
     if (attribution) {
       playOptions.attribution = attribution;
+    }
+
+    const orientation = el.getAttribute(
+      `data-${this.config.namespace}-orientation`
+    );
+    if (orientation) {
+      playOptions.orientation = orientation;
     }
 
     return playOptions;
@@ -400,7 +415,7 @@ export class YouTubeModal {
     const el = document.createElement(tag);
     el.className = className;
     if (children && children.length) {
-      children.forEach(child => el.appendChild(child));
+      children.forEach((child) => el.appendChild(child));
     }
     return el;
   }
