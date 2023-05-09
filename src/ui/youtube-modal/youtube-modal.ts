@@ -40,12 +40,12 @@ interface YouTubeModalConfig {
   /**
    * Callback triggered when the modal is opened.
    */
-  onModalOpen?: (ytModal: YouTubeModal) => void;
+  onModalOpen?: (ytModal: YouTubeModal, player: YT.Player) => void;
 
   /**
    * Callback triggered when the modal is closed.
    */
-  onModalClose?: (ytModal: YouTubeModal) => void;
+  onModalClose?: (ytModal: YouTubeModal, player: YT.Player) => void;
 
   /**
    * Extra options passed to `YT.Player`.
@@ -367,7 +367,7 @@ export class YouTubeModal {
         // the modal element.
         this.closeEl.focus();
         if (this.config.onModalOpen) {
-          this.config.onModalOpen(this);
+          this.config.onModalOpen(this, this.player);
         }
       }, this.config.transitionDuration! + 100);
     } else {
@@ -381,7 +381,7 @@ export class YouTubeModal {
           top: this.lastScrollY,
         });
         if (this.config.onModalClose) {
-          this.config.onModalClose(this);
+          this.config.onModalClose(this, this.player);
         }
       }, this.config.transitionDuration! + 100);
     }
