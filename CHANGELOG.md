@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.2.0](https://github.com/blinkk/degu/compare/v3.1.3...v3.2.0) (2023-05-10)
+
+
+### Features
+
+* add "orientation" option to youtube modal ([ea0e82b](https://github.com/blinkk/degu/commit/ea0e82bfd64da26c7a5e4c18cc817f0657c9e8c1))
+
+
+### Miscellaneous Chores
+
+* release 3.2.0 ([4c38f6f](https://github.com/blinkk/degu/commit/4c38f6f570000433d1385d1d84c9c054e5de8bb4))
+
 ## [3.1.3](https://github.com/blinkk/degu/compare/v3.1.2...v3.1.3) (2023-02-01)
 
 
