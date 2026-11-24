@@ -1,136 +1,83 @@
+
+
 <!DOCTYPE html>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Scroll demo 4</title>
-<style>
-.parent {
-position: relative;
-height: 300vh;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll demo 4</title>
+  <style>
+      .parent {
+          position: relative;
+          height: 300vh;
+      }
+      .child {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0px;
+          height: 100vh;
+          background-color: blue;
+      }
+      .container {
+          position: relative;
+          height: 100vw;
+          height: 100vh;
+          overflow: hidden;
+          perspective: 500px;
+      }
+      .flower {
+          position: absolute;
+          top: 0;
+          left: 0;
+          filter: blur(calc(var(--blur) * 1px));
+      }
+      .module {
+          height: 100vh;
+          background-color: #efefef;
+      }
 
-.child {
-position: -webkit-sticky;
-position: sticky;
-top: 0px;
-height: 100vh;
-background-color: blue;
-}
+  </style>
 
-.container {
-position: relative;
-height: 100vw;
-height: 100vh;
-overflow: hidden;
-perspective: 500px;
-}
-
-.flower {
-position: absolute;
-top: 0;
-left: 0;
-filter: blur(calc(var(--blur) * 1px));
-}
-
-.module {
-height: 100vh;
-background-color: #efefef;
-}
-
-</style>
-<script type="module" crossorigin src="/degu/examples/assets/index-a417f11f.js"></script>
-<link rel="stylesheet" href="/degu/examples/assets/index-fefe412f.css">
+  <script type="module" crossorigin src="/degu/examples/assets/index-BH2lcwl8.js"></script>
+  <link rel="stylesheet" crossorigin href="/degu/examples/assets/index-D04bHpmi.css">
 </head>
 <body init-sample="scrollDemoSample4" style="padding: 0px">
-<div class="module">
-<h1> This is the start of the page</h1>
-<p> This is an example of using VectorDom timeline feature. The timeline feature has an option to append css variables.</p>
-</div>
-<div class="parent" id="parent">
-<div class="child" id="child">
-<div class="container">
-<div class="flower">
-<div><img src="https://picsum.photos/id/700/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/701/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/702/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/703/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/704/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/705/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/715/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/716/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/717/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/718/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/719/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/721/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/722/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/700/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/701/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/702/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/703/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/704/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/705/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/715/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/716/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/717/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/718/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/719/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/721/400" /></div>
-</div>
-<div class="flower">
-<div><img src="https://picsum.photos/id/722/400" /></div>
-</div>
-</div>
-</div>
-</div>
-<div class="module">
-<h1> This is the end of the page.</h1>
-</div>
+  <div class="module">
+      <h1> This is the start of the page</h1>
+      <p> This is an example of using VectorDom timeline feature.  The timeline feature has an option to append css variables.</p>
+  </div>
+  <div class="parent" id="parent">
+      <div class="child" id="child">
+        <div class="container">
+            <div class="flower"><div><img src="https://picsum.photos/id/700/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/701/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/702/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/703/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/704/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/705/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/715/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/716/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/717/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/718/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/719/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/721/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/722/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/700/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/701/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/702/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/703/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/704/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/705/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/715/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/716/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/717/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/718/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/719/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/721/400"/></div></div>
+            <div class="flower"><div><img src="https://picsum.photos/id/722/400"/></div></div>
+        </div>
+      </div>
+  </div>
+  <div class="module">
+      <h1> This is the end of the page.</h1>
+  </div>
 </body>
 </html>

@@ -1,71 +1,67 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Three Object Viewer Test</title>
-<script type="module" crossorigin src="/degu/examples/assets/index-a417f11f.js"></script>
-<link rel="stylesheet" href="/degu/examples/assets/index-fefe412f.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Three Object Viewer Test</title>
+  <script type="module" crossorigin src="/degu/examples/assets/index-BH2lcwl8.js"></script>
+  <link rel="stylesheet" crossorigin href="/degu/examples/assets/index-D04bHpmi.css">
 </head>
 <body init-sample="threeObjectViewer10">
-<style>
-body {
-padding: 0;
-margin: 0;
-}
+  <style>
+      body {
+          padding: 0;
+          margin: 0;
+      }
+      .parent {
+          position: relative;
+          height: 600vh;
+      }
+      .child {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0px;
+          height: 100vh;
+          width: 100vw;
+          background-color: white;
+      }
+      .container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+      }
+      .canvas-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+      }
+      canvas {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          outline: none;
+      }
+      #text-marker1,
+      #text-marker2 {
+          color: white;
+          position: absolute;
+      }
+  </style>
 
-.parent {
-position: relative;
-height: 600vh;
-}
-
-.child {
-position: -webkit-sticky;
-position: sticky;
-top: 0px;
-height: 100vh;
-width: 100vw;
-background-color: white;
-}
-
-.container {
-position: relative;
-height: 100%;
-width: 100%;
-}
-
-.canvas-container {
-position: absolute;
-top: 0;
-left: 0;
-height: 100%;
-width: 100%;
-}
-
-canvas {
-position: absolute;
-top: 0;
-left: 0;
-height: 100%;
-width: 100%;
-outline: none;
-}
-
-#text-marker1,
-#text-marker2 {
-color: white;
-position: absolute;
-}
-
-</style>
-<div class="parent" id="parent">
-<div class="child" id="child">
-<div class="container">
-<div id="canvas-container" class="canvas-container"></div>
-<div id="text-marker1">Billboarded text</div>
-<div id="text-marker2">Rotating text</div>
-</div>
-</div>
-</div>
+  <div class="parent" id="parent">
+      <div class="child" id="child">
+        <div class="container">
+          <div id="canvas-container" class="canvas-container"></div>
+          <div id="text-marker1">Billboarded text</div>
+          <div id="text-marker2">Rotating text</div>
+        </div>
+      </div>
+  </div>
 </body>
 </html>

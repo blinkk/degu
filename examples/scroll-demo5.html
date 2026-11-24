@@ -1,66 +1,61 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Scroll demo</title>
-<style>
-body {
-background-color: var(--background) !important;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scroll demo</title>
+  <style>
+      body {
+          background-color: var(--background) !important;
+      }
+      .parent {
+          position: relative;
+          height: 800vh;
+      }
+      .child {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0px;
+          height: 100vh;
+      }
+      .container {
+          position: relative;
+          height: 100vw;
+          height: 100vh;
+          overflow: hidden;
+      }
+      .flower {
+          position: absolute;
+          top: 0;
+          left: 0;
+      }
+      .module {
+          height: 100vh;
+          background-color: #efefef;
+      }
 
-.parent {
-position: relative;
-height: 800vh;
-}
+  </style>
 
-.child {
-position: -webkit-sticky;
-position: sticky;
-top: 0px;
-height: 100vh;
-}
-
-.container {
-position: relative;
-height: 100vw;
-height: 100vh;
-overflow: hidden;
-}
-
-.flower {
-position: absolute;
-top: 0;
-left: 0;
-}
-
-.module {
-height: 100vh;
-background-color: #efefef;
-}
-
-</style>
-<script type="module" crossorigin src="/degu/examples/assets/index-a417f11f.js"></script>
-<link rel="stylesheet" href="/degu/examples/assets/index-fefe412f.css">
+  <script type="module" crossorigin src="/degu/examples/assets/index-BH2lcwl8.js"></script>
+  <link rel="stylesheet" crossorigin href="/degu/examples/assets/index-D04bHpmi.css">
 </head>
 <body init-sample="scrollDemoSample5" style="padding: 0px">
-<div class="module">
-<h1> Smoothing </h1>
-<p>This is a demo of using catmull rom to interpolate timeline points on
-a VectorDom. It also features slerping Eular rotation.
-</p>
-</div>
-<div class="parent" id="parent">
-<div class="child" id="child">
-<div class="container">
-<div class="flower" id="flower">
-<div><img src="/degu/examples/public/boy-crop.png" /></div>
-</div>
-</div>
-</div>
-</div>
-<div class="module">
-<h1> This is the end of the page.</h1>
-</div>
+  <div class="module">
+      <h1> Smoothing </h1>
+      <p>This is a demo of using catmull rom to interpolate timeline points on
+        a VectorDom.  It also features slerping Eular rotation.
+      </p>
+  </div>
+  <div class="parent" id="parent">
+      <div class="child" id="child">
+        <div class="container">
+            <div class="flower" id="flower"><div><img src="/degu/examples/public/boy-crop.png"/></div></div>
+        </div>
+      </div>
+  </div>
+  <div class="module">
+      <h1> This is the end of the page.</h1>
+  </div>
 </body>
 </html>
