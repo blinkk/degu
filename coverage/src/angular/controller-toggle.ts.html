@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -146,31 +146,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * A simple controller used to setup basic drawer like functionality.
  *
@@ -200,31 +200,31 @@
  *
  *
  */
-<span class="cstat-no" title="statement not covered" >export class ToggleController {</span>
+export class ToggleController {
   private el: HTMLElement;
   private expanded: boolean;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  static get $inject() {</span>
+<span class="fstat-no" title="function not covered" >  static get $</span>inject() {
 <span class="cstat-no" title="statement not covered" >    return ['$scope', '$element'];</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  constructor($element: ng.IAugmentedJQuery) {</span>
+<span class="fstat-no" title="function not covered" >  constructor($</span>element: ng.IAugmentedJQuery) {
 <span class="cstat-no" title="statement not covered" >    this.el = $element[0];</span>
 <span class="cstat-no" title="statement not covered" >    this.expanded = false;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  public toggle(): void {</span>
+  public <span class="fstat-no" title="function not covered" >toggle(): void {</span>
 <span class="cstat-no" title="statement not covered" >    this.expanded = !this.expanded;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  public open(): void {</span>
+  public <span class="fstat-no" title="function not covered" >open(): void {</span>
 <span class="cstat-no" title="statement not covered" >    this.expanded = true;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  public close(): void {</span>
+  public <span class="fstat-no" title="function not covered" >close(): void {</span>
 <span class="cstat-no" title="statement not covered" >    this.expanded = false;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+  }
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -232,7 +232,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-24T03:37:55.645Z
+                at 2026-11-24T03:42:40.339Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

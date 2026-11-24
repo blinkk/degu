@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -390,13 +390,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Creates a 2d rotation matrix.
  *
@@ -424,7 +424,7 @@
  * rotation makes it 180 flipping x,y so it's correct.
  *
  */
-<span class="cstat-no" title="statement not covered" >const deguGet2dRotationMatrix = `</span>
+const deguGet2dRotationMatrix = <span class="cstat-no" title="statement not covered" >`</span>
    mat2 deguGet2dRotationMatrix(float theta) {
     float s = sin(theta);
     float c = cos(theta);
@@ -441,7 +441,7 @@
  * vec2 scaledAndRotatedPoint = scaleMat * rotateMat * v_position.xy;
  *
  */
-<span class="cstat-no" title="statement not covered" >const deguGet2dScaleMatrix = `</span>
+const deguGet2dScaleMatrix = <span class="cstat-no" title="statement not covered" >`</span>
   mat2 deguGetScaleMatrix(float scale) {
       return mat2(scale, 0, 0, scale);
   }
@@ -458,7 +458,7 @@
  * vec2 rotatedPoints = deguRotate2d(myPoints, 1);
  *
  */
-<span class="cstat-no" title="statement not covered" >const deguRotate2d = `</span>
+const deguRotate2d = <span class="cstat-no" title="statement not covered" >`</span>
    vec2 deguRotate2d(vec2 pt, float theta) {
        mat2 rotationMatrix = deguGet2dRotationMatrix(theta);
        return rotationMatrix * pt;
@@ -477,7 +477,7 @@
  *       u_texture, imageAspect, v_uv, center, u_time, backgroundColor);
  * ```
  */
-<span class="cstat-no" title="statement not covered" >const deguRotate2dImage = `</span>
+const deguRotate2dImage = <span class="cstat-no" title="statement not covered" >`</span>
    vec3 deguRotate2dImage(sampler2D texture, float aspect, vec2 uv, vec2 center, float theta, vec3 backgroundColor) {
        // Adjust for the center point.
        uv -= center;
@@ -521,7 +521,7 @@
  * float wave = mix(-0.2, 0.2, normalizedSin(currentRadian));
  * ```
  */
-<span class="cstat-no" title="statement not covered" >const normalizedSin = `</span>
+const normalizedSin = <span class="cstat-no" title="statement not covered" >`</span>
   float normalizedSin(float radians) {
     return (sin(radians) + 1.0) / 2.0;
   }
@@ -532,7 +532,7 @@
  * @see  http://blog.ruofeidu.com/tutorial-of-ray-casting-ray-tracing-and-ray-marching/
  */
 // eslint-disable-next-line
-<span class="cstat-no" title="statement not covered" >const castRay = `</span>
+const castRay = <span class="cstat-no" title="statement not covered" >`</span>
 bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT )
 {
     const float delt = 0.01f;
@@ -555,15 +555,15 @@ bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT )
  * Common custom math functions for glsl.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-<span class="cstat-no" title="statement not covered" >export const deguMathf = (three: any) =&gt; {</span>
+export const deguMathf = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(t</span>hree: any) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  three.ShaderChunk.deguMathf = `</span>
-<span class="cstat-no" title="statement not covered" >  ${deguGet2dRotationMatrix}</span>
-<span class="cstat-no" title="statement not covered" >  ${deguGet2dScaleMatrix}</span>
-<span class="cstat-no" title="statement not covered" >  ${deguRotate2d}</span>
-<span class="cstat-no" title="statement not covered" >  ${deguRotate2dImage}</span>
-<span class="cstat-no" title="statement not covered" >  ${normalizedSin}</span>
+  ${deguGet2dRotationMatrix}
+  ${deguGet2dScaleMatrix}
+  ${deguRotate2d}
+  ${deguRotate2dImage}
+  ${normalizedSin}
 `;
-<span class="cstat-no" title="statement not covered" >};</span>
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -571,7 +571,7 @@ bool castRay( const vec3 &amp; ro, const vec3 &amp; rd, float &amp; resT )
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-24T03:37:55.645Z
+                at 2026-11-24T03:42:40.339Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

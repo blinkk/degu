@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/18</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.22% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/18</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -151,8 +151,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -169,26 +167,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type {Vector} from './vector';
 &nbsp;
 /**
@@ -215,7 +215,7 @@
  * @see https://en.wikibooks.org/wiki/Cg_Programming/Unity/Hermite_Curves
  */
 export class HermiteCurve {
-<span class="fstat-no" title="function not covered" >  constructor() {}</span>
+<span class="fstat-no" title="function not covered" >  constructor() {</span>}
 &nbsp;
   /**
    * Given start point p0 and it's tangent m0 and the endpoint p1 and it's
@@ -232,25 +232,25 @@ export class HermiteCurve {
    * @param p1 The end point
    * @param m1 The tangent of p1
    */
-  public static <span class="fstat-no" title="function not covered" >getPoint(</span>
-<span class="cstat-no" title="statement not covered" >    t: number,</span>
-<span class="cstat-no" title="statement not covered" >    p0: Vector,</span>
-<span class="cstat-no" title="statement not covered" >    m0: Vector,</span>
-<span class="cstat-no" title="statement not covered" >    p1: Vector,</span>
-<span class="cstat-no" title="statement not covered" >    m1: Vector</span>
-<span class="cstat-no" title="statement not covered" >  ): Vector {</span>
+<span class="fstat-no" title="function not covered" >  public static g</span>etPoint(
+    t: number,
+    p0: Vector,
+    m0: Vector,
+    p1: Vector,
+    m1: Vector
+  ): Vector {
 <span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      p0</span>
-<span class="cstat-no" title="statement not covered" >        .clone()</span>
-<span class="cstat-no" title="statement not covered" >        .scale(1 - 3 * t * t + 2 * t * t * t)</span>
+      p0
+        .clone()
+        .scale(1 - 3 * t * t + 2 * t * t * t)
         // h1
-<span class="cstat-no" title="statement not covered" >        .add(m0.clone().scale(t - 2 * t * t + t * t * t))</span>
+        .add(m0.clone().scale(t - 2 * t * t + t * t * t))
         // h2
-<span class="cstat-no" title="statement not covered" >        .add(m1.clone().scale(-t * t + t * t * t))</span>
+        .add(m1.clone().scale(-t * t + t * t * t))
         // h3
-<span class="cstat-no" title="statement not covered" >        .add(p1.clone().scale(3 * t * t - 2 * t * t * t))</span>
+        .add(p1.clone().scale(3 * t * t - 2 * t * t * t))
     );
-<span class="cstat-no" title="statement not covered" >  }</span>
+  }
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -259,7 +259,7 @@ export class HermiteCurve {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-24T03:37:55.645Z
+                at 2026-11-24T03:42:40.339Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

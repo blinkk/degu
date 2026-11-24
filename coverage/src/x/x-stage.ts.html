@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -92,17 +92,23 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -112,27 +118,21 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import {XGameObject, XGameObjectDefaults} from './x-game-object';<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {XGameObject, XGameObjectDefaults} from './x-game-object';
 &nbsp;
 /**
  * Base stage class used for the x-engine.
  * @unstable
  */
-<span class="cstat-no" title="statement not covered" >export class XStage extends XGameObject {</span>
+export class XStage extends XGameObject {
   private stage: boolean;
   private canvasElement: HTMLCanvasElement | null;
   private context: CanvasRenderingContext2D | null;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  constructor(config = XGameObjectDefaults) {</span>
+<span class="fstat-no" title="function not covered" >  constructor(c</span>onfig = <span class="branch-0 cbranch-no" title="branch not covered" >XGameObjectDefaults) {</span>
 <span class="cstat-no" title="statement not covered" >    super(config);</span>
     /**
      * A flag to denote that this is a special GameObject of stage.
@@ -140,16 +140,16 @@
 <span class="cstat-no" title="statement not covered" >    this.stage = true;</span>
 <span class="cstat-no" title="statement not covered" >    this.canvasElement = null;</span>
 <span class="cstat-no" title="statement not covered" >    this.context = null;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  attachToCanvas(canvas: HTMLCanvasElement) {</span>
+<span class="fstat-no" title="function not covered" >  attachToCanvas(c</span>anvas: HTMLCanvasElement) {
 <span class="cstat-no" title="statement not covered" >    this.canvasElement = canvas;</span>
 <span class="cstat-no" title="statement not covered" >    this.context = this.canvasElement.getContext('2d')!;</span>
 <span class="cstat-no" title="statement not covered" >    this.naturalWidth = canvas.offsetWidth;</span>
 <span class="cstat-no" title="statement not covered" >    this.naturalHeight = canvas.offsetHeight;</span>
 <span class="cstat-no" title="statement not covered" >    this.setPosition(0, 0);</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+  }
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -157,7 +157,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-24T03:37:55.645Z
+                at 2026-11-24T03:42:40.339Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

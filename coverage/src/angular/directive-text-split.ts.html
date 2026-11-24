@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/26</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/26</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -113,33 +113,31 @@
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,42 +151,44 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type {INgDisposable} from './i-ng-disposable';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >import {TextSplit2} from '../dom/text-split2';</span>
+import {TextSplit2} from '../dom/text-split2';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >class TextSplitController implements INgDisposable {</span>
-<span class="cstat-no" title="statement not covered" >  static get $inject() {</span>
+class TextSplitController implements INgDisposable {
+<span class="fstat-no" title="function not covered" >  static get $</span>inject() {
 <span class="cstat-no" title="statement not covered" >    return ['$scope', '$element'];</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+  }
 &nbsp;
   private el: HTMLElement;
   private $scope: ng.IScope;
   private textSplitter: TextSplit2;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  constructor($scope: ng.IScope, $element: ng.IAugmentedJQuery) {</span>
+<span class="fstat-no" title="function not covered" >  constructor($</span>scope: ng.IScope, $element: ng.IAugmentedJQuery) {
 <span class="cstat-no" title="statement not covered" >    this.$scope = $scope;</span>
 <span class="cstat-no" title="statement not covered" >    this.el = $element[0];</span>
 <span class="cstat-no" title="statement not covered" >    this.textSplitter = new TextSplit2({</span>
-<span class="cstat-no" title="statement not covered" >      element: this.el,</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
+      element: this.el,
+    });
 <span class="cstat-no" title="statement not covered" >    this.textSplitter.split();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    $scope.$on('$destroy', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    $scope.$on('$destroy', <span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >      this.dispose();</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+    });
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  dispose(): void {</span>
+<span class="fstat-no" title="function not covered" >  dispose(): void {</span>
 <span class="cstat-no" title="statement not covered" >    this.textSplitter.dispose();</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+  }
+}
 &nbsp;
 /**
  * Implements the textSplit2 effect.
@@ -201,12 +201,12 @@
  *    &lt;div text-split aria-label="text"&gt;text&lt;/div&gt;
  * ```
  */
-<span class="cstat-no" title="statement not covered" >export const textSplitDirective = () =&gt; {</span>
+export const textSplitDirective = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    restrict: 'A',</span>
-<span class="cstat-no" title="statement not covered" >    controller: TextSplitController,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+    restrict: 'A',
+    controller: TextSplitController,
+  };
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -214,7 +214,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-24T03:37:55.645Z
+                at 2026-11-24T03:42:40.339Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

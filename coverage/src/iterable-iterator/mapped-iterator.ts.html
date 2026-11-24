@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/16</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
@@ -90,51 +90,51 @@
 <a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Returns an IterableIterator that maps the values of a given IterableIterator
  */
-<span class="cstat-no" title="statement not covered" >export class MappedIterator&lt;T, TT&gt; implements IterableIterator&lt;TT&gt; {</span>
+export class MappedIterator&lt;T, TT&gt; implements IterableIterator&lt;TT&gt; {
   private readonly iterator: Iterator&lt;T&gt;;
   private readonly mapFunction: (val: T) =&gt; TT;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  constructor(iterator: Iterator&lt;T&gt;, mapFunction: (val: T) =&gt; TT) {</span>
+<span class="fstat-no" title="function not covered" >  constructor(i</span>terator: Iterator&lt;T&gt;, mapFunction: (val: T) =&gt; TT) {
 <span class="cstat-no" title="statement not covered" >    this.iterator = iterator;</span>
 <span class="cstat-no" title="statement not covered" >    this.mapFunction = mapFunction;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  next(): IteratorResult&lt;TT&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const nextValue = this.iterator.next();</span>
+<span class="fstat-no" title="function not covered" >  next(): IteratorResult&lt;TT&gt; {</span>
+    const nextValue = <span class="cstat-no" title="statement not covered" >this.iterator.next();</span>
 <span class="cstat-no" title="statement not covered" >    return {</span>
-<span class="cstat-no" title="statement not covered" >      done: nextValue.done,</span>
-<span class="cstat-no" title="statement not covered" >      value: this.mapFunction(nextValue.value),</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+      done: nextValue.done,
+      value: this.mapFunction(nextValue.value),
+    };
+  }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  [Symbol.iterator](): MappedIterator&lt;T, TT&gt; {</span>
+<span class="fstat-no" title="function not covered" >  [S</span>ymbol.iterator](): MappedIterator&lt;T, TT&gt; {
 <span class="cstat-no" title="statement not covered" >    return this;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+  }
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -142,7 +142,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-11-24T03:37:55.645Z
+                at 2026-11-24T03:42:40.339Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
