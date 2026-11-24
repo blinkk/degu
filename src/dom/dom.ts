@@ -1300,3 +1300,67 @@ export function addDelegatedListener(
     el.removeEventListener(type, handler);
   };
 }
+
+/**
+ * Smoothly scrolls the window vertically to `top` over `duration` ms using
+ * requestAnimationFrame (swing easing), cancelling automatically on user
+ * interaction (wheel, mousedown, touchmove, keyup).
+ *
+ * Returns a cancel function that stops the animation and cleans up listeners.
+ */
+export function smoothScrollTo(
+  top: number,
+  duration = 500,
+  onComplete?: () => void
+): () => void {
+  const startY = window.scrollY;
+  const distance = top - startY;
+
+  if (duration <= 0 || distance === 0) {
+    window.scrollTo(window.scrollX, top);
+    onComplete && onComplete();
+    return () => {};
+  }
+
+  let rafId: number | null = null;
+  let finished = false;
+  const startTime = performance.now();
+  const cancelEvents = ['wheel', 'mousedown', 'touchmove', 'keyup'];
+
+  const finish = () => {
+    if (finished) {
+      return;
+    }
+    finished = true;
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    for (const ev of cancelEvents) {
+      window.removeEventListener(ev, finish);
+    }
+    onComplete && onComplete();
+  };
+
+  for (const ev of cancelEvents) {
+    window.addEventListener(ev, finish, {passive: true});
+  }
+
+  const step = (now: number) => {
+    if (finished) {
+      return;
+    }
+    const progress = Math.min(1, (now - startTime) / duration);
+    // Swing easing (matches jQuery's default easing).
+    const eased = 0.5 - Math.cos(progress * Math.PI) / 2;
+    window.scrollTo(window.scrollX, startY + distance * eased);
+    if (progress < 1) {
+      rafId = requestAnimationFrame(step);
+    } else {
+      finish();
+    }
+  };
+
+  rafId = requestAnimationFrame(step);
+  return finish;
+}

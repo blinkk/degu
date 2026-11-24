@@ -12,15 +12,7 @@ export default defineConfig({
   dts: true,
   splitting: false,
   format: ['esm'],
-  external: [
-    'angular',
-    'dat.gui',
-    'jquery',
-    'lit',
-    'lottie-web',
-    'pixi.js',
-    'three',
-  ],
+  external: ['angular', 'dat.gui', 'lit', 'lottie-web', 'pixi.js', 'three'],
   esbuildOptions(options) {
     options.chunkNames = 'chunks/[name]-[hash]';
   },

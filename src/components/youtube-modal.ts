@@ -139,22 +139,30 @@ export class DeguYouTubeModal extends LitElement {
     }
   }
 
+  private setDialogOpen(open: boolean) {
+    if (this.detailsDialog && typeof this.detailsDialog.toggle === 'function') {
+      this.detailsDialog.toggle(open);
+    } else if (this.details) {
+      this.details.open = open;
+    }
+  }
+
   openModalAndPlay(youtubeId: string) {
     this.youtubeId = youtubeId;
-    this.detailsDialog.toggle(true);
+    this.setDialogOpen(true);
   }
 
   private onToggle() {
-    this.isOpen = this.details.open;
+    this.isOpen = Boolean(this.details && this.details.open);
     if (this.isOpen && this.youtubeInline) {
       this.youtubeInline.load(this.youtubeId, true);
-    } else {
+    } else if (this.youtubeInline) {
       this.youtubeInline.pause();
     }
   }
 
   toggle(open: boolean) {
-    this.detailsDialog.toggle(open);
+    this.setDialogOpen(open);
   }
 
   /**

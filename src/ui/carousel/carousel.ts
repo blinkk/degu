@@ -44,6 +44,8 @@ export type CarouselEventData = BeforeChangeEventData | AfterChangeEventData;
 export enum CarouselEvent {
   BEFORE_CHANGE = 'beforeChange',
   AFTER_CHANGE = 'afterChange',
+  BEFORE_TRANSITION = 'beforeTransition',
+  AFTER_TRANSITION = 'afterTransition',
 }
 
 /**
@@ -158,6 +160,7 @@ export class Carousel implements EventDispatcher {
   private readonly raf: Raf;
   private readonly eventManager: EventManager;
   private transitionTarget: HTMLElement | null;
+  private transitionIsChange = false;
   private lastActiveSlide: HTMLElement | null;
   private autoplayTimeout: AutoplayTimeout | null;
   private syncedCarousels: Set<Carousel>;
@@ -268,14 +271,21 @@ export class Carousel implements EventDispatcher {
     if (this.transitionTarget === targetSlide) {
       return;
     }
+    const currentSlide = this.getActiveSlide();
+    const isChanging = currentSlide !== targetSlide;
     this.transitionTarget = targetSlide;
-    this.eventManager.dispatch(CarouselEvent.BEFORE_CHANGE, {
+    this.transitionIsChange = isChanging;
+    const payload = {
       carousel: this,
-      currentSlide: this.getActiveSlide(),
+      currentSlide,
       currentIndex: this.getActiveIndex(),
       nextSlide: this.transitionTarget,
       nextIndex: this.getIndex(this.transitionTarget),
-    });
+    };
+    this.eventManager.dispatch(CarouselEvent.BEFORE_TRANSITION, payload);
+    if (isChanging) {
+      this.eventManager.dispatch(CarouselEvent.BEFORE_CHANGE, payload);
+    }
     if (!drivenBySync) {
       this.syncedCarousels.forEach((carousel) => {
         if (carousel !== this) {
@@ -685,12 +695,18 @@ export class Carousel implements EventDispatcher {
           this.transitionTarget
         );
         if (hasTransitionedToTarget) {
+          const wasChange = this.transitionIsChange;
           this.transitionTarget = null;
-          this.eventManager.dispatch(CarouselEvent.AFTER_CHANGE, {
+          this.transitionIsChange = false;
+          const payload = {
             carousel: this,
             currentSlide: this.getActiveSlide(),
             currentIndex: this.getActiveIndex(),
-          });
+          };
+          this.eventManager.dispatch(CarouselEvent.AFTER_TRANSITION, payload);
+          if (wasChange) {
+            this.eventManager.dispatch(CarouselEvent.AFTER_CHANGE, payload);
+          }
           this.resetAutoplayTimeout();
         } else {
           this.transition.transition(this.transitionTarget);

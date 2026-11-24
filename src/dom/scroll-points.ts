@@ -1,4 +1,3 @@
-import * as $ from 'jquery';
 import * as dom from '../dom/dom';
 import {DomWatcher} from '../dom/dom-watcher';
 import {
@@ -71,12 +70,10 @@ export class ScrollPoints {
   private prevY = 0;
   private scrollDirection = 0;
   private scrolling = false;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private jQuery: any;
+  private cancelScroll: (() => void) | null = null;
 
   constructor(config: ScrollPointsConfig) {
     this.config = config;
-    this.jQuery = $;
 
     this.domWatcher = new DomWatcher();
     this.domWatcher.add({
@@ -136,38 +133,22 @@ export class ScrollPoints {
         behavior: 'smooth',
       });
     } else {
-      // TODO (uxder): replace jquery based scroll.  Probably use rafTimer.
-      const page = this.jQuery('body, html');
       const top =
         dom.getScrollTop(this.config.targetElement) + this.getOffset();
-      const animationComplete = () => {
-        this.scrolling = false;
-        page.off(
-          'scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove'
-        );
-        page.stop();
-      };
 
-      page.on(
-        'scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove',
-        animationComplete
-      );
-
-      // Calculate the duration.  The duration should factor in the current distance.
+      // Calculate the duration. The duration factors in the current distance.
       const distance = Math.abs(window.scrollY - top);
 
       // 1 second for base distance.
       const base = this.config.scrollDistanceEvery1Second || 1000;
       const duration = (distance / base) * 1000;
-      this.scrolling = false;
 
-      page.stop().animate(
-        {
-          scrollTop: top,
-        },
-        duration,
-        animationComplete
-      );
+      this.cancelScroll && this.cancelScroll();
+      this.scrolling = true;
+      this.cancelScroll = dom.smoothScrollTo(top, duration, () => {
+        this.scrolling = false;
+        this.cancelScroll = null;
+      });
     }
   }
 
@@ -176,6 +157,8 @@ export class ScrollPoints {
   }
 
   public dispose(): void {
+    this.cancelScroll && this.cancelScroll();
+    this.cancelScroll = null;
     this.ev.dispose();
     this.domWatcher.dispose();
   }

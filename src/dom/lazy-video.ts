@@ -12,6 +12,32 @@ export const LazyVideoEvents = {
   LOAD_LOADED: 'LOAD_LOADED',
 };
 
+const VIDEO_MIME_TYPES: Record<string, string> = {
+  mp4: 'video/mp4',
+  m4v: 'video/mp4',
+  webm: 'video/webm',
+  ogv: 'video/ogg',
+  ogg: 'video/ogg',
+  mov: 'video/quicktime',
+  m3u8: 'application/x-mpegURL',
+};
+
+/**
+ * Infers a video MIME type from a URL's file extension (ignoring query string
+ * and hash). Returns null when the extension is unrecognized.
+ */
+export function detectVideoMimeType(url: string): string | null {
+  if (!url) {
+    return null;
+  }
+  const cleanUrl = url.split(/[?#]/, 1)[0];
+  const match = cleanUrl.match(/\.([a-z0-9]+)$/i);
+  if (!match) {
+    return null;
+  }
+  return VIDEO_MIME_TYPES[match[1].toLowerCase()] || null;
+}
+
 /**
  * Vanilla Implementation of Lazy Video.
  * This is a port of directive-lazy-video to a native implementation.
@@ -206,6 +232,12 @@ export class LazyVideo {
   public paint(force = false): void {
     if ((this.isPainted() && !this.setComplete) || force) {
       this.setComplete = true;
+      if (!this.el.getAttribute('type')) {
+        const detectedType = detectVideoMimeType(this.url);
+        if (detectedType) {
+          this.el.setAttribute('type', detectedType);
+        }
+      }
       this.el.setAttribute('src', this.url);
 
       dom.whenVideosLoaded([this.video]).then(() => {
