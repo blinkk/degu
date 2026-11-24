@@ -1,16 +1,23 @@
-import {DomWatcher} from './dom-watcher';
-import * as cssUnit from '../string/css-unit';
-import {elementVisibility, ElementVisibilityObject} from './element-visibility';
-import * as dom from './dom';
-import * as mathf from '../mathf/mathf';
-import {Raf} from '../raf/raf';
 import * as func from '../func/func';
 import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
+import type {interpolateSettings} from '../interpolate/multi-interpolate';
 import * as is from '../is/is';
-import {interpolateSettings} from '../interpolate/multi-interpolate';
-import {InviewProgress} from './inview-progress';
-import {ProgressWatcher} from './progress-watcher';
-import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
+import * as mathf from '../mathf/mathf';
+import {Raf} from '../raf/raf';
+import * as cssUnit from '../string/css-unit';
+import {
+  type EventCallback,
+  type EventDispatcher,
+  EventManager,
+} from '../ui/events';
+import * as dom from './dom';
+import {DomWatcher} from './dom-watcher';
+import {
+  type ElementVisibilityObject,
+  elementVisibility,
+} from './element-visibility';
+import type {InviewProgress} from './inview-progress';
+import type {ProgressWatcher} from './progress-watcher';
 
 export enum CssParallaxerEvents {
   RAF = 'raf',

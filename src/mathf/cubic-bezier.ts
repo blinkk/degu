@@ -1,5 +1,5 @@
-import {point} from './mathf';
-import {Vector} from './vector';
+import type {point} from './mathf';
+import type {Vector} from './vector';
 
 export type EasingFunction = (percent: number) => number;
 

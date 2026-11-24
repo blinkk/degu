@@ -1,6 +1,6 @@
-import {DomWatcher} from '../dom/dom-watcher';
-import {EventCallback, EventManager, EventDispatcher} from './events';
 import * as dom from '../dom/dom';
+import {DomWatcher} from '../dom/dom-watcher';
+import {type EventCallback, type EventDispatcher, EventManager} from './events';
 
 export enum SwipeEvent {
   UP = 'swipeUp',

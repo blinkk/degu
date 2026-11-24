@@ -36,11 +36,9 @@ export function debounce(
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function (this: any, ...args: any[]) {
-    // eslint-disable-next-line
-    const ctx: any = this;
     const runLater = () => {
       timeOutId = undefined;
-      callback.apply(ctx, args);
+      callback.apply(this, args);
     };
     const throttler = () => {
       timeOutId = undefined;
@@ -54,7 +52,7 @@ export function debounce(
 
     // For throttling where we call on leading trail (immediate).
     if (immediate && timeOutId === undefined) {
-      callback.apply(ctx, args);
+      callback.apply(this, args);
       timeOutId = +setTimeout(throttler, wait);
     }
   };
@@ -102,7 +100,7 @@ export function throttle(callback: Function, wait: number): () => void {
  * @tested
  */
 export async function wait(time: number): Promise<void> {
-  return new Promise<void>(resolve => setTimeout(resolve, time));
+  return new Promise<void>((resolve) => setTimeout(resolve, time));
 }
 
 /**

@@ -1,7 +1,11 @@
 import {DomWatcher} from '../dom/dom-watcher';
-import {Raf} from '../raf/raf';
 import {Vector} from '../mathf/vector';
-import {EventCallback, EventDispatcher, EventManager} from '../ui/events';
+import {Raf} from '../raf/raf';
+import {
+  type EventCallback,
+  type EventDispatcher,
+  EventManager,
+} from '../ui/events';
 
 const CURSOR_MOVE_EVENTS: string[] = ['mousemove', 'touchstart', 'touchmove'];
 
@@ -95,7 +99,7 @@ export class CachedMouseTracker implements EventDispatcher {
       CachedMouseTracker.nextClientPosition = Vector.ZERO;
       CachedMouseTracker.domWatcher = new DomWatcher();
       CachedMouseTracker.eventManager = new EventManager();
-      CURSOR_MOVE_EVENTS.forEach(cursorMoveEvent => {
+      CURSOR_MOVE_EVENTS.forEach((cursorMoveEvent) => {
         CachedMouseTracker.domWatcher.add({
           element: window,
           on: cursorMoveEvent,

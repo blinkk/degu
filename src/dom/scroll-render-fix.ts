@@ -1,6 +1,6 @@
+import {noop} from '../func/noop';
 import {Raf} from '../raf/raf';
 import {DomWatcher} from './dom-watcher';
-import {noop} from '../func/noop';
 
 export interface ScrollRenderFixConfig {
   /**

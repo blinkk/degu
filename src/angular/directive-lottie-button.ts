@@ -1,4 +1,4 @@
-import {LottieButton, LottieButtonRange} from '../dom/lottie-button';
+import {LottieButton, type LottieButtonRange} from '../dom/lottie-button';
 
 class LottieButtonController {
   static get $inject() {

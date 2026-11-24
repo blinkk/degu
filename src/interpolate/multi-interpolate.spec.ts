@@ -1,8 +1,8 @@
-import {MultiInterpolate, multiInterpolateHelper} from './multi-interpolate';
 import * as EASE from '../ease/ease';
-import test from 'ava';
+import {test} from '../testing/test-helpers';
+import {MultiInterpolate, multiInterpolateHelper} from './multi-interpolate';
 
-test('Check Invalid Ranged progresses', t => {
+test('Check Invalid Ranged progresses', (t) => {
   // Check from and to equality.
   let error = t.throws(() => {
     multiInterpolateHelper.checkInvalidRangedProgresses([
@@ -20,7 +20,7 @@ test('Check Invalid Ranged progresses', t => {
   t.is(error.message, multiInterpolateHelper.errors.FROM_GREATER);
 });
 
-test('FindBestMatchingRangedProgress', t => {
+test('FindBestMatchingRangedProgress', (t) => {
   const progressSet = [
     {from: 0.1, to: 0.4, start: 0, end: 0},
     {from: 0.4, to: 0.5, start: 0, end: 0},
@@ -58,7 +58,7 @@ test('FindBestMatchingRangedProgress', t => {
   checkPositionAt(1, 3);
 });
 
-test('Basic Multi Interpolation (linear)', t => {
+test('Basic Multi Interpolation (linear)', (t) => {
   const inter = new MultiInterpolate({
     interpolations: [
       {
@@ -82,7 +82,7 @@ test('Basic Multi Interpolation (linear)', t => {
   t.deepEqual(inter.calculate(1), {x: 100, y: 1000});
 });
 
-test('Basic Multi Interpolation (multi progress)', t => {
+test('Basic Multi Interpolation (multi progress)', (t) => {
   const inter = new MultiInterpolate({
     interpolations: [
       {
@@ -102,7 +102,7 @@ test('Basic Multi Interpolation (multi progress)', t => {
   t.deepEqual(inter.calculate(1), {x: 200});
 });
 
-test('Basic Multi Interpolation (mid progress)', t => {
+test('Basic Multi Interpolation (mid progress)', (t) => {
   const inter = new MultiInterpolate({
     interpolations: [
       {
@@ -120,7 +120,7 @@ test('Basic Multi Interpolation (mid progress)', t => {
   t.deepEqual(inter.calculate(1), {x: 110});
 });
 
-test('Multi Interpolation (non linear ease)', t => {
+test('Multi Interpolation (non linear ease)', (t) => {
   const inter = new MultiInterpolate({
     interpolations: [
       {
@@ -148,7 +148,7 @@ test('Multi Interpolation (non linear ease)', t => {
   t.is(Math.round(+inter.calculate(1)['x']), Math.round(1000));
 });
 
-test('Multi Interpolation Complex', t => {
+test('Multi Interpolation Complex', (t) => {
   const inter = new MultiInterpolate({
     interpolations: [
       {

@@ -1,19 +1,19 @@
 import * as dom from '../dom/dom';
-import * as is from '../is/is';
-import * as func from '../func/func';
-import {Defer} from '../func/defer';
-import {BlobLoader} from '../loader/blob-loader';
-import * as mathf from '../mathf/mathf';
+import {getColorAtPointAsHex} from '../dom/dom-canvas';
 import {DomWatcher} from '../dom/dom-watcher';
+import {Defer} from '../func/defer';
+import * as func from '../func/func';
 import {
   MultiInterpolate,
-  rangedProgress,
-  interpolateSettings,
+  type interpolateSettings,
+  type rangedProgress,
 } from '../interpolate/multi-interpolate';
+import * as is from '../is/is';
+import {BlobLoader} from '../loader/blob-loader';
+import * as mathf from '../mathf/mathf';
+import type {Vector} from '../mathf/vector';
 import {RafTimer} from '../raf/raf-timer';
 import {Fps} from '../time/fps';
-import {getColorAtPointAsHex} from '../dom/dom-canvas';
-import {Vector} from '../mathf/vector';
 
 export interface CanvasImageSequenceImageSet {
   /**
@@ -933,7 +933,7 @@ export class CanvasImageSequence {
     }
 
     const loadAllBlobs = () => {
-      this.blobLoader!.load().then(results => {
+      this.blobLoader!.load().then((results) => {
         this.blobCache = results;
         this.setImageDimensions().then(() => {
           this.blobLoader!.dispose();
@@ -989,7 +989,7 @@ export class CanvasImageSequence {
     sources: Array<CanvasImageSequenceImageSet>
   ): CanvasImageSequenceImageSet {
     const matchingSouces: Array<CanvasImageSequenceImageSet> = [];
-    sources.forEach(source => {
+    sources.forEach((source) => {
       if (!source.when) {
         matchingSouces.push(source);
       } else {
@@ -1003,7 +1003,7 @@ export class CanvasImageSequence {
    * Makes a deletable image clone.
    */
   makeImage(source: string): Promise<HTMLImageElement | null> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (!source || !this.blobCache![source]) {
         resolve(null);
         return;
@@ -1025,7 +1025,7 @@ export class CanvasImageSequence {
    * Assumes all images are uniform size.
    */
   private setImageDimensions(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const source = this.activeImageSet!.images[0];
       const blob = this.blobCache![source];
 

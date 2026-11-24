@@ -1,6 +1,6 @@
+import * as dom from '../dom/dom';
 import {Defer} from '../func/defer';
 import * as func from '../func/func';
-import * as dom from '../dom/dom';
 import {Raf} from '../raf/raf';
 
 export interface VideoPlayOptions {

@@ -1,6 +1,6 @@
 import {DomWatcher} from '../dom/dom-watcher';
 import * as mathf from '../mathf/mathf';
-import {INgDisposable} from './i-ng-disposable';
+import type {INgDisposable} from './i-ng-disposable';
 class WatchScrollOverController implements INgDisposable {
   private el: HTMLElement;
   private $scope: ng.IScope;
@@ -52,7 +52,7 @@ class WatchScrollOverController implements INgDisposable {
     const top = this.el.getBoundingClientRect().top + window.scrollY;
 
     let shouldAdd = false;
-    this.targetElements.forEach(targetElement => {
+    this.targetElements.forEach((targetElement) => {
       const targetBox = targetElement.getBoundingClientRect();
       const targetTop = targetBox.top + window.scrollY;
       const targetBottom = targetTop + targetBox.height;

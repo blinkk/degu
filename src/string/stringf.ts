@@ -13,7 +13,7 @@ export function slugify(str: string) {
     .toString()
     .toLowerCase()
     .replace(/\s+/g, '-')
-    .replace(p, c => b.charAt(a.indexOf(c)))
+    .replace(p, (c) => b.charAt(a.indexOf(c)))
     .replace(/[^\w-]+/g, '')
     .replace(/-+/g, '-')
     .replace(/^-+/, '')

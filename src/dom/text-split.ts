@@ -92,7 +92,7 @@ export class TextSplit {
     this.sups = Array.from(this.config.element.querySelectorAll('sup'));
 
     // Remove sups.
-    this.sups.forEach(sup => {
+    this.sups.forEach((sup) => {
       dom.removeElement(sup);
     });
 

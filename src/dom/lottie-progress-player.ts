@@ -1,8 +1,12 @@
-import lottie, {AnimationItem} from 'lottie-web';
-import {DomWatcher} from './dom-watcher';
-import * as mathf from '../mathf/mathf';
+import lottie, {type AnimationItem} from 'lottie-web';
 import * as func from '../func/func';
-import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
+import * as mathf from '../mathf/mathf';
+import {
+  type EventCallback,
+  type EventDispatcher,
+  EventManager,
+} from '../ui/events';
+import {DomWatcher} from './dom-watcher';
 
 export enum LottieProgressPlayerEvents {
   RESIZE = 'resize',

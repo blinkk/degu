@@ -1,11 +1,11 @@
 import * as $ from 'jquery';
 import * as dom from '../dom/dom';
-import * as mathf from '../mathf/mathf';
-import {
-  elementVisibility,
-  ElementVisibilityObject,
-} from '../dom/element-visibility';
 import {DomWatcher} from '../dom/dom-watcher';
+import {
+  type ElementVisibilityObject,
+  elementVisibility,
+} from '../dom/element-visibility';
+import * as mathf from '../mathf/mathf';
 
 export interface ScrollPointsConfig {
   triggerElement: HTMLElement;

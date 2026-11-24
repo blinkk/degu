@@ -1,17 +1,17 @@
 import * as dom from '../dom/dom';
 import * as func from '../func/func';
 
+import {LitElement, html} from 'lit';
+import {property, query} from 'lit/decorators.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import * as domCanvas from '../dom/dom-canvas';
+import {DomWatcher} from '../dom/dom-watcher';
 import {
-  ElementVisibilityObject,
+  type ElementVisibilityObject,
   elementVisibility,
 } from '../dom/element-visibility';
-import {DomWatcher} from '../dom/dom-watcher';
-import {LitElement, html} from 'lit';
-import {Raf} from '../raf/raf';
 import {Vector} from '../mathf/vector';
-import * as domCanvas from '../dom/dom-canvas';
-import {ifDefined} from 'lit/directives/if-defined.js';
-import {query, property} from 'lit/decorators.js';
+import {Raf} from '../raf/raf';
 
 /**
  * Degu Video Component
@@ -196,7 +196,7 @@ export class DeguVideo extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.raf.dispose();
+    this.raf && this.raf.dispose();
     this.watcher && this.watcher.dispose();
     this.ev && this.ev.dispose();
     this.inviewEv && this.inviewEv.dispose();
@@ -278,7 +278,7 @@ export class DeguVideo extends LitElement {
    */
   private addVideoSources() {
     let sources = this.src.split(',');
-    sources = sources.map(src => {
+    sources = sources.map((src) => {
       return src.trim();
     });
 
@@ -385,9 +385,11 @@ export class DeguVideo extends LitElement {
     }
 
     return html`
-      ${this.canvas
-        ? html`<div class="degu-video">${this.renderVideo()}</div>`
-        : this.renderVideo()}
+      ${
+        this.canvas
+          ? html`<div class="degu-video">${this.renderVideo()}</div>`
+          : this.renderVideo()
+      }
     `;
   }
 }

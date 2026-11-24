@@ -1,10 +1,10 @@
+import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
 import {Raf} from '../raf/raf';
-import {XGameObject} from './x-game-object';
-import {XStage} from './x-stage';
+import type {XGameObject} from './x-game-object';
 import {XPointer} from './x-pointer';
+import {XStage} from './x-stage';
 import {XText} from './x-text';
-import {DomWatcher} from '../dom/dom-watcher';
 
 declare global {
   interface Window {
@@ -233,7 +233,7 @@ export class X {
     this.context.restore();
 
     // Now loop through each child and paint it out.
-    gameObject.children.forEach(childGameObject => {
+    gameObject.children.forEach((childGameObject) => {
       this.renderGameObject(childGameObject);
     });
   }

@@ -1,6 +1,6 @@
+import * as dom from '../dom/dom';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
-import * as dom from '../dom/dom';
 
 /**
  * A function that returns true or false.
@@ -119,7 +119,7 @@ export class AtTabIndex {
    * within the current root element.
    */
   scanElements() {
-    this.config.conditions.forEach(condition => {
+    this.config.conditions.forEach((condition) => {
       const conditionName = condition[0];
 
       const elements = Array.from(
@@ -131,7 +131,7 @@ export class AtTabIndex {
         elements.push(this.rootElement);
       }
 
-      elements.forEach(element => {
+      elements.forEach((element) => {
         this.atTabIndexElements.add(
           new AtTabIndexElement(element as HTMLElement)
         );
@@ -149,7 +149,7 @@ export class AtTabIndex {
     // remove first and then apply true conditions.
     const trueCases = [];
     const falseCases = [];
-    this.config.conditions.forEach(condition => {
+    this.config.conditions.forEach((condition) => {
       if (condition[1]()) {
         trueCases.push(condition);
       } else {
@@ -157,9 +157,9 @@ export class AtTabIndex {
       }
     });
 
-    falseCases.forEach(falseCase => {
+    falseCases.forEach((falseCase) => {
       const falseCaseName = falseCase[0];
-      this.atTabIndexElements.forEach(atTabIndexElement => {
+      this.atTabIndexElements.forEach((atTabIndexElement) => {
         atTabIndexElement.removeTabIndexForCondition(
           falseCaseName,
           this.config.updateChildren
@@ -167,9 +167,9 @@ export class AtTabIndex {
       });
     });
 
-    trueCases.forEach(trueCase => {
+    trueCases.forEach((trueCase) => {
       const trueCaseName = trueCase[0];
-      this.atTabIndexElements.forEach(atTabIndexElement => {
+      this.atTabIndexElements.forEach((atTabIndexElement) => {
         atTabIndexElement.addTabIndexForCondition(
           trueCaseName,
           this.config.updateChildren
@@ -224,7 +224,7 @@ class AtTabIndexElement {
 
     if (updateChildren) {
       const elements = dom.getFocusableElements(this.element);
-      elements.forEach(element => {
+      elements.forEach((element) => {
         if (!element.hasAttribute('at-tab-index-ignore')) {
           element.removeAttribute('tabindex');
         }
@@ -235,14 +235,14 @@ class AtTabIndexElement {
   addTabIndexForCondition(conditionName: string, updateChildren = false) {
     const conditions = this.conditionToTabIndex[conditionName];
     if (conditions) {
-      conditions.forEach(condition => {
+      conditions.forEach((condition) => {
         if (!this.element.hasAttribute('at-tab-index-ignore')) {
           this.element.setAttribute('tabindex', condition);
         }
 
         if (updateChildren) {
           const elements = dom.getFocusableElements(this.element);
-          elements.forEach(element => {
+          elements.forEach((element) => {
             if (!element.hasAttribute('at-tab-index-ignore')) {
               element.setAttribute('tabindex', condition);
             }

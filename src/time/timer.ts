@@ -1,4 +1,4 @@
-import {EventManager, EventDispatcher} from '../ui/events';
+import {type EventDispatcher, EventManager} from '../ui/events';
 import * as time from './time';
 
 export interface TimerConfig {

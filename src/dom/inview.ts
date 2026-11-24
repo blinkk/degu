@@ -1,7 +1,11 @@
-import {Raf} from '../raf/raf';
 import {DomWatcher} from '../dom/dom-watcher';
 import * as mathf from '../mathf/mathf';
-import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
+import {Raf} from '../raf/raf';
+import {
+  type EventCallback,
+  type EventDispatcher,
+  EventManager,
+} from '../ui/events';
 
 export enum InviewEvents {
   IN = 'in',
@@ -247,7 +251,7 @@ export class Inview implements EventDispatcher {
     const targetElements = [config.element];
     if (config.childSelector) {
       Array.from(config.element.querySelectorAll(config.childSelector)).forEach(
-        el => targetElements.push(<HTMLElement>el)
+        (el) => targetElements.push(<HTMLElement>el)
       );
     }
     return targetElements;
@@ -349,7 +353,7 @@ export class Inview implements EventDispatcher {
       return;
     }
     this.readWrite.write(() => {
-      this.targetElements.forEach(el => {
+      this.targetElements.forEach((el) => {
         el.classList.remove(this.inviewClassNames.OUT!);
         el.classList.add(this.inviewClassNames.IN!);
 
@@ -385,7 +389,7 @@ export class Inview implements EventDispatcher {
       return;
     }
     this.readWrite.write(() => {
-      this.targetElements.forEach(el => {
+      this.targetElements.forEach((el) => {
         el.classList.add(this.inviewClassNames.OUT!);
         el.classList.remove(this.inviewClassNames.IN!);
         el.classList.remove(this.inviewClassNames.UP!);

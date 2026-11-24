@@ -173,7 +173,7 @@ export function odd(value: any): boolean {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function nan(value: any): boolean {
-  return value !== value;
+  return Number.isNaN(value);
 }
 
 export function mobile(): boolean {
@@ -279,7 +279,7 @@ export function supportingWebp(): boolean {
  * ```
  */
 export function supportingWebpAsync(): Promise<boolean> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const img = new Image();
     img.onload = function () {
       const result = img.width > 0 && img.height > 0;

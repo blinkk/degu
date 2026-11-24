@@ -1,7 +1,7 @@
+import {test} from '../testing/test-helpers';
 import * as arrayf from './arrayf';
-import test from 'ava';
 
-test('max', t => {
+test('max', (t) => {
   type Val = {a: number; b: number; c: number};
   const valX = {a: 2, b: 3, c: 7};
   const valY = {a: 1, b: 4, c: 7};
@@ -16,7 +16,7 @@ test('max', t => {
   t.is(arrayf.max(values, c, a), valX);
 });
 
-test('min', t => {
+test('min', (t) => {
   type Val = {a: number; b: number; c: number};
   const valX = {a: 2, b: 3, c: 7};
   const valY = {a: 1, b: 4, c: 7};
@@ -31,7 +31,7 @@ test('min', t => {
   t.is(arrayf.min(values, c, a), valY);
 });
 
-test('loopSlice', t => {
+test('loopSlice', (t) => {
   const values = [1, 2, 3, 4, 5, 6, 7, 8];
   t.deepEqual(arrayf.loopSlice(values, 0, 1), [1]);
   t.deepEqual(arrayf.loopSlice(values, 0, 1, 1), [1]);

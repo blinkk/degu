@@ -1,6 +1,6 @@
-import * as is from '../is/is';
-import {DomWatcher} from '../dom/dom-watcher';
 import * as dom from '../dom/dom';
+import {DomWatcher} from '../dom/dom-watcher';
+import * as is from '../is/is';
 
 /**
  * A simple drag and drop file utility.

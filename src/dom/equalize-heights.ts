@@ -61,7 +61,7 @@ export class EqualizeHeights {
    * Runs a function against the set of internal elements.
    */
   forEachElement(callback: Function) {
-    this.elements.forEach(element => {
+    this.elements.forEach((element) => {
       callback(element);
     });
   }

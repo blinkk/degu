@@ -49,7 +49,7 @@ export function max<T>(values: T[], ...scoreFns: Array<(v: T) => number>): T {
   let maxValue: T | null = null;
   let maxScore = Number.NEGATIVE_INFINITY;
   const scoreFn = scoreFns[0];
-  values.forEach(value => {
+  values.forEach((value) => {
     const score = scoreFn(value);
     if (maxScore < score) {
       maxValue = value;
@@ -89,7 +89,7 @@ export function max<T>(values: T[], ...scoreFns: Array<(v: T) => number>): T {
 export function min<T>(values: T[], ...scoreFns: Array<(v: T) => number>): T {
   return max(
     values,
-    ...scoreFns.map(scoreFn => {
+    ...scoreFns.map((scoreFn) => {
       return (v: T) => -1 * scoreFn(v);
     })
   );

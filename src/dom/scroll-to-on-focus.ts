@@ -1,7 +1,7 @@
-import {DomWatcher} from './dom-watcher';
 import * as dom from '../dom/dom';
 import * as func from '../func/func';
 import * as is from '../is/is';
+import {DomWatcher} from './dom-watcher';
 import {
   KeyboardNavigationEvents,
   KeyboardNavigationWatcher,
@@ -191,7 +191,7 @@ export class ScrollToOnFocus {
       this.element.querySelectorAll(`[${this.selector}]`)
     );
 
-    elements.forEach(el => {
+    elements.forEach((el) => {
       this.watchElement(el);
     });
   }

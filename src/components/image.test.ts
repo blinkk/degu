@@ -1,6 +1,13 @@
-import {assert, expect, fixture, html, aTimeout} from '@open-wc/testing';
-import {DeguImage} from './image';
+import {html} from 'lit';
+import {assert, afterEach, beforeEach, describe, expect, it} from 'vitest';
 import * as dom from '../dom/dom';
+import {
+  aTimeout,
+  fixture,
+  fixtureCleanup,
+  triggerResizeObservers,
+} from '../testing/test-helpers';
+import {DeguImage} from './image';
 
 // Define it.
 !window.customElements.get('degu-image') &&
@@ -61,6 +68,7 @@ describe('DeguImage', () => {
       root.style.width = '1222px';
       expect(root.offsetWidth).to.equal(1222);
       expect(imageComponent.offsetWidth).to.equal(1222);
+      triggerResizeObservers();
 
       // Wait at least 100ms due to debouncing.
       await aTimeout(200);
@@ -70,6 +78,7 @@ describe('DeguImage', () => {
       root.style.width = '1100px';
       expect(root.offsetWidth).to.equal(1100);
       expect(imageComponent.offsetWidth).to.equal(1100);
+      triggerResizeObservers();
       // Wait at least 100ms due to debouncing.
       await aTimeout(200);
       expect(image.src.endsWith('1250')).to.equal(true);

@@ -1,6 +1,6 @@
 import {
+  type ElementVisibilityObject,
   elementVisibility,
-  ElementVisibilityObject,
 } from '../dom/element-visibility';
 
 declare global {
@@ -341,7 +341,7 @@ export class Raf {
   }
 
   waitRead(): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       window.DEGU_RAF_REGISTRY &&
         window.DEGU_RAF_REGISTRY.addOneTimeRead({
           callback: () => {
@@ -366,7 +366,7 @@ export class Raf {
   }
 
   waitWrite(): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       window.DEGU_RAF_REGISTRY &&
         window.DEGU_RAF_REGISTRY.addOneTimeWrite({
           callback: () => {
@@ -395,7 +395,7 @@ export class Raf {
    * @param {Function}
    */
   unwatch(callbackToRemove: Function) {
-    this.callbacks = this.callbacks.filter(callback => {
+    this.callbacks = this.callbacks.filter((callback) => {
       return callback === callbackToRemove;
     });
   }
@@ -563,7 +563,7 @@ export class Raf {
       this.currentFps = 1000 / elapsed;
       if (elapsed > fps) {
         this.callbacks &&
-          this.callbacks.forEach(callback => {
+          this.callbacks.forEach((callback) => {
             const callCallback = () => {
               callback(this.frame, this.lastUpdateTime, elapsed, () => {
                 this.stop();
@@ -777,7 +777,7 @@ class RafRegistry {
    * ```
    */
   public getActiveRafCount(): number {
-    return this.rafs.filter(r => {
+    return this.rafs.filter((r) => {
       return r.isPlaying;
     }).length;
   }
@@ -799,7 +799,7 @@ class RafRegistry {
   }
 
   public unregister(raf: Raf) {
-    this.rafs = this.rafs.filter(r => {
+    this.rafs = this.rafs.filter((r) => {
       return r === raf;
     });
   }

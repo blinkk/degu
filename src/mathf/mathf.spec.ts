@@ -1,15 +1,15 @@
-import * as mathf from './mathf';
 import * as EASE from '../ease/ease';
-import test from 'ava';
+import {test} from '../testing/test-helpers';
+import * as mathf from './mathf';
 
-test('absZero', t => {
+test('absZero', (t) => {
   t.is(mathf.absZero(-0), 0);
   t.is(mathf.absZero(0), 0);
   t.is(mathf.absZero(10), 10);
   t.is(mathf.absZero(-10), -10);
 });
 
-test('clampAsPercent', t => {
+test('clampAsPercent', (t) => {
   t.is(mathf.clampAsPercent(-0), 0);
   t.is(mathf.clampAsPercent(-10), 0);
   t.is(mathf.clampAsPercent(0.1), 0.1);
@@ -18,14 +18,14 @@ test('clampAsPercent', t => {
   t.is(mathf.clampAsPercent(1000), 1);
 });
 
-test('clamp', t => {
+test('clamp', (t) => {
   t.is(mathf.clamp(0, 10, 100), 10);
   t.is(mathf.clamp(0, 10, -100), 0);
   t.is(mathf.clamp(-10, 10, -100), -10);
   t.is(mathf.clamp(-10, 10, 100), 10);
 });
 
-test('roundToPrecision', t => {
+test('roundToPrecision', (t) => {
   t.is(mathf.roundToPrecision(0.49999, 1), 0.5);
   t.is(mathf.roundToPrecision(0.49999, 2), 0.5);
   t.is(mathf.roundToPrecision(0.41199, 3), 0.412);
@@ -37,17 +37,17 @@ test('roundToPrecision', t => {
   t.is(mathf.roundToPrecision(0.5555, 2), 0.56);
 });
 
-test('floorToPrecision', t => {
+test('floorToPrecision', (t) => {
   t.is(mathf.floorToPrecision(0.5555, 3), 0.555);
   t.is(mathf.floorToPrecision(0.5555, 2), 0.55);
 });
 
-test('ceilToPrecision', t => {
+test('ceilToPrecision', (t) => {
   t.is(mathf.ceilToPrecision(0.11111, 3), 0.112);
   t.is(mathf.ceilToPrecision(0.11111, 2), 0.12);
 });
 
-test('childProgress', t => {
+test('childProgress', (t) => {
   t.is(mathf.childProgress(0, 0, 0.3), 0);
   t.is(mathf.childProgress(0.2, 0, 1), 0.2);
   t.is(mathf.childProgress(0, 0.2, 0.6), 0);
@@ -60,7 +60,7 @@ test('childProgress', t => {
   t.is(mathf.roundToPrecision(mathf.childProgress(0.7, 0.2, 0.6), 2), 1);
 });
 
-test('lerp', t => {
+test('lerp', (t) => {
   // Check basic lineaer interopolate.
   t.is(mathf.lerp(0, 1, 0), 0);
   t.is(mathf.lerp(0, 1, 0.2), 0.2);
@@ -83,7 +83,7 @@ test('lerp', t => {
   t.is(mathf.lerp(1, 1, 1), 1);
 });
 
-test('inverseLerp', t => {
+test('inverseLerp', (t) => {
   // Check basic lineaer interopolate.
   t.is(mathf.inverseLerp(0, 1, 0), 0);
   t.is(mathf.inverseLerp(0, 1, 0.1), 0.1);
@@ -93,7 +93,7 @@ test('inverseLerp', t => {
   t.is(mathf.inverseLerp(200, 300, 250), 0.5);
 });
 
-test('smoothStep', t => {
+test('smoothStep', (t) => {
   t.is(mathf.smoothStep(0, 10, 0), 0);
   t.is(mathf.smoothStep(100, 200, 150), 0.5);
   t.is(mathf.smoothStep(10, 20, 40), 1);
@@ -101,7 +101,7 @@ test('smoothStep', t => {
   t.is(mathf.smoothStep(10, 30, 9), 0);
 });
 
-test('lerpEase', t => {
+test('lerpEase', (t) => {
   // Check ease interopolate.
   let ease = EASE.easeInExpo;
   t.is(mathf.lerpEase(0, 1, 0, ease), 0);
@@ -154,7 +154,7 @@ test('lerpEase', t => {
   t.is(mathf.lerpEase(0, 1, 0.9), 0.9);
   t.is(mathf.lerpEase(0, 1, 1), 1);
 });
-test('ease', t => {
+test('ease', (t) => {
   let ease = EASE.easeInOutSine;
   t.is(mathf.ease(0, 1, 0, ease), 0);
   t.is(mathf.ease(0, 1, 0.5, ease), 0.49999999999999994);
@@ -176,27 +176,27 @@ test('ease', t => {
   t.is(mathf.ease(1, 1, 1, ease), 1);
 });
 
-test('interpolateRange', t => {
+test('interpolateRange', (t) => {
   t.is(mathf.interpolateRange(0, 0, 100, 0, 200), 0);
   t.is(mathf.interpolateRange(50, 0, 100, 0, 200), 100);
   t.is(mathf.interpolateRange(30, 0, 100, 0, 200), 60);
   t.is(mathf.int(mathf.interpolateRange(30, 10, 120, 800, 1000)), 855);
 });
 
-test('fixDigits', t => {
+test('fixDigits', (t) => {
   t.is(mathf.fixDigits(20.12345, 0), 20);
   t.is(mathf.fixDigits(20.12345, 1), 20.1);
   t.is(mathf.fixDigits(20.12345, 2), 20.12);
   t.is(mathf.fixDigits(20.12345, 4), 20.1234);
 });
 
-test('getDirection', t => {
+test('getDirection', (t) => {
   t.is(mathf.direction(1, 2), 1);
   t.is(mathf.direction(3, 1), -1);
   t.is(mathf.direction(1, 1), 0);
 });
 
-test('int', t => {
+test('int', (t) => {
   t.is(mathf.int(20.311), 20);
   t.is(mathf.int(20.32), 20);
   t.is(mathf.int(20.5), 21);
@@ -204,7 +204,7 @@ test('int', t => {
   t.is(mathf.int(20), 20);
 });
 
-test('int0', t => {
+test('int0', (t) => {
   t.is(mathf.int0(20.311), 20);
   t.is(mathf.int0(20.32), 20);
   t.is(mathf.int0(20.5), 20);
@@ -212,12 +212,12 @@ test('int0', t => {
   t.is(mathf.int0(20), 20);
 });
 
-test('calculateCenterOffset', t => {
+test('calculateCenterOffset', (t) => {
   t.is(mathf.calculateCenterOffset(8, 5), 1.5);
   t.is(mathf.calculateCenterOffset(10, 5), 2.5);
 });
 
-test('angleDistanceDegree', t => {
+test('angleDistanceDegree', (t) => {
   t.is(mathf.angleDistanceDegree(10, 10), 0);
   t.is(mathf.int(mathf.angleDistanceDegree(30, 10)), -20);
   t.is(mathf.int(mathf.angleDistanceDegree(10, 50)), 40);
@@ -225,17 +225,17 @@ test('angleDistanceDegree', t => {
   t.is(mathf.int(mathf.angleDistanceDegree(10, 340)), -30);
 });
 
-test('scaleX', t => {
+test('scaleX', (t) => {
   t.is(mathf.scaleX(5, 10, 20), 10);
   t.is(mathf.scaleX(2, 10, 20), 4);
 });
 
-test('scaleY', t => {
+test('scaleY', (t) => {
   t.is(mathf.scaleY(5, 10, 3), 6);
   t.is(mathf.scaleY(2, 10, 20), 100);
 });
 
-test('aspectRatio', t => {
+test('aspectRatio', (t) => {
   t.is(mathf.aspectRatio({width: 500, height: 500}), 1);
   t.is(mathf.aspectRatio({width: 1000, height: 500}), 2);
   t.is(
@@ -244,7 +244,7 @@ test('aspectRatio', t => {
   );
 });
 
-test('isBetween', t => {
+test('isBetween', (t) => {
   t.is(mathf.isBetween(1, 0, 5), true);
   t.is(mathf.isBetween(1, 2, 1), true);
   t.is(mathf.isBetween(1, 2, 5), false);
@@ -254,13 +254,13 @@ test('isBetween', t => {
   t.is(mathf.isBetween(2.1, 2, 5, false), true);
 });
 
-test('wrap', t => {
+test('wrap', (t) => {
   t.is(mathf.wrap(15, 0, 10), 5);
   t.is(mathf.wrap(400, 0, 360), 40);
   t.is(mathf.wrap(120, -90, 90), -60);
 });
 
-test('resizedimensionalBoxToWidth', t => {
+test('resizedimensionalBoxToWidth', (t) => {
   t.deepEqual(
     mathf.resizeDimensionalBoxToWidth({width: 500, height: 500}, 250),
     {width: 250, height: 250}
@@ -275,7 +275,7 @@ test('resizedimensionalBoxToWidth', t => {
   });
 });
 
-test('resizedimensionalBoxToHeight', t => {
+test('resizedimensionalBoxToHeight', (t) => {
   t.deepEqual(
     mathf.resizeDimensionalBoxToHeight({width: 500, height: 500}, 250),
     {width: 250, height: 250}
@@ -290,13 +290,13 @@ test('resizedimensionalBoxToHeight', t => {
   );
 });
 
-test('calculated2dPointRotation', t => {
+test('calculated2dPointRotation', (t) => {
   const newCoords = mathf.calculate2dPointRotation(2, 2, 4, 0, 1);
   t.is(mathf.toFixed(newCoords.x, 3), 1.398);
   t.is(mathf.toFixed(newCoords.y, 3), -0.764);
 });
 
-test('collisionPointVersusConvexPolygon', t => {
+test('collisionPointVersusConvexPolygon', (t) => {
   const poly = [
     {x: 0, y: 0},
     {x: 3, y: 0},
@@ -311,7 +311,7 @@ test('collisionPointVersusConvexPolygon', t => {
   t.is(mathf.collisionPointVersusConvexPolygon({x: 2, y: 2}, poly), true);
 });
 
-test('getValueInRangeByProgress', t => {
+test('getValueInRangeByProgress', (t) => {
   // Simple test.
   t.is(mathf.getValueInRangeByProgress(-10, 0, 10), 0);
   t.is(mathf.getValueInRangeByProgress(0, 0, 10), 0);
@@ -327,7 +327,7 @@ test('getValueInRangeByProgress', t => {
   t.is(mathf.getValueInRangeByProgress(1, 2, 12), 12);
 });
 
-test('getProgressInRangeByValue', t => {
+test('getProgressInRangeByValue', (t) => {
   // Simple test.
   t.is(mathf.getProgressInRangeByValue(0, 0, 10), 0);
   // Out of range
@@ -345,7 +345,7 @@ test('getProgressInRangeByValue', t => {
   t.is(mathf.getProgressInRangeByValue(12, 2, 12), 1);
 });
 
-test('calculateBackgroundContain', t => {
+test('calculateBackgroundContain', (t) => {
   // Simple scale up
   let parentBox = {width: 500, height: 500};
   let childBox = {width: 50, height: 50};
@@ -357,7 +357,7 @@ test('calculateBackgroundContain', t => {
   t.is(mathf.calculateBackgroundContain(parentBox, childBox), 0.5);
 });
 
-test('calculateBackgroundCover', t => {
+test('calculateBackgroundCover', (t) => {
   // Simple scale up
   let parentBox = {width: 500, height: 500};
   let childBox = {width: 50, height: 50};

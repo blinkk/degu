@@ -1,7 +1,7 @@
 import * as objectf from '../objectf/objectf';
 
 /**
- * Whether two string urls are of the same original
+ * Whether two string urls have the same hostname.
  */
 export function areSameHostNames(url1: string, url2: string) {
   const urlA = new URL(url1);
@@ -24,13 +24,11 @@ export function areSameHostNames(url1: string, url2: string) {
  * ```
  */
 export function isTrue(paramName: string): boolean {
-  let param = window.location.search.split(paramName + '=')[1];
-  param = param && param.split('&')[0];
-  return param === 'true';
+  return getValue(paramName) === 'true';
 }
 
 /**
- * Checks if a given param is present in the url AND is set to 'true'
+ * Returns the value of a given url query param, or null if not present.
  *
  * ```
  * urlParams.getValue('sup');
@@ -47,9 +45,9 @@ export function isTrue(paramName: string): boolean {
  * ```
  */
 export function getValue(paramName: string): string | null {
-  let param = window.location.search.split(paramName + '=')[1];
-  param = param && param.split('&')[0];
-  return param || null;
+  const params = new URLSearchParams(window.location.search);
+  const value = params.get(paramName);
+  return value || null;
 }
 
 /**
@@ -110,17 +108,25 @@ export function removeParamNow(paramName: string) {
  * ```
  * @param callback
  */
+const FORBIDDEN_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
 export function asObject(url: string): Record<string, string> {
-  const query = url.substr(1);
+  const query = url.startsWith('?') ? url.slice(1) : url.slice(1);
   const result: Record<string, string> = {};
   query.split('&').forEach((section: string) => {
-    const item = section.split('=');
+    const eqIndex = section.indexOf('=');
+    const key = eqIndex === -1 ? section : section.slice(0, eqIndex);
+    const rawValue = eqIndex === -1 ? '' : section.slice(eqIndex + 1);
 
-    if (item[0] === '') {
+    if (key === '' || FORBIDDEN_KEYS.has(key)) {
       return;
     }
 
-    result[item[0]] = decodeURIComponent(item[1]);
+    try {
+      result[key] = decodeURIComponent(rawValue);
+    } catch {
+      result[key] = rawValue;
+    }
   });
 
   return result;

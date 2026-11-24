@@ -1,4 +1,4 @@
-import {Vector} from './vector';
+import type {Vector} from './vector';
 
 /**
  * Calculates the points on a hermite curve given contrl points and a time.

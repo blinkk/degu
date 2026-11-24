@@ -1,12 +1,12 @@
-import {Timer} from './timer';
 import * as is from '../is/is';
-import test from 'ava';
+import {test} from '../testing/test-helpers';
+import {Timer} from './timer';
 
-test('time is defined', t => {
+test('time is defined', (t) => {
   t.is(is.defined(Timer), true);
 });
 
-test('timer is called once after a set duration', async t => {
+test('timer is called once after a set duration', async (t) => {
   let count = 0;
   const increment = () => {
     count++;
@@ -22,11 +22,11 @@ test('timer is called once after a set duration', async t => {
 
   timer.start();
 
-  await new Promise(r => setTimeout(r, 10));
+  await new Promise((r) => setTimeout(r, 10));
   t.is(count, 1);
 });
 
-test('timer is called multiple time after a set duration in repeat mode', async t => {
+test('timer is called multiple time after a set duration in repeat mode', async (t) => {
   let count = 0;
   const increment = () => {
     count++;
@@ -42,11 +42,11 @@ test('timer is called multiple time after a set duration in repeat mode', async 
 
   timer.start();
 
-  await new Promise(r => setTimeout(r, 50));
+  await new Promise((r) => setTimeout(r, 50));
   t.is(count, 2);
 });
 
-test('timer can be paused and unpaused', async t => {
+test('timer can be paused and unpaused', async (t) => {
   let count = 0;
   const increment = () => {
     count++;
@@ -64,12 +64,12 @@ test('timer can be paused and unpaused', async t => {
 
   // Immediately pause it
   timer.pause();
-  await new Promise(r => setTimeout(r, 20));
+  await new Promise((r) => setTimeout(r, 20));
   t.is(count, 0);
 
   timer.unpause();
   t.is(count, 0);
 
-  await new Promise(r => setTimeout(r, 20));
+  await new Promise((r) => setTimeout(r, 20));
   t.is(count, 1);
 });

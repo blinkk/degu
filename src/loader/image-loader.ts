@@ -1,5 +1,5 @@
-import * as is from '../is/is';
 import * as dom from '../dom/dom';
+import * as is from '../is/is';
 
 /**
  * A class the loads a given set of images.
@@ -126,8 +126,8 @@ export class ImageLoader {
    * Begins loading all images.
    */
   load(): Promise<Object> {
-    return new Promise(resolve => {
-      const promises = this.imageSources.map(source => {
+    return new Promise((resolve) => {
+      const promises = this.imageSources.map((source) => {
         return this.fetchImage(source);
       });
 
@@ -177,8 +177,8 @@ export class ImageLoader {
    * @param retryCount
    */
   ping(): Promise<Array<string>> {
-    return new Promise(resolve => {
-      const promises = this.imageSources.map(source => {
+    return new Promise((resolve) => {
+      const promises = this.imageSources.map((source) => {
         return this.pingSource(source);
       });
 
@@ -196,7 +196,7 @@ export class ImageLoader {
    */
   pingSource(source: string, retryCount = 0): Promise<string> {
     return new Promise((resolve, reject) => {
-      fetch(source).then(response => {
+      fetch(source).then((response) => {
         // If status was not okay retry.
         if (!response.ok) {
           retryCount++;
@@ -218,9 +218,9 @@ export class ImageLoader {
    * @param retryCount The current retry count.
    */
   fetchImage(source: string, retryCount = 0): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       fetch(source)
-        .then(response => {
+        .then((response) => {
           // If status was not okay retry.
           if (!response.ok) {
             retryCount++;
@@ -232,7 +232,7 @@ export class ImageLoader {
           }
           return response.blob();
         })
-        .then(response => {
+        .then((response) => {
           const blob = response;
           const img = document.createElement('img');
 
@@ -280,8 +280,8 @@ export class ImageLoader {
    * has only partial support at the moment.
    */
   loadImageBitmaps() {
-    return new Promise(resolve => {
-      const promises = this.imageSources.map(source => {
+    return new Promise((resolve) => {
+      const promises = this.imageSources.map((source) => {
         return this.fetchImageBitmap(source);
       });
 
@@ -303,9 +303,9 @@ export class ImageLoader {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap
    */
   fetchImageBitmap(source: string, retryCount = 0): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       fetch(source)
-        .then(response => {
+        .then((response) => {
           // If status was not okay retry.
           if (!response.ok) {
             retryCount++;
@@ -317,8 +317,8 @@ export class ImageLoader {
           }
           return response.blob();
         })
-        .then(blobData => createImageBitmap(blobData))
-        .then(response => {
+        .then((blobData) => createImageBitmap(blobData))
+        .then((response) => {
           const blob = response;
           this.images[source] = blob;
           this.onEachImageLoaded && this.onEachImageLoaded(source, blob);

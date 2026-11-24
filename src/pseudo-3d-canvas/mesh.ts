@@ -1,5 +1,5 @@
-import {Vector} from '../mathf/vector';
 import {MatrixIV} from '../mathf/matrixIV';
+import {Vector} from '../mathf/vector';
 
 export enum MeshTypes {
   CUBE = 'cube',

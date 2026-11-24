@@ -1,6 +1,6 @@
 import * as EASE from '../ease/ease';
 import * as mathf from './mathf';
-import {MatrixIV} from './matrixIV';
+import type {MatrixIV} from './matrixIV';
 
 /**
  *
@@ -377,7 +377,7 @@ export class Vector {
    * Scales this vector by the given scalar value.
    */
   scale(scalar: number): Vector {
-    if (isFinite(scalar)) {
+    if (Number.isFinite(scalar)) {
       this.x *= scalar;
       this.y *= scalar;
       this.z *= scalar;

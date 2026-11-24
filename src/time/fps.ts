@@ -132,11 +132,14 @@ export class Fps {
    */
   schedule(callback: Function) {
     this.cancelSchedule();
-    this.scheduleTimeout = window.setTimeout(() => {
-      this.locked = false;
-      callback();
-      this.locked = true;
-    }, 1000 / this.fps + 1);
+    this.scheduleTimeout = window.setTimeout(
+      () => {
+        this.locked = false;
+        callback();
+        this.locked = true;
+      },
+      1000 / this.fps + 1
+    );
   }
 
   /**

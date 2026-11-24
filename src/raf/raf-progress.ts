@@ -1,6 +1,6 @@
+import * as EASE from '../ease/ease';
 import * as mathf from '../mathf/mathf';
 import {Raf} from './raf';
-import * as EASE from '../ease/ease';
 
 interface RafProgressRangeWatcher {
   range: number | Array<number>;
@@ -231,7 +231,7 @@ export class RafProgress {
    * @param {Function}
    */
   unwatch(callbackToRemove: Function) {
-    this.callbacks = this.callbacks.filter(callback => {
+    this.callbacks = this.callbacks.filter((callback) => {
       return callback === callbackToRemove;
     });
   }
@@ -305,7 +305,7 @@ export class RafProgress {
     this.direction = mathf.direction(previousProgress, this.currentProgress);
 
     // Call callbacks.
-    this.callbacks.forEach(callback => {
+    this.callbacks.forEach((callback) => {
       callback(this.currentProgress, this.direction);
     });
 

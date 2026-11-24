@@ -41,7 +41,7 @@ export class PreventScroll {
         'keydown',
         'touchmove',
       ];
-      eventTypes.forEach(type => {
+      eventTypes.forEach((type) => {
         this.domWatcher.add({
           element: document,
           on: type,

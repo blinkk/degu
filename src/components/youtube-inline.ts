@@ -1,5 +1,5 @@
 import {LitElement, css, html} from 'lit';
-import {query, property} from 'lit/decorators.js';
+import {property, query} from 'lit/decorators.js';
 
 import {ScriptLoader} from '../loader/script-loader';
 const YOUTUBE_IFRAME_API = 'https://www.youtube.com/iframe_api?trustedtypes=1';
@@ -146,7 +146,7 @@ export class DeguYouTubeInline extends LitElement {
       return;
     }
     await DeguYouTubeInline.scriptLoader.load(
-      YOUTUBE_IFRAME_API + `&origin=${location.href}`,
+      YOUTUBE_IFRAME_API + `&origin=${encodeURIComponent(location.origin)}`,
       {
         test: () => !!window.YT && window.YT['loaded'] === 1,
       }
@@ -161,7 +161,7 @@ export class DeguYouTubeInline extends LitElement {
       showinfo: 0,
       iv_load_policy: 3,
       enablejsapi: this.enableJsApi ? 1 : 0,
-      origin: location.href,
+      origin: location.origin,
     };
 
     const playerVars = Object.assign({}, config);

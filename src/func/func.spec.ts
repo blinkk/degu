@@ -1,7 +1,7 @@
+import {test} from '../testing/test-helpers';
 import * as func from './func';
-import test from 'ava';
 
-test('debounce', async t => {
+test('debounce', async (t) => {
   let count = 1;
   // Create a
   const debounce = func.debounce(() => {
@@ -23,7 +23,7 @@ test('debounce', async t => {
   t.is(count, 2);
 });
 
-test('throttle', async t => {
+test('throttle', async (t) => {
   let count = 1;
   // Create a
   const throttle = func.throttle(() => {
@@ -42,7 +42,7 @@ test('throttle', async t => {
   t.is(count, 3);
 });
 
-test('runOnlyOnce', async t => {
+test('runOnlyOnce', async (t) => {
   let count = 0;
   // Create a
   const test = func.runOnlyOnce(() => {
@@ -56,7 +56,7 @@ test('runOnlyOnce', async t => {
   t.is(count, 1);
 });
 
-test('waitUntil', async t => {
+test('waitUntil', async (t) => {
   let testValue = 0;
   let waitUntilCallbackCalled = false;
 
@@ -79,7 +79,7 @@ test('waitUntil', async t => {
   t.is(waitUntilCallbackCalled, true);
 });
 
-test('memoize', async t => {
+test('memoize', async (t) => {
   // Number of times memoize function is run.
   let count = 0;
 
@@ -110,7 +110,7 @@ test('memoize', async t => {
   t.is(count, 2);
 });
 
-test('memoizeSimple', async t => {
+test('memoizeSimple', async (t) => {
   // Number of times memoize function is run.
   let count = 0;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -147,7 +147,7 @@ test('memoizeSimple', async t => {
   t.is(count, 5);
 });
 
-test('runOnceOnChange', async t => {
+test('runOnceOnChange', async (t) => {
   // Number of times memoize function is run.
   let count = 0;
 
@@ -172,7 +172,7 @@ test('runOnceOnChange', async t => {
   t.is(count, 4);
 });
 
-test('setDefault', async t => {
+test('setDefault', async (t) => {
   let test = func.setDefault(false, false);
   t.is(test, false);
   test = func.setDefault(undefined, 4);

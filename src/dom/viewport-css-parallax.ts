@@ -1,16 +1,16 @@
-import {
-  elementVisibility,
-  ElementVisibilityObject,
-} from '../dom/element-visibility';
-import {cssUnit} from '../string/css-unit';
-import {interpolateSettings} from '../interpolate/multi-interpolate';
-import {DomWatcher} from '../dom/dom-watcher';
-import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
-import {Raf} from '../raf/raf';
 import * as dom from '../dom/dom';
+import {DomWatcher} from '../dom/dom-watcher';
+import {
+  type ElementVisibilityObject,
+  elementVisibility,
+} from '../dom/element-visibility';
+import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
+import type {interpolateSettings} from '../interpolate/multi-interpolate';
 import * as mathf from '../mathf/mathf';
+import {Raf} from '../raf/raf';
+import {cssUnit} from '../string/css-unit';
 import * as stringf from '../string/stringf';
-import {InviewProgress} from './inview-progress';
+import type {InviewProgress} from './inview-progress';
 
 export interface ViewportCssParallaxSettings {
   rootElement: HTMLElement;

@@ -127,7 +127,7 @@ export class TextSplit2 {
     this.words = [];
 
     let index = 0;
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       let first = true;
       let previousElement = node;
 
@@ -139,7 +139,7 @@ export class TextSplit2 {
         texts = node.textContent!.trim().split(' ');
       }
 
-      texts.forEach(text => {
+      texts.forEach((text) => {
         const element = dom.createElementFromString(
           '<span aria-hidden="true"></span>'
         );
@@ -150,13 +150,9 @@ export class TextSplit2 {
         //     element.innerHTML = text + '&nbsp;';
         // }
         if (this.splitByCharacter) {
-          if (text === ' ') {
-            text = '&nbsp;';
-          }
-
-          element.innerHTML = text;
+          element.textContent = text === ' ' ? '\u00A0' : text;
         } else {
-          element.innerHTML = text + '&nbsp;';
+          element.textContent = `${text}\u00A0`;
         }
 
         element.classList.add('text-split__text');
@@ -195,7 +191,7 @@ export class TextSplit2 {
     let sentenceNumber = 0;
     let y = dom.getScrollTopWithoutTransforms(this.words[0]);
     // Clean up
-    this.words.forEach(word => {
+    this.words.forEach((word) => {
       word.removeAttribute('start');
       word.removeAttribute('end');
       word.removeAttribute('row');

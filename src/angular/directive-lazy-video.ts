@@ -1,11 +1,11 @@
-import {DomWatcher} from '../dom/dom-watcher';
 import * as dom from '../dom/dom';
+import {DomWatcher} from '../dom/dom-watcher';
+import {
+  type ElementVisibilityObject,
+  elementVisibility,
+} from '../dom/element-visibility';
 import * as func from '../func/func';
 import * as is from '../is/is';
-import {
-  elementVisibility,
-  ElementVisibilityObject,
-} from '../dom/element-visibility';
 
 export const LazyVideoEvents = {
   LOAD_START: 'LOAD_START',

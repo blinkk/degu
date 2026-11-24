@@ -1,16 +1,16 @@
 import * as arrayf from '../../arrayf/arrayf';
-import * as dom from '../../dom/dom';
-import * as mathf from '../../mathf/mathf';
 import {
   CachedMouseTracker,
   CachedMouseTrackerEvent,
 } from '../../dom/cached-mouse-tracker';
-import {Carousel} from './carousel';
-import {CubicBezier, EasingFunction} from '../../mathf/cubic-bezier';
-import {DefaultMap} from '../../map/default-map';
+import * as dom from '../../dom/dom';
 import {DomWatcher} from '../../dom/dom-watcher';
+import {DefaultMap} from '../../map/default-map';
+import {CubicBezier, type EasingFunction} from '../../mathf/cubic-bezier';
+import * as mathf from '../../mathf/mathf';
 import {Raf} from '../../raf/raf';
-import {Transition} from './transitions';
+import type {Carousel} from './carousel';
+import type {Transition} from './transitions';
 
 /**
  * Small enum for readability when traversing slide indices.
@@ -97,7 +97,7 @@ export class DraggableSlide implements Transition {
    * Was repeated enough to seem worth extracting.
    */
   private static sumWidth(slides: HTMLElement[]) {
-    return mathf.sum(slides.map(slide => slide.offsetWidth));
+    return mathf.sum(slides.map((slide) => slide.offsetWidth));
   }
   private readonly easingFunction: EasingFunction;
   private readonly domWatcher: DomWatcher;
@@ -220,14 +220,14 @@ export class DraggableSlide implements Transition {
     return arrayf.min(
       this.carousel!.getSlides(),
       // Start with the one closest to the center
-      el => {
+      (el) => {
         return Math.abs(
           this.getDistanceBetween(<HTMLElement>el, this.carousel!.container)
         );
       },
       // If neither slide was last active default to the one that appears first
       // in the list of slides
-      el => -1 * this.carousel!.getIndex(el)
+      (el) => -1 * this.carousel!.getIndex(el)
     );
   }
 
@@ -319,7 +319,7 @@ export class DraggableSlide implements Transition {
     const currentMouseX = this.getMouseX();
     const delta = currentMouseX - this.interaction!.lastMouseX;
     this.interaction!.lastMouseX = currentMouseX;
-    this.carousel!.getSlides().forEach(slide => {
+    this.carousel!.getSlides().forEach((slide) => {
       this.translate(slide, delta);
     });
   }
@@ -335,7 +335,7 @@ export class DraggableSlide implements Transition {
    * Setup the Draggable instances that will correspond to the slide elements.
    */
   private initDraggableSlides(): void {
-    this.carousel!.getSlides().forEach(slide => {
+    this.carousel!.getSlides().forEach((slide) => {
       ['touchstart', 'mousedown'].forEach((event: string) => {
         this.domWatcher.add({
           element: slide,
@@ -387,7 +387,9 @@ export class DraggableSlide implements Transition {
     const absDelta = Math.abs(targetDistance) - Math.abs(currentDistance);
     const currentDistanceSign = Math.sign(currentDistance);
     const xDelta = absDelta * currentDistanceSign;
-    this.carousel!.getSlides().forEach(slide => this.translate(slide, xDelta));
+    this.carousel!.getSlides().forEach((slide) =>
+      this.translate(slide, xDelta)
+    );
     this.loopSlides();
 
     // If we're close enough, let's call it
@@ -428,7 +430,7 @@ export class DraggableSlide implements Transition {
 
     const targetIndex = this.carousel!.getIndex(target);
     const slides = this.carousel!.getSlides();
-    const slidesToAdjust = new Set(slides.filter(slide => slide !== target));
+    const slidesToAdjust = new Set(slides.filter((slide) => slide !== target));
 
     const leftEdge = target.getBoundingClientRect().left;
     const left = {
@@ -445,7 +447,7 @@ export class DraggableSlide implements Transition {
     };
     const sides = [left, right];
     while (slidesToAdjust.size > 0) {
-      const side = arrayf.max(sides, s => s.area);
+      const side = arrayf.max(sides, (s) => s.area);
       side.index += side.direction;
       const slideToAdjust = slides[mathf.wrap(side.index, 0, slides.length)];
       side.area -= slideToAdjust.offsetWidth;

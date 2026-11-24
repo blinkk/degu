@@ -65,7 +65,7 @@ export class AnimationElement {
    * ```
    */
   public play(name: string, resetOnComplete = false): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const state = this.getState(name);
       this.reset();
       this.el.classList.add(state.cssClass);
@@ -98,7 +98,7 @@ export class AnimationElement {
    * @param resetOnComplete
    */
   public stack(name: string, resetOnComplete = false): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const state = this.getState(name);
       this.el.classList.add(state.cssClass);
       this.el.addEventListener(
@@ -118,7 +118,7 @@ export class AnimationElement {
    * Filters through the state list to find a given state by name.
    */
   private getState(name: string) {
-    return this.states.filter(state => {
+    return this.states.filter((state) => {
       return state.name === name;
     })[0];
   }

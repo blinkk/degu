@@ -1,8 +1,8 @@
-import * as mathf from '../mathf/mathf';
 import * as is from '../is/is';
-import {ColorRGBA} from '../mathf/color';
+import type {ColorRGBA} from '../mathf/color';
 import * as color from '../mathf/color';
-import {cssUnit, CssUnitObjectTypes} from '../string/css-unit';
+import * as mathf from '../mathf/mathf';
+import {CssUnitObjectTypes, cssUnit} from '../string/css-unit';
 
 export interface interpolateConfig {
   /**

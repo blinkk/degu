@@ -1,5 +1,5 @@
+import type {Quaternion} from './quaternion';
 import {Vector} from './vector';
-import {Quaternion} from './quaternion';
 
 /**
  * A 4 four dimensional homogenous matrix class.

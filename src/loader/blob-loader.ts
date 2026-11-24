@@ -58,11 +58,11 @@ export class BlobLoader {
   }
 
   load(): Promise<Record<string, Blob>> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (!this.imageSources) {
         resolve(this.blobs);
       }
-      const promises = this.imageSources.map(source => {
+      const promises = this.imageSources.map((source) => {
         return this.loadBlob(source);
       });
 
@@ -73,9 +73,9 @@ export class BlobLoader {
   }
 
   loadBlob(source: string, retryCount = 0): Promise<Blob | undefined> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       fetch(source)
-        .then(response => {
+        .then((response) => {
           // If status was not okay retry.
           if (!response.ok) {
             retryCount++;
@@ -88,7 +88,7 @@ export class BlobLoader {
             return response.blob();
           }
         })
-        .then(response => {
+        .then((response) => {
           if (this.blobs && response) {
             this.blobs[source] = response;
           }
@@ -101,8 +101,8 @@ export class BlobLoader {
    * Loads the requested images as Base64 images.
    */
   loadBase64Images() {
-    return new Promise(resolve => {
-      const promises = this.imageSources.map(source => {
+    return new Promise((resolve) => {
+      const promises = this.imageSources.map((source) => {
         return this.loadBlobAsBase64Image(source);
       });
 
@@ -118,7 +118,7 @@ export class BlobLoader {
   ): Promise<Blob | undefined | void> {
     return new Promise((resolve, reject) => {
       fetch(source)
-        .then(response => {
+        .then((response) => {
           // If status was not okay retry.
           if (!response.ok) {
             retryCount++;
@@ -130,9 +130,9 @@ export class BlobLoader {
             return response.blob();
           }
         })
-        .then(response => {
+        .then((response) => {
           if (response) {
-            dom.makeBase64ImageFromBlob(response).then(image => {
+            dom.makeBase64ImageFromBlob(response).then((image) => {
               this.images64[source] = image;
               resolve(response);
             });

@@ -1,4 +1,8 @@
-import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
+import {
+  type EventCallback,
+  type EventDispatcher,
+  EventManager,
+} from '../ui/events';
 
 export enum KeyboardNavigationEvents {
   ANY_CHANGE = 'any',
@@ -86,7 +90,7 @@ export class KeyboardNavigationWatcher implements EventDispatcher {
 
   dispose() {
     this.eventManager.dispose();
-    this.listenerDisposers.forEach(disposer => {
+    this.listenerDisposers.forEach((disposer) => {
       disposer();
     });
   }

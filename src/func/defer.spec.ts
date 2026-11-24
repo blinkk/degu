@@ -1,7 +1,7 @@
+import {test} from '../testing/test-helpers';
 import {Defer} from './defer';
-import test from 'ava';
 
-test('defer', async t => {
+test('defer', async (t) => {
   const defer = new Defer();
 
   let count = 0;

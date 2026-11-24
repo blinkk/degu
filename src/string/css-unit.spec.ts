@@ -1,7 +1,7 @@
+import {test} from '../testing/test-helpers';
 import {cssUnit} from './css-unit';
-import test from 'ava';
 
-test('parse values', t => {
+test('parse values', (t) => {
   t.is(cssUnit.parse('1px').unit, 'px');
   t.is(cssUnit.parse('1px').type, 'unit');
   t.is(cssUnit.parse('1px').value, 1);
@@ -26,7 +26,7 @@ test('parse values', t => {
   t.is(cssUnit.parse('10').value, 10);
 });
 
-test('parse hex', t => {
+test('parse hex', (t) => {
   t.is(cssUnit.parse('#FFFFFF').unit, null);
   t.is(cssUnit.parse('#FFFFFF').originalValue, '#FFFFFF');
   t.is(cssUnit.parse('#FFFFFF').type, 'cssHex');
@@ -38,7 +38,7 @@ test('parse hex', t => {
   });
 });
 
-test('parse rgba', t => {
+test('parse rgba', (t) => {
   const rgba = 'rgba( 255, 255, 255,0.3)';
   t.is(cssUnit.parse(rgba).unit, null);
   t.is(cssUnit.parse(rgba).originalValue, rgba);
@@ -51,7 +51,7 @@ test('parse rgba', t => {
   });
 });
 
-test('parse rgb', t => {
+test('parse rgb', (t) => {
   const rgb = 'rgb( 255, 255, 255)';
   t.is(cssUnit.parse(rgb).unit, null);
   t.is(cssUnit.parse(rgb).originalValue, rgb);

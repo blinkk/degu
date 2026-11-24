@@ -245,7 +245,7 @@ export class Quaternion {
    * Scales this Quaternion by a given scale.
    */
   scale(scalar: number): Quaternion {
-    if (isFinite(scalar)) {
+    if (Number.isFinite(scalar)) {
       this.x *= scalar;
       this.y *= scalar;
       this.z *= scalar;

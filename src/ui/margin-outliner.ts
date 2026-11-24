@@ -133,7 +133,7 @@ export class MarginOutliner {
     [].forEach.call(
       document.querySelectorAll(this.config.querySelector),
       (el: HTMLDivElement) => {
-        this.config.sizes.forEach(size => {
+        this.config.sizes.forEach((size) => {
           // Element is hidden, don't highlight it.
           if (!el.offsetWidth) {
             return;

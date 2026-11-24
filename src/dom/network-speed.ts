@@ -14,19 +14,19 @@ export class networkSpeed {
    * @param testImageSource
    */
   static getMbspFromImage(testImageSource: string): Promise<number> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       // First load the fallback image and approximate the
       // network speed.
       fetch(testImageSource)
-        .then(response => {
+        .then((response) => {
           return response.blob();
         })
-        .then(blob => {
+        .then((blob) => {
           let speed = 0;
 
           // Get the performance.
           let entries = performance.getEntriesByType('resource');
-          entries = entries.filter(entry => {
+          entries = entries.filter((entry) => {
             return entry.name === testImageSource;
           });
           const matchedEntry = entries[0];
@@ -101,7 +101,7 @@ export class networkSpeed {
       Record<string, any>
     >;
     let size = 0;
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       size += entry['transferSize'];
     });
     return size;
