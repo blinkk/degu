@@ -159,8 +159,8 @@ export function easeInOutQuint(t: number) {
   return t === 0 || t === 1
     ? t
     : t < 0.5
-    ? 16 * t * t * t * t * t
-    : 1 + 16 * --t * t * t * t * t;
+      ? 16 * t * t * t * t * t
+      : 1 + 16 * --t * t * t * t * t;
 }
 
 /**

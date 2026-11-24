@@ -1,6 +1,6 @@
-import {DomWatcher} from './dom-watcher';
 import * as func from '../func/func';
 import * as is from '../is/is';
+import {DomWatcher} from './dom-watcher';
 
 export interface ScrollToCenterOfScreenOnFocusConfig {
   /**
@@ -117,7 +117,7 @@ export class ScrollToCenterOfScreenOnFocus {
       this.element.querySelectorAll(`[${this.selector}]`)
     );
 
-    elements.forEach(el => {
+    elements.forEach((el) => {
       if (config.setTabIndex) {
         el.tabIndex = 0;
       }

@@ -1,14 +1,14 @@
+import {test} from '../testing/test-helpers';
 import {ArrayMap} from './array-map';
-import test from 'ava';
 
-test('ArrayMap should always return an array', async t => {
+test('ArrayMap should always return an array', async (t) => {
   const map = new ArrayMap();
-  t.true(map.get(false) instanceof Array);
-  t.true(map.get(1) instanceof Array);
-  t.true(map.get({}) instanceof Array);
-  t.true(map.get(0) instanceof Array);
-  t.true(map.get(null) instanceof Array);
-  t.true(map.get(-1) instanceof Array);
-  t.true(map.get([]) instanceof Array);
-  t.true(map.get('foo') instanceof Array);
+  t.true(Array.isArray(map.get(false)));
+  t.true(Array.isArray(map.get(1)));
+  t.true(Array.isArray(map.get({})));
+  t.true(Array.isArray(map.get(0)));
+  t.true(Array.isArray(map.get(null)));
+  t.true(Array.isArray(map.get(-1)));
+  t.true(Array.isArray(map.get([])));
+  t.true(Array.isArray(map.get('foo')));
 });

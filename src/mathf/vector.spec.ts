@@ -1,7 +1,7 @@
+import {test} from '../testing/test-helpers';
 import {Vector} from './vector';
-import test from 'ava';
 
-test('Create', t => {
+test('Create', (t) => {
   const v = new Vector(2, 3, 2);
   t.is(v.x, 2);
   t.is(v.y, 3);
@@ -12,7 +12,7 @@ test('Create', t => {
   t.is(v2.z, 2);
 });
 
-test('set', t => {
+test('set', (t) => {
   const v = new Vector(2, 3, 2);
   t.is(v.x, 2);
   t.is(v.y, 3);
@@ -20,7 +20,7 @@ test('set', t => {
   v.set(2, 3, 4);
 });
 
-test('clone', t => {
+test('clone', (t) => {
   const v = new Vector(2, 3, 2);
   const v2 = v.clone();
   const v3 = v.clone();
@@ -35,7 +35,7 @@ test('clone', t => {
   t.deepEqual(v4, v);
 });
 
-test('equals', t => {
+test('equals', (t) => {
   const v = new Vector(2, 3, 2);
   const v2 = v.clone();
   const v3 = v.clone();
@@ -53,7 +53,7 @@ test('equals', t => {
   t.is(Vector.equals(v5, v7), false);
 });
 
-test('toArray', t => {
+test('toArray', (t) => {
   const v = new Vector(1, 3, 2);
   const va = v.toArray();
   t.is(va[0], 1);
@@ -61,7 +61,7 @@ test('toArray', t => {
   t.is(va[2], 2);
 });
 
-test('fromArray', t => {
+test('fromArray', (t) => {
   const v = Vector.fromArray([1, 3, 2]);
   t.is(v.x, 1);
   t.is(v.y, 3);

@@ -1,13 +1,17 @@
-import {DomWatcher} from './dom-watcher';
-import * as cssUnit from '../string/css-unit';
-import * as dom from './dom';
-import * as mathf from '../mathf/mathf';
-import {Raf} from '../raf/raf';
 import * as func from '../func/func';
 import * as is from '../is/is';
-import {InviewProgress} from './inview-progress';
-import {ProgressWatcher} from './progress-watcher';
-import {EventDispatcher, EventCallback, EventManager} from '../ui/events';
+import * as mathf from '../mathf/mathf';
+import {Raf} from '../raf/raf';
+import * as cssUnit from '../string/css-unit';
+import {
+  type EventCallback,
+  type EventDispatcher,
+  EventManager,
+} from '../ui/events';
+import * as dom from './dom';
+import {DomWatcher} from './dom-watcher';
+import type {InviewProgress} from './inview-progress';
+import type {ProgressWatcher} from './progress-watcher';
 
 export enum ScrollProgressEvents {
   RAF = 'raf',

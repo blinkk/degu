@@ -1,13 +1,13 @@
-import {DomWatcher} from '../dom/dom-watcher';
 import * as dom from '../dom/dom';
-import * as is from '../is/is';
+import {DomWatcher} from '../dom/dom-watcher';
 import {
+  type ElementVisibilityObject,
   elementVisibility,
-  ElementVisibilityObject,
 } from '../dom/element-visibility';
-import {INgDisposable} from './i-ng-disposable';
 import * as func from '../func/func';
+import * as is from '../is/is';
 import {Raf} from '../raf/raf';
+import type {INgDisposable} from './i-ng-disposable';
 
 export class LazyImage implements INgDisposable {
   static get $inject() {
@@ -86,7 +86,7 @@ export class LazyImage implements INgDisposable {
     this.imageSet = false;
 
     // Cache this value since is.supportingWebp can be computationally expensive.
-    is.supportingWebpAsync().then(supporting => {
+    is.supportingWebpAsync().then((supporting) => {
       this.isWebpSupported = supporting;
 
       this.watcher = new DomWatcher();
@@ -212,7 +212,7 @@ export class LazyImage implements INgDisposable {
   }
 
   loadImage(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (this.useGoogleImageTryWebp) {
         this.url = this.appendGoogleImageWebpParamToUrl(this.url);
       }
@@ -325,7 +325,7 @@ export class LazyImage implements INgDisposable {
         .call(element.attributes)
         .concat();
       // Transfer all attributes on the div to the new image.
-      attributes.forEach(attr => {
+      attributes.forEach((attr) => {
         imageLoader.setAttribute(attr.name, attr.value);
       });
 

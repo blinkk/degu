@@ -1,9 +1,9 @@
-import {Camera} from './camera';
-import {Mesh} from './mesh';
+import * as domCanvas from '../dom/dom-canvas';
 import * as mathf from '../mathf/mathf';
 import {MatrixIV} from '../mathf/matrixIV';
 import {Vector} from '../mathf/vector';
-import * as domCanvas from '../dom/dom-canvas';
+import type {Camera} from './camera';
+import type {Mesh} from './mesh';
 
 interface Pseudo3dCanvasConfig {
   canvasElement: HTMLCanvasElement;
@@ -92,7 +92,7 @@ export class Pseudo3dCanvas {
     this.context.clearRect(0, 0, this.width, this.height);
 
     // Loop through each mesh.
-    meshes.forEach(mesh => {
+    meshes.forEach((mesh) => {
       // This is the main view / camera matrix.
       this.viewMatrix = new MatrixIV().lookAt(
         camera.position,

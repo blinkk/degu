@@ -1,8 +1,11 @@
-import lottie, {AnimationItem} from 'lottie-web';
-import {DomWatcher} from '../dom/dom-watcher';
-import {elementVisibility, ElementVisibilityObject} from './element-visibility';
-import {Raf} from '../raf/raf';
+import lottie, {type AnimationItem} from 'lottie-web';
 import * as dom from '../dom/dom';
+import {DomWatcher} from '../dom/dom-watcher';
+import {Raf} from '../raf/raf';
+import {
+  type ElementVisibilityObject,
+  elementVisibility,
+} from './element-visibility';
 
 export interface LottieButtonRange {
   start: number;

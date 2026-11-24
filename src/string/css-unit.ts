@@ -1,5 +1,5 @@
 import * as is from '../is/is';
-import {ColorRGBA} from '../mathf/color';
+import type {ColorRGBA} from '../mathf/color';
 import * as color from '../mathf/color';
 
 /**

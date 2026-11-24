@@ -1,12 +1,15 @@
-import * as mathf from '../mathf/mathf';
-import {MultiInterpolate, multiInterpolateConfig} from './multi-interpolate';
+import * as dom from '../dom/dom';
 import {
-  ElementVisibilityObject,
+  type ElementVisibilityObject,
   elementVisibility,
 } from '../dom/element-visibility';
-import * as dom from '../dom/dom';
-import {cssUnit} from '../string/css-unit';
+import * as mathf from '../mathf/mathf';
 import * as objectf from '../objectf/objectf';
+import {cssUnit} from '../string/css-unit';
+import {
+  MultiInterpolate,
+  type multiInterpolateConfig,
+} from './multi-interpolate';
 
 /**
  * A class that allows you to multiInterpolate css variables.

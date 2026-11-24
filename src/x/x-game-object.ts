@@ -1,8 +1,8 @@
-import {XTexture} from './x-texture';
+import * as EASE from '../ease/ease';
 import * as func from '../func/func';
 import * as mathf from '../mathf/mathf';
 import {Vector} from '../mathf/vector';
-import * as EASE from '../ease/ease';
+import type {XTexture} from './x-texture';
 
 export interface XGameConfigComputedBox {
   width: number;
@@ -602,7 +602,7 @@ export class XGameObject {
       throw new Error(sprite + 'is not a child of ' + this);
     }
 
-    this.children = this.children.filter(childSprites => {
+    this.children = this.children.filter((childSprites) => {
       return sprite !== childSprites;
     });
   }

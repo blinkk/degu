@@ -328,7 +328,7 @@ export class DomWatcher {
     }
     // Use the resizeObserver if we want to listen to resizing of DOM elements.
     else if (config.on === 'resize' && config.element !== window) {
-      const resizeObserver = new ResizeObserver(entries => {
+      const resizeObserver = new ResizeObserver((entries) => {
         (<ResizeObserverListener>listener)(entries);
       });
       resizeObserver.observe(config.element as HTMLElement);
@@ -336,7 +336,7 @@ export class DomWatcher {
         resizeObserver.unobserve(config.element as HTMLElement);
       };
     } else if (config.on === 'mutation') {
-      const mutationObserver = new MutationObserver(mutationsList => {
+      const mutationObserver = new MutationObserver((mutationsList) => {
         (<MutationObserverListener>listener)(mutationsList);
       });
       mutationObserver.observe(
@@ -346,7 +346,10 @@ export class DomWatcher {
       config.remover = () => {
         mutationObserver.disconnect();
       };
-    } else if (config.element instanceof MediaQueryList) {
+    } else if (
+      typeof MediaQueryList !== 'undefined' &&
+      config.element instanceof MediaQueryList
+    ) {
       // Add listening.
       config.element.addEventListener(
         config.on as keyof MediaQueryListEventMap,
@@ -405,7 +408,7 @@ export class DomWatcher {
    * Removes all dom watchers.
    */
   removeAll() {
-    this.watcherConfigs.forEach(config => {
+    this.watcherConfigs.forEach((config) => {
       const remover = config.remover;
       remover && remover();
     });
@@ -439,7 +442,7 @@ export class DomWatcher {
       }
     );
 
-    configsToRun.forEach(config => {
+    configsToRun.forEach((config) => {
       config.callback() && config.callback();
     });
   }

@@ -1,7 +1,5 @@
 import '../styles/index.sass';
 
-import 'intersection-observer';
-
 // Examples.
 
 // import VideoProgressSample from '../playground/video-progress';

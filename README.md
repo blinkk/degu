@@ -1,10 +1,8 @@
 # Degu
 
 [![NPM Version][npm-image]][npm-url]
-[![GitHub Actions][github-image]][github-url]
-[![Dependency Status][david-image]][david-url]
-[![Known Vulnerabilities][snyk-image]][snyk-url]
-[![codecov][codecov-image]][codecov-url]
+[![Run tests][github-image]][github-url]
+[![License: MIT][license-image]][license-url]
 
 A general utility library for interactive websites, with a focus on performance.
 
@@ -14,8 +12,8 @@ A general utility library for interactive websites, with a focus on performance.
 
 ## Motivation
 
-degu is an interactive developer toolbox. It is not the next buzzword-filled,
-huge component library with ready-made UI solutions (such as modals, carousels, etc.)
+Degu is an interactive developer toolbox. It is not the next buzzword-filled,
+huge component library with ready-made UI solutions (such as modals, carousels, etc.),
 but it aims to provide the "hammer and nails" needed to build highly-interactive,
 performant, kickass websites.
 
@@ -35,26 +33,26 @@ Import the library:
 ```ts
 import {WebWorker} from '@blinkk/degu';
 
-const worker = new WebWorker((params)=> {
-    return params.a * params.b;
-})
+const worker = new WebWorker((params) => {
+  return params.a * params.b;
+});
 
-worker.run({a: 5, b: 2}).then((result)=> {
-   console.log(result); // 10
-})
+worker.run({a: 5, b: 2}).then((result) => {
+  console.log(result); // 10
+});
 ```
 
 Import specific files:
 
 ```ts
-import * as mathf from '@blinkk/degu/lib/mathf/mathf.js'
-import * as is from '@blinkk/degu/lib/is/is.js'
+import * as mathf from '@blinkk/degu/lib/mathf/mathf.js';
+import * as is from '@blinkk/degu/lib/is/is.js';
 import * as dom from '@blinkk/degu/lib/dom/dom.js';
 ```
 
-## ThreeJS deps
+## Three.js deps
 
-Classes under `threef` require three.js deps. Currently supports r110.
+Classes under `threef` require Three.js dependencies. Currently supports r110.
 
 ```bash
 npm install --save-dev three@0.110.0
@@ -63,7 +61,7 @@ npm install --save-dev @types/three@0.103.2
 
 ## Browser compatibility
 
-degu supports only "evergreen" browsers back to the latest two versions:
+Degu supports "evergreen" browsers back to the latest two versions:
 
 - Chrome
 - Edge (Chromium version)
@@ -77,19 +75,15 @@ see our [MIGRATION.md](https://github.com/blinkk/degu/blob/main/MIGRATION.md) gu
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/blinkk/degu/blob/main/CONTRIBUTING.md) on how to develop for degu.
+Please read [CONTRIBUTING.md](https://github.com/blinkk/degu/blob/main/CONTRIBUTING.md) on how to develop for Degu.
 
 ## License
 
-Please read [LICENSE.md](https://github.com/blinkk/degu/blob/main/LICENSE.md)
+Please read [LICENSE.md](https://github.com/blinkk/degu/blob/main/LICENSE.md).
 
-[github-image]: https://github.com/blinkk/degu/workflows/Run%20tests/badge.svg
-[github-url]: https://github.com/blinkk/degu/actions
-[codecov-image]: https://codecov.io/gh/blinkk/degu/branch/main/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/blinkk/degu
-[david-image]: https://david-dm.org/blinkk/degu.svg
-[david-url]: https://david-dm.org/blinkk/degu
+[github-image]: https://github.com/blinkk/degu/actions/workflows/test.yml/badge.svg
+[github-url]: https://github.com/blinkk/degu/actions/workflows/test.yml
 [npm-image]: https://img.shields.io/npm/v/@blinkk/degu.svg
-[npm-url]: https://npmjs.org/package/@blinkk/degu
-[snyk-image]: https://snyk.io/test/github/blinkk/degu/badge.svg
-[snyk-url]: https://snyk.io/test/github/blinkk/degu
+[npm-url]: https://www.npmjs.com/package/@blinkk/degu
+[license-image]: https://img.shields.io/badge/License-MIT-blue.svg
+[license-url]: https://github.com/blinkk/degu/blob/main/LICENSE.md

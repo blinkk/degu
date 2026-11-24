@@ -1,9 +1,12 @@
-import {elementVisibility, ElementVisibilityObject} from './element-visibility';
-import {DomWatcher} from './dom-watcher';
-import * as mathf from '../mathf/mathf';
 import * as dom from '../dom/dom';
-import {Raf} from '../raf/raf';
 import * as func from '../func/func';
+import * as mathf from '../mathf/mathf';
+import {Raf} from '../raf/raf';
+import {DomWatcher} from './dom-watcher';
+import {
+  type ElementVisibilityObject,
+  elementVisibility,
+} from './element-visibility';
 
 export const HorizontalScrollElementEvents = {
   INDEX_CHANGE: 'horizontal-scroll-element-index-change',
@@ -626,7 +629,7 @@ export class HorizontalScrollElement {
     };
 
     this.childrenPositions = [];
-    this.items.forEach(child => {
+    this.items.forEach((child) => {
       const x = child.offsetLeft;
       const width = child.offsetWidth;
 

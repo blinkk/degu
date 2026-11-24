@@ -1,5 +1,5 @@
-import * as mathf from '../mathf/mathf';
 import * as EASE from '../ease/ease';
+import * as mathf from '../mathf/mathf';
 import {Interpolate} from './interpolate';
 
 export interface rangedProgress {
@@ -107,7 +107,7 @@ export const multiInterpolateHelper = {
    * Checks for invalid progress specifications.
    */
   checkInvalidRangedProgresses: (progresses: Array<rangedProgress>) => {
-    progresses.forEach(progress => {
+    progresses.forEach((progress) => {
       if (progress.from === progress.to) {
         console.error(progress);
         throw new Error(multiInterpolateHelper.errors.FROM_TO_EQUAL);
@@ -142,7 +142,7 @@ export const multiInterpolateHelper = {
     // We assume that we always want to start with the first progress
     // declaration.
     let matchedProgress = progress[0];
-    progress.forEach(progress => {
+    progress.forEach((progress) => {
       const previousProgress = matchedProgress;
       // If the current matchedProgress has come to an end.
       // select the next progress.
@@ -336,13 +336,13 @@ export class MultiInterpolate {
     config: multiInterpolateConfig
   ): multiInterpolateConfig {
     const itemsToAdd: Array<interpolateSettings> = [];
-    [...config.interpolations].forEach(item => {
+    [...config.interpolations].forEach((item) => {
       // If stagger is set, we are going to add a specific stagger count.
       if (item.stagger && !item.staggerItem) {
         for (let i = 0; i < item.stagger.count; i++) {
           const newItem = Object.assign({}, item);
 
-          newItem.progress = newItem.progress.map(progress => {
+          newItem.progress = newItem.progress.map((progress) => {
             progress = Object.assign({}, progress);
             progress.to += i * item.stagger!.progressOffset;
             progress.from += i * item.stagger!.progressOffset;
@@ -358,7 +358,7 @@ export class MultiInterpolate {
       }
     });
 
-    itemsToAdd.forEach(item => {
+    itemsToAdd.forEach((item) => {
       config.interpolations.push(item);
     });
 
@@ -510,7 +510,7 @@ export class MultiInterpolate {
         if (config.visibilityId) {
           // Add this to the current values list.
           this.currentValues[config.visibilityId] =
-            interpolatedValue <= 0 ? 'hidden' : 'visible';
+            Number(interpolatedValue) <= 0 ? 'hidden' : 'visible';
         }
       }
 

@@ -1,9 +1,9 @@
-import {Raf} from '../raf/raf';
 import * as dom from '../dom/dom';
-import * as is from '../is/is';
 import {DomWatcher} from '../dom/dom-watcher';
-import * as func from '../func/func';
 import * as urlParams from '../dom/url-params';
+import * as func from '../func/func';
+import * as is from '../is/is';
+import {Raf} from '../raf/raf';
 
 export interface HighlightElementGroup {
   highlighterEl: HTMLElement;
@@ -277,7 +277,7 @@ export class AttributeHighlighter {
     }
 
     // Search for an existing highlightEl containing this attribute.
-    const spacerElGroup = this.highlighters.filter(h => {
+    const spacerElGroup = this.highlighters.filter((h) => {
       return ~h.attributeEls.indexOf(attributeEl);
     })[0];
 
@@ -361,7 +361,7 @@ export class AttributeHighlighter {
       el.parentElement!.appendChild(spacerEl);
     } else {
       // Update.
-      this.highlighters.forEach(h => {
+      this.highlighters.forEach((h) => {
         if (~h.attributeEls.indexOf(attributeEl)) {
           h.attributeEls.push(attributeEl);
         }
@@ -369,7 +369,7 @@ export class AttributeHighlighter {
     }
 
     // Avoid overlap.
-    this.highlighters.forEach(aHighlighter => {
+    this.highlighters.forEach((aHighlighter) => {
       const a = aHighlighter.highlighterEl;
       const isOverlapping = dom.isOverlapping(a, spacerEl);
       if (isOverlapping) {
@@ -393,7 +393,7 @@ export class AttributeHighlighter {
       document.querySelectorAll(this.config.scopeQuerySelector),
       (el: HTMLDivElement) => {
         // Look for attributes.
-        this.config.attributes.forEach(attribute => {
+        this.config.attributes.forEach((attribute) => {
           if (is.string(attribute)) {
             const attr = attribute as string;
             [].forEach.call(
@@ -417,7 +417,7 @@ export class AttributeHighlighter {
         });
 
         if (this.config.warnMissingAttributes) {
-          this.config.warnMissingAttributes.forEach(attribute => {
+          this.config.warnMissingAttributes.forEach((attribute) => {
             // Highlights missing attributes
             const attr = attribute as AttributeScopeConfig;
             const attrValue = attr.attribute;
@@ -435,7 +435,7 @@ export class AttributeHighlighter {
   }
 
   private removeHighlighters() {
-    this.highlighters.forEach(highlighter => {
+    this.highlighters.forEach((highlighter) => {
       dom.removeElement(highlighter.highlighterEl);
     });
     this.highlighters = [];

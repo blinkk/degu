@@ -35,7 +35,7 @@ import * as is from '../is/is';
  */
 export function smartResize(callback: Function, options: Object): Function {
   let width = 0;
-  const handler: EventListener = e => {
+  const handler: EventListener = (e) => {
     const currentWidth = window.innerWidth;
     const allowCallback = !is.mobile() || width !== currentWidth;
     if (allowCallback) {
@@ -54,7 +54,7 @@ export function smartResize(callback: Function, options: Object): Function {
  * Returns a promise that resolves after the given amount of time.
  */
 export function sleep(durationMs: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, durationMs));
+  return new Promise((resolve) => setTimeout(resolve, durationMs));
 }
 
 /**

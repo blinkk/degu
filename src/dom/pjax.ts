@@ -11,13 +11,13 @@ export class pjax {
    *
    * pjax.fetch('/my-page', '.hello-div').then((result)=> {
    *
-   *    console.log(result['queryHtml']);  // The fetch result.  HTML as string.
-   *    console.log(result['fullPageHtml']);  // The full page html of the fetch paged.
+   *    console.log(result['queryHtml']);  // The fetch result. HTML as string.
+   *    console.log(result['fullPageHtml']);  // The full page html of the fetched page.
    *    console.log(result['head']);  // The head content of the fetched page.
    *
    *
    *    // Inject the result into a page.
-   *    document.querySelector('.mydiv').innerH:TML = result['queryHtml'];
+   *    document.querySelector('.mydiv').innerHTML = result['queryHtml'];
    *
    *    // Update the head if you want.
    *    document.querySelector('head').innerHTML = result['head'];
@@ -36,7 +36,7 @@ export class pjax {
   ): Promise<Object> {
     return new Promise((resolve, error) => {
       fetch(url)
-        .then(response => {
+        .then((response) => {
           return response.text();
         })
         .then((html: string) => {
@@ -46,30 +46,28 @@ export class pjax {
             head: pjax.getHead(html),
           });
         })
-        .catch(err => {
+        .catch((err) => {
           error(err);
         });
     });
   }
 
   /**
-   * Given an html string, queires the content.
+   * Given an html string, queries the content.
    */
   static queryHtmlString(
     html: string,
     targetElementQuerySelection: string
   ): string {
-    const tmp = document.implementation.createHTMLDocument();
-    tmp.body.innerHTML = html;
-    return tmp.body.querySelector(targetElementQuerySelection)!.innerHTML;
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.querySelector(targetElementQuerySelection)!.innerHTML;
   }
 
   /**
    * Given an html string, returns the head.
    */
   static getHead(html: string) {
-    const tmp = document.implementation.createHTMLDocument();
-    tmp.documentElement.innerHTML = html;
-    return tmp.head.innerHTML;
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.head.innerHTML;
   }
 }

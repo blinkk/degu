@@ -89,7 +89,7 @@ export class AccessibleOutline {
   }
 
   dispose() {
-    this.listenerDisposers.forEach(disposer => {
+    this.listenerDisposers.forEach((disposer) => {
       disposer();
     });
   }

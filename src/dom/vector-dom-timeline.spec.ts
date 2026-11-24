@@ -1,13 +1,13 @@
+import {test} from '../testing/test-helpers';
 import {
   VectorDomTimeline,
-  VectorDomTimelineObject,
+  type VectorDomTimelineObject,
 } from './vector-dom-timeline';
-import test from 'ava';
 
 /**
  * Check that story board appends 0 and 1 progress
  */
-test('generateStoryboard', t => {
+test('generateStoryboard', (t) => {
   const keys: Array<keyof VectorDomTimelineObject> = ['alpha'];
   const testTimeline = [
     {progress: 0.2, alpha: 0},
@@ -28,7 +28,7 @@ test('generateStoryboard', t => {
   t.deepEqual(result, expected);
 });
 
-test('getStartAndEndTimelineFromStoryboard', t => {
+test('getStartAndEndTimelineFromStoryboard', (t) => {
   const storyboard = {
     alpha: [
       {progress: 0, alpha: 0},

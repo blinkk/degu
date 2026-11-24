@@ -2,8 +2,8 @@
  * Very basic HTML5 canvas helper methods.
  */
 
-import {Vector} from '../mathf/vector';
-import {ColorRGB, rgbToHex} from '../mathf/color';
+import {type ColorRGB, rgbToHex} from '../mathf/color';
+import type {Vector} from '../mathf/vector';
 
 export function setFillColor(
   context: CanvasRenderingContext2D,
@@ -99,7 +99,7 @@ export function drawVectors(
 ) {
   context.beginPath();
   context.moveTo(vectors[0].x, vectors[0].y);
-  vectors.forEach(v => {
+  vectors.forEach((v) => {
     context.lineTo(v.x, v.y);
   });
   context.closePath();

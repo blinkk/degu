@@ -1,18 +1,18 @@
 import * as dom from '../dom/dom';
-import * as is from '../is/is';
-import * as func from '../func/func';
-import {Defer} from '../func/defer';
-import {BlobLoader} from '../loader/blob-loader';
-import * as mathf from '../mathf/mathf';
 import {DomWatcher} from '../dom/dom-watcher';
+import {webgl} from '../dom/webgl';
+import {Defer} from '../func/defer';
+import * as func from '../func/func';
 import {
   MultiInterpolate,
-  rangedProgress,
-  interpolateSettings,
+  type interpolateSettings,
+  type rangedProgress,
 } from '../interpolate/multi-interpolate';
+import * as is from '../is/is';
+import {BlobLoader} from '../loader/blob-loader';
+import * as mathf from '../mathf/mathf';
 import {RafTimer} from '../raf/raf-timer';
 import {Fps} from '../time/fps';
-import {webgl} from '../dom/webgl';
 
 export const fragShader = `
     precision mediump float;
@@ -754,7 +754,7 @@ export class WebGlImageSequence {
     }
 
     const loadAllBlobs = () => {
-      this.blobLoader!.load().then(results => {
+      this.blobLoader!.load().then((results) => {
         this.blobCache = results;
         this.setImageDimensions().then(() => {
           this.blobLoader!.dispose();
@@ -811,7 +811,7 @@ export class WebGlImageSequence {
     sources: Array<WebGlImageSequenceImageSet>
   ): WebGlImageSequenceImageSet {
     const matchingSouces: Array<WebGlImageSequenceImageSet> = [];
-    sources.forEach(source => {
+    sources.forEach((source) => {
       if (!source.when) {
         matchingSouces.push(source);
       } else {
@@ -825,7 +825,7 @@ export class WebGlImageSequence {
    * Makes a deletable image clone.
    */
   makeImage(source: string): Promise<HTMLImageElement | null> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (!source || !this.blobCache[source]) {
         resolve(null);
         return;
@@ -847,12 +847,12 @@ export class WebGlImageSequence {
    * Assumes all images are uniform size.
    */
   private setImageDimensions(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const source = this.activeImageSet!.images[0];
       const blob = this.blobCache[source];
 
       // Generate an image from teh first blob.
-      dom.makeImageFromBlob(blob).then(image => {
+      dom.makeImageFromBlob(blob).then((image) => {
         const bitMapsLoaded = !image.naturalWidth;
         this.imageNaturalHeight = bitMapsLoaded
           ? image.height

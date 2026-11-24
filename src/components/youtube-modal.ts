@@ -1,10 +1,10 @@
-import DetailsDialogElement from '@github/details-dialog-element';
-import {LitElement, html, css} from 'lit';
+import type DetailsDialogElement from '@github/details-dialog-element';
+import {LitElement, css, html} from 'lit';
 import {query} from 'lit/decorators.js';
-import {DeguYouTubeInline} from './youtube-inline';
-import {DomWatcher} from '../dom/dom-watcher';
 import * as dom from '../dom/dom';
+import {DomWatcher} from '../dom/dom-watcher';
 import * as is from '../is/is';
+import type {DeguYouTubeInline} from './youtube-inline';
 
 /**
  * DeguYutubeModal wraps details-dialog-element and degu-youtube-inline.
@@ -99,7 +99,7 @@ export class DeguYouTubeModal extends LitElement {
         redirectAttributeValue === 'true' || redirectAttributeValue === '';
 
       if (shouldRedirectToYoutube && is.mobile()) {
-        const redirectUrl = `https://m.youtube.com/watch?v=${youtubeModalId}`;
+        const redirectUrl = `https://m.youtube.com/watch?v=${encodeURIComponent(youtubeModalId)}`;
         window.location.href = redirectUrl;
         return;
       }

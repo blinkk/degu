@@ -52,7 +52,7 @@ export class ComponentRegistry {
 
   /** Disposes the registry. */
   dispose() {
-    this.managers.forEach(h => h.dispose());
+    this.managers.forEach((h) => h.dispose());
     this.managers = [];
     this.stop();
   }
@@ -85,7 +85,7 @@ export class ComponentRegistry {
 
   /** Updates all component handlers registered to the registry. */
   update() {
-    this.managers.forEach(m => m.update());
+    this.managers.forEach((m) => m.update());
   }
 
   private onMutate(mutationList: MutationRecord[]) {
@@ -105,7 +105,10 @@ class ComponentLifecycleManager {
   /** The name of the component. */
   name: string;
   /** Constructor to create a component. */
-  cls: new (el: HTMLElement, ...args: unknown[]) => Component;
+  cls: new (
+    el: HTMLElement,
+    ...args: unknown[]
+  ) => Component;
   /** Any args to pass to the component's constructor. */
   args: unknown[];
   /** A map of elements and their mounted components. */
@@ -145,8 +148,10 @@ class ComponentLifecycleManager {
     }
 
     // Dispose any components that have left the DOM.
-    const diff = Array.from(this.mounted.keys()).filter(el => !active.has(el));
-    diff.forEach(el => {
+    const diff = Array.from(this.mounted.keys()).filter(
+      (el) => !active.has(el)
+    );
+    diff.forEach((el) => {
       const component = this.mounted.get(el)!;
       component.el.removeAttribute('data-component-mounted');
       if (component.dispose) {
@@ -159,7 +164,7 @@ class ComponentLifecycleManager {
 
   /** Disposes any component mounted by the manager. */
   dispose() {
-    this.mounted.forEach(component => {
+    this.mounted.forEach((component) => {
       component.el.removeAttribute('data-component-mounted');
       if (component.dispose) {
         component.dispose();

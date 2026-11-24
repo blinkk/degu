@@ -4,8 +4,8 @@
  * @see https://www.alanzucconi.com/2016/01/06/colour-interpolation/
  */
 
-import * as mathf from '../mathf/mathf';
 import * as is from '../is/is';
+import * as mathf from '../mathf/mathf';
 
 export interface ColorRGBA {
   r: number;

@@ -1,8 +1,8 @@
-import * as mathf from '../mathf/mathf';
+import {DomWatcher} from '../dom/dom-watcher';
 import {Defer} from '../func/defer';
 import * as func from '../func/func';
 import * as is from '../is/is';
-import {DomWatcher} from '../dom/dom-watcher';
+import * as mathf from '../mathf/mathf';
 
 /**
  * Given an element, returns the amount that the element has been scrolled
@@ -321,7 +321,7 @@ export function testVideoIsPlaying(video: HTMLVideoElement): boolean {
  */
 export function resetAllVideosInElement(element: HTMLElement) {
   const videos = Array.from(element.querySelectorAll('video'));
-  videos.forEach(video => {
+  videos.forEach((video) => {
     video.currentTime = 0;
   });
 }
@@ -333,7 +333,7 @@ export function resetAllVideosInElement(element: HTMLElement) {
  */
 export function pauseAllVideosInElement(element: HTMLElement, reset = false) {
   const videos = Array.from(element.querySelectorAll('video'));
-  videos.forEach(video => {
+  videos.forEach((video) => {
     if (reset) {
       video.currentTime = 0;
     }
@@ -348,7 +348,7 @@ export function pauseAllVideosInElement(element: HTMLElement, reset = false) {
  */
 export function playAllVideosInElement(element: HTMLElement, reset = false) {
   const videos = Array.from(element.querySelectorAll('video'));
-  videos.forEach(video => {
+  videos.forEach((video) => {
     if (reset) {
       video.currentTime = 0;
     }
@@ -416,7 +416,7 @@ export function whenVideosLoaded(
 ): Promise<any> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const promises: Array<Promise<any>> = [];
-  videos.forEach(video => {
+  videos.forEach((video) => {
     const defer = new Defer();
     promises.push(defer.getPromise());
     func
@@ -616,12 +616,12 @@ export function getComputedStyle(element: HTMLElement): CSSStyleDeclaration {
  * ```
  */
 export function fetchAndMakeImage(source: string): Promise<HTMLImageElement> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     fetch(source)
-      .then(response => {
+      .then((response) => {
         return response.blob();
       })
-      .then(response => {
+      .then((response) => {
         const blob = response;
         const img = document.createElement('img');
         img.decoding = 'async';
@@ -639,7 +639,7 @@ export function fetchAndMakeImage(source: string): Promise<HTMLImageElement> {
  * @param blob
  */
 export function makeImageFromBlob(blob: Blob): Promise<HTMLImageElement> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const img = document.createElement('img');
     img.decoding = 'async';
     img.onload = () => {
@@ -661,7 +661,7 @@ export function makeImageFromBlob(blob: Blob): Promise<HTMLImageElement> {
  * @param blob
  */
 export function makeBase64ImageFromBlob(blob: Blob): Promise<HTMLImageElement> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(blob); // converts the blob to base64 and calls onload
 
@@ -683,7 +683,7 @@ export function makeBase64ImageFromBlob(blob: Blob): Promise<HTMLImageElement> {
 export function copyBase64Image(
   image: HTMLImageElement
 ): Promise<HTMLImageElement> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const img = document.createElement('img');
     img.src = image.src;
     img.onload = () => {
@@ -771,7 +771,7 @@ export function deleteImage(image: HTMLImageElement | null) {
  */
 export function flushVideos(el: HTMLElement, sourceAttribute = '') {
   const videos = Array.from(el.querySelectorAll('video'));
-  videos.forEach(video => {
+  videos.forEach((video) => {
     const sources = Array.from(video.querySelectorAll('source'));
     sources.forEach((source: HTMLSourceElement | null) => {
       const src = source!.getAttribute(sourceAttribute) || source!.src;
@@ -792,9 +792,9 @@ export function flushVideos(el: HTMLElement, sourceAttribute = '') {
  */
 export function unflushVideos(el: HTMLElement, noPlay = false) {
   const videos = Array.from(el.querySelectorAll('video'));
-  videos.forEach(video => {
+  videos.forEach((video) => {
     const sources = Array.from(video.querySelectorAll('source'));
-    sources.forEach(source => {
+    sources.forEach((source) => {
       if (!source.hasAttribute('data-video-src')) {
         return;
       }
@@ -902,7 +902,7 @@ export function resetForceFocus() {
   const previouslyFocusedElement = Array.from(
     document.querySelectorAll('[forcetabindex]')
   );
-  previouslyFocusedElement.forEach(element => {
+  previouslyFocusedElement.forEach((element) => {
     const tabIndex = element.getAttribute('forcetabindex');
     if (is.defined(tabIndex) && !is.nullLike(tabIndex) && tabIndex !== 'none') {
       element.setAttribute('tabindex', tabIndex!);
@@ -969,7 +969,7 @@ export function setFocusableElementsToTabIndex(
   tabindex: number
 ) {
   const elements: HTMLElement[] = getFocusableElements(element);
-  elements.forEach(element => {
+  elements.forEach((element) => {
     const currentTabIndex = element.tabIndex;
     if (!element.hasAttribute('originalTabIndex')) {
       element.setAttribute('originalTabIndex', currentTabIndex + '');
@@ -987,7 +987,7 @@ export function unsetFocusableElementsToTabIndex(element: HTMLElement) {
     element.querySelectorAll('[originalTabIndex]')
   );
 
-  elements.forEach(element => {
+  elements.forEach((element) => {
     const originalTabIndex: string =
       element.getAttribute('originalTabIndex') || '';
     element.tabIndex = +originalTabIndex;
@@ -1160,7 +1160,7 @@ export function unorphan(el: HTMLElement, lastOnly = false): void {
   }
 
   const nbsp = '\xA0';
-  allTextNodes.forEach(node => {
+  allTextNodes.forEach((node) => {
     node.nodeValue = node.nodeValue!.replace(/\s+([^\s]*)\s*$/, nbsp + '$1');
   });
 }
@@ -1203,7 +1203,9 @@ export function isOverlapping(
  * ```
  */
 export function addStylesToPage(cssStyle: string) {
-  document.head.insertAdjacentHTML('beforeend', `<style>${cssStyle}</style>`);
+  const style = document.createElement('style');
+  style.textContent = cssStyle;
+  document.head.appendChild(style);
 }
 
 /**
@@ -1213,7 +1215,7 @@ export function addStylesToPage(cssStyle: string) {
  * and standard DOM boundaries.
  *
  * ```
- * dom.addStylesToPage(".my-shadow-dom-parent", element);
+ * dom.closestElementComposed(".my-shadow-dom-parent", element);
  * ```
  */
 export function closestElementComposed(selector, baseElement) {
@@ -1242,7 +1244,7 @@ export function removeNativeLazyImage(rootElement: HTMLElement) {
     rootElement.querySelectorAll('[loading=lazy]')
   );
 
-  lazyElements.forEach(element => {
+  lazyElements.forEach((element) => {
     element.removeAttribute('loading');
   });
 }

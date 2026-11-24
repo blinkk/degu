@@ -1,18 +1,18 @@
-import lottie, {AnimationItem} from 'lottie-web';
-import {RafProgress} from '../raf/raf-progress';
-import {DomWatcher} from '../dom/dom-watcher';
+import lottie, {type AnimationItem} from 'lottie-web';
 import * as dom from '../dom/dom';
-import * as mathf from '../mathf/mathf';
+import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
-import {cssUnit} from '../string/css-unit';
-import {
+import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
+import type {
   interpolateSettings,
   rangedProgress,
 } from '../interpolate/multi-interpolate';
-import {CssVarInterpolate} from '../interpolate/css-var-interpolate';
-import {RafTimer} from '../raf/raf-timer';
 import * as is from '../is/is';
 import {CubicBezier} from '../mathf/cubic-bezier';
+import * as mathf from '../mathf/mathf';
+import {RafProgress} from '../raf/raf-progress';
+import {RafTimer} from '../raf/raf-timer';
+import {cssUnit} from '../string/css-unit';
 
 export interface lottieRangedProgress extends rangedProgress {
   fromFrame?: number;
@@ -282,7 +282,7 @@ export class LottieController {
 
     // On each window resize, test if the root lottie element is visible.
     // If not, mark the lottieScroll to not render or paint.
-    this.lottieObjects.map(lottieObject => {
+    this.lottieObjects.map((lottieObject) => {
       const container = this.element.querySelector(
         lottieObject.container_selector
       )!;
@@ -309,7 +309,7 @@ export class LottieController {
   }
 
   private resizeLottie(): void {
-    this.lottieObjects.forEach(lottieObject => {
+    this.lottieObjects.forEach((lottieObject) => {
       if (lottieObject.lottieInDom) {
         lottieObject.lottieInstance.resize();
       }
@@ -334,7 +334,7 @@ export class LottieController {
    */
   protected createLottieInstances(): void {
     this.lottieObjects.forEach((lottieObject, i) => {
-      is.supportingWebpAsync().then(supportsWebp => {
+      is.supportingWebpAsync().then((supportsWebp) => {
         const jsonPath =
           lottieObject.json_path_webp && supportsWebp
             ? lottieObject.json_path_webp
@@ -383,7 +383,7 @@ export class LottieController {
           if (this.lottieObjects[i].classTriggers) {
             const startFrame = this.lottieObjects[i].startFrame;
             const endFrame = this.lottieObjects[i].endFrame;
-            this.lottieObjects[i].classTriggers.map(trigger => {
+            this.lottieObjects[i].classTriggers.map((trigger) => {
               if (is.defined(trigger['fromFrame'])) {
                 trigger.from = mathf.inverseLerp(
                   startFrame,
@@ -414,10 +414,10 @@ export class LottieController {
           if (this.lottieObjects[i].interpolations) {
             // First run through the interpolations and convert the
             // fromFrame and endFrame to progress values.
-            this.lottieObjects[i].interpolations.map(interpolation => {
+            this.lottieObjects[i].interpolations.map((interpolation) => {
               const startFrame = this.lottieObjects[i].startFrame;
               const endFrame = this.lottieObjects[i].endFrame;
-              interpolation.progress.map(progress => {
+              interpolation.progress.map((progress) => {
                 if (is.defined(progress.fromFrame)) {
                   progress.from = mathf.inverseLerp(
                     startFrame,
@@ -660,7 +660,7 @@ export class LottieController {
 
     this.currentProgress = easedProgress;
 
-    this.lottieObjects.forEach(lottieObject => {
+    this.lottieObjects.forEach((lottieObject) => {
       let progress = easedProgress;
 
       // If we have an intro and haven't completed the playback.
@@ -706,7 +706,7 @@ export class LottieController {
     });
 
     // Update css var interpolations and class triggers
-    this.lottieObjects.forEach(lottieObject => {
+    this.lottieObjects.forEach((lottieObject) => {
       // If we have an intro and haven't completed the playback.
       const hasIntroAndNotCompleted =
         lottieObject.intro && !lottieObject.introCompleted;
@@ -726,7 +726,7 @@ export class LottieController {
   }
 
   protected updateClassTriggers(progress: number) {
-    this.lottieObjects.forEach(lottieObject => {
+    this.lottieObjects.forEach((lottieObject) => {
       if (!lottieObject.isOnScreen) {
         return;
       }
@@ -743,12 +743,12 @@ export class LottieController {
         });
       }
 
-      classesToBeAdded.forEach(className => {
+      classesToBeAdded.forEach((className) => {
         if (!lottieObject.activeTriggerClasses.includes(className)) {
           this.element.classList.add(className);
         }
       });
-      classesToBeRemoved.forEach(className => {
+      classesToBeRemoved.forEach((className) => {
         if (lottieObject.activeTriggerClasses.includes(className)) {
           this.element.classList.remove(className);
         }
@@ -761,7 +761,7 @@ export class LottieController {
     // Set the immediate progress at load.
     const percent = this.getPercent();
     this.rafProgress.setCurrentProgress(percent);
-    this.lottieObjects.forEach(lottieObject => {
+    this.lottieObjects.forEach((lottieObject) => {
       const hasIntroAndNotCompleted =
         lottieObject.intro && !lottieObject.introCompleted;
       if (!lottieObject.isOnScreen || hasIntroAndNotCompleted) {
@@ -825,7 +825,7 @@ export class LottieController {
   }
 
   protected dispose(): void {
-    this.lottieObjects.forEach(lottieInstance => {
+    this.lottieObjects.forEach((lottieInstance) => {
       lottieInstance.lottieInstance.destroy();
       lottieInstance.cssInterpolatorInstance = null;
     });

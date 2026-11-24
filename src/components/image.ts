@@ -1,10 +1,10 @@
 import {LitElement, html, nothing} from 'lit';
-import {ifDefined} from 'lit/directives/if-defined.js';
 import {property} from 'lit/decorators.js';
-import {DomWatcher} from '../dom/dom-watcher';
-import * as func from '../func/func';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import * as dom from '../dom/dom';
+import {DomWatcher} from '../dom/dom-watcher';
 import {elementVisibility} from '../dom/element-visibility';
+import * as func from '../func/func';
 
 /**
  *
@@ -188,13 +188,16 @@ export class DeguImage extends LitElement {
 
   render() {
     return html`
-      ${this.isGoogleImage
-        ? this.autoRenderWidth === 0
-          ? nothing
-          : this.renderImage(
-              this.src + `=rw-e365-w${this.autoRenderWidth}${this.googleParams}`
-            )
-        : this.renderImage(this.src)}
+      ${
+        this.isGoogleImage
+          ? this.autoRenderWidth === 0
+            ? nothing
+            : this.renderImage(
+                this.src +
+                  `=rw-e365-w${this.autoRenderWidth}${this.googleParams}`
+              )
+          : this.renderImage(this.src)
+      }
     `;
   }
 }

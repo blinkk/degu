@@ -82,7 +82,7 @@ export class ScriptLoader {
     });
 
     this.loadedScripts[url] = promise;
-    promise.catch(err => {
+    promise.catch((err) => {
       console.error(`failed to load ${url}`);
       console.error(err);
       delete this.loadedScripts[url];

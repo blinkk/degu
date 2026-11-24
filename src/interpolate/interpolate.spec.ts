@@ -1,9 +1,9 @@
-import {Interpolate} from './interpolate';
-import * as mathf from '../mathf/mathf';
 import * as EASE from '../ease/ease';
-import test from 'ava';
+import * as mathf from '../mathf/mathf';
+import {test} from '../testing/test-helpers';
+import {Interpolate} from './interpolate';
 
-test('linear interpolation', t => {
+test('linear interpolation', (t) => {
   const inter = new Interpolate({
     from: 0,
     to: 100,
@@ -23,7 +23,7 @@ test('linear interpolation', t => {
   t.is(inter.calculate(1), 100);
 });
 
-test('sin interpolation', t => {
+test('sin interpolation', (t) => {
   const inter = new Interpolate({
     from: 0,
     to: 100,
@@ -43,7 +43,7 @@ test('sin interpolation', t => {
   t.is(mathf.int(inter.calculate(1) as number), 100);
 });
 
-test('negative interpolation', t => {
+test('negative interpolation', (t) => {
   const inter = new Interpolate({
     from: 0,
     to: -100,
@@ -57,7 +57,7 @@ test('negative interpolation', t => {
   t.is(inter.calculate(1), -100);
 });
 
-test('unit interpolation', t => {
+test('unit interpolation', (t) => {
   let inter = new Interpolate({
     from: '0px',
     to: '100px',
@@ -73,7 +73,7 @@ test('unit interpolation', t => {
   t.is(inter.calculate(0.3), '30vw');
 });
 
-test('negative unit interpolation', t => {
+test('negative unit interpolation', (t) => {
   const inter = new Interpolate({
     from: '0px',
     to: '-100px',
@@ -82,7 +82,7 @@ test('negative unit interpolation', t => {
   t.is(inter.calculate(0.3), '-30px');
 });
 
-test('color interpolation hex', t => {
+test('color interpolation hex', (t) => {
   const inter = new Interpolate({
     from: '#FFFFFF',
     to: '#000000',
@@ -91,7 +91,7 @@ test('color interpolation hex', t => {
   t.is(inter.calculate(0.5), 'rgba(127, 127, 127, 1)');
 });
 
-test('color interpolation rgba', t => {
+test('color interpolation rgba', (t) => {
   const inter = new Interpolate({
     from: 'rgba(255, 255, 255, 0)',
     to: 'rgba(0,0,0,1)',
@@ -100,7 +100,7 @@ test('color interpolation rgba', t => {
   t.is(inter.calculate(0.5), 'rgba(127, 127, 127, 0.5)');
 });
 
-test('color interpolation rgb', t => {
+test('color interpolation rgb', (t) => {
   const inter = new Interpolate({
     from: 'rgb(255, 255, 255)',
     to: 'rgb(0,0,0)',

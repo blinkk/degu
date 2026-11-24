@@ -1,19 +1,22 @@
-import documentMouseTracker from './document-mouse-tracker';
 import * as EASE from '../ease/ease';
-import * as mathf from '../mathf/mathf';
-import {MatrixIV} from '../mathf/matrixIV';
-import {Vector} from '../mathf/vector';
-import {Quaternion} from '../mathf/quaternion';
 import * as func from '../func/func';
 import * as is from '../is/is';
-import {MouseTracker} from './mouse-tracker';
+import * as mathf from '../mathf/mathf';
+import {MatrixIV} from '../mathf/matrixIV';
+import {Quaternion} from '../mathf/quaternion';
+import {Vector} from '../mathf/vector';
+import documentMouseTracker from './document-mouse-tracker';
 import {DomWatcher} from './dom-watcher';
-import {ElementVisibilityObject, elementVisibility} from './element-visibility';
+import {
+  type ElementVisibilityObject,
+  elementVisibility,
+} from './element-visibility';
+import type {MouseTracker} from './mouse-tracker';
+import {VectorDomForce} from './vector-dom-force';
 import {
   VectorDomTimeline,
-  VectorDomTimelineOptions,
+  type VectorDomTimelineOptions,
 } from './vector-dom-timeline';
-import {VectorDomForce} from './vector-dom-force';
 
 /**
  * VectorDom Component interface.

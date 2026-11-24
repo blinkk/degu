@@ -1,10 +1,10 @@
-import {Vector} from './vector';
-import {Quaternion} from './quaternion';
+import {test} from '../testing/test-helpers';
 // import {MatrixIV} from './matrixIV';
 import * as mathf from './mathf';
-import test from 'ava';
+import {Quaternion} from './quaternion';
+import {Vector} from './vector';
 
-test('Create', t => {
+test('Create', (t) => {
   const q = new Quaternion(1, 2, 3, 4);
   t.is(q.x, 1);
   t.is(q.y, 2);
@@ -14,7 +14,7 @@ test('Create', t => {
 
 // X-Y-Z orientation
 // https://quaternions.online/
-test('From EulerVector', t => {
+test('From EulerVector', (t) => {
   const eular = new Vector(0, 0, 0);
   let q = Quaternion.fromEulerVector(eular);
   t.is(q.x, 0);
@@ -41,7 +41,7 @@ test('From EulerVector', t => {
   t.is(mathf.toFixed(q.z, 3), mathf.toFixed(0.464, 3));
 });
 
-test('To EulerVector', t => {
+test('To EulerVector', (t) => {
   let e = new Vector(180, 20, 50);
   let q = Quaternion.fromEulerVector(e);
   let r = Quaternion.toEulerVector(q);
@@ -100,7 +100,7 @@ test('To EulerVector', t => {
     [160, 62, 63],
   ];
 
-  tests.forEach(t => {
+  tests.forEach((t) => {
     test(t[0], t[1], t[2]);
   });
 });

@@ -8,10 +8,11 @@
     "forceConsistentCasingInFileNames": true,
     "lib": [
       "dom",
+      "dom.iterable",
       "es2020"
     ],
-    "module": "es2015",
-    "moduleResolution": "node",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
@@ -20,41 +21,13 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "target": "es2020",
+    "target": "es2020"
   },
-  "types": [
-    "youtube",
-    "mocha",
-    "node"
-  ],
   "include": ["src/**/*.ts"],
   "exclude": [
     "node_modules",
     "lib",
     "labs",
     "ref"
-  ],
-  "typedocOptions": {
-    "src": [
-      "./src/**/*.ts"
-    ],
-    "exclude": [
-      "./src/*.spec.ts",
-      "./labs/*.spec.ts",
-      "./labs/**/*.ts",
-      "./ref/**/*.ts"
-    ],
-    "excludeExternals": true,
-    "excludePrivate": true,
-    "excludeProtected": true,
-    "external-modulemap": ".*\/src\/([\\w\\-_]+)\/",
-    "hideGenerator": true,
-    "ignoreCompilerErrors": true,
-    "includeDeclarations": true,
-    "listInvalidSymbolLinks": true,
-    "mode": "modules",
-    "out": "./docs",
-    "plugin": "none"
-  }
+  ]
 }

@@ -1,4 +1,4 @@
-import {INgDisposable} from './i-ng-disposable';
+import type {INgDisposable} from './i-ng-disposable';
 
 import {TextSplit2} from '../dom/text-split2';
 

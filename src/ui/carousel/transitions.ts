@@ -1,4 +1,4 @@
-import {Carousel} from './carousel';
+import type {Carousel} from './carousel';
 export {DraggableSlideConfig, DraggableSlide} from './draggable-slide';
 
 /**

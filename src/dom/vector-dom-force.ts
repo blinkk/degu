@@ -1,5 +1,5 @@
-import {VectorDom, VectorDomComponent} from './vector-dom';
 import {Vector} from '../mathf/vector';
+import type {VectorDom, VectorDomComponent} from './vector-dom';
 
 /**
  * A component class that adds external forces options to DOM vector.

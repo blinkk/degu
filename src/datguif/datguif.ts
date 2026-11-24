@@ -137,7 +137,7 @@ export class Datguif {
   }
 
   runUpdate() {
-    this.updateCallbacks.forEach(callback => {
+    this.updateCallbacks.forEach((callback) => {
       callback();
     });
   }
@@ -181,7 +181,7 @@ export class Datguif {
    * Checks if a folder of a given name already exists.
    */
   folderExists(folderName: string): boolean {
-    const folder = this.folders.filter(f => {
+    const folder = this.folders.filter((f) => {
       return f.name === folderName;
     })[0];
 
@@ -189,18 +189,18 @@ export class Datguif {
   }
 
   getFolder(folderName: string): DatGuifFolder {
-    const folder = this.folders.filter(f => {
+    const folder = this.folders.filter((f) => {
       return f.name === folderName;
     })[0];
 
     if (!folder) {
-      throw new Error('No folder named:' + folder + ' was found');
+      throw new Error('No folder named:' + folderName + ' was found');
     }
 
     return folder;
   }
 
-  addToFolder(folderName: string, obj: Object, keyName: string) {
+  addToFolder(folderName: string, obj: Record<string, any>, keyName: string) {
     const folder = this.getFolder(folderName);
     folder.gui.add(obj, keyName);
   }
@@ -285,7 +285,7 @@ export class Datguif {
     this.gui.remember(obj);
     for (const key in obj) {
       // Check if this key should be displayed.
-      const config = mapping.filter(c => {
+      const config = mapping.filter((c) => {
         return c.keyName === key;
       })[0];
 

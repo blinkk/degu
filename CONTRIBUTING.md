@@ -1,139 +1,78 @@
-# Development Degu
-
+# Developing Degu
 
 ## Prerequisites
-```
-npm install --global typescript
-npm install --global simplehttpserver # Optional, to preview docs
-npm install --global typedoc
-npm install --global surge # Optional, for publishing docs and examples
-```
+
+- Node.js 18+ (20 or 22 recommended)
 
 ## Installation
-```
+
+```bash
 npm install
 ```
 
 ## Common Development Commands
-```
+
+```bash
+# Build compiled ESM library and .d.ts declarations into /lib
+npm run build
+npm run build-watch
+
+# Run unit and component tests with Vitest
+npm test
+npm run test:watch
+npm run coverage
+
+# Typecheck, lint, and format (Biome)
+npm run typecheck
+npm run lint
+npm run fix
+
+# Run the examples dev server (Vite)
 npm run dev
 
-    The main dev command which basically build the project.
-
-npm run dev-with-test
-    Run the project with tests.
-
-npm run test
-npm run test -- --watch
-    Run ava unit testing
-
-npm run lint
-    Lint project.
-npm run fix
-    Auto fix lint issues.
-
-npm run start
-    Run the examples folder on localhost.
-
-npm run build
-npm run build -- --watch
-    Build the project.  Compiles src folders into the release /lib folder
-
-npm version patch
-npm publish
-   Publish a new version to npm.
-
-
-// Docs
+# Build static examples and API docs
+npm run examples
 npm run doc
-  Build typedocs.  Builds into the /doc folder.
-
-npm run doc-server
-  Run a local srever to view the docs.
-
-npm run publish-doc
-  Publishes the docs to surge.io.
-  Manually Run:$ surge --domain degu.surge.sh --project $PWD/docs/
-
-npm run coverage
-  Runs coverage report
-
-npm run publish-coverage
-  Publishes the docs to surge.io.
-  Manually Run:$ surge --domain degu-coverage.surge.sh --project $PWD/coverage/
-
-// Quick publish
-npm run publish
-  Build docs, run test and coverage and publish all
 ```
 
+## Development Guidelines
 
-### Development Practices / Guidelines
+- Document public APIs with [TypeDoc](https://typedoc.org/guides/doccomments/) comments.
+- When adding a new utility or component, add a focused example in `/examples`
+  using vanilla JS where possible so it is easy to learn from.
+- Use Conventional Commits for automated releases via `release-please`:
+  - `feat: ...` (minor bump)
+  - `fix: ...` (patch bump)
+  - `chore: ...`, `docs: ...`, `refactor: ...`
 
-- Use [typedoc](https://typedoc.org/guides/doccomments/)
+## Releases
 
-When writing a class
-- create an example in /examples.  The example should focus on just using that
-  class and the rest should be vanilla JS if possible.  this is because when
-  someone is trying to learn a library, it's really hard if the examples use a
-  lot of methods and classes that are unfamiliar.  The exception would be
-  for advanced examples.
+Releases are automated via GitHub Actions (`.github/workflows/release-please.yml`):
 
-Use release-please style commit messages, e.g.
-- feat: add some new feature
-- chore: update docs
-- refactor: move some file into another place
+1. Merging conventional commits to `main` automatically opens or updates a
+   Release Please PR with version bumps and `CHANGELOG.md` entries.
+2. Merging the Release Please PR tags the release, creates a GitHub Release,
+   builds and tests `@blinkk/degu`, and publishes to npm via OIDC Trusted
+   Publishing (`--provenance --access public`).
 
-### Testing with Ava
-Tests use wonderful [ava](https://github.com/avajs/ava).
+## Project Structure
 
-For typescript use for ava check out [this](https://github.com/avajs/ava/blob/master/docs/recipes/typescript.md)
-
-[For general info on writing tests](https://github.com/avajs/ava/blob/master/docs/01-writing-tests.md)
-
-
-
-### Project Structure
-```
-/docs      --> Project Docs
-/examples  --> Examples
-/lib       --> Compiled Degu JS lib
-/src       --> Source files (typescript)
-/webpack   --> Webpack configuration to run the local example project.
+```text
+/docs      -> Generated API docs (TypeDoc)
+/examples  -> Interactive examples (Vite)
+/lib       -> Compiled ESM library and type declarations (tsup)
+/src       -> TypeScript source and Vitest tests
 ```
 
+## Local npm Linking
 
-### Npm Linking
+```bash
+# In the degu repo:
+npm link
 
-See [this article](https://dev.to/erinbush/npm-linking-and-unlinking-2h) for more
+# In your target project:
+npm link @blinkk/degu
 
-#### Linking
-
-```
-$ cd ~/degu  # To to whereever this git repo is cloned to
-$ npm link
-
-Navigate to your project
-$ npm link @blinkk/degu
-
-```
-#### Unlinking
-The order is important here.
-```
-Navigate to your project
-$ npm unlink --no-save @blinkk/degu
-
-$ cd ~/degu  # To to whereever this git repo is cloned to
-$ npm unlink
-```
-
-
-### Examples runnning on server
-Examples can be run on a servrer using `node server` which is an express
-app.   See server.js.
-
-```
-npm install
-npm rebuild node-sass  # Sometimes need on linux
-node server
+# To unlink:
+npm unlink --no-save @blinkk/degu
 ```

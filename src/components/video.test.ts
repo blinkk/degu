@@ -1,7 +1,9 @@
-import {assert, expect, fixture, html, aTimeout} from '@open-wc/testing';
-import {DeguVideo} from './video';
+import {html} from 'lit';
+import {assert, afterEach, beforeEach, describe, expect, it} from 'vitest';
 import * as dom from '../dom/dom';
 import * as func from '../func/func';
+import {aTimeout, fixture, fixtureCleanup} from '../testing/test-helpers';
+import {DeguVideo} from './video';
 
 // Define it.
 !window.customElements.get('degu-video') &&

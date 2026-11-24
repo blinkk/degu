@@ -1,7 +1,7 @@
 import * as is from '../is/is';
+import {test} from '../testing/test-helpers';
 import {RafTimer} from './raf-timer';
-import test from 'ava';
 
-test('Raf Progress is defined', t => {
+test('Raf Progress is defined', (t) => {
   t.is(is.defined(RafTimer), true);
 });

@@ -1,7 +1,7 @@
-import {DomWatcher} from '../dom/dom-watcher';
-import {INgDisposable} from './i-ng-disposable';
 import * as dom from '../dom/dom';
+import {DomWatcher} from '../dom/dom-watcher';
 import * as func from '../func/func';
+import type {INgDisposable} from './i-ng-disposable';
 
 export class CssVarWidth implements INgDisposable {
   static get $inject() {

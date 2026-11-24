@@ -1,5 +1,5 @@
 import * as func from '../func/func';
-import {XGameObject, XGameObjectConfig} from './x-game-object';
+import {XGameObject, type XGameObjectConfig} from './x-game-object';
 import {XOffScreenCanvas} from './x-offscreen-canvas';
 
 interface XTextConfig extends XGameObjectConfig {

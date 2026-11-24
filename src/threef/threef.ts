@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import * as mathf from '../mathf/mathf';
-import * as is from '../is/is';
 import {Defer} from '../func/defer';
+import * as is from '../is/is';
+import * as mathf from '../mathf/mathf';
 
 export interface threefGltfLoader {
   gltfPath: string;
@@ -66,7 +66,7 @@ export class threef {
     // Start loading gltf.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let gltfData: Record<string, any> = {};
-    const gltfFetch = new Promise(resolve => {
+    const gltfFetch = new Promise((resolve) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       config.gltfLoader.load(config.gltfPath, (gltf: any) => {
         gltfData = gltf;
@@ -75,14 +75,14 @@ export class threef {
     });
 
     let animationMarkerData = {};
-    const markerFetch = new Promise(resolve => {
+    const markerFetch = new Promise((resolve) => {
       if (!config.animationMarkerPath) {
         animationMarkerData = {};
         resolve({});
       } else {
         // Load the animation export
         fetch(config.animationMarkerPath)
-          .then(response => {
+          .then((response) => {
             return response.json();
           })
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -291,10 +291,10 @@ export class threef {
     const center = threef.toScreenXY(object.position, camera, width, height);
 
     // console.log(object.position, camera);
-    const xs = cornerPositions.map(xy => {
+    const xs = cornerPositions.map((xy) => {
       return xy.x;
     });
-    const ys = cornerPositions.map(xy => {
+    const ys = cornerPositions.map((xy) => {
       return xy.y;
     });
 
@@ -688,7 +688,7 @@ export class threef {
     execution: Function,
     scene: THREE.Scene
   ) {
-    scene.traverse(child => {
+    scene.traverse((child) => {
       if (matchCondition(child)) {
         execution(child);
       }
@@ -760,7 +760,7 @@ export class threef {
       dictionary[key] = [];
     }
 
-    scene.traverse(child => {
+    scene.traverse((child) => {
       dictionary.byName[child.name] = child;
 
       if (child.name.startsWith('text-')) {
@@ -792,7 +792,7 @@ export class threef {
   }
 
   static findSceneByName(name: string, scenes: Array<THREE.Scene>) {
-    const scene = scenes.filter(scene => {
+    const scene = scenes.filter((scene) => {
       return scene.name === name;
     })[0];
 

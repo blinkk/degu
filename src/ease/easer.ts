@@ -1,7 +1,7 @@
-import * as time from '../time/time';
 import * as mathf from '../mathf/mathf';
-import * as EASE from './ease';
 import {Raf} from '../raf/raf';
+import * as time from '../time/time';
+import * as EASE from './ease';
 
 export interface easerConfig {
   /**
@@ -181,7 +181,7 @@ export class Easer {
       this.raf_ && this.raf_.start();
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.completePromiseResolve_ = resolve;
     });
   }

@@ -1,12 +1,12 @@
-import {VectorDom, VectorDomComponent} from './vector-dom';
 import * as dom from '../dom/dom';
 import * as EASE from '../ease/ease';
 import * as func from '../func/func';
-import * as mathf from '../mathf/mathf';
-import {Vector} from '../mathf/vector';
+import {Interpolate} from '../interpolate/interpolate';
 import * as is from '../is/is';
 import {HermiteCurve} from '../mathf/hermite-curve';
-import {Interpolate} from '../interpolate/interpolate';
+import * as mathf from '../mathf/mathf';
+import {Vector} from '../mathf/vector';
+import type {VectorDom, VectorDomComponent} from './vector-dom';
 
 export interface VectorDomStartEnd {
   start: VectorDomTimelineObject;
@@ -305,7 +305,7 @@ export class VectorDomTimeline implements VectorDomComponent {
     this.sortTimeline();
     this.timelineKeys = [];
 
-    this.timeline = timeline.map(timeline => {
+    this.timeline = timeline.map((timeline) => {
       // Save any new keys.
       const keys = Object.keys(timeline) as (keyof VectorDomTimelineObject)[];
 
@@ -380,17 +380,17 @@ export class VectorDomTimeline implements VectorDomComponent {
     timeline: Array<VectorDomTimelineObject>
   ): Record<string, VectorDomTimelineObject[]> {
     const storyboard = {} as Record<string, VectorDomTimelineObject[]>;
-    keys.forEach(key => {
+    keys.forEach((key) => {
       if (skipKeys.includes(key)) {
         return;
       }
-      let keyStoryboard = timeline.filter(t => {
+      let keyStoryboard = timeline.filter((t) => {
         return is.defined(t[key]);
       });
 
       // Make a copy and also remove keys that are not related to this
       // storyboard.
-      keyStoryboard = keyStoryboard.map(t => {
+      keyStoryboard = keyStoryboard.map((t) => {
         const copy: VectorDomTimelineObject = Object.assign({}, t);
         for (const k in copy) {
           if (k !== key && !skipKeys.includes(k)) {

@@ -1,6 +1,6 @@
+import {HermiteCurve} from './hermite-curve';
 import * as mathf from './mathf';
 import {Vector} from './vector';
-import {HermiteCurve} from './hermite-curve';
 
 /**
  * A basic catmull-rom class.  Useful for creating splines or catmull-rom

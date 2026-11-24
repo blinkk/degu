@@ -1,9 +1,9 @@
+import {DomWatcher} from '../dom/dom-watcher';
 import {
   HorizontalScrollElement,
   HorizontalScrollElementEvents,
 } from '../dom/horizontal-scroll-element';
-import {INgDisposable} from './i-ng-disposable';
-import {DomWatcher} from '../dom/dom-watcher';
+import type {INgDisposable} from './i-ng-disposable';
 
 export interface HorizontalScrollElementControllerInitConfig {
   scrollSelector: string;

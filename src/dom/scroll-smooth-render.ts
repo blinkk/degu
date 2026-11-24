@@ -1,6 +1,6 @@
-import {Raf} from '../raf/raf';
-import * as mathf from '../mathf/mathf';
 import * as dom from '../dom/dom';
+import * as mathf from '../mathf/mathf';
+import {Raf} from '../raf/raf';
 
 import {DomWatcher} from './dom-watcher';
 

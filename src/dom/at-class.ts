@@ -89,7 +89,7 @@ export class AtClass {
    * within the current root element.
    */
   scanElements() {
-    this.config.conditions.forEach(condition => {
+    this.config.conditions.forEach((condition) => {
       const conditionName = condition[0];
 
       const elements = Array.from(
@@ -101,7 +101,7 @@ export class AtClass {
         elements.push(this.rootElement);
       }
 
-      elements.forEach(element => {
+      elements.forEach((element) => {
         this.atClassElements.add(new AtClassElement(element as HTMLElement));
       });
     });
@@ -117,7 +117,7 @@ export class AtClass {
     // remove first and then apply true conditions.
     const trueCases = [];
     const falseCases = [];
-    this.config.conditions.forEach(condition => {
+    this.config.conditions.forEach((condition) => {
       if (condition[1]()) {
         trueCases.push(condition);
       } else {
@@ -125,16 +125,16 @@ export class AtClass {
       }
     });
 
-    falseCases.forEach(falseCase => {
+    falseCases.forEach((falseCase) => {
       const falseCaseName = falseCase[0];
-      this.atClassElements.forEach(atClassElement => {
+      this.atClassElements.forEach((atClassElement) => {
         atClassElement.removeClassesForCondition(falseCaseName);
       });
     });
 
-    trueCases.forEach(trueCase => {
+    trueCases.forEach((trueCase) => {
       const trueCaseName = trueCase[0];
-      this.atClassElements.forEach(atClassElement => {
+      this.atClassElements.forEach((atClassElement) => {
         atClassElement.addClassesForCondition(trueCaseName);
       });
     });

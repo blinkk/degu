@@ -275,9 +275,9 @@ export class YouTubeModal {
   async play(videoId: string, playOptions?: PlayOptions) {
     const options = playOptions || {};
     if (this.config.useHandlerOnMobile && (is.ios() || is.android())) {
-      let redirectUrl = `https://m.youtube.com/watch?v=${videoId}`;
+      let redirectUrl = `https://m.youtube.com/watch?v=${encodeURIComponent(videoId)}`;
       if (options.startTime) {
-        redirectUrl = `${redirectUrl}&t=${options.startTime}s`;
+        redirectUrl = `${redirectUrl}&t=${encodeURIComponent(String(options.startTime))}s`;
       }
       window.location.href = redirectUrl;
       return;

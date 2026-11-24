@@ -1,6 +1,6 @@
-import {DomWatcher} from './dom-watcher';
 import * as mathf from '../mathf/mathf';
 import {Raf} from '../raf/raf';
+import {DomWatcher} from './dom-watcher';
 
 export interface ScrollSmootherConfig {
   lerp: number;
@@ -147,7 +147,8 @@ export class ScrollSmoother {
     if (this.settings.topMode) {
       this.rootElement!.style.top = `-${this.currentY}px`;
     } else {
-      this.rootElement!.style.transform = `translateY(-${this.currentY}px) translateZ(0)`;
+      this.rootElement!.style.transform =
+        `translateY(-${this.currentY}px) translateZ(0)`;
     }
 
     if (this.settings.onUpdate) {

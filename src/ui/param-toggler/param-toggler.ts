@@ -124,7 +124,7 @@ export class ParamToggler {
   }
 
   private listenToKeyEvents() {
-    document.addEventListener('keydown', event => {
+    document.addEventListener('keydown', (event) => {
       if (!~this.keyMapping.indexOf(event.key)) {
         this.keyMapping.push(event.key);
       }
@@ -148,7 +148,7 @@ export class ParamToggler {
         }
       }
     });
-    document.addEventListener('keyup', event => {
+    document.addEventListener('keyup', (event) => {
       if (~this.keyMapping.indexOf(event.key)) {
         this.keyMapping.splice(this.keyMapping.indexOf(event.key), 1);
       }
@@ -174,7 +174,7 @@ export class ParamToggler {
   }
 
   private draw() {
-    this.config.fields.forEach(field => {
+    this.config.fields.forEach((field) => {
       if (field.element) {
         dom.removeElement(field.element);
       }
@@ -241,7 +241,7 @@ export class ParamToggler {
 
   private onRefreshClick() {
     let params = new URLSearchParams(window.location.search);
-    this.config.fields.forEach(field => {
+    this.config.fields.forEach((field) => {
       if (field.paramType === ParamTogglerType.BOOL) {
         const el = document.getElementById(
           `${this.nameSpace}-${field.paramName}`

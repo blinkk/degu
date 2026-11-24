@@ -1,6 +1,6 @@
 import {
+  type ElementVisibilityObject,
   elementVisibility,
-  ElementVisibilityObject,
 } from '../dom/element-visibility';
 import {Raf} from '../raf/raf';
 

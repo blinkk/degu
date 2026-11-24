@@ -1,9 +1,9 @@
 import * as arrayf from '../../arrayf/arrayf';
 import * as mathf from '../../mathf/mathf';
-import * as setf from '../../setf/setf';
-import {CssClassesOnly, DraggableSlide, Transition} from './transitions';
-import {EventDispatcher, EventManager} from '../events';
 import {Raf} from '../../raf/raf';
+import * as setf from '../../setf/setf';
+import {type EventDispatcher, EventManager} from '../events';
+import {CssClassesOnly, DraggableSlide, type Transition} from './transitions';
 
 const DEFAULT_DISTANCE_TO_ACTIVE_SLIDE_ATTR = 'data-index';
 
@@ -277,7 +277,7 @@ export class Carousel implements EventDispatcher {
       nextIndex: this.getIndex(this.transitionTarget),
     });
     if (!drivenBySync) {
-      this.syncedCarousels.forEach(carousel => {
+      this.syncedCarousels.forEach((carousel) => {
         if (carousel !== this) {
           carousel.syncTo(this.getIndex(targetSlide), this);
         }
@@ -444,10 +444,10 @@ export class Carousel implements EventDispatcher {
   sync(...carousels: Carousel[]): void {
     const masterSet = setf.merge(
       this.syncedCarousels,
-      ...carousels.map(c => c.syncedCarousels)
+      ...carousels.map((c) => c.syncedCarousels)
     );
     this.syncedCarousels = masterSet;
-    masterSet.forEach(c => (c.syncedCarousels = masterSet));
+    masterSet.forEach((c) => (c.syncedCarousels = masterSet));
   }
 
   /**
@@ -573,7 +573,9 @@ export class Carousel implements EventDispatcher {
         equivalentIndex += carousel.getSlideCount();
       }
       this.goTo(
-        arrayf.min(equivalentIndices, i => Math.abs(this.getActiveIndex() - i)),
+        arrayf.min(equivalentIndices, (i) =>
+          Math.abs(this.getActiveIndex() - i)
+        ),
         true
       );
     } else {
