@@ -1,4 +1,3 @@
-import type DetailsDialogElement from '@github/details-dialog-element';
 import {LitElement, css, html} from 'lit';
 import {query} from 'lit/decorators.js';
 import * as dom from '../dom/dom';
@@ -6,8 +5,14 @@ import {DomWatcher} from '../dom/dom-watcher';
 import * as is from '../is/is';
 import type {DeguYouTubeInline} from './youtube-inline';
 
+export type DetailsDialogElement = HTMLElement & {
+  src?: string;
+  preload?: boolean;
+  toggle(open: boolean): void;
+};
+
 /**
- * DeguYutubeModal wraps details-dialog-element and degu-youtube-inline.
+ * DeguYouTubeModal wraps details-dialog-element and degu-youtube-inline.
  *
  * https://github.com/github/details-dialog-element
  * https://github.com/github/details-dialog-element/blob/main/src/index.ts

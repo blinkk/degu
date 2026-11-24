@@ -13,7 +13,6 @@ export default defineConfig({
   splitting: false,
   format: ['esm'],
   external: [
-    '@github/details-dialog-element',
     'angular',
     'dat.gui',
     'jquery',
