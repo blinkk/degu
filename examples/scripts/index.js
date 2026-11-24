@@ -1,4 +1,4 @@
-import '../styles/index.sass';
+import '../styles/index.css';
 
 // Examples.
 
