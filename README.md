@@ -1,5 +1,3 @@
-<img src=".github/degu.webp" alt="Degu" width="260" />
-
 # Degu
 
 [![NPM Version][npm-image]][npm-url]
@@ -11,6 +9,8 @@ A general utility library for interactive websites, with a focus on performance.
 - [API docs](https://blinkk.github.io/degu/)
 - [Examples](https://blinkk.github.io/degu/examples/)
 - [Coverage](https://blinkk.github.io/degu/coverage/)
+
+<img src=".github/degu.webp" alt="Degu" width="280" />
 
 ## Motivation
 
