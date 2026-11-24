@@ -1,17 +1,17 @@
-import * as $ from 'jquery';
+import * as dom from '../dom/dom';
 
 /**
  * A service that smooth scrolls to a specific #id.
  */
 class SmoothScrollController {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private jQuery: any;
   private id: string;
   private offset: number;
   private $element: ng.IRootElementService;
   private element: HTMLElement;
   private animating = false;
   private duration: number;
+  private cancelScroll: (() => void) | null = null;
+  private boundScrollTo: (e: Event) => void;
 
   static get $inject() {
     return ['$element', '$scope', '$attrs'];
@@ -22,7 +22,6 @@ class SmoothScrollController {
     $scope: ng.IScope,
     $attrs: ng.IAttributes
   ) {
-    this.jQuery = $;
     this.$element = $element;
     this.element = $element[0];
     this.offset = +$attrs.smoothScrollClickOffset || 0;
@@ -36,47 +35,37 @@ class SmoothScrollController {
     }
 
     this.animating = false;
-    $element.on('click', this.scrollTo.bind(this));
+    this.boundScrollTo = this.scrollTo.bind(this);
+    $element.on('click', this.boundScrollTo);
 
     $scope.$on('$destroy', () => {
       this.dispose_();
     });
   }
 
-  scrollTo(e: JQueryMouseEventObject) {
+  scrollTo(e: Event) {
     e.preventDefault();
     if (this.animating) {
       return;
     }
+    const targetEl = document.getElementById(this.id);
+    if (!targetEl) {
+      return;
+    }
     this.animating = true;
 
-    const page = this.jQuery('body, html');
-    const top = this.jQuery('#' + this.id).offset()!.top - this.offset;
-
-    const animationComplete = () => {
+    const top =
+      targetEl.getBoundingClientRect().top + window.scrollY - this.offset;
+    this.cancelScroll = dom.smoothScrollTo(top, this.duration, () => {
       this.animating = false;
-      page.off(
-        'scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove'
-      );
-      page.stop();
-    };
-
-    page.on(
-      'scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove',
-      animationComplete
-    );
-
-    page.stop().animate(
-      {
-        scrollTop: top,
-      },
-      this.duration,
-      animationComplete
-    );
+      this.cancelScroll = null;
+    });
   }
 
   dispose_() {
-    this.$element.off('click', this.scrollTo);
+    this.cancelScroll && this.cancelScroll();
+    this.cancelScroll = null;
+    this.$element.off('click', this.boundScrollTo);
   }
 }
 

@@ -86,6 +86,7 @@ export class DeguYouTubeInline extends LitElement {
   playerElement: HTMLElement;
 
   public player?: YT.Player;
+  private loadedVideoId?: string;
 
   connectedCallback() {
     super.connectedCallback();
@@ -135,12 +136,14 @@ export class DeguYouTubeInline extends LitElement {
    * prior interaction.  Defaults to false.
    */
   async load(videoId: string, tryPlay = false) {
+    this.loadedVideoId = videoId;
     this.videoId = videoId;
     if (this.player) {
-      this.player.loadVideoById(this.videoId);
       if (tryPlay) {
+        this.player.loadVideoById(this.videoId);
         this.play();
       } else {
+        this.player.cueVideoById(this.videoId);
         this.pause();
       }
       return;
@@ -154,7 +157,7 @@ export class DeguYouTubeInline extends LitElement {
 
     const config = {
       autohide: 1,
-      autoplay: 0,
+      autoplay: tryPlay ? 1 : 0,
       fs: 1,
       modestbranding: 1,
       rel: 0,
@@ -172,7 +175,6 @@ export class DeguYouTubeInline extends LitElement {
         onReady: (e: any) => {
           this.player = e.target;
           if (tryPlay) {
-            e.target.playVideo();
             this.play();
           } else {
             this.pause();
@@ -194,7 +196,7 @@ export class DeguYouTubeInline extends LitElement {
   }
 
   render() {
-    if (this.videoId) {
+    if (this.videoId && this.videoId !== this.loadedVideoId) {
       this.load(this.videoId);
     }
 

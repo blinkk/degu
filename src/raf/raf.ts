@@ -315,79 +315,95 @@ export class Raf {
   }
 
   /**
-   * Adds a one time read callback executed by the global degu raf registry.
-   * This allows you to batch read calls.
+   * Adds a one time pre-read callback executed by the global degu raf registry.
+   * Returns a Promise resolving to the callback's return value.
    * @param callback
    */
-  preRead(callback: Function) {
-    window.DEGU_RAF_REGISTRY &&
-      window.DEGU_RAF_REGISTRY.addOneTimePreRead({
-        callback: callback,
-        raf: this,
-      });
-  }
-
-  /**
-   * Adds a one time read callback executed by the global degu raf registry.
-   * This allows you to batch read calls.
-   * @param callback
-   */
-  read(callback: Function) {
-    window.DEGU_RAF_REGISTRY &&
-      window.DEGU_RAF_REGISTRY.addOneTimeRead({
-        callback: callback,
-        raf: this,
-      });
-  }
-
-  waitRead(): Promise<void> {
-    return new Promise<void>((resolve) => {
+  preRead<T = void>(callback: () => T): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
       window.DEGU_RAF_REGISTRY &&
-        window.DEGU_RAF_REGISTRY.addOneTimeRead({
+        window.DEGU_RAF_REGISTRY.addOneTimePreRead({
           callback: () => {
-            resolve();
+            try {
+              resolve(callback());
+            } catch (err) {
+              reject(err);
+            }
           },
           raf: this,
         });
     });
+  }
+
+  /**
+   * Adds a one time read callback executed by the global degu raf registry.
+   * This allows you to batch read calls and optionally await their result.
+   * @param callback
+   */
+  read<T = void>(callback: () => T): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      window.DEGU_RAF_REGISTRY &&
+        window.DEGU_RAF_REGISTRY.addOneTimeRead({
+          callback: () => {
+            try {
+              resolve(callback());
+            } catch (err) {
+              reject(err);
+            }
+          },
+          raf: this,
+        });
+    });
+  }
+
+  waitRead(): Promise<void> {
+    return this.read(() => undefined);
   }
 
   /**
    * Adds a one time write callback executed by the global degu raf registry.
-   * This allows you to batch write calls.
+   * This allows you to batch write calls and optionally await completion.
    * @param callback
    */
-  write(callback: Function) {
-    window.DEGU_RAF_REGISTRY &&
-      window.DEGU_RAF_REGISTRY.addOneTimeWrite({
-        callback: callback,
-        raf: this,
-      });
-  }
-
-  waitWrite(): Promise<void> {
-    return new Promise<void>((resolve) => {
+  write<T = void>(callback: () => T): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
       window.DEGU_RAF_REGISTRY &&
         window.DEGU_RAF_REGISTRY.addOneTimeWrite({
           callback: () => {
-            resolve();
+            try {
+              resolve(callback());
+            } catch (err) {
+              reject(err);
+            }
           },
           raf: this,
         });
     });
   }
 
+  waitWrite(): Promise<void> {
+    return this.write(() => undefined);
+  }
+
   /**
    * Adds a one time post write callback executed by the global degu raf registry.
-   * This allows you to batch post write calls.
+   * Returns a Promise resolving to the callback's return value.
    * @param callback
    */
-  postWrite(callback: Function) {
-    window.DEGU_RAF_REGISTRY &&
-      window.DEGU_RAF_REGISTRY.addOneTimePostWrite({
-        callback: callback,
-        raf: this,
-      });
+  postWrite<T = void>(callback: () => T): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      window.DEGU_RAF_REGISTRY &&
+        window.DEGU_RAF_REGISTRY.addOneTimePostWrite({
+          callback: () => {
+            try {
+              resolve(callback());
+            } catch (err) {
+              reject(err);
+            }
+          },
+          raf: this,
+        });
+    });
   }
 
   /**
