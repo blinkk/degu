@@ -59,10 +59,10 @@
     "lit": "3.3.3",
     "lottie-web": "5.13.0",
     "three": "0.110.0",
-    "tsup": "8.5.1",
+    "tsup": "9.0.0",
     "typedoc": "0.28.20",
     "typescript": "5.8.3",
-    "vite": "6.4.6",
+    "vite": "8.3.8",
     "vitest": "4.1.12"
   },
   "peerDependencies": {
