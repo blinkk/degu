@@ -1,3 +1,5 @@
+<img src=".github/degu.webp" alt="Degu" width="260" />
+
 # Degu
 
 [![NPM Version][npm-image]][npm-url]
