@@ -10,6 +10,8 @@ A general utility library for interactive websites, with a focus on performance.
 - [Examples](https://blinkk.github.io/degu/examples/)
 - [Coverage](https://blinkk.github.io/degu/coverage/)
 
+<img src=".github/degu.webp" alt="Degu" width="280" />
+
 ## Motivation
 
 Degu is an interactive developer toolbox. It is not the next buzzword-filled,
