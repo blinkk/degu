@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.2.2](https://github.com/blinkk/degu/compare/v3.2.1...v3.2.2) (2026-11-24)
+
+
+### Bug Fixes
+
+* **build:** raise Node heap limit for tsup dts worker ([#308](https://github.com/blinkk/degu/issues/308)) ([b9adec8](https://github.com/blinkk/degu/commit/b9adec8f44f6ebd5a94f9df042e2557fa652b3e6))
+* modernize toolchain, security fixes, lint/format, and automated releases ([61d2cc7](https://github.com/blinkk/degu/commit/61d2cc72c955ecca6c7154de0257a033044319a9))
+* pin all dependency versions and configure tagless release-please ([#310](https://github.com/blinkk/degu/issues/310)) ([5d9b8df](https://github.com/blinkk/degu/commit/5d9b8dffd084d4e8ffbf41292b3e88044aecf14a))
+
 ## [3.2.1](https://github.com/blinkk/degu/compare/v3.2.0...v3.2.1) (2024-04-09)
 
 
